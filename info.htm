@@ -1,0 +1,1775 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="en-US" />
+		<meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+		<meta name="keywords" content="Language Learning with Texts LWT Software Freeware LingQ AJATT Khatzumoto Apache PHP mySQL XAMPP MAMP LAMP" />
+    <meta name="description" content="Learning with Texts (LWT) is a tool for Language Learning, inspired by Stephen Krashen's principles in Second Language Acquisition, Steve Kaufmann's LingQ System and ideas from Khatzumoto, published at AJATT - All Japanese All The Time. 100 % free, Open Source, in the Public Domain." />
+    <meta name="revisit-after" content="2 days" />
+		<style type="text/css">
+  		@import url(css/styles.css);
+		</style>
+		<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+    <title>
+      Learning with Texts :: Help/Information
+    </title>
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+	var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+	uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/kU8HlDBAPPrvgbOOONHubQ.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+})();
+//]]>
+</script>
+  </head>
+  <body>
+    <h4>
+      <a href="index.php" target="_top"><img src="img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
+      <br />
+      <br />
+      <span class="bigger">Help/Information</span>
+    </h4>
+
+    <p class="inline">
+      Jump to topic:
+      <select id="topicjump" onchange="{var qm = document.getElementById('topicjump'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { location.href = '#' + val;}}">
+        <option value="" selected="selected">
+          [Select...]
+        </option>
+        <option value="preface">
+          Preface
+        </option>
+        <option value="current">
+          Current Version
+        </option>
+        <option value="links">
+          Links
+        </option>
+        <option value="abstract">
+          Abstract
+        </option>
+        <option value="features">
+          Features
+        </option>
+        <option value="screencasts">
+          Screencasts
+        </option>
+        <option value="license">
+          License
+        </option>
+        <option value="disclaimer">
+          Disclaimer
+        </option>
+        <option value="installwin">
+          Installation Windows
+        </option>
+        <option value="upgradewin">
+          Upgrade Windows
+        </option>
+        <option value="installmac">
+          Installation Mac OS X
+        </option>
+        <option value="upgrademac">
+          Upgrade Mac OS X
+        </option>
+        <option value="learn">
+          How to learn
+        </option>
+        <option value="howto">
+          How to use
+        </option>
+        <option value="faq">
+          Questions and Answers
+        </option>
+        <option value="langsetup">
+          Language Setup
+        </option>
+        <option value="termscores">
+          Term Scores
+        </option>
+        <option value="database">
+          Database Structure
+        </option>
+        <option value="history">
+          Version History
+        </option>
+      </select>
+    </p>
+
+    <dl>
+      <dt>
+        ▶ <b><a name="preface" id="preface">Preface</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>I started this software application in 2010 as a hobby project for my personal learning (reading &amp; listening to foreign texts, saving &amp; reviewing new words and expressions). 
+          </li>
+
+          <li>In June 2011, I decided to publish the software in the hope that it will be useful to other language learners around the world.
+          </li>
+
+          <li>The software is 100 % free, open source, and in the public domain. You may do with it what you like: use it, improve it, change it, publish an improved version, even use it within a commercial product.
+          </li>
+
+          <li>English is not my mother tongue - so please forgive me any mistakes.
+          </li>
+
+          <li>A piece of software will never be without "bugs" - please inform me about any problems you will encounter. Your Feedback and ideas are always welcome.
+          </li>
+
+          <li>Thank you for your attention. I hope you will enjoy this application as I do every day.
+          </li>
+          
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="current" id="current">Current Version</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>The current version is <b>1.0.3 (August 09 2011)</b>.
+          </li>
+
+          <li>
+            <a href="#history">View the Changelog.</a>
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="links" id="links">Important Links</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>
+            <a href="http://sourceforge.net/projects/lwt/" target="_blank"><b>Project Page</b> @ Sourceforge</a>
+          </li>
+
+          <li>
+            <a href="http://sourceforge.net/projects/lwt/files/" target="_blank"><b>Download Page</b> @ Sourceforge</a>
+          </li>
+
+          <li>
+            <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497" target="_blank"><b>Help Forum</b> @ Sourceforge</a>
+          </li>
+
+          <li>
+            <a href="http://lwt.uservoice.com" target="_blank"><b>Ideas &amp; Suggestions</b> @ Uservoice</a>
+            <br />
+            <br />
+          </li>
+          
+          <li>
+            <a href="http://twitter.com/LWT_Project" target="_blank"><b>Twitter</b></a>
+            	<ul>
+            	<li><a href="http://twitter.com/LWT_Project" class="twitter-follow-button">Follow @LWT_Project</a>
+<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script></li>
+							<li><a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lwt.sourceforge.net/" data-text="Learning With Texts - #Freeware for better #Language #Learning -" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></li>
+							</ul>
+            <br />
+          </li>
+
+          <li>
+            <a href="http://gplus.to/lwt" target="_blank"><b>Google+</b></a>
+            <ul>
+            <li><g:plusone href="http://lwt.sourceforge.net/"></g:plusone>
+            </li>
+            </ul>
+            <br />
+          </li>
+
+          <li>
+            <a href="http://www.thefineapps.com/2011/08/03/learning-with-texts-lwt-detailed-review/" target="_blank">Detailed review of LWT @ The Fine Apps</a>
+          </li>
+
+          <li>
+            <a href="http://www.thefineapps.com/2011/07/14/review-learning-with-languages-lwt/" target="_blank">First review of LWT @ The Fine Apps</a>
+          </li>
+
+          <li>
+            <a href="http://how-to-learn-any-language.com/forum/forum_posts.asp?TID=28312&amp;PN=1&amp;TPN=1" target="_blank">Thread @ How-To-Learn-Any-Language</a>
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="abstract" id="abstract">Abstract</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>
+            <a href="http://sourceforge.net/projects/lwt/" target="_blank"><i>Learning with Texts</i> (LWT)</a> is a tool for Language Learning, inspired by:
+            <ul>
+              <li>
+                <a href="http://referer.us/sdkrashen.com" target="_blank">Stephen Krashen's</a> principles in Second Language Acquisition,
+              </li>
+
+              <li>Steve Kaufmann's <a href="http://referer.us/lingq.com" target="_blank">LingQ</a> System and
+              </li>
+
+              <li>ideas from Khatzumoto, published at <a href="http://referer.us/www.alljapaneseallthetime.com" target="_blank">"AJATT - All Japanese All The Time"</a>.
+              </li>
+            </ul>
+          </li>
+
+          <li>You define languages you want to learn and import texts you want to use for learning.
+          </li>
+
+          <li>While listening to the audio (optional), you read the text, save, review and test "terms" (words or multi word expressions, 2 to 9 words).
+          </li>
+
+          <li>In new texts all your previously saved words and expressions are displayed according to their current learn statuses, tooltips show translations and romanizations (readings), editing, changing the status, dictionary lookup, etc. is just a click away.
+          </li>
+
+          <li>Import of terms in TSV/CSV format, export in TSV format, and export to <a href="http://referer.us/ankisrs.net" target="_blank">Anki</a> (prepared for cloze tests), are also possible.
+          </li>
+
+          <li>To run LWT, you need a good web browser (Firefox, Chrome, Safari, ..., but not IE6, IE7, IE8!) and a local web server (Apache) with PHP and mySQL.
+          </li>
+
+          <li>An easy way to install a local web server are preconfigured packages like <a href="http://www.apachefriends.org/en/xampp.html" target="_blank">XAMPP</a> (Win, Mac, Linux), <a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Win) or <a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac).
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="features" id="features">Features</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>You define languages you want to learn.
+          </li>
+
+          <li>You define the web dictionaries you want to use.
+          </li>
+
+          <li>You define how sentences and words in the language will be split up.
+          </li>
+
+          <li>You upload texts, and they are automatically split into sentences and words! Later re-parsing is possible.
+          </li>
+
+          <li>Optional: Assign the URL of an mp3 audio file of the text (Dropbox, local server, ...) in order to listen while reading the text.
+          </li>
+
+          <li>You read the text while listening to the audio, and you see immediately the status of every word (unknown, learning, learned, well-known, ignored).
+          </li>
+
+          <li>You click on words, and you use the external dictionaries to find out their meanings.
+          </li>
+
+          <li>You save words or expressions (2..9 words) with optional romanization (for asiatic languages), translations and example sentence, you change its status, you edit them whenever needed (like in LingQ).
+          </li>
+
+          <li>You test your understanding of words and expressions within or without sentence context.
+          </li>
+
+          <li>MCD (Massive-Context Cloze Deletion) testing, as proposed by Khatzumoto @ AJATT, built-in!
+          </li>
+
+          <li>See your progress on the statistics page.
+          </li>
+
+          <li>You may export the words and expressions and use them in Anki or other programs.
+          </li>
+
+          <li>You may upload words and expressions into LWT (from LingQ or other sources, CSV/TSV) - they are immediately available in all texts!
+          </li>
+          
+          <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
+          </li>
+          
+          <li>Prerequisites: a local webserver (Apache, PHP, mySQL), e.g. XAMPP, easyPHP, or MAMP.
+          </li>
+          
+          <li>Enjoy your language learning!
+          </li>
+        </ul>
+      </dd>
+
+
+      <dt>
+        ▶ <b><a name="screencasts" id="screencasts">Screencasts</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>
+          	<a href="http://www.youtube.com/watch?v=TkcVJ6SpK2Q" target="_blank">01 - Starting with French</a> (created with version 1.0.2)
+          	<br/>
+            Finding learning material, importing a text with audio, saving words and expressions, changing the status, printing.
+            <br/><br/>
+            <iframe width="640" height="510" src="http://www.youtube.com/embed/TkcVJ6SpK2Q" frameborder="0" allowfullscreen></iframe>
+            <br/>
+            Mentioned websites in this screencast:
+            <ul>
+            <li><a href="http://referer.us/lingq.com" target="_blank">LingQ - Library</a></li>
+            <li><a href="http://referer.us/fluentin3months.com/learning-materials/" target="_blank">Fluent in 3 months - Learning materials</a></li>
+            <li><a href="http://referer.us/ielanguages.com/french1.html" target="_blank">ieLanguages - French I Tutorial</a></li>
+            </ul>
+            
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="license" id="license">License</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>
+            <a href="http://sourceforge.net/projects/lwt/" target="_blank"><i>Learning with Texts</i> (LWT)</a> is released into the <b>Public Domain</b>. This applies worldwide. In case this is not legally possible, any entity is granted the right to use this work for any purpose, without any conditions, unless such conditions are required by law.
+            <br />
+            <br />
+          </li>
+
+          <li>The following software packages, bundled within the LWT software, have different licenses:
+            <ul>
+            
+            <li>
+            jQuery - Copyright © 2011 John Resig, <a href="http://jquery.org/license" target="_blank">http://jquery.org/license</a> (js/jquery.js)
+            </li>
+            
+            <li>
+            оverLIB 4.22 - Copyright © 1998-2004 Erik Bоsrup, <a href="http://www.bosrup.com/web/overlib/" target="_blank">http://www.bosrup.com/web/overlib/</a> (js/overlib/...)
+            </li>
+            
+            <li>
+            sorttable - Copyright © Stuart Langridge, <a href="http://www.kryogenix.org/code/browser/sorttable/" target="_blank">http://www.kryogenix.org/code/browser/sorttable/</a> (js/sorttable/...)
+            </li>
+            
+            <li>
+            jPlayer - Copyright © 2011 Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (js/jquery.jplayer.min.js, js/Jplayer.swf, css/jplayer_skin/...)
+            </li>
+            </ul>
+            <br />
+          </li>
+          
+          <li>
+            The icons in the "icn" sub directory are Copyright &copy; <a href="http://p.yusukekamiyamane.com/" target="_blank">Yusuke Kamiyamane</a>. All rights reserved. Licensed under a <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Creative Commons Attribution 3.0 license</a>.
+            <br />
+            <br />
+          </li>
+          
+          <li>
+            The following examples, supplied within the LWT download package, have the following licenses:
+            <ul>
+            
+            <li>Chinese: The Man and the Dog - 
+            Copyright © Praxis Language LLC, <a href="http://referer.us/chinesepod.com/lessons/the-man-and-the-dog" target="_blank">Source</a>, MP3 licensed under a <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Creative Commons 3.0 Unported license</a>.
+            </li>
+            
+            <li>German: Die Leiden des jungen Werther by Johann Wolfgang von Goethe - 
+            in the <a href="http://www.gutenberg.org/wiki/Gutenberg:The_Project_Gutenberg_License" target="_blank">Public Domain</a>, Source: <a href="http://www.gutenberg.org/ebooks/2407" target="_blank">Text</a>, <a href="http://www.gutenberg.org/ebooks/19794" target="_blank">Audio</a>.
+            </li>
+            
+            <li>French:	Mon premier don du sang - 
+            Copyright © France Bienvenue, <a href="http://francebienvenue1.wordpress.com/2011/06/18/generosite/" target="_blank">Source</a>. License: "Bien sûr, les enseignants de FLE peuvent utiliser nos enregistrements et nos transcriptions pour leurs cours. Merci de mentionner notre site !".
+            </li>
+            
+            <li>Korean and Japanese - own creation from different sources, audio from Google TTS, in the Public Domain.
+            </li>
+            
+            </ul>
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="disclaimer" id="disclaimer">Disclaimer</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="installwin" id="installwin">Installation Windows</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>Are you upgrading? See section <a href="#upgradewin">"Upgrade Windows"</a>!
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>METHOD 1 (with XAMPP for Windows):</b>
+            <br />
+            <br />
+          </li>
+
+          <li>Step 1: Go to <a href="http://www.apachefriends.org/en/xampp-windows.html" target="_blank">http://www.apachefriends.org/en/xampp-windows.html</a>.
+          </li>
+
+          <li>Step 2: Download the XAMPP Windows zip archive (currently XAMPP Windows 1.7.4 ZIP 123 MB).
+          </li>
+
+          <li>Step 3: Open the downloaded <i>xampp-win32-1.7.4-VC6.zip</i> and extract everything to <i>C:\</i>. -- Result: <i>C:\xampp</i> will be created. (Important: Do not install into <i>C:\Program Files</i>!)
+          </li>
+
+          <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
+          </li>
+
+          <li>Step 5: Copy the downloaded zip archive <i>lwt_v_x_y.zip</i> into the directory <i>htdocs</i> below the XAMPP directory, i.e. <i>C:\xampp\htdocs</i>.
+          </li>
+
+          <li>Step 6: Double-click on the zip archive to open it, and unzip everything into a new folder <i>C:\xampp\htdocs\lwt</i>.
+          </li>
+
+          <li>Step 7: The zip archive <i>lwt_v_x_y.zip</i> may be deleted.
+          </li>
+
+          <li>Step 8: Go to <i>C:\xampp\htdocs\lwt</i>. Rename the file <i>connect_xampp.inc.php</i> to <i>connect.inc.php</i>.
+          </li>
+
+          <li>Step 9: Run <i>C:\xampp\setup_xampp.bat</i> to initialize XAMPP on your system.
+          </li>
+
+          <li>Step 10: Run <i>C:\xampp\xampp-control.exe</i>. Start Apache and MySQL by clicking the start buttons. If the firewall asks whether to block, click "Do not block".
+          </li>
+
+          <li>Step 11: Open your web browser and go to <a href="http://localhost" target="_blank">http://localhost</a>. Select your language, and you see (hopefully) "Welcome to XAMPP for Windows! Congratulations: You have successfully installed XAMPP on this system!"
+          </li>
+
+          <li>Step 12: Start phpMyAdmin (accessible in the left menu under "Tools" or go to <a href="http://localhost/phpmyadmin/" target="_blank">http://localhost/phpmyadmin/</a>). Select your language and click on "Import" (at the top).
+          </li>
+
+          <li>Step 13: Import the file <i>C:\xampp\htdocs\lwt\dbinstall.sql</i> (Character set is UTF-8) to create a new database <i>learning-with-texts</i>.
+          </li>
+
+          <li>Step 14: LWT can now be started in your web browser, go to: <a href="http://localhost/lwt" target="_blank">http://localhost/lwt</a>. Enjoy your language learning with LWT!
+          </li>
+
+          <li>Step 15: The local webserver will be stopped by clicking on "Stop" in <i>xampp-control.exe</i> (still running). You can now exit this program.
+            <br />
+            <br />
+          </li>
+
+          <li>If you want to use LWT again, just do step 10 and 14.
+          </li>
+
+          <li>Uninstall: Just delete the folder: <i>C:\xampp</i>.
+          </li>
+
+          <li>You have questions about XAMPP for Windows: Try <a href="http://www.apachefriends.org/en/faq-xampp-windows.html" target="_blank">»FAQ - XAMPP for Windows«</a> or the <a href="http://www.apachefriends.org/f/" target="_blank">»Apache Friends Support Forum«</a>.
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>METHOD 2 (with EasyPHP):</b>
+            <br />
+            <br />
+          </li>
+
+          <li>Watch the <a href="http://www.youtube.com/watch?v=Ajc2dWwVe9g" target="_blank">video</a> (made by <a href="http://www.youtube.com/user/TheFineApps" target="_blank">TheFineApps</a>):<br />
+          <iframe width="640" height="510" src="http://www.youtube.com/embed/Ajc2dWwVe9g" frameborder="0" allowfullscreen></iframe><br /><br />
+          </li>
+
+          <li>Step 1: Go to <a href="http://www.easyphp.org/download.php" target="_blank">http://www.easyphp.org/download.php</a>.
+          </li>
+
+          <li>Step 2: Download the EasyPHP Setup EXE (currently EasyPHP 5.3.6.1, from now written as: 5.x.y.z).
+          </li>
+
+          <li>Step 3: Install the downloaded <i>EasyPHP-5.x.y.z-setup.exe</i> into <i>C:\Program Files\EasyPHP-5.x.y.z</i>.
+          </li>
+
+          <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
+          </li>
+
+          <li>Step 5: Copy the downloaded zip archive <i>lwt_v_x_y.zip</i> into the directory <i>www</i> below the EasyPHP installation directory, i.e. <i>C:\Program Files\EasyPHP-5.x.y.z\www</i>.
+          </li>
+
+          <li>Step 6: Double-click on the zip archive to open it, and unzip everything into a new folder <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt</i>.
+          </li>
+
+          <li>Step 7: The zip archive <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt_v_x_y.zip</i> may be deleted.
+          </li>
+
+          <li>Step 8: Go to <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt</i>. Rename the file <i>connect_easyphp.inc.php</i> to <i>connect.inc.php</i>.
+          </li>
+
+          <li>Step 9: Start EasyPHP via the Windows Start Menu.
+          </li>
+
+          <li>Step 10: Start phpMyAdmin (go to <a href="http://127.0.0.1:8888/home/mysql/" target="_blank">http://127.0.0.1:8888/home/mysql/</a>). Select your language and click on "Import" (at the top).
+          </li>
+
+          <li>Step 11: Import the file <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt\dbinstall.sql</i> (Character set is UTF-8) to create a new database <i>learning-with-texts</i>.
+          </li>
+
+          <li>Step 12: LWT can now be started in your web browser, go to: <a href="http://127.0.0.1:8888/lwt" target="_blank">http://127.0.0.1:8888/lwt</a>. Enjoy your language learning with LWT!
+          </li>
+
+          <li>Step 13: The local webserver will be stopped by clicking on "Stop" in EasyPHP menu (see icon near the clock ). You can now exit EasyPHP.
+            <br />
+            <br />
+          </li>
+
+          <li>If you want to use LWT again, just do step 9 and 12.
+          </li>
+
+          <li>Uninstall: Just run the EasyPHP Uninstaller, afterwards delete the EasyPHP directory below <i>C:\Program Files</i>.
+          </li>
+
+          <li>You have questions about EasyPHP: Try the <a href="http://www.easyphp.org/introduction.php" target="_blank">»EasyPHP Introduction«</a>, or the <a href="http://www.easyphp.org/faq.php" target="_blank">»EasyPHP FAQ«</a>, or the <a href="http://www.easyphp.org/forums/" target="_blank">»EasyPHP Forum«</a>.
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="upgradewin" id="upgradewin">Upgrade Windows</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+        
+          <li>
+            <b>UPGRADE METHOD 1 (if you are using LWT via XAMPP for Windows):</b>
+            <br />
+            <br />
+          </li>
+        
+          <li>Step 1: Backup (Copy or ZIP) the directory <i>C:\xampp\htdocs\lwt</i>. Backup your database (within LWT).
+          </li>
+
+          <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
+          </li>
+
+          <li>Step 3: Copy everything (incl. sub-directories) you unpacked - but NOT the "media" directory - to <i>C:\xampp\htdocs\lwt</i>.
+            <br />
+            You must keep:
+            <ul>
+							<li>the database connection parameters <i>C:\xampp\htdocs\lwt\connect.inc.php</i> (you created this by renaming, see installation) and</li>
+							<li>the whole media sub-directory <i>C:\xampp\htdocs\lwt\media</i> (contains your MP3 audio files).</li>
+            </ul>
+          </li>
+
+          <li>Step 4: Clear the web browser cache and start XAMPP and LWT as usual.
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>UPGRADE METHOD 2 (if you are using LWT via EasyPHP):</b>
+            <br />
+            <br />
+          </li>
+        
+          <li>Step 1: Backup (Copy or ZIP) the directory <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt</i>. Backup your database (within LWT).
+          </li>
+
+          <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
+          </li>
+
+          <li>Step 3: Copy everything (incl. sub-directories) you unpacked - but NOT the "media" directory - to <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt</i>.
+            <br />
+            You must keep:
+            <ul>
+							<li>the database connection parameters <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt\connect.inc.php</i> (you created this by renaming, see installation) and</li>
+							<li>the whole media sub-directory <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt\media</i> (contains your MP3 audio files).</li>
+            </ul>
+          </li>
+
+          <li>Step 4: Clear the web browser cache and start EasyPHP and LWT as usual.
+          </li>
+
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="installmac" id="installmac">Installation Mac OS X</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>Are you upgrading? See section <a href="#upgrademac">"Upgrade Mac OS X"</a>!
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>METHOD 1 (with MAMP):</b>
+            <br />
+            <br />
+          </li>
+
+          <li>Step 1: Got to <a href="http://mamp.info/en/index.html" target="_blank">http://mamp.info/en/index.html</a>.
+          </li>
+
+          <li>Step 2: Download the zipped DMG Image (currently MAMP_MAMP_PRO_1.9.6.1.dmg.zip, 200 MB).
+          </li>
+
+          <li>Step 3: Unzip the zipped DMG Image, open the DMG image, accept the license, and drag &amp; drop the MAMP folder (not the MAMP PRO folder) to your Applications folder: about 4000 objects will be copied.
+          </li>
+
+          <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
+          </li>
+
+          <li>Step 5: Copy the downloaded zip archive <i>lwt_v_x_y.zip</i> into the directory <i>htdocs</i> below the MAMP directory, i.e. <i>/Applications/MAMP/htdocs</i>. Doubleclick on the zip archive to unzip; a new folder <i>lwt_v_x_y</i> will be created in <i>htdocs</i>.
+          </li>
+
+          <li>Step 6: Rename the new folder <i>lwt_v_x_y</i> to <i>lwt</i>. The zip archive <i>lwt_v_x_y.zip</i> may be deleted.
+          </li>
+
+          <li>Step 7: Go to <i>/Applications/MAMP/htdocs/lwt</i>. Rename the file <i>connect_mamp.inc.php</i> to <i>connect.inc.php</i>.
+          </li>
+
+          <li>Step 8: Open <i>MAMP.app</i> in <i>/Applications/MAMP</i>. Accept the messages from the firewall. Apache and MySQL start automatically.
+          </li>
+
+          <li>Step 9: Open your web browser and go to <a href="http://localhost:8888/MAMP/" target="_blank">http://localhost:8888/MAMP/</a>. You see (hopefully) "Welcome to MAMP. If you can see this page, MAMP is installed on your Mac and everything is working!"
+          </li>
+
+          <li>Step 10: Start phpMyAdmin: go to <a href="http://localhost:8888/phpMyAdmin/" target="_blank">http://localhost:8888/phpMyAdmin/</a> and click on "Import" (at the top).
+          </li>
+
+          <li>Step 11: Import the file <i>/Applications/MAMP/htdocs/lwt/dbinstall.sql</i> (Character set is UTF-8) to create a new database <i>learning-with-texts</i>.
+          </li>
+
+          <li>Step 12: LWT can now be started in your web browser, go to: <a href="http://localhost:8888/lwt" target="_blank">http://localhost:8888/lwt</a>. Enjoy your language learning with LWT!
+          </li>
+
+          <li>Step 13: The local webserver (MAMP) will be automatically stopped by quitting the MAMP application.
+            <br />
+            <br />
+          </li>
+
+          <li>If you want to use LWT again, just do step 8 and 12.
+          </li>
+
+          <li>Uninstall: Just delete the folder <i>/Applications/MAMP</i>.
+          </li>
+
+          <li>You have questions about MAMP: Try the <a href="http://documentation.mamp.info/en" target="_blank">MAMP Documentation</a> or the <a href="http://forum.mamp.info/" target="_blank">MAMP Forum</a>.
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>METHOD 2 (with XAMPP for Mac):</b>
+            <br />
+            <br />
+          </li>
+
+          <li>Step 1: Got to <a href="http://www.apachefriends.org/en/xampp-macosx.html" target="_blank">http://www.apachefriends.org/en/xampp-macosx.html</a>.
+          </li>
+
+          <li>Step 2: Download the Universal Binary DMG Image (currently XAMPP Mac OS X 1.7.3 Universal Binary 86 MB).
+          </li>
+
+          <li>Step 3: Open the DMG Image and drag &amp; drop the XAMPP folder into your Applications folder: about 12000 objects will be copied.
+          </li>
+
+          <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
+          </li>
+
+          <li>Step 5: Open a terminal window <i>Terminal.app</i> in <i>/Applications/Utilities</i>, and execute the following command:
+            <ul>
+              <li>whoami
+              </li>
+            </ul>
+          Your username is being displayed. Important: Please use this name in the following instructions replacing the placeholder <i>[username]</i>!
+          </li>
+
+          <li>Step 6: Copy the downloaded zip archive <i>lwt_v_x_y.zip</i> into the directory <i>Sites</i> below your home directory, i.e. to <i>/Users/[username]/Sites</i>. This directory name <i>Sites</i> is sometimes renamed (localized) in the Finder to the current language you are using, e.g. in German it's called <i>Websites</i> (but only in the Finder!). Example: If your username is "john", then copy the downloaded zip archive <i>lwt_v_x_y.zip</i> into the directory <i>/Users/john/Sites</i>.
+          </li>
+
+          <li>Step 7: Doubleclick on the zip archive to unzip; a new folder <i>lwt_v_x_y</i> will be created in <i>/Users/[username]/Sites</i>.
+          </li>
+
+          <li>Step 8: Rename the new folder <i>lwt_v_x_y</i> to <i>lwt</i>. The zip archive <i>lwt_v_x_y.zip</i> may be deleted.
+          </li>
+
+          <li>Step 9: Go to <i>/Users/[username]/Sites/lwt</i>. Rename the file <i>connect_xampp.inc.php</i> to <i>connect.inc.php</i>.
+          </li>
+
+          <li>Step 10: Important step! Open a terminal window <i>Terminal.app</i> in <i>/Applications/Utilities</i>, and execute the following commands (do not change "Sites" here):
+            <ul>
+              <li>cd /Users/[username]/Sites
+              </li>
+
+              <li>chmod -R 777 lwt
+              </li>
+            </ul>
+          </li>
+
+          <li>Step 11: Please ensure that "Web Sharing" is switched off - see "System Preferences" - "Sharing" - "Web Sharing". Open <i>XAMPP Control.app</i> in <i>/Applications/XAMPP</i>. Accept the warning. Click on Apache "Start" and MySQL "Start" (your password must be entered).
+          </li>
+
+          <li>Step 12: Open your web browser and go to <a href="http://localhost" target="_blank">http://localhost</a>. Select your language, and you see (hopefully) "Welcome to XAMPP for Mac OS X! Congratulations: You have successfully installed XAMPP on this system!"
+          </li>
+
+          <li>Step 13: Start phpMyAdmin (accessible in the left menu under "Tools" or go to <a href="http://localhost/phpmyadmin" target="_blank">http://localhost/phpmyadmin</a>). Select your language and click on "Import" (at the top).
+          </li>
+
+          <li>Step 14: Import the file <i>/Users/[username]/Sites/lwt/dbinstall.sql</i> (Character set is UTF-8) to create a new database <i>learning-with-texts</i>.
+          </li>
+
+          <li>Step 15: LWT can now be started: http://localhome/~[username]/lwt. If your username is "john", then the Uniform Resource Identifier (URI) is http://localhost/~john/lwt/. Enjoy your language learning with LWT! (If you don't know how to enter ~, just copy it from here and paste it.)
+          </li>
+
+          <li>Step 16: The local webserver will be stopped by clicking on "Stop" in <i>XAMPP Control.app</i> (still running, look into your dock). You can now quit the program.
+            <br />
+            <br />
+          </li>
+
+          <li>If you want to use LWT again, just do step 11 and 15.
+          </li>
+
+          <li>Uninstall: Just delete the folders <i>/Applications/XAMPP</i> and <i>/Users/[username]/Sites/lwt</i>.
+          </li>
+
+          <li>You have questions about XAMPP for Mac OS X: Try the <a href="http://www.apachefriends.org/f/" target="_blank">»Apache Friends Support Forum«</a>.
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="upgrademac" id="upgrademac">Upgrade Mac OS X</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+
+          <li>
+            <b>UPGRADE METHOD 1 (if you are using LWT via MAMP):</b>
+            <br />
+            <br />
+          </li>
+
+          <li>Step 1: Backup (Copy or ZIP) the directory <i>/Applications/MAMP/htdocs/lwt</i>. Backup your database (within LWT).
+          </li>
+
+          <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
+          </li>
+
+          <li>Step 3: Copy everything (incl. sub-directories) you unpacked - but NOT the "media" directory - to <i>/Applications/MAMP/htdocs/lwt</i>.
+            <br />
+            You must keep:
+            <ul>
+							<li>the database connection parameters <i>/Applications/MAMP/htdocs/lwt/connect.inc.php</i> (you created this by renaming, see installation) and</li>
+							<li>the whole media sub-directory <i>/Applications/MAMP/htdocs/lwt/media</i> (contains your MP3 audio files).</li>
+            </ul>
+          </li>
+
+          <li>Step 4: Clear the web browser cache and start MAMP and LWT as usual. 
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>UPGRADE METHOD 2 (if you are using LWT via XAMPP for Mac):</b>
+            <br />
+            <br />
+          </li>
+
+          <li>Step 1: Backup (Copy or ZIP) the directory <i>/Users/[username]/Sites/lwt</i>. Backup your database (within LWT).
+          </li>
+
+          <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
+          </li>
+
+          <li>Step 3: Copy everything (incl. sub-directories) you unpacked - but NOT the "media" sub-directory - to <i>/Users/[username]/Sites/lwt</i>.
+            <br />
+            You must keep:
+            <ul>
+							<li>the database connection parameters <i>/Users/[username]/Sites/lwt/connect.inc.php</i> (you created this by renaming, see installation) and</li>
+							<li>the whole media sub-directory <i>/Users/[username]/Sites/lwt/media</i> (contains your MP3 audio files).</li>
+            </ul>
+          </li>
+
+          <li>Step 4: Important step! Open a terminal window <i>Terminal.app</i> in <i>/Applications/Utilities</i>, and execute the following commands:
+            <ul>
+              <li>cd /Users/[username]/Sites
+              </li>
+
+              <li>chmod -R 777 lwt
+              </li>
+            </ul>
+          </li>
+
+          <li>Step 5: Clear the web browser cache and start XAMPP and LWT as usual.
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="learn" id="learn">How to learn</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>Find an interesting text (preferably with an mp3 audio file) in the Internet and load it into LWT. If you are a beginner, look for beginner courses or podcasts in the Internet.
+          </li>
+          <li>You don't know where to find texts with audio? The <a href="http://referer.us/lingq.com" target="_blank">LingQ Library</a> has many (only a free registration is needed). Or look into <a href="http://referer.us/lingq.com/learn/en/forum/3/8297" target="_blank">this thread</a> in the LingQ Forum, you will find there lots of great links to ressources.
+          </li>
+          <li>Read the text, look up the new words and expressions (=terms) and save them for review and test.
+          </li>
+          <li>The good thing with LWT: Every saved term will show up with its translation, status, etc. in all other occurrences of the same text and every other text! So you'll see immediately what you already know and how well you know it. And of course you'll see what you don't know!
+          </li>
+          <li>Load the MP3 file also on your portable MP3 player and listen to it often.
+          </li>
+          <li>Review (by reading again) or test your saved words and expressions.<br /><br />
+          </li>
+          <li>Listen ▶ Read ▶ Review/Test.<br />
+          Listen ▶ Read ▶ Review/Test.<br />
+          ......<br /><br />
+          </li>
+          <li>That's it. It's that simple.
+          </li>
+        </ul>
+      </dd>
+
+
+      <dt>
+        ▶ <b><a name="howto" id="howto">How to use</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>
+            <b>LWT Main Menu "Home"</b>
+            <br />
+            <br />
+            This is the main menu or home screen of LWT. You may choose a language here, but you can do this also later. If you you choose a language, the language filter is pre-set to that language in some other screens. The last text you've read or tested is shown, and you may jump directly into reading, testing or printing of this last text.
+            <br />
+            <br />
+            <img class="grayborder" src="img/01.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>My Languages</b>
+            <br />
+            <br />
+            The list of languages. Here you can add a new or edit an existent language. If no texts and no saved terms in a language exist, you can delete a language. If you change a language, you should re-parse all texts to refresh (and correct) the cache of sentences and text items. You can also test all (due) terms of a language or set a language as "current" language.
+            <br />
+            <br />
+            <img class="grayborder" src="img/02.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b><a name="howtolang" id="howtolang">New/Edit Language</a></b><a name="go1" id="go1">&nbsp;</a>
+            <br />
+            <br />
+            This is the place to define or edit a language you want to study.
+            <br />
+            <br />
+
+            <ul>
+              <li>The three Uniform Resource Identifiers (<a href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URIs</a>) are URIs to three web dictionaries (the second and third is optional). Use ### as a placeholder for the searchword in the URIs. If ### is missing, the searchword will be appended. If the URI to query "travailler" in WordReference is "http://www.wordreference.com/fren/travailler", you enter: "http://www.wordreference.com/fren/###" or "http://www.wordreference.com/fren/". 
+Another example: The URI to query "travailler" in sansagent is "http://dictionary.sensagent.com/travailler/fr-en/", so you enter in LWT "http://dictionary.sensagent.com/###/fr-en/". <br /> <br />            
+              As URI No. 3 ("Google Translate URI") is also used to translate whole sentences, I would recommend to enter here always the link to Google Translate, like shown in the examples. The link to Google Translate is  "http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###", where the two-character codes after "sl=" and "tl=" designate the <a href="http://bit.ly/n1Fz2C" target=_blank">language codes</a> for the source and the target language. But a different third web dictionary is of course possible.<br /><br /> 
+              If the searchword in the three URIs needs to be converted into a different encoding (standard is UTF-8), you can use ###encoding### as a placeholder. Normally you see this right away if terms show up wrongly in the web dictionary. Example: Linguee expects the searchword in ISO-8859-15, not in UTF-8, so you define it this way: "http://www.linguee.de/search?direction=auto&query=###ISO-8859-15###".	A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php" target=_blank">here</a>.<br /><br /> 
+              Some dictionary don't allow to be opened within a frame set. Put an asterisk * in front of the URI (Example: *http://mywebdict.com?q=###) to open such a dictionary not within the frame set but in a popup window (please don't forget to deactivate popup window blocking in your browser!).<br /> <br /> 
+              </li>
+
+              <li>The entry "Text Size" defines the relative font size of the text. This is great for Chinese, etc.<br /> <br /> 
+              </li>
+
+              <li>"Character Substitutions" is an optional list of "from=to" items with "|" as list separator. The "from" character is replaced by the "to" character ("to" may be also empty). So different kinds of apostrophes can unified or deleted.<br /> <br /> 
+              </li>
+
+              <li>"RegExp Split Sentences" is a list of characters that signify a sentence ending (ALWAYS together with a following space or newline!). The space can be omitted (and it is normally), if you set "Make each character a word" to Yes (see below). Whether you include here ":" and ";" - that's your decision. See also <a href="#langsetup">this table</a>. Characters can be also defined in <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">Unicode</a> form: "\x{....}"; the Chinese/Japanese full stop "。" is then "\x{3002}" (always without "). Please inform yourself about Unicode <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">here (general information)</a> and <a href="http://unicode.coeurlumiere.com/" target="_blank">here (Table of Unicode characters)</a>.<br /> <br /> 
+              </li>
+
+              <li>"Exceptions Split Sentences" are a list of exceptions that are NOT to be treated as sentence endings with "|" as list separator. [A-Z] is a character range. If you don't want to split sentences after Mr. / Dr. / A. to Z. / Vd. / Vds. / U.S.A., then you should specify these here: "Mr.|Dr.|[A-Z].|Vd.|Vds.|U.S.A." (without ").<br /> <br /> 
+              </li>
+
+              <li>"RegExp Word Characters" is a list of characters OR character ranges "x-y" that defines all characters in a word, e.g. English: "a-zA-Z", German: "a-zA-ZaöüÄÖÜß", Chinese: 一-龥. See also <a href="#langsetup">this table</a>. Characters can be also defined in <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">Unicode</a> form: "\x{....}"; the Chinese/Japanese character "one" "一" is then "\x{4E00}" (always without "). So the above specification for the range of characters in Chinese "一-龥" can also be specified: "\x{4E00}-\x{9FA5}". <br /> <br /> 
+              </li>
+
+              <li>"Make each character a word" is a special option for Chinese, etc. This makes EVERY character a single word (normally words are split by any non-word character or a space). See also <a href="#langsetup">this table</a>.<br /> <br /> 
+              </li>
+
+              <li>"Remove spaces" is another option for Chinese, etc. It removes all spaces from the text (and the example sentences). See also <a href="#langsetup">this table</a>.
+              </li>
+            </ul>
+
+            <br />
+            To understand all these options, please study <a href="#langsetup">this</a>, look at the examples and play around with different settings and different texts.
+            <br />
+            <br />
+            <img class="grayborder" src="img/03.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>My Texts</b>
+            <br />
+            <br />
+            The list of texts. You can filter this list according to language and title (wildcard = *). The most important links for each text are "Read" and "Test" - that's the place to read, to listen, to save terms and to review and test your terms in sentence context. To see all terms of a text that you have saved, click on the numbers in column "Saved Wo+Ex". To print, archive, edit (and re-parse), or to  delete a text, click on the icons in column "Actions". There are more actions available, see "Multi Actions".
+            <br />
+            <br />
+            <img class="grayborder" src="img/04.png" alt="Image" />
+            <br />
+            <br />
+            <b>Multi Actions for marked texts</b>
+            <br />
+            <br />
+            You can test the terms of the marked texts, delete or archive the marked texts. "Re-Parse Texts" rebuilds the sentence and the text item cache for all marked texts. "Set Term Sentences" sets a valid sentence (with the term in {..}) for all those saved or imported terms that occur in the text and that do not have a sentence at all or none with {term}. This makes it easy to "create" sentence examples for imported terms.
+            <br />
+            <br />
+            <img class="grayborder" src="img/14.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b><a name="howtolang" id="howtotext">New/Edit Text (with Check)</a></b>
+            <br />
+            <br />
+            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the media sub directory, see the examples. But DropBox is also possible. In the moment there is no possibility to import/upload an audio file. Just copy it to the media sub directory of your LWT installation. If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
+            <br />
+            <br />
+            <img class="grayborder" src="img/05.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Read a Text</b>
+            <br />
+            <br />
+            This is your "working area": Reading (and listening to) a text, saving/editing words and expressions, looking up words, expressions, sentences in external dictionaries or Google Translate. To create an expression, click on the first word. You see "Exp: 2..xx 3..yy 4..zz ...". Just click on the number of words (2..9) of the desired expression you want to save. The dictionary links for multi word expressions are always in the edit frame!
+            <br />
+            <br />
+            <img class="grayborder" src="img/06.png" alt="Image" />
+            <br />
+            <br />
+            With the checkbox [Show All] you can switch the display of text:
+            <br />
+            <br />
+            [Show All] = ON (see above): All terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
+            <br />
+            <br />
+        		[Show All] = OFF (see below): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts. 
+        		<br/>
+            <br />
+            <img class="grayborder" src="img/22.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Test terms in a text (L2 -&gt; L1)</b>
+            <br />
+            <br />
+            This is Test #1: L2 -&gt; L1 (recognition) - to train your ability to recognize a L2 term. You may test within sentence context (Button "...[L2]..."), or just the term (Button "[L2]").
+            <br />
+            <br />
+            <img class="grayborder" src="img/07.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Test terms in a text (L1 -&gt; L2)</b>
+            <br />
+            <br />
+            This is Test #2: L1 -&gt; L2 (recall) - to train your ability to produce a term from L1. You may test within sentence context (Button "...[L1]..."), or just the term (Button "[L1]").
+            <br />
+            <br />
+            <img class="grayborder" src="img/11.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Test terms in a text (••• -&gt; L2)</b>
+            <br />
+            <br />
+            This is test #3: ••• -&gt; L2 (recall) - to train your ability to produce a term only from the sentence context (Button "...[••]..."). If you hover over "[•••]", a tooltip displays the translation of the term.
+            <br />
+            <br />
+            <img class="grayborder" src="img/12.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Print a text</b>
+            <br />
+            <br />
+            Here you print a text. Optional: an inline annotation (translation and/or romanization) of terms that are of specified status(es). This screen is also great to just read a text. 
+            <br />
+            <br />
+            Chinese Text with annotation (Romanization/Pinyin and translation):
+            <br />
+            <br />
+            <img class="grayborder" src="img/20.png" alt="Image" />
+            <br />
+            <br />
+            Chinese Text with annotation (only Romanization/Pinyin):
+            <br />
+            <br />
+            <img class="grayborder" src="img/21.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>My Terms</b>
+            <br />
+            <br />
+            The list of your saved words or expressions (= terms). You may filter the list of terms by language, text, status and term/romanization/translation (wildcard * possible). Different sort orders are possible. You can do "multi actions" only on the marked or on all terms (on all pages!). "Se?" displays a green dot if a valid sentences with {term} exists. "Stat/Days" displays the status and the number of days since the last status change. The score of a term is a rough measure (in percent) how well you know a term. Read more about term scores <a href="#termscores">here</a>. Terms with zero score are displayed red and should be tested today.
+            <br />
+            <br />
+            <img class="grayborder" src="img/08.png" alt="Image" />
+            <br />
+            <br />
+            <b>Multi Actions for marked terms</b>
+            <br />
+            <br />
+            Most actions are self-explanatory. "Test Marked Terms" starts a test with all marked terms. You may delete marked terms and change the status of marked terms. "Set Status Date to Today" is some kind of "trick" for vacations, illnesses, etc. 
+            <br />
+            <br />
+            "Export Marked Texts (Anki)" exports all terms that have been marked AND have a valid sentence with {term} for Anki. Terms that do not have a sentence with {term} will NOT be exported. Cloze testing of terms within sentence context can so be easily done in Anki. The export is tab-delimited: (1) term, (2) translation, (3) romanization, (4) Sentence without term (question of cloze test), (5) Sentence with term (answer of cloze test), (6) Language, (7) ID Number. An Anki example deck is provided: "LWT.anki" in directory "anki".
+            <br />
+            <br />
+            "Export Marked Texts (TSV)" exports all terms that have been marked. The export is tab-delimited: (1) term, (2) translation, (3) sentence, (4) romanization, (5) Status, (6) Language, (7) ID Number.
+            <br />
+            <br />
+            <img class="grayborder" src="img/16.png" alt="Image" />
+            <br />
+            <br />
+            <b>Multi Actions for all terms on all pages of the current query</b>
+            <br />
+            <br />
+            Explanations see above.
+            <br />
+            <br />
+            <img class="grayborder" src="img/17.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>My Text Archive</b>
+            <br />
+            <br />
+            The list of archived texts. To unarchive, to edit or to delete a text, click on the icon under "Actions". There are also "Multi Actions" available.
+            <br />
+            <br />
+            What is the difference between (active) texts and archived texts?
+            <br />
+            <br />
+            <ul>
+          	<li><b>(Active) texts</b>
+          		<ul>
+          		<li>They have been parsed and tokenized according to the rules defined for the language. </li>
+          		<li>The result ist stored in a cache of sentences and text items.</li>
+          		<li>They use a lot of space in the database.</li>
+          		<li>Reading with term creation/editing and dictionary lookup is possible.</li>
+          		<li>Testing of a stored term that occurs in the text, is possible. A terms will be tested within the context of any sentence(s) in all active texts (the number of sentences may be set (1, 2, or 3) as a preference).</li>
+          		</ul>
+            <br />
+          	</li>
+          	<li><b>Archived texts</b>
+          		<ul>
+          		<li>They are not parsed and tokenized, only the text is stored.</li>
+          		<li>Compared with active texts, they don't use much space in the database, because no sentences and no text items are stored.</li>
+          		<li>Reading with term creation/editing and dictionary lookup is not possible.</li>
+          		<li>Testing of a stored term, that occurs in the text, is possible, but a term will be tested ONLY within the context of the sentence(s) that has/have been stored with the term in the sentence field, if the term does not occur in any active text.</li>
+          		</ul>
+          	</li>
+            </ul>
+            <br />
+            <br />
+            <img class="grayborder" src="img/13.png" alt="Image" />
+            <br />
+            <br />
+            <b>Multi Actions for marked archived texts</b>
+            <br />
+            <br />
+            <img class="grayborder" src="img/15.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>My Statistics</b>
+            <br />
+            <br />
+            It's self-explanatory and shows your performance. The numbers in the first table are links, by clicking on them you jump to the table of all terms in that status and language.
+            <br />
+            <br />
+            <img class="grayborder" src="img/09.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Import Terms</b>
+            <br />
+            <br />
+            Import a list of terms for a language, and set the status for all to a specified value. You can specify a file to upload or type/paste the data directly into the textbox. Format: one term per line, fields (columns) are separated either by comma ("CSV" file, e.g. used in LingQ as export format), TAB ("TSV" file, e.g. copy and paste from a spreadsheet program, not possible if you type in data manually) or # (if you type in data manually). The field/column assignment must be specified on the left. Important: You must import a term and a translation if the status should be set to 1, 2, 3, 4, or 5. The translation can be omitted if the status should be set to 98 or 99 (ignore/well known). Romanization and sentence are always optional. If a term already exists in the database (comparison is NOT case sensitive), it will not be overwritten; the line will be ignored. You can change this by setting "Overwrite existent terms" to "Yes". Be careful using this screen, a database backup before the import and double-checking everything is always advisable!
+            <br />
+            <br />
+            <img class="grayborder" src="img/10.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Backup/Restore LWT Database</b>
+            <br />
+            <br />
+            This screen offers a possibility to save and restore the LWT database. This makes it easy to try out new things or just to make regular backups. "Restore" only accepts files that have been created with the "Backup" function above. Other SQL files, e.g. the SQL files in the installation package, will not be accepted here.
+            <br />
+            <br />
+            <img class="grayborder" src="img/18.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Settings/Preferences</b>
+            <br />
+            <br />
+            In this screen you can adjust the program according to your needs. The geometric properties of the <i>Read Text</i> and <i>Test</i> screens can be changed. This is important because different browsers and font sizes may result in an unpleasant viewing experience. The waiting time to display the next test and to hide the old message after a test assessment can also be changed. The number of sentences displayed during testing and generated during term creation can be set to 1 (default), 2 or 3; if set to 2 or 3 you are able to do "MCD" (Massive-Context Cloze Deletion) testing, proposed by Khatzumoto @ AJATT. The number of items per page on different screens can be set, and you can decide whether you want to see the word counts on the textpage immediately (page may load slow) or later (faster initial loading).
+            <br />
+            <br />
+            <img class="grayborder" src="img/19.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="faq" id="faq">Questions and Answers</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>I want to use LWT, and I see something like this:
+            <br />
+            <br />
+            <img class="grayborder" src="img/prob1.png" alt="Image" />
+            <br />
+            <br />
+            Answer: Your local webserver (Apache) is not running. Please start it via XAMPP Control / MAMP.app.
+            <br />
+            <br />
+          </li>
+
+          <li>I want to use LWT, and I see something like this:
+            <br />
+            <br />
+            <img class="grayborder" src="img/prob2.png" alt="Image" />
+            <br />
+            <br />
+            Answer: The server is running, but the application is not found. Maybe the Uniform Resource Identifier (URI) is wrong or misspelled. Please check/correct it. Or the URI is correct, and the application is installed, but not in the correct directory <i>lwt</i> below <i>htdocs</i>. Please install/copy/move it into the correct directory.
+            <br />
+            <br />
+          </li>
+
+          <li>I want to use LWT, and I see this:
+            <br />
+            <br />
+            <img class="grayborder" src="img/prob3.png" alt="Image" />
+            <br />
+            <br />
+            Answer: Either the database (MySQL) is not running, or the database connection parameters in <i>../htdocs/lwt/connect.inc.php</i> are wrong. Please check/correct the database connection parameters and/or start MySQL via the XAMPP, MAMP or EasyPHP control program/panel.
+            <br />
+            <br />
+          </li>
+
+          <li>I want to use LWT, and I see this:
+            <br />
+            <br />
+            <img class="grayborder" src="img/prob4.png" alt="Image" />
+            <br />
+            <br />
+            Answer: The Webserver and the database is running, but the database connection parameter file <i>../htdocs/lwt/connect.inc.php</i> is not found. Please rename one of the connection files (according to your server) to <i>../htdocs/lwt/connect.inc.php</i>.
+            <br />
+            <br />
+          </li>
+
+          <li>I want to use LWT, and I see this:
+            <br />
+            <br />
+            <img class="grayborder" src="img/prob5.png" alt="Image" />
+            <br />
+            <br />
+            Answer: The Webserver and the database is running, but the database does not exist or is its name is wrong in <i>../htdocs/lwt/connect.inc.php</i>. Please correct and/or reinstall the database either by importing <i>dbinstall.sql</i> or a backup.
+            <br />
+            <br />
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="langsetup" id="langsetup">Language Setup</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>This section shows some language setups ("RegExp Split Sentences", "RegExp Word Characters", "Make each character a word", "Remove spaces") for different languages. They are only recommendations, and you may change them according to your needs (and texts). See also <a href="#go1">here</a>.
+          <br /><br /></li>
+          
+          <li>Please inform yourself about Unicode <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">here (general information)</a> and <a href="http://unicode.coeurlumiere.com/" target="_blank">here (Table of Unicode characters)</a> and about the characters that occur in the language you learn!
+          <br /><br />
+          
+            <table class="tab3" cellspacing="0" cellpadding="5">
+              <tr class="tr1">
+                <th class="th1">
+                  Language
+                </th>
+                <th class="th1">
+                  RegExp
+                  <br />
+                  Split
+                  <br />
+                  Sentences
+                </th>
+                <th class="th1">
+                  RegExp
+                  <br />
+                  Word
+                  <br />
+                  Characters
+                </th>
+                <th class="th1">
+                  Make each
+                  <br />
+                  character
+                  <br />
+                  a word
+                </th>
+                <th class="th1">
+                  Remove
+                  <br />
+                  spaces
+                </th>
+              </tr>
+
+              <tr class="tr1">
+                <td class="td1">
+                  Latin and all languages
+                  <br />
+                  with a Latin derived alphabet
+                  <br />
+                  (English, French, German, etc.)
+                </td>
+                <td class="td1">
+                  .!?:;
+                </td>
+                <td class="td1">
+                  a-zA-ZÀ-ÖØ-öø-ȳ
+                </td>
+                <td class="td1">
+                  No
+                </td>
+                <td class="td1">
+                  No
+                </td>
+              </tr>
+
+              <tr class="tr1">
+                <td class="td1">
+                  Languages with a
+                  <br />
+                  Cyrillic-derived alphabet
+                  <br />
+                  (Russian, Bulgarian, Ukrainian, etc.)
+                </td>
+                <td class="td1">
+                  .!?:;
+                </td>
+                <td class="td1">
+                  a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ
+                </td>
+                <td class="td1">
+                  No
+                </td>
+                <td class="td1">
+                  No
+                </td>
+              </tr>
+
+              <tr class="tr1">
+                <td class="td1">
+                  Chinese
+                </td>
+                <td class="td1">
+                  .!?:;。！？：；
+                </td>
+                <td class="td1">
+                  一-龥
+                </td>
+                <td class="td1">
+                  Yes or No
+                </td>
+                <td class="td1">
+                  Yes
+                </td>
+              </tr>
+
+              <tr class="tr1">
+                <td class="td1">
+                  Japanese
+                </td>
+                <td class="td1">
+                  .!?:;。！？：；
+                </td>
+                <td class="td1">
+                  一-龥ぁ-ヾ
+                </td>
+                <td class="td1">
+                  Yes or No
+                </td>
+                <td class="td1">
+                  Yes
+                </td>
+              </tr>
+
+              <tr class="tr1">
+                <td class="td1">
+                  Korean
+                </td>
+                <td class="td1">
+                  .!?:;。！？：；
+                </td>
+                <td class="td1">
+                  가-힣ᄀ-ᇂ
+                </td>
+                <td class="td1">
+                  No
+                </td>
+                <td class="td1">
+                  No or Yes
+                </td>
+              </tr>
+            </table>
+
+            <br />
+          </li>
+
+          <li>":" and ";" may be omitted in "RegExp Split Sentences", but longer example sentences may result from this.
+            <br />
+            <br />
+          </li>
+
+          <li>"Make each character a word" = "Yes" should only be set in Chinese, Japanese, and similar languages. Normally words are split by any non-word character or whitespace. If you choose "Yes", then you do not need to insert spaces to specify word endings. If you choose "No", then you must prepare texts without whitespace by inserting whitespace to specify words. If you are a beginner, "Yes" may be better for you. If you are an advanced learner, and you have a possibility to prepare a text in the above described way, then "No" may be better for you.
+            <br />
+            <br />
+          </li>
+
+          <li>"Remove spaces" = "Yes" should only be set in Chinese, Japanese, and similar languages to remove whitespace that has been automatically or manually inserted to specify words.
+            <br />
+            <br />
+          </li>
+
+          <li>Languages that are written from right to left (like Arabic, Hebrew, Farsi, Urdu - to name a few) are not supported in the moment. 
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="termscores" id="termscores">Term Scores</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>The score of a term is a rough measure (in percent) how well you know a term. It is displayed in "My Terms", and it is used in tests to decide which terms are tested next.
+            <br />
+            <br />
+          </li>
+
+          <li>The score is calculated as follows:
+            <br />
+            <br />
+            <img class="grayborder" src="img/score1full.png" alt="Image" />
+            <br />
+            <br />
+            Terms with status 1 should be tested immediately and retested (if the test failed) the next day. Terms set to status 2 should be retested after 2 days. Terms set to status 3 should be retested after 9 days. Terms set to status 4 should be retested after 27 days. Terms set to status 5 should be retested after 72 days.
+            <br />
+            <br />
+          </li>
+
+          <li>Example 1: Five terms were tested today; they are now in status 1, 2, 3, 4, and 5. The term with status 1 is still unknown (failed the test, so the score is still 0 %). The term with status 5 is well known (score: 100 %).
+            <br />
+            <br />
+            <img class="grayborder" src="img/score2.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>Example 2: Five terms were not tested for some time; they are in status 1, 2, 3, 4, and 5. All of them have a score of 0, because the number of days indicate that you may have forgotten them. Therefore all should be retested today.
+            <br />
+            <br />
+            <img class="grayborder" src="img/score3.png" alt="Image" />
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="database" id="database">Database Structure</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>
+            <b>Table `settings` (Settings as Key-Value Pairs):</b>
+            <br />
+            `StKey` varchar(40) NOT NULL,
+            <br />
+            `StValue` varchar(40) DEFAULT NULL,
+            <br />
+            PRIMARY KEY (`StKey`)
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table `languages` (Defined languages):</b>
+            <br />
+            `LgID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            `LgName` varchar(40) NOT NULL,
+            <br />
+            `LgDict1URI` varchar(200) NOT NULL,
+            <br />
+            `LgDict2URI` varchar(200) DEFAULT NULL,
+            <br />
+            `LgGoogleTranslateURI` varchar(200) DEFAULT NULL,
+            <br />
+            `LgGoogleTTSURI` varchar(200) DEFAULT NULL, -- NOT YET USED --
+            <br />
+            `LgTextSize` int(5) unsigned NOT NULL DEFAULT '100',
+            <br />
+            `LgCharacterSubstitutions` varchar(500) NOT NULL,
+            <br />
+            `LgRegexpSplitSentences` varchar(500) NOT NULL,
+            <br />
+            `LgExceptionsSplitSentences` varchar(500) NOT NULL,
+            <br />
+            `LgRegexpWordCharacters` varchar(500) NOT NULL,
+            <br />
+            `LgRemoveSpaces` int(1) unsigned NOT NULL DEFAULT '0',
+            <br />
+            `LgSplitEachChar` int(1) unsigned NOT NULL DEFAULT '0',
+            <br />
+            PRIMARY KEY (`LgID`),
+            <br />
+            UNIQUE KEY `LgName` (`LgName`)
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table `texts` (Active texts, parsed and cached in `sentences` and `textitems`):</b>
+            <br />
+            `TxID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            `TxLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
+            <br />
+            `TxTitle` varchar(200) NOT NULL,
+            <br />
+            `TxText` text NOT NULL,
+            <br />
+            `TxAudioURI` varchar(200) DEFAULT NULL,
+            <br />
+            PRIMARY KEY (`TxID`),
+            <br />
+            KEY `TxLgID` (`TxLgID`)
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table `archivedtexts`: (Text Archive, not parsed and cached)</b>
+            <br />
+            `AtID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            `AtLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
+            <br />
+            `AtTitle` varchar(200) NOT NULL,
+            <br />
+            `AtText` text NOT NULL,
+            <br />
+            `AtAudioURI` varchar(200) DEFAULT NULL,
+            <br />
+            PRIMARY KEY (`AtID`),
+            <br />
+            KEY `AtLgID` (`AtLgID`)
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table `words` (the words and expressions you have saved):</b>
+            <br />
+            `WoID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            `WoLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
+            <br />
+            `WoText` varchar(250) NOT NULL,
+            <br />
+            `WoTextLC` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+            <br />
+            `WoStatus` tinyint(4) NOT NULL,
+            <br />
+            `WoTranslation` varchar(500) NOT NULL DEFAULT '*',
+            <br />
+            `WoRomanization` varchar(100) DEFAULT NULL,
+            <br />
+            `WoSentence` varchar(1000) DEFAULT NULL,
+            <br />
+            `WoCreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            <br />
+            `WoStatusChanged` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+            <br />
+            PRIMARY KEY (`WoID`),
+            <br />
+            UNIQUE KEY `WoLgIDTextLC` (`WoLgID`,`WoTextLC`),
+            <br />
+            KEY `WoLgID` (`WoLgID`),
+            <br />
+            KEY `WoStatus` (`WoStatus`),
+            <br />
+            KEY `WoTextLC` (`WoTextLC`),
+            <br />
+            KEY `WoTranslation` (`WoTranslation`),
+            <br />
+            KEY `WoCreated` (`WoCreated`),
+            <br />
+            KEY `WoStatusChanged` (`WoStatusChanged`)
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table `sentences` (Sentences cache):</b>
+            <br />
+            `SeID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            `SeLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
+            <br />
+            `SeTxID` int(11) unsigned NOT NULL, -- TEXT --
+            <br />
+            `SeOrder` int(11) unsigned NOT NULL,
+            <br />
+            `SeText` text,
+            <br />
+            PRIMARY KEY (`SeID`),
+            <br />
+            KEY `SeLgID` (`SeLgID`),
+            <br />
+            KEY `SeTxID` (`SeTxID`),
+            <br />
+            KEY `SeOrder` (`SeOrder`)
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table `textitems` (Text items cache):</b>
+            <br />
+            `TiID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            `TiLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
+            <br />
+            `TiTxID` int(11) unsigned NOT NULL, -- TEXT --
+            <br />
+            `TiSeID` int(11) unsigned NOT NULL, -- SENTENCE --
+            <br />
+            `TiOrder` int(11) unsigned NOT NULL,
+            <br />
+            `TiWordCount` int(1) unsigned NOT NULL,
+            <br />
+            `TiText` varchar(250) NOT NULL,
+            <br />
+            `TiTextLC` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+            <br />
+            `TiIsNotWord` tinyint(1) NOT NULL,
+            <br />
+            PRIMARY KEY (`TiID`),
+            <br />
+            KEY `TiLgID` (`TiLgID`),
+            <br />
+            KEY `TiTxID` (`TiTxID`),
+            <br />
+            KEY `TiSeID` (`TiSeID`),
+            <br />
+            KEY `TiOrder` (`TiOrder`),
+            <br />
+            KEY `TiTextLC` (`TiTextLC`),
+            <br />
+            KEY `TiIsNotWord` (`TiIsNotWord`)
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="history" id="history">Version History</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+
+        	<li>1.0.3 (August 09 2011): 
+        	New button to open a new text immediately after saving. <br />
+        	Dictionaries can now be opened not only within the frame set (default) but also in a popup window (please deactivate popup window blocking in your browser!). To open a dictionary in a separate popup window, put an asterisk * in front of the Uniform Resource Identifier  (Example: *http://mywebdict.com?q=###). Please use this method if a web dictionary does not open properly within the frame set. <br />  
+        	The application now always checks if the current text or language still exist (could have sometimes resulted in empty query results after deleting).	<br />
+        	New settings "Texts per Page", "Show Word Counts of Texts immediately", "Archived Texts per Page" and "Terms per Page". You can now define how many texts or terms are on one page. As the calculation of text word counts can slow down the loading of a long text table, you can switch off this calculation (and do the calculation later). <br />
+        	"New/Edit Term" now allow dictionary lookup (always in popup window). If you want to enter a term manually, you must first select the language on the "My Terms" page.<br />
+        	Documentation and screenshots updated.         	
+					<br /><br />
+        	</li>
+
+        	<li>1.0.2 (August 05 2011): 
+        	Language definition: If the searchword in the Uniform Resource Identifiers (URIs) needs to be converted into a different encoding (standard is UTF-8), you can now use <i>###encoding###</i> as a placeholder. Example: <i>http://mywebdict.com?q=###ISO-8859-15###</i>.	A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php" target=_blank">here</a> (omit the asterisk if one is at the end).<br />Documentation and screenshots updated. Thai example added in demo database.
+        	<br /><br />
+        	</li>
+
+        	<li>1.0.1 (August 04 2011): 
+        	Testing: Last term tested will not show up immediately. Automatically selected sentences in tests now must not contain unsaved (blue) words. This does not apply if a sentence saved with a term contains unknown words - such sentences may come up within a test.<br />Empty database will be created automatically if database does not exist. Tables will be automatically recreated if some or all tables are missing. System handles (future) database changes automatically. <br />Documentation and screenshots updated.
+        	<br /><br />
+        	</li>
+
+        	<li>1.0.0 (August 01 2011): 
+        	First stable release. For some time, there won't be any new releases. I hope you'll understand that. Please post all problems, questions, and (hopefully not too many) bugs <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497" target="_blank">here</a>, and ideas and  suggestions for new features <a href="http://lwt.uservoice.com" target="_blank">here</a>. Thanks!
+        	<br /><br />
+        	</li>
+
+        	<li>0.9.8 (July 31 2011): 
+        	New Text Display Mode (see new checkbox on the "Read text" screen).<br />
+        	[Show All] = ON (the only mode in previous releases): ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. <br />
+        	[Show All] = OFF (new): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts. <br/>
+        	Documentation and screenshots updated.
+        	<br /><br />
+        	</li>
+
+        	<li>0.9.7 (July 28 2011): 
+        	Internal improvements, status names, abbreviations, and tooltips (Thanks, Arthaey!). Printout of texts with optional inline annotation (translation and/or romanization) of terms that are of specified status(es). Documentation and screenshots corrected.
+        	<br /><br />
+        	</li>
+
+        	<li>0.9.6 (July 26 2011): 
+        	More visual improvements (layout, tables, etc.), many improvements and bugfixes. Dictionary Uniform Resource Identifiers (URIs) use now ### as a placeholder for the searchword. If ### is missing, the searchword will be appended (like in older versions). More multi-actions for terms. Translation and sentence fields do NOT accept newlines anymore, now the form is submitted. Status entry changed from dropdown to radio buttons. Backup/Restore improved. CSS and XHTML corrected and validated. Korean example added. An Anki example deck is now provided: "LWT.anki" in directory "anki". Documentation and screenshots improved.
+        	<br /><br />
+        	</li>
+
+        	<li>0.9.5 (July 23 2011): 
+        	Visual improvements (icons), a few bug fixes. Database Restore changed for bigger files. Two new tests to test L2 -&gt; L1 or L1 -&gt; L2 without sentence (just the term). The term filter operates not only on the term field but also on the romanization and translation field. 
+        	<br /><br />
+        	</li>
+
+        	<li>0.9.4 (July 22 2011): 
+        	"Import of terms" now only needs a translation if the status is set to 1, 2, 3, 4 or 5. Furthermore it not only imports terms as TAB (ASCII 9) separated values (TSV) or "#" separated values, but also as comma separated values (CSV, strings in quotes ("...", if needed), a quote within a string as double quotes (""); this is the format that LingQ uses for exporting terms).<br /> 
+        	New buttons to switch easier between active texts and archived texts. <br />
+        	New settings "Testing: Number of sentences displayed from text, if available" and "Terms: Number of sentences generated from text, if available". Default is "Just ONE". The options "TWO (+ previous)" and "THREE (+ previous, + next)" now allow you to do MCD (Massive-Context Cloze Deletion) testing, as proposed by Khatzumoto @ AJATT.<br />
+        	Some minor bug fixes. 
+        	Documentation updated. 
+        	<br /><br />
+        	</li>
+        	
+        	<li>0.9.3 (July 21 2011): 
+        	After a lot of multi-platform/multi-server testing: several bug fixes and improvements. One severe bug that crashed importing and checking of texts on XAMPP/Win removed (Thanks, Kendall!). Within text, archive, and term queries, selected sort order will be retained (saved in database). All other query settings are now retained per session. Documentation updated. 
+        	<br /><br />
+        	</li>
+        	
+        	<li>0.9.2 (July 19 2011): 
+        	Bugfixes. New "Settings" screen. Documentation updated and improved.
+        	<br /><br />
+        	</li>
+        	
+          <li>0.9.1 (July 18 2011): Testing totally revamped (and extended). Many, many improvements and bugfixes. Documentation and screenshots updated. EasyPHP for Windows installation explained.
+        	<br /><br />
+          </li>
+
+          <li>0.9.0 (July 14 2011): Frame screen "Edit term" is now more compact to save space. TSV export of terms added, Anki export improved. The multi actions drop-down-list is now disabled when no checkboxes are checked. Testing completely revised and improved. New buttons to jump from test to text and vice versa. It is now possible to create expressions with up to 9 words (previous releases: up to 6 words). Important: Re-parsing is necessary to use this feature in existing texts. New texts have this feature will automatically. Documentation and screenshots updated. Questions and answers added.
+        	<br /><br />
+          </li>
+
+          <li>0.8.2 (July 13 2011): Minor improvements and bug fixes. Term score formula revised. Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically. Documentation (topic: Term scores) added.
+        	<br /><br />
+          </li>
+
+          <li>0.8.1 (July 12 2011): Mac installation and upgrade (see documentation) completely changed.
+        	<br /><br />
+          </li>
+
+          <li>0.8.0 (July 11 2011): Possibility to change term (but only uppercase/lowercase changes allowed). Import terms with overwrite now possible. "Learn/Edit Word/Expression" opens first dictionary automatically. Number of saved words and "To Do" words are now displayed in "My Texts". Backup and Restore of the LWT database. Documentation updated and improved.
+        	<br /><br />
+          </li>
+
+          <li>0.7.0 (July 09 2011): Minor improvements, more documentation, Japanese example added.
+        	<br /><br />
+          </li>
+
+          <li>0.6.0 (July 08 2011): Improvements, bugfixes, more documentation, settings now stored in DB (not in cookies anymore).
+        	<br /><br />
+          </li>
+
+          <li>0.5.0 (June 30 2011): Improvements, bugfixes, text archiving added.
+        	<br /><br />
+          </li>
+
+          <li>0.4.0 (June 29 2011): Improvements, bugfixes, basic documentation completed, two new tests.
+        	<br /><br />
+          </li>
+
+          <li>0.3.0 (June 27 2011): Improvements, bugfixes, more documentation.
+        	<br /><br />
+          </li>
+
+          <li>0.2.0 (June 25 2011): Improvements, bugfixes, more documentation.
+        	<br /><br />
+          </li>
+
+          <li>0.1.0 (June 24 2011): Initial release.
+          </li>
+        </ul>
+      </dd>
+    </dl>
+
+    <p class="smallgray graydotted">
+      &nbsp;
+    </p>
+
+    <table>
+      <tr>
+        <td class="width50px">
+          <a target="_blank" href="http://en.wikipedia.org/wiki/Public_domain_software"><img src="img/public_domain.png" alt="Public Domain" /></a>
+        </td>
+        <td>
+          <p class="smallgray">
+            <a href="http://sourceforge.net/projects/lwt/" target="_blank">"Learning with Texts" (LWT)</a> is released into the Public Domain. This applies worldwide.
+            <br />
+            In case this is not legally possible, any entity is granted the right to use this work for any purpose,
+            <br />
+            without any conditions, unless such conditions are required by law.
+          </p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
