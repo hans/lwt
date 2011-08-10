@@ -167,58 +167,66 @@ elseif (isset($_REQUEST['arch'])) {
 // INS/UPD
 
 elseif (isset($_REQUEST['op'])) {
-	
-	// CHECK
-	
-	if ($_REQUEST['op'] == 'Check') {
-		echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
-		echo checkText($_REQUEST['TxText'], $_REQUEST['TxLgID']);
-		echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
-		pageend();
-		exit();
-	} 
-	
-	// INSERT
-	
-	elseif (substr($_REQUEST['op'],0,4) == 'Save') {
-		$message1 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) values( ' . 
-		$_REQUEST["TxLgID"] . ', ' . 
-		convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
-		convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
-		convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
-		')', "Saved");
-		$id = get_last_key();
-	} 
-	
-	// UPDATE
-	
-	elseif (substr($_REQUEST['op'],0,6) == 'Change') {
-		$message1 = runsql('update texts set ' .
-		'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
-		'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
-		'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
-		'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
-		'where TxID = ' . $_REQUEST["TxID"], "Updated");
-		$id = $_REQUEST["TxID"];
-	}
-	
-	$message2 = runsql('delete from sentences where SeTxID = ' . $id, 
-		"Sentences deleted");
-	$message3 = runsql('delete from textitems where TiTxID = ' . $id, 
-		"Textitems deleted");
-	adjust_autoincr('sentences','SeID');
-	adjust_autoincr('textitems','TiID');
 
-	splitText(
-		get_first_value(
-			'select TxText as value from texts where TxID = ' . $id), 
-		$_REQUEST["TxLgID"], $id );
-		
-	$message = $message1 . " / " . $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from sentences where SeTxID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from textitems where TiTxID = ' . $id);
+	if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000) {
+		$message = "Error: Text too long, must be below 65000 Bytes";
+	}
+
+	else {
 	
-	if(substr($_REQUEST['op'],-8) == "and Open") {
-		header('Location: do_text.php?start=' . $id);
-		exit();
+		// CHECK
+		
+		if ($_REQUEST['op'] == 'Check') {
+			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
+			echo checkText($_REQUEST['TxText'], $_REQUEST['TxLgID']);
+			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
+			pageend();
+			exit();
+		} 
+		
+		// INSERT
+		
+		elseif (substr($_REQUEST['op'],0,4) == 'Save') {
+			$message1 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) values( ' . 
+			$_REQUEST["TxLgID"] . ', ' . 
+			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
+			convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
+			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
+			')', "Saved");
+			$id = get_last_key();
+		} 
+		
+		// UPDATE
+		
+		elseif (substr($_REQUEST['op'],0,6) == 'Change') {
+			$message1 = runsql('update texts set ' .
+			'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
+			'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
+			'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
+			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
+			'where TxID = ' . $_REQUEST["TxID"], "Updated");
+			$id = $_REQUEST["TxID"];
+		}
+		
+		$message2 = runsql('delete from sentences where SeTxID = ' . $id, 
+			"Sentences deleted");
+		$message3 = runsql('delete from textitems where TiTxID = ' . $id, 
+			"Textitems deleted");
+		adjust_autoincr('sentences','SeID');
+		adjust_autoincr('textitems','TiID');
+	
+		splitText(
+			get_first_value(
+				'select TxText as value from texts where TxID = ' . $id), 
+			$_REQUEST["TxLgID"], $id );
+			
+		$message = $message1 . " / " . $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from sentences where SeTxID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from textitems where TiTxID = ' . $id);
+		
+		if(substr($_REQUEST['op'],-8) == "and Open") {
+			header('Location: do_text.php?start=' . $id);
+			exit();
+		}
+	
 	}
 
 }

@@ -28,7 +28,10 @@ if ($debug) {
 	@ini_set('display_startup_errors','0');
 }
 
-@set_time_limit(600);
+@ini_set('max_execution_time', '600');  // 10 min.
+@set_time_limit(600);  // 10 min.
+
+@ini_set('memory_limit', '999M');  
 
 $err = @session_start();
 if ($err == FALSE) 
