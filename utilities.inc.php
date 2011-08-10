@@ -19,7 +19,7 @@ Finally: Database Connect, Select, Update
 
 function get_version() {
 	global $debug;
-	return '1.0.3.1 (August 10 2011)' . 
+	return '1.0.3.2 (August 10 2011)' . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1303,38 +1303,38 @@ function checkText($text, $lid) {
 	$dsatz = mysql_fetch_assoc($res);
 	if ($dsatz == FALSE) die("No results: $sql");
 	$removeSpaces = $dsatz['LgRemoveSpaces'];
-	echodebug($removeSpaces,'$removeSpaces');
+	// echodebug($removeSpaces,'$removeSpaces');
 	$splitEachChar = $dsatz['LgSplitEachChar'];
-	echodebug($splitEachChar,'$splitEachChar');
+	// echodebug($splitEachChar,'$splitEachChar');
 	$satzende = $dsatz['LgRegexpSplitSentences'];
-	echodebug($satzende,'$satzende');
+	// echodebug($satzende,'$satzende');
 	$keinsatzende = $dsatz['LgExceptionsSplitSentences'];
-	echodebug($keinsatzende,'$keinsatzende');
+	// echodebug($keinsatzende,'$keinsatzende');
 	$wortzeichen = $dsatz['LgRegexpWordCharacters'];
-	echodebug($wortzeichen,'$wortzeichen');
+	// echodebug($wortzeichen,'$wortzeichen');
 	$replace = explode("|",$dsatz['LgCharacterSubstitutions']);
-	echodebug($replace,'$replace');
+	// echodebug($replace,'$replace');
 	mysql_free_result($res);
-	echodebug($text,'$text');
+	// echodebug($text,'$text');
 	$s = prepare_textdata($text);
-	echodebug($s,'$s/1');
+	// echodebug($s,'$s/1');
 	$s = str_replace("\n", " ¶ ", $s);
-	echodebug($s,'$s/2');
+	// echodebug($s,'$s/2');
 	$s = str_replace("\t", " ", $s);
 	$s = trim($s);
-	echodebug($s,'$s/3');
+	// echodebug($s,'$s/3');
 	if ($splitEachChar) {
 		$s = preg_replace('/([^\s])/u', "$1 ", $s);
 	}
-	echodebug($s,'$s/4');
+	// echodebug($s,'$s/4');
 	$s = preg_replace('/\s{2,}/u', ' ', $s);
-	echodebug($s,'$s/5');
+	// echodebug($s,'$s/5');
 	$r .= "<h4>Text</h4><p>" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
 
 	$s = str_replace('{', '[', $s);	// because of sent. spc. char
-	echodebug($s,'$s/6');
+	// echodebug($s,'$s/6');
 	$s = str_replace('}', ']', $s);	
-	echodebug($s,'$s/7');
+	// echodebug($s,'$s/7');
 	foreach ($replace as $value) {
 		$fromto = explode("=",trim($value));
 		if(count($fromto) >= 2) {
@@ -1342,16 +1342,16 @@ function checkText($text, $lid) {
 		}
 	}
 	$s = trim($s);
-	echodebug($s,'$s/8');
+	// echodebug($s,'$s/8');
 	
 	if ($keinsatzende != '') $s = preg_replace('/(' . $keinsatzende . ')\s/u', '$1‧', $s);
-	echodebug($s,'$s/9');
+	// echodebug($s,'$s/9');
 	$s = preg_replace('/([' . $satzende . '¶])\s/u', "$1\n", $s);
-	echodebug($s,'$s/10');
+	// echodebug($s,'$s/10');
 	$s = str_replace(" ¶\n", "\n¶\n", $s);
-	echodebug($s,'$s/11');
+	// echodebug($s,'$s/11');
 	$s = str_replace('‧', ' ', $s);
-	echodebug($s,'$s/12');
+	// echodebug($s,'$s/12');
 	
 	if ($s=='') {
 		$zeilen = array($s);
@@ -1378,7 +1378,7 @@ function checkText($text, $lid) {
 			if ($zz != '' ) $zeilen[] = $zz;
 		}
 	}
-	echodebug($zeilen,'$zeilen');
+	// echodebug($zeilen,'$zeilen');
 	
 	$zeilenworte = array();
 	$wortliste = array();
