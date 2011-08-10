@@ -22,7 +22,7 @@ include "utilities.inc.php";
 $textid = getreq('text');
 $sql = 'select TxLgID, TxTitle, TxAudioURI from texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 $dsatz = mysql_fetch_assoc($res);
 
 $audio = $dsatz['TxAudioURI'];

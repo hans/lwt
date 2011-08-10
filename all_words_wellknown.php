@@ -25,7 +25,7 @@ pagestart("Setting all blue words to Well-known",false);
 
 $sql = 'select distinct TiText, TiTextLC from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiIsNotWord = 0 and WoID is null and TiWordCount = 1 and TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder';
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 $count = 0;
 $javascript = "var title='';";
 while ($dsatz = mysql_fetch_assoc($res)) {

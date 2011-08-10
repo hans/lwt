@@ -60,22 +60,19 @@ if (isset($_REQUEST['markaction'])) {
 					$count = 0;
 					$sql = "select AtID, AtLgID from archivedtexts where AtID in " . $list;
 					$res = mysql_query($sql);		
-					if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-					$num = mysql_num_rows($res);
-					if ($num != 0 ) {
-						while ($dsatz = mysql_fetch_assoc($res)) {
-							$ida = $dsatz['AtID'];
-							$message2 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $ida, "Texts added");
-							$id = get_last_key();
-							splitText(
-								get_first_value(
-								'select TxText as value from texts where TxID = ' . $id), 
-								$dsatz['AtLgID'], 
-								$id );	
-							$message1 = runsql('delete from archivedtexts where AtID = ' . $ida, "Archived Texts deleted");
-							adjust_autoincr('archivedtexts','AtID');
-							$count++;
-						}
+					if ($res == FALSE) die("Invalid Query: $sql");
+					while ($dsatz = mysql_fetch_assoc($res)) {
+						$ida = $dsatz['AtID'];
+						$message2 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $ida, "Texts added");
+						$id = get_last_key();
+						splitText(
+							get_first_value(
+							'select TxText as value from texts where TxID = ' . $id), 
+							$dsatz['AtLgID'], 
+							$id );	
+						$message1 = runsql('delete from archivedtexts where AtID = ' . $ida, "Archived Texts deleted");
+						adjust_autoincr('archivedtexts','AtID');
+						$count++;
 					}
 					mysql_free_result($res);
 					$message = 'Unarchived Text(s): ' . $count;
@@ -134,7 +131,7 @@ if (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($dsatz = mysql_fetch_assoc($res)) {
 
 		?>
@@ -273,7 +270,7 @@ Marked Texts:&nbsp;
 $sql = 'select AtID, AtTitle, LgName, AtAudioURI from archivedtexts, languages where LgID=AtLgID ' . (($currentlang != '') ? (' and AtLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and AtTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '') . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $dsatz['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $dsatz['AtID'] . '" ' . checkTest($dsatz['AtID'], 'marked') . ' /></a></td>';

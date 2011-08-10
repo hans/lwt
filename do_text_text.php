@@ -21,7 +21,7 @@ include "utilities.inc.php";
 
 $sql = 'select TxLgID, TxTitle from texts where TxID = ' . $_REQUEST['text'];
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 $dsatz = mysql_fetch_assoc($res);
 $titel = $dsatz['TxTitle'];
 $sprid = $dsatz['TxLgID'];
@@ -31,7 +31,7 @@ pagestart_nobody(tohtml($titel));
 
 $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgGoogleTTSURI, LgTextSize, LgRemoveSpaces from languages where LgID = ' . $sprid;
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 $dsatz = mysql_fetch_assoc($res);
 $wb1 = isset($dsatz['LgDict1URI']) ? $dsatz['LgDict1URI'] : "";
 $wb2 = isset($dsatz['LgDict2URI']) ? $dsatz['LgDict2URI'] : "";
@@ -123,7 +123,7 @@ $hideuntil = -1;
 $hidetag = '';
 
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 
 while ($dsatz = mysql_fetch_assoc($res)) {  // MAIN LOOP
 

@@ -469,13 +469,12 @@ function validateText($currenttext) {
 
 function get_first_value($sql) {
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	$d = NULL;
-	if ($num != 0 ) {
-		$dsatz = mysql_fetch_assoc($res);
+	if ($res == FALSE) die("Invalid query: $sql");
+	$dsatz = mysql_fetch_assoc($res);
+	if ($dsatz) 
 		$d = $dsatz["value"];
-	}
+	else
+		$d = NULL;
 	mysql_free_result($res);
 	return $d;
 }
@@ -507,20 +506,17 @@ function get_selected($value,$selval) {
 function get_languages_selectoptions($v,$dt) {
 	$sql = "select LgID, LgName from languages order by LgName";
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+	if ($res == FALSE) die("Invalid query: $sql");
 	if ( ! isset($v) || trim($v) == '' ) {
 		$r = "<option value=\"\" selected=\"selected\">" . $dt . "</option>";
 	} else {
 		$r = "<option value=\"\">" . $dt . "</option>";
 	}
-	$num = mysql_num_rows($res);
-	if ($num != 0 ) {
-		while ($dsatz = mysql_fetch_assoc($res)) {
-			$d = $dsatz["LgName"];
-			if ( strlen($d) > 30 ) $d = substr($d,0,30) . "...";
-			$r .= "<option value=\"" . $dsatz["LgID"] . "\" " . get_selected($v,$dsatz["LgID"]);
-			$r .= ">" . tohtml($d) . "</option>";
-		}
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		$d = $dsatz["LgName"];
+		if ( strlen($d) > 30 ) $d = substr($d,0,30) . "...";
+		$r .= "<option value=\"" . $dsatz["LgID"] . "\" " . get_selected($v,$dsatz["LgID"]);
+		$r .= ">" . tohtml($d) . "</option>";
 	}
 	mysql_free_result($res);
 	return $r;
@@ -755,14 +751,11 @@ function get_texts_selectoptions($lang,$v) {
 	$r .= ">[Filter off]</option>";
 	$sql = "select TxID, TxTitle, LgName from languages, texts where LgID = TxLgID " . $l . " order by LgName, TxTitle";
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num != 0 ) {
-		while ($dsatz = mysql_fetch_assoc($res)) {
-			$d = $dsatz["TxTitle"];
-			if ( strlen($d) > 30 ) $d = substr($d,0,30) . "...";
-			$r .= "<option value=\"" . $dsatz["TxID"] . "\"" . get_selected($v,$dsatz["TxID"]) . ">" . tohtml( ($lang!="" ? "" : ($dsatz["LgName"] . ": ")) . $d) . "</option>";
-		}
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		$d = $dsatz["TxTitle"];
+		if ( strlen($d) > 30 ) $d = substr($d,0,30) . "...";
+		$r .= "<option value=\"" . $dsatz["TxID"] . "\"" . get_selected($v,$dsatz["TxID"]) . ">" . tohtml( ($lang!="" ? "" : ($dsatz["LgName"] . ": ")) . $d) . "</option>";
 	}
 	mysql_free_result($res);
 	return $r;
@@ -849,7 +842,7 @@ function createTheDictLink($u,$t) {
 function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst) {
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	$dsatz = mysql_fetch_assoc($res);
 	$wb1 = isset($dsatz['LgDict1URI']) ? $dsatz['LgDict1URI'] : "";
 	$wb2 = isset($dsatz['LgDict2URI']) ? $dsatz['LgDict2URI'] : "";
@@ -921,7 +914,7 @@ function makeOpenDictStrDynSent($url, $sentctljs, $txt) {
 function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs) {
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	$dsatz = mysql_fetch_assoc($res);
 	$wb1 = isset($dsatz['LgDict1URI']) ? $dsatz['LgDict1URI'] : "";
 	if(substr($wb1,0,1) == '*') $wb1 = substr($wb1,1);
@@ -995,24 +988,21 @@ function anki_export($sql) {
 	// WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence
 	$res = mysql_query($sql);
 	$x = '';		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num != 0 ) {
-		while ($dsatz = mysql_fetch_assoc($res)) {
-			$sent = tohtml(repl_tab_nl($dsatz["WoSentence"]));
-			$sent1 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">[', str_replace("}", ']</span>', 
-				mask_term_in_sentence($sent,$dsatz["LgRegexpWordCharacters"])
-			));
-			$sent2 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">[', str_replace("}", ']</span>', $sent));
-			$x .= tohtml(repl_tab_nl($dsatz["WoText"])) . "\t" . 
-			tohtml(repl_tab_nl($dsatz["WoTranslation"])) . "\t" . 
-			tohtml(repl_tab_nl($dsatz["WoRomanization"])) . "\t" . 
-			$sent1 . "\t" . 
-			$sent2 . "\t" . 
-			tohtml(repl_tab_nl($dsatz["LgName"])) . "\t" . 
-			tohtml($dsatz["WoID"]) .  
-			"\r\n";
-		}
+	if ($res == FALSE) die("Invalid Query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		$sent = tohtml(repl_tab_nl($dsatz["WoSentence"]));
+		$sent1 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">[', str_replace("}", ']</span>', 
+			mask_term_in_sentence($sent,$dsatz["LgRegexpWordCharacters"])
+		));
+		$sent2 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">[', str_replace("}", ']</span>', $sent));
+		$x .= tohtml(repl_tab_nl($dsatz["WoText"])) . "\t" . 
+		tohtml(repl_tab_nl($dsatz["WoTranslation"])) . "\t" . 
+		tohtml(repl_tab_nl($dsatz["WoRomanization"])) . "\t" . 
+		$sent1 . "\t" . 
+		$sent2 . "\t" . 
+		tohtml(repl_tab_nl($dsatz["LgName"])) . "\t" . 
+		tohtml($dsatz["WoID"]) .  
+		"\r\n";
 	}
 	mysql_free_result($res);
 	header('Content-type: text/plain; charset=utf-8');
@@ -1027,18 +1017,15 @@ function tsv_export($sql) {
 	// WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus
 	$res = mysql_query($sql);
 	$x = '';		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num != 0 ) {
-		while ($dsatz = mysql_fetch_assoc($res)) {
-			$x .= repl_tab_nl($dsatz["WoText"]) . "\t" . 
-			repl_tab_nl($dsatz["WoTranslation"]) . "\t" . 
-			repl_tab_nl($dsatz["WoSentence"]) . "\t" . 
-			repl_tab_nl($dsatz["WoRomanization"]) . "\t" . 
-			$dsatz["WoStatus"] . "\t" . 
-			repl_tab_nl($dsatz["LgName"]) . "\t" . 
-			$dsatz["WoID"] . "\r\n";
-		}
+	if ($res == FALSE) die("Invalid Query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		$x .= repl_tab_nl($dsatz["WoText"]) . "\t" . 
+		repl_tab_nl($dsatz["WoTranslation"]) . "\t" . 
+		repl_tab_nl($dsatz["WoSentence"]) . "\t" . 
+		repl_tab_nl($dsatz["WoRomanization"]) . "\t" . 
+		$dsatz["WoStatus"] . "\t" . 
+		repl_tab_nl($dsatz["LgName"]) . "\t" . 
+		$dsatz["WoID"] . "\r\n";
 	}
 	mysql_free_result($res);
 	header('Content-type: text/plain; charset=utf-8');
@@ -1131,7 +1118,7 @@ function getSentence($seid, $wordlc,$mode) {
 	}
 	$sql2 = 'SELECT TiText, TiTextLC, TiWordCount, TiIsNotWord FROM textitems WHERE TiSeID in (' . $seidlist . ') and TiTxID=' . $txtid . ' order by TiOrder asc, TiWordCount desc';
 	$res2 = mysql_query($sql2);		
-	if ($res2 == FALSE) die("<p>Invalid query: $sql2</p>");
+	if ($res2 == FALSE) die("Invalid query: $sql2");
 	$sejs=''; 
 	$se='';
 	$notfound = 1;
@@ -1182,7 +1169,7 @@ function get20Sentences($lang, $wordlc, $jsctlname, $mode) {
 	$r = '<p class="bigger"><b>Sentences with "' . tohtml($wordlc) . '"</b></p><p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy sentence into above term)</p>';
 	$sql = 'SELECT DISTINCT SeID, SeText FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	$r .= '<p>';
 	$last = '';
 	while ($dsatz = mysql_fetch_assoc($res)) {
@@ -1312,10 +1299,9 @@ function checkText($text, $lid) {
 
 	$sql = "select * from languages where LgID=" . $lid;
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num == 0 ) die("<p>No results: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	$dsatz = mysql_fetch_assoc($res);
+	if ($dsatz == FALSE) die("No results: $sql");
 	$removeSpaces = $dsatz['LgRemoveSpaces'];
 	echodebug($removeSpaces,'$removeSpaces');
 	$splitEachChar = $dsatz['LgSplitEachChar'];
@@ -1460,10 +1446,9 @@ function splitText($text, $lid, $id) {
 
 	$sql = "select * from languages where LgID=" . $lid;
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num == 0 ) die("<p>No results: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	$dsatz = mysql_fetch_assoc($res);
+	if ($dsatz == FALSE) die("No results: $sql");
 	$removeSpaces = $dsatz['LgRemoveSpaces'];
 	$splitEachChar = $dsatz['LgSplitEachChar'];
 	$satzende = $dsatz['LgRegexpSplitSentences'];
@@ -1720,18 +1705,15 @@ function check_update_db() {
 		// Rebuild Text Cache if cache tables new
 		$sql = "select TxID, TxLgID from texts";
 		$res = mysql_query($sql);		
-		if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-		$num = mysql_num_rows($res);
-		if ($num != 0 ) {
-			while ($dsatz = mysql_fetch_assoc($res)) {
-				$id = $dsatz['TxID'];
-				runsql('delete from sentences where SeTxID = ' . $id, "");
-				runsql('delete from textitems where TiTxID = ' . $id, "");
-				adjust_autoincr('sentences','SeID');
-				adjust_autoincr('textitems','TiID');
-				splitText(
-					get_first_value('select TxText as value from texts where TxID = ' . $id), $dsatz['TxLgID'], $id );
-			}
+		if ($res == FALSE) die("Invalid Query: $sql");
+		while ($dsatz = mysql_fetch_assoc($res)) {
+			$id = $dsatz['TxID'];
+			runsql('delete from sentences where SeTxID = ' . $id, "");
+			runsql('delete from textitems where TiTxID = ' . $id, "");
+			adjust_autoincr('sentences','SeID');
+			adjust_autoincr('textitems','TiID');
+			splitText(
+				get_first_value('select TxText as value from texts where TxID = ' . $id), $dsatz['TxLgID'], $id );
 		}
 		mysql_free_result($res);
 	}
@@ -1740,9 +1722,9 @@ function check_update_db() {
 	
 	$res = mysql_query("select StValue as value from settings where StKey = 'dbversion'");
 	if (mysql_errno() != 0) die('There is something wrong with your database ' . $dbname . '. Please reinstall.');
-	$num = mysql_num_rows($res);
 	$dbversion = '';
-	if ($num != 0 ) {
+	$dsatz = mysql_fetch_assoc($res);	
+	if ($dsatz) {
 		$dsatz = mysql_fetch_assoc($res);
 		$dbversion = $dsatz["value"];
 	}

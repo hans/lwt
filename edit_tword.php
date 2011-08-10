@@ -93,20 +93,22 @@ else {  // if (! isset($_REQUEST['op']))
 
 	$wid = getreq('wid');
 	
-	if ($wid == '') die("<p>Error: Term ID missing</p>");
+	if ($wid == '') die("Error: Term ID missing");
 	
 	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num == 0 ) die("<p>Error: No results</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	$dsatz = mysql_fetch_assoc($res);
-	$wort = $dsatz['WoText'];
-	$lang = $dsatz['WoLgID'];
-	$transl = repl_tab_nl($dsatz['WoTranslation']);
-	$sentence = repl_tab_nl($dsatz['WoSentence']);
-	$rom = $dsatz['WoRomanization'];
-	$status = $dsatz['WoStatus'];
+	if ( $dsatz ) {
+		$wort = $dsatz['WoText'];
+		$lang = $dsatz['WoLgID'];
+		$transl = repl_tab_nl($dsatz['WoTranslation']);
+		$sentence = repl_tab_nl($dsatz['WoSentence']);
+		$rom = $dsatz['WoRomanization'];
+		$status = $dsatz['WoStatus'];
+	} else {
+		die("Error: No results");
+	}
 	mysql_free_result($res);
 	
 	$wortlc =	mb_strtolower($wort, 'UTF-8');

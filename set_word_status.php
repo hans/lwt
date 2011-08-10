@@ -26,13 +26,14 @@ $status = $_REQUEST['status'];
 
 $sql = 'SELECT WoText, WoTranslation, WoRomanization FROM words where WoID = ' . $wid;
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-$num = mysql_num_rows($res);
-if ($num != 0 ) {
-	$dsatz = mysql_fetch_assoc($res);
+if ($res == FALSE) die("Invalid Query: $sql");
+$dsatz = mysql_fetch_assoc($res);
+if ($dsatz) {
 	$word = $dsatz['WoText'];
 	$trans = repl_tab_nl($dsatz['WoTranslation']);
 	$roman = $dsatz['WoRomanization'];
+} else {
+	die("Error: No results"); 
 }
 mysql_free_result($res);
 

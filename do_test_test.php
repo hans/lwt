@@ -67,7 +67,7 @@ if ($num > 0) {
 	
 	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgGoogleTTSURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+	if ($res == FALSE) die("Invalid query: $sql");
 	$dsatz = mysql_fetch_assoc($res);
 	$wb1 = isset($dsatz['LgDict1URI']) ? $dsatz['LgDict1URI'] : "";
 	$wb2 = isset($dsatz['LgDict2URI']) ? $dsatz['LgDict2URI'] : "";
@@ -84,10 +84,10 @@ if ($num > 0) {
 	$sql = 'SELECT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, (ifnull(WoSentence,\'\') not like concat(\'%{\',WoText,\'}%\')) as notvalid, WoStatus, DATEDIFF( NOW( ), WoStatusChanged ) AS Days, ' . getsqlscoreformula (2) . ' AS Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' ' . $donttestthis . ' order by 10, rand() limit 1';
 	// echo $sql;
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num != 0 ) {
-		$dsatz = mysql_fetch_assoc($res);
+	if ($res == FALSE) die("Invalid query: $sql");
+	$dsatz = mysql_fetch_assoc($res);
+	if ( $dsatz ) {
+		$num = 1;
 		$wid = $dsatz['WoID'];
 		$word = $dsatz['WoText'];
 		$wordlc = $dsatz['WoTextLC'];
@@ -98,6 +98,8 @@ if ($num > 0) {
 		$status = $dsatz['WoStatus'];
 		$days = $dsatz['Days'];
 		$score = $dsatz['Score'];
+	} else {
+		$num = 0;
 	}
 	mysql_free_result($res);
 
@@ -140,26 +142,25 @@ if ($num == 0) {  // nothing found
 			// echo "( $pass / $notvalid ) ";
 			$sql = 'SELECT DISTINCT SeID FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
 			$res = mysql_query($sql);		
-			if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-			$num = mysql_num_rows($res);
-			if ($num != 0 ) {
-				$dsatz = mysql_fetch_assoc($res);
+			if ($res == FALSE) die("Invalid query: $sql");
+			$dsatz = mysql_fetch_assoc($res);
+			if ( $dsatz ) {
+				$num = 1;
 				$seid = $dsatz['SeID'];
 				if (AreUnknownWordsInSentence ($seid)) {
 					// echo ' UNKN ';
 					$sentexcl = ' AND SeID != ' . $seid . ' ';
 					$num = 0;
 					// not yet found, $num == 0
-				}
-				else {
+				} else {
 					// echo ' OK ';
 					$sent = getSentence($seid, $wordlc,	(int) getSettingWithDefault('set-test-sentence-count'));
 					$sent = $sent[1];
 					$pass = 3;
 					// found, $num == 1
 				}
-			} 
-			else {
+			} else {
+				$num = 0;
 				$pass = 3;
 				// no sent. take term sent. $num == 0
 			}

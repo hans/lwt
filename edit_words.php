@@ -134,35 +134,32 @@ if (isset($_REQUEST['allaction'])) {
 		}
 		$cnt=0;
 		$res = mysql_query($sql);
-		if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-		$num = mysql_num_rows($res);
-		if ($num != 0 ) {
-			while ($dsatz = mysql_fetch_assoc($res)) {
-				$id = $dsatz['WoID'];
-				$message='0';
-				if ($allaction == 'spl1all' ) {
-					$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW() where WoStatus in (1,2,3,4) and WoID = ' . $id, "");
-				}
-				elseif ($allaction == 'smi1all' ) {
-					$message = runsql('update words set WoStatus=WoStatus-1, WoStatusChanged = NOW() where WoStatus in (2,3,4,5) and WoID = ' . $id, "");
-				}
-				elseif ($allaction == 's5all' ) {
-					$message = runsql('update words set WoStatus=5, WoStatusChanged = NOW() where WoID = ' . $id, "");
-				}
-				elseif ($allaction == 's1all' ) {
-					$message = runsql('update words set WoStatus=1, WoStatusChanged = NOW() where WoID = ' . $id, "");
-				}
-				elseif ($allaction == 's99all' ) {
-					$message = runsql('update words set WoStatus=99, WoStatusChanged = NOW() where WoID = ' . $id, "");
-				}
-				elseif ($allaction == 's98all' ) {
-					$message = runsql('update words set WoStatus=98, WoStatusChanged = NOW() where WoID = ' . $id, "");
-				}
-				elseif ($allaction == 'todayall' ) {
-					$message = runsql('update words set WoStatusChanged = NOW() where WoID = ' . $id, "");
-				}
-				$cnt += (int)$message;
+		if ($res == FALSE) die("Invalid Query: $sql");
+		while ($dsatz = mysql_fetch_assoc($res)) {
+			$id = $dsatz['WoID'];
+			$message='0';
+			if ($allaction == 'spl1all' ) {
+				$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW() where WoStatus in (1,2,3,4) and WoID = ' . $id, "");
 			}
+			elseif ($allaction == 'smi1all' ) {
+				$message = runsql('update words set WoStatus=WoStatus-1, WoStatusChanged = NOW() where WoStatus in (2,3,4,5) and WoID = ' . $id, "");
+			}
+			elseif ($allaction == 's5all' ) {
+				$message = runsql('update words set WoStatus=5, WoStatusChanged = NOW() where WoID = ' . $id, "");
+			}
+			elseif ($allaction == 's1all' ) {
+				$message = runsql('update words set WoStatus=1, WoStatusChanged = NOW() where WoID = ' . $id, "");
+			}
+			elseif ($allaction == 's99all' ) {
+				$message = runsql('update words set WoStatus=99, WoStatusChanged = NOW() where WoID = ' . $id, "");
+			}
+			elseif ($allaction == 's98all' ) {
+				$message = runsql('update words set WoStatus=98, WoStatusChanged = NOW() where WoID = ' . $id, "");
+			}
+			elseif ($allaction == 'todayall' ) {
+				$message = runsql('update words set WoStatusChanged = NOW() where WoID = ' . $id, "");
+			}
+			$cnt += (int)$message;
 		}
 		mysql_free_result($res);
 		$message = "Status changed in $cnt Terms";
@@ -298,7 +295,7 @@ elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from words, languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid Query: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($dsatz = mysql_fetch_assoc($res)) {
 		
 		$wordlc = $dsatz['WoTextLC'];
@@ -476,7 +473,7 @@ if ($currenttext == '') {
 }
 
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {
 	$days = $dsatz['Days'];
 	if ( $dsatz['WoStatus'] > 5 ) $days="-";

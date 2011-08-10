@@ -87,13 +87,10 @@ if (isset($_REQUEST['markaction'])) {
 					$count = 0;
 					$sql = "select WoID, WoTextLC, min(TiSeID) as SeID from words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(TiSeID)";
 					$res = mysql_query($sql);		
-					if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-					$num = mysql_num_rows($res);
-					if ($num != 0 ) {
-						while ($dsatz = mysql_fetch_assoc($res)) {
-							$sent = getSentence($dsatz['SeID'], $dsatz['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
-							$count += runsql('update words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $dsatz['WoID'], '');
-						}
+					if ($res == FALSE) die("Invalid Query: $sql");
+					while ($dsatz = mysql_fetch_assoc($res)) {
+						$sent = getSentence($dsatz['SeID'], $dsatz['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
+						$count += runsql('update words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $dsatz['WoID'], '');
 					}
 					mysql_free_result($res);
 					$message = 'Term Sentences set from Text(s): ' . $count;
@@ -103,21 +100,18 @@ if (isset($_REQUEST['markaction'])) {
 					$count = 0;
 					$sql = "select TxID, TxLgID from texts where TxID in " . $list;
 					$res = mysql_query($sql);		
-					if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-					$num = mysql_num_rows($res);
-					if ($num != 0 ) {
-						while ($dsatz = mysql_fetch_assoc($res)) {
-							$id = $dsatz['TxID'];
-							$message2 = runsql('delete from sentences where SeTxID = ' . $id, "Sentences deleted");
-							$message3 = runsql('delete from textitems where TiTxID = ' . $id, "Text items deleted");
-							adjust_autoincr('sentences','SeID');
-							adjust_autoincr('textitems','TiID');
-							splitText(
-								get_first_value(
-									'select TxText as value from texts where TxID = ' . $id), 
-									$dsatz['TxLgID'], $id );
-							$count++;
-						}
+					if ($res == FALSE) die("Invalid Query: $sql");
+					while ($dsatz = mysql_fetch_assoc($res)) {
+						$id = $dsatz['TxID'];
+						$message2 = runsql('delete from sentences where SeTxID = ' . $id, "Sentences deleted");
+						$message3 = runsql('delete from textitems where TiTxID = ' . $id, "Text items deleted");
+						adjust_autoincr('sentences','SeID');
+						adjust_autoincr('textitems','TiID');
+						splitText(
+							get_first_value(
+								'select TxText as value from texts where TxID = ' . $id), 
+								$dsatz['TxLgID'], $id );
+						$count++;
 					}
 					mysql_free_result($res);
 					$message = 'Text(s) re-parsed: ' . $count;
@@ -290,7 +284,7 @@ elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($dsatz = mysql_fetch_assoc($res)) {
 
 		?>
@@ -460,7 +454,7 @@ Marked Texts:&nbsp;
 $sql = 'select TxID, TxTitle, LgName, TxAudioURI from texts, languages where LgID=TxLgID ' . (($currentlang != '') ? (' and TxLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and TxTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '') . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
 while ($dsatz = mysql_fetch_assoc($res)) {
 	if ($showCounts) {

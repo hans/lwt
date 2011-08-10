@@ -42,7 +42,7 @@ pagestart('My Statistics',true);
 
 $sql = 'SELECT LgID, LgName FROM languages ORDER BY LgName';
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid Query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {
 	$lang = $dsatz['LgID'];
 	$s1 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 1');
@@ -128,7 +128,7 @@ echo '</tr>';
 <?php
 $sql = 'SELECT LgID, LgName FROM languages ORDER BY LgName';
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid Query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {
 	$lang = $dsatz['LgID'];
 	echo '<tr>';

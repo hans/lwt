@@ -42,7 +42,7 @@ var context = window.parent.frames['l'].document;
 $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
 
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 $hideuntil = -1;
 $hidetag = "removeClass('hide');";
 

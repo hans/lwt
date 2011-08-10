@@ -40,14 +40,11 @@ if (isset($_REQUEST['refresh'])) {
 	adjust_autoincr('textitems','TiID');
 	$sql = "select TxID, TxText from texts where TxLgID = " . $id . " order by TxID";
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num > 0 ) {
-		while ($dsatz = mysql_fetch_assoc($res)) {
-			$txtid = $dsatz["TxID"];
-			$txttxt = $dsatz["TxText"];
-			splitText($txttxt, $id, $txtid );
-		}
+	if ($res == FALSE) die("Invalid Query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		$txtid = $dsatz["TxID"];
+		$txttxt = $dsatz["TxText"];
+		splitText($txttxt, $id, $txtid );
 	}
 	mysql_free_result($res);
 	$message = $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from sentences where SeLgID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from textitems where TiLgID = ' . $id);
@@ -187,7 +184,7 @@ elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from languages where LgID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid Query: $sql</p>");
+	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($dsatz = mysql_fetch_assoc($res)) {
 	
 		?>
@@ -294,7 +291,7 @@ if ($recno==0) {
 
 $sql = 'select LgID, LgName from languages order by LgName';
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid Query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {
 	$textcount = get_first_value('select count(TxID) as value from texts where TxLgID=' . $dsatz['LgID']);
 	$archtextcount = get_first_value('select count(AtID) as value from archivedtexts where AtLgID=' . $dsatz['LgID']);

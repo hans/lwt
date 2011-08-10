@@ -138,15 +138,13 @@ else {  // if (! isset($_REQUEST['op']))
 	if ($wid == '') {	
 		$sql = 'select TiText, TiLgID from textitems where TiTxID = ' . $_REQUEST['tid'] . ' and TiWordCount = 1 and TiOrder = ' . $_REQUEST['ord'];
 		$res = mysql_query($sql);		
-		if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-		$num = mysql_num_rows($res);
-		if ($num != 0 ) {
-			$dsatz = mysql_fetch_assoc($res);
+		if ($res == FALSE) die("Invalid Query: $sql");
+		$dsatz = mysql_fetch_assoc($res);
+		if ($dsatz) {
 			$wort = $dsatz['TiText'];
 			$lang = $dsatz['TiLgID'];
-			// echo $wort . ' ' . $lang;
 		} else {
-			die("<p>Error: No results</p>");
+			die("Error: No results");
 		}
 		mysql_free_result($res);
 		
@@ -158,14 +156,13 @@ else {  // if (! isset($_REQUEST['op']))
 
 		$sql = 'select WoText, WoLgID from words where WoID = ' . $wid;
 		$res = mysql_query($sql);		
-		if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-		$num = mysql_num_rows($res);
-		if ($num != 0 ) {
-			$dsatz = mysql_fetch_assoc($res);
+		if ($res == FALSE) die("Invalid Query: $sql");
+		$dsatz = mysql_fetch_assoc($res);
+		if ( $dsatz ) {
 			$wort = $dsatz['WoText'];
 			$lang = $dsatz['WoLgID'];
 		} else {
-			die("<p>Error: No results</p>");
+			die("Error: No results");
 		}
 		mysql_free_result($res);
 		$wortlc =	mb_strtolower($wort, 'UTF-8');
@@ -234,7 +231,7 @@ else {  // if (! isset($_REQUEST['op']))
 		
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
 		$res = mysql_query($sql);		
-		if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+		if ($res == FALSE) die("Invalid Query: $sql");
 		if ($dsatz = mysql_fetch_assoc($res)) {
 			
 			$status = $dsatz['WoStatus'];

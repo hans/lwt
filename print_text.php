@@ -58,7 +58,7 @@ $whstatus = ' and (' . makeStatusCondition('WoStatus', $status) . ') ';
 
 $sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 $dsatz = mysql_fetch_assoc($res);
 $titel = $dsatz['TxTitle'];
 $sprid = $dsatz['TxLgID'];
@@ -66,7 +66,7 @@ mysql_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces from languages where LgID = ' . $sprid;
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 $dsatz = mysql_fetch_assoc($res);
 $textsize = $dsatz['LgTextSize'];
 $removeSpaces = $dsatz['LgRemoveSpaces'];
@@ -124,7 +124,7 @@ $saverom = '';
 $until = 0;
 
 $res = mysql_query($sql);		
-if ($res == FALSE) die("<p>Invalid query: $sql</p>");
+if ($res == FALSE) die("Invalid Query: $sql");
 
 while ($dsatz = mysql_fetch_assoc($res)) {
 

@@ -29,15 +29,14 @@ $t = stripslashes($_REQUEST["t"]);
 if ( $x == 1 ) {
 	$sql = 'select SeText, LgGoogleTranslateURI from languages, sentences, textitems where TiSeID = SeID and TiLgID = LgID and TiTxID = ' . $t . ' and TiOrder = ' . $i;
 	$res = mysql_query($sql);		
-	if ($res == FALSE) die("<p>Invalid query: $sql</p>");
-	$num = mysql_num_rows($res);
-	if ($num != 0 ) {
-		$dsatz = mysql_fetch_assoc($res);
+	if ($res == FALSE) die("Invalid Query: $sql");
+	$dsatz = mysql_fetch_assoc($res);
+	if ($dsatz) {
 		$satz = $dsatz['SeText'];
 		$trans = isset($dsatz['LgGoogleTranslateURI']) ? $dsatz['LgGoogleTranslateURI'] : "";
 		if(substr($trans,0,1) == '*') $trans = substr($trans,1);
 	} else {
-		die("<p>Error: No results</p>"); 
+		die("Error: No results: $sql"); 
 	}
 	mysql_free_result($res);
 	if ($trans != '') {
