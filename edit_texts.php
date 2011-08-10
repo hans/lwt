@@ -6,6 +6,27 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: edit_texts.php?....
+      ... markaction=[opcode] ... do actions on marked texts
+      ... del=[textid] ... do delete
+      ... arch=[textid] ... do archive
+      ... op=Check ... do check
+      ... op=Save ... do insert new 
+      ... op=Change ... do update
+      ... op=Save+and+Open ... do insert new and open 
+      ... op=Change+and+Open ... do update and open
+      ... new=1 ... display new text screen 
+      ... chg=[textid] ... display edit screen 
+      ... filterlang=[langid] ... language filter 
+      ... sort=[sortcode] ... sort 
+      ... page=[pageno] ... page  
+      ... query=[titlefilter] ... title filter   
+Manage active texts
 ***************************************************************/
 
 include "connect.inc.php";
@@ -315,7 +336,7 @@ elseif (isset($_REQUEST['chg'])) {
 
 }
 
-// DSP
+// DISPLAY
 
 else {
 

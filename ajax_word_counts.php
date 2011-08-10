@@ -6,6 +6,12 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+Developed by J. Pierre in 2011
+***************************************************************/
+
+/**************************************************************
+Call: ajax_word_counts.php?id=[textid]
+Calculating Word Counts, Ajax call in edit_texts.php
 ***************************************************************/
 
 include "connect.inc.php";

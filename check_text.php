@@ -6,6 +6,14 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: check_text.php?...
+			op=Check ... do the check
+Check (parse & split) a Text (into sentences/words)
 ***************************************************************/
 
 include "connect.inc.php";
@@ -13,8 +21,6 @@ include "settings.inc.php";
 include "utilities.inc.php";
 
 pagestart('Check a Text',true);
-
-// Check
 
 if (isset($_REQUEST['op'])) {
 	
@@ -56,4 +62,4 @@ echo get_languages_selectoptions(getSetting('currentlanguage'),'[Choose...]');
 
 pageend();
 
-?> 
+?>

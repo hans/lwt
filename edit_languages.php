@@ -6,6 +6,19 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: edit_languages.php?....
+      ... refresh=[langid] ... reparse all texts in lang
+      ... del=[langid] ... do delete
+      ... op=Save ... do insert new 
+      ... op=Change ... do update 
+      ... new=1 ... display new lang. screen 
+      ... chg=[langid] ... display edit screen 
+Manage languages
 ***************************************************************/
 
 include "connect.inc.php";
@@ -244,7 +257,7 @@ elseif (isset($_REQUEST['chg'])) {
 	mysql_free_result($res);
 }
 
-// DSP
+// DISPLAY
 
 else {
 	

@@ -6,6 +6,13 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: index.php
+LWT Start Screen / Main Menu / Home
 ***************************************************************/
 
 if (! file_exists ('connect.inc.php')) die ('Fatal Error, cannot find file: "connect.inc.php". Please rename the correct file "connect_[servertype].inc.php" to "connect.inc.php" ([servertype] is the name of your server: xampp, mamp, or easyphp). Please read the documentation: http://lwt.sf.net');

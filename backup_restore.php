@@ -6,6 +6,15 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: backup_restore.php?....
+      ... restore=xxx ... do restore 
+      ... backup=xxx ... do backup 
+Backup/Restore LWT Database
 ***************************************************************/
 
 include "connect.inc.php";
@@ -136,9 +145,8 @@ If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restar
 </table>
 </form>
 
-
 <?php
 
 pageend();
 
-?> 
+?>

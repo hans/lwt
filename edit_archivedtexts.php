@@ -6,13 +6,27 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: edit_archivedtexts.php?....
+      ... markaction=[opcode] ... do actions on marked texts
+      ... del=[textid] ... do delete
+      ... unarch=[textid] ... do unarchive
+      ... op=Change ... do update
+      ... chg=[textid] ... display edit screen 
+      ... filterlang=[langid] ... language filter 
+      ... sort=[sortcode] ... sort 
+      ... page=[pageno] ... page  
+      ... query=[titlefilter] ... title filter   
+Manage archived texts
 ***************************************************************/
 
 include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
-
-// Page, Sort, etc. 
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentarchivesort','1',1);
@@ -172,7 +186,7 @@ if (isset($_REQUEST['chg'])) {
 
 }
 
-// DSP
+// DISPLAY
 
 else {
 
@@ -299,4 +313,4 @@ mysql_free_result($res);
 
 pageend();
 
-?> 
+?>

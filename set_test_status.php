@@ -6,15 +6,19 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: set_test_status.php?wid=[wordid]&stchange=+1/-1
+      set_test_status.php?wid=[wordid]&status=1..5/98/99
+Change status of term while testing
 ***************************************************************/
 
 include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
-
-// set_test_status?wid=..&stchange=+1/-1
-// or 
-// set_test_status?wid=..&status=1..5/98/99
 
 $stchange = getreq('stchange');
 $status = getreq('status');
@@ -40,8 +44,8 @@ if ($stchange == '') {
 	
 }
 
-$wort = get_first_value("select WoText as value from words where WoID = " . $wid);
-pagestart("Term: " . $wort, false);
+$word = get_first_value("select WoText as value from words where WoID = " . $wid);
+pagestart("Term: " . $word, false);
 
 $m1 = runsql('update words set WoStatus = ' . 
 	$status . ', WoStatusChanged = NOW() where WoID = ' . $wid, 'Status changed');
@@ -67,5 +71,4 @@ window.parent.frames['l'].setTimeout('location.reload();', parseInt('<?php echo 
 
 pageend();
 
-?> 
-
+?>

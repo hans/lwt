@@ -6,6 +6,15 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: edit_tword.php?....
+      ... op=Change ... do update
+      ... wid=[wordid] ... display edit screen  
+Edit term while testing
 ***************************************************************/
 
 include "connect.inc.php";
@@ -82,8 +91,6 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 
 else {  // if (! isset($_REQUEST['op']))
 
-	// edit_tword.php?wid=..
-	
 	$wid = getreq('wid');
 	
 	if ($wid == '') die("<p>Error: Term ID missing</p>");

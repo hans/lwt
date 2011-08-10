@@ -6,6 +6,13 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: do_text_header.php?text=[textid]
+Show text header frame
 ***************************************************************/
 
 include "connect.inc.php";
@@ -46,8 +53,7 @@ $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 
 <?php
 
-///////////////////////// AUDIO /////////////////////////////
-
+// AUDIO PLAYER
 
 if ($audio != '') {
 	$playerskin = getSettingWithDefault('set-player-skin-name');
@@ -116,7 +122,7 @@ $(document).ready(function(){
 <?php
 } // if (isset($audio))
 
-///////////////////////// AUDIO /////////////////////////////
+// END AUDIO
 
 ?>
 </table>
@@ -124,4 +130,4 @@ $(document).ready(function(){
 
 pageend();
 
-?> 
+?>

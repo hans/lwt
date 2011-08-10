@@ -6,13 +6,18 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: delete_mword.php?wid=[wordid]&tid=[textid]
+Delete an expression 
 ***************************************************************/
 
 include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
-
-// delete_mword.php?wid=..&tid=..
 
 $showAll = getSetting('showallwords');
 $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
@@ -20,7 +25,7 @@ $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
 $word = get_first_value("select WoText as value from words where WoID = " . $wid);
-pagestart("Expression: " . $word, false);
+pagestart("Term: " . $word, false);
 $m1 = runsql('delete from words where WoID = ' . $wid, '');
 adjust_autoincr('words','WoID');
 
@@ -43,4 +48,4 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 
 pageend();
 
-?> 
+?>

@@ -6,13 +6,18 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: set_text_mode.php?text=[textid]&mode=0/1
+Change the text display mode
 ***************************************************************/
 
 include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php"; 
-
-// set_text_mode.php?mode=..(0/1)..&text=...
 
 $tid = getreq('text') + 0;
 $showAll = getreq('mode') + 0;
@@ -26,12 +31,14 @@ flush();
 
 <script type="text/javascript">
 //<![CDATA[
-var method = 1;  // 0 (jquery, deact.) or 1 (reload) -- jquery is too slow 
+var method = 1;  // 0 (jquery, deactivated, too slow) or 1 (reload) 
 if (method) window.parent.frames['l'].location.reload();
 else {
 var context = window.parent.frames['l'].document;
 <?php
-/* (jquery, deact.)
+/**************************************************************
+(jquery, deact.)
+
 $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
 
 $res = mysql_query($sql);		
@@ -87,7 +94,9 @@ while ($dsatz = mysql_fetch_assoc($res)) {  // MAIN LOOP
 	} // $dsatz['TiIsNotWord'] == 0  -- A TERM
 } // while ($dsatz = mysql_fetch_assoc($res))  -- MAIN LOOP
 mysql_free_result($res);
-(jquery, deact.) */
+
+(jquery, deact.) 
+***************************************************************/
 ?>
 }
 $('#waiting').html('<b>OK -- </b>');
@@ -101,8 +110,6 @@ if ($showAll == 1)
 else
 	echo '<b><i>Show All</i></b> is set to <b>OFF</b>.<br /><br />Multi-word terms now hide single words and shorter or overlapping multi-word terms. The creation and deletion of multi-word terms can be a bit slow in long texts.<br /><br />To  manipulate ALL terms, set <i>Show All</i> to ON.</p>';
 
-
 pageend();
 
-?> 
-
+?>

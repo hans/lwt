@@ -1,11 +1,15 @@
-// pgm.js
-
 /**************************************************************
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+ 
+/**************************************************************
+LWT Javascript functions
 ***************************************************************/
 
 var ol_textfont = '"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';
@@ -20,7 +24,9 @@ var ol_offsetx = -10;
 var ol_fgcolor = '#FFFFE8';
 var ol_closecolor = '#FFFFFF';
 
-// Helper functions for overlib 
+/**************************************************************
+Helper functions for overlib
+***************************************************************/
 
 function run_overlib_status_98(wblink1,wblink2,wblink3,wblink4,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
 {
@@ -108,57 +114,6 @@ function run_overlib_test(wblink1,wblink2,wblink3,wblink4,wid,txt,trans,roman,st
 	createTheDictLink(wblink3,txt,'GTr','') + 
 	createTheDictLink(wblink3,sent,'GTr','<br />Lookup Sentence:'),
 	CAPTION, 'Got it?');
-}
-
-function createTheDictUrl(u,w) {
-	var url = u.trim();
-	var trm = w.trim();
-	var r = 'trans.php?x=2&i=' + escape(u) + '&t=' + w;
-	return r;
-}
-
-function createTheDictLink(u,w,t,b) {
-	var url = u.trim();
-	var trm = w.trim();
-	var txt = t.trim();
-	var txtbefore = b.trim();
-	var r = '';
-	if (url != '' && txt != '') {
-		if(url.substr(0,8) == '*http://') {
-			r = ' ' + txtbefore + 
-			' <span class=\x22click\x22 onclick=\x22owin(\'' + createTheDictUrl(url.substring(1),escape_apostrophes(trm)) + '\');\x22>' + txt + '</span> ';
-		} 
-		else if (url.substr(0,7) == 'http://') {
-			r = ' ' + txtbefore + 
-			' <a href=\x22' + createTheDictUrl(url,trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
-		} 
-	}
-	return r;
-}
-
-function createSentLookupLink(torder,txid,url,txt) {
-	var url = url.trim();
-	var txt = txt.trim();
-	var r = '';
-	if (url != '' && txt != '') {
-		if(url.substr(0,8) == '*http://') {
-			r = 	' <span class=\x22click\x22 onclick=\x22owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');\x22>' + txt + '</span> ';
-		} 
-		else if (url.substr(0,7) == 'http://') {
-			r = ' <a href=\x22trans.php?x=1&i=' + torder + '&t=' + txid + '\x22 target=\x22ru\x22>' + txt + '</a> ';
-		} 
-	}
-	return r;
-}
-
-function escape_html_chars(s)
-{
-	return s.replace(/&/g,'%AMP%').replace(/</g,'&#060;').replace(/>/g,'&#062;').replace(/"/g,'&#034;').replace(/'/g,'&#039;').replace(/%AMP%/g,'&#038;').replace(/\x0d/g,'<br />');
-}
-
-function escape_apostrophes(s)
-{
-	return s.replace(/'/g,'\\\'');
 }
 
 function make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9) {
@@ -296,25 +251,9 @@ function make_overlib_link_ignore_word(txid,torder) {
 		'&amp;ord=' + torder + '\x22 target=\x22ro\x22>Ignore this term</a> ';
 }
 
-function make_tooltip(word,trans,roman,status) {
-	var nl = '\x0d';
-	var title = word;
-	if (title != '' ) title = '▶ ' + title;
-	if (roman != '') { 
-		if (title != '' ) title += nl;
-		title += '▶ ' + roman;
-	}
-	if (trans != '' && trans != '*') { 
-		if (title != '' ) title += nl;
-		title += '▶ ' + trans;
-	}
-	if (title != '' ) title += nl;
-	title += '▶ ' + getStatusName(status) + ' [' + 
-	getStatusAbbr(status) + ']';
-	return title;
-}
-
-/* ************************************************************ */
+/**************************************************************
+String extensions
+***************************************************************/
 
 String.prototype.rtrim = function () {
   return this.replace (/\s+$/, '');
@@ -327,6 +266,10 @@ String.prototype.ltrim = function () {
 String.prototype.trim = function (clist) {
   return this.ltrim().rtrim();
 };
+
+/**************************************************************
+Other JS utility functions
+***************************************************************/
 
 function getStatusName(status) {
 	return (STATUSES[status] ? STATUSES[status]['name'] : 'Unknown');
@@ -366,12 +309,81 @@ function translateWord2(url,wordctl) {
 	}
 }
 
+function make_tooltip(word,trans,roman,status) {
+	var nl = '\x0d';
+	var title = word;
+	if (title != '' ) title = '▶ ' + title;
+	if (roman != '') { 
+		if (title != '' ) title += nl;
+		title += '▶ ' + roman;
+	}
+	if (trans != '' && trans != '*') { 
+		if (title != '' ) title += nl;
+		title += '▶ ' + trans;
+	}
+	if (title != '' ) title += nl;
+	title += '▶ ' + getStatusName(status) + ' [' + 
+	getStatusAbbr(status) + ']';
+	return title;
+}
+
 function owin(url) {
 	window.open(
 		url, 
 		'dictwin', 
 		'width=600, height=400, scrollbars=yes, menubar=no, resizable=yes, status=no'
 	);
+}
+
+function createTheDictUrl(u,w) {
+	var url = u.trim();
+	var trm = w.trim();
+	var r = 'trans.php?x=2&i=' + escape(u) + '&t=' + w;
+	return r;
+}
+
+function createTheDictLink(u,w,t,b) {
+	var url = u.trim();
+	var trm = w.trim();
+	var txt = t.trim();
+	var txtbefore = b.trim();
+	var r = '';
+	if (url != '' && txt != '') {
+		if(url.substr(0,8) == '*http://') {
+			r = ' ' + txtbefore + 
+			' <span class=\x22click\x22 onclick=\x22owin(\'' + createTheDictUrl(url.substring(1),escape_apostrophes(trm)) + '\');\x22>' + txt + '</span> ';
+		} 
+		else if (url.substr(0,7) == 'http://') {
+			r = ' ' + txtbefore + 
+			' <a href=\x22' + createTheDictUrl(url,trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
+		} 
+	}
+	return r;
+}
+
+function createSentLookupLink(torder,txid,url,txt) {
+	var url = url.trim();
+	var txt = txt.trim();
+	var r = '';
+	if (url != '' && txt != '') {
+		if(url.substr(0,8) == '*http://') {
+			r = 	' <span class=\x22click\x22 onclick=\x22owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');\x22>' + txt + '</span> ';
+		} 
+		else if (url.substr(0,7) == 'http://') {
+			r = ' <a href=\x22trans.php?x=1&i=' + torder + '&t=' + txid + '\x22 target=\x22ru\x22>' + txt + '</a> ';
+		} 
+	}
+	return r;
+}
+
+function escape_html_chars(s)
+{
+	return s.replace(/&/g,'%AMP%').replace(/</g,'&#060;').replace(/>/g,'&#062;').replace(/"/g,'&#034;').replace(/'/g,'&#039;').replace(/%AMP%/g,'&#038;').replace(/\x0d/g,'<br />');
+}
+
+function escape_apostrophes(s)
+{
+	return s.replace(/'/g,'\\\'');
 }
 
 function selectToggle(toggle, form) {

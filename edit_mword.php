@@ -6,6 +6,17 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: edit_mword.php?....
+      ... op=Save ... do insert new 
+      ... op=Change ... do update
+      ... tid=[textid]&ord=[textpos]&wid=[wordid] ... edit  
+      ... tid=[textid]&ord=[textpos]&txt=[word] ... new or edit
+Edit/New Multi-word term (expression)
 ***************************************************************/
 
 include "connect.inc.php";
@@ -283,5 +294,4 @@ else {  // if (! isset($_REQUEST['op']))
 
 pageend();
 
-?> 
-
+?>

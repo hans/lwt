@@ -6,13 +6,18 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: all_words_wellknown.php?text=[textid]
+Setting all unknown words to Well Known (99)
 ***************************************************************/
 
 include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
-
-// all_words_wellknown.php?text=..
 
 $sprid = get_first_value("select TxLgID as value from texts where TxID = " . $_REQUEST['text']);
 
@@ -39,7 +44,6 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 mysql_free_result($res);
 
 echo "<p>OK, you know all " . $count . " word(s) well!</p>";
-// echo $javascript;
 
 ?>
 <script type="text/javascript">

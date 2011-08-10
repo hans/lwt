@@ -6,6 +6,16 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: do_test_test.php?type=[testtype]&lang=[langid]
+Call: do_test_test.php?type=[testtype]&text=[textid]
+Call: do_test_test.php?type=[testtype]&selection=1  
+			(SQL via $_SESSION['testsql'])
+Show test frame
 ***************************************************************/
 
 include "connect.inc.php";
@@ -158,6 +168,7 @@ if ($num == 0) {  // nothing found
 	}  // $nosent == FALSE
 
 	// No sentence found.
+
 	if ($num == 0 ) {
 		// take term sent. if valid
 		if ($notvalid) $sent = '{' . $word . '}';
@@ -205,6 +216,7 @@ if ($num == 0) {  // nothing found
 	echo $r;  // Show Sentence 
 	
 ?>
+
 </p></div>
 
 <script type="text/javascript">

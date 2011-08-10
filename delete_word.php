@@ -6,13 +6,18 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: delete_word.php?wid=[wordid]&tid=[textid]
+Delete a word
 ***************************************************************/
 
 include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
-
-// delete_word.php?wid=..&tid=..
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
@@ -38,4 +43,4 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 
 pageend();
 
-?> 
+?>

@@ -6,6 +6,13 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: do_text_text.php?text=[textid]
+Show text header frame
 ***************************************************************/
 
 include "connect.inc.php";
@@ -49,38 +56,56 @@ $(function(){
 	var textid='<?php echo $_REQUEST['text']; ?>';
 	
 	$('.word').each(function(i) {
-		this.title = make_tooltip($(this).text(), $(this).attr('data_trans'), $(this).attr('data_rom'), $(this).attr('data_status'));
+		this.title = make_tooltip($(this).text(), $(this).attr('data_trans'), 
+			$(this).attr('data_rom'), $(this).attr('data_status'));
 	});
 
 	$('.mword').each(function(i) {
-		if ($(this).attr('data_status') != '') this.title = make_tooltip($(this).attr('data_text'), $(this).attr('data_trans'), $(this).attr('data_rom'), $(this).attr('data_status'));
+		if ($(this).attr('data_status') != '') 
+			this.title = make_tooltip($(this).attr('data_text'), 
+			$(this).attr('data_trans'), $(this).attr('data_rom'), 
+			$(this).attr('data_status'));
 	});
 
 	$('.word').click(function() {
 		var status = $(this).attr('data_status');
 		if ( status < 1 ) {
-			run_overlib_status_unknown(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),$(this).attr('data_mw9'));
-			top.frames['ro'].location.href='edit_word.php?tid=' + textid + '&ord=' + $(this).attr('data_order') + '&wid=';
+			run_overlib_status_unknown(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),
+				textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_mw2'),
+				$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),
+				$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),
+				$(this).attr('data_mw9'));
+			top.frames['ro'].location.href='edit_word.php?tid=' + textid + '&ord=' + 
+				$(this).attr('data_order') + '&wid=';
 		}
 		else if ( status == 99 )
-			run_overlib_status_99(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),$(this).attr('data_mw9'));
+			run_overlib_status_99(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),
+				textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
+				$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
+				$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
+				$(this).attr('data_mw8'),$(this).attr('data_mw9'));
 		else if ( status == 98 )
-			run_overlib_status_98(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),$(this).attr('data_mw9'));
+			run_overlib_status_98(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),
+				textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
+				$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
+				$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
+				$(this).attr('data_mw8'),$(this).attr('data_mw9'));
 		else
-			run_overlib_status_1_to_5(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),$(this).attr('data_mw9'));
-
+			run_overlib_status_1_to_5(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),
+				textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,
+				$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
+				$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
+				$(this).attr('data_mw8'),$(this).attr('data_mw9'));
 		return false;
-
 	});
 	
 	$('.mword').click(function() {
 		var status = $(this).attr('data_status');
-		if (status != '') {
-			run_overlib_multiword(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),textid,$(this).attr('data_order'),$(this).attr('data_text'),$(this).attr('data_wid'),status,$(this).attr('data_code'));
-		}
-
+		if (status != '') 
+			run_overlib_multiword(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),textid,
+			$(this).attr('data_order'),$(this).attr('data_text'),$(this).attr('data_wid'),
+			status,$(this).attr('data_code'));
 		return false;
-
 	});
 
 });
@@ -88,7 +113,8 @@ $(function(){
 </script>
 <?php
 
-echo '<div id="thetext"><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">';
+echo '<div id="thetext"><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
+'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">';
 
 $sql = 'select TiWordCount as Code, TiText, TiTextLC, TiOrder, TiIsNotWord, WoID, WoText, WoTextLC, WoStatus, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder asc, TiWordCount desc';
 

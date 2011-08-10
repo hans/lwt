@@ -6,6 +6,26 @@ This applies worldwide.
 In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
+
+Developed by J. Pierre in 2011.
+***************************************************************/
+
+/**************************************************************
+Call: edit_words.php?....
+      ... markaction=[opcode] ... do actions on marked terms
+      ... allaction=[opcode] ... do actions on all terms
+      ... del=[wordid] ... do delete
+      ... op=Save ... do insert new 
+      ... op=Change ... do update
+      ... new=1&lang=[langid] ... display new term screen 
+      ... chg=[wordid] ... display edit screen 
+      ... filterlang=[langid] ... language filter 
+      ... sort=[sortcode] ... sort 
+      ... page=[pageno] ... page  
+      ... query=[termtextfilter] ... term text filter   
+      ... status=[statuscode] ... status filter   
+      ... text=[textid] ... text filter   
+Manage terms
 ***************************************************************/
 
 include "connect.inc.php";
@@ -333,7 +353,7 @@ elseif (isset($_REQUEST['chg'])) {
 	mysql_free_result($res);
 }
 
-// DSP
+// DISPLAY
 
 else {
 	
@@ -497,4 +517,4 @@ mysql_free_result($res);
 
 pageend();
 
-?> 
+?>
