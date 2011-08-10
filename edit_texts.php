@@ -170,6 +170,7 @@ elseif (isset($_REQUEST['op'])) {
 
 	if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000) {
 		$message = "Error: Text too long, must be below 65000 Bytes";
+		if ($no_pagestart) pagestart('My ' . getLanguage($currentlang) . ' Texts',true);
 	}
 
 	else {
