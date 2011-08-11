@@ -150,7 +150,7 @@ LWT Information / Help
 
       <dd>
         <ul>
-          <li>The current version is <b>1.0.3.2 (August 10 2011)</b>.
+          <li>The current version is <b>1.0.3.3 (August 11 2011)</b>.
           </li>
 
           <li>
@@ -469,25 +469,22 @@ Developed by J. Pierre in 2011.
           <li>Step 10: Run <i>C:\xampp\xampp-control.exe</i>. Start Apache and MySQL by clicking the start buttons. If the firewall asks whether to block, click "Do not block".
           </li>
 
-          <li>Step 11: Open your web browser and go to <a href="http://localhost" target="_blank">http://localhost</a>. Select your language, and you see (hopefully) "Welcome to XAMPP for Windows! Congratulations: You have successfully installed XAMPP on this system!"
+          <li>Step 11: LWT can now be started in your web browser, go to: <a href="http://localhost/lwt" target="_blank">http://localhost/lwt</a>. 
           </li>
 
-          <li>Step 12: Start phpMyAdmin (accessible in the left menu under "Tools" or go to <a href="http://localhost/phpmyadmin/" target="_blank">http://localhost/phpmyadmin/</a>). Select your language and click on "Import" (at the top).
-          </li>
-
-          <li>Step 13: Import the file <i>C:\xampp\htdocs\lwt\dbinstall.sql</i> (Character set is UTF-8) to create a new database <i>learning-with-texts</i>.
-          </li>
-
-          <li>Step 14: LWT can now be started in your web browser, go to: <a href="http://localhost/lwt" target="_blank">http://localhost/lwt</a>. Enjoy your language learning with LWT!
-          </li>
-
-          <li>Step 15: The local webserver will be stopped by clicking on "Stop" in <i>xampp-control.exe</i> (still running). You can now exit this program.
+          <li>Step 11: You may install the LWT demo database, or define the first language you want to learn.
             <br />
             <br />
           </li>
 
-          <li>If you want to use LWT again, just do step 10 and 14.
+          <li>If you want to use LWT again, just do step 10 and 11.
           </li>
+
+          <li>The local webserver will be stopped by clicking on "Stop" in <i>xampp-control.exe</i> (still running). You can now exit this program.
+            <br />
+            <br />
+          </li>
+
 
           <li>Uninstall: Just delete the folder: <i>C:\xampp</i>.
           </li>
@@ -504,6 +501,7 @@ Developed by J. Pierre in 2011.
           </li>
 
           <li>Watch the <a href="http://www.youtube.com/watch?v=Ajc2dWwVe9g" target="_blank">video</a> (made by <a href="http://www.youtube.com/user/TheFineApps" target="_blank">TheFineApps</a>):<br />
+          <b>Important:</b> The installation of the database via phpMyAdmin (in the video 4:23 ... 6:42) isn't anymore necessary,<br /> you can do this now within LWT.<br />
           <iframe width="640" height="510" src="http://www.youtube.com/embed/Ajc2dWwVe9g" frameborder="0" allowfullscreen></iframe><br /><br />
           </li>
 
@@ -534,21 +532,21 @@ Developed by J. Pierre in 2011.
           <li>Step 9: Start EasyPHP via the Windows Start Menu.
           </li>
 
-          <li>Step 10: Start phpMyAdmin (go to <a href="http://127.0.0.1:8888/home/mysql/" target="_blank">http://127.0.0.1:8888/home/mysql/</a>). Select your language and click on "Import" (at the top).
+          <li>Step 10: LWT can now be started in your web browser, go to: <a href="http://127.0.0.1:8888/lwt" target="_blank">http://127.0.0.1:8888/lwt</a>. 
           </li>
 
-          <li>Step 11: Import the file <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt\dbinstall.sql</i> (Character set is UTF-8) to create a new database <i>learning-with-texts</i>.
-          </li>
-
-          <li>Step 12: LWT can now be started in your web browser, go to: <a href="http://127.0.0.1:8888/lwt" target="_blank">http://127.0.0.1:8888/lwt</a>. Enjoy your language learning with LWT!
-          </li>
-
-          <li>Step 13: The local webserver will be stopped by clicking on "Stop" in EasyPHP menu (see icon near the clock ). You can now exit EasyPHP.
+          <li>Step 11: You may install the LWT demo database, or define the first language you want to learn. 
             <br />
             <br />
           </li>
 
-          <li>If you want to use LWT again, just do step 9 and 12.
+
+          <li>If you want to use LWT again, just do step 9 and 10.
+          </li>
+
+          <li>The local webserver will be stopped by clicking on "Stop" in EasyPHP menu (see icon near the clock). You can now exit EasyPHP.
+            <br />
+            <br />
           </li>
 
           <li>Uninstall: Just run the EasyPHP Uninstaller, afterwards delete the EasyPHP directory below <i>C:\Program Files</i>.
@@ -578,9 +576,9 @@ Developed by J. Pierre in 2011.
           <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
           </li>
 
-          <li>Step 3: Copy everything (incl. sub-directories) you unpacked - but NOT the "media" directory - to <i>C:\xampp\htdocs\lwt</i>.
+          <li>Step 3: Copy everything (incl. sub-directories) you unpacked to <i>C:\xampp\htdocs\lwt</i>.
             <br />
-            You must keep:
+            You must keep (those are <b>not</b> included in the distributed package):
             <ul>
 							<li>the database connection parameters <i>C:\xampp\htdocs\lwt\connect.inc.php</i> (you created this by renaming, see installation) and</li>
 							<li>the whole media sub-directory <i>C:\xampp\htdocs\lwt\media</i> (contains your MP3 audio files).</li>
@@ -604,9 +602,9 @@ Developed by J. Pierre in 2011.
           <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
           </li>
 
-          <li>Step 3: Copy everything (incl. sub-directories) you unpacked - but NOT the "media" directory - to <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt</i>.
+          <li>Step 3: Copy everything (incl. sub-directories) you unpacked to <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt</i>.
             <br />
-            You must keep:
+            You must keep (those are <b>not</b> included in the distributed package):
             <ul>
 							<li>the database connection parameters <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt\connect.inc.php</i> (you created this by renaming, see installation) and</li>
 							<li>the whole media sub-directory <i>C:\Program Files\EasyPHP-5.x.y.z\www\lwt\media</i> (contains your MP3 audio files).</li>
@@ -636,13 +634,13 @@ Developed by J. Pierre in 2011.
             <br />
           </li>
 
-          <li>Step 1: Got to <a href="http://mamp.info/en/index.html" target="_blank">http://mamp.info/en/index.html</a>.
+          <li>Step 1: Go to <a href="http://mamp.info/en/index.html" target="_blank">http://mamp.info/en/index.html</a>.
           </li>
 
-          <li>Step 2: Download the zipped DMG Image (currently MAMP_MAMP_PRO_1.9.6.1.dmg.zip, 200 MB).
+          <li>Step 2: Download the zipped DMG Image (currently MAMP_MAMP_PRO_2.0.1.zip, 125 MB).
           </li>
 
-          <li>Step 3: Unzip the zipped DMG Image, open the DMG image, accept the license, and drag &amp; drop the MAMP folder (not the MAMP PRO folder) to your Applications folder: about 4000 objects will be copied.
+          <li>Step 3: Unzip the zipped DMG Image, choose the 32 or 64 bit architecture (modern Macs: 64 bit) folder, and install MAMP.pkg, accept the license, on the Installation Type panel click on "Customize", deselect "MAMP PRO", then click Install.
           </li>
 
           <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
@@ -660,25 +658,21 @@ Developed by J. Pierre in 2011.
           <li>Step 8: Open <i>MAMP.app</i> in <i>/Applications/MAMP</i>. Accept the messages from the firewall. Apache and MySQL start automatically.
           </li>
 
-          <li>Step 9: Open your web browser and go to <a href="http://localhost:8888/MAMP/" target="_blank">http://localhost:8888/MAMP/</a>. You see (hopefully) "Welcome to MAMP. If you can see this page, MAMP is installed on your Mac and everything is working!"
+          <li>Step 9: LWT can now be started in your web browser, go to: <a href="http://localhost:8888/lwt" target="_blank">http://localhost:8888/lwt</a>.
           </li>
 
-          <li>Step 10: Start phpMyAdmin: go to <a href="http://localhost:8888/phpMyAdmin/" target="_blank">http://localhost:8888/phpMyAdmin/</a> and click on "Import" (at the top).
-          </li>
-
-          <li>Step 11: Import the file <i>/Applications/MAMP/htdocs/lwt/dbinstall.sql</i> (Character set is UTF-8) to create a new database <i>learning-with-texts</i>.
-          </li>
-
-          <li>Step 12: LWT can now be started in your web browser, go to: <a href="http://localhost:8888/lwt" target="_blank">http://localhost:8888/lwt</a>. Enjoy your language learning with LWT!
-          </li>
-
-          <li>Step 13: The local webserver (MAMP) will be automatically stopped by quitting the MAMP application.
+          <li>Step 10: You may install the LWT demo database, or define the first language you want to learn. 
             <br />
             <br />
           </li>
 
-          <li>If you want to use LWT again, just do step 8 and 12.
+          <li>If you want to use LWT again, just do step 8 and 9.
           </li>
+          <li>The local webserver (MAMP) will be automatically stopped by quitting the MAMP application.
+           <br />
+           <br />
+          </li>
+
 
           <li>Uninstall: Just delete the folder <i>/Applications/MAMP</i>.
           </li>
@@ -739,25 +733,18 @@ Developed by J. Pierre in 2011.
           <li>Step 11: Please ensure that "Web Sharing" is switched off - see "System Preferences" - "Sharing" - "Web Sharing". Open <i>XAMPP Control.app</i> in <i>/Applications/XAMPP</i>. Accept the warning. Click on Apache "Start" and MySQL "Start" (your password must be entered).
           </li>
 
-          <li>Step 12: Open your web browser and go to <a href="http://localhost" target="_blank">http://localhost</a>. Select your language, and you see (hopefully) "Welcome to XAMPP for Mac OS X! Congratulations: You have successfully installed XAMPP on this system!"
-          </li>
-
-          <li>Step 13: Start phpMyAdmin (accessible in the left menu under "Tools" or go to <a href="http://localhost/phpmyadmin" target="_blank">http://localhost/phpmyadmin</a>). Select your language and click on "Import" (at the top).
-          </li>
-
-          <li>Step 14: Import the file <i>/Users/[username]/Sites/lwt/dbinstall.sql</i> (Character set is UTF-8) to create a new database <i>learning-with-texts</i>.
-          </li>
-
-          <li>Step 15: LWT can now be started: http://localhome/~[username]/lwt. If your username is "john", then the Uniform Resource Identifier (URI) is http://localhost/~john/lwt/. Enjoy your language learning with LWT! (If you don't know how to enter ~, just copy it from here and paste it.)
-          </li>
-
-          <li>Step 16: The local webserver will be stopped by clicking on "Stop" in <i>XAMPP Control.app</i> (still running, look into your dock). You can now quit the program.
+          <li>Step 12: LWT can now be started: http://localhome/~[username]/lwt. If your username is "john", then the Uniform Resource Identifier (URI) is http://localhost/~john/lwt/. (If you don't know how to enter ~, just copy it from here and paste it.)
             <br />
             <br />
           </li>
 
-          <li>If you want to use LWT again, just do step 11 and 15.
+          <li>If you want to use LWT again, just do step 11 and 12.
           </li>
+          <li>The local webserver will be stopped by clicking on "Stop" in <i>XAMPP Control.app</i> (still running, look into your dock). You can now quit the program.
+            <br />
+            <br />
+          </li>
+
 
           <li>Uninstall: Just delete the folders <i>/Applications/XAMPP</i> and <i>/Users/[username]/Sites/lwt</i>.
           </li>
@@ -786,9 +773,9 @@ Developed by J. Pierre in 2011.
           <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
           </li>
 
-          <li>Step 3: Copy everything (incl. sub-directories) you unpacked - but NOT the "media" directory - to <i>/Applications/MAMP/htdocs/lwt</i>.
+          <li>Step 3: Copy everything (incl. sub-directories) you unpacked to <i>/Applications/MAMP/htdocs/lwt</i>.
             <br />
-            You must keep:
+            You must keep (those are <b>not</b> included in the distributed package):
             <ul>
 							<li>the database connection parameters <i>/Applications/MAMP/htdocs/lwt/connect.inc.php</i> (you created this by renaming, see installation) and</li>
 							<li>the whole media sub-directory <i>/Applications/MAMP/htdocs/lwt/media</i> (contains your MP3 audio files).</li>
@@ -812,9 +799,9 @@ Developed by J. Pierre in 2011.
           <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
           </li>
 
-          <li>Step 3: Copy everything (incl. sub-directories) you unpacked - but NOT the "media" sub-directory - to <i>/Users/[username]/Sites/lwt</i>.
+          <li>Step 3: Copy everything (incl. sub-directories) you unpacked to <i>/Users/[username]/Sites/lwt</i>.
             <br />
-            You must keep:
+            You must keep (those are <b>not</b> included in the distributed package):
             <ul>
 							<li>the database connection parameters <i>/Users/[username]/Sites/lwt/connect.inc.php</i> (you created this by renaming, see installation) and</li>
 							<li>the whole media sub-directory <i>/Users/[username]/Sites/lwt/media</i> (contains your MP3 audio files).</li>
@@ -966,7 +953,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b><a name="howtolang" id="howtotext">New/Edit Text (with Check)</a></b>
             <br />
             <br />
-            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the media sub directory, see the examples. But DropBox is also possible. In the moment there is no possibility to import/upload an audio file. Just copy it to the media sub directory of your LWT installation. If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
+            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" sub directory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
             <br />
             <br />
             <img class="grayborder" src="img/05.png" alt="Image" />
@@ -1658,9 +1645,17 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
       <dd>
         <ul>
 
-        	<li>1.0.3.2 (August 10 2011): 
-        	Code cleanup and optimization, better code documentation.         	
-					<br /><br />
+        	<li>1.0.3.3 (August 11 2011): 
+        	Code cleanup and optimization, better code documentation. <br />
+        	Media directory is not anymore included, user has to create it if needed.
+        	The demo media are now all online.
+					<br />
+        	Demo database installation is now done within LWT (optional).
+					If the database is empty, a hint on the main screen is displayed either to install the demo db or to start with the definition of a language.
+					Backup/Restore now with more hints and an option to install the demo database.
+					<br />
+        	Documentation and screenshots updated.
+        	<br /><br />
         	</li>
 
         	<li>1.0.3 (August 09 2011): 

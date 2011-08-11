@@ -85,6 +85,8 @@ pagestart('Install LWT Demo Database',true);
 
 echo error_message_with_hide($message,1);
 
+$langcnt = get_first_value('select count(*) as value from languages');
+
 ?>
 <form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <table class="tab3" cellspacing="0" cellpadding="5">
@@ -92,7 +94,17 @@ echo error_message_with_hide($message,1);
 <th class="th1 center">Install Demo</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT demo database.<br /><b>Please be careful - the existent database will be overwritten!</b></p>
+The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT demo database.
+
+<?php 
+if ($langcnt > 0 ) { 
+	?>
+	<br /><b>Please be careful - the existent database will be overwritten!</b>
+	<?php 
+} 
+?>
+
+</p>
 <p class="right">&nbsp;<br />
 <input type="submit" name="install" value="Install LWT demo database" /></p>
 </td>
