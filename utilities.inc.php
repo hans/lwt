@@ -136,10 +136,20 @@ function pageend() {
 // -------------------------------------------------------------
 
 function selectmediapath($f) {
-	$r = '<br /> or choose a file in .../' . basename(getcwd()) . '/media:<br /><select name="Dir" onchange="{val=this.form.Dir.options[this.form.Dir.selectedIndex].value; if (val != \'\') this.form.' . $f . '.value = val; this.form.Dir.value=\'\';}">';
-	$r .= '<option value="">[Choose...]</option>';
-	$r .= selectmediapathoptions('media');
-	$r .= '</select>';
+	$exists = file_exists('media');
+	if ($exists) {
+		if (is_dir ('media')) $msg = '';
+		else $msg = '<br />[Error: .../' . basename(getcwd()) . '/media exists, but it is not a directory.]';
+	} else {
+		$msg = '<br />[Directory .../' . basename(getcwd()) . '/media does not yet exist.]';
+	}
+	$r = '<br /> or choose a file in .../' . basename(getcwd()) . '/media: ' . $msg;
+	if ($msg == '') {
+		$r = ':<br /><select name="Dir" onchange="{val=this.form.Dir.options[this.form.Dir.selectedIndex].value; if (val != \'\') this.form.' . $f . '.value = val; this.form.Dir.value=\'\';}">';
+		$r .= '<option value="">[Choose...]</option>';
+		$r .= selectmediapathoptions('media');
+		$r .= '</select>';
+	}
 	return $r;
 }
 
