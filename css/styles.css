@@ -212,6 +212,10 @@ img {
 	color: gray;
 	font-size:60%;
 }
+.smallgray2 { 
+	color: gray;
+	font-size:80%;
+}
 #learnstatus {
 	color: #000000;
 	font-size: 120%;

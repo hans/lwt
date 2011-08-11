@@ -26,6 +26,12 @@ pagestart('Home',false);
 $currentlang = getSetting('currentlanguage');
 $currenttext = getSetting('currenttext');
 
+$langcnt = get_first_value('select count(*) as value from languages');
+
+if ($langcnt == 0) {
+echo '<table class="tab3" cellspacing="0" cellpadding="5"><tr><th class="th1">Hint: The database seems to be empty.<br /><a href="install_demo.php">You may install the LWT demo database, </a><br />or<br /><a href="edit_languages.php?new=1">define the first language you want to learn.</a></th></tr></table>';
+}
+
 ?>
 
 <script type="text/javascript">
@@ -34,28 +40,31 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 //]]>
 </script>
 
+<?php if ($langcnt > 0 ) { ?>
+
 <ul>
 <li>Language: <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}"><?php echo get_languages_selectoptions($currentlang,'[Select...]'); ?></select></li>
 </ul>
-
+	
 <?php
-if ($currenttext != '') {
-	$txttit = get_first_value('select TxTitle as value from texts where TxID=' . (int)$currenttext);
-	if (isset($txttit)) {	
-		$txtlng = get_first_value('select TxLgID as value from texts where TxID=' . (int)$currenttext);
-		$lngname = getLanguage($txtlng);
-?>
-<ul>
-<li>My last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
-<br />
-<a href="do_text.php?start=<?php echo $currenttext; ?>"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read</a>
-&nbsp; &nbsp; 
-<a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
-&nbsp; &nbsp; 
-<a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
-</li>
-</ul>
+	if ($currenttext != '') {
+		$txttit = get_first_value('select TxTitle as value from texts where TxID=' . (int)$currenttext);
+		if (isset($txttit)) {	
+			$txtlng = get_first_value('select TxLgID as value from texts where TxID=' . (int)$currenttext);
+			$lngname = getLanguage($txtlng);
+	?>
+			<ul>
+			<li>My last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
+			<br />
+			<a href="do_text.php?start=<?php echo $currenttext; ?>"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read</a>
+			&nbsp; &nbsp; 
+			<a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
+			&nbsp; &nbsp; 
+			<a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
+			</li>
+			</ul>
 <?php
+		}
 	}
 }
 ?>
