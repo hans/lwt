@@ -102,7 +102,7 @@ if ($count <= 0) {
 	// Find the next word to test
 	
 	$sql = 'SELECT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, (ifnull(WoSentence,\'\') not like concat(\'%{\',WoText,\'}%\')) as notvalid, WoStatus, DATEDIFF( NOW( ), WoStatusChanged ) AS Days, ' . getsqlscoreformula (2) . ' AS Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' order by 10, rand() limit 1';
-	echo $sql;
+	// echo $sql;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	$dsatz = mysql_fetch_assoc($res);
@@ -257,9 +257,7 @@ $(function(){
 
 <script type="text/javascript">
 //<![CDATA[
-$(function(){
-	new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 'timer', <?php echo ($count ? 0 : 1); ?>);
-});
+window.onload = function() { new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 'timer', <?php echo ($count ? 0 : 1); ?>); }
 //]]>
 </script>
 
