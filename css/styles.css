@@ -81,13 +81,13 @@ span.wsty {
 	border-right: solid 2px #FFF;
 	color: #000000;
 }
-span.todo {
+span.todosty {
 	background-color: #F5E1A9;
 }
-span.doneok {
+span.doneoksty {
 	background-color: #A9F5A9;
 }
-span.donewrong {
+span.donewrongsty {
 	background-color: #F5B8A9;
 }
 span.status5stat {
@@ -285,6 +285,25 @@ dt {
 	font-size: 50%;
 	font-style: normal;
 	word-break: normal;
+}
+#footer {
+	bottom: 0;
+	position: absolute;
+	width: 100%;
+	height: 45px;
+	line-height:30px;
+	background: #DDDDDD;
+	font-size: 14px;
+	text-align: center;
+	border-top: 1px solid #000000;
+}
+.borderltb {
+	border-left: 1px solid #000000;
+	border-top: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+}
+.borderall {
+	border: 1px solid #000000;
 }
 
 /**************************************************************

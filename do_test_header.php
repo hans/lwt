@@ -63,6 +63,11 @@ if (substr($p,0,4) == 'text') {
 }
 echo '</h4><table><tr><td><h3>TEST&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($titel) . '</h3></td></tr><tr><td colspan="2">';
 
+$_SESSION['teststart'] = gmmktime();
+$_SESSION['testcorrect'] = 0;
+$_SESSION['testwrong'] = 0;
+$_SESSION['testtotal'] = 100;
+
 if ($message != '') {
 	echo error_message_with_hide($message,0);
 }

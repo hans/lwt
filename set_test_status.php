@@ -59,11 +59,16 @@ else
 
 echo "<p>Old score was " . $oldscore . ", new score is now " . $newscore . ".</p>";
 
+if ( $stchange >= 0 ) 
+	$_SESSION['testcorrect']++;
+else
+	$_SESSION['testwrong']++;
+
 ?>
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;
-$('.word<?php echo $wid; ?>', context).removeClass('todo').addClass('done<?php echo ($stchange > 0 ? 'ok' : 'wrong'); ?>').attr('data_status','<?php echo $status; ?>').attr('data_todo','0');
+$('.word<?php echo $wid; ?>', context).removeClass('todo todosty').addClass('done<?php echo ($stchange >= 0 ? 'ok' : 'wrong'); ?>sty').attr('data_status','<?php echo $status; ?>').attr('data_todo','0');
 window.parent.frames['l'].setTimeout('location.reload();', parseInt('<?php echo getSettingWithDefault('set-test-main-frame-waiting-time'); ?>',10));
 //]]>
 </script>

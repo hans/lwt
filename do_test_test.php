@@ -188,7 +188,7 @@ if ($num == 0) {  // nothing found
 	for ($i=0; $i < $l; $i++) {  // go thru sent
 		$c = mb_substr($sent, $i, 1, 'UTF-8');
 		if ($c == '}') {
-			$r .= ' <span style="word-break:normal;" class="click todo word wsty word' . $wid . '" data_wid="' . $wid . '" data_trans="' . tohtml($trans) . '" data_text="' . tohtml($word) . '" data_rom="' . tohtml($roman) . '" data_sent="' . tohtml($cleansent) . '" data_status="' . $status . '" data_todo="1"';
+			$r .= ' <span style="word-break:normal;" class="click todo todosty word wsty word' . $wid . '" data_wid="' . $wid . '" data_trans="' . tohtml($trans) . '" data_text="' . tohtml($word) . '" data_rom="' . tohtml($roman) . '" data_sent="' . tohtml($cleansent) . '" data_status="' . $status . '" data_todo="1"';
 			if ($testtype ==3) $r .= ' title="' . tohtml($trans) . '"'; 
 			$r .= '>';
 			if ($testtype == 2) {
@@ -244,11 +244,16 @@ $(function(){
 	});
 	
 	window.parent.frames['ru'].location.href='empty.htm';
+	
 	window.parent.frames['ro'].setTimeout('location.href=\'empty.htm\';',
 	parseInt('<?php echo getSettingWithDefault('set-test-edit-frame-waiting-time'); ?>',10));
+	
+	new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 'timer');
+	
 });
 //]]>
 </script>
+<div id="footer"><img src="icn/clock.png" title="Elapsed Time" alt="Elapsed Time" /> <span id="timer" title="Elapsed Time"></span> &nbsp; &nbsp; &nbsp; <img class="borderltb" src="icn/test_notyet.png" title="Not yet tested" alt="Not yet tested" height="10" width="60" /><img class="borderltb" src="icn/test_wrong.png" title="Wrong" alt="Wrong" height="10" width="10" /><img class="borderall" src="icn/test_correct.png" title="Correct" alt="Correct" height="10" width="30" /> &nbsp; &nbsp; &nbsp; <span title="Total number of tests"><?php echo $_SESSION['testtotal']; ?></span> = <span class="todosty" title="Not yet tested"><?php echo $_SESSION['testtotal'] - $_SESSION['testcorrect'] - $_SESSION['testwrong']; ?></span> + <span class="donewrongsty" title="Wrong"><?php echo $_SESSION['testwrong']; ?></span> + <span class="doneoksty" title="Correct"><?php echo $_SESSION['testcorrect']; ?></span></div>
 
 <?php
 

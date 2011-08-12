@@ -94,6 +94,7 @@ Developed by J. Pierre in 2011.
 	</style>
 	<script type="text/javascript" src="js/jquery.js"><!-- jQuery © John Resig ** http://www.jquery.com --></script>
 	<script type="text/javascript" src="js/sorttable/sorttable.js"><!-- sorttable © Stuart Langridge ** http://www.kryogenix.org/code/browser/sorttable/ --></script>
+	<script type="text/javascript" src="js/countuptimer.js"><!-- CountUp © Praveen Lobo ** http://PraveenLobo.com/techblog/javascript-countup-timer/ (modified) --></script>
 	<script type="text/javascript" src="js/overlib/overlib_mini.js"><!-- overLIB © Erik Bosrup ** http://www.bosrup.com/web/overlib/ --></script>
 	<script type="text/javascript">
 	//<![CDATA[
