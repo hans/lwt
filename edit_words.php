@@ -467,9 +467,9 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <?php
 
 if ($currenttext == '') {
-	$sql = 'select WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, ' . getsqlscoreformula(2) . ' AS Score from words, languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+	$sql = 'select WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, ' . getsqlscoreformula(2) . ' AS Score, ' . getsqlscoreformula(3) . ' AS Score2 from words, languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 } else {
-	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, ' . getsqlscoreformula(2) . ' AS Score from words, languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, ' . getsqlscoreformula(2) . ' AS Score, ' . getsqlscoreformula(3) . ' AS Score2 from words, languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 }
 
 $res = mysql_query($sql);		
@@ -477,9 +477,9 @@ if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {
 	$days = $dsatz['Days'];
 	if ( $dsatz['WoStatus'] > 5 ) $days="-";
-	$score = floor($dsatz['Score']);
-	if ( $score <= 0 ) $score='<span class="scorered">0</span>';
-	else $score='<span class="scoregreen">' . $score . '</span>';
+	$score = $dsatz['Score'];
+	if ( $score < 0 ) $score='<span class="scorered">0 <img src="icn/status-busy.png" title="Test today!" alt="Test today!" /></span>';
+	else $score='<span class="scoregreen">' . floor($score) . ($dsatz['Score2'] < 0 ? ' <img src="icn/status-away.png" title="Test tomorrow!" alt="Test tomorrow!" />' : ' <img src="icn/status.png" title="-" alt="-" />') . '</span>';
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $dsatz['WoID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $dsatz['WoID'] . '" ' . checkTest($dsatz['WoID'], 'marked') . ' /></a></td>';
 	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $dsatz['WoID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $dsatz['WoID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
@@ -488,7 +488,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 ">' . tohtml(repl_tab_nl($dsatz['WoTranslation'])) . '</td>';
 	echo '<td class="td1 center"><b>' . ($dsatz['SentOK']!=0 ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />') . '</b></td>';
 	echo '<td class="td1 center" title="' . tohtml(get_status_name($dsatz['WoStatus'])) . '">' . tohtml(get_status_abbr($dsatz['WoStatus'])) . ($dsatz['WoStatus'] < 98 ? '/' . $days : '') . '</td>';
-	echo '<td class="td1 center">' . $score . '</td>';
+	echo '<td class="td1 center" nowrap="nowrap">' . $score . '</td>';
 	echo '</tr>';
 }
 mysql_free_result($res);

@@ -59,10 +59,16 @@ else
 
 echo "<p>Old score was " . $oldscore . ", new score is now " . $newscore . ".</p>";
 
-if ( $stchange >= 0 ) 
-	$_SESSION['testcorrect']++;
-else
-	$_SESSION['testwrong']++;
+$totaltests = $_SESSION['testtotal'];
+$wrong = $_SESSION['testwrong'];
+$correct = $_SESSION['testcorrect'];
+$notyettested = $totaltests - $correct - $wrong;
+if ( $notyettested > 0 ) {
+	if ( $stchange >= 0 ) 
+		$_SESSION['testcorrect']++;
+	else
+		$_SESSION['testwrong']++;
+}		
 
 ?>
 <script type="text/javascript">

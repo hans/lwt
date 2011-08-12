@@ -1200,10 +1200,15 @@ function get20Sentences($lang, $wordlc, $jsctlname, $mode) {
 function getsqlscoreformula ($method) {
 	// $method = 1 (int 0..100)
 	// $method = 2 (float unlimited)
+	// $method = 3 (float unlimited, tomorrow)
 	// Formula: {{{2.4^{Status}+Status-Days-1} over Status -2.4} over 0.14325248}
 		
+	$baseformula = '(((POWER(2.4,WoStatus) + WoStatus - (DATEDIFF(NOW(),WoStatusChanged) + 1) - 1) / WoStatus - 2.4) / 0.14325248)';
+
+	if ($method == 3) return 'CASE WHEN WoStatus > 5 THEN 100 ELSE ' . $baseformula . ' END';
+
 	$baseformula = '(((POWER(2.4,WoStatus) + WoStatus - DATEDIFF(NOW(),WoStatusChanged) - 1) / WoStatus - 2.4) / 0.14325248)';
-	
+
 	if ($method == 2) return 'CASE WHEN WoStatus > 5 THEN 100 ELSE ' . $baseformula . ' END';
 	
 	else return 'CASE WHEN WoStatus > 5 THEN 100 ELSE greatest(0,round(' . $baseformula . ',0)) END';

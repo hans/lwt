@@ -41,6 +41,7 @@ if (isset($_REQUEST['lang'])) {
 	$langid = getreq('lang');
 	$p = "lang=" . $langid; 
 	$titel = "All Terms in " . get_first_value('select LgName as value from languages where LgID = ' . $langid);
+	$testsql = ' words where WoLgID = ' . $langid . ' ';
 }
 
 if (isset($_REQUEST['text'])) {
@@ -48,9 +49,13 @@ if (isset($_REQUEST['text'])) {
 	$p = "text=" . $textid; 
 	$titel = get_first_value('select TxTitle as value from texts where TxID = ' . $textid);
 	saveSetting('currenttext',$_REQUEST['text']);
+	$testsql = ' words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $textid . ' ';
+
 }
 
 if ($p == '') die("Called with wrong parameters");
+
+$totalcountdue = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND (' . getsqlscoreformula(2) . ') < 0');
 
 pagestart_nobody(tohtml($titel));
 echo '<h4>';
@@ -61,15 +66,15 @@ quickMenu();
 if (substr($p,0,4) == 'text') {
 	echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /></a>';
 }
-echo '</h4><table><tr><td><h3>TEST&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($titel) . '</h3></td></tr><tr><td colspan="2">';
+echo '</h4><table><tr><td><h3>TEST&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($titel) . ' (Due: ' . $totalcountdue . ')</h3></td></tr><tr><td colspan="2">';
 
 $_SESSION['teststart'] = gmmktime();
 $_SESSION['testcorrect'] = 0;
 $_SESSION['testwrong'] = 0;
-$_SESSION['testtotal'] = 100;
+$_SESSION['testtotal'] = $totalcountdue;
 
 if ($message != '') {
-	echo error_message_with_hide($message,0);
+	echo error_message_with_hide($message,1);
 }
 
 else {  // OK

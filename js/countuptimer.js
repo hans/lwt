@@ -10,7 +10,7 @@
 * id           = div id
 ****************************************************************************/
 
-function CountUp(server_now, server_start, id) {
+function CountUp(server_now, server_start, id, dontrun) {
 	this.beginDate = new Date ( 
 		1000 * ( 
 			Math.floor(((new Date()).getTime()) / 1000 )
@@ -21,6 +21,7 @@ function CountUp(server_now, server_start, id) {
 	this.numOfDays = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 	this.borrowed = 0, this.years = 0, this.months = 0, this.days = 0;
 	this.hours = 0, this.minutes = 0, this.seconds = 0;
+	this.dontrun = dontrun;
 	this.updateNumOfDays();
 	this.updateCounter();
 }
@@ -31,8 +32,6 @@ CountUp.prototype.updateNumOfDays=function() {
 	if ( (currYear % 4 == 0 && currYear % 100 != 0 ) || currYear % 400 == 0 ) {
 		this.numOfDays[1] = 29;
 	}
-	var self = this;
-	setTimeout(function(){self.updateNumOfDays();}, (new Date((currYear+1), 1, 2) - dateNow));
 }
  
 CountUp.prototype.datePartDiff=function(then, now, MAX) {
@@ -79,6 +78,7 @@ CountUp.prototype.updateCounter=function(){
 	if (show) r += this.hours  + ":";
 	r += this.minutes + ":" + this.seconds;
 	this.countainer.innerHTML = r;
+	if(this.dontrun) return;
 	var self = this;
 	setTimeout(function(){self.updateCounter();}, 1000);
 }
