@@ -19,7 +19,7 @@ Finally: Database Connect, Select, Update
 
 function get_version() {
 	global $debug;
-	return '1.0.4 (August 11 2011)' . 
+	return '1.0.4.1 (August 12 2011)' . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
