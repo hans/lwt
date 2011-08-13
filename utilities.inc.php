@@ -1268,9 +1268,9 @@ function get_setting_data() {
 		'set-player-skin-name' => 
 		array("dft" => 'jplayer.blue.monday.modified', "num" => 0),
 		'set-test-main-frame-waiting-time' => 
-		array("dft" => '200', "num" => 1, "min" => 0, "max" => 9999),
+		array("dft" => '0', "num" => 1, "min" => 0, "max" => 9999),
 		'set-test-edit-frame-waiting-time' => 
-		array("dft" => '2000', "num" => 1, "min" => 0, "max" => 99999999),
+		array("dft" => '500', "num" => 1, "min" => 0, "max" => 99999999),
 		'set-test-sentence-count' => 
 		array("dft" => '1', "num" => 0),
 		'set-term-sentence-count' => 
