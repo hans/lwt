@@ -1573,7 +1573,13 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <br />
             `WoStatusChanged` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
             <br />
-            PRIMARY KEY (`WoID`),
+  					`WoTodayScore` double NOT NULL DEFAULT '0',
+            <br />
+  					`WoTomorrowScore` double NOT NULL DEFAULT '0',
+            <br />
+  					`WoRandom` double NOT NULL DEFAULT '0',            
+            <br />
+  					PRIMARY KEY (`WoID`),
             <br />
             UNIQUE KEY `WoLgIDTextLC` (`WoLgID`,`WoTextLC`),
             <br />
@@ -1587,8 +1593,14 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <br />
             KEY `WoCreated` (`WoCreated`),
             <br />
-            KEY `WoStatusChanged` (`WoStatusChanged`)
+            KEY `WoStatusChanged` (`WoStatusChanged`),
             <br />
+  					KEY `WoTodayScore` (`WoTodayScore`),
+            <br />
+  					KEY `WoTomorrowScore` (`WoTomorrowScore`),
+            <br />
+  					KEY `WoRandom` (`WoRandom`)
+  					<br />
             <br />
           </li>
 
@@ -1662,10 +1674,11 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
         <ul>
 
         	<li>1.1.0 (August 13 2011): 
-        	DB design altered: table "words" changed: 3 new columns to make random word selection and score calculation faster.
-        	New status display during testing: "Elapsed Time / Total = Not yet tested + Wrong + Correct". 
-        	Testing algorithm revised, simplified and optimized.
-        	Terms due today and tomorrow are marked in score column in terms table.
+        	DB design altered: Table "words" changed: 3 new columns to make random word selection and score calculation faster.<br />
+        	New status display during testing: "Elapsed Time / Total = Not yet tested + Wrong + Correct", plus a small bargraph.<br /> 
+        	Testing algorithm revised, simplified and optimized.<br />
+        	Terms due today and tomorrow are marked in score column in terms table.<br />
+        	New refresh button refreshes media directory select (with page reload) in text input screen.
         	<br /><br />
         	</li>
 
