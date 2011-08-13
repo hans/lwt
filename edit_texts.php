@@ -226,9 +226,24 @@ elseif (isset($_REQUEST['op'])) {
 
 }
 
-// NEW
+if ( isset($_REQUEST['new']) || isset($_REQUEST['chg']) ) {
+?>
+<script type="text/javascript">
+//<![CDATA[
+function do_ajax_update_media_select() {
+	$('#mediaselect').html('&nbsp; <img src="icn/waiting2.gif" />');
+	$.post('ajax_update_media_select.php', 
+		function(data) { $('#mediaselect').html(data); } 
+	);
+}
+//]]>
+</script>
+<?php
+}
 
 if (isset($_REQUEST['new'])) {
+
+// NEW
 	
 	?>
 
@@ -257,10 +272,8 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Audio-URI:</td>
-	<td class="td1"><input type="text" name="TxAudioURI" value="" maxlength="200" size="60" />
-	<?php
-	echo selectmediapath('TxAudioURI');
-	?>
+	<td class="td1"><input type="text" name="TxAudioURI" value="" maxlength="200" size="60" />		
+	<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
 	</td>
 	</tr>
 	<tr>
@@ -315,10 +328,8 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Audio-URI:</td>
-		<td class="td1"><input type="text" name="TxAudioURI" value="<?php echo tohtml($dsatz['TxAudioURI']); ?>" maxlength="200" size="60" />
-		<?php
-		echo selectmediapath('TxAudioURI');
-		?>
+		<td class="td1"><input type="text" name="TxAudioURI" value="<?php echo tohtml($dsatz['TxAudioURI']); ?>" maxlength="200" size="60" /> 
+		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
 		</td>
 		</tr>
 		<tr>
