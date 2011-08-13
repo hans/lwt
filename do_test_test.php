@@ -178,7 +178,7 @@ if ($count <= 0) {
 		$cleansent = trim(str_replace("{", '', str_replace("}", '', $sent)));
 		// echo $cleansent;
 		
-		echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.4; text-align:center; margin-bottom:300px;">';
+		echo '<p id="thetest" style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.4; text-align:center; margin-bottom:300px;">';
 		$l = mb_strlen($sent,'utf-8');
 		$r = '';
 		$save = '';
@@ -228,6 +228,58 @@ $(function(){
 	var wblink2='<?php echo $wb2; ?>';
 	var wblink3='<?php echo $wb3; ?>';
 	var wblink4='<?php echo $wb4; ?>';
+	var opened = 0;
+	
+	$(document).keydown(function(e) {
+		if (e.which == 32 && opened == 0) {  // 1st space show sol.
+			$('.word').click();
+			cClick();
+			opened = 1;
+			return;
+		}
+		if (e.which == 32 && opened == 1) {  // space: show box
+			$('.word').click();
+			opened = 2;
+			return;
+		}
+		if (e.which == 32 && opened == 2) {  // space: hide box
+			cClick();
+			opened = 1;
+			return;
+		}
+		if (e.which == 38 && opened > 0) {  // up : status+1
+			window.parent.frames['ro'].location.href = 
+				'set_test_status.php?wid=<?php echo $wid; ?>&stchange=1';
+			return;
+		}
+		if (e.which == 40 && opened > 0) {  // down : status-1
+			window.parent.frames['ro'].location.href = 
+				'set_test_status.php?wid=<?php echo $wid; ?>&stchange=-1';
+			return;
+		}
+		for (var i=1; i<=5; i++) {
+			if ((e.which == (48+i) || e.which == (96+i)) && opened > 0) {  // 1,.. : status=i
+				window.parent.frames['ro'].location.href = 
+					'set_test_status.php?wid=<?php echo $wid; ?>&status=' + i;
+				return;
+			}
+		}
+		if (e.which == 73 && opened > 0) {  // I : status=98
+			window.parent.frames['ro'].location.href = 
+				'set_test_status.php?wid=<?php echo $wid; ?>&status=98';
+			return;
+		}
+		if (e.which == 87 && opened > 0) {  // W : status=99
+			window.parent.frames['ro'].location.href = 
+				'set_test_status.php?wid=<?php echo $wid; ?>&status=99';
+			return;
+		}
+		if (e.which == 69 && opened > 0) {  // E : EDIT
+			window.parent.frames['ro'].location.href = 
+				'edit_tword.php?wid=<?php echo $wid; ?>';
+			return;
+		}
+	});
 	
 	$('.word').click(function() {
 		run_overlib_test(
