@@ -31,10 +31,11 @@ $javascript = "var title='';";
 while ($dsatz = mysql_fetch_assoc($res)) {
 	$wort = $dsatz['TiText'];	
 	$wortlc = $dsatz['TiTextLC'];	
-	$count1 = 0 + runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged) values( ' . 
+	$count1 = 0 + runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 	$sprid . ', ' . 
 	convert_string_to_sqlsyntax($wort) . ', ' . 
-	convert_string_to_sqlsyntax($wortlc) . ', 99 , NOW())',''); 
+	convert_string_to_sqlsyntax($wortlc) . ', 99 , NOW(), ' .  
+make_score_random_insert_update('id') . ')',''); 
 	$wid = get_last_key(); 
 	if ($count1 > 0 ) 
 		$javascript .= "title = make_tooltip(" . prepare_textdata_js($wort) . ",'','','99');";

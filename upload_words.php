@@ -89,13 +89,14 @@ if (isset($_REQUEST['op'])) {
  				if ($excnt > 0 ) { // exists
  					if ($overwrite) { // update
 	 					$msg1 = runsql('delete from words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl), "Exists, deleted");
-	 					$msg2 = runsql('insert into words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged) values ( ' . $lang . ', ' .
+	 					$msg2 = runsql('insert into words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
 						convert_string_to_sqlsyntax($wl) . ', ' .
 						convert_string_to_sqlsyntax($w) . ', ' .
 						$status . ', ' .
 						convert_string_to_sqlsyntax($t) . ', ' .
 						convert_string_to_sqlsyntax($r) . ', ' .
-						convert_string_to_sqlsyntax($s) . ', NOW() )',"Imported");
+						convert_string_to_sqlsyntax($s) . ', NOW(), ' .  
+make_score_random_insert_update('id') . ')',"Imported");
  						$sqlct++;
  						$protokoll .= '<td class="td1">' . tohtml($msg1 . ' / ' . $msg2) . ' (' . $sqlct . ')</td></tr>';
  					}
@@ -104,13 +105,14 @@ if (isset($_REQUEST['op'])) {
  					} // no overwrite
  				} // exists
  				else { // exists not
- 					$msg1 = runsql('insert into words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged) values ( ' . $lang . ', ' .
+ 					$msg1 = runsql('insert into words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
 					convert_string_to_sqlsyntax($wl) . ', ' .
 					convert_string_to_sqlsyntax($w) . ', ' .
 					$status . ', ' .
 					convert_string_to_sqlsyntax($t) . ', ' .
 					convert_string_to_sqlsyntax($r) . ', ' .
-					convert_string_to_sqlsyntax($s) . ', NOW() )',"Imported");
+					convert_string_to_sqlsyntax($s) . ', NOW(), ' .  
+make_score_random_insert_update('id') . ')',"Imported");
  					$sqlct++;
  					$protokoll .= '<td class="td1">' . tohtml($msg1) . ' (' . $sqlct . ')' . '</td></tr>';
  				}

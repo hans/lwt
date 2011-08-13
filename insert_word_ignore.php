@@ -27,10 +27,11 @@ $sprid = get_first_value("select TxLgID as value from texts where TxID = " . $_R
 
 pagestart("Term: " . $word,false);
 
-$m1 = runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged) values( ' . 
+$m1 = runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 $sprid . ', ' . 
 convert_string_to_sqlsyntax($word) . ', ' . 
-convert_string_to_sqlsyntax($wordlc) . ', 98, NOW() )','Term added');
+convert_string_to_sqlsyntax($wordlc) . ', 98, NOW(), ' .  
+make_score_random_insert_update('id') . ')','Term added');
 $wid = get_last_key();
 
 echo "<p>OK, this term will be ignored!</p>";

@@ -26,13 +26,13 @@ $wid = getreq('wid') + 0;
 
 $oldstatus = get_first_value("select WoStatus as value from words where WoID = " . $wid) + 0;
 
-$oldscore = get_first_value('select ' . getsqlscoreformula(1) . ' AS value from words where WoID = ' . $wid) + 0;
+$oldscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from words where WoID = ' . $wid) + 0;
 
 if ($stchange == '') {
 
 	$status = $status + 0;
 	$stchange = $status - $oldstatus;
-	if ($stchange < 0) $stchange=-1;
+	if ($stchange <= 0) $stchange=-1;
 	if ($stchange > 0) $stchange=1;
 	
 } else {
@@ -48,9 +48,9 @@ $word = get_first_value("select WoText as value from words where WoID = " . $wid
 pagestart("Term: " . $word, false);
 
 $m1 = runsql('update words set WoStatus = ' . 
-	$status . ', WoStatusChanged = NOW() where WoID = ' . $wid, 'Status changed');
+	$status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed');
 	
-$newscore = get_first_value('select ' . getsqlscoreformula(1) . ' AS value from words where WoID = ' . $wid) + 0;
+$newscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from words where WoID = ' . $wid) + 0;
 
 if ($oldstatus == $status)
 	echo '<p>Status "' . tohtml(get_status_name($oldstatus)) . '" [' . tohtml(get_status_abbr($oldstatus)) . '] not changed.</p>';

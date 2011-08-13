@@ -47,7 +47,7 @@ if (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoTranslation"])) . ', WoSentence = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ' where WoID = ' . $_REQUEST["WoID"], "Updated");
+			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"], "Updated");
 			$wid = $_REQUEST["WoID"];
 			
 		}  // $_REQUEST['op'] == 'Change'

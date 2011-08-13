@@ -19,7 +19,7 @@ Finally: Database Connect, Select, Update
 
 function get_version() {
 	global $debug;
-	return '1.0.4.1 (August 12 2011)' . 
+	return '1.1.0 (August 13 2011)' . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1198,20 +1198,16 @@ function get20Sentences($lang, $wordlc, $jsctlname, $mode) {
 // -------------------------------------------------------------
 
 function getsqlscoreformula ($method) {
-	// $method = 1 (int 0..100)
-	// $method = 2 (float unlimited)
-	// $method = 3 (float unlimited, tomorrow)
+	// $method = 2 (today)
+	// $method = 3 (tomorrow)
 	// Formula: {{{2.4^{Status}+Status-Days-1} over Status -2.4} over 0.14325248}
 		
-	$baseformula = '(((POWER(2.4,WoStatus) + WoStatus - (DATEDIFF(NOW(),WoStatusChanged) + 1) - 1) / WoStatus - 2.4) / 0.14325248)';
+	if ($method == 3) return 'CASE WHEN WoStatus > 5 THEN 100 ELSE (((POWER(2.4,WoStatus) + WoStatus - DATEDIFF(NOW(),WoStatusChanged) - 2) / WoStatus - 2.4) / 0.14325248) END';
 
-	if ($method == 3) return 'CASE WHEN WoStatus > 5 THEN 100 ELSE ' . $baseformula . ' END';
-
-	$baseformula = '(((POWER(2.4,WoStatus) + WoStatus - DATEDIFF(NOW(),WoStatusChanged) - 1) / WoStatus - 2.4) / 0.14325248)';
-
-	if ($method == 2) return 'CASE WHEN WoStatus > 5 THEN 100 ELSE ' . $baseformula . ' END';
+	elseif ($method == 2) return 'CASE WHEN WoStatus > 5 THEN 100 ELSE (((POWER(2.4,WoStatus) + WoStatus - DATEDIFF(NOW(),WoStatusChanged) - 1) / WoStatus - 2.4) / 0.14325248) END';
 	
-	else return 'CASE WHEN WoStatus > 5 THEN 100 ELSE greatest(0,round(' . $baseformula . ',0)) END';
+	else return '0';
+	
 }
 
 // -------------------------------------------------------------
@@ -1602,6 +1598,20 @@ function splitText($text, $lid, $id) {
 
 // -------------------------------------------------------------
 
+function make_score_random_insert_update($type) {  // $type='iv'/'id'/'u'
+	if ($type == 'iv') {
+		return ' WoTodayScore, WoTomorrowScore, WoRandom ';
+	} elseif ($type == 'id') {
+		return ' ' . getsqlscoreformula(2) . ', ' . getsqlscoreformula(3) . ', RAND() ';
+	} elseif ($type == 'u') {
+		return ' WoTodayScore = ' . getsqlscoreformula(2) . ', WoTomorrowScore = ' . getsqlscoreformula(3) . ', WoRandom = RAND() ';
+	} else {
+		return '';
+	}
+}
+
+// -------------------------------------------------------------
+
 function refreshText($word,$tid) {
 	// $word : only sentences with $word
 	// $tid : textid
@@ -1675,6 +1685,7 @@ function refreshText($word,$tid) {
 // -------------------------------------------------------------
 
 function check_update_db() {
+	global $debug;
 	$tables = array();
 	
 	$res = mysql_query("SHOW TABLES");
@@ -1688,37 +1699,45 @@ function check_update_db() {
 	// Rebuild Tables if missing
 	
 	if (in_array('archivedtexts', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding archivedtexts</p>';
 		runsql("CREATE TABLE IF NOT EXISTS archivedtexts ( AtID int(11) unsigned NOT NULL AUTO_INCREMENT, AtLgID int(11) unsigned NOT NULL, AtTitle varchar(200) NOT NULL, AtText text NOT NULL, AtAudioURI varchar(200) DEFAULT NULL, PRIMARY KEY (AtID), KEY AtLgID (AtLgID) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array('languages', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding languages</p>';
 		runsql("CREATE TABLE IF NOT EXISTS languages ( LgID int(11) unsigned NOT NULL AUTO_INCREMENT, LgName varchar(40) NOT NULL, LgDict1URI varchar(200) NOT NULL, LgDict2URI varchar(200) DEFAULT NULL, LgGoogleTranslateURI varchar(200) DEFAULT NULL, LgGoogleTTSURI varchar(200) DEFAULT NULL, LgTextSize int(5) unsigned NOT NULL DEFAULT '100', LgCharacterSubstitutions varchar(500) NOT NULL, LgRegexpSplitSentences varchar(500) NOT NULL, LgExceptionsSplitSentences varchar(500) NOT NULL, LgRegexpWordCharacters varchar(500) NOT NULL, LgRemoveSpaces int(1) unsigned NOT NULL DEFAULT '0', LgSplitEachChar int(1) unsigned NOT NULL DEFAULT '0', PRIMARY KEY (LgID), UNIQUE KEY LgName (LgName) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array('sentences', $tables) == FALSE) {
-	 runsql("CREATE TABLE IF NOT EXISTS sentences ( SeID int(11) unsigned NOT NULL AUTO_INCREMENT, SeLgID int(11) unsigned NOT NULL, SeTxID int(11) unsigned NOT NULL, SeOrder int(11) unsigned NOT NULL, SeText text, PRIMARY KEY (SeID), KEY SeLgID (SeLgID), KEY SeTxID (SeTxID), KEY SeOrder (SeOrder) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
+		if ($debug) echo '<p>DEBUG: rebuilding sentences</p>';
+		runsql("CREATE TABLE IF NOT EXISTS sentences ( SeID int(11) unsigned NOT NULL AUTO_INCREMENT, SeLgID int(11) unsigned NOT NULL, SeTxID int(11) unsigned NOT NULL, SeOrder int(11) unsigned NOT NULL, SeText text, PRIMARY KEY (SeID), KEY SeLgID (SeLgID), KEY SeTxID (SeTxID), KEY SeOrder (SeOrder) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
 		$count++;
 	}
 	
 	if (in_array('settings', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding settings</p>';
 		runsql("CREATE TABLE IF NOT EXISTS settings ( StKey varchar(40) NOT NULL, StValue varchar(40) DEFAULT NULL, PRIMARY KEY (StKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array('textitems', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding textitems</p>';
 		runsql("CREATE TABLE IF NOT EXISTS textitems ( TiID int(11) unsigned NOT NULL AUTO_INCREMENT, TiLgID int(11) unsigned NOT NULL, TiTxID int(11) unsigned NOT NULL, TiSeID int(11) unsigned NOT NULL, TiOrder int(11) unsigned NOT NULL, TiWordCount int(1) unsigned NOT NULL, TiText varchar(250) NOT NULL, TiTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, TiIsNotWord tinyint(1) NOT NULL, PRIMARY KEY (TiID), KEY TiLgID (TiLgID), KEY TiTxID (TiTxID), KEY TiSeID (TiSeID), KEY TiOrder (TiOrder), KEY TiTextLC (TiTextLC), KEY TiIsNotWord (TiIsNotWord) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
 		$count++;
 	}
 	
 	if (in_array('texts', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding texts</p>';
 		runsql("CREATE TABLE IF NOT EXISTS texts ( TxID int(11) unsigned NOT NULL AUTO_INCREMENT, TxLgID int(11) unsigned NOT NULL, TxTitle varchar(200) NOT NULL, TxText text NOT NULL, TxAudioURI varchar(200) DEFAULT NULL, PRIMARY KEY (TxID), KEY TxLgID (TxLgID) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array('words', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding words</p>';
 		runsql("CREATE TABLE IF NOT EXISTS words ( WoID int(11) unsigned NOT NULL AUTO_INCREMENT, WoLgID int(11) unsigned NOT NULL, WoText varchar(250) NOT NULL, WoTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, WoStatus tinyint(4) NOT NULL, WoTranslation varchar(500) NOT NULL DEFAULT '*', WoRomanization varchar(100) DEFAULT NULL, WoSentence varchar(1000) DEFAULT NULL, WoCreated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, WoStatusChanged timestamp NOT NULL DEFAULT '0000-00-00 00:00:00', PRIMARY KEY (WoID), UNIQUE KEY WoLgIDTextLC (WoLgID,WoTextLC), KEY WoLgID (WoLgID), KEY WoStatus (WoStatus), KEY WoTextLC (WoTextLC), KEY WoTranslation (WoTranslation(333)), KEY WoCreated (WoCreated), KEY WoStatusChanged (WoStatusChanged) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
 	}
 	
 	if ($count > 0) {		
 		// Rebuild Text Cache if cache tables new
+		if ($debug) echo '<p>DEBUG: rebuilding cache tables</p>';
 		$sql = "select TxID, TxLgID from texts";
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
@@ -1738,26 +1757,38 @@ function check_update_db() {
 	
 	$res = mysql_query("select StValue as value from settings where StKey = 'dbversion'");
 	if (mysql_errno() != 0) die('There is something wrong with your database ' . $dbname . '. Please reinstall.');
-	$dbversion = '';
 	$dsatz = mysql_fetch_assoc($res);	
 	if ($dsatz) {
-		$dsatz = mysql_fetch_assoc($res);
 		$dbversion = $dsatz["value"];
+	} else {
+		$dbversion = 'v001000000';
+		saveSetting('dbversion',$dbversion);
+		if ($debug) echo '<p>DEBUG: DB version not found, set to: ' . $dbversion . '</p>';
 	}
 	mysql_free_result($res);
 	
-	if ($dbversion == '') {
-		$dbversion = 'v001000000';
-		saveSetting('dbversion',$dbversion);
-	}
+	// Do DB Updates
 	
 	$currversion = get_version_number();
 	if ( $currversion > $dbversion ) {
-		if ($currversion > 'v001000000') {  
-			// no db updates in 1.0.1 etc.
+		if ($currversion > 'v001000000') {
+			if ($debug) echo '<p>DEBUG: Doing db-upgrade ' . $currversion . ' &gt; v001000000</p>';
+			runsql("ALTER TABLE words ADD WoTodayScore DOUBLE NOT NULL DEFAULT 0, ADD WoTomorrowScore DOUBLE NOT NULL DEFAULT 0, ADD WoRandom DOUBLE NOT NULL DEFAULT 0",'');
+			runsql("ALTER TABLE words ADD INDEX WoTodayScore (WoTodayScore), ADD INDEX WoTomorrowScore (WoTomorrowScore), ADD INDEX WoRandom (WoRandom)",'');
+			runsql("UPDATE words SET " . make_score_random_insert_update('u'),'');
 		}
 		// set to current.
 		saveSetting('dbversion',$currversion);
+	}
+	
+	// Do Scoring once per day
+	
+	$lastscorecalc = getSetting('lastscorecalc');
+	$today = date('Y-m-d');
+	if ($lastscorecalc != $today) {
+		if ($debug) echo '<p>DEBUG: Doing score recalc. Today: ' . $today . ' / Last: ' . $lastscorecalc . '</p>';
+		runsql("UPDATE words SET " . make_score_random_insert_update('u'),'');
+		saveSetting('lastscorecalc',$today);
 	}
 }
 

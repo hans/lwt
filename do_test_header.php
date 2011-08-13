@@ -55,7 +55,7 @@ if (isset($_REQUEST['text'])) {
 
 if ($p == '') die("Called with wrong parameters");
 
-$totalcountdue = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND (' . getsqlscoreformula(2) . ') < 0');
+$totalcountdue = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0');
 
 pagestart_nobody(tohtml($titel));
 echo '<h4>';

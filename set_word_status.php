@@ -40,7 +40,7 @@ mysql_free_result($res);
 pagestart("Term: " . $word, false);
 
 $m1 = runsql('update words set WoStatus = ' . 
-	$_REQUEST['status'] . ', WoStatusChanged = NOW() where WoID = ' . $wid, 'Status changed');
+	$_REQUEST['status'] . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed');
 
 echo '<p>OK, this term has status "' . tohtml(get_status_name($status)) . '" [' . tohtml(get_status_abbr($status)) . '] from now!</p>';
 

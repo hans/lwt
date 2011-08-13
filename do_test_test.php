@@ -50,15 +50,6 @@ if ($testtype > 3) {
 $totaltests = $_SESSION['testtotal'];
 $wrong = $_SESSION['testwrong'];
 $correct = $_SESSION['testcorrect'];
-$notyettested = $totaltests - $correct - $wrong;
-if ( $notyettested < 0 ) $notyettested = 0;
-$totaltests = $notyettested + $wrong + $correct;
-$l_notyet = round(($notyettested / $totaltests)*100,0);
-$b_notyet = ($l_notyet == 0) ? '' : 'borderl';
-$l_wrong = round(($wrong / $totaltests)*100,0);
-$b_wrong = ($l_wrong == 0) ? '' : 'borderl';
-$l_correct = round(($correct / $totaltests)*100,0);
-$b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
 
 pagestart_nobody('','html, body { width:100%; height:100%; } html {display:table;} body { display:table-cell; vertical-align:middle; } #body { max-width:95%; margin:0 auto; }');
 
@@ -73,11 +64,14 @@ if ($cntlang > 1) {
 <div id="body">
 <?php
 
-$count = get_first_value('SELECT count(WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND (' . getsqlscoreformula(2) . ') < 0');
+$count = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0');
+if ($debug) echo 'DEBUG - COUNT TO TEST: ' . $count . '<br />';
+$notyettested = $count;
 
 if ($count <= 0) {
 
-	$count2 = get_first_value('SELECT count(WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND (' . getsqlscoreformula(3) . ') < 0');
+	$count2 = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTomorrowScore < 0');
+	
 	echo '<p class="center"><img src="img/ok.png" alt="Done!" /><br /><br /><span class="red2">Nothing ' . ($totaltests ? 'more ' : '') . 'to test here!<br /><br />Tomorrow you\'ll find here ' . $count2 . ' test' . ($count2 == 1 ? '' : 's') . '!</span></p></div>';
 	$count = 0;
 
@@ -101,31 +95,35 @@ if ($count <= 0) {
 	
 	// Find the next word to test
 	
-	$sql = 'SELECT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, (ifnull(WoSentence,\'\') not like concat(\'%{\',WoText,\'}%\')) as notvalid, WoStatus, DATEDIFF( NOW( ), WoStatusChanged ) AS Days, ' . getsqlscoreformula (2) . ' AS Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' order by 10, rand() limit 1';
-	// echo $sql;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
-	$dsatz = mysql_fetch_assoc($res);
-	if ( $dsatz ) {
-		$num = 1;
-		$wid = $dsatz['WoID'];
-		$word = $dsatz['WoText'];
-		$wordlc = $dsatz['WoTextLC'];
-		$trans = repl_tab_nl($dsatz['WoTranslation']);
-		$roman = $dsatz['WoRomanization'];
-		$sent = repl_tab_nl($dsatz['WoSentence']);
-		$notvalid = $dsatz['notvalid'];
-		$status = $dsatz['WoStatus'];
-		$days = $dsatz['Days'];
-		$score = $dsatz['Score'];
-	} else {
-		$num = 0;
+	$pass = 0;
+	$num = 0;
+	while ($pass < 2) {
+		$pass++;
+		$sql = 'SELECT DISTINCT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, (ifnull(WoSentence,\'\') not like concat(\'%{\',WoText,\'}%\')) as notvalid, WoStatus, DATEDIFF( NOW( ), WoStatusChanged ) AS Days, WoTodayScore AS Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0 ' . ($pass == 1 ? 'AND WoRandom > RAND()' : '') . ' order by WoTodayScore, WoRandom LIMIT 1';
+		if ($debug) echo 'DEBUG TEST-SQL: ' . $sql . '<br />';
+		$res = mysql_query($sql);		
+		if ($res == FALSE) die("Invalid query: $sql");
+		$dsatz = mysql_fetch_assoc($res);
+		if ( $dsatz ) {
+			$num = 1;
+			$wid = $dsatz['WoID'];
+			$word = $dsatz['WoText'];
+			$wordlc = $dsatz['WoTextLC'];
+			$trans = repl_tab_nl($dsatz['WoTranslation']);
+			$roman = $dsatz['WoRomanization'];
+			$sent = repl_tab_nl($dsatz['WoSentence']);
+			$notvalid = $dsatz['notvalid'];
+			$status = $dsatz['WoStatus'];
+			$days = $dsatz['Days'];
+			$score = $dsatz['Score'];
+			$pass = 2;
+		}
+		mysql_free_result($res);
 	}
-	mysql_free_result($res);
 	
-	if ($num <= 0) {
+	if ($num == 0) {
+	
 		// should not occur but...
-	
 		echo '<p class="center"><img src="img/ok.png" alt="Done!" /><br /><br /><span class="red2">Nothing to test here!</span></p></div>';
 		$count = 0;
 		
@@ -140,7 +138,7 @@ if ($count <= 0) {
 			$sentexcl = '';
 			while ( $pass < 3 ) {
 				$pass++;
-				// echo "( $pass / $notvalid ) ";
+				if ($debug) echo "DEBUG search sent: pass: $pass <br />";
 				$sql = 'SELECT DISTINCT SeID FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
 				$res = mysql_query($sql);		
 				if ($res == FALSE) die("Invalid query: $sql");
@@ -149,7 +147,7 @@ if ($count <= 0) {
 					$num = 1;
 					$seid = $dsatz['SeID'];
 					if (AreUnknownWordsInSentence ($seid)) {
-						// echo ' UNKN ';
+						if ($debug) echo "DEBUG sent: $seid has unknown words<br />";
 						$sentexcl = ' AND SeID != ' . $seid . ' ';
 						$num = 0;
 						// not yet found, $num == 0 (unknown words in sent)
@@ -157,13 +155,14 @@ if ($count <= 0) {
 						// echo ' OK ';
 						$sent = getSentence($seid, $wordlc,	(int) getSettingWithDefault('set-test-sentence-count'));
 						$sent = $sent[1];
+						if ($debug) echo "DEBUG sent: $seid OK: $sent <br />";
 						$pass = 3;
 						// found, $num == 1
 					}
 				} else {  // no random sent found
 					$num = 0;
 					$pass = 3;
-					$notvalid = 1;
+					if ($debug) echo "DEBUG no random sent found<br />";
 					// no sent. take term sent. $num == 0
 				}
 				mysql_free_result($res);
@@ -173,6 +172,7 @@ if ($count <= 0) {
 		if ($num == 0 ) {
 			// take term sent. if valid
 			if ($notvalid) $sent = '{' . $word . '}';
+			if ($debug) echo "DEBUG not found, use sent = $sent<br />";
 		}
 		
 		$cleansent = trim(str_replace("{", '', str_replace("}", '', $sent)));
@@ -253,6 +253,19 @@ $(function(){
 
 <?php
 } 
+
+$wrong = $_SESSION['testwrong'];
+$correct = $_SESSION['testcorrect'];
+$totaltests = $wrong + $correct + $notyettested;
+$totaltestsdiv = 1;
+if ($totaltests > 0) $totaltestsdiv = 1.0/$totaltests;
+$l_notyet = round(($notyettested * $totaltestsdiv)*100,0);
+$b_notyet = ($l_notyet == 0) ? '' : 'borderl';
+$l_wrong = round(($wrong * $totaltestsdiv)*100,0);
+$b_wrong = ($l_wrong == 0) ? '' : 'borderl';
+$l_correct = round(($correct * $totaltestsdiv)*100,0);
+$b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
+
 ?>
 
 <script type="text/javascript">

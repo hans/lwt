@@ -76,25 +76,25 @@ if (isset($_REQUEST['markaction'])) {
 					adjust_autoincr('words','WoID');
 				}
 				elseif ($markaction == 'spl1' ) {
-					$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW() where WoStatus in (1,2,3,4) and WoID in ' . $list, "Updated Status (+1)");
+					$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (1,2,3,4) and WoID in ' . $list, "Updated Status (+1)");
 				}
 				elseif ($markaction == 'smi1' ) {
-					$message = runsql('update words set WoStatus=WoStatus-1, WoStatusChanged = NOW() where WoStatus in (2,3,4,5) and WoID in ' . $list, "Updated Status (-1)");
+					$message = runsql('update words set WoStatus=WoStatus-1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (2,3,4,5) and WoID in ' . $list, "Updated Status (-1)");
 				}
 				elseif ($markaction == 's5' ) {
-					$message = runsql('update words set WoStatus=5, WoStatusChanged = NOW() where WoID in ' . $list, "Updated Status (=5)");
+					$message = runsql('update words set WoStatus=5, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID in ' . $list, "Updated Status (=5)");
 				}
 				elseif ($markaction == 's1' ) {
-					$message = runsql('update words set WoStatus=1, WoStatusChanged = NOW() where WoID in ' . $list, "Updated Status (=1)");
+					$message = runsql('update words set WoStatus=1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID in ' . $list, "Updated Status (=1)");
 				}
 				elseif ($markaction == 's99' ) {
-					$message = runsql('update words set WoStatus=99, WoStatusChanged = NOW() where WoID in ' . $list, "Updated Status (=99)");
+					$message = runsql('update words set WoStatus=99, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID in ' . $list, "Updated Status (=99)");
 				}
 				elseif ($markaction == 's98' ) {
-					$message = runsql('update words set WoStatus=98, WoStatusChanged = NOW() where WoID in ' . $list, "Updated Status (=98)");
+					$message = runsql('update words set WoStatus=98, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID in ' . $list, "Updated Status (=98)");
 				}
 				elseif ($markaction == 'today' ) {
-					$message = runsql('update words set WoStatusChanged = NOW() where WoID in ' . $list, "Updated Status Date (= Now)");
+					$message = runsql('update words set WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID in ' . $list, "Updated Status Date (= Now)");
 				}
 				elseif ($markaction == 'exp' ) {
 					anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence from words, languages where WoLgID = LgID AND WoTranslation != \'\' AND WoTranslation != \'*\' and WoSentence like concat(\'%{\',WoText,\'}%\') and WoID in ' . $list);
@@ -139,25 +139,25 @@ if (isset($_REQUEST['allaction'])) {
 			$id = $dsatz['WoID'];
 			$message='0';
 			if ($allaction == 'spl1all' ) {
-				$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW() where WoStatus in (1,2,3,4) and WoID = ' . $id, "");
+				$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (1,2,3,4) and WoID = ' . $id, "");
 			}
 			elseif ($allaction == 'smi1all' ) {
-				$message = runsql('update words set WoStatus=WoStatus-1, WoStatusChanged = NOW() where WoStatus in (2,3,4,5) and WoID = ' . $id, "");
+				$message = runsql('update words set WoStatus=WoStatus-1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (2,3,4,5) and WoID = ' . $id, "");
 			}
 			elseif ($allaction == 's5all' ) {
-				$message = runsql('update words set WoStatus=5, WoStatusChanged = NOW() where WoID = ' . $id, "");
+				$message = runsql('update words set WoStatus=5, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $id, "");
 			}
 			elseif ($allaction == 's1all' ) {
-				$message = runsql('update words set WoStatus=1, WoStatusChanged = NOW() where WoID = ' . $id, "");
+				$message = runsql('update words set WoStatus=1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $id, "");
 			}
 			elseif ($allaction == 's99all' ) {
-				$message = runsql('update words set WoStatus=99, WoStatusChanged = NOW() where WoID = ' . $id, "");
+				$message = runsql('update words set WoStatus=99, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $id, "");
 			}
 			elseif ($allaction == 's98all' ) {
-				$message = runsql('update words set WoStatus=98, WoStatusChanged = NOW() where WoID = ' . $id, "");
+				$message = runsql('update words set WoStatus=98, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $id, "");
 			}
 			elseif ($allaction == 'todayall' ) {
-				$message = runsql('update words set WoStatusChanged = NOW() where WoID = ' . $id, "");
+				$message = runsql('update words set WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $id, "");
 			}
 			$cnt += (int)$message;
 		}
@@ -209,14 +209,15 @@ elseif (isset($_REQUEST['op'])) {
 	if ($_REQUEST['op'] == 'Save') {
 	
 		$message = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
-			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged) values( ' . 
+			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 			$_REQUEST["WoLgID"] . ', ' .
 			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
 			$_REQUEST["WoStatus"] . ', ' .
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoTranslation"])) . ', ' .
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW())', "Saved");
+			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
+make_score_random_insert_update('id') . ')', "Saved");
 	}	
 	
 	// UPDATE
@@ -233,7 +234,7 @@ elseif (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', WoTranslation = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoTranslation"])) . ', WoSentence = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ' where WoID = ' . $_REQUEST["WoID"],
+			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"],
 			"Updated");
 	}
 
@@ -370,7 +371,7 @@ else {
 	if ($currentpage > $pages) $currentpage = $pages;
 	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
 
-	$sorts = array('WoTextLC','lower(WoTranslation)','WoID desc','WoStatus, WoTextLC',getsqlscoreformula(2));
+	$sorts = array('WoTextLC','lower(WoTranslation)','WoID desc','WoStatus, WoTextLC','WoTodayScore');
 	$lsorts = count($sorts);
 	if ($currentsort < 1) $currentsort = 1;
 	if ($currentsort > $lsorts) $currentsort = $lsorts;
@@ -467,9 +468,9 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <?php
 
 if ($currenttext == '') {
-	$sql = 'select WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, ' . getsqlscoreformula(2) . ' AS Score, ' . getsqlscoreformula(3) . ' AS Score2 from words, languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+	$sql = 'select WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2 from words, languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 } else {
-	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, ' . getsqlscoreformula(2) . ' AS Score, ' . getsqlscoreformula(3) . ' AS Score2 from words, languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2 from words, languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 }
 
 $res = mysql_query($sql);		
