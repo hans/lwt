@@ -47,67 +47,16 @@ $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 ?>
 <script type="text/javascript">
 //<![CDATA[
-$(function(){
-	
-	var wblink1='<?php echo $wb1; ?>';
-	var wblink2='<?php echo $wb2; ?>';
-	var wblink3='<?php echo $wb3; ?>';
-	var wblink4='<?php echo $wb4; ?>';
-	var textid='<?php echo $_REQUEST['text']; ?>';
-	
-	$('.word').each(function(i) {
-		this.title = make_tooltip($(this).text(), $(this).attr('data_trans'), 
-			$(this).attr('data_rom'), $(this).attr('data_status'));
-	});
-
-	$('.mword').each(function(i) {
-		if ($(this).attr('data_status') != '') 
-			this.title = make_tooltip($(this).attr('data_text'), 
-			$(this).attr('data_trans'), $(this).attr('data_rom'), 
-			$(this).attr('data_status'));
-	});
-
-	$('.word').click(function() {
-		var status = $(this).attr('data_status');
-		if ( status < 1 ) {
-			run_overlib_status_unknown(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),
-				textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_mw2'),
-				$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),
-				$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),
-				$(this).attr('data_mw9'));
-			top.frames['ro'].location.href='edit_word.php?tid=' + textid + '&ord=' + 
-				$(this).attr('data_order') + '&wid=';
-		}
-		else if ( status == 99 )
-			run_overlib_status_99(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),
-				textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
-				$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-				$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-				$(this).attr('data_mw8'),$(this).attr('data_mw9'));
-		else if ( status == 98 )
-			run_overlib_status_98(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),
-				textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
-				$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-				$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-				$(this).attr('data_mw8'),$(this).attr('data_mw9'));
-		else
-			run_overlib_status_1_to_5(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),
-				textid,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,
-				$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-				$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-				$(this).attr('data_mw8'),$(this).attr('data_mw9'));
-		return false;
-	});
-	
-	$('.mword').click(function() {
-		var status = $(this).attr('data_status');
-		if (status != '') 
-			run_overlib_multiword(wblink1,wblink2,wblink3,wblink4,$(this).attr('title'),textid,
-			$(this).attr('data_order'),$(this).attr('data_text'),$(this).attr('data_wid'),
-			status,$(this).attr('data_code'));
-		return false;
-	});
-
+WBLINK1 = '<?php echo $wb1; ?>';
+WBLINK2 = '<?php echo $wb2; ?>';
+WBLINK3 = '<?php echo $wb3; ?>';
+WBLINK4 = '<?php echo $wb3; ?>';
+TID = '<?php echo $_REQUEST['text']; ?>';
+$(document).ready( function() {
+	$('.word').each(word_each_do_text_text);
+	$('.mword').each(mword_each_do_text_text);
+	$('.word').click(word_click_event_do_text_text);
+	$('.mword').click(mword_click_event_do_text_text);
 });
 //]]>
 </script>

@@ -12,6 +12,10 @@ Developed by J. Pierre in 2011.
 LWT Javascript functions
 ***************************************************************/
 
+/**************************************************************
+Global variables for OVERLIB
+***************************************************************/
+
 var ol_textfont = '"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';
 var ol_textsize = 3;
 var ol_sticky = 1;

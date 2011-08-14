@@ -218,92 +218,30 @@ if ($count <= 0) {
 	
 ?>
 
-</p></div>
-
 <script type="text/javascript">
 //<![CDATA[
-$(function(){
-
-	var wblink1='<?php echo $wb1; ?>';
-	var wblink2='<?php echo $wb2; ?>';
-	var wblink3='<?php echo $wb3; ?>';
-	var wblink4='<?php echo $wb4; ?>';
-	var opened = 0;
-	
-	$(document).keydown(function(e) {
-		if (e.which == 32 && opened == 0) {  // 1st space show sol.
-			$('.word').click();
-			cClick();
-			opened = 1;
-			return;
-		}
-		if (e.which == 32 && opened == 1) {  // space: show box
-			$('.word').click();
-			opened = 2;
-			return;
-		}
-		if (e.which == 32 && opened == 2) {  // space: hide box
-			cClick();
-			opened = 1;
-			return;
-		}
-		if (e.which == 38 && opened > 0) {  // up : status+1
-			window.parent.frames['ro'].location.href = 
-				'set_test_status.php?wid=<?php echo $wid; ?>&stchange=1';
-			return;
-		}
-		if (e.which == 40 && opened > 0) {  // down : status-1
-			window.parent.frames['ro'].location.href = 
-				'set_test_status.php?wid=<?php echo $wid; ?>&stchange=-1';
-			return;
-		}
-		for (var i=1; i<=5; i++) {
-			if ((e.which == (48+i) || e.which == (96+i)) && opened > 0) {  // 1,.. : status=i
-				window.parent.frames['ro'].location.href = 
-					'set_test_status.php?wid=<?php echo $wid; ?>&status=' + i;
-				return;
-			}
-		}
-		if (e.which == 73 && opened > 0) {  // I : status=98
-			window.parent.frames['ro'].location.href = 
-				'set_test_status.php?wid=<?php echo $wid; ?>&status=98';
-			return;
-		}
-		if (e.which == 87 && opened > 0) {  // W : status=99
-			window.parent.frames['ro'].location.href = 
-				'set_test_status.php?wid=<?php echo $wid; ?>&status=99';
-			return;
-		}
-		if (e.which == 69 && opened > 0) {  // E : EDIT
-			window.parent.frames['ro'].location.href = 
-				'edit_tword.php?wid=<?php echo $wid; ?>';
-			return;
-		}
-	});
-	
-	$('.word').click(function() {
-		run_overlib_test(
-			wblink1,wblink2,wblink3,wblink4,
-			$(this).attr('data_wid'),
-			$(this).attr('data_text'),
-			$(this).attr('data_trans'),
-			$(this).attr('data_rom'),
-			$(this).attr('data_status'),
-			$(this).attr('data_sent'),
-			$(this).attr('data_todo'));
-		$('.todo').text(<?php echo prepare_textdata_js ( $testtype==1 ? ( $nosent ? ($trans) : (' [' . $trans . '] ')) : $save ); ?>);
-		return false;
-	});
-	
+WBLINK1 = '<?php echo $wb1; ?>';
+WBLINK2 = '<?php echo $wb2; ?>';
+WBLINK3 = '<?php echo $wb3; ?>';
+WBLINK4 = '<?php echo $wb3; ?>';
+SOLUTION = <?php echo prepare_textdata_js ( $testtype==1 ? ( $nosent ? ($trans) : (' [' . $trans . '] ')) : $save ); ?>;
+OPENED = 0;
+WID = <?php echo $wid; ?>;
+$(document).ready( function() {
+	$(document).keydown(keydown_event_do_test_test);
+	$('.word').click(word_click_event_do_test_test);
 	window.parent.frames['ru'].location.href='empty.htm';
 	window.parent.frames['ro'].setTimeout('location.href=\'empty.htm\';',
-	parseInt('<?php echo getSettingWithDefault('set-test-edit-frame-waiting-time'); ?>',10));
-	
+	parseInt('<?php echo getSettingWithDefault(
+		'set-test-edit-frame-waiting-time');?>',10));
 });
 //]]>
 </script>
 
+</p></div>
+
 <?php
+
 } 
 
 $wrong = $_SESSION['testwrong'];
@@ -320,12 +258,6 @@ $b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
 
 ?>
 
-<script type="text/javascript">
-//<![CDATA[
-window.onload = function() { new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 'timer', <?php echo ($count ? 0 : 1); ?>); }
-//]]>
-</script>
-
 <div id="footer">
 <img src="icn/clock.png" title="Elapsed Time" alt="Elapsed Time" />
 <span id="timer" title="Elapsed Time"></span>
@@ -340,6 +272,15 @@ window.onload = function() { new CountUp(<?php echo gmmktime() . ', ' . $_SESSIO
 + 
 <span class="doneoksty" title="Correct"><?php echo $correct; ?></span>
 </div>
+
+<script type="text/javascript">
+//<![CDATA[
+$(document).ready( function() {
+	new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 
+		'timer', <?php echo ($count ? 0 : 1); ?>);
+});
+//]]>
+</script>
 
 <?php
 
