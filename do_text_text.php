@@ -52,18 +52,21 @@ WBLINK2 = '<?php echo $wb2; ?>';
 WBLINK3 = '<?php echo $wb3; ?>';
 WBLINK4 = '<?php echo $wb3; ?>';
 TID = '<?php echo $_REQUEST['text']; ?>';
+ORDER = 0;
 $(document).ready( function() {
 	$('.word').each(word_each_do_text_text);
 	$('.mword').each(mword_each_do_text_text);
+	CURRWORD = -1;
 	$('.word').click(word_click_event_do_text_text);
 	$('.mword').click(mword_click_event_do_text_text);
+	$(document).keydown(keydown_event_do_text_text);
 });
 //]]>
 </script>
 <?php
 
 echo '<div id="thetext"><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
-'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">';
+'font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 10px;">';
 
 $sql = 'select TiWordCount as Code, TiText, TiTextLC, TiOrder, TiIsNotWord, WoID, WoText, WoTextLC, WoStatus, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder asc, TiWordCount desc';
 
@@ -156,7 +159,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {  // MAIN LOOP
 } // while ($dsatz = mysql_fetch_assoc($res))  -- MAIN LOOP
 
 mysql_free_result($res);
-echo '</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 300px;">&nbsp;</p></div>';
+echo '</p><p style="font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 300px;">&nbsp;</p></div>';
 
 pageend();
 

@@ -114,7 +114,7 @@ echo "<option value=\"3\"" . get_selected(3,$ann) . ">Romanization &amp; Transla
 <div id="print">
 <?php
 
-echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px; ">' . tohtml($titel) . '<br /><br />';
+echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($titel) . '<br /><br />';
 
 $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
 

@@ -53,6 +53,7 @@ var status = '<?php echo $status; ?>';
 var title = make_tooltip(<?php echo prepare_textdata_js($word); ?>, <?php echo prepare_textdata_js($trans); ?>, <?php echo prepare_textdata_js($roman); ?>, status);
 $('.word<?php echo $wid; ?>', context).removeClass('status98 status99 status1 status2 status3 status4 status5').addClass('status<?php echo $status; ?>').attr('data_status','<?php echo $status; ?>').attr('title',title);
 $('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
+window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
 </script>

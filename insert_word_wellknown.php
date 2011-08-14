@@ -46,6 +46,7 @@ var contexth = window.parent.frames['h'].document;
 var title = make_tooltip(<?php echo prepare_textdata_js($word); ?>,'','','99');
 $('.TERM<?php echo $hex; ?>', context).removeClass('status0').addClass('status99 word<?php echo $wid; ?>').attr('data_status','99').attr('data_wid','<?php echo $wid; ?>').attr('title',title);
 $('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
+window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
 </script>

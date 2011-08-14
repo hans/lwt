@@ -126,6 +126,7 @@ $('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?
 <?php
 	}
 ?>
+window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
 </script>

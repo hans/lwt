@@ -79,6 +79,7 @@ var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
 var trans = <?php echo prepare_textdata_js(repl_tab_nl($_REQUEST["WoTranslation"])); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 $('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
+window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
 </script>

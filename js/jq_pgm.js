@@ -20,6 +20,7 @@ var WBLINK2 = '';
 var WBLINK3 = '';
 var WBLINK4 = '';
 var SOLUTION = '';
+var CURRWORD = 0;
  
 /**************************************************************
 LWT jQuery functions
@@ -94,51 +95,51 @@ function keydown_event_do_test_test(e) {
 		$('.word').click();
 		cClick();
 		OPENED = 1;
-		return;
+		return false;
 	}
 	if (e.which == 32 && OPENED == 1) {  // space: show box
 		$('.word').click();
 		OPENED = 2;
-		return;
+		return false;
 	}
 	if (e.which == 32 && OPENED == 2) {  // space: hide box
 		cClick();
 		OPENED = 1;
-		return;
+		return false;
 	}
 	if (e.which == 38 && OPENED > 0) {  // up : status+1
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&stchange=1';
-		return;
+		return false;
 	}
 	if (e.which == 40 && OPENED > 0) {  // down : status-1
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&stchange=-1';
-		return;
+		return false;
 	}
 	for (var i=1; i<=5; i++) {
 		if ((e.which == (48+i) || e.which == (96+i)) && OPENED > 0) {  // 1,.. : status=i
 			window.parent.frames['ro'].location.href = 
 				'set_test_status.php?wid=' + WID + '&status=' + i;
-			return;
+			return false;
 		}
 	}
 	if (e.which == 73 && OPENED > 0) {  // I : status=98
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&status=98';
-		return;
+		return false;
 	}
 	if (e.which == 87 && OPENED > 0) {  // W : status=99
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&status=99';
-		return;
+		return false;
 	}
 	if (e.which == 69 && OPENED > 0) {  // E : EDIT
 		window.parent.frames['ro'].location.href = 
 			'edit_tword.php?wid=' + WID;
-		return;
+		return false;
 	}
-	return false;
+	return true;
 }
 
 function word_each_do_text_text(i) {
@@ -192,6 +193,19 @@ function mword_click_event_do_text_text() {
 		$(this).attr('data_order'),$(this).attr('data_text'),$(this).attr('data_wid'),
 		status,$(this).attr('data_code'));
 	return false;
+}
+
+function keydown_event_do_text_text(e) {
+	if (e.which == 13) {  // return = edit
+		$('span.wordmarked').removeClass('wordmarked');
+		var unknownwordlist = $('span.status0.word:not(.hide):first');
+		if (unknownwordlist.size() == 0) return true;
+		$(window).scrollTo(unknownwordlist,{axis:'y', offset:-50});
+		unknownwordlist.addClass('wordmarked').click();
+		cClick();
+		return false;
+	}
+	return true;
 }
 
 $(document).ready( function() {
