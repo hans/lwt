@@ -20,7 +20,6 @@ var WBLINK2 = '';
 var WBLINK3 = '';
 var WBLINK4 = '';
 var SOLUTION = '';
-var CURRWORD = 0;
  
 /**************************************************************
 LWT jQuery functions
@@ -139,7 +138,7 @@ function keydown_event_do_test_test(e) {
 			'edit_tword.php?wid=' + WID;
 		return false;
 	}
-	return true;
+	return false;
 }
 
 function word_each_do_text_text(i) {
@@ -199,13 +198,13 @@ function keydown_event_do_text_text(e) {
 	if (e.which == 13) {  // return = edit
 		$('span.wordmarked').removeClass('wordmarked');
 		var unknownwordlist = $('span.status0.word:not(.hide):first');
-		if (unknownwordlist.size() == 0) return true;
+		if (unknownwordlist.size() == 0) return false;
 		$(window).scrollTo(unknownwordlist,{axis:'y', offset:-50});
 		unknownwordlist.addClass('wordmarked').click();
 		cClick();
 		return false;
 	}
-	return true;
+	return false;
 }
 
 $(document).ready( function() {

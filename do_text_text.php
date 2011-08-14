@@ -56,7 +56,6 @@ ORDER = 0;
 $(document).ready( function() {
 	$('.word').each(word_each_do_text_text);
 	$('.mword').each(mword_each_do_text_text);
-	CURRWORD = -1;
 	$('.word').click(word_click_event_do_text_text);
 	$('.mword').click(mword_click_event_do_text_text);
 	$(document).keydown(keydown_event_do_text_text);
