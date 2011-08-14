@@ -20,7 +20,7 @@ var ol_captionsize = 3;
 var ol_width = 260;
 var ol_close = 'Close';
 var ol_offsety = 30;
-var ol_offsetx = 10;
+var ol_offsetx = 3;
 var ol_fgcolor = '#FFFFE8';
 var ol_closecolor = '#FFFFFF';
 
@@ -202,7 +202,7 @@ function make_overlib_link_change_status_test2(wid,oldstat,newstat) {
 }
 
 function make_overlib_link_change_status_test(wid,plusminus,text) {
-	return ' <a id=\x22stchange' + plusminus + '\x22 href=\x22set_test_status.php?wid=' + wid +
+	return ' <a href=\x22set_test_status.php?wid=' + wid +
 		'&amp;stchange=' + plusminus + '\x22 target=\x22ro\x22>' + text + '</a> ';
 }
 

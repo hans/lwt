@@ -178,7 +178,7 @@ if ($count <= 0) {
 		$cleansent = trim(str_replace("{", '', str_replace("}", '', $sent)));
 		// echo $cleansent;
 		
-		echo '<p id="thetest" style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.4; text-align:center; margin-bottom:300px;">';
+		echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.4; text-align:center; margin-bottom:300px;">';
 		$l = mb_strlen($sent,'utf-8');
 		$r = '';
 		$save = '';

@@ -43,6 +43,49 @@ LWT Information / Help
 </script>
   </head>
   <body>
+
+		<div id="divTopRight" class="backgrey" style="background-color: #ddd; border: 1px solid black; padding: 5px; margin-top:10px; position:absolute">
+<b><a href="#">↑↑↑</a></b></div>
+<script type="text/javascript">
+//<![CDATA[
+/* **********************************************
+ * Floating Div from http://www.javascript-fx.com
+ ********************************************** */
+
+var ns = (navigator.appName.indexOf("Netscape") != -1);
+var d = document;
+function JSFX_FloatDiv(id, sx, sy)
+{
+	var el=d.getElementById?d.getElementById(id):d.all?d.all[id]:d.layers[id];
+	var px = document.layers ? "" : "px";
+	window[id + "_obj"] = el;
+	if(d.layers)el.style=el;
+	el.cx = el.sx = sx;el.cy = el.sy = sy;
+	el.sP=function(x,y){this.style.left=x+px;this.style.top=y+px;};
+
+	el.floatIt=function()
+	{
+		var pX, pY;
+		pX = (this.sx >= 0) ? 0 : ns ? innerWidth : 
+		document.documentElement && document.documentElement.clientWidth ? 
+		document.documentElement.clientWidth : document.body.clientWidth;
+		pY = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+		document.documentElement.scrollTop : document.body.scrollTop;
+		if(this.sy<0) 
+		pY += ns ? innerHeight : document.documentElement && document.documentElement.clientHeight ? 
+		document.documentElement.clientHeight : document.body.clientHeight;
+		this.cx += (pX + this.sx - this.cx)/8;this.cy += (pY + this.sy - this.cy)/8;
+		this.sP(this.cx, this.cy);
+		setTimeout(this.id + "_obj.floatIt()", 40);
+	}
+	return el;
+}
+JSFX_FloatDiv("divTopRight", -70, 10).floatIt();
+//]]>
+</script>
+
+		<div style="margin-right:50px;">
+
     <h4>
       <a href="index.php" target="_top"><img src="img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
       <br />
@@ -1957,5 +2000,6 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
         </td>
       </tr>
     </table>
+    </div>
   </body>
 </html>
