@@ -980,7 +980,7 @@ function strToHex($string)
 
 function strToClassName($string)
 {
-	// escapes everything to "¡xx" but not 0-9, a-z, A-Z, and unicode >= "¢" (hex 00A2, dec 162)
+	// escapes everything to "¤xx" but not 0-9, a-z, A-Z, and unicode >= (hex 00A5, dec 165)
 	$l = mb_strlen ($string, 'UTF-8');
 	$r = '';
   for ($i=0; $i < $l; $i++)
@@ -991,9 +991,9 @@ function strToClassName($string)
   		($o < 48) || 
   		($o > 57 && $o < 65) || 
   		($o > 90 && $o < 97) || 
-  		($o > 122 && $o < 162)
+  		($o > 122 && $o < 165)
   		)
-  		$r .= '¡' . strToHex($c);
+  		$r .= '¤' . strToHex($c);
   	else 
   		$r .= $c;
   }
