@@ -264,7 +264,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="textarea-noreturn" name="WoTranslation" cols="40" rows="3"></textarea></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Romaniz.:</td>
@@ -272,7 +272,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Sentence<br />Term in {...}:</td>
-	<td class="td1"><textarea name="WoSentence" cols="40" rows="3" class="textarea-noreturn"></textarea></td>
+	<td class="td1"><textarea name="WoSentence" cols="40" rows="3" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Status:</td>
@@ -324,7 +324,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
-		<td class="td1"><textarea class="textarea-noreturn" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>
+		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Romaniz.:</td>
@@ -333,7 +333,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Sentence<br />Term in {...}:</td>
-		<td class="td1"><textarea class="textarea-noreturn" name="WoSentence" cols="40" rows="3"><?php echo tohtml(repl_tab_nl($dsatz['WoSentence'])); ?></textarea></td>
+		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" name="WoSentence" cols="40" rows="3"><?php echo tohtml(repl_tab_nl($dsatz['WoSentence'])); ?></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Status:</td>

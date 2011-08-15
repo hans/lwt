@@ -25,6 +25,23 @@ var SOLUTION = '';
 /**************************************************************
 LWT jQuery functions
 ***************************************************************/
+
+function getUTF8Length(string) {
+	var utf8length = 0;
+	for (var n = 0; n < string.length; n++) {
+		var c = string.charCodeAt(n);
+		if (c < 128) {
+			utf8length++;
+		}
+		else if((c > 127) && (c < 2048)) {
+			utf8length = utf8length+2;
+		}
+		else {
+			utf8length = utf8length+3;
+		}
+	}
+	return utf8length;
+}
  
 function check() {
 	var count = 0;
@@ -39,7 +56,21 @@ function check() {
 	} );
 	if (count > 0) {
 		alert('ERROR\n\n' + count + ' field(s) - marked with * - must not be empty!');
+		return false;
 	}
+	count = 0;
+	$('textarea.checklength').each( function(n) {
+		if($(this).val().trim().length > (0 + $(this).attr('data_maxlength'))) {
+			alert('ERROR\n\nText is too long in field "' + $(this).attr('data_info') + '", please make it shorter! (Maximum length: ' + $(this).attr('data_maxlength') + ' char.)');
+			count++;
+		}
+	} );
+	$('textarea.checkbytes').each( function(n) {
+		if(getUTF8Length($(this).val().trim()) > (0 + $(this).attr('data_maxlength'))) {
+			alert('ERROR\n\nText is too long in field "' + $(this).attr('data_info') + '", please make it shorter! (Maximum length: ' + $(this).attr('data_maxlength') + ' bytes.)');
+			count++;
+		}
+	} );
 	return (count == 0);
 }
 

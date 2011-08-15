@@ -134,7 +134,7 @@ else {  // if (! isset($_REQUEST['op']))
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
-<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
+<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
 </tr>
 <tr>
 <td class="td1 right">Romaniz.:</td>
@@ -142,7 +142,7 @@ else {  // if (! isset($_REQUEST['op']))
 </tr>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
-<td class="td1"><textarea name="WoSentence" class="textarea-noreturn" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea></td>
+<td class="td1"><textarea name="WoSentence" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea></td>
 </tr>
 <tr>
 <td class="td1 right">Status:</td>
