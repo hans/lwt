@@ -50,7 +50,6 @@ if (isset($_REQUEST['op'])) {
 		$sqlct = 0;
 		$lang = $_REQUEST["LgID"];
 		$status = $_REQUEST["WoStatus"];
-		$musthavetransl = $status >= 1 && $status <= 5;
 		
 		$protokoll = '<h4>Import Report (Language: ' . getLanguage($lang) . ', Status: ' . $status . ')</h4><table class="tab1" cellspacing="0" cellpadding="5"><tr><th class="th1">Line</th><th class="th1">Term</th><th class="th1">Translation</th><th class="th1">Romanization</th><th class="th1">Sentence</th><th class="th1">Message</th></tr>';
 		
@@ -83,7 +82,7 @@ if (isset($_REQUEST['op'])) {
 			$r = limitlength($r,100);
 			$s = limitlength($s,1000);  					
   		$protokoll .= '<tr><td class="td1 right">' . ($i+1) . '</td><td class="td1">' . tohtml($w) . '</td><td class="td1">' . tohtml($t) . '</td><td class="td1">' . tohtml($r) . '</td><td class="td1">' . tohtml($s) . '</td>';
- 			if ( $w != '' && ($t != '' || ($t == '' && (! $musthavetransl)))) {
+ 			if ( $w != '' ) {
  				if ($t == '') $t = '*';
  				$excnt = get_first_value('select count(*) as value from words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl));
  				if ($excnt > 0 ) { // exists
@@ -199,8 +198,7 @@ make_score_random_insert_update('id') . ')',"Imported");
 	<br /><br />
 	<b>Important:</b><br />
 	You must specify the term.<br />
-	You must also specify the<br />translation, if status<br />is set to 1 .. 5.<br />
-	Romanization <br />and sentence are optional.
+	Translation, Romanization <br />and Sentence are optional.
 	</td>
 	<td class="td1">
 	Either specify a <b>File to upload</b>:<br />

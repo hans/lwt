@@ -203,6 +203,10 @@ elseif (isset($_REQUEST['del'])) {
 // INS/UPD
 
 elseif (isset($_REQUEST['op'])) {
+
+	$translation_raw = repl_tab_nl(getreq("WoTranslation"));
+	if ( $translation_raw == '' ) $translation = '*';
+	else $translation = $translation_raw;
 	
 	// INSERT
 	
@@ -214,7 +218,7 @@ elseif (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
 			$_REQUEST["WoStatus"] . ', ' .
-			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoTranslation"])) . ', ' .
+			convert_string_to_sqlsyntax($translation) . ', ' .
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Saved");
@@ -232,7 +236,7 @@ make_score_random_insert_update('id') . ')', "Saved");
 		$message = runsql('update words set WoText = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTextLC = ' . 
 			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', WoTranslation = ' . 
-			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoTranslation"])) . ', WoSentence = ' . 
+			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"],
 			"Updated");
@@ -260,7 +264,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="notempty textarea-noreturn" name="WoTranslation" cols="40" rows="3"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><textarea class="textarea-noreturn" name="WoTranslation" cols="40" rows="3"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Romaniz.:</td>
@@ -300,6 +304,8 @@ elseif (isset($_REQUEST['chg'])) {
 	if ($dsatz = mysql_fetch_assoc($res)) {
 		
 		$wordlc = $dsatz['WoTextLC'];
+		$transl = repl_tab_nl($dsatz['WoTranslation']);
+		if($transl == '*') $transl='';
 	
 		?>
 	
@@ -318,7 +324,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
-		<td class="td1"><textarea class="notempty textarea-noreturn" name="WoTranslation" cols="40" rows="3"><?php echo tohtml(repl_tab_nl($dsatz['WoTranslation'])); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><textarea class="textarea-noreturn" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Romaniz.:</td>

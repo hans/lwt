@@ -23,6 +23,10 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
+$translation_raw = repl_tab_nl(getreq("WoTranslation"));
+if ( $translation_raw == '' ) $translation = '*';
+else $translation = $translation_raw;
+
 // INS/UPD
 
 if (isset($_REQUEST['op'])) {
@@ -47,7 +51,7 @@ if (isset($_REQUEST['op'])) {
 				convert_string_to_sqlsyntax($_REQUEST["WoTextLC"]) . ', ' .
 				convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
 				$_REQUEST["WoStatus"] . ', ' .
-				convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoTranslation"])) . ', ' .
+				convert_string_to_sqlsyntax($translation) . ', ' .
 				convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
 				convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Term saved");
@@ -73,7 +77,7 @@ make_score_random_insert_update('id') . ')', "Term saved");
 		
 			$message = runsql('update words set WoText = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' . 
-			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoTranslation"])) . ', WoSentence = ' . 
+			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"], "Updated");
 			$wid = $_REQUEST["WoID"];
@@ -105,7 +109,7 @@ var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
-var trans = <?php echo prepare_textdata_js(repl_tab_nl($_REQUEST["WoTranslation"])); ?>;
+var trans = <?php echo prepare_textdata_js($translation_raw); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 var title = make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 <?php
@@ -197,7 +201,7 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
-		<td class="td1"><textarea name="WoTranslation" class="notempty setfocus textarea-noreturn" cols="35" rows="3"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn" cols="35" rows="3"></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Romaniz.:</td>
@@ -205,7 +209,7 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		<tr>
 		<td class="td1 right">Sentence<br />Term in {...}:</td>
-		<td class="td1"><textarea name="WoSentence" class="notempty textarea-noreturn" cols="35" rows="3"><?php echo tohtml(repl_tab_nl($sent[1])); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><textarea name="WoSentence" class="textarea-noreturn" cols="35" rows="3"><?php echo tohtml(repl_tab_nl($sent[1])); ?></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Status:</td>
@@ -261,7 +265,7 @@ else {  // if (! isset($_REQUEST['op']))
 			</tr>
 			<tr>
 			<td class="td1 right">Translation:</td>
-			<td class="td1"><textarea name="WoTranslation" class="notempty setfocus textarea-noreturn" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+			<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
 			</tr>
 			<tr>
 			<td class="td1 right">Romaniz.:</td>
@@ -270,7 +274,7 @@ else {  // if (! isset($_REQUEST['op']))
 			</tr>
 			<tr>
 			<td class="td1 right">Sentence<br />Term in {...}:</td>
-			<td class="td1"><textarea name="WoSentence" class="notempty textarea-noreturn" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+			<td class="td1"><textarea name="WoSentence" class="textarea-noreturn" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea></td>
 			</tr>
 			<tr>
 			<td class="td1 right">Status:</td>
