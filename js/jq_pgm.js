@@ -12,6 +12,7 @@ Developed by J. Pierre in 2011.
 Global variables used in LWT jQuery functions
 ***************************************************************/
 
+var TEXTPOS = -1;
 var OPENED = 0;
 var WID = 0;
 var TID = 0;
@@ -90,50 +91,47 @@ function word_click_event_do_test_test() {
 }
 
 function keydown_event_do_test_test(e) {
-	if (e.which == 32 && OPENED == 0) {  // 1st space show sol.
+	if (e.which == 32 && OPENED == 0) {  // space : show sol.
 		$('.word').click();
 		cClick();
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + $('.word').attr('data_wid');
 		OPENED = 1;
 		return false;
 	}
-	if (e.which == 32 && OPENED == 1) {  // space: show box
-		$('.word').click();
-		OPENED = 2;
-		return false;
-	}
-	if (e.which == 32 && OPENED == 2) {  // space: hide box
-		cClick();
-		OPENED = 1;
-		return false;
-	}
-	if (e.which == 38 && OPENED > 0) {  // up : status+1
+	if (OPENED == 0) return false;
+	if (e.which == 38) {  // up : status+1
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&stchange=1';
 		return false;
 	}
-	if (e.which == 40 && OPENED > 0) {  // down : status-1
+	if (e.which == 40) {  // down : status-1
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&stchange=-1';
 		return false;
 	}
+	if (e.which == 27) {  // esc : dont change status
+		window.parent.frames['ro'].location.href = 
+			'set_test_status.php?wid=' + WID + '&status=' + $('.word').attr('data_status');
+		return false;
+	}
 	for (var i=1; i<=5; i++) {
-		if ((e.which == (48+i) || e.which == (96+i)) && OPENED > 0) {  // 1,.. : status=i
+		if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
 			window.parent.frames['ro'].location.href = 
 				'set_test_status.php?wid=' + WID + '&status=' + i;
 			return false;
 		}
 	}
-	if (e.which == 73 && OPENED > 0) {  // I : status=98
+	if (e.which == 73) {  // I : status=98
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&status=98';
 		return false;
 	}
-	if (e.which == 87 && OPENED > 0) {  // W : status=99
+	if (e.which == 87) {  // W : status=99
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&status=99';
 		return false;
 	}
-	if (e.which == 69 && OPENED > 0) {  // E : EDIT
+	if (e.which == 69) {  // E : EDIT
 		window.parent.frames['ro'].location.href = 
 			'edit_tword.php?wid=' + WID;
 		return false;
@@ -195,15 +193,104 @@ function mword_click_event_do_text_text() {
 }
 
 function keydown_event_do_text_text(e) {
-	if (e.which == 13) {  // return = edit
-		$('span.wordmarked').removeClass('wordmarked');
-		var unknownwordlist = $('span.status0.word:not(.hide):first');
-		if (unknownwordlist.size() == 0) return false;
-		$(window).scrollTo(unknownwordlist,{axis:'y', offset:-50});
-		unknownwordlist.addClass('wordmarked').click();
+
+	if (e.which == 27) {  // esc = reset all
+		TEXTPOS = -1;
+		$('span.uwordmarked').removeClass('uwordmarked');
+		$('span.kwordmarked').removeClass('kwordmarked');
 		cClick();
 		return false;
 	}
+	
+	if (e.which == 13) {  // return = edit next unknown word
+		$('span.uwordmarked').removeClass('uwordmarked');
+		var unknownwordlist = $('span.status0.word:not(.hide):first');
+		if (unknownwordlist.size() == 0) return false;
+		$(window).scrollTo(unknownwordlist,{axis:'y', offset:-50});
+		unknownwordlist.addClass('uwordmarked').click();
+		cClick();
+		return false;
+	}
+	
+	var knownwordlist = $('span.word:not(.hide):not(.status0),span.mword:not(.hide)');
+	var l_knownwordlist = knownwordlist.size();
+	if (l_knownwordlist == 0) return false;
+	
+	// the following only for a non-zero known words list
+	if (e.which == 33) {  // pgup : known word navigation -> first
+		$('span.kwordmarked').removeClass('kwordmarked');
+		TEXTPOS = 0;
+		curr = knownwordlist.eq(TEXTPOS);
+		curr.addClass('kwordmarked');
+		$(window).scrollTo(curr,{axis:'y', offset:-50});
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
+		return false;
+	}
+	if (e.which == 34) {  // pgdn : known word navigation -> first
+		$('span.kwordmarked').removeClass('kwordmarked');
+		TEXTPOS = l_knownwordlist-1;
+		curr = knownwordlist.eq(TEXTPOS);
+		curr.addClass('kwordmarked');
+		$(window).scrollTo(curr,{axis:'y', offset:-50});
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
+		return false;
+	}
+	if (e.which == 37) {  // left : known word navigation
+		$('span.kwordmarked').removeClass('kwordmarked');
+		TEXTPOS--;
+		if (TEXTPOS < 0) TEXTPOS = l_knownwordlist - 1;
+		curr = knownwordlist.eq(TEXTPOS);
+		curr.addClass('kwordmarked');
+		$(window).scrollTo(curr,{axis:'y', offset:-50});
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
+		return false;
+	}
+	if (e.which == 39 || e.which == 32) {  // space /right : known word navigation
+		$('span.kwordmarked').removeClass('kwordmarked');
+		TEXTPOS++;
+		if (TEXTPOS >= l_knownwordlist) TEXTPOS = 0;
+		curr = knownwordlist.eq(TEXTPOS);
+		curr.addClass('kwordmarked');
+		$(window).scrollTo(curr,{axis:'y', offset:-50});
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
+;
+		return false;
+	}
+
+	if (TEXTPOS < 0 || TEXTPOS >= l_knownwordlist) return false;
+	var curr = knownwordlist.eq(TEXTPOS);
+	var wid = curr.attr('data_wid');
+	var ord = curr.attr('data_ord');
+	
+	// the following only with valid pos.
+	for (var i=1; i<=5; i++) {
+		if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
+			window.parent.frames['ro'].location.href = 
+				'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i;
+			return false;
+		}
+	}
+	if (e.which == 73) {  // I : status=98
+		window.parent.frames['ro'].location.href = 
+			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=98';
+		return false;
+	}
+	if (e.which == 87) {  // W : status=99
+		window.parent.frames['ro'].location.href = 
+			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99';
+		return false;
+	}
+	if (e.which == 69) { //  E : EDIT
+		if(curr.has('.mword'))
+			window.parent.frames['ro'].location.href = 
+				'edit_mword.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
+		else {
+			window.parent.frames['ro'].location.href = 
+				'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
+		}
+		return false;
+	}
+
 	return false;
 }
 

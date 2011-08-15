@@ -230,10 +230,6 @@ WID = <?php echo $wid; ?>;
 $(document).ready( function() {
 	$(document).keydown(keydown_event_do_test_test);
 	$('.word').click(word_click_event_do_test_test);
-	window.parent.frames['ru'].location.href='empty.htm';
-	window.parent.frames['ro'].setTimeout('location.href=\'empty.htm\';',
-	parseInt('<?php echo getSettingWithDefault(
-		'set-test-edit-frame-waiting-time');?>',10));
 });
 //]]>
 </script>
@@ -276,6 +272,10 @@ $b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready( function() {
+	window.parent.frames['ru'].location.href='empty.htm';
+	window.parent.frames['ro'].setTimeout('location.href=\'empty.htm\';',
+	parseInt('<?php echo getSettingWithDefault(
+		'set-test-edit-frame-waiting-time');?>',10));
 	new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 
 		'timer', <?php echo ($count ? 0 : 1); ?>);
 });

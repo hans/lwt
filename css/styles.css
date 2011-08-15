@@ -71,14 +71,16 @@ span.status98 {
 	color: #000000;
 }
 span.mwsty {
-	border-right: solid 2px #FFF;
+	/* border-right: solid 2px #FFF; */
+	margin-right: 2px;
 	font-size: 60%;
 	font-weight: bold;
 	color: #000000;
 	vertical-align: top; 
 }
 span.wsty {
-	border-right: solid 2px #FFF;
+	/* border-right: solid 2px #FFF; */
+	margin-right: 2px;
 	color: #000000;
 }
 span.todosty {
@@ -307,9 +309,19 @@ dt {
 	border-bottom: 1px solid #000000;
 	border-right: 1px solid #000000;
 }
-.wordmarked { 
-	border-top: 2px solid #000000;
-	border-bottom: 2px solid #000000;
+.uwordmarked { 
+	font-weight: bold;
+	border-top: 3px solid red;
+	border-bottom: 3px solid red;
+	border-right: 3px solid red;
+	border-left: 3px solid red;
+}
+.kwordmarked { 
+	font-weight: bold;
+	border-top: 3px solid black;
+	border-bottom: 3px solid black;
+	border-left: 3px solid black;
+	border-right: 3px solid black;
 }
 
 /**************************************************************

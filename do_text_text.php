@@ -47,12 +47,13 @@ $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 ?>
 <script type="text/javascript">
 //<![CDATA[
+TEXTPOS = -1;
+OPENED = 0;
 WBLINK1 = '<?php echo $wb1; ?>';
 WBLINK2 = '<?php echo $wb2; ?>';
 WBLINK3 = '<?php echo $wb3; ?>';
 WBLINK4 = '<?php echo $wb3; ?>';
 TID = '<?php echo $_REQUEST['text']; ?>';
-ORDER = 0;
 $(document).ready( function() {
 	$('.word').each(word_each_do_text_text);
 	$('.mword').each(mword_each_do_text_text);

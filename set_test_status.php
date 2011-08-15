@@ -53,9 +53,9 @@ $m1 = runsql('update words set WoStatus = ' .
 $newscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from words where WoID = ' . $wid) + 0;
 
 if ($oldstatus == $status)
-	echo '<p>Status "' . tohtml(get_status_name($oldstatus)) . '" [' . tohtml(get_status_abbr($oldstatus)) . '] not changed.</p>';
+	echo '<p>Status ' . get_colored_status_msg($status) . ' not changed.</p>';
 else
-	echo '<p>Status changed from "' . tohtml(get_status_name($oldstatus)) . '" [' . tohtml(get_status_abbr($oldstatus)) . '] to "' . tohtml(get_status_name($status)) . '" [' . tohtml(get_status_abbr($status)) . '].</p>';
+	echo '<p>Status changed from ' . get_colored_status_msg($oldstatus) . ' to ' . get_colored_status_msg($status) . '.</p>';
 
 echo "<p>Old score was " . $oldscore . ", new score is now " . $newscore . ".</p>";
 

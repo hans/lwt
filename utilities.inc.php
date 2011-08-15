@@ -685,6 +685,12 @@ function get_status_abbr($n) {
 
 // -------------------------------------------------------------
 
+function get_colored_status_msg($n) {
+	return '<span class="status' . $n . '">&nbsp;' . tohtml(get_status_name($n)) . '&nbsp;[' . tohtml(get_status_abbr($n)) . ']&nbsp;</span>';
+}
+
+// -------------------------------------------------------------
+
 function get_multiplewordsactions_selectoptions() {
 	$r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
