@@ -248,7 +248,7 @@ function keydown_event_do_text_text(e) {
 	if (l_knownwordlist == 0) return false;
 	
 	// the following only for a non-zero known words list
-	if (e.which == 33) {  // pgup : known word navigation -> first
+	if (e.which == 33 || e.which == 36) {  // pgup oder home : known word navigation -> first
 		$('span.kwordmarked').removeClass('kwordmarked');
 		TEXTPOS = 0;
 		curr = knownwordlist.eq(TEXTPOS);
@@ -257,7 +257,7 @@ function keydown_event_do_text_text(e) {
 		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
 		return false;
 	}
-	if (e.which == 34) {  // pgdn : known word navigation -> first
+	if (e.which == 34 || e.which == 35) {  // pgdn or end : known word navigation -> first
 		$('span.kwordmarked').removeClass('kwordmarked');
 		TEXTPOS = l_knownwordlist-1;
 		curr = knownwordlist.eq(TEXTPOS);
