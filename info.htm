@@ -67,7 +67,7 @@ LWT Information / Help
 		<a href="#faq">Q &amp; A</a><br /> 
 		<a href="#langsetup">Lang. Setup</a><br />
 		<a href="#termscores">Term Scores</a><br />
-		<a href="#keybind">Key Bindings</a><br />
+		<a href="#keybind">Key Bindings</a><br /><br />
 		<a href="#database">DB Structure</a><br />
 		<a href="#history">Changelog</a>
 	</div>  
@@ -999,14 +999,14 @@ Developed by J. Pierre in 2011.
       </dd>
 
       <dt>
-        ▶ <b><a name="learn" id="learn">How to learn</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="learn" id="learn">How to learn with LWT</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
         <ul>
           <li>Find an interesting text (preferably with an mp3 audio file) in the Internet and load it into LWT. If you are a beginner, look for beginner courses or podcasts in the Internet.
           </li>
-          <li>You don't know where to find texts with audio? The <a href="http://referer.us/lingq.com" target="_blank">LingQ Library</a> has many (only a free registration is needed). Or look into <a href="http://referer.us/lingq.com/learn/en/forum/3/8297" target="_blank">this thread</a> in the LingQ Forum, you will find there lots of great links to ressources.
+          <li>You don't know where to find texts with audio? The <a href="http://referer.us/lingq.com" target="_blank">LingQ Library</a> has many (only a free registration is needed). Or look into <a href="http://referer.us/lingq.com/learn/en/forum/3/8297" target="_blank">this thread</a> in the LingQ Forum, you will find there lots of great links to ressources. Or click (within the LingQ library) on "My Imports" - you will find a list of links of "Suggested resources".
           </li>
           <li>Read the text, look up the new words and expressions (=terms) and save them for review and test.
           </li>
@@ -1020,7 +1020,8 @@ Developed by J. Pierre in 2011.
           Listen ▶ Read ▶ Review/Test.<br />
           ......<br /><br />
           </li>
-          <li>That's it. It's that simple.
+          <li>That's it. It's that simple. </li>
+          <li>If you want know more, watch <a href="http://www.youtube.com/user/lingosteve" target="_blank">Steve Kaufmann's videos on YouTube</a>: "The 7 secrets of language learning", "Language learning FAQ", and many more.
           </li>
         </ul>
       </dd>
@@ -1140,7 +1141,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b><a name="howtolang" id="howtotext">New/Edit Text (with Check)</a></b>
             <br />
             <br />
-            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" sub directory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
+            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" sub directory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files. If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
             <br />
             <br />
             <img class="grayborder" src="img/05.png" alt="Image" />
@@ -1173,10 +1174,25 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
           </li>
 
           <li>
+          	<b>Test terms</b>
+            <br />
+            <br />
+            Tests are only possible if a term has a translation. Terms with status "Ignored" and "Well Known" are never tested, and terms with a positive or zero score are not tested today. In summary, the term score must fall below zero to trigger the test. See also <a href="#termscores">Term scores</a>. Terms that are due today are marked with a red bullet in the term table. Terms that are due tomorrow are marked with a yellow bullet in the term table.  
+            <br />
+            <br />
+            During a test, a status display (at the bottom of the test frame) shows you the elapsed time "mm:ss", a small bar graph, and the total, not yet tested, wrong and correct terms in this test.
+            <br />
+            <br />
+            In the following, L1 denotes you mother tongue (= translations), and L2 the language you want to learn (= the terms (words and expressions).
+            <br />
+            <br />
+          </li>
+
+          <li>
             <b>Test terms in a text (L2 -&gt; L1)</b>
             <br />
             <br />
-            This is Test #1: L2 -&gt; L1 (recognition) - to train your ability to recognize a L2 term. You may test within sentence context (Button "...[L2]..."), or just the term (Button "[L2]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
+            This is Test #1: L2 -&gt; L1 (recognition) - to train your ability to recognize a L2 term. You may test within sentence context (Button "..[L2].."), or just the term (Button "[L2]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
             <img class="grayborder" src="img/07.png" alt="Image" />
@@ -1188,7 +1204,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>Test terms in a text (L1 -&gt; L2)</b>
             <br />
             <br />
-            This is Test #2: L1 -&gt; L2 (recall) - to train your ability to produce a term from L1. You may test within sentence context (Button "...[L1]..."), or just the term (Button "[L1]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
+            This is Test #2: L1 -&gt; L2 (recall) - to train your ability to produce a term from L1. You may test within sentence context (Button "..[L1].."), or just the term (Button "[L1]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
             <img class="grayborder" src="img/11.png" alt="Image" />
@@ -1200,7 +1216,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>Test terms in a text (••• -&gt; L2)</b>
             <br />
             <br />
-            This is test #3: ••• -&gt; L2 (recall) - to train your ability to produce a term only from the sentence context (Button "...[••]..."). If you hover over "[•••]", a tooltip displays the translation of the term. You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
+            This is test #3: ••• -&gt; L2 (recall) - to train your ability to produce a term only from the sentence context (Button "..[••].."). If you hover over "[•••]", a tooltip displays the translation of the term. You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
             <img class="grayborder" src="img/12.png" alt="Image" />
@@ -1324,7 +1340,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>Import Terms</b>
             <br />
             <br />
-            Import a list of terms for a language, and set the status for all to a specified value. You can specify a file to upload or type/paste the data directly into the textbox. Format: one term per line, fields (columns) are separated either by comma ("CSV" file, e.g. used in LingQ as export format), TAB ("TSV" file, e.g. copy and paste from a spreadsheet program, not possible if you type in data manually) or # (if you type in data manually). The field/column assignment must be specified on the left. Important: You must import a term and a translation if the status should be set to 1, 2, 3, 4, or 5. The translation can be omitted if the status should be set to 98 or 99 (ignore/well known). Romanization and sentence are always optional. If a term already exists in the database (comparison is NOT case sensitive), it will not be overwritten; the line will be ignored. You can change this by setting "Overwrite existent terms" to "Yes". Be careful using this screen, a database backup before the import and double-checking everything is always advisable!
+            Import a list of terms for a language, and set the status for all to a specified value. You can specify a file to upload or type/paste the data directly into the textbox. Format: one term per line, fields (columns) are separated either by comma ("CSV" file, e.g. used in LingQ as export format), TAB ("TSV" file, e.g. copy and paste from a spreadsheet program, not possible if you type in data manually) or # (if you type in data manually). The field/column assignment must be specified on the left. Important: You must import a term. The translation can be omitted if the status should be set to 98 or 99 (ignore/well known). Translation, romanization and sentence are all optional, but please understand that tests are only possible if terms have a translation. If a term already exists in the database (comparison is NOT case sensitive), it will not be overwritten; the line will be ignored. You can change this by setting "Overwrite existent terms" to "Yes". Be careful using this screen, a database backup before the import and double-checking everything is always advisable!
             <br />
             <br />
             <img class="grayborder" src="img/10.png" alt="Image" />
@@ -1606,7 +1622,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <img class="grayborder" src="img/score1full.png" alt="Image" />
             <br />
             <br />
-            Terms with status 1 should be tested immediately and retested (if the test failed) the next day. Terms set to status 2 should be retested after 2 days. Terms set to status 3 should be retested after 9 days. Terms set to status 4 should be retested after 27 days. Terms set to status 5 should be retested after 72 days.
+            Terms with status 1 are tested either today (if not created today) or tomorrow (if created today, or a test failed today). Terms set to status 2 should be retested after 2 days. Terms set to status 3 should be retested after 9 days. Terms set to status 4 should be retested after 27 days. Terms set to status 5 should be retested after 72 days.
             <br />
             <br />
           </li>
@@ -1902,16 +1918,17 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
         	<li>1.1.0 (August 16 2011): 
         	DB design altered: Table "words" changed: 3 new columns to make random word selection (in tests) and score calculation/query faster.<br />
         	Translation, romanization and sentence are now optional. An empty translation or an asterisk in the translation field are equivalent. Terms without translation or in status "Well Known" or "Ignore" will never be tested. Import of terms without translation is now possible.<br />
+        	Textarea input boxes have now all a mamimum text/bytes length check.<br />
         	New status display during tests: "Elapsed Time / Total = Not yet tested + Wrong + Correct", plus a small bar graph.<br /> 
         	Testing algorithm revised, simplified and optimized.<br />
         	Tests can now be done also via key strokes (but you must first click in the test frame): SPACE: show solution, UP/DOWN: Status +1/-1, ESC: don't change status, NUMBER KEYS 1-5: set status to 1-5, I: set "Ignored", W: set "Well known", E: edit term.<br />
         	Terms due today and tomorrow are marked in score column (red/yellow) in terms table.<br />
-        	In the "Read Text" frame, the next unknown (blue) word in the text can now be shown for creation just by pressing the RETURN key, it will will have a red border, and you type in the translation, etc., and press RETURN to save the word. Now you can press RETURN again to show the next unknown word, enter a translation, save it, and so on ... There is sometimes the problem that some external dictionaries catch the focus although the cursor should be in the translation field in the edit frame. Especially Chrome behaves badly, and I cannot change this.<br />
-        	More possibilities with key strokes in the "Read Text" frame (but only for saved terms: RIGHT or SPACE: next term, LEFT: previous term, PAGE-UP: first term, PAGE-DOWN: last term, NUMBER KEYS 1-5: set current term status to 1-5, I: set current term status to "Ignored", W: set current term status to "Well known", E: edit current term, ESC: reset all. The current term has a black border.<br /> 
-        	New refresh button refreshes media files combo box (without page reload) in text input/edit screens.<br />
-        	Added information how to install LWT at a (free) webhoster.<br />
-        	Corrected easyPHP installation.<br />
-        	Documentation and screenshots updated.
+        	In the "Read Text" frame, the next unknown (blue) word in the text can now be shown for term creation just by pressing the RETURN key. The term will be marked by a red border. You type in the translation, etc., and press RETURN to save the word. Now you can press RETURN again to show the next unknown (blue) word, enter a translation, save it, and so on... There is sometimes the problem that some external dictionaries catch the focus although the cursor should be in the translation field in the edit frame. Especially Chrome behaves badly, and I cannot change this. Please try different dictionaries and/or browsers.<br />
+        	You can also review/manage saved (non-blue) terms with key strokes in the "Read Text" frame (RIGHT or SPACE: next term, LEFT: previous term, PAGE-UP: first term, PAGE-DOWN: last term, NUMBER KEYS 1-5: set current term status to 1-5, I: set current term status to "Ignored", W: set current term status to "Well known", E: edit current term, ESC: reset). The current term has a black border and the frame scrolls automatically. The term is displayed in the top right frame.<br /> 
+        	New refresh button refreshes media files combo box (without page reload) on the text input/edit screen.<br />
+        	Information added how to install LWT at a (free) webhoster.<br />
+        	EasyPHP installation corrected.<br />
+        	Documentation and screenshots updated, new floating menu.
         	<br /><br />
         	</li>
 
