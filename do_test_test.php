@@ -273,9 +273,18 @@ $b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
 //<![CDATA[
 $(document).ready( function() {
 	window.parent.frames['ru'].location.href='empty.htm';
-	window.parent.frames['ro'].setTimeout('location.href=\'empty.htm\';',
-	parseInt('<?php echo getSettingWithDefault(
-		'set-test-edit-frame-waiting-time');?>',10));
+<?php
+$waittime = getSettingWithDefault('set-test-edit-frame-waiting-time') + 0;
+if ($waittime <= 0 ) {
+?>
+	window.parent.frames['ro'].location.href='empty.htm';
+<?php
+} else {
+?>
+	setTimeout('window.parent.frames[\'ro\'].location.href=\'empty.htm\';', <?php echo $waittime; ?>);
+<?php
+}
+?>
 	new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 
 		'timer', <?php echo ($count ? 0 : 1); ?>);
 });

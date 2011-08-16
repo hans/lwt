@@ -75,7 +75,18 @@ if ( $notyettested > 0 ) {
 //<![CDATA[
 var context = window.parent.frames['l'].document;
 $('.word<?php echo $wid; ?>', context).removeClass('todo todosty').addClass('done<?php echo ($stchange >= 0 ? 'ok' : 'wrong'); ?>sty').attr('data_status','<?php echo $status; ?>').attr('data_todo','0');
-window.parent.frames['l'].setTimeout('location.reload();', parseInt('<?php echo getSettingWithDefault('set-test-main-frame-waiting-time'); ?>',10));
+<?php
+$waittime = getSettingWithDefault('set-test-main-frame-waiting-time') + 0;
+if ($waittime <= 0 ) {
+?>
+window.parent.frames['l'].location.reload();
+<?php
+} else {
+?>
+setTimeout('window.parent.frames[\'l\'].location.reload();', <?php echo $waittime; ?>);
+<?php
+}
+?>
 //]]>
 </script>
 <?php

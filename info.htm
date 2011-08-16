@@ -67,6 +67,7 @@ LWT Information / Help
 		<a href="#faq">Q &amp; A</a><br /> 
 		<a href="#langsetup">Lang. Setup</a><br />
 		<a href="#termscores">Term Scores</a><br />
+		<a href="#keybind">Key Bindings</a><br />
 		<a href="#database">DB Structure</a><br />
 		<a href="#history">Changelog</a>
 	</div>  
@@ -151,6 +152,9 @@ $(document).ready( function() {
         </option>
         <option value="termscores">
           Term Scores
+        </option>
+        <option value="keybind">
+          Key Bindings
         </option>
         <option value="database">
           Database Structure
@@ -1136,7 +1140,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b><a name="howtolang" id="howtotext">New/Edit Text (with Check)</a></b>
             <br />
             <br />
-            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" sub directory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
+            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" sub directory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
             <br />
             <br />
             <img class="grayborder" src="img/05.png" alt="Image" />
@@ -1148,7 +1152,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>Read a Text</b>
             <br />
             <br />
-            This is your "working area": Reading (and listening to) a text, saving/editing words and expressions, looking up words, expressions, sentences in external dictionaries or Google Translate. To create an expression, click on the first word. You see "Exp: 2..xx 3..yy 4..zz ...". Just click on the number of words (2..9) of the desired expression you want to save. The dictionary links for multi word expressions are always in the edit frame!
+            This is your "working area": Reading (and listening to) a text, saving/editing words and expressions, looking up words, expressions, sentences in external dictionaries or Google Translate. To create an expression, click on the first word. You see "Exp: 2..xx 3..yy 4..zz ...". Just click on the number of words (2..9) of the desired expression you want to save. The dictionary links for multi word expressions are always in the edit frame! You can also use the Keyboard in the text frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
             <img class="grayborder" src="img/06.png" alt="Image" />
@@ -1172,7 +1176,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>Test terms in a text (L2 -&gt; L1)</b>
             <br />
             <br />
-            This is Test #1: L2 -&gt; L1 (recognition) - to train your ability to recognize a L2 term. You may test within sentence context (Button "...[L2]..."), or just the term (Button "[L2]").
+            This is Test #1: L2 -&gt; L1 (recognition) - to train your ability to recognize a L2 term. You may test within sentence context (Button "...[L2]..."), or just the term (Button "[L2]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
             <img class="grayborder" src="img/07.png" alt="Image" />
@@ -1184,7 +1188,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>Test terms in a text (L1 -&gt; L2)</b>
             <br />
             <br />
-            This is Test #2: L1 -&gt; L2 (recall) - to train your ability to produce a term from L1. You may test within sentence context (Button "...[L1]..."), or just the term (Button "[L1]").
+            This is Test #2: L1 -&gt; L2 (recall) - to train your ability to produce a term from L1. You may test within sentence context (Button "...[L1]..."), or just the term (Button "[L1]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
             <img class="grayborder" src="img/11.png" alt="Image" />
@@ -1196,7 +1200,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>Test terms in a text (••• -&gt; L2)</b>
             <br />
             <br />
-            This is test #3: ••• -&gt; L2 (recall) - to train your ability to produce a term only from the sentence context (Button "...[••]..."). If you hover over "[•••]", a tooltip displays the translation of the term.
+            This is test #3: ••• -&gt; L2 (recall) - to train your ability to produce a term only from the sentence context (Button "...[••]..."). If you hover over "[•••]", a tooltip displays the translation of the term. You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
             <img class="grayborder" src="img/12.png" alt="Image" />
@@ -1623,6 +1627,61 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
         </ul>
       </dd>
 
+      <dt>
+        ▶ <b><a name="keybind" id="keybind">Key Bindings</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>Important: Before using the keyboard you must set the focus within the frame by clicking once on the frame!<br /><br /></li>
+          <li>Key Bindings in the TEXT Frame<br />
+					<table class="tab3" cellspacing="0" cellpadding="5">
+					<tr class="tr1"><th class="th1">Key(s)</th><th class="th1">Action(s)</th></tr>
+					<tr class="tr1"><td class="td1">RETURN</td>
+					<td class="td1">The next UNKNOWN (blue) word in the text will be shown for creation</td></tr>
+					<tr class="tr1"><td class="td1">RIGHT or SPACE</td>
+					<td class="td1">Mark next SAVED (non-blue) term</td></tr>
+					<tr class="tr1"><td class="td1">LEFT</td>
+					<td class="td1">Mark previous SAVED (non-blue) term</td></tr>
+					<tr class="tr1"><td class="td1">PAGE UP</td>
+					<td class="td1">Mark first SAVED (non-blue) term</td></tr>
+					<tr class="tr1"><td class="td1">PAGE DOWN</td>
+					<td class="td1">Mark last SAVED (non-blue) term</td></tr>
+					<tr class="tr1"><td class="td1">1, 2, 3, 4, 5</td>
+					<td class="td1">Set status of marked term to 1, 2, 3, 4, or 5</td></tr>
+					<tr class="tr1"><td class="td1">I</td>
+					<td class="td1">Set status of marked term to "Ignored"</td></tr>
+					<tr class="tr1"><td class="td1">W</td>
+					<td class="td1">Set status of marked term to "Well Known"</td></tr>
+					<tr class="tr1"><td class="td1">E</td>
+					<td class="td1">Edit marked term</td></tr>
+					<tr class="tr1"><td class="td1">ESC</td>
+					<td class="td1">Reset marked term(s)</td></tr>
+					</table>
+          </li>
+          <li>Key Bindings in the TEST Frame<br />
+					<table class="tab3" cellspacing="0" cellpadding="5">
+					<tr class="tr1"><th class="th1">Key(s)</th><th class="th1">Action(s)</th></tr>
+					<tr class="tr1"><td class="td1">SPACE</td>
+					<td class="td1">Show solution</td></tr>
+					<tr class="tr1"><td class="td1">UP</td>
+					<td class="td1">Set status of tested term to (old status plus 1)</td></tr>
+					<tr class="tr1"><td class="td1">DOWN</td>
+					<td class="td1">Set status of tested term to (old status minus 1)</td></tr>
+					<tr class="tr1"><td class="td1">ESC</td>
+					<td class="td1">Do not change status of tested term</td></tr>
+					<tr class="tr1"><td class="td1">1, 2, 3, 4, 5</td>
+					<td class="td1">Set status of tested term to 1, 2, 3, 4, or 5</td></tr>
+					<tr class="tr1"><td class="td1">I</td>
+					<td class="td1">Set status of tested term to "Ignored"</td></tr>
+					<tr class="tr1"><td class="td1">W</td>
+					<td class="td1">Set status of tested term to "Well Known"</td></tr>
+					<tr class="tr1"><td class="td1">E</td>
+					<td class="td1">Edit tested term</td></tr>
+					</table>
+          </li>
+      </dd>
+      
       <dt>
         ▶ <b><a name="database" id="database">Database Structure</a></b> - <a href="#">[↑]</a>
       </dt>
