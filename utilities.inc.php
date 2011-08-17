@@ -1846,7 +1846,7 @@ function check_update_db() {
 		}
 		if ($currversion > 'v001001000') {
 			// updates for all versions > 1.1.0 
-			// ... none ...
+			// ... no db updates ...
 		}
 		// set to current.
 		saveSetting('dbversion',$currversion);
