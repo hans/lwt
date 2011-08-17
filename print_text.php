@@ -21,22 +21,37 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
-function output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans) {
+function output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans,$annplcmnt) {
 	if ($show_rom && $saverom == '') $show_rom = 0;
 	if ($show_trans && $savetrans == '') $show_trans = 0;
-	if ($show_rom || $show_trans)
-		echo ' <span class="annterm">';
-	echo tohtml($saveterm);
-	if ($show_rom || $show_trans) {
-		echo '</span> ';
-		if ($show_rom  && (! $show_trans)) 
-			echo '<span class="annrom">' . tohtml($saverom) . '</span>';
-		if ($show_rom && $show_trans) 
-			echo '<span class="annrom">[' . tohtml($saverom) . ']</span> ';
-		if ($show_trans) 
-			echo '<span class="anntrans">' . tohtml($savetrans) . '</span>';
-		echo '&nbsp; ';
-	}		
+	if ($annplcmnt == 1) {
+		if ($show_rom || $show_trans) {
+			if ($show_trans) 
+				echo '<span class="anntrans">' . tohtml($savetrans) . '</span> ';
+			if ($show_rom  && (! $show_trans)) 
+				echo '<span class="annrom">' . tohtml($saverom) . '</span> ';
+			if ($show_rom && $show_trans) 
+				echo '<span class="annrom">[' . tohtml($saverom) . ']</span> ';
+			echo ' <span class="annterm">';
+		}	
+		echo tohtml($saveterm);
+		if ($show_rom || $show_trans)
+			echo '</span> ';
+	} else {
+		if ($show_rom || $show_trans)
+			echo ' <span class="annterm">';
+		echo tohtml($saveterm);
+		if ($show_rom || $show_trans) {
+			echo '</span> ';
+			if ($show_rom  && (! $show_trans)) 
+				echo '<span class="annrom">' . tohtml($saverom) . '</span>';
+			if ($show_rom && $show_trans) 
+				echo '<span class="annrom">[' . tohtml($saverom) . ']</span> ';
+			if ($show_trans) 
+				echo '<span class="anntrans">' . tohtml($savetrans) . '</span>';
+			echo ' ';
+		}	
+	}
 }
 
 $textid = getreq('text')+0;
@@ -55,6 +70,10 @@ $status = getreq('status');
 if($status == '') $status = getSetting('currentprintstatus');
 if($status == '') $status = 14;
 $whstatus = ' and (' . makeStatusCondition('WoStatus', $status) . ') ';
+
+$annplcmnt = getreq('annplcmnt');
+if($annplcmnt == '') $annplcmnt = getSetting('currentprintannotationplacement');
+if($annplcmnt == '') $annplcmnt = 0;
 
 $sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
@@ -75,6 +94,7 @@ mysql_free_result($res);
 saveSetting('currenttext',$textid);
 saveSetting('currentprintannotation',$ann);
 saveSetting('currentprintstatus',$status);
+saveSetting('currentprintannotationplacement',$annplcmnt);
 
 pagestart_nobody('Print');
 
@@ -106,7 +126,15 @@ echo "<option value=\"1\"" . get_selected(1,$ann) . ">Translation</option>";
 echo "<option value=\"2\"" . get_selected(2,$ann) . ">Romanization</option>";
 echo "<option value=\"3\"" . get_selected(3,$ann) . ">Romanization &amp; Translation</option>";
 ?>
-</select>.<br />
+</select>
+<select id="annplcmnt" onchange="{val=document.getElementById('annplcmnt').options[document.getElementById('annplcmnt').selectedIndex].value;location.href='print_text.php?<?php
+echo 'text=' . $textid;
+echo "&amp;annplcmnt=' + val;}" . '">';
+echo "<option value=\"0\"" . get_selected(0,$annplcmnt) . ">behind</option>";
+echo "<option value=\"1\"" . get_selected(1,$annplcmnt) . ">in front of</option>";
+?>
+</select>
+the term.<br />
 <input type="button" value="Print it!" onclick="window.print();" />  (only the text below the line)
 </p>
 </div> <!-- noprint -->
@@ -135,7 +163,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 		continue;
 	}
 	if ( $order > $until ) {
-		output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans);
+		output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans,$annplcmnt);
 		$saveterm = '';
 		$savetrans = '';
 		$saverom = '';
@@ -157,7 +185,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 	}
 } // while
 mysql_free_result($res);
-output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans);
+output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans,$annplcmnt);
 echo "</p></div>";
 
 pageend();
