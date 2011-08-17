@@ -244,8 +244,7 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 	
-	var knownwordlist = $('span:not(.hide)').filter('.word:not(.status0),.mword');
-	if (ADDFILTER != '') knownwordlist = knownwordlist.filter(ADDFILTER);
+	var knownwordlist = $('span.word:not(.hide):not(.status0)' + ADDFILTER + ',span.mword:not(.hide)' + ADDFILTER);
 	var l_knownwordlist = knownwordlist.size();
 	if (l_knownwordlist == 0) return false;
 	

@@ -870,19 +870,31 @@ function makeStatusCondition($fieldname, $status) {
 // -------------------------------------------------------------
 
 function makeStatusClassFilter($status) {
-	if ($status == '') {
-		return '';
-	} elseif ($status == 599) {
-		return '.status5,.status99';
+	if ($status == '') return '';
+	$liste = array(1,2,3,4,5,98,99);
+	if ($status == 599) {
+		makeStatusClassFilterHelper(5,$liste);
+		makeStatusClassFilterHelper(99,$liste);
 	} elseif ($status < 6 || $status > 97) { 
-		return '.status' . $status;
+		makeStatusClassFilterHelper($status,$liste);
+	} else {
+		$from = (int) ($status / 10);
+		$to = $status - ($from*10);
+		for ($i = $from; $i <= $to; $i++)
+			makeStatusClassFilterHelper($i,$liste);
 	}
-	$from = (int) ($status / 10);
-	$to = $status - ($from*10);
 	$r = '';
-	for ($i = $from; $i <= $to; $i++)
-		$r .= ($r == '' ? '' : ',') . '.status' . $i;
+	foreach ($liste as $v) {
+		if($v != -1) $r .= ':not(.status' . $v . ')';
+	}
 	return $r;
+}
+
+// -------------------------------------------------------------
+
+function makeStatusClassFilterHelper($status,&$array) {
+	$pos = array_search($status,$array);
+	if ($pos !== FALSE) $array[$pos] = -1;
 }
 
 // -------------------------------------------------------------
