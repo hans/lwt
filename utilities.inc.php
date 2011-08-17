@@ -145,7 +145,7 @@ function selectmediapath($f) {
 	} else {
 		$msg = '<br />[Directory ".../' . basename(getcwd()) . '/media" does not yet exist.]';
 	}
-	$r = '<br /> or choose a file in ".../' . basename(getcwd()) . '/media" (only mp3, ogg, wav files): ' . $msg;
+	$r = '<br /> or choose a file in ".../' . basename(getcwd()) . '/media" (only mp3, ogg, wav files shown): ' . $msg;
 	if ($msg == '') {
 		$r .= '<br /><select name="Dir" onchange="{val=this.form.Dir.options[this.form.Dir.selectedIndex].value; if (val != \'\') this.form.' . $f . '.value = val; this.form.Dir.value=\'\';}">';
 		$r .= '<option value="">[Choose...]</option>';
@@ -159,9 +159,11 @@ function selectmediapath($f) {
 // -------------------------------------------------------------
 
 function selectmediapathoptions($dir) {
+	$is_windows = ("WIN" == strtoupper(substr(PHP_OS, 0, 3)));
 	$mediadir = scandir($dir);
 	$r = '<option disabled="disabled">-- Directory: ' . tohtml($dir) . ' --</option>';
 	foreach ($mediadir as $entry) {
+		if ($is_windows) $entry = mb_convert_encoding ($entry,'UTF-8','ISO-8859-1');
 		if (substr($entry,0,1) != '.') {
 			if (! is_dir($dir . '/' . $entry)) {
 				$ex = substr($entry,-4);
@@ -288,6 +290,23 @@ function prepare_textdata_js($s) {
 function tohtml($s) {
 	if (isset($s)) return htmlspecialchars($s, ENT_COMPAT, "UTF-8");
 	else return '';
+}
+
+// -------------------------------------------------------------
+
+function encodeURI($url) {
+	$reserved = array(
+		'%2D'=>'-','%5F'=>'_','%2E'=>'.','%21'=>'!', 
+		'%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')'
+	);
+	$unescaped = array(
+		'%3B'=>';','%2C'=>',','%2F'=>'/','%3F'=>'?','%3A'=>':',
+		'%40'=>'@','%26'=>'&','%3D'=>'=','%2B'=>'+','%24'=>'$'
+	);
+	$score = array(
+		'%23'=>'#'
+	);
+	return strtr(rawurlencode($url), array_merge($reserved,$unescaped,$score));
 }
  
 // -------------------------------------------------------------

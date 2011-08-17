@@ -110,8 +110,21 @@ if ($audio != '') {
 $(document).ready(function(){
   $("#jquery_jplayer_1").jPlayer({
     ready: function () {
-      $(this).jPlayer("setMedia", {
-        mp3: "<?php echo trim($audio); ?>",
+      $(this).jPlayer("setMedia", { 
+<?php 
+	$audio = trim($audio);
+	if (strcasecmp(substr($audio,-4), '.mp3') == 0) { 
+  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  } elseif (strcasecmp(substr($audio,-4), '.ogg') == 0) { 
+  	echo 'oga: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" . 
+  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  } elseif (strcasecmp(substr($audio,-4), '.wav') == 0) {
+  	echo 'wav: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" . 
+  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  } else {
+  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  }
+?>
       });
     },
     swfPath: "js",
