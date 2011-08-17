@@ -76,6 +76,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-show-text-word-counts',
 		$_REQUEST['set-show-text-word-counts']);
 	
+		saveSetting('set-text-visit-statuses-via-key',
+		$_REQUEST['set-text-visit-statuses-via-key']);
+	
 		$message = 'Settings saved';
 	
 	} else {
@@ -195,6 +198,20 @@ value="<?php echo tohtml(getSettingWithDefault('set-test-main-frame-waiting-time
 name="set-test-edit-frame-waiting-time" 
 value="<?php echo tohtml(getSettingWithDefault('set-test-edit-frame-waiting-time')); ?>" maxlength="8" size="8" /><br />Milliseconds </td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<th class="th1 center">Reading</th>
+<td class="td1 center">Visit only saved terms with status(es)...<br />(via keystrokes RIGHT, SPACE or LEFT)</td>
+<td class="td1 center">
+<select name="set-text-visit-statuses-via-key">
+<?php
+echo get_wordstatus_selectoptions(
+getSettingWithDefault('set-text-visit-statuses-via-key'), true, true, true);
+?>
+</select>
+</td>
+<td class="td1 center">&nbsp;</td>
 </tr>
 <!-- ******************************************************* -->
 <tr>

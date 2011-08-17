@@ -869,6 +869,24 @@ function makeStatusCondition($fieldname, $status) {
 
 // -------------------------------------------------------------
 
+function makeStatusClassFilter($status) {
+	if ($status == '') {
+		return '';
+	} elseif ($status == 599) {
+		return '.status5,.status99';
+	} elseif ($status < 6 || $status > 97) { 
+		return '.status' . $status;
+	}
+	$from = (int) ($status / 10);
+	$to = $status - ($from*10);
+	$r = '';
+	for ($i = $from; $i <= $to; $i++)
+		$r .= ($r == '' ? '' : ',') . '.status' . $i;
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function createTheDictLink($u,$t) {
 	// Case 1: url without any ###: append UTF-8-term
 	// Case 2: url with one ###: substitute UTF-8-term
@@ -1322,7 +1340,9 @@ function get_setting_data() {
 		'set-terms-per-page' => 
 		array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
 		'set-show-text-word-counts' => 
-		array("dft" => '1', "num" => 0)
+		array("dft" => '1', "num" => 0),
+		'set-text-visit-statuses-via-key' => 
+		array("dft" => '', "num" => 0)
 		);
 	}
 	return $setting_data;

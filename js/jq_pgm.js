@@ -21,6 +21,7 @@ var WBLINK2 = '';
 var WBLINK3 = '';
 var WBLINK4 = '';
 var SOLUTION = '';
+var ADDFILTER = '';
  
 /**************************************************************
 LWT jQuery functions
@@ -243,7 +244,8 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 	
-	var knownwordlist = $('span.word:not(.hide):not(.status0),span.mword:not(.hide)');
+	var knownwordlist = $('span:not(.hide)').filter('.word:not(.status0),.mword');
+	if (ADDFILTER != '') knownwordlist = knownwordlist.filter(ADDFILTER);
 	var l_knownwordlist = knownwordlist.size();
 	if (l_knownwordlist == 0) return false;
 	
