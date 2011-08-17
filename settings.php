@@ -202,7 +202,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-test-edit-frame-waiting-time
 <!-- ******************************************************* -->
 <tr>
 <th class="th1 center">Reading</th>
-<td class="td1 center">Visit only saved terms with status(es)...<br />(via keystrokes RIGHT, SPACE or LEFT)</td>
+<td class="td1 center">Visit only saved terms with status(es)...<br />(via keystrokes RIGHT, SPACE, LEFT, etc.)</td>
 <td class="td1 center">
 <select name="set-text-visit-statuses-via-key">
 <?php
