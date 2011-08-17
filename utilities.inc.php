@@ -19,7 +19,7 @@ Finally: Database Connect, Select, Update
 
 function get_version() {
 	global $debug;
-	return '1.1.0 (August 16 2011)'  . 
+	return '1.1.1 (August ?? 2011)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1785,10 +1785,15 @@ function check_update_db() {
 	$currversion = get_version_number();
 	if ( $currversion > $dbversion ) {
 		if ($currversion > 'v001000000') {
+			// updates for all versions > 1.0.0 
 			if ($debug) echo '<p>DEBUG: Doing db-upgrade ' . $currversion . ' &gt; v001000000</p>';
 			runsql("ALTER TABLE words ADD WoTodayScore DOUBLE NOT NULL DEFAULT 0, ADD WoTomorrowScore DOUBLE NOT NULL DEFAULT 0, ADD WoRandom DOUBLE NOT NULL DEFAULT 0",'');
 			runsql("ALTER TABLE words ADD INDEX WoTodayScore (WoTodayScore), ADD INDEX WoTomorrowScore (WoTomorrowScore), ADD INDEX WoRandom (WoRandom)",'');
 			runsql("UPDATE words SET " . make_score_random_insert_update('u'),'');
+		}
+		if ($currversion > 'v001001000') {
+			// updates for all versions > 1.1.0 
+			// ... none ...
 		}
 		// set to current.
 		saveSetting('dbversion',$currversion);

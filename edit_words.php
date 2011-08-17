@@ -467,7 +467,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <th class="th1 clickable">Term /<br />Romanization</th>
 <th class="th1 clickable">Translation</th>
 <th class="th1 sorttable_nosort">Se.<br />?</th>
-<th class="th1 sorttable_numeric clickable">Stat./<br/>Days</th>
+<th class="th1 sorttable_numeric clickable">Stat./<br />Days</th>
 <th class="th1 sorttable_numeric clickable">Score<br />%</th>
 </tr>
 
