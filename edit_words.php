@@ -490,7 +490,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $dsatz['WoID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $dsatz['WoID'] . '" ' . checkTest($dsatz['WoID'], 'marked') . ' /></a></td>';
 	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $dsatz['WoID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $dsatz['WoID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
-	echo '<td class="td1 center">' . $dsatz['LgName'] . '</td>';
+	echo '<td class="td1 center">' . tohtml($dsatz['LgName']) . '</td>';
 	echo '<td class="td1 ">' . tohtml($dsatz['WoText'] . ($dsatz['WoRomanization']!='' ? (' / ' . $dsatz['WoRomanization']) : '')) . '</td>';
 	echo '<td class="td1 ">' . tohtml(repl_tab_nl($dsatz['WoTranslation'])) . '</td>';
 	echo '<td class="td1 center"><b>' . ($dsatz['SentOK']!=0 ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />') . '</b></td>';

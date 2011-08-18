@@ -195,6 +195,7 @@ function quickMenu() {
 <option disabled="disabled">--------</option>
 <option value="edit_languages">Languages</option>
 <option value="edit_words">Terms</option>
+<option value="edit_tags">Tags</option>
 <option value="statistics">Statistics</option>
 <option disabled="disabled">--------</option>
 <option value="check_text">Text Check</option>
@@ -330,6 +331,13 @@ function convert_string_to_sqlsyntax($data) {
 	$data = trim(prepare_textdata($data));
 	if($data != "") $result = "'" . mysql_real_escape_string($data) . "'";
 	return $result;
+}
+
+// -------------------------------------------------------------
+
+function convert_string_to_sqlsyntax_nonull($data) {
+	$data = trim(prepare_textdata($data));
+	return  "'" . mysql_real_escape_string($data) . "'";
 }
 
 // -------------------------------------------------------------
@@ -689,6 +697,19 @@ function get_wordssort_selectoptions($v) {
 
 // -------------------------------------------------------------
 
+function get_tagsort_selectoptions($v) {
+	if ( ! isset($v) ) $v = 1;
+	$r  = "<option value=\"1\"" . get_selected($v,1);
+	$r .= ">Tag Text A-Z</option>";
+	$r .= "<option value=\"2\"" . get_selected($v,2);
+	$r .= ">Tag Comment A-Z</option>";
+	$r .= "<option value=\"3\"" . get_selected($v,3);
+	$r .= ">Newest first</option>";
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function get_textssort_selectoptions($v) { 
 	if ( ! isset($v) ) $v = 1;
 	$r  = "<option value=\"1\"" . get_selected($v,1);
@@ -763,6 +784,14 @@ function get_multiplewordsactions_selectoptions() {
 
 // -------------------------------------------------------------
 
+function get_multipletagsactions_selectoptions() {
+	$r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
+	$r .= "<option value=\"del\">Delete Marked Tags</option>";
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function get_allwordsactions_selectoptions() {
 	$r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
@@ -782,6 +811,14 @@ function get_allwordsactions_selectoptions() {
 	$r .= "<option value=\"expall2\">Export ALL Terms (TSV)</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"delall\">Delete ALL Terms</option>";
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function get_alltagsactions_selectoptions() {
+	$r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
+	$r .= "<option value=\"delall\">Delete ALL Tags</option>";
 	return $r;
 }
 
@@ -1371,6 +1408,8 @@ function get_setting_data() {
 		'set-texts-per-page' => 
 		array("dft" => '10', "num" => 1, "min" => 1, "max" => 9999),
 		'set-terms-per-page' => 
+		array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
+		'set-tags-per-page' => 
 		array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
 		'set-show-text-word-counts' => 
 		array("dft" => '1', "num" => 0),

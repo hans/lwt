@@ -77,6 +77,7 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <ul>
 <li><a href="edit_languages.php">My Languages</a></li>
 <li><a href="edit_words.php">My Words and Expressions (Terms)</a></li>
+<li><a href="edit_tags.php">My Tags</a></li>
 <li><a href="statistics.php">My Statistics</a></li>
 </ul>
 

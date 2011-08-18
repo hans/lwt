@@ -73,6 +73,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-terms-per-page',
 		$_REQUEST['set-terms-per-page']);
 	
+		saveSetting('set-tags-per-page',
+		$_REQUEST['set-tags-per-page']);
+	
 		saveSetting('set-show-text-word-counts',
 		$_REQUEST['set-show-text-word-counts']);
 	
@@ -243,7 +246,7 @@ getSettingWithDefault('set-term-sentence-count'));
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="4">Text &amp; Term<br />Tables</th>
+<th class="th1 center" rowspan="5">Text, Term &amp;<br />Tag Tables</th>
 <td class="td1 center">Texts per Page</td>
 <td class="td1 center">
 <input class="notempty right" type="text" 
@@ -280,6 +283,15 @@ value="<?php echo tohtml(getSettingWithDefault('set-archivedtexts-per-page')); ?
 <input class="notempty right" type="text" 
 name="set-terms-per-page" 
 value="<?php echo tohtml(getSettingWithDefault('set-terms-per-page')); ?>" maxlength="4" size="4" /></td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Tags per Page</td>
+<td class="td1 center">
+<input class="notempty right" type="text" 
+name="set-tags-per-page" 
+value="<?php echo tohtml(getSettingWithDefault('set-tags-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->
