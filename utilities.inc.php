@@ -19,7 +19,7 @@ Finally: Database Connect, Select, Update
 
 function get_version() {
 	global $debug;
-	return '1.1.1 (August 17 2011)'  . 
+	return '1.2.0 (August ?? 2011)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -252,7 +252,9 @@ function optimizedb() {
 	adjust_autoincr('textitems','TiID');
 	adjust_autoincr('texts','TxID');
 	adjust_autoincr('words','WoID');
-	$dummy = runsql('OPTIMIZE TABLE archivedtexts,languages,sentences,textitems,texts,words,settings', '');
+	adjust_autoincr('tags','TgID');
+	adjust_autoincr('wordtags','WtID');
+	$dummy = runsql('OPTIMIZE TABLE archivedtexts,languages,sentences,textitems,texts,words,settings,tags,wordtags', '');
 }
 
 // -------------------------------------------------------------
@@ -1832,6 +1834,16 @@ function check_update_db() {
 		runsql("CREATE TABLE IF NOT EXISTS words ( WoID int(11) unsigned NOT NULL AUTO_INCREMENT, WoLgID int(11) unsigned NOT NULL, WoText varchar(250) NOT NULL, WoTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, WoStatus tinyint(4) NOT NULL, WoTranslation varchar(500) NOT NULL DEFAULT '*', WoRomanization varchar(100) DEFAULT NULL, WoSentence varchar(1000) DEFAULT NULL, WoCreated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, WoStatusChanged timestamp NOT NULL DEFAULT '0000-00-00 00:00:00', PRIMARY KEY (WoID), UNIQUE KEY WoLgIDTextLC (WoLgID,WoTextLC), KEY WoLgID (WoLgID), KEY WoStatus (WoStatus), KEY WoTextLC (WoTextLC), KEY WoTranslation (WoTranslation(333)), KEY WoCreated (WoCreated), KEY WoStatusChanged (WoStatusChanged) ) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
 	}
 	
+	if (in_array('tags', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding tags</p>';
+		runsql("CREATE TABLE IF NOT EXISTS tags ( TgID int(11) unsigned NOT NULL AUTO_INCREMENT, TgText varchar(20) NOT NULL, TgComment varchar(200) NOT NULL, PRIMARY KEY (TgID), UNIQUE KEY TgText (TgText) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+	}
+	
+	if (in_array('wordtags', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding wordtags</p>';
+		runsql("CREATE TABLE IF NOT EXISTS wordtags ( WtID int(11) unsigned NOT NULL AUTO_INCREMENT, WtWoID int(11) unsigned NOT NULL, WtTgID int(11) unsigned NOT NULL, PRIMARY KEY (WtID), UNIQUE KEY WtWoIDTgID (WtWoID,WtTgID), KEY WtTgID (WtTgID), KEY WtWoID (WtWoID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+	}
+	
 	if ($count > 0) {		
 		// Rebuild Text Cache if cache tables new
 		if ($debug) echo '<p>DEBUG: rebuilding cache tables</p>';
@@ -1875,9 +1887,10 @@ function check_update_db() {
 			runsql("ALTER TABLE words ADD INDEX WoTodayScore (WoTodayScore), ADD INDEX WoTomorrowScore (WoTomorrowScore), ADD INDEX WoRandom (WoRandom)",'');
 			runsql("UPDATE words SET " . make_score_random_insert_update('u'),'');
 		}
-		if ($currversion > 'v001001000') {
-			// updates for all versions > 1.1.0 
-			// ... no db updates ...
+		if ($currversion > 'v001001001') {
+			// updates for all versions > 1.1.1 
+			// New: Table "tags", created above
+			// New: Table "wordtags", created above
 		}
 		// set to current.
 		saveSetting('dbversion',$currversion);
@@ -1890,6 +1903,19 @@ function check_update_db() {
 	if ($lastscorecalc != $today) {
 		if ($debug) echo '<p>DEBUG: Doing score recalc. Today: ' . $today . ' / Last: ' . $lastscorecalc . '</p>';
 		runsql("UPDATE words SET " . make_score_random_insert_update('u'),'');
+		saveSetting('lastscorecalc',$today);
+	}
+	
+	// Do Scoring once per day, clean Wordtags, optimize
+	
+	$lastscorecalc = getSetting('lastscorecalc');
+	$today = date('Y-m-d');
+	if ($lastscorecalc != $today) {
+		if ($debug) echo '<p>DEBUG: Doing score recalc. Today: ' . $today . ' / Last: ' . $lastscorecalc . '</p>';
+		runsql("UPDATE words SET " . make_score_random_insert_update('u'),'');
+		runsql("DELETE wordtags FROM (wordtags LEFT JOIN tags on WtTgID = TgID) WHERE TgID IS NULL",'');
+		runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
+		optimizedb();
 		saveSetting('lastscorecalc',$today);
 	}
 }

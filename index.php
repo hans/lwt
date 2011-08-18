@@ -101,8 +101,6 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 
 flush();
 
-optimizedb();
-
 $mb = get_first_value("SELECT round(sum(data_length+index_length)/1024/1024,1) as value FROM information_schema.TABLES where table_schema = " . convert_string_to_sqlsyntax($dbname) . " GROUP BY table_schema");
 
 ?>

@@ -16,7 +16,7 @@ Set script time limit
 Start a PHP session
 ***************************************************************/
 
-$debug = 0;  // 1 = debugging on, 0 = .. off
+$debug = 1;  // 1 = debugging on, 0 = .. off
 
 if ($debug) {
 	@error_reporting(E_ALL);
