@@ -59,13 +59,13 @@ function get_tags($refresh = 0) {
 // -------------------------------------------------------------
 
 function saveWordTags($wid) {
+	runsql("DELETE from wordtags WHERE WtWoID =" . $wid,'');
 	if (isset($_REQUEST['TermTags'])) {
 		if (is_array($_REQUEST['TermTags'])) {
 			if (isset($_REQUEST['TermTags']['TagList'])) {
 				if (is_array($_REQUEST['TermTags']['TagList'])) {
 					$cnt = count($_REQUEST['TermTags']['TagList']);
 					if ($cnt > 0 ) {
-						runsql("DELETE wordtags WHERE WoID =" . $wid,'');
 						for ($i=0; $i<$cnt; $i++) {
 							$tag = $_REQUEST['TermTags']['TagList'][$i];
 							if(! in_array($tag, $_SESSION['TAGS'])) {
