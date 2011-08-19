@@ -331,7 +331,7 @@ $(document).ready( function() {
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
-	$('#termtags').tagit();
+	$('#termtags').tagit({tagSource: TAGS});
 	markClick();
 	setTheFocus();
 	window.setTimeout(noShowAfter3Secs,3000);

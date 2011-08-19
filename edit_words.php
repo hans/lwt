@@ -328,7 +328,9 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Tags:</td>
-		<td class="td1"><ul id="termtags"></ul></td>
+		<td class="td1">
+		<?php echo getWordTags($dsatz['WoID']); ?>
+		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Romaniz.:</td>

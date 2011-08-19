@@ -38,6 +38,41 @@ function get_version_number() {
 
 // -------------------------------------------------------------
 
+function get_tags($refresh = 0) {
+	if (isset($_SESSION['TAGS'])) {
+		if (is_array($_SESSION['TAGS'])) {
+			if ($refresh == 0) return $_SESSION['TAGS'];
+		}
+	}
+	$tags = array();
+	$sql = 'select TgText from tags order by TgText';
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		$tags[] = $dsatz["TgText"];
+	}
+	mysql_free_result($res);
+	$_SESSION['TAGS'] = $tags;
+	return $_SESSION['TAGS'];
+}
+
+// -------------------------------------------------------------
+
+function getWordTags($wid) {
+	$r = '<ul id="termtags">';
+	$sql = 'select TgText from wordtags, tags where TgID = WtTgID and WtWoID = ' . $wid . ' order by TgText';
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		$r .= '<li>' . tohtml($dsatz["TgText"]) . '</li>';
+	}
+	mysql_free_result($res);
+	$r .= '</ul>';
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function framesetheader($title) {
 	@header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 	@header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -107,6 +142,7 @@ Developed by J. Pierre in 2011.
 	<script type="text/javascript">
 	//<![CDATA[
 	<?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
+	<?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
 	//]]>
 	</script>
 	<script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
