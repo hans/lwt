@@ -26,7 +26,7 @@ ul.tagit li.tagit-choice a.close {
 }
 ul.tagit li.tagit-choice .close {
   /*   right: .4em;  */
-   right: .2em; 
+   right: .1em; 
 }
 ul.tagit li.tagit-choice .ui-icon {
     display: none;
