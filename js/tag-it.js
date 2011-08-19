@@ -32,7 +32,7 @@
             fieldName         : 'tags',
             availableTags     : [],
             tagSource         : null,
-            removeConfirmation: false,
+            removeConfirmation: true,
             caseSensitive     : true,
 
             // When enabled, quotes are not neccesary
@@ -40,7 +40,7 @@
             allowSpaces: false,
 
             // Whether to animate tag removals or not.
-            animate: false,
+            animate: true,
 
             // The below options are for using a single field instead of several
             // for our form values.

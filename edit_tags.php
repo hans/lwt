@@ -57,7 +57,6 @@ if (isset($_REQUEST['markaction'])) {
 					$message = runsql('delete from tags where TgID in ' . $list, "Deleted");
 					runsql("DELETE wordtags FROM (wordtags LEFT JOIN tags on WtTgID = TgID) WHERE TgID IS NULL",'');
 					adjust_autoincr('tags','TgID');
-					adjust_autoincr('wordtags','WtID');
 				}
 			}
 		}
@@ -73,7 +72,6 @@ if (isset($_REQUEST['allaction'])) {
 		$message = runsql('delete from tags where (1=1) ' . $wh_query, "Deleted");
 		runsql("DELETE wordtags FROM (wordtags LEFT JOIN tags on WtTgID = TgID) WHERE TgID IS NULL",'');
 		adjust_autoincr('tags','TgID');
-		adjust_autoincr('wordtags','WtID');
 	}
 }
 
@@ -83,7 +81,6 @@ elseif (isset($_REQUEST['del'])) {
 	$message = runsql('delete from tags where TgID = ' . $_REQUEST['del'], "Deleted");
 	runsql("DELETE wordtags FROM (wordtags LEFT JOIN tags on WtTgID = TgID) WHERE TgID IS NULL",'');
 	adjust_autoincr('tags','TgID');
-	adjust_autoincr('wordtags','WtID');
 }
 
 // INS/UPD

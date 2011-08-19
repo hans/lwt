@@ -58,15 +58,43 @@ function get_tags($refresh = 0) {
 
 // -------------------------------------------------------------
 
+function saveWordTags($wid) {
+	if (isset($_REQUEST['TermTags'])) {
+		if (is_array($_REQUEST['TermTags'])) {
+			if (isset($_REQUEST['TermTags']['TagList'])) {
+				if (is_array($_REQUEST['TermTags']['TagList'])) {
+					$cnt = count($_REQUEST['TermTags']['TagList']);
+					if ($cnt > 0 ) {
+						runsql("DELETE wordtags WHERE WoID =" . $wid,'');
+						for ($i=0; $i<$cnt; $i++) {
+							$tag = $_REQUEST['TermTags']['TagList'][$i];
+							if(! in_array($tag, $_SESSION['TAGS'])) {
+								runsql('insert into tags (TgText) values(' . 
+								convert_string_to_sqlsyntax($tag) . ')', "");
+							}
+							runsql('insert into wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from tags where TgText = ' . convert_string_to_sqlsyntax($tag), "");
+						}
+						get_tags(1);
+					}
+				}
+			}
+		}
+	}
+}
+
+// -------------------------------------------------------------
+
 function getWordTags($wid) {
 	$r = '<ul id="termtags">';
-	$sql = 'select TgText from wordtags, tags where TgID = WtTgID and WtWoID = ' . $wid . ' order by TgText';
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		$r .= '<li>' . tohtml($dsatz["TgText"]) . '</li>';
+	if ($wid > 0) {
+		$sql = 'select TgText from wordtags, tags where TgID = WtTgID and WtWoID = ' . $wid . ' order by TgText';
+		$res = mysql_query($sql);		
+		if ($res == FALSE) die("Invalid query: $sql");
+		while ($dsatz = mysql_fetch_assoc($res)) {
+			$r .= '<li>' . tohtml($dsatz["TgText"]) . '</li>';
+		}
+		mysql_free_result($res);
 	}
-	mysql_free_result($res);
 	$r .= '</ul>';
 	return $r;
 }
@@ -298,7 +326,6 @@ function optimizedb() {
 	adjust_autoincr('texts','TxID');
 	adjust_autoincr('words','WoID');
 	adjust_autoincr('tags','TgID');
-	adjust_autoincr('wordtags','WtID');
 	$dummy = runsql('OPTIMIZE TABLE archivedtexts,languages,sentences,textitems,texts,words,settings,tags,wordtags', '');
 }
 
@@ -1924,7 +1951,7 @@ function check_update_db() {
 	
 	if (in_array('wordtags', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding wordtags</p>';
-		runsql("CREATE TABLE IF NOT EXISTS wordtags ( WtID int(11) unsigned NOT NULL AUTO_INCREMENT, WtWoID int(11) unsigned NOT NULL, WtTgID int(11) unsigned NOT NULL, PRIMARY KEY (WtID), UNIQUE KEY WtWoIDTgID (WtWoID,WtTgID), KEY WtTgID (WtTgID), KEY WtWoID (WtWoID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+		runsql("CREATE TABLE IF NOT EXISTS wordtags ( WtWoID int(11) unsigned NOT NULL, WtTgID int(11) unsigned NOT NULL, PRIMARY KEY (WtWoID,WtTgID), KEY WtTgID (WtTgID), KEY WtWoID (WtWoID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 	
 	if ($count > 0) {		

@@ -222,17 +222,18 @@ elseif (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Saved");
+		$termid = get_last_key();
 	}	
 	
 	// UPDATE
 	
-	elseif ($_REQUEST['op'] == 'Change') {
+	else {
 
 		$oldstatus = $_REQUEST["WoOldStatus"];
 		$newstatus = $_REQUEST["WoStatus"];
 		$xx = '';
 		if ($oldstatus != $newstatus) $xx = ', WoStatus = ' .	$newstatus . ', WoStatusChanged = NOW()';
-
+		$termid = $_REQUEST["WoID"] + 0;
 		$message = runsql('update words set WoText = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTextLC = ' . 
 			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', WoTranslation = ' . 
@@ -241,6 +242,8 @@ make_score_random_insert_update('id') . ')', "Saved");
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"],
 			"Updated");
 	}
+	
+	saveWordTags($termid);
 
 }
 
@@ -265,6 +268,12 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<tr>
 	<td class="td1 right">Translation:</td>
 	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
+	</tr>
+	<tr>
+	<td class="td1 right">Tags:</td>
+	<td class="td1">
+	<?php echo getWordTags(0); ?>
+	</td>
 	</tr>
 	<tr>
 	<td class="td1 right">Romaniz.:</td>
@@ -471,7 +480,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <th class="th1 sorttable_nosort">Act.</th>
 <th class="th1 clickable">Lang.</th>
 <th class="th1 clickable">Term /<br />Romanization</th>
-<th class="th1 clickable">Translation</th>
+<th class="th1 clickable">Translation [Tags]</th>
 <th class="th1 sorttable_nosort">Se.<br />?</th>
 <th class="th1 sorttable_numeric clickable">Stat./<br />Days</th>
 <th class="th1 sorttable_numeric clickable">Score<br />%</th>
@@ -480,9 +489,9 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <?php
 
 if ($currenttext == '') {
-	$sql = 'select WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2 from words, languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+	$sql = 'select WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2, ifnull(concat(\'[\',group_concat(TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 } else {
-	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2 from words, languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2, ifnull(concat(\'[\',group_concat(TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages,  textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 }
 
 $res = mysql_query($sql);		
@@ -498,7 +507,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $dsatz['WoID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $dsatz['WoID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
 	echo '<td class="td1 center">' . tohtml($dsatz['LgName']) . '</td>';
 	echo '<td class="td1 ">' . tohtml($dsatz['WoText'] . ($dsatz['WoRomanization']!='' ? (' / ' . $dsatz['WoRomanization']) : '')) . '</td>';
-	echo '<td class="td1 ">' . tohtml(repl_tab_nl($dsatz['WoTranslation'])) . '</td>';
+	echo '<td class="td1 ">' . tohtml(repl_tab_nl($dsatz['WoTranslation'])) . ' <span class="smallgray2">' . tohtml($dsatz['taglist']) . '</span></td>';
 	echo '<td class="td1 center"><b>' . ($dsatz['SentOK']!=0 ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />') . '</b></td>';
 	echo '<td class="td1 center" title="' . tohtml(get_status_name($dsatz['WoStatus'])) . '">' . tohtml(get_status_abbr($dsatz['WoStatus'])) . ($dsatz['WoStatus'] < 98 ? '/' . $days : '') . '</td>';
 	echo '<td class="td1 center" nowrap="nowrap">' . $score . '</td>';
