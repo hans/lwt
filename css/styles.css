@@ -19,8 +19,10 @@ body {
 	margin: 20px;
 	padding: 0px;
 }
-input {
+input[type=text] {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
+	border: 1px solid #C6C6C6;
+	padding: 3px;
 }
 p {
 	margin: 5px 0 5px 0;
@@ -98,6 +100,8 @@ span.status5stat {
 }
 textarea {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
+	border: 1px solid #C6C6C6;
+	padding: 3px;
 }
 table.tab1 {
 	background-color: #f8f8f8;
@@ -322,6 +326,12 @@ dt {
 	border-bottom: 3px solid black;
 	border-left: 3px solid black;
 	border-right: 3px solid black;
+}
+#termtags {
+	width: 340px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 2px;
 }
 
 /**************************************************************

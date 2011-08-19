@@ -327,6 +327,10 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>
 		</tr>
 		<tr>
+		<td class="td1 right">Tags:</td>
+		<td class="td1"><ul id="termtags"></ul></td>
+		</tr>
+		<tr>
 		<td class="td1 right">Romaniz.:</td>
 		<td class="td1"><input type="text" name="WoRomanization" maxlength="100" size="40" 
 		value="<?php echo tohtml($dsatz['WoRomanization']); ?>" /></td>

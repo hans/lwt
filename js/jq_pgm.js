@@ -331,6 +331,7 @@ $(document).ready( function() {
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
+	$('#termtags').tagit();
 	markClick();
 	setTheFocus();
 	window.setTimeout(noShowAfter3Secs,3000);

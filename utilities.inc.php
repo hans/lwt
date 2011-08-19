@@ -88,22 +88,30 @@ Developed by J. Pierre in 2011.
 
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.tagit.css">
+	<link rel="stylesheet" type="text/css" href="css/tagit.ui-zendesk.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<style type="text/css">
-  	@import url(css/styles.css);
-  	<?php echo $addcss; ?>
+	<?php echo $addcss . "\n"; ?>
 	</style>
-	<script type="text/javascript" src="js/jquery.js"><!-- jQuery © John Resig ** http://www.jquery.com --></script>
-	<script type="text/javascript" src="js/jquery.scrollTo.min.js"><!-- jQuery.ScrollTo © Ariel Flesler ** http://flesler.blogspot.com --></script>
-	<script type="text/javascript" src="js/sorttable/sorttable.js"><!-- sorttable © Stuart Langridge ** http://www.kryogenix.org/code/browser/sorttable/ --></script>
-	<script type="text/javascript" src="js/countuptimer.js"><!-- CountUp © Praveen Lobo ** http://PraveenLobo.com/techblog/javascript-countup-timer/ (modified) --></script>
-	<script type="text/javascript" src="js/overlib/overlib_mini.js"><!-- overLIB © Erik Bosrup ** http://www.bosrup.com/web/overlib/ --></script>
+	
+	<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
+	<script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/sorttable/sorttable.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	<?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
 	//]]>
 	</script>
-	<script type="text/javascript" src="js/pgm.js"></script>
-	<script type="text/javascript" src="js/jq_pgm.js"></script>
+	<script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
+	
 	<title>Learning with Texts :: <?php echo $titeltext; ?></title>
 </head>
 <body>
@@ -1875,7 +1883,7 @@ function check_update_db() {
 	
 	if (in_array('tags', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding tags</p>';
-		runsql("CREATE TABLE IF NOT EXISTS tags ( TgID int(11) unsigned NOT NULL AUTO_INCREMENT, TgText varchar(20) NOT NULL, TgComment varchar(200) NOT NULL, PRIMARY KEY (TgID), UNIQUE KEY TgText (TgText) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+		runsql("CREATE TABLE IF NOT EXISTS tags ( TgID int(11) unsigned NOT NULL AUTO_INCREMENT, TgText varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, TgComment varchar(200) NOT NULL, PRIMARY KEY (TgID), UNIQUE KEY TgText (TgText) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array('wordtags', $tables) == FALSE) {
