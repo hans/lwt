@@ -51,11 +51,11 @@ if ($currenttag1 == '' && $currenttag2 == '')
 	$wh_tag = '';
 else {
 	if ($currenttag1 != '' && $currenttag2 == '') 
-		$wh_tag = ' and WtTgID = ' . $currenttag1;
+		$wh_tag = " having concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
 	elseif ($currenttag1 == '' && $currenttag2 != '') 
-		$wh_tag = ' and WtTgID = ' . $currenttag2;
+		$wh_tag = " having concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
 	else 
-		$wh_tag = ' and (WtTgID = ' . $currenttag1 . ($currenttag12 ? ' and ' : ' or ') . 'WtTgID = ' . $currenttag2 . ')';
+		$wh_tag = " having concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag1 . "/%'" . ($currenttag12 ? ' and ' : ' or ') . "concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
 }
 
 $no_pagestart = 
@@ -391,9 +391,9 @@ else {
 	echo error_message_with_hide($message,0);
 
 	if ($currenttext == '') {
-		$recno = get_first_value('select count(distinct WoID) as value from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat . $wh_query . $wh_tag);
+		$recno = get_first_value('select count(*) as value from (select WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag .') as dummy');
 	} else {
-		$recno = get_first_value('select count(distinct WoID) as value from (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . $wh_tag);
+		$recno = get_first_value('select count(*) as value from (select WoID from (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag .') as dummy');
 	}
 	
 	$maxperpage = getSettingWithDefault('set-terms-per-page');
@@ -515,10 +515,11 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <?php
 
 if ($currenttext == '') {
-	$sql = 'select WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2, ifnull(concat(\'[\',group_concat(TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . $wh_tag . ' group by WoID order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+	$sql = 'select WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2, ifnull(concat(\'[\',group_concat(distinct TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 } else {
-	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2, ifnull(concat(\'[\',group_concat(TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages,  textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . $wh_tag . ' group by WoID order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2, ifnull(concat(\'[\',group_concat(distinct TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 }
+if ($debug) echo $sql;
 
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");

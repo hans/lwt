@@ -318,7 +318,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 		echo '<' . $tdth . ' class="' . $tdth . '1 center">0 &nbsp;&nbsp; <img src="icn/placeholder.png" title="No texts to re-parse" alt="No texts to re-parse" />';
 	echo '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($archtextcount > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;filterlang=' . $dsatz['LgID'] . '">' . $archtextcount . '</a>' : '0' ) . '</' . $tdth . '>';
-	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($wordcount > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=' . $dsatz['LgID'] . '&amp;status=">' . $wordcount . '</a>' : '0' ) . '</' . $tdth . '>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($wordcount > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=' . $dsatz['LgID'] . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=">' . $wordcount . '</a>' : '0' ) . '</' . $tdth . '>';
 	echo '</tr>';
 }
 mysql_free_result($res);

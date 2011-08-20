@@ -30,7 +30,7 @@ $txttodowords = $txttotalwords - $txtworkedwords;
 $r = array();
 
 $r[] = '<span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span>'; 
-$r[] = '<span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;text=' . $id . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;';
+$r[] = '<span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $id . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;';
 $r[] = '<span title="To Do" class="status0">&nbsp;' . $txttodowords . '&nbsp;</span>';
 
 echo json_encode($r);

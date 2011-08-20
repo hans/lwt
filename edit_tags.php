@@ -265,12 +265,13 @@ $sql = 'select TgID, TgText, TgComment from tags where (1=1) ' . $wh_query . ' o
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {
+	$c = get_first_value('select count(*) as value from wordtags where WtTgID=' . $dsatz['TgID']);
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $dsatz['TgID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $dsatz['TgID'] . '" ' . checkTest($dsatz['TgID'], 'marked') . ' /></a></td>';
 	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $dsatz['TgID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $dsatz['TgID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
 	echo '<td class="td1 center">' . tohtml($dsatz['TgText']) . '</td>';
 	echo '<td class="td1 center">' . tohtml($dsatz['TgComment']) . '</td>';
-	echo '<td class="td1 center">' . get_first_value('select count(*) as value from wordtags where WtTgID=' . $dsatz['TgID']) . '</td>';
+	echo '<td class="td1 center">' . ($c > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=' . $dsatz['TgID'] . '">' . $c . '</a>' : '0' ) . '</td>';
 	echo '</tr>';
 }
 mysql_free_result($res);

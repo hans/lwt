@@ -488,7 +488,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center">' . tohtml($dsatz['TxTitle']) . ' &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="Audio" alt="Audio" />' : '') . '</td>';
 	if ($showCounts) {
 		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>'; 
-		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;text=' . $dsatz['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';
+		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $dsatz['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';
 		echo '<td class="td1 center"><span title="To Do" class="status0">&nbsp;' . $txttodowords . '&nbsp;</span></td>';
 	} else {
 		echo '<td class="td1 center"><span id="total-' . $dsatz['TxID'] . '"></span></td><td class="td1 center"><span data_id="' . $dsatz['TxID'] . '" id="saved-' . $dsatz['TxID'] . '"><span class="click" onclick="do_ajax_word_counts();"><img src="icn/lightning.png" title="View Word Counts" alt="View Word Counts" /></span></span></td><td class="td1 center"><span id="todo-' . $dsatz['TxID'] . '"></span></td>'; 

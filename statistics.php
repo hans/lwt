@@ -55,17 +55,17 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 	$all = $s1 + $s2 + $s3 + $s4 + $s5 + $s98 + $s99;
 	echo '<tr>';
 	echo '<td class="td1">' . tohtml($dsatz['LgName']) . '</td>';
-	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status="><b>' . $all . '</b></a></td>';
-	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=15"><b>' . ($s1+$s2+$s3+$s4+$s5) . '</b></a></td>';
-	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=14"><b>' . ($s1+$s2+$s3+$s4) . '</b></a></td>';
-	echo '<td class="td1 center"><span class="status1">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=1">' . $s1 . '</a>&nbsp;</span></td>';
-	echo '<td class="td1 center"><span class="status2">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=2">' . $s2 . '</a>&nbsp;</span></td>';
-	echo '<td class="td1 center"><span class="status3">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=3">' . $s3 . '</a>&nbsp;</span></td>';
-	echo '<td class="td1 center"><span class="status4">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=4">' . $s4 . '</a>&nbsp;</span></td>';
-	echo '<td class="td1 center"><span class="status5">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=5">' . $s5 . '</a>&nbsp;</span></td>';
-	echo '<td class="td1 center"><span class="status99">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=99">' . $s99 . '</a>&nbsp;</span></td>';
-	echo '<td class="td1 center"><span class="status5stat">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=599"><b>' . ($s5 + $s99) . '</b></a>&nbsp;</span></td>';
-	echo '<td class="td1 center"><span class="status98">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=98"><b>' . $s98 . '</b></a>&nbsp;</span></td>';
+	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $all . '</b></a></td>';
+	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=15&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . ($s1+$s2+$s3+$s4+$s5) . '</b></a></td>';
+	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=14&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . ($s1+$s2+$s3+$s4) . '</b></a></td>';
+	echo '<td class="td1 center"><span class="status1">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=1&amp;tag12=0&amp;tag2=&amp;tag1=">' . $s1 . '</a>&nbsp;</span></td>';
+	echo '<td class="td1 center"><span class="status2">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=2&amp;tag12=0&amp;tag2=&amp;tag1=">' . $s2 . '</a>&nbsp;</span></td>';
+	echo '<td class="td1 center"><span class="status3">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=3&amp;tag12=0&amp;tag2=&amp;tag1=">' . $s3 . '</a>&nbsp;</span></td>';
+	echo '<td class="td1 center"><span class="status4">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=4&amp;tag12=0&amp;tag2=&amp;tag1=">' . $s4 . '</a>&nbsp;</span></td>';
+	echo '<td class="td1 center"><span class="status5">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=5&amp;tag12=0&amp;tag2=&amp;tag1=">' . $s5 . '</a>&nbsp;</span></td>';
+	echo '<td class="td1 center"><span class="status99">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=99&amp;tag12=0&amp;tag2=&amp;tag1=">' . $s99 . '</a>&nbsp;</span></td>';
+	echo '<td class="td1 center"><span class="status5stat">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=599&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . ($s5 + $s99) . '</b></a>&nbsp;</span></td>';
+	echo '<td class="td1 center"><span class="status98">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=98&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s98 . '</b></a>&nbsp;</span></td>';
 	echo '</tr>';
 }
 mysql_free_result($res);
@@ -79,17 +79,17 @@ $s99 = get_first_value('select count(WoID) as value from words where WoStatus = 
 $all = $s1 + $s2 + $s3 + $s4 + $s5 + $s98 + $s99;
 echo '<tr>';
 echo '<th class="th1"><b>TOTAL</b></th>';
-echo '<th class="th1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status="><b>' . $all . '</b></a></th>';
-echo '<th class="th1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=15"><b>' . ($s1+$s2+$s3+$s4+$s5) . '</b></a></th>';
-echo '<th class="th1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=14"><b>' . ($s1+$s2+$s3+$s4) . '</b></a></th>';
-echo '<th class="th1 center"><span class="status1">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=1"><b>' . $s1 . '</b></a>&nbsp;</span></th>';
-echo '<th class="th1 center"><span class="status2">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=2"><b>' . $s2 . '</b></a>&nbsp;</span></th>';
-echo '<th class="th1 center"><span class="status3">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=3"><b>' . $s3 . '</b></a>&nbsp;</span></th>';
-echo '<th class="th1 center"><span class="status4">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=4"><b>' . $s4 . '</b></a>&nbsp;</span></th>';
-echo '<th class="th1 center"><span class="status5">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=5"><b>' . $s5 . '</b></a>&nbsp;</span></th>';
-echo '<th class="th1 center"><span class="status99">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=99"><b>' . $s99 . '</b></a>&nbsp;</span></th>';
-echo '<th class="th1 center"><span class="status5stat">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=599"><b>' . ($s5 + $s99) . '</b></a>&nbsp;</span></th>';
-echo '<th class="th1 center"><span class="status98">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=98"><b>' . $s98 . '</b></a>&nbsp;</span></th>';
+echo '<th class="th1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $all . '</b></a></th>';
+echo '<th class="th1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=15&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . ($s1+$s2+$s3+$s4+$s5) . '</b></a></th>';
+echo '<th class="th1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=14&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . ($s1+$s2+$s3+$s4) . '</b></a></th>';
+echo '<th class="th1 center"><span class="status1">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=1&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s1 . '</b></a>&nbsp;</span></th>';
+echo '<th class="th1 center"><span class="status2">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=2&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s2 . '</b></a>&nbsp;</span></th>';
+echo '<th class="th1 center"><span class="status3">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=3&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s3 . '</b></a>&nbsp;</span></th>';
+echo '<th class="th1 center"><span class="status4">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=4&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s4 . '</b></a>&nbsp;</span></th>';
+echo '<th class="th1 center"><span class="status5">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=5&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s5 . '</b></a>&nbsp;</span></th>';
+echo '<th class="th1 center"><span class="status99">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=99&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s99 . '</b></a>&nbsp;</span></th>';
+echo '<th class="th1 center"><span class="status5stat">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=599&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . ($s5 + $s99) . '</b></a>&nbsp;</span></th>';
+echo '<th class="th1 center"><span class="status98">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=98&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s98 . '</b></a>&nbsp;</span></th>';
 echo '</tr>';
 ?>
 </table>
