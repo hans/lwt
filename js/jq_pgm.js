@@ -72,6 +72,12 @@ function check() {
 			count++;
 		}
 	} );
+	$('input.noblanksnocomma').each( function(n) {
+		if($(this).val().indexOf(' ') > 0 || $(this).val().indexOf(',') > 0) {
+			alert('ERROR\n\nNo spaces or commas allowed in field "' + $(this).attr('data_info') + '", please remove!');
+			count++;
+		}
+	} );
 	return (count == 0);
 }
 

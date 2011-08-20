@@ -209,15 +209,16 @@ else {
 <form name="form1" action="#" onsubmit="document.form1.querybutton.click(); return false;">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
-<th class="th1" colspan="4">Filter <img src="icn/funnel.png" title="Filter" alt="Filter" /></th>
+<th class="th1" colspan="4">Filter <img src="icn/funnel.png" title="Filter" alt="Filter" />&nbsp;
+<input type="button" value="Reset All" onclick="resetAll('edit_archivedtexts.php');" /></th>
 </tr>
 <tr>
 <td class="td1 center" colspan="2">
-Filter Language:
+Language:
 <select name="filterlang" onchange="{setLang(document.form1.filterlang,'edit_archivedtexts.php');}"><?php	echo get_languages_selectoptions($currentlang,'[Filter off]'); ?></select>
 </td>
 <td class="td1 center" colspan="2">
-Filter Title:
+Text Title:
 <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value; location.href='edit_archivedtexts.php?page=1&amp;query=' + val;}" />&nbsp;
 <input type="button" value="Clear" onclick="{location.href='edit_archivedtexts.php?page=1&amp;query=';}" />

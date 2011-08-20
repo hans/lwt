@@ -58,6 +58,23 @@ function get_tags($refresh = 0) {
 
 // -------------------------------------------------------------
 
+function get_tag_selectoptions($v) {
+	if ( ! isset($v) ) $v = '';
+	$r = "<option value=\"\"" . get_selected($v,'');
+	$r .= ">[Filter off]</option>";
+	$sql = "select TgID, TgText from tags order by TgText";
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		$d = $dsatz["TgText"];
+		$r .= "<option value=\"" . $dsatz["TgID"] . "\"" . get_selected($v,$dsatz["TgID"]) . ">" . tohtml($d) . "</option>";
+	}
+	mysql_free_result($res);
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function saveWordTags($wid) {
 	runsql("DELETE from wordtags WHERE WtWoID =" . $wid,'');
 	if (isset($_REQUEST['TermTags'])) {
@@ -798,6 +815,17 @@ function get_yesno_selectoptions($v) {
 	$r .= ">No</option>";
 	$r .= "<option value=\"1\"" . get_selected($v,1);
 	$r .= ">Yes</option>";
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function get_andor_selectoptions($v) {
+	if ( ! isset($v) ) $v = 0;
+	$r  = "<option value=\"0\"" . get_selected($v,0);
+	$r .= ">... OR ...</option>";
+	$r .= "<option value=\"1\"" . get_selected($v,1);
+	$r .= ">... AND ...</option>";
 	return $r;
 }
 

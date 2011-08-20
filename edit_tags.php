@@ -120,7 +120,7 @@ if (isset($_REQUEST['new'])) {
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Tag:</td>
-	<td class="td1"><input class="notempty" type="text" name="TgText" value="" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input class="notempty setfocus noblanksnocomma" type="text" name="TgText" data_info="Tag" value="" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Comment:</td>
@@ -153,7 +153,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Tag:</td>
-		<td class="td1"><input class="notempty setfocus" type="text" name="TgText" value="<?php echo tohtml($dsatz['TgText']); ?>" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input data_info="Tag" class="notempty setfocus noblanksnocomma" type="text" name="TgText" value="<?php echo tohtml($dsatz['TgText']); ?>" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Comment:</td>
@@ -200,11 +200,12 @@ else {
 <form name="form1" action="#" onsubmit="document.form1.querybutton.click(); return false;">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
-<th class="th1" colspan="4">Filter <img src="icn/funnel.png" title="Filter" alt="Filter" /></th>
+<th class="th1" colspan="4">Filter <img src="icn/funnel.png" title="Filter" alt="Filter" />&nbsp;
+<input type="button" value="Reset All" onclick="{location.href='edit_tags.php?page=1&amp;query=';}" /></th>
 </tr>
 <tr>
 <td class="td1 center" colspan="4">
-Filter Tag Text or Comment:
+Tag Text or Comment:
 <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value; location.href='edit_tags.php?page=1&amp;query=' + val;}" />&nbsp;
 <input type="button" value="Clear" onclick="{location.href='edit_tags.php?page=1&amp;query=';}" />

@@ -456,6 +456,10 @@ function setLang(ctl,url) {
 	'&u=' + url;
 }
 
+function resetAll(url) {
+	location.href = 'save_setting_redirect.php?k=currentlanguage&v=&u=' + url;
+}
+
 function getCookie(check_name) {
 	var a_all_cookies = document.cookie.split( ';' );
 	var a_temp_cookie = '';

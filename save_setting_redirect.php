@@ -30,6 +30,9 @@ if($k == 'currentlanguage') {
 	unset($_SESSION['currentwordquery']);
 	unset($_SESSION['currentwordstatus']);
 	unset($_SESSION['currentwordtext']);
+	unset($_SESSION['currentwordtag1']);
+	unset($_SESSION['currentwordtag2']);
+	unset($_SESSION['currentwordtag12']);
 	unset($_SESSION['currentarchivepage']);
 	unset($_SESSION['currentarchivequery']);
 	saveSetting('currenttext','');
