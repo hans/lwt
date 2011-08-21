@@ -42,14 +42,15 @@ $currentpage = processSessParam("page","currentwordpage",'1',1);
 $currentquery = processSessParam("query","currentwordquery",'',0);
 $currentstatus = processSessParam("status","currentwordstatus",'',0);
 $currenttext = validateText(processSessParam("text","currentwordtext",'',0));
-$currenttag1 = validateText(processSessParam("tag1","currentwordtag1",'',0));
-$currenttag2 = validateText(processSessParam("tag2","currentwordtag2",'',0));
-$currenttag12 = validateText(processSessParam("tag12","currentwordtag12",'',0));
+$currenttag1 = validateTag(processSessParam("tag1","currentwordtag1",'',0));
+$currenttag2 = validateTag(processSessParam("tag2","currentwordtag2",'',0));
+$currenttag12 = processSessParam("tag12","currentwordtag12",'',0);
 
 $wh_lang = ($currentlang != '') ? (' and WoLgID=' . $currentlang ) : '';
 $wh_stat = ($currentstatus != '') ? (' and ' . makeStatusCondition('WoStatus', $currentstatus)) : '';
 $wh_query = convert_string_to_sqlsyntax(str_replace("*","%",$currentquery));
 $wh_query = ($currentquery != '') ? (' and (WoText like ' . $wh_query . ' or WoRomanization like ' . $wh_query . ' or WoTranslation like ' . $wh_query . ')') : '';
+
 if ($currenttag1 == '' && $currenttag2 == '')
 	$wh_tag = '';
 else {
@@ -89,6 +90,7 @@ if (isset($_REQUEST['markaction'])) {
 				if ($markaction == 'del') {
 					$message = runsql('delete from words where WoID in ' . $list, "Deleted");
 					adjust_autoincr('words','WoID');
+					runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
 				}
 				elseif ($markaction == 'spl1' ) {
 					$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (1,2,3,4) and WoID in ' . $list, "Updated Status (+1)");
@@ -133,19 +135,11 @@ if (isset($_REQUEST['markaction'])) {
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
 	
-	if ($allaction == 'delall') {
+	if ($allaction == 'delall' || $allaction == 'spl1all' || $allaction == 'smi1all' || $allaction == 's5all' || $allaction == 's1all' || $allaction == 's99all' || $allaction == 's98all' || $allaction == 'todayall') {
 		if ($currenttext == '') {
-			$message = runsql('delete from words where (1=1)' . $wh_lang . $wh_stat .  $wh_query . $wh_tag, "Deleted");
+			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag;
 		} else {
-			$message = runsql('delete words from words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . $wh_tag, "Deleted");
-		}
-	}
-	
-	elseif ($allaction == 'spl1all' || $allaction == 'smi1all' || $allaction == 's5all' || $allaction == 's1all' || $allaction == 's99all' || $allaction == 's98all' || $allaction == 'todayall') {
-		if ($currenttext == '') {
-			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID) where 1=1 ' . $wh_lang . $wh_stat . $wh_query . $wh_tag;
-		} else {
-			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . $wh_tag;
+			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag;
 		}
 		$cnt=0;
 		$res = mysql_query($sql);
@@ -153,7 +147,10 @@ if (isset($_REQUEST['allaction'])) {
 		while ($dsatz = mysql_fetch_assoc($res)) {
 			$id = $dsatz['WoID'];
 			$message='0';
-			if ($allaction == 'spl1all' ) {
+			if ($allaction == 'delall' ) {
+				$message = runsql('delete from words where WoID = ' . $id, "");
+			}
+			elseif ($allaction == 'spl1all' ) {
 				$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (1,2,3,4) and WoID = ' . $id, "");
 			}
 			elseif ($allaction == 'smi1all' ) {
@@ -177,31 +174,49 @@ if (isset($_REQUEST['allaction'])) {
 			$cnt += (int)$message;
 		}
 		mysql_free_result($res);
-		$message = "Status changed in $cnt Terms";
+		if ($allaction == 'delall') {
+			$message = "Deleted: $cnt Terms";
+			adjust_autoincr('words','WoID');
+			runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
+		}	else {
+			$message = "Status changed in $cnt Terms";
+		}
 	}
 
 	elseif ($allaction == 'expall' ) {
 		if ($currenttext == '') {
-			anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence from (words left JOIN wordtags ON WoID = WtWoID), languages where WoLgID = LgID AND WoTranslation != \'\' AND WoTranslation != \'*\' and WoSentence like concat(\'%{\',WoText,\'}%\') ' . $wh_lang . $wh_stat . $wh_query . $wh_tag);
+			anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag);
 		} else {
-			anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence from (words left JOIN wordtags ON WoID = WtWoID), languages, textitems where WoLgID = LgID AND WoTranslation != \'\' AND WoTranslation != \'*\' and WoSentence like concat(\'%{\',WoText,\'}%\') and TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . $wh_tag);
+			anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag);
 		}
 	}
 	
 	elseif ($allaction == 'expall2' ) {
 		if ($currenttext == '') {
-			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus from (words left JOIN wordtags ON WoID = WtWoID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . $wh_tag);
+			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from (words left JOIN wordtags ON WoID = WtWoID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . $wh_tag);
 		} else {
-			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus from (words left JOIN wordtags ON WoID = WtWoID), languages, textitems where WoLgID = LgID and TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . $wh_tag);
+			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag);
 		}
 	}
 	
 	elseif ($allaction == 'testall' ) {
 		if ($currenttext == '') {
-			$_SESSION['testsql'] = ' (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat . $wh_query . $wh_tag . ' ';
+			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag;
 		} else {
-			$_SESSION['testsql'] = ' (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . $wh_tag . ' ';
+			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag;
 		}
+		$cnt = 0;
+		$list = '(';
+		$res = mysql_query($sql);
+		if ($res == FALSE) die("Invalid Query: $sql");
+		while ($dsatz = mysql_fetch_assoc($res)) {
+			$cnt++;
+			$id = $dsatz['WoID'];
+			$list .= ($cnt==1 ? '' : ',') . $id;
+		}	
+		$list .= ")";
+		mysql_free_result($res);
+		$_SESSION['testsql'] = ' words where WoID in ' . $list . ' ';
 		header("Location: do_test.php?selection=1");
 		exit();
 	}
@@ -213,6 +228,7 @@ if (isset($_REQUEST['allaction'])) {
 elseif (isset($_REQUEST['del'])) {
 	$message = runsql('delete from words where WoID = ' . $_REQUEST['del'], "Deleted");
 	adjust_autoincr('words','WoID');
+	runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
 }
 
 // INS/UPD
@@ -393,10 +409,12 @@ else {
 	echo error_message_with_hide($message,0);
 
 	if ($currenttext == '') {
-		$recno = get_first_value('select count(*) as value from (select WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag .') as dummy');
+		$sql = 'select count(*) as value from (select WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag .') as dummy';
 	} else {
-		$recno = get_first_value('select count(*) as value from (select WoID from (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag .') as dummy');
+		$sql = 'select count(*) as value from (select WoID from (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag .') as dummy';
 	}
+	$recno = get_first_value($sql);
+	if ($debug) echo $sql . ' ===&gt; ' . $recno;
 	
 	$maxperpage = getSettingWithDefault('set-terms-per-page');
 

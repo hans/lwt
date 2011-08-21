@@ -290,6 +290,7 @@ if ($recno==0) {
 <?php
 
 $sql = 'select LgID, LgName from languages order by LgName';
+if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {

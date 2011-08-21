@@ -341,7 +341,9 @@ else {
 
 	echo error_message_with_hide($message,0);
 	
-	$recno = get_first_value('select count(*) as value from texts where (1=1) ' . (($currentlang != '') ? (' and TxLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and TxTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : ''));
+	$sql = 'select count(*) as value from texts where (1=1) ' . (($currentlang != '') ? (' and TxLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and TxTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '');
+	$recno = get_first_value($sql);
+	if ($debug) echo $sql . ' ===&gt; ' . $recno;
 
 	$maxperpage = getSettingWithDefault('set-texts-per-page');
 
@@ -427,7 +429,7 @@ Marked Texts:&nbsp;
 <?php
 
 $sql = 'select TxID, TxTitle, LgName, TxAudioURI from texts, languages where LgID=TxLgID ' . (($currentlang != '') ? (' and TxLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and TxTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '') . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
-
+if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;

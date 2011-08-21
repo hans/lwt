@@ -62,7 +62,7 @@ function get_tag_selectoptions($v) {
 	if ( ! isset($v) ) $v = '';
 	$r = "<option value=\"\"" . get_selected($v,'');
 	$r .= ">[Filter off]</option>";
-	$sql = "select TgID, TgText from tags order by TgText";
+	$sql = "select TgID, TgText from tags, wordtags where TgID = WtTgID group by TgID order by TgText";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	while ($dsatz = mysql_fetch_assoc($res)) {
@@ -598,6 +598,20 @@ function validateText($currenttext) {
 		)  $currenttext = ''; 
 	}
 	return $currenttext;
+}
+
+// -------------------------------------------------------------
+
+function validateTag($currenttag) {
+	if ($currenttag != '') {
+		if (
+			get_first_value(
+				'select count(TgID) as value from tags where TgID=' . 
+				((int)$currenttag) 
+			) == 0
+		)  $currenttag = ''; 
+	}
+	return $currenttag;
 }
 
 // -------------------------------------------------------------
@@ -1229,7 +1243,7 @@ function strToClassName($string)
 // -------------------------------------------------------------
 
 function anki_export($sql) {
-	// WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence
+	// WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, taglist
 	$res = mysql_query($sql);
 	$x = '';		
 	if ($res == FALSE) die("Invalid Query: $sql");
@@ -1245,7 +1259,8 @@ function anki_export($sql) {
 		$sent1 . "\t" . 
 		$sent2 . "\t" . 
 		tohtml(repl_tab_nl($dsatz["LgName"])) . "\t" . 
-		tohtml($dsatz["WoID"]) .  
+		tohtml($dsatz["WoID"]) . "\t" . 
+		tohtml($dsatz["taglist"]) .  
 		"\r\n";
 	}
 	mysql_free_result($res);
@@ -1258,7 +1273,7 @@ function anki_export($sql) {
 // -------------------------------------------------------------
 
 function tsv_export($sql) {
-	// WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus
+	// WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, taglist
 	$res = mysql_query($sql);
 	$x = '';		
 	if ($res == FALSE) die("Invalid Query: $sql");
@@ -1269,7 +1284,8 @@ function tsv_export($sql) {
 		repl_tab_nl($dsatz["WoRomanization"]) . "\t" . 
 		$dsatz["WoStatus"] . "\t" . 
 		repl_tab_nl($dsatz["LgName"]) . "\t" . 
-		$dsatz["WoID"] . "\r\n";
+		$dsatz["WoID"] . "\t" . 
+		$dsatz["taglist"] . "\r\n";
 	}
 	mysql_free_result($res);
 	header('Content-type: text/plain; charset=utf-8');

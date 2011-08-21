@@ -189,7 +189,9 @@ else {
 
 	echo error_message_with_hide($message,0);
 
-	$recno = get_first_value('select count(*) as value from archivedtexts where (1=1) ' . (($currentlang != '') ? (' and AtLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and AtTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : ''));
+	$sql = 'select count(*) as value from archivedtexts where (1=1) ' . (($currentlang != '') ? (' and AtLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and AtTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '');
+	$recno = get_first_value($sql);
+	if ($debug) echo $sql . ' ===&gt; ' . $recno;
 
 	$maxperpage = getSettingWithDefault('set-archivedtexts-per-page');
 
@@ -269,7 +271,7 @@ Marked Texts:&nbsp;
 <?php
 
 $sql = 'select AtID, AtTitle, LgName, AtAudioURI from archivedtexts, languages where LgID=AtLgID ' . (($currentlang != '') ? (' and AtLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and AtTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '') . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
-
+if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($dsatz = mysql_fetch_assoc($res)) {
