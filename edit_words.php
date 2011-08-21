@@ -25,6 +25,9 @@ Call: edit_words.php?....
       ... query=[termtextfilter] ... term text filter   
       ... status=[statuscode] ... status filter   
       ... text=[textid] ... text filter   
+      ... tag1=[tagid] ... tag filter 1   
+      ... tag2=[tagid] ... tag filter 2   
+      ... tag12=0/1 ... tag1-tag2 OR=0, AND=1   
 Manage terms
 ***************************************************************/
 
@@ -234,7 +237,7 @@ elseif (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Saved");
-		$termid = get_last_key();
+		$wid = get_last_key();
 	}	
 	
 	// UPDATE
@@ -245,7 +248,7 @@ make_score_random_insert_update('id') . ')', "Saved");
 		$newstatus = $_REQUEST["WoStatus"];
 		$xx = '';
 		if ($oldstatus != $newstatus) $xx = ', WoStatus = ' .	$newstatus . ', WoStatusChanged = NOW()';
-		$termid = $_REQUEST["WoID"] + 0;
+		$wid = $_REQUEST["WoID"] + 0;
 		$message = runsql('update words set WoText = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTextLC = ' . 
 			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', WoTranslation = ' . 
@@ -255,7 +258,7 @@ make_score_random_insert_update('id') . ')', "Saved");
 			"Updated");
 	}
 	
-	saveWordTags($termid);
+	saveWordTags($wid);
 
 }
 
@@ -377,9 +380,8 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		</table>
 		</form>
-		
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $dsatz['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 <?php
-		echo get20Sentences($dsatz['LgID'],$wordlc,'document.forms[\'editword\'].WoSentence', (int) getSettingWithDefault('set-term-sentence-count'));
 	}
 	mysql_free_result($res);
 }

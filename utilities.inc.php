@@ -91,7 +91,7 @@ function saveWordTags($wid) {
 							}
 							runsql('insert into wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from tags where TgText = ' . convert_string_to_sqlsyntax($tag), "");
 						}
-						get_tags(1);
+						get_tags(1);  // refresh tags cache
 					}
 				}
 			}
@@ -1410,7 +1410,7 @@ function getSentence($seid, $wordlc,$mode) {
 // -------------------------------------------------------------
 
 function get20Sentences($lang, $wordlc, $jsctlname, $mode) {
-	$r = '<p class="bigger"><b>Sentences with "' . tohtml($wordlc) . '"</b></p><p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy sentence into above term)</p>';
+	$r = '<p><b>Sentences in active texts with <i>' . tohtml($wordlc) . '</i></b></p><p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy sentence into above term)</p>';
 	$sql = 'SELECT DISTINCT SeID, SeText FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");

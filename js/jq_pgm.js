@@ -332,6 +332,37 @@ function keydown_event_do_text_text(e) {
 	return false;
 }
 
+function do_ajax_update_media_select() {
+	$('#mediaselect').html('&nbsp; <img src="icn/waiting2.gif" />');
+	$.post('ajax_update_media_select.php', 
+		function(data) { $('#mediaselect').html(data); } 
+	);
+}
+
+function do_ajax_show_sentences(lang,word,ctl) {
+	$('#exsent').html('<img src="icn/waiting2.gif" />');
+	$.post('ajax_show_sentences.php', { lang: lang, word: word, ctl: ctl }, 
+		function(data) { $('#exsent').html(data); } 
+	);
+}
+
+function do_ajax_word_counts() {
+	$("span[id^='saved-']").each(
+		function(i) {
+			var textid = $(this).attr('data_id');
+			$(this).html('<img src="icn/waiting2.gif" />');
+			$.post('ajax_word_counts.php', { id: textid },
+				function(data) { 
+					var res = eval('(' + data + ')');
+					$('#total-'+textid).html(res[0]);
+					$('#saved-'+textid).html(res[1]);
+					$('#todo-'+textid).html(res[2]);
+				}
+			);
+		}
+	);
+}
+
 $(document).ready( function() {
 	$('form.validate').submit(check);
 	$('input.markcheck').click(markClick);

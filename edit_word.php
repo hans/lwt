@@ -83,6 +83,8 @@ make_score_random_insert_update('id') . ')', "Term saved");
 			$wid = $_REQUEST["WoID"];
 			
 		}  // $_REQUEST['op'] != 'Save'
+		
+		saveWordTags($wid);
 
 	} // (mb_strtolower($text, 'UTF-8') == $textlc)
 	
@@ -204,6 +206,12 @@ else {  // if (! isset($_REQUEST['op']))
 		<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea></td>
 		</tr>
 		<tr>
+		<td class="td1 right">Tags:</td>
+		<td class="td1">
+		<?php echo getWordTags(0); ?>
+		</td>
+		</tr>
+		<tr>
 		<td class="td1 right">Romaniz.:</td>
 		<td class="td1"><input type="text" name="WoRomanization" value="" maxlength="100" size="35" /></td>
 		</tr>
@@ -225,9 +233,8 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		</table>
 		</form>
-		
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($wortlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 		<?php
-		echo get20Sentences($lang, $wortlc, 'document.forms[\'newword\'].WoSentence', (int) getSettingWithDefault('set-term-sentence-count'));
 		
 	}
 	
@@ -268,6 +275,12 @@ else {  // if (! isset($_REQUEST['op']))
 			<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
 			</tr>
 			<tr>
+			<td class="td1 right">Tags:</td>
+			<td class="td1">
+			<?php echo getWordTags($wid); ?>
+			</td>
+			</tr>
+			<tr>
 			<td class="td1 right">Romaniz.:</td>
 			<td class="td1"><input type="text" name="WoRomanization" maxlength="100" size="35" 
 			value="<?php echo tohtml($dsatz['WoRomanization']); ?>" /></td>
@@ -290,10 +303,8 @@ else {  // if (! isset($_REQUEST['op']))
 			</tr>
 			</table>
 			</form>
-			
+			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($wortlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 			<?php
-			echo get20Sentences($lang, $wortlc,'document.forms[\'editword\'].WoSentence', (int) getSettingWithDefault('set-term-sentence-count'));
-	
 		}
 		mysql_free_result($res);
 	}

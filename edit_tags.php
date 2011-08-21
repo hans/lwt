@@ -177,7 +177,7 @@ else {
 	
 	echo error_message_with_hide($message,0);
 	
-	get_tags(1);
+	get_tags(1);   // refresh tags cache
 
 	$recno = get_first_value('select count(TgID) as value from tags where (1=1) ' . $wh_query);
 	

@@ -226,21 +226,6 @@ elseif (isset($_REQUEST['op'])) {
 
 }
 
-if ( isset($_REQUEST['new']) || isset($_REQUEST['chg']) ) {
-?>
-<script type="text/javascript">
-//<![CDATA[
-function do_ajax_update_media_select() {
-	$('#mediaselect').html('&nbsp; <img src="icn/waiting2.gif" />');
-	$.post('ajax_update_media_select.php', 
-		function(data) { $('#mediaselect').html(data); } 
-	);
-}
-//]]>
-</script>
-<?php
-}
-
 if (isset($_REQUEST['new'])) {
 
 // NEW
@@ -372,28 +357,6 @@ else {
 	if ($currentsort > $lsorts) $currentsort = $lsorts;
 	
 ?>
-
-<script type="text/javascript">
-//<![CDATA[
-function do_ajax_word_counts()
-{
-	$("span[id^='saved-']").each(
-		function(i) {
-			var textid = $(this).attr('data_id');
-			$(this).html('<img src="icn/waiting2.gif" />');
-			$.post('ajax_word_counts.php', { id: textid },
-				function(data) { 
-					var res = eval('(' + data + ')');
-					$('#total-'+textid).html(res[0]);
-					$('#saved-'+textid).html(res[1]);
-					$('#todo-'+textid).html(res[2]);
-				}
-			);
-		}
-	);
-}
-//]]>
-</script>
 
 <p>
 <a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Text ...</a>
