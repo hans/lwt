@@ -187,7 +187,7 @@ if ($count <= 0) {
 		for ($i=0; $i < $l; $i++) {  // go thru sent
 			$c = mb_substr($sent, $i, 1, 'UTF-8');
 			if ($c == '}') {
-				$r .= ' <span style="word-break:normal;" class="click todo todosty word wsty word' . $wid . '" data_wid="' . $wid . '" data_trans="' . tohtml($trans) . '" data_text="' . tohtml($word) . '" data_rom="' . tohtml($roman) . '" data_sent="' . tohtml($cleansent) . '" data_status="' . $status . '" data_todo="1"';
+				$r .= ' <span style="word-break:normal;" class="click todo todosty word wsty word' . $wid . '" data_wid="' . $wid . '" data_trans="' . tohtml($trans) . getWordTagList($wid) . '" data_text="' . tohtml($word) . '" data_rom="' . tohtml($roman) . '" data_sent="' . tohtml($cleansent) . '" data_status="' . $status . '" data_todo="1"';
 				if ($testtype ==3) $r .= ' title="' . tohtml($trans) . '"'; 
 				$r .= '>';
 				if ($testtype == 2) {

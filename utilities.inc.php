@@ -12,7 +12,7 @@ Developed by J. Pierre in 2011.
 
 /**************************************************************
 PHP Utility Functions
-Finally: Database Connect, Select, Update
+Plus (at end): Database Connect, .. Select, .. Update
 ***************************************************************/
 
 // -------------------------------------------------------------
@@ -58,11 +58,14 @@ function get_tags($refresh = 0) {
 
 // -------------------------------------------------------------
 
-function get_tag_selectoptions($v) {
+function get_tag_selectoptions($v,$l) {
 	if ( ! isset($v) ) $v = '';
 	$r = "<option value=\"\"" . get_selected($v,'');
 	$r .= ">[Filter off]</option>";
-	$sql = "select TgID, TgText from tags, wordtags where TgID = WtTgID group by TgID order by TgText";
+	if ($l == '')
+		$sql = "select TgID, TgText from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText";
+	else
+		$sql = "select TgID, TgText from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $l . " group by TgID order by TgText";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	while ($dsatz = mysql_fetch_assoc($res)) {
@@ -602,16 +605,25 @@ function validateText($currenttext) {
 
 // -------------------------------------------------------------
 
-function validateTag($currenttag) {
+function validateTag($currenttag,$currentlang) {
 	if ($currenttag != '') {
-		if (
-			get_first_value(
-				'select count(TgID) as value from tags where TgID=' . 
-				((int)$currenttag) 
-			) == 0
-		)  $currenttag = ''; 
+		if ($l == '')
+			$sql = "select (" . $currenttag . " in (select TgID from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText)) as value";
+		else
+			$sql = "select (" . $currenttag . " in (select TgID from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $l . " group by TgID order by TgText)) as value";
+		$r = get_first_value($sql);
+		if ( $r == 0 ) $currenttag = ''; 
 	}
 	return $currenttag;
+}
+
+// -------------------------------------------------------------
+
+function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1) {
+	$r = get_first_value("select ifnull(" . ($brack ? "concat('['," : "") . "group_concat(distinct TgText order by TgText separator ', ')" . ($brack ? ",']')" : "") . ",'') as value from ((words left join wordtags on WoID = WtWoID) left join tags on TgID = WtTgID) where WoID = " . $wid);
+	if ($r != '') $r = $before . $r;
+	if ($tohtml) $r = tohtml($r);
+	return $r;
 }
 
 // -------------------------------------------------------------

@@ -42,8 +42,8 @@ $currentpage = processSessParam("page","currentwordpage",'1',1);
 $currentquery = processSessParam("query","currentwordquery",'',0);
 $currentstatus = processSessParam("status","currentwordstatus",'',0);
 $currenttext = validateText(processSessParam("text","currentwordtext",'',0));
-$currenttag1 = validateTag(processSessParam("tag1","currentwordtag1",'',0));
-$currenttag2 = validateTag(processSessParam("tag2","currentwordtag2",'',0));
+$currenttag1 = validateTag(processSessParam("tag1","currentwordtag1",'',0),$currentlang);
+$currenttag2 = validateTag(processSessParam("tag2","currentwordtag2",'',0),$currentlang);
 $currenttag12 = processSessParam("tag12","currentwordtag12",'',0);
 
 $wh_lang = ($currentlang != '') ? (' and WoLgID=' . $currentlang ) : '';
@@ -472,14 +472,14 @@ Term, Rom., Transl. (Wildc.=*):
 <tr>
 <td class="td1 center" colspan="2" nowrap="nowrap">
 Tag #1:
-<select name="tag1" onchange="{val=document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href='edit_words.php?page=1&amp;tag1=' + val;}"><?php echo get_tag_selectoptions($currenttag1); ?></select>
+<select name="tag1" onchange="{val=document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href='edit_words.php?page=1&amp;tag1=' + val;}"><?php echo get_tag_selectoptions($currenttag1,$currentlang); ?></select>
 </td>
 <td class="td1 center" nowrap="nowrap">
 Tag #1 .. <select name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='edit_words.php?page=1&amp;tag12=' + val;}"><?php echo get_andor_selectoptions($currenttag12); ?></select> .. Tag #2
 </td>
 <td class="td1 center" nowrap="nowrap">
 Tag #2:
-<select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='edit_words.php?page=1&amp;tag2=' + val;}"><?php echo get_tag_selectoptions($currenttag2); ?></select>
+<select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='edit_words.php?page=1&amp;tag2=' + val;}"><?php echo get_tag_selectoptions($currenttag2,$currentlang); ?></select>
 </td>
 </tr>
 <?php if($recno > 0) { ?>

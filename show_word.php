@@ -32,23 +32,34 @@ if ($dsatz = mysql_fetch_assoc($res)) {
 
 	$transl = repl_tab_nl($dsatz['WoTranslation']);
 	if($transl == '*') $transl='';
+	
+	$tags = getWordTagList($wid, '', 0, 0);
+	$rom = $dsatz['WoRomanization'];
 
 ?>
 
 
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr>
-<td class="td1 right" style="width:30px;"><b>Term:</b></td>
+<td class="td1 right" style="width:30px;">Term:</td>
 <td class="td1" style="font-size:150%;"><b><?php echo tohtml($dsatz['WoText']); ?></b></td>
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
-<td class="td1"><?php echo tohtml($transl); ?></td>
+<td class="td1" style="font-size:150%;"><b><?php echo tohtml($transl); ?></b></td>
 </tr>
+<?php if ($tags != '') { ?>
+<tr>
+<td class="td1 right">Tags:</td>
+<td class="td1" style="font-size:150%;"><b><?php echo tohtml($tags); ?></b></td>
+</tr>
+<?php } ?>
+<?php if ($rom != '') { ?>
 <tr>
 <td class="td1 right">Romaniz.:</td>
-<td class="td1"><?php echo tohtml($dsatz['WoRomanization']); ?></td>
+<td class="td1" style="font-size:150%;"><b><?php echo tohtml($rom); ?></b></td>
 </tr>
+<?php } ?>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
 <td class="td1"><?php echo tohtml($dsatz['WoSentence']); ?></textarea></td>
