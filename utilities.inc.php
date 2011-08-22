@@ -121,6 +121,39 @@ function getWordTags($wid) {
 
 // -------------------------------------------------------------
 
+function addtaglist ($item, $list) {
+	$tagid = get_first_value('select TgID as value from tags where TgText = ' . convert_string_to_sqlsyntax($item));
+	if (! isset($tagid)) {
+		runsql('insert into tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
+		$tagid = get_first_value('select TgID as value from tags where TgText = ' . convert_string_to_sqlsyntax($item));
+	}
+	$sql = 'select WoID from words where WoID in ' . $list;
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		runsql('insert into wordtags (WtWoID, WtTgID) values(' . $dsatz['WoID'] . ', ' . $tagid . ')', "");
+	}
+	mysql_free_result($res);
+	return "Tag " . $item . " added";
+}
+
+// -------------------------------------------------------------
+
+function removetaglist ($item, $list) {
+	$tagid = get_first_value('select TgID as value from tags where TgText = ' . convert_string_to_sqlsyntax($item));
+	if (! isset($tagid)) return "Tag " . $ítem . " not found";
+	$sql = 'select WoID from words where WoID in ' . $list;
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($dsatz = mysql_fetch_assoc($res)) {
+		runsql('delete from wordtags where WtWoID = ' . $dsatz['WoID'] . ' and WtTgID = ' . $tagid, "");
+	}
+	mysql_free_result($res);
+	return "Tag " . $item . " removed";
+}
+
+// -------------------------------------------------------------
+
 function framesetheader($title) {
 	@header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 	@header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -607,10 +640,10 @@ function validateText($currenttext) {
 
 function validateTag($currenttag,$currentlang) {
 	if ($currenttag != '') {
-		if ($l == '')
+		if ($currentlang == '')
 			$sql = "select (" . $currenttag . " in (select TgID from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText)) as value";
 		else
-			$sql = "select (" . $currenttag . " in (select TgID from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $l . " group by TgID order by TgText)) as value";
+			$sql = "select (" . $currenttag . " in (select TgID from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $currentlang . " group by TgID order by TgText)) as value";
 		$r = get_first_value($sql);
 		if ( $r == 0 ) $currenttag = ''; 
 	}
@@ -900,6 +933,9 @@ function get_multiplewordsactions_selectoptions() {
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"today\">Set Status Date to Today</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
+	$r .= "<option value=\"addtag\">Add Tag</option>";
+	$r .= "<option value=\"deltag\">Remove Tag</option>";
+	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"exp\">Export Marked Terms (Anki)</option>";
 	$r .= "<option value=\"exp2\">Export Marked Terms (TSV)</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
@@ -931,6 +967,9 @@ function get_allwordsactions_selectoptions() {
 	$r .= get_set_status_option(98, "all");
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"todayall\">Set Status Date to Today</option>";
+	$r .= "<option disabled=\"disabled\">------------</option>";
+	$r .= "<option value=\"addtagall\">Add Tag</option>";
+	$r .= "<option value=\"deltagall\">Remove Tag</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"expall\">Export ALL Terms (Anki)</option>";
 	$r .= "<option value=\"expall2\">Export ALL Terms (TSV)</option>";

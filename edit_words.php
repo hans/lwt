@@ -92,6 +92,12 @@ if (isset($_REQUEST['markaction'])) {
 					adjust_autoincr('words','WoID');
 					runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
 				}
+				elseif ($markaction == 'addtag' ) {
+					$message = addtaglist(getreq('data'),$list);
+				}
+				elseif ($markaction == 'deltag' ) {
+					$message = removetaglist(getreq('data'),$list);
+				}
 				elseif ($markaction == 'spl1' ) {
 					$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (1,2,3,4) and WoID in ' . $list, "Updated Status (+1)");
 				}
@@ -134,8 +140,8 @@ if (isset($_REQUEST['markaction'])) {
 
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
-	
-	if ($allaction == 'delall' || $allaction == 'spl1all' || $allaction == 'smi1all' || $allaction == 's5all' || $allaction == 's1all' || $allaction == 's99all' || $allaction == 's98all' || $allaction == 'todayall') {
+	$actiondata = getreq('data');
+	if ($allaction == 'delall' || $allaction == 'spl1all' || $allaction == 'smi1all' || $allaction == 's5all' || $allaction == 's1all' || $allaction == 's99all' || $allaction == 's98all' || $allaction == 'todayall' || $allaction == 'addtagall' || $allaction == 'deltagall') {
 		if ($currenttext == '') {
 			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag;
 		} else {
@@ -149,6 +155,14 @@ if (isset($_REQUEST['allaction'])) {
 			$message='0';
 			if ($allaction == 'delall' ) {
 				$message = runsql('delete from words where WoID = ' . $id, "");
+			}
+			elseif ($allaction == 'addtagall' ) {
+				addtaglist($actiondata,'(' . $id . ')');
+				$message = 1;
+			}
+			elseif ($allaction == 'deltagall' ) {
+				removetaglist($actiondata,'(' . $id . ')');
+				$message = 1;
 			}
 			elseif ($allaction == 'spl1all' ) {
 				$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (1,2,3,4) and WoID = ' . $id, "");
@@ -174,7 +188,9 @@ if (isset($_REQUEST['allaction'])) {
 			$cnt += (int)$message;
 		}
 		mysql_free_result($res);
-		if ($allaction == 'delall') {
+		if ($allaction == 'addtagall' || $allaction == 'deltagall') {
+			$message = "Tag added/removed: $cnt Terms";
+		} else if ($allaction == 'delall') {
 			$message = "Deleted: $cnt Terms";
 			adjust_autoincr('words','WoID');
 			runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
@@ -504,6 +520,7 @@ if ($recno==0) {
 } else {
 ?>
 <form name="form2" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<input type="hidden" name="data" value="" />
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr><th class="th1 center" colspan="2">
 Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Actions" />

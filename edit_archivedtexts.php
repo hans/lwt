@@ -250,6 +250,7 @@ if ($recno==0) {
 } else {
 ?>
 <form name="form2" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<input type="hidden" name="data" value="" />
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr><th class="th1" colspan="2">Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Actions" /></th></tr>
 <tr><td class="td1 center">

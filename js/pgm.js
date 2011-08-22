@@ -408,12 +408,32 @@ function multiActionGo(f,sel) {
 		var v = sel.value;
 		var t = sel.options[sel.selectedIndex].text;
 		if (typeof v == 'string') {
-			if (v == 'del' || v == 'smi1' || v == 'spl1' || v == 's1' || v == 's5' || v == 's98' || v == 's99' || v == 'today') {
+			if (v == 'addtag' || v == 'deltag') {
+				var notok = 1;
+				while (notok) {
+					var answer = prompt('*** ' + t + ' ***\n\n*** ' + $('input.markcheck:checked').length + ' Record(s) will be affected ***\n\nPlease enter one tag (20 char. max., no spaces, no commas -- or leave empty to cancel:'); 
+					if (answer.indexOf(' ') > 0 || answer.indexOf(',') > 0) {
+						alert ('Please no spaces or commas!');
+					}
+					else if (answer.length > 20) {
+						alert ('Please no tags longer than 20 char.!');
+					}
+					else {
+						notok = 0;
+					}	
+				}
+				if (answer != '') {
+					f.data.value = answer;
+					f.submit();
+				}
+			} 
+			else if (v == 'del' || v == 'smi1' || v == 'spl1' || v == 's1' || v == 's5' || v == 's98' || v == 's99' || v == 'today') {
 				var answer = confirm ('*** ' + t + ' ***\n\n*** ' + $('input.markcheck:checked').length + ' Record(s) will be affected ***\n\nAre you sure?'); 
 				if (answer) { 
 					f.submit();
 				}
-			} else {
+			} 
+			else {
 				f.submit();
 			}
 		} 
@@ -426,7 +446,26 @@ function allActionGo(f,sel,n) {
 		var v = sel.value;
 		var t = sel.options[sel.selectedIndex].text;
 		if (typeof v == 'string') {
-			if (v == 'delall' || v == 'smi1all' || v == 'spl1all' || v == 's1all' || v == 's5all' || v == 's98all' || v == 's99all' || v == 'todayall') {
+			if (v == 'addtagall' || v == 'deltagall') {
+				var notok = 1;
+				while (notok) {
+					var answer = prompt('THIS IS AN ACTION ON ALL RECORDS\nON ALL PAGES OF THE CURRENT QUERY!\n\n*** ' + t + ' ***\n\n*** ' + n + ' Record(s) will be affected ***\n\nPlease enter one tag (20 char. max., no spaces, no commas -- or leave empty to cancel:'); 
+					if (answer.indexOf(' ') > 0 || answer.indexOf(',') > 0) {
+						alert ('Please no spaces or commas!');
+					}
+					else if (answer.length > 20) {
+						alert ('Please no tags longer than 20 char.!');
+					}
+					else {
+						notok = 0;
+					}	
+				}
+				if (answer != '') {
+					f.data.value = answer;
+					f.submit();
+				}
+			} 
+			else if (v == 'delall' || v == 'smi1all' || v == 'spl1all' || v == 's1all' || v == 's5all' || v == 's98all' || v == 's99all' || v == 'todayall') {
 				var answer = confirm ('THIS IS AN ACTION ON ALL RECORDS\nON ALL PAGES OF THE CURRENT QUERY!\n\n*** ' + t + ' ***\n\n*** ' + n + ' Record(s) will be affected ***\n\nARE YOU SURE?'); 
 				if (answer) { 
 					f.submit();
