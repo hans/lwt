@@ -410,8 +410,10 @@ function multiActionGo(f,sel) {
 		if (typeof v == 'string') {
 			if (v == 'addtag' || v == 'deltag') {
 				var notok = 1;
+				var answer = '';
 				while (notok) {
-					var answer = prompt('*** ' + t + ' ***\n\n*** ' + $('input.markcheck:checked').length + ' Record(s) will be affected ***\n\nPlease enter one tag (20 char. max., no spaces, no commas -- or leave empty to cancel:'); 
+					answer = prompt('*** ' + t + ' ***\n\n*** ' + $('input.markcheck:checked').length + ' Record(s) will be affected ***\n\nPlease enter one tag (20 char. max., no spaces, no commas -- or leave empty to cancel:', answer); 
+					if (typeof answer == 'object') answer = '';
 					if (answer.indexOf(' ') > 0 || answer.indexOf(',') > 0) {
 						alert ('Please no spaces or commas!');
 					}
@@ -448,8 +450,10 @@ function allActionGo(f,sel,n) {
 		if (typeof v == 'string') {
 			if (v == 'addtagall' || v == 'deltagall') {
 				var notok = 1;
+				var answer = '';
 				while (notok) {
-					var answer = prompt('THIS IS AN ACTION ON ALL RECORDS\nON ALL PAGES OF THE CURRENT QUERY!\n\n*** ' + t + ' ***\n\n*** ' + n + ' Record(s) will be affected ***\n\nPlease enter one tag (20 char. max., no spaces, no commas -- or leave empty to cancel:'); 
+					answer = prompt('THIS IS AN ACTION ON ALL RECORDS\nON ALL PAGES OF THE CURRENT QUERY!\n\n*** ' + t + ' ***\n\n*** ' + n + ' Record(s) will be affected ***\n\nPlease enter one tag (20 char. max., no spaces, no commas -- or leave empty to cancel:', answer); 
+					if (typeof answer == 'object') answer = '';
 					if (answer.indexOf(' ') > 0 || answer.indexOf(',') > 0) {
 						alert ('Please no spaces or commas!');
 					}

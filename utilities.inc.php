@@ -130,11 +130,13 @@ function addtaglist ($item, $list) {
 	$sql = 'select WoID from words where WoID in ' . $list;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
+	$cnt = 0;
 	while ($dsatz = mysql_fetch_assoc($res)) {
+		$cnt++;
 		runsql('insert into wordtags (WtWoID, WtTgID) values(' . $dsatz['WoID'] . ', ' . $tagid . ')', "");
 	}
 	mysql_free_result($res);
-	return "Tag " . $item . " added";
+	return "Tag added in $cnt Terms";
 }
 
 // -------------------------------------------------------------
@@ -145,11 +147,13 @@ function removetaglist ($item, $list) {
 	$sql = 'select WoID from words where WoID in ' . $list;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
+	$cnt = 0;
 	while ($dsatz = mysql_fetch_assoc($res)) {
+		$cnt++;
 		runsql('delete from wordtags where WtWoID = ' . $dsatz['WoID'] . ' and WtTgID = ' . $tagid, "");
 	}
 	mysql_free_result($res);
-	return "Tag " . $item . " removed";
+	return "Tag removed in $cnt Terms";
 }
 
 // -------------------------------------------------------------

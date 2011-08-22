@@ -79,6 +79,7 @@ $message = '';
 
 if (isset($_REQUEST['markaction'])) {
 	$markaction = $_REQUEST['markaction'];
+	$actiondata = stripslashes(getreq('data'));
 	$message = "Multiple Actions: 0";
 	if (isset($_REQUEST['marked'])) {
 		if (is_array($_REQUEST['marked'])) {
@@ -93,10 +94,10 @@ if (isset($_REQUEST['markaction'])) {
 					runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
 				}
 				elseif ($markaction == 'addtag' ) {
-					$message = addtaglist(getreq('data'),$list);
+					$message = addtaglist($actiondata,$list);
 				}
 				elseif ($markaction == 'deltag' ) {
-					$message = removetaglist(getreq('data'),$list);
+					$message = removetaglist($actiondata,$list);
 				}
 				elseif ($markaction == 'spl1' ) {
 					$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (1,2,3,4) and WoID in ' . $list, "Updated Status (+1)");
@@ -140,7 +141,7 @@ if (isset($_REQUEST['markaction'])) {
 
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
-	$actiondata = getreq('data');
+	$actiondata = stripslashes(getreq('data'));
 	if ($allaction == 'delall' || $allaction == 'spl1all' || $allaction == 'smi1all' || $allaction == 's5all' || $allaction == 's1all' || $allaction == 's99all' || $allaction == 's98all' || $allaction == 'todayall' || $allaction == 'addtagall' || $allaction == 'deltagall') {
 		if ($currenttext == '') {
 			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag;
@@ -189,7 +190,7 @@ if (isset($_REQUEST['allaction'])) {
 		}
 		mysql_free_result($res);
 		if ($allaction == 'addtagall' || $allaction == 'deltagall') {
-			$message = "Tag added/removed: $cnt Terms";
+			$message = "Tag added or removed in $cnt Terms";
 		} else if ($allaction == 'delall') {
 			$message = "Deleted: $cnt Terms";
 			adjust_autoincr('words','WoID');
