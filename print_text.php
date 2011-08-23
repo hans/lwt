@@ -21,7 +21,14 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
-function output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans,$annplcmnt) {
+function output_text($saveterm,$saverom,$savetrans,$savetags,
+	$show_rom,$show_trans,$show_tags,$annplcmnt) {
+	if ($show_tags) {
+		if ($savetrans == '' && $savetags != '') 
+			$savetrans = '* ' . $savetags;
+		else
+			$savetrans = trim($savetrans . ' ' . $savetags);
+	}
 	if ($show_rom && $saverom == '') $show_rom = 0;
 	if ($show_trans && $savetrans == '') $show_trans = 0;
 	if ($annplcmnt == 1) {
@@ -65,6 +72,7 @@ if ($ann == '') $ann = getSetting('currentprintannotation');
 if ($ann == '') $ann = 3;
 $show_rom = $ann & 2; 
 $show_trans = $ann & 1; 
+$show_tags = $ann & 4; 
 
 $status = getreq('status');
 if($status == '') $status = getSetting('currentprintstatus');
@@ -123,8 +131,10 @@ echo 'text=' . $textid;
 echo "&amp;ann=' + val;}" . '">';
 echo "<option value=\"0\"" . get_selected(0,$ann) . ">Nothing</option>";
 echo "<option value=\"1\"" . get_selected(1,$ann) . ">Translation</option>";
+echo "<option value=\"5\"" . get_selected(5,$ann) . ">Translation &amp; Tags</option>";
 echo "<option value=\"2\"" . get_selected(2,$ann) . ">Romanization</option>";
 echo "<option value=\"3\"" . get_selected(3,$ann) . ">Romanization &amp; Translation</option>";
+echo "<option value=\"7\"" . get_selected(7,$ann) . ">Romanization, Translation &amp; Tags</option>";
 ?>
 </select>
 <select id="annplcmnt" onchange="{val=document.getElementById('annplcmnt').options[document.getElementById('annplcmnt').selectedIndex].value;location.href='print_text.php?<?php
@@ -144,11 +154,12 @@ the term.<br />
 
 echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
-$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
 
 $saveterm = '';
 $savetrans = '';
 $saverom = '';
+$savetags = '';
 $until = 0;
 
 $res = mysql_query($sql);		
@@ -163,10 +174,12 @@ while ($record = mysql_fetch_assoc($res)) {
 		continue;
 	}
 	if ( $order > $until ) {
-		output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans,$annplcmnt);
+		output_text($saveterm,$saverom,$savetrans,$savetags,
+			$show_rom,$show_trans,$show_tags,$annplcmnt);
 		$saveterm = '';
 		$savetrans = '';
 		$saverom = '';
+		$savetags = '';
 		$until = $order;
 	}
 	if ($record['TiIsNotWord'] != 0) {
@@ -178,14 +191,20 @@ while ($record = mysql_fetch_assoc($res)) {
 	else {
 		$until = $order + 2 * ($actcode-1);                
 		$saveterm = $record['TiText'];
-		$savetrans = trim(isset($record['WoTranslation']) ?
-			($record['WoTranslation']=='*' ? "" : $record['WoTranslation']) : "");
+		$savetrans = '';
+		$savetags = '';
+		if(isset($record['WoID'])) {
+			$savetrans = $record['WoTranslation'];
+			$savetags = getWordTagList($record['WoID'],'',1,0);
+			if ($savetrans == '*') $savetrans = '';
+		}
 		$saverom = trim(isset($record['WoRomanization']) ?
 			$record['WoRomanization'] : "");
 	}
 } // while
 mysql_free_result($res);
-output_text($saveterm,$saverom,$savetrans,$show_rom,$show_trans,$annplcmnt);
+output_text($saveterm,$saverom,$savetrans,$savetags,
+	$show_rom,$show_trans,$show_tags,$annplcmnt);
 echo "</p></div>";
 
 pageend();
