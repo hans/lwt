@@ -66,9 +66,11 @@ $no_pagestart =
 	(getreq('markaction') == 'exp') ||
 	(getreq('markaction') == 'exp2') ||
 	(getreq('markaction') == 'test') ||
+	(getreq('markaction') == 'deltag') ||
 	(getreq('allaction') == 'expall') ||
 	(getreq('allaction') == 'expall2') ||
-	(getreq('allaction') == 'testall');
+	(getreq('allaction') == 'testall') ||
+	(getreq('allaction') == 'deltagall');
 if (! $no_pagestart) {
 	pagestart('My ' . getLanguage($currentlang) . ' Words and Expressions (Terms)',true);
 }
@@ -98,6 +100,8 @@ if (isset($_REQUEST['markaction'])) {
 				}
 				elseif ($markaction == 'deltag' ) {
 					$message = removetaglist($actiondata,$list);
+					header("Location: edit_words.php");
+					exit();
 				}
 				elseif ($markaction == 'spl1' ) {
 					$message = runsql('update words set WoStatus=WoStatus+1, WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoStatus in (1,2,3,4) and WoID in ' . $list, "Updated Status (+1)");
@@ -189,8 +193,12 @@ if (isset($_REQUEST['allaction'])) {
 			$cnt += (int)$message;
 		}
 		mysql_free_result($res);
-		if ($allaction == 'addtagall' || $allaction == 'deltagall') {
-			$message = "Tag added or removed in $cnt Terms";
+		if ($allaction == 'deltagall') {
+			header("Location: edit_words.php");
+			exit();
+		}
+		if ($allaction == 'addtagall') {
+			$message = "Tag added in $cnt Terms";
 		} else if ($allaction == 'delall') {
 			$message = "Deleted: $cnt Terms";
 			adjust_autoincr('words','WoID');
@@ -544,7 +552,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <th class="th1 sorttable_nosort">Act.</th>
 <th class="th1 clickable">Lang.</th>
 <th class="th1 clickable">Term /<br />Romanization</th>
-<th class="th1 clickable">Translation [Tags]</th>
+<th class="th1 clickable">Translation [Tags]<br /><span id="waitinfo">Please <img src="icn/waiting2.gif" /> wait ...</span></th>
 <th class="th1 sorttable_nosort">Se.<br />?</th>
 <th class="th1 sorttable_numeric clickable">Stat./<br />Days</th>
 <th class="th1 sorttable_numeric clickable">Score<br />%</th>
@@ -558,7 +566,7 @@ if ($currenttext == '') {
 	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2, ifnull(concat(\'[\',group_concat(distinct TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 }
 if ($debug) echo $sql;
-
+flush();
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
@@ -584,6 +592,12 @@ mysql_free_result($res);
 </table>
 </form>
 
+<script type="text/javascript">
+//<![CDATA[
+$('#waitinfo').addClass('hide');
+//]]>
+</script>
+
 <?php if( $pages > 1) { ?>
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
@@ -592,6 +606,7 @@ mysql_free_result($res);
 </th><th class="th1" nowrap="nowrap">
 <?php makePager ($currentpage, $pages, 'edit_words.php', 'form1'); ?>
 </th></tr></table>
+
 <?php } ?>
 
 <?php
