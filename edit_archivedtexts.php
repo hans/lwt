@@ -61,14 +61,14 @@ if (isset($_REQUEST['markaction'])) {
 					$sql = "select AtID, AtLgID from archivedtexts where AtID in " . $list;
 					$res = mysql_query($sql);		
 					if ($res == FALSE) die("Invalid Query: $sql");
-					while ($dsatz = mysql_fetch_assoc($res)) {
-						$ida = $dsatz['AtID'];
+					while ($record = mysql_fetch_assoc($res)) {
+						$ida = $record['AtID'];
 						$message2 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $ida, "Texts added");
 						$id = get_last_key();
 						splitText(
 							get_first_value(
 							'select TxText as value from texts where TxID = ' . $id), 
-							$dsatz['AtLgID'], 
+							$record['AtLgID'], 
 							$id );	
 						$message1 = runsql('delete from archivedtexts where AtID = ' . $ida, "Archived Texts deleted");
 						adjust_autoincr('archivedtexts','AtID');
@@ -132,7 +132,7 @@ if (isset($_REQUEST['chg'])) {
 	$sql = 'select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	if ($dsatz = mysql_fetch_assoc($res)) {
+	if ($record = mysql_fetch_assoc($res)) {
 
 		?>
 	
@@ -145,24 +145,24 @@ if (isset($_REQUEST['chg'])) {
 		<td class="td1">
 		<select name="AtLgID" class="notempty setfocus">
 		<?php
-		echo get_languages_selectoptions($dsatz['AtLgID'],"[Choose...]");
+		echo get_languages_selectoptions($record['AtLgID'],"[Choose...]");
 		?>
 		</select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Title:</td>
-		<td class="td1"><input type="text" class="notempty" name="AtTitle" value="<?php echo tohtml($dsatz['AtTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty" name="AtTitle" value="<?php echo tohtml($record['AtTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Text:</td>
 		<td class="td1">
-		<textarea name="AtText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($dsatz['AtText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<textarea name="AtText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['AtText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Audio-URI:</td>
-		<td class="td1"><input type="text" name="AtAudioURI" value="<?php echo tohtml($dsatz['AtAudioURI']); ?>" maxlength="200" size="60" />
+		<td class="td1"><input type="text" name="AtAudioURI" value="<?php echo tohtml($record['AtAudioURI']); ?>" maxlength="200" size="60" />
 		<?php
 		echo selectmediapath('AtAudioURI');
 		?>
@@ -275,12 +275,12 @@ $sql = 'select AtID, AtTitle, LgName, AtAudioURI from archivedtexts, languages w
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-while ($dsatz = mysql_fetch_assoc($res)) {
+while ($record = mysql_fetch_assoc($res)) {
 	echo '<tr>';
-	echo '<td class="td1 center"><a name="rec' . $dsatz['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $dsatz['AtID'] . '" ' . checkTest($dsatz['AtID'], 'marked') . ' /></a></td>';
-	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?unarch=' . $dsatz['AtID'] . '"><img src="icn/inbox-upload.png" title="Unarchive" alt="Unarchive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $dsatz['AtID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $dsatz['AtID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
-	echo '<td class="td1 center">' . tohtml($dsatz['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($dsatz['AtTitle']) . ' &nbsp;'  . (isset($dsatz['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="Audio" alt="Audio" />' : '') . '</td>';
+	echo '<td class="td1 center"><a name="rec' . $record['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $record['AtID'] . '" ' . checkTest($record['AtID'], 'marked') . ' /></a></td>';
+	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?unarch=' . $record['AtID'] . '"><img src="icn/inbox-upload.png" title="Unarchive" alt="Unarchive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['AtID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['AtID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
+	echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' &nbsp;'  . (isset($record['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="Audio" alt="Audio" />' : '') . '</td>';
 	echo '</tr>';
 }
 mysql_free_result($res);

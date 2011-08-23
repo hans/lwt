@@ -21,8 +21,8 @@ include "utilities.inc.php";
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
-$wort = get_first_value("select WoText as value from words where WoID = " . $wid);
-pagestart("Term: " . $wort, false);
+$term = get_first_value("select WoText as value from words where WoID = " . $wid);
+pagestart("Term: " . $term, false);
 $m1 = runsql('delete from words where WoID = ' . $wid, '');
 adjust_autoincr('words','WoID');
 
@@ -33,7 +33,7 @@ echo "<p>OK, term deleted, now unknown (" . $m1 . ").</p>";
 //<![CDATA[
 var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
-var title = make_tooltip(<?php echo prepare_textdata_js($wort); ?>,'','','');
+var title = make_tooltip(<?php echo prepare_textdata_js($term); ?>,'','','');
 $('.word<?php echo $wid; ?>', context).removeClass('status99 status98 status1 status2 status3 status4 status5 word<?php echo $wid; ?>').addClass('status0').attr('data_status','0').attr('data_trans','').attr('data_rom','').attr('data_wid','').attr('title',title);
 $('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
 window.parent.frames['l'].focus();

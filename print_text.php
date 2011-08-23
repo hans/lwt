@@ -78,17 +78,17 @@ if($annplcmnt == '') $annplcmnt = 0;
 $sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-$dsatz = mysql_fetch_assoc($res);
-$titel = $dsatz['TxTitle'];
-$sprid = $dsatz['TxLgID'];
+$record = mysql_fetch_assoc($res);
+$title = $record['TxTitle'];
+$langid = $record['TxLgID'];
 mysql_free_result($res);
 
-$sql = 'select LgTextSize, LgRemoveSpaces from languages where LgID = ' . $sprid;
+$sql = 'select LgTextSize, LgRemoveSpaces from languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-$dsatz = mysql_fetch_assoc($res);
-$textsize = $dsatz['LgTextSize'];
-$removeSpaces = $dsatz['LgRemoveSpaces'];
+$record = mysql_fetch_assoc($res);
+$textsize = $record['LgTextSize'];
+$removeSpaces = $record['LgRemoveSpaces'];
 mysql_free_result($res);
 
 saveSetting('currenttext',$textid);
@@ -106,7 +106,7 @@ echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />Learning with Tex
 echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>';
-echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($titel) . '</h3>';
+echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
 ?>
 
@@ -142,7 +142,7 @@ the term.<br />
 <div id="print">
 <?php
 
-echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($titel) . '<br /><br />';
+echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
 $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
 
@@ -154,10 +154,10 @@ $until = 0;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 
-while ($dsatz = mysql_fetch_assoc($res)) {
+while ($record = mysql_fetch_assoc($res)) {
 
-	$actcode = $dsatz['Code'] + 0;
-	$order = $dsatz['TiOrder'] + 0;
+	$actcode = $record['Code'] + 0;
+	$order = $record['TiOrder'] + 0;
 	
 	if ( $order <= $until ) {
 		continue;
@@ -169,19 +169,19 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 		$saverom = '';
 		$until = $order;
 	}
-	if ($dsatz['TiIsNotWord'] != 0) {
+	if ($record['TiIsNotWord'] != 0) {
 		echo str_replace(
 			"¶",
 			'</p><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
-			tohtml($dsatz['TiText']));
+			tohtml($record['TiText']));
 	}
 	else {
 		$until = $order + 2 * ($actcode-1);                
-		$saveterm = $dsatz['TiText'];
-		$savetrans = trim(isset($dsatz['WoTranslation']) ?
-			($dsatz['WoTranslation']=='*' ? "" : $dsatz['WoTranslation']) : "");
-		$saverom = trim(isset($dsatz['WoRomanization']) ?
-			$dsatz['WoRomanization'] : "");
+		$saveterm = $record['TiText'];
+		$savetrans = trim(isset($record['WoTranslation']) ?
+			($record['WoTranslation']=='*' ? "" : $record['WoTranslation']) : "");
+		$saverom = trim(isset($record['WoRomanization']) ?
+			$record['WoRomanization'] : "");
 	}
 } // while
 mysql_free_result($res);

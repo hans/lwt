@@ -27,11 +27,11 @@ $status = $_REQUEST['status'];
 $sql = 'SELECT WoText, WoTranslation, WoRomanization FROM words where WoID = ' . $wid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-$dsatz = mysql_fetch_assoc($res);
-if ($dsatz) {
-	$word = $dsatz['WoText'];
-	$trans = repl_tab_nl($dsatz['WoTranslation']);
-	$roman = $dsatz['WoRomanization'];
+$record = mysql_fetch_assoc($res);
+if ($record) {
+	$word = $record['WoText'];
+	$trans = repl_tab_nl($record['WoTranslation']);
+	$roman = $record['WoRomanization'];
 } else {
 	die("Error: No results"); 
 }

@@ -104,22 +104,22 @@ else {  // if (! isset($_REQUEST['op']))
 	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	$dsatz = mysql_fetch_assoc($res);
-	if ( $dsatz ) {
-		$wort = $dsatz['WoText'];
-		$lang = $dsatz['WoLgID'];
-		$transl = repl_tab_nl($dsatz['WoTranslation']);
+	$record = mysql_fetch_assoc($res);
+	if ( $record ) {
+		$term = $record['WoText'];
+		$lang = $record['WoLgID'];
+		$transl = repl_tab_nl($record['WoTranslation']);
 		if($transl == '*') $transl='';
-		$sentence = repl_tab_nl($dsatz['WoSentence']);
-		$rom = $dsatz['WoRomanization'];
-		$status = $dsatz['WoStatus'];
+		$sentence = repl_tab_nl($record['WoSentence']);
+		$rom = $record['WoRomanization'];
+		$status = $record['WoStatus'];
 	} else {
 		die("Error: No results");
 	}
 	mysql_free_result($res);
 	
-	$wortlc =	mb_strtolower($wort, 'UTF-8');
-	$titeltext = "Edit Term: " . tohtml($wort);
+	$termlc =	mb_strtolower($term, 'UTF-8');
+	$titeltext = "Edit Term: " . tohtml($term);
 	pagestart_nobody($titeltext);
 
 ?>
@@ -127,11 +127,11 @@ else {  // if (! isset($_REQUEST['op']))
 <form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="WoID" value="<?php echo $wid; ?>" />
 <input type="hidden" name="WoOldStatus" value="<?php echo $status; ?>" />
-<input type="hidden" name="WoTextLC" value="<?php echo tohtml($wortlc); ?>" />
+<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr title="Only change uppercase/lowercase!">
 <td class="td1 right"><b>Edit Term:</b></td>
-<td class="td1"><input class="notempty" type="text" name="WoText" value="<?php echo tohtml($wort); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+<td class="td1"><input class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
@@ -159,13 +159,13 @@ else {  // if (! isset($_REQUEST['op']))
 </tr>
 <tr>
 <td class="td1 right" colspan="2">
-<?php echo createDictLinksInEditWin($lang,$wort,'document.forms[0].WoSentence',1); ?>
+<?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',1); ?>
 &nbsp; &nbsp; &nbsp; 
 <input type="submit" name="op" value="Change" /></td>
 </tr>
 </table>
 </form>
-<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($wortlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 <?php
 } // if (! isset($_REQUEST['op']))
 

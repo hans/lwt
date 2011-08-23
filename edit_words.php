@@ -151,8 +151,8 @@ if (isset($_REQUEST['allaction'])) {
 		$cnt=0;
 		$res = mysql_query($sql);
 		if ($res == FALSE) die("Invalid Query: $sql");
-		while ($dsatz = mysql_fetch_assoc($res)) {
-			$id = $dsatz['WoID'];
+		while ($record = mysql_fetch_assoc($res)) {
+			$id = $record['WoID'];
 			$message='0';
 			if ($allaction == 'delall' ) {
 				$message = runsql('delete from words where WoID = ' . $id, "");
@@ -226,9 +226,9 @@ if (isset($_REQUEST['allaction'])) {
 		$list = '(';
 		$res = mysql_query($sql);
 		if ($res == FALSE) die("Invalid Query: $sql");
-		while ($dsatz = mysql_fetch_assoc($res)) {
+		while ($record = mysql_fetch_assoc($res)) {
 			$cnt++;
-			$id = $dsatz['WoID'];
+			$id = $record['WoID'];
 			$list .= ($cnt==1 ? '' : ',') . $id;
 		}	
 		$list .= ")";
@@ -358,26 +358,26 @@ elseif (isset($_REQUEST['chg'])) {
 	$sql = 'select * from words, languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	if ($dsatz = mysql_fetch_assoc($res)) {
+	if ($record = mysql_fetch_assoc($res)) {
 		
-		$wordlc = $dsatz['WoTextLC'];
-		$transl = repl_tab_nl($dsatz['WoTranslation']);
+		$wordlc = $record['WoTextLC'];
+		$transl = repl_tab_nl($record['WoTranslation']);
 		if($transl == '*') $transl='';
 	
 		?>
 	
 		<h4>Edit Term</h4>
 		<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
-		<input type="hidden" name="WoID" value="<?php echo $dsatz['WoID']; ?>" />
-		<input type="hidden" name="WoOldStatus" value="<?php echo $dsatz['WoStatus']; ?>" />
+		<input type="hidden" name="WoID" value="<?php echo $record['WoID']; ?>" />
+		<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Language:</td>
-		<td class="td1"><?php echo tohtml($dsatz['LgName']); ?></td>
+		<td class="td1"><?php echo tohtml($record['LgName']); ?></td>
 		</tr>
 		<tr title="Normally only change uppercase/lowercase here!">
 		<td class="td1 right">Term:</td>
-		<td class="td1"><input class="notempty setfocus" type="text" name="WoText" value="<?php echo tohtml($dsatz['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input class="notempty setfocus" type="text" name="WoText" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
@@ -386,34 +386,34 @@ elseif (isset($_REQUEST['chg'])) {
 		<tr>
 		<td class="td1 right">Tags:</td>
 		<td class="td1">
-		<?php echo getWordTags($dsatz['WoID']); ?>
+		<?php echo getWordTags($record['WoID']); ?>
 		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Romaniz.:</td>
 		<td class="td1"><input type="text" name="WoRomanization" maxlength="100" size="40" 
-		value="<?php echo tohtml($dsatz['WoRomanization']); ?>" /></td>
+		value="<?php echo tohtml($record['WoRomanization']); ?>" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Sentence<br />Term in {...}:</td>
-		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" name="WoSentence" cols="40" rows="3"><?php echo tohtml(repl_tab_nl($dsatz['WoSentence'])); ?></textarea></td>
+		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" name="WoSentence" cols="40" rows="3"><?php echo tohtml(repl_tab_nl($record['WoSentence'])); ?></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Status:</td>
 		<td class="td1">
-		<?php echo get_wordstatus_radiooptions($dsatz['WoStatus']); ?>
+		<?php echo get_wordstatus_radiooptions($record['WoStatus']); ?>
 		</td>
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">  &nbsp;
-		<?php echo createDictLinksInEditWin2($dsatz['WoLgID'],'document.forms[\'editword\'].WoSentence','document.forms[\'editword\'].WoText'); ?>
+		<?php echo createDictLinksInEditWin2($record['WoLgID'],'document.forms[\'editword\'].WoSentence','document.forms[\'editword\'].WoText'); ?>
 		&nbsp; &nbsp;
 		<input type="button" value="Cancel" onclick="location.href='edit_words.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>
 		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $dsatz['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 <?php
 	}
 	mysql_free_result($res);
@@ -561,20 +561,20 @@ if ($debug) echo $sql;
 
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-while ($dsatz = mysql_fetch_assoc($res)) {
-	$days = $dsatz['Days'];
-	if ( $dsatz['WoStatus'] > 5 ) $days="-";
-	$score = $dsatz['Score'];
+while ($record = mysql_fetch_assoc($res)) {
+	$days = $record['Days'];
+	if ( $record['WoStatus'] > 5 ) $days="-";
+	$score = $record['Score'];
 	if ( $score < 0 ) $score='<span class="scorered">0 <img src="icn/status-busy.png" title="Test today!" alt="Test today!" /></span>';
-	else $score='<span class="scoregreen">' . floor($score) . ($dsatz['Score2'] < 0 ? ' <img src="icn/status-away.png" title="Test tomorrow!" alt="Test tomorrow!" />' : ' <img src="icn/status.png" title="-" alt="-" />') . '</span>';
+	else $score='<span class="scoregreen">' . floor($score) . ($record['Score2'] < 0 ? ' <img src="icn/status-away.png" title="Test tomorrow!" alt="Test tomorrow!" />' : ' <img src="icn/status.png" title="-" alt="-" />') . '</span>';
 	echo '<tr>';
-	echo '<td class="td1 center"><a name="rec' . $dsatz['WoID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $dsatz['WoID'] . '" ' . checkTest($dsatz['WoID'], 'marked') . ' /></a></td>';
-	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $dsatz['WoID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $dsatz['WoID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
-	echo '<td class="td1 center">' . tohtml($dsatz['LgName']) . '</td>';
-	echo '<td class="td1 ">' . tohtml($dsatz['WoText'] . ($dsatz['WoRomanization']!='' ? (' / ' . $dsatz['WoRomanization']) : '')) . '</td>';
-	echo '<td class="td1 ">' . tohtml(repl_tab_nl($dsatz['WoTranslation'])) . ' <span class="smallgray2">' . tohtml($dsatz['taglist']) . '</span></td>';
-	echo '<td class="td1 center"><b>' . ($dsatz['SentOK']!=0 ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />') . '</b></td>';
-	echo '<td class="td1 center" title="' . tohtml(get_status_name($dsatz['WoStatus'])) . '">' . tohtml(get_status_abbr($dsatz['WoStatus'])) . ($dsatz['WoStatus'] < 98 ? '/' . $days : '') . '</td>';
+	echo '<td class="td1 center"><a name="rec' . $record['WoID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $record['WoID'] . '" ' . checkTest($record['WoID'], 'marked') . ' /></a></td>';
+	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['WoID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['WoID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
+	echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
+	echo '<td class="td1 ">' . tohtml($record['WoText'] . ($record['WoRomanization']!='' ? (' / ' . $record['WoRomanization']) : '')) . '</td>';
+	echo '<td class="td1 ">' . tohtml(repl_tab_nl($record['WoTranslation'])) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span></td>';
+	echo '<td class="td1 center"><b>' . ($record['SentOK']!=0 ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />') . '</b></td>';
+	echo '<td class="td1 center" title="' . tohtml(get_status_name($record['WoStatus'])) . '">' . tohtml(get_status_abbr($record['WoStatus'])) . ($record['WoStatus'] < 98 ? '/' . $days : '') . '</td>';
 	echo '<td class="td1 center" nowrap="nowrap">' . $score . '</td>';
 	echo '</tr>';
 }

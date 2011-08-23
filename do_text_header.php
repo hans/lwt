@@ -23,26 +23,26 @@ $textid = getreq('text');
 $sql = 'select TxLgID, TxTitle, TxAudioURI from texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-$dsatz = mysql_fetch_assoc($res);
+$record = mysql_fetch_assoc($res);
 
-$audio = $dsatz['TxAudioURI'];
+$audio = $record['TxAudioURI'];
 if(!isset($audio)) $audio='';
 $audio=trim($audio);
 
-$titel = $dsatz['TxTitle'];
-$sprid = $dsatz['TxLgID'];
+$title = $record['TxTitle'];
+$langid = $record['TxLgID'];
 mysql_free_result($res); 
 
 saveSetting('currenttext',$textid);
 
-pagestart_nobody(tohtml($titel));
+pagestart_nobody(tohtml($title));
 echo '<h4>';
 echo '<a href="edit_texts.php" target="_top">';
 echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />Learning with Texts';
 echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo '&nbsp; | &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp; &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /></a>';
-echo '</h4><table><tr><td><h3>READ&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($titel) . '</h3></td></tr></table>';
+echo '</h4><table><tr><td><h3>READ&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . '</h3></td></tr></table>';
 
 $showAll = getSetting('showallwords');
 $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));

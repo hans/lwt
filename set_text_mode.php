@@ -46,12 +46,12 @@ if ($res == FALSE) die("Invalid Query: $sql");
 $hideuntil = -1;
 $hidetag = "removeClass('hide');";
 
-while ($dsatz = mysql_fetch_assoc($res)) {  // MAIN LOOP
-	$actcode = $dsatz['Code'] + 0;
-	$t = $dsatz['TiText'];
-	$order = $dsatz['TiOrder'] + 0;
-	$notword = $dsatz['TiIsNotWord'] + 0;
-	$termex = isset($dsatz['WoID']);
+while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
+	$actcode = $record['Code'] + 0;
+	$t = $record['TiText'];
+	$order = $record['TiOrder'] + 0;
+	$notword = $record['TiIsNotWord'] + 0;
+	$termex = isset($record['WoID']);
 	$spanid = 'ID-' . $order . '-' . $actcode;
 
 	if ( $hideuntil > 0 ) {
@@ -91,8 +91,8 @@ while ($dsatz = mysql_fetch_assoc($res)) {  // MAIN LOOP
 		else {  // ($actcode == 1)  -- A WORD FOUND
 			echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
 		}  // ($actcode == 1)  -- A WORD FOUND
-	} // $dsatz['TiIsNotWord'] == 0  -- A TERM
-} // while ($dsatz = mysql_fetch_assoc($res))  -- MAIN LOOP
+	} // $record['TiIsNotWord'] == 0  -- A TERM
+} // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
 mysql_free_result($res);
 
 (jquery, deact.) 

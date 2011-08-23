@@ -48,8 +48,8 @@ function get_tags($refresh = 0) {
 	$sql = 'select TgText from tags order by TgText';
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		$tags[] = $dsatz["TgText"];
+	while ($record = mysql_fetch_assoc($res)) {
+		$tags[] = $record["TgText"];
 	}
 	mysql_free_result($res);
 	$_SESSION['TAGS'] = $tags;
@@ -68,9 +68,9 @@ function get_tag_selectoptions($v,$l) {
 		$sql = "select TgID, TgText from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $l . " group by TgID order by TgText";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		$d = $dsatz["TgText"];
-		$r .= "<option value=\"" . $dsatz["TgID"] . "\"" . get_selected($v,$dsatz["TgID"]) . ">" . tohtml($d) . "</option>";
+	while ($record = mysql_fetch_assoc($res)) {
+		$d = $record["TgText"];
+		$r .= "<option value=\"" . $record["TgID"] . "\"" . get_selected($v,$record["TgID"]) . ">" . tohtml($d) . "</option>";
 	}
 	mysql_free_result($res);
 	return $r;
@@ -110,8 +110,8 @@ function getWordTags($wid) {
 		$sql = 'select TgText from wordtags, tags where TgID = WtTgID and WtWoID = ' . $wid . ' order by TgText';
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid query: $sql");
-		while ($dsatz = mysql_fetch_assoc($res)) {
-			$r .= '<li>' . tohtml($dsatz["TgText"]) . '</li>';
+		while ($record = mysql_fetch_assoc($res)) {
+			$r .= '<li>' . tohtml($record["TgText"]) . '</li>';
 		}
 		mysql_free_result($res);
 	}
@@ -131,9 +131,9 @@ function addtaglist ($item, $list) {
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	$cnt = 0;
-	while ($dsatz = mysql_fetch_assoc($res)) {
+	while ($record = mysql_fetch_assoc($res)) {
 		$cnt++;
-		runsql('insert into wordtags (WtWoID, WtTgID) values(' . $dsatz['WoID'] . ', ' . $tagid . ')', "");
+		runsql('insert into wordtags (WtWoID, WtTgID) values(' . $record['WoID'] . ', ' . $tagid . ')', "");
 	}
 	mysql_free_result($res);
 	return "Tag added in $cnt Terms";
@@ -148,9 +148,9 @@ function removetaglist ($item, $list) {
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	$cnt = 0;
-	while ($dsatz = mysql_fetch_assoc($res)) {
+	while ($record = mysql_fetch_assoc($res)) {
 		$cnt++;
-		runsql('delete from wordtags where WtWoID = ' . $dsatz['WoID'] . ' and WtTgID = ' . $tagid, "");
+		runsql('delete from wordtags where WtWoID = ' . $record['WoID'] . ' and WtTgID = ' . $tagid, "");
 	}
 	mysql_free_result($res);
 	return "Tag removed in $cnt Terms";
@@ -668,9 +668,9 @@ function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1) {
 function get_first_value($sql) {
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
-	$dsatz = mysql_fetch_assoc($res);
-	if ($dsatz) 
-		$d = $dsatz["value"];
+	$record = mysql_fetch_assoc($res);
+	if ($record) 
+		$d = $record["value"];
 	else
 		$d = NULL;
 	mysql_free_result($res);
@@ -710,10 +710,10 @@ function get_languages_selectoptions($v,$dt) {
 	} else {
 		$r = "<option value=\"\">" . $dt . "</option>";
 	}
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		$d = $dsatz["LgName"];
+	while ($record = mysql_fetch_assoc($res)) {
+		$d = $record["LgName"];
 		if ( strlen($d) > 30 ) $d = substr($d,0,30) . "...";
-		$r .= "<option value=\"" . $dsatz["LgID"] . "\" " . get_selected($v,$dsatz["LgID"]);
+		$r .= "<option value=\"" . $record["LgID"] . "\" " . get_selected($v,$record["LgID"]);
 		$r .= ">" . tohtml($d) . "</option>";
 	}
 	mysql_free_result($res);
@@ -1029,10 +1029,10 @@ function get_texts_selectoptions($lang,$v) {
 	$sql = "select TxID, TxTitle, LgName from languages, texts where LgID = TxLgID " . $l . " order by LgName, TxTitle";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		$d = $dsatz["TxTitle"];
+	while ($record = mysql_fetch_assoc($res)) {
+		$d = $record["TxTitle"];
 		if ( strlen($d) > 30 ) $d = substr($d,0,30) . "...";
-		$r .= "<option value=\"" . $dsatz["TxID"] . "\"" . get_selected($v,$dsatz["TxID"]) . ">" . tohtml( ($lang!="" ? "" : ($dsatz["LgName"] . ": ")) . $d) . "</option>";
+		$r .= "<option value=\"" . $record["TxID"] . "\"" . get_selected($v,$record["TxID"]) . ">" . tohtml( ($lang!="" ? "" : ($record["LgName"] . ": ")) . $d) . "</option>";
 	}
 	mysql_free_result($res);
 	return $r;
@@ -1156,10 +1156,10 @@ function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst) {
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	$dsatz = mysql_fetch_assoc($res);
-	$wb1 = isset($dsatz['LgDict1URI']) ? $dsatz['LgDict1URI'] : "";
-	$wb2 = isset($dsatz['LgDict2URI']) ? $dsatz['LgDict2URI'] : "";
-	$wb3 = isset($dsatz['LgGoogleTranslateURI']) ? $dsatz['LgGoogleTranslateURI'] : "";
+	$record = mysql_fetch_assoc($res);
+	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
+	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
+	$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 	mysql_free_result($res);
 	$r ='';
 	if ($openfirst) {
@@ -1228,12 +1228,12 @@ function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs) {
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	$dsatz = mysql_fetch_assoc($res);
-	$wb1 = isset($dsatz['LgDict1URI']) ? $dsatz['LgDict1URI'] : "";
+	$record = mysql_fetch_assoc($res);
+	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 	if(substr($wb1,0,1) == '*') $wb1 = substr($wb1,1);
-	$wb2 = isset($dsatz['LgDict2URI']) ? $dsatz['LgDict2URI'] : "";
+	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 	if(substr($wb2,0,1) == '*') $wb2 = substr($wb2,1);
-	$wb3 = isset($dsatz['LgGoogleTranslateURI']) ? $dsatz['LgGoogleTranslateURI'] : "";
+	$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 	if(substr($wb3,0,1) == '*') $wb3 = substr($wb3,1);
 	mysql_free_result($res);
 	$r ='';
@@ -1302,20 +1302,20 @@ function anki_export($sql) {
 	$res = mysql_query($sql);
 	$x = '';		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		$sent = tohtml(repl_tab_nl($dsatz["WoSentence"]));
+	while ($record = mysql_fetch_assoc($res)) {
+		$sent = tohtml(repl_tab_nl($record["WoSentence"]));
 		$sent1 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">[', str_replace("}", ']</span>', 
-			mask_term_in_sentence($sent,$dsatz["LgRegexpWordCharacters"])
+			mask_term_in_sentence($sent,$record["LgRegexpWordCharacters"])
 		));
 		$sent2 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">[', str_replace("}", ']</span>', $sent));
-		$x .= tohtml(repl_tab_nl($dsatz["WoText"])) . "\t" . 
-		tohtml(repl_tab_nl($dsatz["WoTranslation"])) . "\t" . 
-		tohtml(repl_tab_nl($dsatz["WoRomanization"])) . "\t" . 
+		$x .= tohtml(repl_tab_nl($record["WoText"])) . "\t" . 
+		tohtml(repl_tab_nl($record["WoTranslation"])) . "\t" . 
+		tohtml(repl_tab_nl($record["WoRomanization"])) . "\t" . 
 		$sent1 . "\t" . 
 		$sent2 . "\t" . 
-		tohtml(repl_tab_nl($dsatz["LgName"])) . "\t" . 
-		tohtml($dsatz["WoID"]) . "\t" . 
-		tohtml($dsatz["taglist"]) .  
+		tohtml(repl_tab_nl($record["LgName"])) . "\t" . 
+		tohtml($record["WoID"]) . "\t" . 
+		tohtml($record["taglist"]) .  
 		"\r\n";
 	}
 	mysql_free_result($res);
@@ -1332,15 +1332,15 @@ function tsv_export($sql) {
 	$res = mysql_query($sql);
 	$x = '';		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		$x .= repl_tab_nl($dsatz["WoText"]) . "\t" . 
-		repl_tab_nl($dsatz["WoTranslation"]) . "\t" . 
-		repl_tab_nl($dsatz["WoSentence"]) . "\t" . 
-		repl_tab_nl($dsatz["WoRomanization"]) . "\t" . 
-		$dsatz["WoStatus"] . "\t" . 
-		repl_tab_nl($dsatz["LgName"]) . "\t" . 
-		$dsatz["WoID"] . "\t" . 
-		$dsatz["taglist"] . "\r\n";
+	while ($record = mysql_fetch_assoc($res)) {
+		$x .= repl_tab_nl($record["WoText"]) . "\t" . 
+		repl_tab_nl($record["WoTranslation"]) . "\t" . 
+		repl_tab_nl($record["WoSentence"]) . "\t" . 
+		repl_tab_nl($record["WoRomanization"]) . "\t" . 
+		$record["WoStatus"] . "\t" . 
+		repl_tab_nl($record["LgName"]) . "\t" . 
+		$record["WoID"] . "\t" . 
+		$record["taglist"] . "\r\n";
 	}
 	mysql_free_result($res);
 	header('Content-type: text/plain; charset=utf-8');
@@ -1438,38 +1438,38 @@ function getSentence($seid, $wordlc,$mode) {
 	$se='';
 	$notfound = 1;
 	$jump=0;
-	while ($dsatz2 = mysql_fetch_assoc($res2)) {
-		if ($dsatz2['TiIsNotWord'] == 1) {
+	while ($record2 = mysql_fetch_assoc($res2)) {
+		if ($record2['TiIsNotWord'] == 1) {
 			$jump--;
 			if ($jump < 0) {
-				$sejs .= $dsatz2['TiText']; 
-				$se .= tohtml($dsatz2['TiText']);
+				$sejs .= $record2['TiText']; 
+				$se .= tohtml($record2['TiText']);
 			} 
 		}	else {
 			if (($jump-1) < 0) {
 				if ($notfound) {
-					if ($dsatz2['TiTextLC'] == $wordlc) { 
+					if ($record2['TiTextLC'] == $wordlc) { 
 						$sejs.='{'; 
 						$se.='<b>'; 
-						$sejs .= $dsatz2['TiText']; 
-						$se .= tohtml($dsatz2['TiText']); 
+						$sejs .= $record2['TiText']; 
+						$se .= tohtml($record2['TiText']); 
 						$sejs.='}'; 
 						$se.='</b>';
 						$notfound = 0;
-						$jump=($dsatz2['TiWordCount']-1)*2; 
+						$jump=($record2['TiWordCount']-1)*2; 
 					}
 				}
-				if ($dsatz2['TiWordCount'] == 1) {
+				if ($record2['TiWordCount'] == 1) {
 					if ($notfound) {
-						$sejs .= $dsatz2['TiText']; 
-						$se .= tohtml($dsatz2['TiText']);
+						$sejs .= $record2['TiText']; 
+						$se .= tohtml($record2['TiText']);
 						$jump=0;  
 					}	else {
 						$notfound = 1;
 					}
 				}
 			} else {
-				if ($dsatz2['TiWordCount'] == 1) $jump--; 
+				if ($record2['TiWordCount'] == 1) $jump--; 
 			}
 		}
 	}
@@ -1487,12 +1487,12 @@ function get20Sentences($lang, $wordlc, $jsctlname, $mode) {
 	if ($res == FALSE) die("Invalid Query: $sql");
 	$r .= '<p>';
 	$last = '';
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		if ($last != $dsatz['SeText']) {
-			$sent = getSentence($dsatz['SeID'], $wordlc,$mode);
+	while ($record = mysql_fetch_assoc($res)) {
+		if ($last != $record['SeText']) {
+			$sent = getSentence($record['SeID'], $wordlc,$mode);
 			$r .= '<span class="click" onclick="' . $jsctlname . '.value=' . prepare_textdata_js($sent[1]) . ';"><img src="icn/tick-button.png" title="Choose" alt="Choose" /></span> &nbsp;' . $sent[0] . '<br />';
 		}
-		$last = $dsatz['SeText'];
+		$last = $record['SeText'];
 	}
 	mysql_free_result($res);
 	$r .= '</p>';
@@ -1620,19 +1620,19 @@ function checkText($text, $lid) {
 	$sql = "select * from languages where LgID=" . $lid;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	$dsatz = mysql_fetch_assoc($res);
-	if ($dsatz == FALSE) die("No results: $sql");
-	$removeSpaces = $dsatz['LgRemoveSpaces'];
+	$record = mysql_fetch_assoc($res);
+	if ($record == FALSE) die("No results: $sql");
+	$removeSpaces = $record['LgRemoveSpaces'];
 	// echodebug($removeSpaces,'$removeSpaces');
-	$splitEachChar = $dsatz['LgSplitEachChar'];
+	$splitEachChar = $record['LgSplitEachChar'];
 	// echodebug($splitEachChar,'$splitEachChar');
-	$satzende = $dsatz['LgRegexpSplitSentences'];
-	// echodebug($satzende,'$satzende');
-	$keinsatzende = $dsatz['LgExceptionsSplitSentences'];
-	// echodebug($keinsatzende,'$keinsatzende');
-	$wortzeichen = $dsatz['LgRegexpWordCharacters'];
-	// echodebug($wortzeichen,'$wortzeichen');
-	$replace = explode("|",$dsatz['LgCharacterSubstitutions']);
+	$splitSentence = $record['LgRegexpSplitSentences'];
+	// echodebug($splitSentence,'$splitSentence');
+	$noSentenceEnd = $record['LgExceptionsSplitSentences'];
+	// echodebug($noSentenceEnd,'$noSentenceEnd');
+	$termchar = $record['LgRegexpWordCharacters'];
+	// echodebug($termchar,'$termchar');
+	$replace = explode("|",$record['LgCharacterSubstitutions']);
 	// echodebug($replace,'$replace');
 	mysql_free_result($res);
 	// echodebug($text,'$text');
@@ -1664,9 +1664,9 @@ function checkText($text, $lid) {
 	$s = trim($s);
 	// echodebug($s,'$s/8');
 	
-	if ($keinsatzende != '') $s = preg_replace('/(' . $keinsatzende . ')\s/u', '$1‧', $s);
+	if ($noSentenceEnd != '') $s = preg_replace('/(' . $noSentenceEnd . ')\s/u', '$1‧', $s);
 	// echodebug($s,'$s/9');
-	$s = preg_replace('/([' . $satzende . '¶])\s/u', "$1\n", $s);
+	$s = preg_replace('/([' . $splitSentence . '¶])\s/u', "$1\n", $s);
 	// echodebug($s,'$s/10');
 	$s = str_replace(" ¶\n", "\n¶\n", $s);
 	// echodebug($s,'$s/11');
@@ -1674,70 +1674,70 @@ function checkText($text, $lid) {
 	// echodebug($s,'$s/12');
 	
 	if ($s=='') {
-		$zeilen = array($s);
+		$textLines = array($s);
 	} else {
 		$s = explode("\n",$s);
 		$l = count($s);
 		for ($i=0; $i<$l; $i++) {
   		$s[$i] = trim($s[$i]);
   		if ($s[$i] != '') {
-	  		$pos = strpos($satzende, $s[$i]);
+	  		$pos = strpos($splitSentence, $s[$i]);
 	  		while ($pos !== false && $i > 0) {
 	  			$s[$i-1] .= " " . $s[$i];
 	  			for ($j=$i+1; $j<$l; $j++) $s[$j-1] = $s[$j];
 	  			array_pop($s);
 	  			$l = count($s);
-	  			$pos = strpos($satzende, $s[$i]);
+	  			$pos = strpos($splitSentence, $s[$i]);
 	  		}
   		}
 		}
 		$l = count($s);
-		$zeilen = array();
+		$textLines = array();
 		for ($i=0; $i<$l; $i++) {
 			$zz = trim($s[$i]);
-			if ($zz != '' ) $zeilen[] = $zz;
+			if ($zz != '' ) $textLines[] = $zz;
 		}
 	}
-	// echodebug($zeilen,'$zeilen');
+	// echodebug($textLines,'$textLines');
 	
-	$zeilenworte = array();
-	$wortliste = array();
-	$wortindex = array();
-	$worttrenn = array();
+	$lineWords = array();
+	$wordList = array();
+	$wordIndex = array();
+	$wordSeps = array();
 
 	$r .= "<h4>Sentences</h4><ol>";
-	$satznr = 0;
-	foreach ($zeilen as $value) { 
+	$sentNumber = 0;
+	foreach ($textLines as $value) { 
 		$r .= "<li>" . tohtml(remove_spaces($value, $removeSpaces)) . "</li>";
-		$zeilenworte[$satznr] = preg_split('/([^' . $wortzeichen . ']{1,})/u', $value, -1, PREG_SPLIT_DELIM_CAPTURE );
-		$l = count($zeilenworte[$satznr]);
+		$lineWords[$sentNumber] = preg_split('/([^' . $termchar . ']{1,})/u', $value, -1, PREG_SPLIT_DELIM_CAPTURE );
+		$l = count($lineWords[$sentNumber]);
 		for ($i=0; $i<$l; $i++) {
-			$wort = mb_strtolower($zeilenworte[$satznr][$i], 'UTF-8');
-			if ($wort != '') {
+			$term = mb_strtolower($lineWords[$sentNumber][$i], 'UTF-8');
+			if ($term != '') {
 				if ($i % 2 == 0) {
-					if(array_key_exists($wort,$wortliste)) {
-						$wortliste[$wort][0]++;
-						$wortliste[$wort][1][] = $satznr;
+					if(array_key_exists($term,$wordList)) {
+						$wordList[$term][0]++;
+						$wordList[$term][1][] = $sentNumber;
 					}
 					else {
-						$wortliste[$wort] = array(1, array($satznr));
-						$wortindex[] = $wort;
+						$wordList[$term] = array(1, array($sentNumber));
+						$wordIndex[] = $term;
 					}
 				} else {
-					$ww = remove_spaces($wort, $removeSpaces);
-					if(array_key_exists($ww,$worttrenn))
-						$worttrenn[$ww]++;
+					$ww = remove_spaces($term, $removeSpaces);
+					if(array_key_exists($ww,$wordSeps))
+						$wordSeps[$ww]++;
 					else	
-						$worttrenn[$ww]=1;
+						$wordSeps[$ww]=1;
 				}
 			}
 		}
-		$satznr += 1;
+		$sentNumber += 1;
 	} 
 	$r .= "</ol><h4>Word List <span class=\"red2\">(red = already saved)</span></h4><ul>";
-	ksort($wortliste); 
+	ksort($wordList); 
 	$anz = 0;
-	foreach ($wortliste as $key => $value) {
+	foreach ($wordList as $key => $value) {
 		$trans = get_first_value("select WoTranslation as value from words where WoLgID = " . $lid . " and WoTextLC = " . convert_string_to_sqlsyntax($key));
 		if (! isset($trans)) $trans="";
 		if ($trans == "*") $trans="";
@@ -1748,10 +1748,10 @@ function checkText($text, $lid) {
 		$anz++;
 	} 
 	$r .= "</ul><p>TOTAL: " . $anz . "</p><h4>Non-Word List</h4><ul>";
-	if(array_key_exists('',$worttrenn)) unset($worttrenn['']);
-	ksort($worttrenn); 
+	if(array_key_exists('',$wordSeps)) unset($wordSeps['']);
+	ksort($wordSeps); 
 	$anz = 0;
-	foreach ($worttrenn as $key => $value) { 
+	foreach ($wordSeps as $key => $value) { 
 		$r .= "<li>[" . str_replace(" ", "<span class=\"backgray\">&nbsp;</span>", tohtml($key)) . "] — " . $value . "</li>";
 		$anz++;
 	} 
@@ -1767,14 +1767,14 @@ function splitText($text, $lid, $id) {
 	$sql = "select * from languages where LgID=" . $lid;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	$dsatz = mysql_fetch_assoc($res);
-	if ($dsatz == FALSE) die("No results: $sql");
-	$removeSpaces = $dsatz['LgRemoveSpaces'];
-	$splitEachChar = $dsatz['LgSplitEachChar'];
-	$satzende = $dsatz['LgRegexpSplitSentences'];
-	$keinsatzende = $dsatz['LgExceptionsSplitSentences'];
-	$wortzeichen = $dsatz['LgRegexpWordCharacters'];
-	$replace = explode("|",$dsatz['LgCharacterSubstitutions']);
+	$record = mysql_fetch_assoc($res);
+	if ($record == FALSE) die("No results: $sql");
+	$removeSpaces = $record['LgRemoveSpaces'];
+	$splitEachChar = $record['LgSplitEachChar'];
+	$splitSentence = $record['LgRegexpSplitSentences'];
+	$noSentenceEnd = $record['LgExceptionsSplitSentences'];
+	$termchar = $record['LgRegexpWordCharacters'];
+	$replace = explode("|",$record['LgCharacterSubstitutions']);
 	mysql_free_result($res);
 	$s = str_replace("\r\n", "\n", $text);
 	$s = str_replace("\n", " ¶ ", $s);
@@ -1795,55 +1795,55 @@ function splitText($text, $lid, $id) {
 	}
 	$s = trim($s);
 	
-	if ($keinsatzende != '') $s = preg_replace('/(' . $keinsatzende . ')\s/u', '$1‧', $s);
-	$s = preg_replace('/([' . $satzende . '¶])\s/u', "$1\n", $s);
+	if ($noSentenceEnd != '') $s = preg_replace('/(' . $noSentenceEnd . ')\s/u', '$1‧', $s);
+	$s = preg_replace('/([' . $splitSentence . '¶])\s/u', "$1\n", $s);
 	$s = str_replace(" ¶\n", "\n¶\n", $s);
 	$s = str_replace('‧', ' ', $s);
 	
 	if ($s=='') {
-		$zeilen = array($s);
+		$textLines = array($s);
 	} else {
 		$s = explode("\n",$s);
 		$l = count($s);
 		for ($i=0; $i<$l; $i++) {
   		$s[$i] = trim($s[$i]);
   		if ($s[$i] != '') {
-	  		$pos = strpos($satzende, $s[$i]);
+	  		$pos = strpos($splitSentence, $s[$i]);
 	  		while ($pos !== false && $i > 0) {
 	  			$s[$i-1] .= " " . $s[$i];
 	  			for ($j=$i+1; $j<$l; $j++) $s[$j-1] = $s[$j];
 	  			array_pop($s);
 	  			$l = count($s);
-	  			$pos = strpos($satzende, $s[$i]);
+	  			$pos = strpos($splitSentence, $s[$i]);
 	  		}
   		}
 		}
 		$l = count($s);
-		$zeilen = array();
+		$textLines = array();
 		for ($i=0; $i<$l; $i++) {
 			$zz = trim($s[$i]);
-			if ($zz != '' ) $zeilen[] = $zz;
+			if ($zz != '' ) $textLines[] = $zz;
 		}
 	}
 	
-	$zeilenworte = array();
-	$wortliste = array();
-	$wortindex = array();
-	$worttrenn = array();
-	$satznr = 0;
+	$lineWords = array();
+	$wordList = array();
+	$wordIndex = array();
+	$wordSeps = array();
+	$sentNumber = 0;
 	$lfdnr =0;
 
-	foreach ($zeilen as $value) { 
+	foreach ($textLines as $value) { 
 		
-		$dummy = runsql('INSERT INTO sentences (SeLgID, SeTxID, SeOrder, SeText) VALUES (' . $lid . ',' .  $id . ',' .  ($satznr+1) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($value . ' ', $removeSpaces)) . ')', ' ');
+		$dummy = runsql('INSERT INTO sentences (SeLgID, SeTxID, SeOrder, SeText) VALUES (' . $lid . ',' .  $id . ',' .  ($sentNumber+1) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($value . ' ', $removeSpaces)) . ')', ' ');
 		$sentid = get_last_key();
 		/**** Speichern Sätze Ende ***/
-		$zeilenworte[$satznr] = preg_split('/([^' . $wortzeichen . ']+)/u', $value . ' ', null, PREG_SPLIT_DELIM_CAPTURE );
-		$l = count($zeilenworte[$satznr]);
+		$lineWords[$sentNumber] = preg_split('/([^' . $termchar . ']+)/u', $value . ' ', null, PREG_SPLIT_DELIM_CAPTURE );
+		$l = count($lineWords[$sentNumber]);
 		$sqltext = 'INSERT INTO textitems (TiLgID, TiTxID, TiSeID, TiOrder, TiWordCount, TiText, TiTextLC, TiIsNotWord) VALUES ';
 		$lfdnr1=0;
 		for ($i=0; $i<$l; $i++) {
-			$wort = mb_strtolower($zeilenworte[$satznr][$i], 'UTF-8');
+			$term = mb_strtolower($lineWords[$sentNumber][$i], 'UTF-8');
 			$rest2 = '';
 			$rest3 = '';
 			$rest4 = '';
@@ -1860,14 +1860,14 @@ function splitText($text, $lid, $id) {
 			$restlc7 = '';
 			$restlc8 = '';
 			$restlc9 = '';
-			if ($wort != '') {
+			if ($term != '') {
 				if ($i % 2 == 0) {
 					$isnotwort=0;
-					$rest = $zeilenworte[$satznr][$i];
+					$rest = $lineWords[$sentNumber][$i];
 					$cnt = 0;
 					for ($j=$i+1; $j<$l; $j++) {
-						if ($zeilenworte[$satznr][$j] != '') {
-							$rest .= $zeilenworte[$satznr][$j]; $cnt++;
+						if ($lineWords[$sentNumber][$j] != '') {
+							$rest .= $lineWords[$sentNumber][$j]; $cnt++;
 							if($cnt == 2) { $rest2 = $rest; $restlc2 = mb_strtolower($rest, 'UTF-8'); }
 							if($cnt == 4) { $rest3 = $rest; $restlc3 = mb_strtolower($rest, 'UTF-8'); }
 							if($cnt == 6) { $rest4 = $rest; $restlc4 = mb_strtolower($rest, 'UTF-8'); }
@@ -1885,7 +1885,7 @@ function splitText($text, $lid, $id) {
 				$lfdnr++;
 				$lfdnr1++;
 				if ($lfdnr1 > 1) $sqltext .= ',';
-				$sqltext .= '(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 1, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($zeilenworte[$satznr][$i], $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($wort, $removeSpaces)) . ',' . $isnotwort . ')';
+				$sqltext .= '(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 1, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($lineWords[$sentNumber][$i], $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($term, $removeSpaces)) . ',' . $isnotwort . ')';
 				if ($isnotwort==0) {
 					if ($rest2 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 2, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest2, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc2, $removeSpaces)) . ',' . $isnotwort . ')';
 					if ($rest3 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 3, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest3, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc3, $removeSpaces)) . ',' . $isnotwort . ')';
@@ -1899,7 +1899,7 @@ function splitText($text, $lid, $id) {
 			}
 		}
 		if ($lfdnr > 0) $dummy = runsql($sqltext,'');
-		$satznr += 1;
+		$sentNumber += 1;
 	} 
 
 }
@@ -1931,11 +1931,11 @@ function refreshText($word,$tid) {
 	$res = mysql_query($sql);		
 	if ($res == FALSE) return '';
 	$inlist = '(';
-	while ($dsatz = mysql_fetch_assoc($res)) { 
+	while ($record = mysql_fetch_assoc($res)) { 
 		if ($inlist == '(') 
-			$inlist .= $dsatz['TiSeID'];
+			$inlist .= $record['TiSeID'];
 		else
-			$inlist .= ',' . $dsatz['TiSeID'];
+			$inlist .= ',' . $record['TiSeID'];
 	}
 	mysql_free_result($res);
 	if ($inlist == '(') 
@@ -1950,11 +1950,11 @@ function refreshText($word,$tid) {
 	$hideuntil = -1;
 	$hidetag = "removeClass('hide');";
 
-	while ($dsatz = mysql_fetch_assoc($res)) {  // MAIN LOOP
-		$actcode = $dsatz['Code'] + 0;
-		$order = $dsatz['TiOrder'] + 0;
-		$notword = $dsatz['TiIsNotWord'] + 0;
-		$termex = isset($dsatz['WoID']);
+	while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
+		$actcode = $record['Code'] + 0;
+		$order = $record['TiOrder'] + 0;
+		$notword = $record['TiIsNotWord'] + 0;
+		$termex = isset($record['WoID']);
 		$spanid = 'ID-' . $order . '-' . $actcode;
 
 		if ( $hideuntil > 0 ) {
@@ -2059,14 +2059,14 @@ function check_update_db() {
 		$sql = "select TxID, TxLgID from texts";
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
-		while ($dsatz = mysql_fetch_assoc($res)) {
-			$id = $dsatz['TxID'];
+		while ($record = mysql_fetch_assoc($res)) {
+			$id = $record['TxID'];
 			runsql('delete from sentences where SeTxID = ' . $id, "");
 			runsql('delete from textitems where TiTxID = ' . $id, "");
 			adjust_autoincr('sentences','SeID');
 			adjust_autoincr('textitems','TiID');
 			splitText(
-				get_first_value('select TxText as value from texts where TxID = ' . $id), $dsatz['TxLgID'], $id );
+				get_first_value('select TxText as value from texts where TxID = ' . $id), $record['TxLgID'], $id );
 		}
 		mysql_free_result($res);
 	}
@@ -2075,9 +2075,9 @@ function check_update_db() {
 	
 	$res = mysql_query("select StValue as value from settings where StKey = 'dbversion'");
 	if (mysql_errno() != 0) die('There is something wrong with your database ' . $dbname . '. Please reinstall.');
-	$dsatz = mysql_fetch_assoc($res);	
-	if ($dsatz) {
-		$dbversion = $dsatz["value"];
+	$record = mysql_fetch_assoc($res);	
+	if ($record) {
+		$dbversion = $record["value"];
 	} else {
 		$dbversion = 'v001000000';
 		saveSetting('dbversion',$dbversion);

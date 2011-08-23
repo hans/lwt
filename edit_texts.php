@@ -88,9 +88,9 @@ if (isset($_REQUEST['markaction'])) {
 					$sql = "select WoID, WoTextLC, min(TiSeID) as SeID from words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(TiSeID)";
 					$res = mysql_query($sql);		
 					if ($res == FALSE) die("Invalid Query: $sql");
-					while ($dsatz = mysql_fetch_assoc($res)) {
-						$sent = getSentence($dsatz['SeID'], $dsatz['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
-						$count += runsql('update words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $dsatz['WoID'], '');
+					while ($record = mysql_fetch_assoc($res)) {
+						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
+						$count += runsql('update words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
 					}
 					mysql_free_result($res);
 					$message = 'Term Sentences set from Text(s): ' . $count;
@@ -101,8 +101,8 @@ if (isset($_REQUEST['markaction'])) {
 					$sql = "select TxID, TxLgID from texts where TxID in " . $list;
 					$res = mysql_query($sql);		
 					if ($res == FALSE) die("Invalid Query: $sql");
-					while ($dsatz = mysql_fetch_assoc($res)) {
-						$id = $dsatz['TxID'];
+					while ($record = mysql_fetch_assoc($res)) {
+						$id = $record['TxID'];
 						$message2 = runsql('delete from sentences where SeTxID = ' . $id, "Sentences deleted");
 						$message3 = runsql('delete from textitems where TiTxID = ' . $id, "Text items deleted");
 						adjust_autoincr('sentences','SeID');
@@ -110,7 +110,7 @@ if (isset($_REQUEST['markaction'])) {
 						splitText(
 							get_first_value(
 								'select TxText as value from texts where TxID = ' . $id), 
-								$dsatz['TxLgID'], $id );
+								$record['TxLgID'], $id );
 						$count++;
 					}
 					mysql_free_result($res);
@@ -283,7 +283,7 @@ elseif (isset($_REQUEST['chg'])) {
 	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	if ($dsatz = mysql_fetch_assoc($res)) {
+	if ($record = mysql_fetch_assoc($res)) {
 
 		?>
 	
@@ -296,24 +296,24 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1">
 		<select name="TxLgID" class="notempty setfocus">
 		<?php
-		echo get_languages_selectoptions($dsatz['TxLgID'],"[Choose...]");
+		echo get_languages_selectoptions($record['TxLgID'],"[Choose...]");
 		?>
 		</select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Title:</td>
-		<td class="td1"><input type="text" class="notempty" name="TxTitle" value="<?php echo tohtml($dsatz['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty" name="TxTitle" value="<?php echo tohtml($record['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Text:</td>
 		<td class="td1">
-		<textarea name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($dsatz['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<textarea name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Audio-URI:</td>
-		<td class="td1"><input type="text" name="TxAudioURI" value="<?php echo tohtml($dsatz['TxAudioURI']); ?>" maxlength="200" size="60" /> 
+		<td class="td1"><input type="text" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
 		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
 		</td>
 		</tr>
@@ -434,30 +434,30 @@ if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
-while ($dsatz = mysql_fetch_assoc($res)) {
+while ($record = mysql_fetch_assoc($res)) {
 	if ($showCounts) {
 		flush();
-		$txttotalwords = textwordcount($dsatz['TxID']);
-		$txtworkedwords = textworkcount($dsatz['TxID']);
-		$txtworkedexpr = textexprcount($dsatz['TxID']);
+		$txttotalwords = textwordcount($record['TxID']);
+		$txtworkedwords = textworkcount($record['TxID']);
+		$txtworkedexpr = textexprcount($record['TxID']);
 		$txtworkedall = $txtworkedwords + $txtworkedexpr;
 		$txttodowords = $txttotalwords - $txtworkedwords;
 	}
-	$audio = $dsatz['TxAudioURI'];
+	$audio = $record['TxAudioURI'];
 	if(!isset($audio)) $audio='';
 	$audio=trim($audio);
 	echo '<tr>';
-	echo '<td class="td1 center"><a name="rec' . $dsatz['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $dsatz['TxID'] . '" ' . checkTest($dsatz['TxID'], 'marked') . ' /></a></td>';
-	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $dsatz['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $dsatz['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
-	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $dsatz['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $dsatz['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $dsatz['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $dsatz['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
-	echo '<td class="td1 center">' . tohtml($dsatz['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($dsatz['TxTitle']) . ' &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="Audio" alt="Audio" />' : '') . '</td>';
+	echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
+	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
+	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
+	echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="Audio" alt="Audio" />' : '') . '</td>';
 	if ($showCounts) {
 		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>'; 
-		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $dsatz['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';
+		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $record['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';
 		echo '<td class="td1 center"><span title="To Do" class="status0">&nbsp;' . $txttodowords . '&nbsp;</span></td>';
 	} else {
-		echo '<td class="td1 center"><span id="total-' . $dsatz['TxID'] . '"></span></td><td class="td1 center"><span data_id="' . $dsatz['TxID'] . '" id="saved-' . $dsatz['TxID'] . '"><span class="click" onclick="do_ajax_word_counts();"><img src="icn/lightning.png" title="View Word Counts" alt="View Word Counts" /></span></span></td><td class="td1 center"><span id="todo-' . $dsatz['TxID'] . '"></span></td>'; 
+		echo '<td class="td1 center"><span id="total-' . $record['TxID'] . '"></span></td><td class="td1 center"><span data_id="' . $record['TxID'] . '" id="saved-' . $record['TxID'] . '"><span class="click" onclick="do_ajax_word_counts();"><img src="icn/lightning.png" title="View Word Counts" alt="View Word Counts" /></span></span></td><td class="td1 center"><span id="todo-' . $record['TxID'] . '"></span></td>'; 
 	}
 	echo '</tr>';
 }

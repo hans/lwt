@@ -43,8 +43,8 @@ pagestart('My Statistics',true);
 $sql = 'SELECT LgID, LgName FROM languages ORDER BY LgName';
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-while ($dsatz = mysql_fetch_assoc($res)) {
-	$lang = $dsatz['LgID'];
+while ($record = mysql_fetch_assoc($res)) {
+	$lang = $record['LgID'];
 	$s1 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 1');
 	$s2 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 2');
 	$s3 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 3');
@@ -54,7 +54,7 @@ while ($dsatz = mysql_fetch_assoc($res)) {
 	$s99 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 99');
 	$all = $s1 + $s2 + $s3 + $s4 + $s5 + $s98 + $s99;
 	echo '<tr>';
-	echo '<td class="td1">' . tohtml($dsatz['LgName']) . '</td>';
+	echo '<td class="td1">' . tohtml($record['LgName']) . '</td>';
 	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $all . '</b></a></td>';
 	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=15&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . ($s1+$s2+$s3+$s4+$s5) . '</b></a></td>';
 	echo '<td class="td1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=14&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . ($s1+$s2+$s3+$s4) . '</b></a></td>';
@@ -129,10 +129,10 @@ echo '</tr>';
 $sql = 'SELECT LgID, LgName FROM languages ORDER BY LgName';
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-while ($dsatz = mysql_fetch_assoc($res)) {
-	$lang = $dsatz['LgID'];
+while ($record = mysql_fetch_assoc($res)) {
+	$lang = $record['LgID'];
 	echo '<tr>';
-	echo '<td class="td1">' . tohtml($dsatz['LgName']) . '</td>';
+	echo '<td class="td1">' . tohtml($record['LgName']) . '</td>';
 	
 	echo '<td class="td1 center"><span class="status1">&nbsp;' . get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus between 1 and 5 and cast(WoCreated as date) = curdate()') . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status3">&nbsp;' . get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus between 1 and 5 and cast(WoStatusChanged as date) = curdate()') . '&nbsp;</span></td>';

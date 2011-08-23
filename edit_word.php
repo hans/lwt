@@ -147,39 +147,39 @@ else {  // if (! isset($_REQUEST['op']))
 		$sql = 'select TiText, TiLgID from textitems where TiTxID = ' . $_REQUEST['tid'] . ' and TiWordCount = 1 and TiOrder = ' . $_REQUEST['ord'];
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
-		$dsatz = mysql_fetch_assoc($res);
-		if ($dsatz) {
-			$wort = $dsatz['TiText'];
-			$lang = $dsatz['TiLgID'];
+		$record = mysql_fetch_assoc($res);
+		if ($record) {
+			$term = $record['TiText'];
+			$lang = $record['TiLgID'];
 		} else {
 			die("Error: No results");
 		}
 		mysql_free_result($res);
 		
-		$wortlc =	mb_strtolower($wort, 'UTF-8');
+		$termlc =	mb_strtolower($term, 'UTF-8');
 		
-		$wid = get_first_value("select WoID as value from words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($wortlc)); 
+		$wid = get_first_value("select WoID as value from words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc)); 
 		
 	} else {
 
 		$sql = 'select WoText, WoLgID from words where WoID = ' . $wid;
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
-		$dsatz = mysql_fetch_assoc($res);
-		if ( $dsatz ) {
-			$wort = $dsatz['WoText'];
-			$lang = $dsatz['WoLgID'];
+		$record = mysql_fetch_assoc($res);
+		if ( $record ) {
+			$term = $record['WoText'];
+			$lang = $record['WoLgID'];
 		} else {
 			die("Error: No results");
 		}
 		mysql_free_result($res);
-		$wortlc =	mb_strtolower($wort, 'UTF-8');
+		$termlc =	mb_strtolower($term, 'UTF-8');
 		
 	}
 	
 	$neu = (isset($wid) == FALSE);
 
-	$titeltext = ($neu ? "New Term" : "Edit Term") . ": " . tohtml($wort);
+	$titeltext = ($neu ? "New Term" : "Edit Term") . ": " . tohtml($term);
 	pagestart_nobody($titeltext);
 
 	// NEW
@@ -187,19 +187,19 @@ else {  // if (! isset($_REQUEST['op']))
 	if ($neu) {
 		
 		$seid = get_first_value("select TiSeID as value from textitems where TiTxID = " . $_REQUEST['tid'] . " and TiWordCount = 1 and TiOrder = " . $_REQUEST['ord']);
-		$sent = getSentence($seid, $wortlc, (int) getSettingWithDefault('set-term-sentence-count'));
+		$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
 			
 ?>
 	
 		<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="WoLgID" value="<?php echo $lang; ?>" />
-		<input type="hidden" name="WoTextLC" value="<?php echo tohtml($wortlc); ?>" />
+		<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
 		<input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
 		<input type="hidden" name="ord" value="<?php echo $_REQUEST['ord']; ?>" />
 		<table class="tab2" cellspacing="0" cellpadding="5">
 		<tr title="Only change uppercase/lowercase!">
 		<td class="td1 right"><b>New Term:</b></td>
-		<td class="td1"><input class="notempty" type="text" name="WoText" value="<?php echo tohtml($wort); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
@@ -227,13 +227,13 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<?php echo createDictLinksInEditWin($lang,$wort,'document.forms[0].WoSentence',1); ?>
+		<?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',1); ?>
 		&nbsp; &nbsp; &nbsp; 
 		<input type="submit" name="op" value="Save" /></td>
 		</tr>
 		</table>
 		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($wortlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 		<?php
 		
 	}
@@ -245,30 +245,30 @@ else {  // if (! isset($_REQUEST['op']))
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
-		if ($dsatz = mysql_fetch_assoc($res)) {
+		if ($record = mysql_fetch_assoc($res)) {
 			
-			$status = $dsatz['WoStatus'];
+			$status = $record['WoStatus'];
 			if ($status >= 98) $status = 1;
-			$sentence = repl_tab_nl($dsatz['WoSentence']);
+			$sentence = repl_tab_nl($record['WoSentence']);
 			if ($sentence == '') {
 				$seid = get_first_value("select TiSeID as value from textitems where TiTxID = " . $_REQUEST['tid'] . " and TiWordCount = 1 and TiOrder = " . $_REQUEST['ord']);
-				$sent = getSentence($seid, $wortlc, (int) getSettingWithDefault('set-term-sentence-count'));
+				$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
 				$sentence = repl_tab_nl($sent[1]);
 			}
-			$transl = repl_tab_nl($dsatz['WoTranslation']);
+			$transl = repl_tab_nl($record['WoTranslation']);
 			if($transl == '*') $transl='';
 			?>
 		
 			<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			<input type="hidden" name="WoID" value="<?php echo $wid; ?>" />
-			<input type="hidden" name="WoOldStatus" value="<?php echo $dsatz['WoStatus']; ?>" />
-			<input type="hidden" name="WoTextLC" value="<?php echo tohtml($wortlc); ?>" />
+			<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
+			<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
 			<input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
 			<input type="hidden" name="ord" value="<?php echo $_REQUEST['ord']; ?>" />
 			<table class="tab2" cellspacing="0" cellpadding="5">
 			<tr title="Only change uppercase/lowercase!">
 			<td class="td1 right"><b>Edit Term:</b></td>
-			<td class="td1"><input class="notempty" type="text" name="WoText" value="<?php echo tohtml($wort); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+			<td class="td1"><input class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 			</tr>
 			<tr>
 			<td class="td1 right">Translation:</td>
@@ -283,7 +283,7 @@ else {  // if (! isset($_REQUEST['op']))
 			<tr>
 			<td class="td1 right">Romaniz.:</td>
 			<td class="td1"><input type="text" name="WoRomanization" maxlength="100" size="35" 
-			value="<?php echo tohtml($dsatz['WoRomanization']); ?>" /></td>
+			value="<?php echo tohtml($record['WoRomanization']); ?>" /></td>
 			</tr>
 			<tr>
 			<td class="td1 right">Sentence<br />Term in {...}:</td>
@@ -297,13 +297,13 @@ else {  // if (! isset($_REQUEST['op']))
 			</tr>
 			<tr>
 			<td class="td1 right" colspan="2">  
-			<?php echo createDictLinksInEditWin($lang,$wort,'document.forms[0].WoSentence',1); ?>
+			<?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',1); ?>
 			&nbsp; &nbsp; &nbsp; 
 			<input type="submit" name="op" value="Change" /></td>
 			</tr>
 			</table>
 			</form>
-			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($wortlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 			<?php
 		}
 		mysql_free_result($res);

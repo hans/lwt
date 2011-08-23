@@ -82,15 +82,15 @@ if ($count <= 0) {
 	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgGoogleTTSURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
-	$dsatz = mysql_fetch_assoc($res);
-	$wb1 = isset($dsatz['LgDict1URI']) ? $dsatz['LgDict1URI'] : "";
-	$wb2 = isset($dsatz['LgDict2URI']) ? $dsatz['LgDict2URI'] : "";
-	$wb3 = isset($dsatz['LgGoogleTranslateURI']) ? $dsatz['LgGoogleTranslateURI'] : "";
-	$wb4 = isset($dsatz['LgGoogleTTSURI']) ? $dsatz['LgGoogleTTSURI'] : "";
-	$textsize = $dsatz['LgTextSize'];
-	$removeSpaces = $dsatz['LgRemoveSpaces'];
-	$regexword = $dsatz['LgRegexpWordCharacters'];
-	$langname = $dsatz['LgName'];
+	$record = mysql_fetch_assoc($res);
+	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
+	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
+	$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
+	$wb4 = isset($record['LgGoogleTTSURI']) ? $record['LgGoogleTTSURI'] : "";
+	$textsize = $record['LgTextSize'];
+	$removeSpaces = $record['LgRemoveSpaces'];
+	$regexword = $record['LgRegexpWordCharacters'];
+	$langname = $record['LgName'];
 	mysql_free_result($res);
 	
 	// Find the next word to test
@@ -103,19 +103,19 @@ if ($count <= 0) {
 		if ($debug) echo 'DEBUG TEST-SQL: ' . $sql . '<br />';
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid query: $sql");
-		$dsatz = mysql_fetch_assoc($res);
-		if ( $dsatz ) {
+		$record = mysql_fetch_assoc($res);
+		if ( $record ) {
 			$num = 1;
-			$wid = $dsatz['WoID'];
-			$word = $dsatz['WoText'];
-			$wordlc = $dsatz['WoTextLC'];
-			$trans = repl_tab_nl($dsatz['WoTranslation']);
-			$roman = $dsatz['WoRomanization'];
-			$sent = repl_tab_nl($dsatz['WoSentence']);
-			$notvalid = $dsatz['notvalid'];
-			$status = $dsatz['WoStatus'];
-			$days = $dsatz['Days'];
-			$score = $dsatz['Score'];
+			$wid = $record['WoID'];
+			$word = $record['WoText'];
+			$wordlc = $record['WoTextLC'];
+			$trans = repl_tab_nl($record['WoTranslation']);
+			$roman = $record['WoRomanization'];
+			$sent = repl_tab_nl($record['WoSentence']);
+			$notvalid = $record['notvalid'];
+			$status = $record['WoStatus'];
+			$days = $record['Days'];
+			$score = $record['Score'];
 			$pass = 2;
 		}
 		mysql_free_result($res);
@@ -142,10 +142,10 @@ if ($count <= 0) {
 				$sql = 'SELECT DISTINCT SeID FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
 				$res = mysql_query($sql);		
 				if ($res == FALSE) die("Invalid query: $sql");
-				$dsatz = mysql_fetch_assoc($res);
-				if ( $dsatz ) {  // random sent found
+				$record = mysql_fetch_assoc($res);
+				if ( $record ) {  // random sent found
 					$num = 1;
-					$seid = $dsatz['SeID'];
+					$seid = $record['SeID'];
 					if (AreUnknownWordsInSentence ($seid)) {
 						if ($debug) echo "DEBUG sent: $seid has unknown words<br />";
 						$sentexcl = ' AND SeID != ' . $seid . ' ';

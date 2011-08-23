@@ -41,9 +41,9 @@ if (isset($_REQUEST['refresh'])) {
 	$sql = "select TxID, TxText from texts where TxLgID = " . $id . " order by TxID";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	while ($dsatz = mysql_fetch_assoc($res)) {
-		$txtid = $dsatz["TxID"];
-		$txttxt = $dsatz["TxText"];
+	while ($record = mysql_fetch_assoc($res)) {
+		$txtid = $record["TxID"];
+		$txttxt = $record["TxText"];
 		splitText($txttxt, $id, $txtid );
 	}
 	mysql_free_result($res);
@@ -185,14 +185,14 @@ elseif (isset($_REQUEST['chg'])) {
 	$sql = 'select * from languages where LgID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
-	if ($dsatz = mysql_fetch_assoc($res)) {
+	if ($record = mysql_fetch_assoc($res)) {
 	
 		?>
 	
 		<h4>Edit Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="LgID" value="<?php echo $_REQUEST['chg']; ?>" />
-		<input type="hidden" name="LgGoogleTTSURI" value="<?php echo tohtml($dsatz['LgGoogleTTSURI']); ?>" />
+		<input type="hidden" name="LgGoogleTTSURI" value="<?php echo tohtml($record['LgGoogleTTSURI']); ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">ID:</td>
@@ -200,47 +200,47 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Language:</td>
-		<td class="td1"><input type="text" class="notempty setfocus" name="LgName" maxlength="40" size="40" value="<?php echo tohtml($dsatz['LgName']); ?>" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty setfocus" name="LgName" maxlength="40" size="40" value="<?php echo tohtml($record['LgName']); ?>" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Dictionary 1 URI:</td>
-		<td class="td1"><input type="text" class="notempty" name="LgDict1URI" value="<?php echo tohtml($dsatz['LgDict1URI']); ?>"  maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty" name="LgDict1URI" value="<?php echo tohtml($record['LgDict1URI']); ?>"  maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Dictionary 2 URI:</td>
-		<td class="td1"><input type="text" name="LgDict2URI" value="<?php echo tohtml($dsatz['LgDict2URI']); ?>"  maxlength="200" size="60" /></td>
+		<td class="td1"><input type="text" name="LgDict2URI" value="<?php echo tohtml($record['LgDict2URI']); ?>"  maxlength="200" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">GoogleTranslate URI:</td>
-		<td class="td1"><input type="text" name="LgGoogleTranslateURI" value="<?php echo tohtml($dsatz['LgGoogleTranslateURI']); ?>" maxlength="200" size="60" /></td>
+		<td class="td1"><input type="text" name="LgGoogleTranslateURI" value="<?php echo tohtml($record['LgGoogleTranslateURI']); ?>" maxlength="200" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Text Size:</td>
-		<td class="td1"><select name="LgTextSize"><?php echo get_languagessize_selectoptions($dsatz['LgTextSize']); ?></select></td>
+		<td class="td1"><select name="LgTextSize"><?php echo get_languagessize_selectoptions($record['LgTextSize']); ?></select></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Character Substitutions:</td>
-		<td class="td1"><input type="text" name="LgCharacterSubstitutions" value="<?php echo tohtml($dsatz['LgCharacterSubstitutions']); ?>" maxlength="500" size="60" /></td>
+		<td class="td1"><input type="text" name="LgCharacterSubstitutions" value="<?php echo tohtml($record['LgCharacterSubstitutions']); ?>" maxlength="500" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">RegExp Split Sentences:</td>
-		<td class="td1"><input type="text" class="notempty" name="LgRegexpSplitSentences" value="<?php echo tohtml($dsatz['LgRegexpSplitSentences']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty" name="LgRegexpSplitSentences" value="<?php echo tohtml($record['LgRegexpSplitSentences']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Exceptions Split Sentences:</td>
-		<td class="td1"><input type="text" name="LgExceptionsSplitSentences" value="<?php echo tohtml($dsatz['LgExceptionsSplitSentences']); ?>" maxlength="500" size="60" /></td>
+		<td class="td1"><input type="text" name="LgExceptionsSplitSentences" value="<?php echo tohtml($record['LgExceptionsSplitSentences']); ?>" maxlength="500" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">RegExp Word Characters:</td>
-		<td class="td1"><input type="text" class="notempty" name="LgRegexpWordCharacters" value="<?php echo tohtml($dsatz['LgRegexpWordCharacters']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty" name="LgRegexpWordCharacters" value="<?php echo tohtml($record['LgRegexpWordCharacters']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Make each character a word:</td>
-		<td class="td1"><select name="LgSplitEachChar"><?php echo get_yesno_selectoptions($dsatz['LgSplitEachChar']); ?></select> (e.g. for Chinese, Japanese, etc.)</td>
+		<td class="td1"><select name="LgSplitEachChar"><?php echo get_yesno_selectoptions($record['LgSplitEachChar']); ?></select> (e.g. for Chinese, Japanese, etc.)</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Remove spaces:</td>
-		<td class="td1"><select name="LgRemoveSpaces"><?php echo get_yesno_selectoptions($dsatz['LgRemoveSpaces']); ?></select> (e.g. for Chinese, Japanese, etc.)</td>
+		<td class="td1"><select name="LgRemoveSpaces"><?php echo get_yesno_selectoptions($record['LgRemoveSpaces']); ?></select> (e.g. for Chinese, Japanese, etc.)</td>
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
@@ -293,33 +293,33 @@ $sql = 'select LgID, LgName from languages order by LgName';
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
-while ($dsatz = mysql_fetch_assoc($res)) {
-	$textcount = get_first_value('select count(TxID) as value from texts where TxLgID=' . $dsatz['LgID']);
-	$archtextcount = get_first_value('select count(AtID) as value from archivedtexts where AtLgID=' . $dsatz['LgID']);
-	$wordcount = get_first_value('select count(WoID) as value from words where WoLgID=' . $dsatz['LgID']);
+while ($record = mysql_fetch_assoc($res)) {
+	$textcount = get_first_value('select count(TxID) as value from texts where TxLgID=' . $record['LgID']);
+	$archtextcount = get_first_value('select count(AtID) as value from archivedtexts where AtLgID=' . $record['LgID']);
+	$wordcount = get_first_value('select count(WoID) as value from words where WoLgID=' . $record['LgID']);
 	echo '<tr>';
-	if ( $current == $dsatz['LgID'] ) {
+	if ( $current == $record['LgID'] ) {
 		$tdth = 'th';
 		echo '<th class="th1"><img src="icn/exclamation-red.png" title="Current Language" alt="Current Language" /></th>';
 	} else {
 		$tdth = 'td';
-		echo '<td class="td1 center"><a href="save_setting_redirect.php?k=currentlanguage&amp;v=' . $dsatz['LgID'] . '&amp;u=edit_languages.php"><img src="icn/tick-button.png" title="Set as Current Language" alt="Set as Current Language" /></a></td>';
+		echo '<td class="td1 center"><a href="save_setting_redirect.php?k=currentlanguage&amp;v=' . $record['LgID'] . '&amp;u=edit_languages.php"><img src="icn/tick-button.png" title="Set as Current Language" alt="Set as Current Language" /></a></td>';
 	}
-	echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="do_test.php?lang=' . $dsatz['LgID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a></' . $tdth . '>';
-	echo '<' . $tdth . ' class="' . $tdth . '1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $dsatz['LgID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="do_test.php?lang=' . $record['LgID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a></' . $tdth . '>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['LgID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>';
 	if ($textcount == 0 && $archtextcount == 0 && $wordcount == 0) 
-		echo '&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $dsatz['LgID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>';
+		echo '&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['LgID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>';
 	else 
 		echo '&nbsp; <img src="icn/placeholder.png" title="Delete not possible" alt="Delete not possible" />';
 	echo '&nbsp;</' . $tdth . '>';
-	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . tohtml($dsatz['LgName']) . '</' . $tdth . '>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . tohtml($record['LgName']) . '</' . $tdth . '>';
 	if ($textcount > 0) 
-		echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="edit_texts.php?page=1&amp;query=&amp;filterlang=' . $dsatz['LgID'] . '">' . $textcount . '</a> &nbsp;&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?refresh=' . $dsatz['LgID'] . '"><img src="icn/lightning.png" title="Re-Parse Texts" alt="Re-Parse Texts" /></a>';
+		echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="edit_texts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $textcount . '</a> &nbsp;&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?refresh=' . $record['LgID'] . '"><img src="icn/lightning.png" title="Re-Parse Texts" alt="Re-Parse Texts" /></a>';
 	else
 		echo '<' . $tdth . ' class="' . $tdth . '1 center">0 &nbsp;&nbsp; <img src="icn/placeholder.png" title="No texts to re-parse" alt="No texts to re-parse" />';
 	echo '</' . $tdth . '>';
-	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($archtextcount > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;filterlang=' . $dsatz['LgID'] . '">' . $archtextcount . '</a>' : '0' ) . '</' . $tdth . '>';
-	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($wordcount > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=' . $dsatz['LgID'] . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=">' . $wordcount . '</a>' : '0' ) . '</' . $tdth . '>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($archtextcount > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $archtextcount . '</a>' : '0' ) . '</' . $tdth . '>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($wordcount > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=' . $record['LgID'] . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=">' . $wordcount . '</a>' : '0' ) . '</' . $tdth . '>';
 	echo '</tr>';
 }
 mysql_free_result($res);

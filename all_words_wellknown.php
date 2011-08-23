@@ -19,7 +19,7 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
-$sprid = get_first_value("select TxLgID as value from texts where TxID = " . $_REQUEST['text']);
+$langid = get_first_value("select TxLgID as value from texts where TxID = " . $_REQUEST['text']);
 
 pagestart("Setting all blue words to Well-known",false);
 
@@ -28,18 +28,18 @@ $res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 $count = 0;
 $javascript = "var title='';";
-while ($dsatz = mysql_fetch_assoc($res)) {
-	$wort = $dsatz['TiText'];	
-	$wortlc = $dsatz['TiTextLC'];	
+while ($record = mysql_fetch_assoc($res)) {
+	$term = $record['TiText'];	
+	$termlc = $record['TiTextLC'];	
 	$count1 = 0 + runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
-	$sprid . ', ' . 
-	convert_string_to_sqlsyntax($wort) . ', ' . 
-	convert_string_to_sqlsyntax($wortlc) . ', 99 , NOW(), ' .  
+	$langid . ', ' . 
+	convert_string_to_sqlsyntax($term) . ', ' . 
+	convert_string_to_sqlsyntax($termlc) . ', 99 , NOW(), ' .  
 make_score_random_insert_update('id') . ')',''); 
 	$wid = get_last_key(); 
 	if ($count1 > 0 ) 
-		$javascript .= "title = make_tooltip(" . prepare_textdata_js($wort) . ",'','','99');";
-		$javascript .= "$('.TERM" . strToClassName($wortlc) . "', context).removeClass('status0').addClass('status99 word" . $wid . "').attr('data_status','99').attr('data_wid','" . $wid . "').attr('title',title);";
+		$javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'','','99');";
+		$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status99 word" . $wid . "').attr('data_status','99').attr('data_wid','" . $wid . "').attr('title',title);";
 	$count += $count1;
 }
 mysql_free_result($res);
