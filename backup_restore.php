@@ -27,7 +27,7 @@ $message = '';
 
 if (isset($_REQUEST['restore'])) {
 	if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
-		$handle = fopen ($_FILES["thefile"]["tmp_name"], "r");
+		$handle = gzopen ($_FILES["thefile"]["tmp_name"], "r");
 		if ($handle === FALSE) {
 			$message = "Error: Restore file could not be opened";
 		} // $handle not OK
@@ -39,11 +39,11 @@ if (isset($_REQUEST['restore'])) {
 			$inserts = 0;
 			$creates = 0;
 			$start = 1;
-			while (! feof($handle)) {
+			while (! gzeof($handle)) {
 				$sql_line = trim(
 					str_replace("\r","",
 					str_replace("\n","",
-					fgets($handle, 99999))));
+					gzgets($handle, 99999))));
 				if ($sql_line != "") {
 					if($start) {
 						if (strpos($sql_line,"-- lwt-backup-") === false ) {
@@ -66,7 +66,7 @@ if (isset($_REQUEST['restore'])) {
 					}
 				}
 			} // while (! feof($handle))
-			fclose ($handle);
+			gzclose ($handle);
 			if ($errors == 0) {
 				optimizedb();
 				$message = "Success: Database restored - " .
@@ -89,16 +89,14 @@ elseif (isset($_REQUEST['backup'])) {
 	$result = mysql_query('SHOW TABLES');
 	while ($row = mysql_fetch_row($result)) 
 		$tables[] = $row[0];
-	$fname = "lwt-backup-" . date('Y-m-d-H-i-s') . ".sql";
-	header('Content-type: text/plain; charset=utf-8');
-	header("Content-disposition: attachment; filename=" . $fname);
-	echo "-- " . $fname . "\n";
+	$fname = "lwt-backup-" . date('Y-m-d-H-i-s') . ".sql.gz";
+	$out = "-- " . $fname . "\n";
 	foreach($tables as $table) { // foreach table
 		$result = mysql_query('SELECT * FROM ' . $table);
 		$num_fields = mysql_num_fields($result);
-		echo "\nDROP TABLE IF EXISTS " . $table . ";\n";
+		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
 		$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE ' . $table));
-		echo str_replace("\n"," ",$row2[1]) . ";\n";
+		$out .= str_replace("\n"," ",$row2[1]) . ";\n";
 		while ($row = mysql_fetch_row($result)) { // foreach record
 			$return = 'INSERT INTO ' . $table . ' VALUES(';
 			for ($j=0; $j < $num_fields; $j++) { // foreach field
@@ -109,9 +107,12 @@ elseif (isset($_REQUEST['backup'])) {
 				}
 				if ($j < ($num_fields-1)) $return .= ',';
 			} // foreach field
-			echo $return . ");\n";
+			$out .= $return . ");\n";
 		} // foreach record
 	} // foreach table
+	header('Content-type: application/x-gzip');
+	header("Content-disposition: attachment; filename=" . $fname);
+	echo gzencode($out,9);
 	exit();
 }
 	
@@ -126,7 +127,7 @@ echo error_message_with_hide($message,1);
 <th class="th1 center">Backup</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be exported to an SQL file. Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
+The database <i><?php echo tohtml($dbname); ?></i> will be exported to a gzipped SQL file. Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
 <p class="right">&nbsp;<br /><input type="submit" name="backup" value="Download LWT Backup" /></p>
 </td>
 </tr>
@@ -134,7 +135,7 @@ The database <i><?php echo tohtml($dbname); ?></i> will be exported to an SQL fi
 <th class="th1 center">Restore</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the data in the specified backup file.<br /><b>Please be careful - the existent database will be overwritten!</b> <br />Important: If the backup file is too large, the restore may not be possible.<br />Upload limits (in bytes): <b>post_max_size = <?php echo ini_get('post_max_size'); ?> / upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
+The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the data in the specified backup file<br />(gzipped or normal SQL file, created above).<br /><b>Please be careful - the existent database will be overwritten!</b> <br />Important: If the backup file is too large, the restore may not be possible.<br />Upload limits (in bytes): <b>post_max_size = <?php echo ini_get('post_max_size'); ?> / upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
 If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restart server.</p>
 <p><input name="thefile" type="file" /></p>
 <p class="right">&nbsp;<br /><input type="submit" name="restore" value="Restore from LWT Backup" /></p>

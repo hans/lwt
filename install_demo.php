@@ -24,9 +24,9 @@ $message = '';
 // RESTORE DEMO
 
 if (isset($_REQUEST['install'])) {
-	$file = getcwd() . '/install_demo_db.sql';
+	$file = getcwd() . '/install_demo_db.sql.gz';
 	if ( file_exists($file) ) {
-		$handle = fopen ($file, "r");
+		$handle = gzopen ($file, "r");
 		if ($handle === FALSE) {
 			$message = "Error: File ' . $file . ' could not be opened";
 		} // $handle not OK
@@ -38,11 +38,11 @@ if (isset($_REQUEST['install'])) {
 			$inserts = 0;
 			$creates = 0;
 			$start = 1;
-			while (! feof($handle)) {
+			while (! gzeof($handle)) {
 				$sql_line = trim(
 					str_replace("\r","",
 					str_replace("\n","",
-					fgets($handle, 99999))));
+					gzgets($handle, 99999))));
 				if ($sql_line != "") {
 					if($start) {
 						if (strpos($sql_line,"-- lwt-backup-") === false ) {
@@ -65,7 +65,7 @@ if (isset($_REQUEST['install'])) {
 					}
 				}
 			} // while (! feof($handle))
-			fclose ($handle);
+			gzclose ($handle);
 			if ($errors == 0) {
 				optimizedb();
 				$message = "Success: Demo Database restored - " .
