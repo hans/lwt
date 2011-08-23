@@ -111,7 +111,7 @@ var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
-var trans = <?php echo prepare_textdata_js($translation_raw); ?>;
+var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 var title = make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 <?php

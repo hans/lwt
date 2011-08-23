@@ -30,7 +30,7 @@ if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
 if ($record) {
 	$word = $record['WoText'];
-	$trans = repl_tab_nl($record['WoTranslation']);
+	$trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid,' ',1,0);
 	$roman = $record['WoRomanization'];
 } else {
 	die("Error: No results"); 

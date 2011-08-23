@@ -42,22 +42,22 @@ if ($record = mysql_fetch_assoc($res)) {
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr>
 <td class="td1 right" style="width:30px;">Term:</td>
-<td class="td1" style="font-size:150%;"><b><?php echo tohtml($record['WoText']); ?></b></td>
+<td class="td1" style="font-size:120%;"><b><?php echo tohtml($record['WoText']); ?></b></td>
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
-<td class="td1" style="font-size:150%;"><b><?php echo tohtml($transl); ?></b></td>
+<td class="td1" style="font-size:120%;"><b><?php echo tohtml($transl); ?></b></td>
 </tr>
 <?php if ($tags != '') { ?>
 <tr>
 <td class="td1 right">Tags:</td>
-<td class="td1" style="font-size:150%;"><b><?php echo tohtml($tags); ?></b></td>
+<td class="td1" style="font-size:120%;"><b><?php echo tohtml($tags); ?></b></td>
 </tr>
 <?php } ?>
 <?php if ($rom != '') { ?>
 <tr>
 <td class="td1 right">Romaniz.:</td>
-<td class="td1" style="font-size:150%;"><b><?php echo tohtml($rom); ?></b></td>
+<td class="td1" style="font-size:120%;"><b><?php echo tohtml($rom); ?></b></td>
 </tr>
 <?php } ?>
 <tr>

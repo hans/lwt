@@ -81,7 +81,7 @@ var context = window.parent.frames['l'].document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
 var wotext = <?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
-var trans = <?php echo prepare_textdata_js($translation_raw); ?>;
+var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 $('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
 window.parent.frames['l'].focus();
