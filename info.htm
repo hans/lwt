@@ -1233,7 +1233,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>My Terms</b>
             <br />
             <br />
-            The list of your saved words or expressions (= terms). You may filter the list of terms by language, text, status and term/romanization/translation (wildcard * possible). Different sort orders are possible. You can do "multi actions" only on the marked or on all terms (on all pages!). "Se?" displays a green dot if a valid sentences with {term} exists. "Stat/Days" displays the status and the number of days since the last status change. The score of a term is a rough measure (in percent) how well you know a term. Read more about term scores <a href="#termscores">here</a>. Terms with zero score are displayed red and should be tested today.
+            The list of your saved words or expressions (= terms). You may filter the list of terms by language, text, status, term/romanization/translation (wildcard * possible) or tag(s). Different sort orders are possible. You can do "multi actions" only on the marked or on all terms (on all pages!). "Se?" displays a green dot if a valid sentences with {term} exists. "Stat/Days" displays the status and the number of days since the last status change. The score of a term is a rough measure (in percent) how well you know a term. Read more about term scores <a href="#termscores">here</a>. Terms with zero score are displayed red and should be tested today.
             <br />
             <br />
             <img class="grayborder" src="img/08.png" alt="Image" />
@@ -1245,10 +1245,10 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             Most actions are self-explanatory. "Test Marked Terms" starts a test with all marked terms. You may delete marked terms and change the status of marked terms. "Set Status Date to Today" is some kind of "trick" for vacations, illnesses, etc. 
             <br />
             <br />
-            "Export Marked Texts (Anki)" exports all terms that have been marked AND have a valid sentence with {term} for Anki. Terms that do not have a sentence with {term} will NOT be exported. Cloze testing of terms within sentence context can so be easily done in Anki. The export is tab-delimited: (1) term, (2) translation, (3) romanization, (4) Sentence without term (question of cloze test), (5) Sentence with term (answer of cloze test), (6) Language, (7) ID Number. An Anki example deck is provided: "LWT.anki" in directory "anki".
+            "Export Marked Texts (Anki)" exports all terms that have been marked AND have a valid sentence with {term} for Anki. Terms that do not have a sentence with {term} will NOT be exported. Cloze testing of terms within sentence context can so be easily done in Anki. The export is tab-delimited: (1) term, (2) translation, (3) romanization, (4) Sentence without term (question of cloze test), (5) Sentence with term (answer of cloze test), (6) Language, (7) ID Number, (8) Tag list. An Anki example deck is provided: "LWT.anki" in directory "anki".
             <br />
             <br />
-            "Export Marked Texts (TSV)" exports all terms that have been marked. The export is tab-delimited: (1) term, (2) translation, (3) sentence, (4) romanization, (5) Status, (6) Language, (7) ID Number.
+            "Export Marked Texts (TSV)" exports all terms that have been marked. The export is tab-delimited: (1) term, (2) translation, (3) sentence, (4) romanization, (5) status, (6) language, (7) ID Number, (8) tag list.
             <br />
             <br />
             <img class="grayborder" src="img/16.png" alt="Image" />
@@ -1269,7 +1269,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>My Tags</b>
             <br />
             <br />
-            The list of your tags. You can manage you tags here.
+            The list of your tags. You can manage your tags here.
             <br />
             <br />
             <img class="grayborder" src="img/24.png" alt="Image" />

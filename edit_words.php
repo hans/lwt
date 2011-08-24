@@ -210,15 +210,15 @@ if (isset($_REQUEST['allaction'])) {
 
 	elseif ($allaction == 'expall' ) {
 		if ($currenttext == '') {
-			anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag);
+			anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages where WoLgID = LgID AND WoTranslation != \'*\' and WoSentence like concat(\'%{\',WoText,\'}%\') ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag);
 		} else {
-			anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag);
+			anki_export('select distinct WoID, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID AND WoTranslation != \'*\' and WoSentence like concat(\'%{\',WoText,\'}%\') ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag);
 		}
 	}
 	
 	elseif ($allaction == 'expall2' ) {
 		if ($currenttext == '') {
-			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from (words left JOIN wordtags ON WoID = WtWoID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . $wh_tag);
+			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag);
 		} else {
 			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag);
 		}
