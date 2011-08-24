@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.2.0 (August ?? 2011)'  . 
+	return '1.2.0 (August 24 2011)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -2105,17 +2105,7 @@ function check_update_db() {
 		saveSetting('dbversion',$currversion);
 	}
 	
-	// Do Scoring once per day
-	
-	$lastscorecalc = getSetting('lastscorecalc');
-	$today = date('Y-m-d');
-	if ($lastscorecalc != $today) {
-		if ($debug) echo '<p>DEBUG: Doing score recalc. Today: ' . $today . ' / Last: ' . $lastscorecalc . '</p>';
-		runsql("UPDATE words SET " . make_score_random_insert_update('u'),'');
-		saveSetting('lastscorecalc',$today);
-	}
-	
-	// Do Scoring once per day, clean Wordtags, optimize
+	// Do Scoring once per day, clean Wordtags, and optimize db
 	
 	$lastscorecalc = getSetting('lastscorecalc');
 	$today = date('Y-m-d');

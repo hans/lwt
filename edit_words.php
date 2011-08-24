@@ -72,7 +72,7 @@ $no_pagestart =
 	(getreq('allaction') == 'testall') ||
 	(getreq('allaction') == 'deltagall');
 if (! $no_pagestart) {
-	pagestart('My ' . getLanguage($currentlang) . ' Words and Expressions (Terms)',true);
+	pagestart('My ' . getLanguage($currentlang) . ' Terms (Words and Expressions)',true);
 }
 
 $message = '';

@@ -188,7 +188,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.2.0 (August ?? 2011)</b>.
+          <li>The current version is <b>1.2.0 (August 24 2011)</b>.
           </li>
 
           <li>
@@ -388,11 +388,15 @@ Developed by J. Pierre in 2011.
             <ul>
             
             <li>
-            jQuery - Copyright © 2011 John Resig, <a href="http://jquery.org/license" target="_blank">http://jquery.org/license</a> (js/jquery.js)
+            jQuery, jQueryUI - Copyright © 2011 John Resig et.al., <a href="http://jquery.org/license" target="_blank">http://jquery.org/license</a> (js/jquery.js, js/jquery-ui.min.js)
             </li>
             
             <li>
             jQuery.ScrollTo - Copyright © 2007-2009 Ariel Flesler, <a href="http://flesler.blogspot.com" target="_blank">http://flesler.blogspot.com</a>  (js/jquery.scrollTo.min.js)
+            </li>
+            
+            <li>
+            jQueryUI Tag-it! - Copyright © 2011, Levy Carneiro Jr., <a href="http://aehlke.github.com/tag-it/" target="_blank">http://aehlke.github.com/tag-it/</a>  (js/tag-it.js)
             </li>
             
             <li>
@@ -409,6 +413,10 @@ Developed by J. Pierre in 2011.
             
             <li>
             jPlayer - Copyright © 2011 Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (js/jquery.jplayer.min.js, js/Jplayer.swf, css/jplayer_skin/...)
+            </li>
+            
+            <li>
+            Floating Menu - Copyright © JTricks.com, <a href="http://www.jtricks.com/licensing.html" target="_blank">http://www.jtricks.com/licensing.html</a> (js/floating.js)
             </li>
             </ul>
             <br />
@@ -1258,6 +1266,18 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
           </li>
 
           <li>
+            <b>My Tags</b>
+            <br />
+            <br />
+            The list of your tags. You can manage you tags here.
+            <br />
+            <br />
+            <img class="grayborder" src="img/24.png" alt="Image" />
+            <br />
+            <br />
+          </li>
+
+          <li>
             <b>My Text Archive</b>
             <br />
             <br />
@@ -1706,7 +1726,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <br />
             `LgGoogleTranslateURI` varchar(200) DEFAULT NULL,
             <br />
-            `LgGoogleTTSURI` varchar(200) DEFAULT NULL, -- NOT YET USED --
+            `LgGoogleTTSURI` varchar(200) DEFAULT NULL, -- NOT USED --
             <br />
             `LgTextSize` int(5) unsigned NOT NULL DEFAULT '100',
             <br />
@@ -1824,6 +1844,38 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
           </li>
 
           <li>
+            <b>Table `tags` (Tags and tag comments):</b>
+            <br />
+            `TgID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  					<br />
+						`TgText` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  					<br />
+  					`TgComment` varchar(200) NOT NULL,
+  					<br />
+  					PRIMARY KEY (`TgID`),
+  					<br />
+  					UNIQUE KEY `TgText` (`TgText`)
+  					<br />
+  					<br />
+          </li>
+
+          <li>
+            <b>Table `wordtags` (Term/Tag relations):</b>
+            <br />
+						`WtWoID` int(11) unsigned NOT NULL, -- TERM --
+            <br />
+  					`WtTgID` int(11) unsigned NOT NULL, -- TAG --
+            <br />
+  					PRIMARY KEY (`WtWoID`,`WtTgID`),
+            <br />
+  					KEY `WtTgID` (`WtTgID`),
+            <br />
+  					KEY `WtWoID` (`WtWoID`)
+  					<br />
+  					<br />
+          </li>
+
+          <li>
             <b>Table `sentences` (Sentences cache):</b>
             <br />
             `SeID` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -1892,10 +1944,10 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
       <dd>
         <ul>
 
-        	<li>1.2.0 (August ?? 2011):
-        	Tagging of terms introduced. Tags are little pieces of information (20 characters max., no spaces, no commas, case sensitive!) attached to terms to help you catagorize and organize your terms. You can import (CSV, TSV) and export (Anki, TSV) terms together with tag information. Two new tables save tag information, they are created automatically. <br />
-        	Display of example sentences delayed.<br />
-        	Backup creates the database SQL file now as a gzipped file. Backup can process old unzipped or new gzipped files. Gzipped files are much smaller in size (10-20 % of original size).<br /> 
+        	<li>1.2.0 (August 24 2011):
+        	Tagging of terms introduced. Tags are little pieces of information (20 characters max., no spaces, no commas, case sensitive!) attached to terms to help you catagorize and organize your terms. You can import (CSV, TSV) and export (Anki, TSV) terms together with tag information. Two new tables save tag information, and they are created automatically during first usage after update.<br />
+        	Display of example sentences is now delayed.<br />
+        	Backup creates the database SQL file now as a gzipped file. Restore can process old unzipped or new gzipped files. Gzipped files are much smaller in size (10-20 % of original size).<br /> 
         	Documentation and screenshots updated.
         	<br /><br />
         	</li>
