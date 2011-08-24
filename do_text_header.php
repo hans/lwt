@@ -48,7 +48,7 @@ $showAll = getSetting('showallwords');
 $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 
 ?>
-<table class="width99pc"><tr><td class="center" colspan="3" style="padding:10px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
+<table class="width99pc"><tr><td class="center" colspan="5" style="padding:10px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
 [Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">Show All&nbsp;<input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> /></span><span id="thetextid" class="hide"><?php echo $textid; ?></span></td></tr>
 
 <?php
@@ -104,9 +104,36 @@ if ($audio != '') {
 		</div>
 	</div>
 </div>
-</td><td class="width45pc">&nbsp;</td></tr>
+</td>
+<td class="center">&nbsp;</td>
+<td class="center">
+<?php
+$currentplayerseconds = getSetting('currentplayerseconds');
+if($currentplayerseconds == '') $currentplayerseconds = 5;
+?>
+<select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
+<span id="backbutt" class="click"><img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" /></span>&nbsp;&nbsp;<span id="forwbutt" class="click"><img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" /></span>
+<span id="playTime" class="hide"></span>
+</td>
+<td class="width45pc">&nbsp;</td>
+</tr>
 <script type="text/javascript">
 //<![CDATA[
+
+function click_back() {
+	var t = parseInt($("#playTime").text(),10);
+	var b = parseInt($("#backtime").val(),10);
+	var nt = t - b;
+	$("#jquery_jplayer_1").jPlayer("play", nt);
+}
+
+function click_forw() {
+	var t = parseInt($("#playTime").text(),10);
+	var b = parseInt($("#backtime").val(),10);
+	var nt = t + b;
+	$("#jquery_jplayer_1").jPlayer("play", nt);
+}
+
 $(document).ready(function(){
   $("#jquery_jplayer_1").jPlayer({
     ready: function () {
@@ -129,6 +156,13 @@ $(document).ready(function(){
     },
     swfPath: "js",
   });
+  
+  $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
+  	$("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
+	});
+  
+  $("#backbutt").click(click_back);
+  $("#forwbutt").click(click_forw);
 });
 //]]>
 </script>

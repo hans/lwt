@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.2.0 (August 24 2011)'  . 
+	return '1.2.1 (August ?? 2011)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -307,6 +307,18 @@ function selectmediapathoptions($dir) {
 		if (substr($entry,0,1) != '.') {
 			if (is_dir($dir . '/' . $entry)) $r .= selectmediapathoptions($dir . '/' . $entry);
 		}
+	}
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function get_seconds_selectoptions($v) {
+	if ( ! isset($v) ) $v = 5;
+	$r = '';
+	for ($i=1; $i <= 10; $i++) {
+		$r .= "<option value=\"" . $i . "\"" . get_selected($v,$i);
+		$r .= ">" . $i . " sec</option>";
 	}
 	return $r;
 }
@@ -2100,6 +2112,8 @@ function check_update_db() {
 			// updates for all versions > 1.1.1 
 			// New: Table "tags", created above
 			// New: Table "wordtags", created above
+			// updates for all versions > 1.2.0
+			// none
 		}
 		// set to current.
 		saveSetting('dbversion',$currversion);

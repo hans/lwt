@@ -332,6 +332,10 @@ function keydown_event_do_text_text(e) {
 	return false;
 }
 
+function do_ajax_save_setting(k, v) {
+	$.post('ajax_save_setting.php', { k: k, v: v } );
+}
+
 function do_ajax_update_media_select() {
 	$('#mediaselect').html('&nbsp; <img src="icn/waiting2.gif" />');
 	$.post('ajax_update_media_select.php', 
