@@ -54,6 +54,7 @@ LWT Information / Help
 		<a href="#learn">How to learn</a><br /><br />
 		<a href="#howto">How to use</a><br /><br />
 		<a href="#faq">Q &amp; A</a><br /> 
+		<a href="#ipad">Setup for iPad</a><br /> 
 		<a href="#langsetup">Lang. Setup</a><br />
 		<a href="#termscores">Term Scores</a><br />
 		<a href="#keybind">Key Bindings</a><br /><br />
@@ -136,6 +137,9 @@ $(document).ready( function() {
         <option value="faq">
           Questions and Answers
         </option>
+        <option value="ipad">
+          Setup for iPad etc.
+        </option>
         <option value="langsetup">
           Language Setup
         </option>
@@ -188,7 +192,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.2.1 (August ?? 2011)</b>.
+          <li>The current version is <b>1.2.1 (August 25 2011)</b>.
           </li>
 
           <li>
@@ -1421,19 +1425,32 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <br />
           </li>
 
-          <li>I want to use LWT, and I see this:
-            <br />
-            <br />
-            <img class="grayborder" src="img/prob5.png" alt="Image" />
-            <br />
-            <br />
-            Answer: The Webserver and the database is running, but the database does not exist or is its name is wrong in <i>../htdocs/lwt/connect.inc.php</i>. Please correct and/or reinstall the database either by importing <i>dbinstall.sql</i> or a backup.
-            <br />
-            <br />
-          </li>
         </ul>
       </dd>
 
+      <dt>
+        ▶ <b><a name="ipad" id="ipad">Setup for iPad etc.</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>If you want to use LWT on an iPad: that's possible (even the audio player works). But as frames and frame sets are poorly implemented by Apple in Mobile Safari, you should change a few things:
+          <ul>
+          <li>In "Settings/Preferences", set (in both "Read Text
+Screen" section and in "Test
+Screen" section) "Height of right top frame" to 95 %.</li>
+          <li>Also adjust "Height of left top frame
+without audioplayer" and 	"Height of left top frame
+with audioplayer", if needed.</li>
+          <li>Now change the URIs in your language settings: put an asterisk "*" in front of all three dictionary URIs. This opens the dictionaries in seperate windows. Switch off  pop up blocking if the dictionaries will not show up.</li>
+          <li>Try to reduce the lengths of your texts to reduce scrolling.</li>
+          <li>It's also a good idea to install and run LWT at a web hoster, as explained above. So you can access LWT easily if you are often on the go.</li>
+          </ul>
+          <li>With these settings, I hope you will enjoy using LWT on a tablet computer although creating new terms and copy &amp; paste can be a bit tedious.
+          <br /><br /></li>
+        </ul>
+      </dd>
+      
       <dt>
         ▶ <b><a name="langsetup" id="langsetup">Language Setup</a></b> - <a href="#">[↑]</a>
       </dt>
@@ -1944,8 +1961,9 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
       <dd>
         <ul>
 
-        	<li>1.2.1 (August ?? 2011):
-        	New Rewind and Fast Forward button for audio player. User can set the time to rewind or fast forward from 1 to 10 seconds.
+        	<li>1.2.1 (August 25 2011):
+        	New Rewind and Fast Forward button for audio player. User can set the time to rewind or fast forward from 1 to 10 seconds.<br />
+        	Added a section in the help document about the setup of LWT for iPads, etc.
         	<br /><br />
         	</li>
 
