@@ -361,6 +361,7 @@ function do_ajax_word_counts() {
 					$('#total-'+textid).html(res[0]);
 					$('#saved-'+textid).html(res[1]);
 					$('#todo-'+textid).html(res[2]);
+					$('#todop-'+textid).html(res[3]);
 				}
 			);
 		}

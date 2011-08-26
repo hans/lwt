@@ -550,7 +550,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <tr>
 <th class="th1 sorttable_nosort">Mark</th>
 <th class="th1 sorttable_nosort">Act.</th>
-<th class="th1 clickable">Lang.</th>
+<?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
 <th class="th1 clickable">Term /<br />Romanization</th>
 <th class="th1 clickable">Translation [Tags]<br /><span id="waitinfo">Please <img src="icn/waiting2.gif" /> wait ...</span></th>
 <th class="th1 sorttable_nosort">Se.<br />?</th>
@@ -578,7 +578,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['WoID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $record['WoID'] . '" ' . checkTest($record['WoID'], 'marked') . ' /></a></td>';
 	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['WoID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['WoID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
-	echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
+	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
 	echo '<td class="td1 ">' . tohtml($record['WoText'] . ($record['WoRomanization']!='' ? (' / ' . $record['WoRomanization']) : '')) . '</td>';
 	echo '<td class="td1 ">' . tohtml(repl_tab_nl($record['WoTranslation'])) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span></td>';
 	echo '<td class="td1 center"><b>' . ($record['SentOK']!=0 ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />') . '</b></td>';

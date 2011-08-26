@@ -420,11 +420,12 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Mark</th>
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
 <th class="th1 sorttable_nosort">Actions</th>
-<th class="th1 clickable">Lang.</th>
+<?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
 <th class="th1 clickable">Title / Audio?</th>
 <th class="th1 sorttable_numeric clickable">Total<br />Words</th>
 <th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex</th>
-<th class="th1 sorttable_numeric clickable">Words<br />To Do</th>
+<th class="th1 sorttable_numeric clickable">Unkn.<br />Words</th>
+<th class="th1 sorttable_numeric clickable">Unkn.<br />%</th>
 </tr>
 
 <?php
@@ -442,6 +443,13 @@ while ($record = mysql_fetch_assoc($res)) {
 		$txtworkedexpr = textexprcount($record['TxID']);
 		$txtworkedall = $txtworkedwords + $txtworkedexpr;
 		$txttodowords = $txttotalwords - $txtworkedwords;
+		$percentunknown = 0;
+		if ($txttotalwords != 0) {
+			$percentunknown = 
+				round(100*$txttodowords/$txttotalwords,0);
+			if ($percentunknown > 100) $percentunknown = 100;
+			if ($percentunknown < 0) $percentunknown = 0;
+		}
 	}
 	$audio = $record['TxAudioURI'];
 	if(!isset($audio)) $audio='';
@@ -450,14 +458,15 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
-	echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="Audio" alt="Audio" />' : '') . '</td>';
+	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . '</td>';
 	if ($showCounts) {
 		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>'; 
 		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $record['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';
-		echo '<td class="td1 center"><span title="To Do" class="status0">&nbsp;' . $txttodowords . '&nbsp;</span></td>';
+		echo '<td class="td1 center"><span title="Unknown" class="status0">&nbsp;' . $txttodowords . '&nbsp;</span></td>';
+		echo '<td class="td1 center"><span title="Unknown (%)">' . $percentunknown . '</span></td>';
 	} else {
-		echo '<td class="td1 center"><span id="total-' . $record['TxID'] . '"></span></td><td class="td1 center"><span data_id="' . $record['TxID'] . '" id="saved-' . $record['TxID'] . '"><span class="click" onclick="do_ajax_word_counts();"><img src="icn/lightning.png" title="View Word Counts" alt="View Word Counts" /></span></span></td><td class="td1 center"><span id="todo-' . $record['TxID'] . '"></span></td>'; 
+		echo '<td class="td1 center"><span id="total-' . $record['TxID'] . '"></span></td><td class="td1 center"><span data_id="' . $record['TxID'] . '" id="saved-' . $record['TxID'] . '"><span class="click" onclick="do_ajax_word_counts();"><img src="icn/lightning.png" title="View Word Counts" alt="View Word Counts" /></span></span></td><td class="td1 center"><span id="todo-' . $record['TxID'] . '"></span></td><td class="td1 center"><span id="todop-' . $record['TxID'] . '"></span></td>'; 
 	}
 	echo '</tr>';
 }
