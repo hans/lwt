@@ -113,7 +113,7 @@ echo '<a href="edit_texts.php" target="_top">';
 echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />Learning with Texts';
 echo '</a>&nbsp; | &nbsp;';
 quickMenu();
-echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>';
+echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
 echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
 ?>

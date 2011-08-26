@@ -304,6 +304,16 @@ function translateSentence2(url,sentctl) {
 	}
 }
 
+function translateWord(url,wordctl) {
+	if ((typeof wordctl != 'undefined') && (url != '')) {
+		text = wordctl.value;
+		if (typeof text == 'string') {
+			window.parent.frames['ru'].location.href = 
+				createTheDictUrl(url, text);
+		}
+	}
+}
+
 function translateWord2(url,wordctl) {
 	if ((typeof wordctl != 'undefined') && (url != '')) {
 		text = wordctl.value;
