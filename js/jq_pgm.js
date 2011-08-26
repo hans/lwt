@@ -136,7 +136,7 @@ function keydown_event_do_test_test(e) {
 		OPENED = 1;
 		return false;
 	}
-	if (OPENED == 0) return false;
+	if (OPENED == 0) return true;
 	if (e.which == 38) {  // up : status+1
 		window.parent.frames['ro'].location.href = 
 			'set_test_status.php?wid=' + WID + '&stchange=1';
@@ -174,7 +174,7 @@ function keydown_event_do_test_test(e) {
 			'edit_tword.php?wid=' + WID;
 		return false;
 	}
-	return false;
+	return true;
 }
 
 function word_each_do_text_text(i) {
@@ -252,7 +252,7 @@ function keydown_event_do_text_text(e) {
 	
 	var knownwordlist = $('span.word:not(.hide):not(.status0)' + ADDFILTER + ',span.mword:not(.hide)' + ADDFILTER);
 	var l_knownwordlist = knownwordlist.size();
-	if (l_knownwordlist == 0) return false;
+	if (l_knownwordlist == 0) return true;
 	
 	// the following only for a non-zero known words list
 	if (e.which == 33 || e.which == 36) {  // pgup oder home : known word navigation -> first
@@ -295,7 +295,7 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 
-	if (TEXTPOS < 0 || TEXTPOS >= l_knownwordlist) return false;
+	if (TEXTPOS < 0 || TEXTPOS >= l_knownwordlist) return true;
 	var curr = knownwordlist.eq(TEXTPOS);
 	var wid = curr.attr('data_wid');
 	var ord = curr.attr('data_ord');
@@ -329,7 +329,7 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 
-	return false;
+	return true;
 }
 
 function do_ajax_save_setting(k, v) {
