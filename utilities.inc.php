@@ -1050,7 +1050,7 @@ function get_texts_selectoptions($lang,$v) {
 	if ($res == FALSE) die("Invalid query: $sql");
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["TxTitle"];
-		if ( strlen($d) > 30 ) $d = substr($d,0,30) . "...";
+		if ( mb_strlen($d, 'UTF-8') > 30 ) $d = mb_substr($d,0,30, 'UTF-8') . "...";
 		$r .= "<option value=\"" . $record["TxID"] . "\"" . get_selected($v,$record["TxID"]) . ">" . tohtml( ($lang!="" ? "" : ($record["LgName"] . ": ")) . $d) . "</option>";
 	}
 	mysql_free_result($res);
