@@ -72,27 +72,21 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <ul>
 <li><a href="edit_texts.php">My Texts</a></li>
 <li><a href="edit_archivedtexts.php">My Text Archive</a></li>
-</ul>
-
-<ul>
-<li><a href="edit_languages.php">My Languages</a></li>
-<li><a href="edit_texttags.php">My Text Tags</a></li>
+<li><a href="edit_texttags.php">My Text Tags</a>
+	<br /><br /></li>
+<li><a href="edit_languages.php">My Languages</a>
+	<br /><br /></li>
 <li><a href="edit_words.php">My Terms (Words and Expressions)</a></li>
-<li><a href="edit_tags.php">My Term Tags</a></li>
-<li><a href="statistics.php">My Statistics</a></li>
-</ul>
-
-<ul>
+<li><a href="edit_tags.php">My Term Tags</a>
+	<br /><br /></li>
+<li><a href="statistics.php">My Statistics</a>
+	<br /><br /></li>
 <li><a href="check_text.php">Check a Text</a></li>
 <li><a href="upload_words.php">Import Terms</a></li>
-<li><a href="backup_restore.php">Backup/Restore LWT Database</a></li>
-</ul>
-
-<ul>
-<li><a href="settings.php">Settings/Preferences</a></li>
-</ul>
-
-<ul>
+<li><a href="backup_restore.php">Backup/Restore LWT Database</a>
+	<br /><br /></li>
+<li><a href="settings.php">Settings/Preferences</a>
+	<br /><br /></li>
 <li><a href="info.htm">Help/Information</a></li>
 </ul>
 

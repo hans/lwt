@@ -374,6 +374,7 @@ $(document).ready( function() {
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
 	$('#termtags').tagit({tagSource: TAGS, itemName: 'TermTags', fieldName: 'TagList'});
+	$('#texttags').tagit({tagSource: TEXTTAGS, itemName: 'TextTags', fieldName: 'TagList'});
 	markClick();
 	setTheFocus();
 	window.setTimeout(noShowAfter3Secs,3000);

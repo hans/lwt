@@ -180,7 +180,7 @@ else {
 	
 	echo error_message_with_hide($message,0);
 	
-	get_tags(1);   // refresh tags cache
+	get_texttags(1);   // refresh tags cache
 
 	$sql = 'select count(T2ID) as value from tags2 where (1=1) ' . $wh_query;
 	$recno = get_first_value($sql);

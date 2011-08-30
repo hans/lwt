@@ -58,6 +58,26 @@ function get_tags($refresh = 0) {
 
 // -------------------------------------------------------------
 
+function get_texttags($refresh = 0) {
+	if (isset($_SESSION['TEXTTAGS'])) {
+		if (is_array($_SESSION['TEXTTAGS'])) {
+			if ($refresh == 0) return $_SESSION['TEXTTAGS'];
+		}
+	}
+	$tags = array();
+	$sql = 'select T2Text from tags2 order by T2Text';
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($record = mysql_fetch_assoc($res)) {
+		$tags[] = $record["T2Text"];
+	}
+	mysql_free_result($res);
+	$_SESSION['TEXTTAGS'] = $tags;
+	return $_SESSION['TEXTTAGS'];
+}
+
+// -------------------------------------------------------------
+
 function get_tag_selectoptions($v,$l) {
 	if ( ! isset($v) ) $v = '';
 	$r = "<option value=\"\"" . get_selected($v,'');
@@ -71,6 +91,46 @@ function get_tag_selectoptions($v,$l) {
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["TgText"];
 		$r .= "<option value=\"" . $record["TgID"] . "\"" . get_selected($v,$record["TgID"]) . ">" . tohtml($d) . "</option>";
+	}
+	mysql_free_result($res);
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function get_texttag_selectoptions($v,$l) {
+	if ( ! isset($v) ) $v = '';
+	$r = "<option value=\"\"" . get_selected($v,'');
+	$r .= ">[Filter off]</option>";
+	if ($l == '')
+		$sql = "select T2ID, T2Text from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by T2Text";
+	else
+		$sql = "select T2ID, T2Text from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $l . " group by T2ID order by T2Text";
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($record = mysql_fetch_assoc($res)) {
+		$d = $record["T2Text"];
+		$r .= "<option value=\"" . $record["T2ID"] . "\"" . get_selected($v,$record["T2ID"]) . ">" . tohtml($d) . "</option>";
+	}
+	mysql_free_result($res);
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function get_archivedtexttag_selectoptions($v,$l) {
+	if ( ! isset($v) ) $v = '';
+	$r = "<option value=\"\"" . get_selected($v,'');
+	$r .= ">[Filter off]</option>";
+	if ($l == '')
+		$sql = "select T2ID, T2Text from archivedtexts, tags2, archtexttags where T2ID = AgT2ID and AgAtID = AtID group by T2ID order by T2Text";
+	else
+		$sql = "select T2ID, T2Text from archivedtexts, tags2, archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $l . " group by T2ID order by T2Text";
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	while ($record = mysql_fetch_assoc($res)) {
+		$d = $record["T2Text"];
+		$r .= "<option value=\"" . $record["T2ID"] . "\"" . get_selected($v,$record["T2ID"]) . ">" . tohtml($d) . "</option>";
 	}
 	mysql_free_result($res);
 	return $r;
@@ -104,6 +164,58 @@ function saveWordTags($wid) {
 
 // -------------------------------------------------------------
 
+function saveTextTags($tid) {
+	runsql("DELETE from texttags WHERE TtTxID =" . $tid,'');
+	if (isset($_REQUEST['TextTags'])) {
+		if (is_array($_REQUEST['TextTags'])) {
+			if (isset($_REQUEST['TextTags']['TagList'])) {
+				if (is_array($_REQUEST['TextTags']['TagList'])) {
+					$cnt = count($_REQUEST['TextTags']['TagList']);
+					if ($cnt > 0 ) {
+						for ($i=0; $i<$cnt; $i++) {
+							$tag = $_REQUEST['TextTags']['TagList'][$i];
+							if(! in_array($tag, $_SESSION['TEXTTAGS'])) {
+								runsql('insert into tags2 (T2Text) values(' . 
+								convert_string_to_sqlsyntax($tag) . ')', "");
+							}
+							runsql('insert into texttags (TtTxID, TtT2ID) select ' . $tid . ', T2ID from tags2 where T2Text = ' . convert_string_to_sqlsyntax($tag), "");
+						}
+						get_texttags(1);  // refresh tags cache
+					}
+				}
+			}
+		}
+	}
+}
+
+// -------------------------------------------------------------
+
+function saveArchivedTextTags($tid) {
+	runsql("DELETE from archtexttags WHERE AgAtID =" . $tid,'');
+	if (isset($_REQUEST['TextTags'])) {
+		if (is_array($_REQUEST['TextTags'])) {
+			if (isset($_REQUEST['TextTags']['TagList'])) {
+				if (is_array($_REQUEST['TextTags']['TagList'])) {
+					$cnt = count($_REQUEST['TextTags']['TagList']);
+					if ($cnt > 0 ) {
+						for ($i=0; $i<$cnt; $i++) {
+							$tag = $_REQUEST['TextTags']['TagList'][$i];
+							if(! in_array($tag, $_SESSION['TEXTTAGS'])) {
+								runsql('insert into tags2 (T2Text) values(' . 
+								convert_string_to_sqlsyntax($tag) . ')', "");
+							}
+							runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $tid . ', T2ID from tags2 where T2Text = ' . convert_string_to_sqlsyntax($tag), "");
+						}
+						get_texttags(1);  // refresh tags cache
+					}
+				}
+			}
+		}
+	}
+}
+
+// -------------------------------------------------------------
+
 function getWordTags($wid) {
 	$r = '<ul id="termtags">';
 	if ($wid > 0) {
@@ -112,6 +224,40 @@ function getWordTags($wid) {
 		if ($res == FALSE) die("Invalid query: $sql");
 		while ($record = mysql_fetch_assoc($res)) {
 			$r .= '<li>' . tohtml($record["TgText"]) . '</li>';
+		}
+		mysql_free_result($res);
+	}
+	$r .= '</ul>';
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function getTextTags($tid) {
+	$r = '<ul id="texttags">';
+	if ($tid > 0) {
+		$sql = 'select T2Text from texttags, tags2 where T2ID = TtT2ID and TtTxID = ' . $tid . ' order by T2Text';
+		$res = mysql_query($sql);		
+		if ($res == FALSE) die("Invalid query: $sql");
+		while ($record = mysql_fetch_assoc($res)) {
+			$r .= '<li>' . tohtml($record["T2Text"]) . '</li>';
+		}
+		mysql_free_result($res);
+	}
+	$r .= '</ul>';
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function getArchivedTextTags($tid) {
+	$r = '<ul id="texttags">';
+	if ($tid > 0) {
+		$sql = 'select T2Text from archtexttags, tags2 where T2ID = AgT2ID and AgAtID = ' . $tid . ' order by T2Text';
+		$res = mysql_query($sql);		
+		if ($res == FALSE) die("Invalid query: $sql");
+		while ($record = mysql_fetch_assoc($res)) {
+			$r .= '<li>' . tohtml($record["T2Text"]) . '</li>';
 		}
 		mysql_free_result($res);
 	}
@@ -235,6 +381,7 @@ Developed by J. Pierre in 2011.
 	//<![CDATA[
 	<?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
 	<?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
+	<?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
 	//]]>
 	</script>
 	<script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
@@ -340,10 +487,13 @@ function quickMenu() {
 <option disabled="disabled">--------</option>
 <option value="edit_texts">Texts</option>
 <option value="edit_archivedtexts">Archive</option>
+<option value="edit_texttags">Text Tags</option>
 <option disabled="disabled">--------</option>
 <option value="edit_languages">Languages</option>
+<option disabled="disabled">--------</option>
 <option value="edit_words">Terms</option>
-<option value="edit_tags">Tags</option>
+<option value="edit_tags">Term Tags</option>
+<option disabled="disabled">--------</option>
 <option value="statistics">Statistics</option>
 <option disabled="disabled">--------</option>
 <option value="check_text">Text Check</option>

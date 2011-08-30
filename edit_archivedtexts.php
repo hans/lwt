@@ -122,6 +122,7 @@ elseif (isset($_REQUEST['op'])) {
 		'where AtID = ' . $_REQUEST["AtID"], "Updated");
 		$id = $_REQUEST["AtID"];
 	}
+	saveArchivedTextTags($id);
 	
 }
 
@@ -161,11 +162,15 @@ if (isset($_REQUEST['chg'])) {
 		</td>
 		</tr>
 		<tr>
+		<td class="td1 right">Tags:</td>
+		<td class="td1">
+		<?php echo getArchivedTextTags($_REQUEST['chg']); ?>
+		</td>
+		</tr>
+		<tr>
 		<td class="td1 right">Audio-URI:</td>
 		<td class="td1"><input type="text" name="AtAudioURI" value="<?php echo tohtml($record['AtAudioURI']); ?>" maxlength="200" size="60" />
-		<?php
-		echo selectmediapath('AtAudioURI');
-		?>
+		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
 		</td>
 		</tr>
 		<tr>
@@ -266,12 +271,12 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Mark</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
-<th class="th1 clickable">Title / Audio?</th>
+<th class="th1 clickable">Title [Tags] / Audio?</th>
 </tr>
 
 <?php
 
-$sql = 'select AtID, AtTitle, LgName, AtAudioURI from archivedtexts, languages where LgID=AtLgID ' . (($currentlang != '') ? (' and AtLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and AtTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '') . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select AtID, AtTitle, LgName, AtAudioURI, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((archivedtexts left JOIN archtexttags ON AtID = AgAtID) left join tags2 on T2ID = AgT2ID), languages where LgID=AtLgID ' . (($currentlang != '') ? (' and AtLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and AtTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '') . ' group by AtID order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
@@ -280,7 +285,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center"><a name="rec' . $record['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $record['AtID'] . '" ' . checkTest($record['AtID'], 'marked') . ' /></a></td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?unarch=' . $record['AtID'] . '"><img src="icn/inbox-upload.png" title="Unarchive" alt="Unarchive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['AtID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['AtID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' &nbsp;'  . (isset($record['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;'  . (isset($record['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . '</td>';
 	echo '</tr>';
 }
 mysql_free_result($res);
