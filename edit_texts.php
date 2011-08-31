@@ -40,6 +40,24 @@ $currentsort = processDBParam("sort",'currenttextsort','1',1);
 
 $currentpage = processSessParam("page","currenttextpage",'1',1);
 $currentquery = processSessParam("query","currenttextquery",'',0);
+$currenttag1 = validateTextTag(processSessParam("tag1","currenttexttag1",'',0),$currentlang);
+$currenttag2 = validateTextTag(processSessParam("tag2","currenttexttag2",'',0),$currentlang);
+$currenttag12 = processSessParam("tag12","currenttexttag12",'',0);
+
+$wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
+$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
+$wh_query = ($currentquery != '') ? (' and TxTitle like ' . $wh_query) : '';
+
+if ($currenttag1 == '' && $currenttag2 == '')
+	$wh_tag = '';
+else {
+	if ($currenttag1 != '' && $currenttag2 == '') 
+		$wh_tag = " having concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
+	elseif ($currenttag1 == '' && $currenttag2 != '') 
+		$wh_tag = " having concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
+	else 
+		$wh_tag = " having concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'" . ($currenttag12 ? ' and ' : ' or ') . "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
+}
 
 $no_pagestart = (getreq('markaction') == 'test' || substr(getreq('op'),-8) == 'and Open');
 
@@ -53,6 +71,7 @@ $message = '';
 
 if (isset($_REQUEST['markaction'])) {
 	$markaction = $_REQUEST['markaction'];
+	$actiondata = stripslashes(getreq('data'));
 	$message = "Multiple Actions: 0";
 	if (isset($_REQUEST['marked'])) {
 		if (is_array($_REQUEST['marked'])) {
@@ -70,6 +89,7 @@ if (isset($_REQUEST['markaction'])) {
 					adjust_autoincr('texts','TxID');
 					adjust_autoincr('sentences','SeID');
 					adjust_autoincr('textitems','TiID');
+					runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
 				} 
 				
 				elseif ($markaction == 'arch') {
@@ -141,6 +161,7 @@ if (isset($_REQUEST['del'])) {
 	adjust_autoincr('texts','TxID');
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
+	runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
 }
 
 // ARCH
@@ -151,11 +172,14 @@ elseif (isset($_REQUEST['arch'])) {
 	$message2 = runsql('delete from sentences where SeTxID = ' . $_REQUEST['arch'], 
 		"Sentences deleted");
 	$message4 = runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
+	$id = get_last_key();
+	runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from texttags where TtTxID = ' . $_REQUEST['arch'], "");	
 	$message1 = runsql('delete from texts where TxID = ' . $_REQUEST['arch'], "Texts deleted");
 	$message = $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
 	adjust_autoincr('texts','TxID');
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
+	runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
 }
 
 // INS/UPD
@@ -189,6 +213,7 @@ elseif (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
 			')', "Saved");
 			$id = get_last_key();
+			saveTextTags($id);
 		} 
 		
 		// UPDATE
@@ -201,6 +226,7 @@ elseif (isset($_REQUEST['op'])) {
 			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
 			'where TxID = ' . $_REQUEST["TxID"], "Updated");
 			$id = $_REQUEST["TxID"];
+			saveTextTags($id);
 		}
 		
 		$message2 = runsql('delete from sentences where SeTxID = ' . $id, 
@@ -253,6 +279,12 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1 right">Text:</td>
 	<td class="td1">
 	<textarea name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+	</td>
+	</tr>
+	<tr>
+	<td class="td1 right">Tags:</td>
+	<td class="td1">
+	<?php echo getTextTags(0); ?>
 	</td>
 	</tr>
 	<tr>
@@ -312,6 +344,12 @@ elseif (isset($_REQUEST['chg'])) {
 		</td>
 		</tr>
 		<tr>
+		<td class="td1 right">Tags:</td>
+		<td class="td1">
+		<?php echo getTextTags($_REQUEST['chg']); ?>
+		</td>
+		</tr>
+		<tr>
 		<td class="td1 right">Audio-URI:</td>
 		<td class="td1"><input type="text" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
 		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
@@ -341,7 +379,7 @@ else {
 
 	echo error_message_with_hide($message,0);
 	
-	$sql = 'select count(*) as value from texts where (1=1) ' . (($currentlang != '') ? (' and TxLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and TxTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '');
+	$sql = 'select count(*) as value from (select TxID from (texts left JOIN texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
 	$recno = get_first_value($sql);
 	if ($debug) echo $sql . ' ===&gt; ' . $recno;
 
@@ -376,10 +414,23 @@ Language:
 <select name="filterlang" onchange="{setLang(document.form1.filterlang,'edit_texts.php');}"><?php	echo get_languages_selectoptions($currentlang,'[Filter off]'); ?></select>
 </td>
 <td class="td1 center" colspan="2">
-Text Title:
+Text Title (Wildc.=*):
 <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value; location.href='edit_texts.php?page=1&amp;query=' + val;}" />&nbsp;
 <input type="button" value="Clear" onclick="{location.href='edit_texts.php?page=1&amp;query=';}" />
+</td>
+</tr>
+<tr>
+<td class="td1 center" colspan="2" nowrap="nowrap">
+Tag #1:
+<select name="tag1" onchange="{val=document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag1=' + val;}"><?php echo get_texttag_selectoptions($currenttag1,$currentlang); ?></select>
+</td>
+<td class="td1 center" nowrap="nowrap">
+Tag #1 .. <select name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag12=' + val;}"><?php echo get_andor_selectoptions($currenttag12); ?></select> .. Tag #2
+</td>
+<td class="td1 center" nowrap="nowrap">
+Tag #2:
+<select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag2=' + val;}"><?php echo get_texttag_selectoptions($currenttag2,$currentlang); ?></select>
 </td>
 </tr>
 <?php if($recno > 0) { ?>
@@ -421,7 +472,7 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
-<th class="th1 clickable">Title / Audio?</th>
+<th class="th1 clickable">Title [Tags] / Audio?</th>
 <th class="th1 sorttable_numeric clickable">Total<br />Words</th>
 <th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex</th>
 <th class="th1 sorttable_numeric clickable">Unkn.<br />Words</th>
@@ -430,7 +481,7 @@ Marked Texts:&nbsp;
 
 <?php
 
-$sql = 'select TxID, TxTitle, LgName, TxAudioURI from texts, languages where LgID=TxLgID ' . (($currentlang != '') ? (' and TxLgID=' . $currentlang) : '') . (($currentquery != '') ? (' and TxTitle like ' . convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')))) : '') . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select TxID, TxTitle, LgName, TxAudioURI, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((texts left JOIN texttags ON TxID = TtTxID) left join tags2 on T2ID = TtT2ID), languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
@@ -459,7 +510,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . '</td>';
 	if ($showCounts) {
 		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>'; 
 		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $record['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';

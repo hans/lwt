@@ -877,6 +877,20 @@ function validateArchTextTag($currenttag,$currentlang) {
 
 // -------------------------------------------------------------
 
+function validateTextTag($currenttag,$currentlang) {
+	if ($currenttag != '') {
+		if ($currentlang == '')
+			$sql = "select (" . $currenttag . " in (select T2ID from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by T2Text)) as value";
+		else
+			$sql = "select (" . $currenttag . " in (select T2ID from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $currentlang . " group by T2ID order by T2Text)) as value";
+		$r = get_first_value($sql);
+		if ( $r == 0 ) $currenttag = ''; 
+	}
+	return $currenttag;
+}
+
+// -------------------------------------------------------------
+
 function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1) {
 	$r = get_first_value("select ifnull(" . ($brack ? "concat('['," : "") . "group_concat(distinct TgText order by TgText separator ', ')" . ($brack ? ",']')" : "") . ",'') as value from ((words left join wordtags on WoID = WtWoID) left join tags on TgID = WtTgID) where WoID = " . $wid);
 	if ($r != '') $r = $before . $r;
