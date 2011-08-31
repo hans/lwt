@@ -280,7 +280,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center">' . tohtml($record['T2Text']) . '</td>';
 	echo '<td class="td1 center">' . tohtml($record['T2Comment']) . '</td>';
 	echo '<td class="td1 center">' . ($c > 0 ? '<a href="edit_texts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $c . '</a>' : '0' ) . '</td>';
-	echo '<td class="td1 center">' . ($c > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $c . '</a>' : '0' ) . '</td>';
+	echo '<td class="td1 center">' . ($ca > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $ca . '</a>' : '0' ) . '</td>';
 	echo '</tr>';
 }
 mysql_free_result($res);

@@ -24,8 +24,13 @@ $v = getreq('v');
 $u = getreq('u');
 
 if($k == 'currentlanguage') {
+
 	unset($_SESSION['currenttextpage']);
 	unset($_SESSION['currenttextquery']);
+	unset($_SESSION['currenttexttag1']);
+	unset($_SESSION['currenttexttag2']);
+	unset($_SESSION['currenttexttag12']);
+	
 	unset($_SESSION['currentwordpage']);
 	unset($_SESSION['currentwordquery']);
 	unset($_SESSION['currentwordstatus']);
@@ -33,8 +38,13 @@ if($k == 'currentlanguage') {
 	unset($_SESSION['currentwordtag1']);
 	unset($_SESSION['currentwordtag2']);
 	unset($_SESSION['currentwordtag12']);
+	
 	unset($_SESSION['currentarchivepage']);
 	unset($_SESSION['currentarchivequery']);
+	unset($_SESSION['currentarchivetexttag1']);
+	unset($_SESSION['currentarchivetexttag2']);
+	unset($_SESSION['currentarchivetexttag12']);
+	
 	saveSetting('currenttext','');
 }
 

@@ -32,29 +32,29 @@ var ol_closecolor = '#FFFFFF';
 Helper functions for overlib
 ***************************************************************/
 
-function run_overlib_status_98(wblink1,wblink2,wblink3,wblink4,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
+function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
 {
 	return overlib(
 		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
 		make_overlib_link_new_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
 		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9) + ' <br /> ' +
-		make_overlib_link_wb(wblink1,wblink2,wblink3,wblink4,txt,txid,torder), 
+		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder), 
 		CAPTION, 'Word');
 }
 
-function run_overlib_status_99(wblink1,wblink2,wblink3,wblink4,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
+function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
 {
 	return overlib(
 		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
 		make_overlib_link_new_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
 		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9) + ' <br /> ' +
-		make_overlib_link_wb(wblink1,wblink2,wblink3,wblink4,txt,txid,torder), 
+		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder), 
 		CAPTION, 'Word');
 }
 
-function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,wblink4,hints,txid,torder,txt,wid,stat,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
+function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
 {
 	return overlib(
 		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
@@ -62,11 +62,11 @@ function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,wblink4,hints,txid,to
 		make_overlib_link_edit_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
 		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9) + ' <br /> ' +
-		make_overlib_link_wb(wblink1,wblink2,wblink3,wblink4,txt,txid,torder),
+		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
 		CAPTION, 'Word');
 }
 
-function run_overlib_status_unknown(wblink1,wblink2,wblink3,wblink4,hints,txid,torder,txt,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
+function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,txt,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9)
 {
 	return overlib(
 		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
@@ -74,22 +74,22 @@ function run_overlib_status_unknown(wblink1,wblink2,wblink3,wblink4,hints,txid,t
 		make_overlib_link_wellknown_word(txid,torder) + ' <br /> ' +  
 		make_overlib_link_ignore_word(txid,torder) + 
 		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9) + ' <br /> ' +
-		make_overlib_link_wb(wblink1,wblink2,wblink3,wblink4,txt,txid,torder),
+		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
 		CAPTION, 'Word');
 }
 
-function run_overlib_multiword(wblink1,wblink2,wblink3,wblink4,hints,txid,torder,txt,wid,stat,wcnt)
+function run_overlib_multiword(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,wcnt)
 {
 	return overlib(
 		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid,torder,wid,stat) + ' <br /> ' +
 		make_overlib_link_edit_multiword(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_multiword(txid,wid) + ' <br /> ' +
-		make_overlib_link_wb(wblink1,wblink2,wblink3,wblink4,txt,txid,torder),
+		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
 		CAPTION, wcnt.trim() + '-Word-Expression');
 }
 
-function run_overlib_test(wblink1,wblink2,wblink3,wblink4,wid,txt,trans,roman,stat,sent,todo,oldstat)
+function run_overlib_test(wblink1,wblink2,wblink3,wid,txt,trans,roman,stat,sent,todo,oldstat)
 {
 	var s = parseInt(stat,10);
 	var c = s+1; 
@@ -133,7 +133,7 @@ function make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8
 	(mw9 != '' ? make_overlib_link_create_edit_multiword(9,txid,torder,mw9) : '') + ' ';
 }
 
-function make_overlib_link_wb(wblink1,wblink2,wblink3,wblink4,txt,txid,torder) {
+function make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder) {
 	var s =  
 	createTheDictLink(wblink1,txt,'Dict1','Lookup Term: ') +
 	createTheDictLink(wblink2,txt,'Dict2','') +
@@ -142,7 +142,7 @@ function make_overlib_link_wb(wblink1,wblink2,wblink3,wblink4,txt,txid,torder) {
 	return s;
 }
 
-function make_overlib_link_wbnl(wblink1,wblink2,wblink3,wblink4,txt,txid,torder) {
+function make_overlib_link_wbnl(wblink1,wblink2,wblink3,txt,txid,torder) {
 	var s =  
 	createTheDictLink(wblink1,txt,'Dict1','Term: ') +
 	createTheDictLink(wblink2,txt,'Dict2','') +
@@ -151,7 +151,7 @@ function make_overlib_link_wbnl(wblink1,wblink2,wblink3,wblink4,txt,txid,torder)
 	return s;
 }
 
-function make_overlib_link_wbnl2(wblink1,wblink2,wblink3,wblink4,txt,sent) {
+function make_overlib_link_wbnl2(wblink1,wblink2,wblink3,txt,sent) {
 	var s =  
 	createTheDictLink(wblink1,txt,'Dict1','Term: ') +
 	createTheDictLink(wblink2,txt,'Dict2','') +

@@ -48,7 +48,7 @@ $currenttag12 = processSessParam("tag12","currentwordtag12",'',0);
 
 $wh_lang = ($currentlang != '') ? (' and WoLgID=' . $currentlang ) : '';
 $wh_stat = ($currentstatus != '') ? (' and ' . makeStatusCondition('WoStatus', $currentstatus)) : '';
-$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",$currentquery));
+$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
 $wh_query = ($currentquery != '') ? (' and (WoText like ' . $wh_query . ' or WoRomanization like ' . $wh_query . ' or WoTranslation like ' . $wh_query . ')') : '';
 
 if ($currenttag1 == '' && $currenttag2 == '')

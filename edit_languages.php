@@ -78,12 +78,11 @@ elseif (isset($_REQUEST['op'])) {
 	// INSERT
 	
 	if ($_REQUEST['op'] == 'Save')
-		$message = runsql('insert into languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgGoogleTTSURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar) values(' . 
+		$message = runsql('insert into languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar) values(' . 
 		convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' .
 		convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', '. 
 		convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', '.
 		convert_string_to_sqlsyntax($_REQUEST["LgGoogleTranslateURI"]) . ', '.
-		convert_string_to_sqlsyntax($_REQUEST["LgGoogleTTSURI"]) . ', '.
 		$_REQUEST["LgTextSize"] . ', '.
 		convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgCharacterSubstitutions"]) . ', '.
 		convert_string_to_sqlsyntax($_REQUEST["LgRegexpSplitSentences"]) . ', '.
@@ -101,7 +100,6 @@ elseif (isset($_REQUEST['op'])) {
 		'LgDict1URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', ' .
 		'LgDict2URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', ' .
 		'LgGoogleTranslateURI = ' . convert_string_to_sqlsyntax($_REQUEST["LgGoogleTranslateURI"]) . ', ' .
-		'LgGoogleTTSURI = ' . convert_string_to_sqlsyntax($_REQUEST["LgGoogleTTSURI"]) . ', ' .
 		'LgTextSize = ' . $_REQUEST["LgTextSize"] . ', ' .
 		'LgCharacterSubstitutions = ' . convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgCharacterSubstitutions"]) . ', ' .
 		'LgRegexpSplitSentences = ' . convert_string_to_sqlsyntax($_REQUEST["LgRegexpSplitSentences"]) . ', ' .
@@ -121,7 +119,6 @@ if (isset($_REQUEST['new'])) {
 
 	<h4>New Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<input type="hidden" name="LgGoogleTTSURI" value="" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
@@ -192,7 +189,6 @@ elseif (isset($_REQUEST['chg'])) {
 		<h4>Edit Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="LgID" value="<?php echo $_REQUEST['chg']; ?>" />
-		<input type="hidden" name="LgGoogleTTSURI" value="<?php echo tohtml($record['LgGoogleTTSURI']); ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">ID:</td>

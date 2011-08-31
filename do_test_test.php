@@ -79,14 +79,13 @@ if ($count <= 0) {
 
 	$lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
 	
-	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgGoogleTTSURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters from languages where LgID = ' . $lang;
+	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	$record = mysql_fetch_assoc($res);
 	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 	$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
-	$wb4 = isset($record['LgGoogleTTSURI']) ? $record['LgGoogleTTSURI'] : "";
 	$textsize = $record['LgTextSize'];
 	$removeSpaces = $record['LgRemoveSpaces'];
 	$regexword = $record['LgRegexpWordCharacters'];
@@ -223,7 +222,6 @@ if ($count <= 0) {
 WBLINK1 = '<?php echo $wb1; ?>';
 WBLINK2 = '<?php echo $wb2; ?>';
 WBLINK3 = '<?php echo $wb3; ?>';
-WBLINK4 = '<?php echo $wb3; ?>';
 SOLUTION = <?php echo prepare_textdata_js ( $testtype==1 ? ( $nosent ? ($trans) : (' [' . $trans . '] ')) : $save ); ?>;
 OPENED = 0;
 WID = <?php echo $wid; ?>;

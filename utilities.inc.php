@@ -287,6 +287,26 @@ function addtaglist ($item, $list) {
 
 // -------------------------------------------------------------
 
+function addarchtexttaglist ($item, $list) {
+	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+	if (! isset($tagid)) {
+		runsql('insert into tags2 (T2Text) values(' . convert_string_to_sqlsyntax($item) . ')', "");
+		$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+	}
+	$sql = 'select AtID from archivedtexts where AtID in ' . $list;
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	$cnt = 0;
+	while ($record = mysql_fetch_assoc($res)) {
+		$cnt++;
+		runsql('insert into archtexttags (AgAtID, AgT2ID) values(' . $record['AtID'] . ', ' . $tagid . ')', "");
+	}
+	mysql_free_result($res);
+	return "Tag added in $cnt Texts";
+}
+
+// -------------------------------------------------------------
+
 function removetaglist ($item, $list) {
 	$tagid = get_first_value('select TgID as value from tags where TgText = ' . convert_string_to_sqlsyntax($item));
 	if (! isset($tagid)) return "Tag " . $ítem . " not found";
@@ -300,6 +320,23 @@ function removetaglist ($item, $list) {
 	}
 	mysql_free_result($res);
 	return "Tag removed in $cnt Terms";
+}
+
+// -------------------------------------------------------------
+
+function removearchtexttaglist ($item, $list) {
+	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+	if (! isset($tagid)) return "Tag " . $ítem . " not found";
+	$sql = 'select AtID from archivedtexts where AtID in ' . $list;
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid query: $sql");
+	$cnt = 0;
+	while ($record = mysql_fetch_assoc($res)) {
+		$cnt++;
+		runsql('delete from archtexttags where AgAtID = ' . $record['AtID'] . ' and AgT2ID = ' . $tagid, "");
+	}
+	mysql_free_result($res);
+	return "Tag removed in $cnt Texts";
 }
 
 // -------------------------------------------------------------
@@ -826,6 +863,20 @@ function validateTag($currenttag,$currentlang) {
 
 // -------------------------------------------------------------
 
+function validateArchTextTag($currenttag,$currentlang) {
+	if ($currenttag != '') {
+		if ($currentlang == '')
+			$sql = "select (" . $currenttag . " in (select T2ID from archivedtexts, tags2, archtexttags where T2ID = AgT2ID and AgAtID = AtID group by T2ID order by T2Text)) as value";
+		else
+			$sql = "select (" . $currenttag . " in (select T2ID from archivedtexts, tags2, archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $currentlang . " group by T2ID order by T2Text)) as value";
+		$r = get_first_value($sql);
+		if ( $r == 0 ) $currenttag = ''; 
+	}
+	return $currenttag;
+}
+
+// -------------------------------------------------------------
+
 function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1) {
 	$r = get_first_value("select ifnull(" . ($brack ? "concat('['," : "") . "group_concat(distinct TgText order by TgText separator ', ')" . ($brack ? ",']')" : "") . ",'') as value from ((words left join wordtags on WoID = WtWoID) left join tags on TgID = WtTgID) where WoID = " . $wid);
 	if ($r != '') $r = $before . $r;
@@ -1167,11 +1218,15 @@ function get_multipletextactions_selectoptions() {
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"test\">Test Marked Texts</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
-	$r .= "<option value=\"del\">Delete Marked Texts</option>";
-	$r .= "<option value=\"arch\">Archive Marked Texts</option>";
+	$r .= "<option value=\"addtag\">Add Tag</option>";
+	$r .= "<option value=\"deltag\">Remove Tag</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"rebuild\">Re-Parse Texts</option>";
 	$r .= "<option value=\"setsent\">Set Term Sentences</option>";
+	$r .= "<option disabled=\"disabled\">------------</option>";
+	$r .= "<option value=\"arch\">Archive Marked Texts</option>";
+	$r .= "<option disabled=\"disabled\">------------</option>";
+	$r .= "<option value=\"del\">Delete Marked Texts</option>";
 	return $r;
 }
 
@@ -1180,8 +1235,12 @@ function get_multipletextactions_selectoptions() {
 function get_multiplearchivedtextactions_selectoptions() {
 	$r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
-	$r .= "<option value=\"del\">Delete Marked Texts</option>";
+	$r .= "<option value=\"addtag\">Add Tag</option>";
+	$r .= "<option value=\"deltag\">Remove Tag</option>";
+	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"unarch\">Unarchive Marked Texts</option>";
+	$r .= "<option disabled=\"disabled\">------------</option>";
+	$r .= "<option value=\"del\">Delete Marked Texts</option>";
 	return $r;
 }
 

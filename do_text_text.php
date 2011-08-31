@@ -29,14 +29,13 @@ mysql_free_result($res);
 
 pagestart_nobody(tohtml($title));
 
-$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgGoogleTTSURI, LgTextSize, LgRemoveSpaces from languages where LgID = ' . $langid;
+$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces from languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
 $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
-$wb4 = isset($record['LgGoogleTTSURI']) ? $record['LgGoogleTTSURI'] : "";
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
 mysql_free_result($res);
@@ -52,7 +51,6 @@ OPENED = 0;
 WBLINK1 = '<?php echo $wb1; ?>';
 WBLINK2 = '<?php echo $wb2; ?>';
 WBLINK3 = '<?php echo $wb3; ?>';
-WBLINK4 = '<?php echo $wb3; ?>';
 TID = '<?php echo $_REQUEST['text']; ?>';
 ADDFILTER = '<?php echo makeStatusClassFilter(getSettingWithDefault('set-text-visit-statuses-via-key')); ?>';
 $(document).ready( function() {

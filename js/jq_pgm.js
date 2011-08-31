@@ -19,7 +19,6 @@ var TID = 0;
 var WBLINK1 = '';
 var WBLINK2 = '';
 var WBLINK3 = '';
-var WBLINK4 = '';
 var SOLUTION = '';
 var ADDFILTER = '';
  
@@ -116,7 +115,7 @@ function setTheFocus() {
 
 function word_click_event_do_test_test() {
 	run_overlib_test(
-		WBLINK1, WBLINK2, WBLINK3, WBLINK4,
+		WBLINK1, WBLINK2, WBLINK3, 
 		$(this).attr('data_wid'),
 		$(this).attr('data_text'),
 		$(this).attr('data_trans'),
@@ -192,7 +191,7 @@ function mword_each_do_text_text(i) {
 function word_click_event_do_text_text() {
 	var status = $(this).attr('data_status');
 	if ( status < 1 ) {
-		run_overlib_status_unknown(WBLINK1,WBLINK2,WBLINK3,WBLINK4,$(this).attr('title'),
+		run_overlib_status_unknown(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
 			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_mw2'),
 			$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),
 			$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),
@@ -201,19 +200,19 @@ function word_click_event_do_text_text() {
 			$(this).attr('data_order') + '&wid=';
 	}
 	else if ( status == 99 )
-		run_overlib_status_99(WBLINK1,WBLINK2,WBLINK3,WBLINK4,$(this).attr('title'),
+		run_overlib_status_99(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
 			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
 			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
 			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
 			$(this).attr('data_mw8'),$(this).attr('data_mw9'));
 	else if ( status == 98 )
-		run_overlib_status_98(WBLINK1,WBLINK2,WBLINK3,WBLINK4,$(this).attr('title'),
+		run_overlib_status_98(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
 			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
 			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
 			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
 			$(this).attr('data_mw8'),$(this).attr('data_mw9'));
 	else
-		run_overlib_status_1_to_5(WBLINK1,WBLINK2,WBLINK3,WBLINK4,$(this).attr('title'),
+		run_overlib_status_1_to_5(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
 			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,
 			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
 			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
@@ -224,7 +223,7 @@ function word_click_event_do_text_text() {
 function mword_click_event_do_text_text() {
 	var status = $(this).attr('data_status');
 	if (status != '') 
-		run_overlib_multiword(WBLINK1,WBLINK2,WBLINK3,WBLINK4,$(this).attr('title'),TID,
+		run_overlib_multiword(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),TID,
 		$(this).attr('data_order'),$(this).attr('data_text'),$(this).attr('data_wid'),
 		status,$(this).attr('data_code'));
 	return false;
