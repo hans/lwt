@@ -59,7 +59,7 @@ else {
 		$wh_tag = " having concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'" . ($currenttag12 ? ' and ' : ' or ') . "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
 }
 
-$no_pagestart = (getreq('markaction') == 'test' || substr(getreq('op'),-8) == 'and Open');
+$no_pagestart = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'),-8) == 'and Open');
 
 if (! $no_pagestart) {
 	pagestart('My ' . getLanguage($currentlang) . ' Texts',true);
@@ -93,15 +93,36 @@ if (isset($_REQUEST['markaction'])) {
 				} 
 				
 				elseif ($markaction == 'arch') {
-					$message3 = runsql('delete from textitems where TiTxID in ' . $list, "Text items deleted");
-					$message2 = runsql('delete from sentences where SeTxID in ' . $list, "Sentences deleted");
-					$message4 = runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID in ' . $list, "Archived Texts saved");
-					$message1 = runsql('delete from texts where TxID in ' . $list, "Texts deleted");
-					$message = $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
+					runsql('delete from textitems where TiTxID in ' . $list, "");
+					runsql('delete from sentences where SeTxID in ' . $list, "");
+					$count = 0;
+					$sql = "select TxID from texts where TxID in " . $list;
+					$res = mysql_query($sql);		
+					if ($res == FALSE) die("Invalid Query: $sql");
+					while ($record = mysql_fetch_assoc($res)) {
+						$id = $record['TxID'];
+						$count += (0 + runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $id, ""));
+						$aid = get_last_key();
+						runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from texttags where TtTxID = ' . $id, "");	
+					}
+					mysql_free_result($res);
+					$message = 'Text(s) archived: ' . $count;
+					runsql('delete from texts where TxID in ' . $list, "");
+					runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
 					adjust_autoincr('texts','TxID');
 					adjust_autoincr('sentences','SeID');
 					adjust_autoincr('textitems','TiID');
 				} 
+				
+				elseif ($markaction == 'addtag' ) {
+					$message = addtexttaglist($actiondata,$list);
+				}
+				
+				elseif ($markaction == 'deltag' ) {
+					$message = removetexttaglist($actiondata,$list);
+					header("Location: edit_texts.php");
+					exit();
+				}
 				
 				elseif ($markaction == 'setsent') {
 					$count = 0;

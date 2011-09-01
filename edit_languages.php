@@ -126,7 +126,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Dictionary 1 URI:</td>
-	<td class="td1"><input type="text" class="notempty" name="LgDict1URI" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="notempty" name="LgDict1URI" value="http://translate.google.com/?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Dictionary 2 URI:</td>
@@ -134,7 +134,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">GoogleTranslate URI:</td>
-	<td class="td1"><input type="text" name="LgGoogleTranslateURI" value="" maxlength="200" size="60" /></td>
+	<td class="td1"><input type="text" name="LgGoogleTranslateURI" value="http://translate.google.com/?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Text Size:</td>
@@ -142,7 +142,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Character Substitutions:</td>
-	<td class="td1"><input type="text" name="LgCharacterSubstitutions" value="´='|`='|’='|‘='|...=…|..=‥|»=|«=|“=|”=|„=|‟=|&quot;=" maxlength="500" size="60" /></td>
+	<td class="td1"><input type="text" name="LgCharacterSubstitutions" value="´='|`='|’='|‘='|...=…|..=‥" maxlength="500" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">RegExp Split Sentences:</td>
@@ -150,7 +150,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Exceptions Split Sentences:</td>
-	<td class="td1"><input type="text" name="LgExceptionsSplitSentences" value="[A-Z].|Dr." maxlength="500" size="60" /></td>
+	<td class="td1"><input type="text" name="LgExceptionsSplitSentences" value="Mr.|Dr.|[A-Z].|Vd.|Vds." maxlength="500" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">RegExp Word Characters:</td>
