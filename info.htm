@@ -197,7 +197,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.3.0 (September 07 2011)</b>.
+          <li>The current version is <b>1.3.0 (September 04 2011)</b>.
           </li>
 
           <li>
@@ -463,7 +463,7 @@ Developed by J. Pierre in 2011.
             Copyright © France Bienvenue, <a href="http://francebienvenue1.wordpress.com/2011/06/18/generosite/" target="_blank">Source</a>. License: "Bien sûr, les enseignants de FLE peuvent utiliser nos enregistrements et nos transcriptions pour leurs cours. Merci de mentionner notre site !".
             </li>
             
-            <li>Korean and Japanese - own creation from different sources, audio from Google TTS, in the Public Domain.
+            <li>Korean, Japanese, Thai, Hebrew - own creations from different sources.
             </li>
             
             </ul>
@@ -1106,7 +1106,9 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
               <li>"Make each character a word" is a special option for Chinese, etc. This makes EVERY character a single word (normally words are split by any non-word character or a space). See also <a href="#langsetup">this table</a>.<br /> <br /> 
               </li>
 
-              <li>"Remove spaces" is another option for Chinese, etc. It removes all spaces from the text (and the example sentences). See also <a href="#langsetup">this table</a>.
+              <li>"Remove spaces" is another option for Chinese, etc. It removes all spaces from the text (and the example sentences). See also <a href="#langsetup">this table</a>.<br /> <br />
+              </li>
+              <li>"Right-To-Left Script" must be set to "Yes" if the language/script is written from right to left, like Arabic, Hebrew, Farsi, Urdu, etc. 
               </li>
             </ul>
 
@@ -1156,7 +1158,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b><a name="howtolang" id="howtotext">New/Edit Text (with Check)</a></b>
             <br />
             <br />
-            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" sub directory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files. If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
+            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" sub directory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files, but be aware that not all browsers and/or operating systems support all media types! If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
             <br />
             <br />
             <img class="grayborder" src="img/05.png" alt="Image" />
@@ -1172,6 +1174,12 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <br />
             <br />
             <img class="grayborder" src="img/06.png" alt="Image" />
+            <br />
+            <br />
+            Reading a Right-To-Left Script (Hebrew):
+            <br />
+            <br />
+            <img class="grayborder" src="img/26.png" alt="Image" />
             <br />
             <br />
             With the checkbox [Show All] you can switch the display of text:
@@ -1636,12 +1644,8 @@ with audioplayer", if needed.</li>
           </li>
 
           <li>"Remove spaces" = "Yes" should only be set in Chinese, Japanese, and similar languages to remove whitespace that has been automatically or manually inserted to specify words.
-            <br />
-            <br />
           </li>
 
-          <li>Languages that are written from right to left (like Arabic, Hebrew, Farsi, Urdu - to name a few) are not supported in the moment. 
-          </li>
         </ul>
       </dd>
 
@@ -2038,11 +2042,11 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
 
-        	<li>1.3.0 (September 07 2011):
+        	<li>1.3.0 (September 04 2011):
         	Tagging of texts and archived texts introduced. With this feature, it will be easier to categorize and organize your texts. After having tagged your texts, you are able to filter texts according to one or two tags.<br />
-        	Rudimentary right-to-left (rtl) script support: new field in languages to set a language to right-to-left script, Hebrew example added, changed texts, terms, sentences with respect to rtl support. This needs further elaboration so don't expect too much! 
+        	Rudimentary right-to-left (rtl) script support: new db field in languages to set a language to right-to-left script, all relevant parts with respect to rtl support changed. A simple Hebrew example added to demonstrate rtl support.  
         	<br />
-        	Documentation and screenshots updated.
+        	Documentation, screenshots, Anki example file updated.
         	<br /><br />
         	</li>        	
         	
