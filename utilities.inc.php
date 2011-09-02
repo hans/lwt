@@ -1967,6 +1967,7 @@ function checkText($text, $lid) {
 	// echodebug($termchar,'$termchar');
 	$replace = explode("|",$record['LgCharacterSubstitutions']);
 	// echodebug($replace,'$replace');
+	$rtlScript = $record['LgRightToLeft'];
 	mysql_free_result($res);
 	// echodebug($text,'$text');
 	$s = prepare_textdata($text);
@@ -1982,7 +1983,7 @@ function checkText($text, $lid) {
 	// echodebug($s,'$s/4');
 	$s = preg_replace('/\s{2,}/u', ' ', $s);
 	// echodebug($s,'$s/5');
-	$r .= "<h4>Text</h4><p>" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
+	$r .= "<div style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
 
 	$s = str_replace('{', '[', $s);	// because of sent. spc. char
 	// echodebug($s,'$s/6');
@@ -2041,7 +2042,7 @@ function checkText($text, $lid) {
 	$r .= "<h4>Sentences</h4><ol>";
 	$sentNumber = 0;
 	foreach ($textLines as $value) { 
-		$r .= "<li>" . tohtml(remove_spaces($value, $removeSpaces)) . "</li>";
+		$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . tohtml(remove_spaces($value, $removeSpaces)) . "</li>";
 		$lineWords[$sentNumber] = preg_split('/([^' . $termchar . ']{1,})/u', $value, -1, PREG_SPLIT_DELIM_CAPTURE );
 		$l = count($lineWords[$sentNumber]);
 		for ($i=0; $i<$l; $i++) {
@@ -2075,9 +2076,9 @@ function checkText($text, $lid) {
 		if (! isset($trans)) $trans="";
 		if ($trans == "*") $trans="";
 		if ($trans != "") 
-			$r .= "<li><span class=\"red2\">[" . tohtml($key) . "] — " . $value[0] . " - " . tohtml(repl_tab_nl($trans)) . "</span></li>";
+			$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . "><span class=\"red2\">[" . tohtml($key) . "] — " . $value[0] . " - " . tohtml(repl_tab_nl($trans)) . "</span></li>";
 		else
-			$r .= "<li>[" . tohtml($key) . "] — " . $value[0] . "</li>";	
+			$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . ">[" . tohtml($key) . "] — " . $value[0] . "</li>";	
 		$anz++;
 	} 
 	$r .= "</ul><p>TOTAL: " . $anz . "</p><h4>Non-Word List</h4><ul>";
@@ -2088,7 +2089,7 @@ function checkText($text, $lid) {
 		$r .= "<li>[" . str_replace(" ", "<span class=\"backgray\">&nbsp;</span>", tohtml($key)) . "] — " . $value . "</li>";
 		$anz++;
 	} 
-	$r .=  "</ul><p>TOTAL: " . $anz . "</p>"; 
+	$r .=  "</ul><p>TOTAL: " . $anz . "</p></div>"; 
 
 	return $r;
 }
