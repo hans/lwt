@@ -52,6 +52,7 @@ OPENED = 0;
 WBLINK1 = '<?php echo $wb1; ?>';
 WBLINK2 = '<?php echo $wb2; ?>';
 WBLINK3 = '<?php echo $wb3; ?>';
+RTL = <?php echo $rtlScript; ?>;
 TID = '<?php echo $_REQUEST['text']; ?>';
 ADDFILTER = '<?php echo makeStatusClassFilter(getSettingWithDefault('set-text-visit-statuses-via-key')); ?>';
 $(document).ready( function() {

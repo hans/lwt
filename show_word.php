@@ -25,7 +25,7 @@ $wid = getreq('wid');
 
 if ($wid == '') die ('Word not found');
 
-$sql = 'select WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
+$sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 if ($record = mysql_fetch_assoc($res)) {
@@ -35,6 +35,7 @@ if ($record = mysql_fetch_assoc($res)) {
 	
 	$tags = getWordTagList($wid, '', 0, 0);
 	$rom = $record['WoRomanization'];
+	$scrdir = getScriptDirectionTag($record['WoLgID']);
 
 ?>
 
@@ -42,7 +43,7 @@ if ($record = mysql_fetch_assoc($res)) {
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr>
 <td class="td1 right" style="width:30px;">Term:</td>
-<td class="td1" style="font-size:120%;"><b><?php echo tohtml($record['WoText']); ?></b></td>
+<td class="td1" style="font-size:120%;" <? echo $scrdir; ?>><b><?php echo tohtml($record['WoText']); ?></b></td>
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
@@ -62,7 +63,7 @@ if ($record = mysql_fetch_assoc($res)) {
 <?php } ?>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
-<td class="td1"><?php echo tohtml($record['WoSentence']); ?></textarea></td>
+<td class="td1" <? echo $scrdir; ?>><?php echo tohtml($record['WoSentence']); ?></td>
 </tr>
 <tr>
 <td class="td1 right">Status:</td>

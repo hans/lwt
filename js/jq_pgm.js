@@ -21,6 +21,7 @@ var WBLINK2 = '';
 var WBLINK3 = '';
 var SOLUTION = '';
 var ADDFILTER = '';
+var RTL = 0;
  
 /**************************************************************
 LWT jQuery functions
@@ -195,7 +196,7 @@ function word_click_event_do_text_text() {
 			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_mw2'),
 			$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),
 			$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),
-			$(this).attr('data_mw9'));
+			$(this).attr('data_mw9'),RTL);
 		top.frames['ro'].location.href='edit_word.php?tid=' + TID + '&ord=' + 
 			$(this).attr('data_order') + '&wid=';
 	}
@@ -204,19 +205,19 @@ function word_click_event_do_text_text() {
 			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
 			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
 			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'));
+			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL);
 	else if ( status == 98 )
 		run_overlib_status_98(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
 			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
 			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
 			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'));
+			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL);
 	else
 		run_overlib_status_1_to_5(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
 			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,
 			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
 			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'));
+			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL);
 	return false;
 }
 	

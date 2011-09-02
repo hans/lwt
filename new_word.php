@@ -103,6 +103,7 @@ else {  // if (! isset($_REQUEST['op']))
 	$lang = getreq('lang') + 0;
 	$text = getreq('text') + 0;
 	pagestart_nobody('');
+	$scrdir = getScriptDirectionTag($lang);
 	
 ?>
 	
@@ -112,7 +113,7 @@ else {  // if (! isset($_REQUEST['op']))
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right"><b>New Term:</b></td>
-	<td class="td1"><input class="notempty setfocus" type="text" name="WoText" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input <? echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Translation:</td>
@@ -130,7 +131,7 @@ else {  // if (! isset($_REQUEST['op']))
 	</tr>
 	<tr>
 	<td class="td1 right">Sentence<br />Term in {...}:</td>
-	<td class="td1"><textarea name="WoSentence" cols="40" rows="3" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence"></textarea></td>
+	<td class="td1"><textarea <? echo $scrdir; ?> name="WoSentence" cols="40" rows="3" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Status:</td>
