@@ -1746,285 +1746,285 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
           <li>
-            <b>Table `settings` (Settings as Key-Value Pairs):</b>
+            <b>Table "settings" (Settings as Key-Value Pairs):</b>
             <br />
-            `StKey` varchar(40) NOT NULL,
+            StKey varchar(40) NOT NULL,
             <br />
-            `StValue` varchar(40) DEFAULT NULL,
+            StValue varchar(40) DEFAULT NULL,
             <br />
-            PRIMARY KEY (`StKey`)
-            <br />
-            <br />
-          </li>
-
-          <li>
-            <b>Table `languages` (Defined languages):</b>
-            <br />
-            `LgID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            `LgName` varchar(40) NOT NULL,
-            <br />
-            `LgDict1URI` varchar(200) NOT NULL,
-            <br />
-            `LgDict2URI` varchar(200) DEFAULT NULL,
-            <br />
-            `LgGoogleTranslateURI` varchar(200) DEFAULT NULL,
-            <br />
-            `LgGoogleTTSURI` varchar(200) DEFAULT NULL, -- NOT USED --
-            <br />
-            `LgTextSize` int(5) unsigned NOT NULL DEFAULT '100',
-            <br />
-            `LgCharacterSubstitutions` varchar(500) NOT NULL,
-            <br />
-            `LgRegexpSplitSentences` varchar(500) NOT NULL,
-            <br />
-            `LgExceptionsSplitSentences` varchar(500) NOT NULL,
-            <br />
-            `LgRegexpWordCharacters` varchar(500) NOT NULL,
-            <br />
-            `LgRemoveSpaces` int(1) unsigned NOT NULL DEFAULT '0',
-            <br />
-            `LgSplitEachChar` int(1) unsigned NOT NULL DEFAULT '0',
-            <br />
-            PRIMARY KEY (`LgID`),
-            <br />
-            UNIQUE KEY `LgName` (`LgName`)
+            PRIMARY KEY (StKey)
             <br />
             <br />
           </li>
 
           <li>
-            <b>Table `texts` (Active texts, parsed and cached in `sentences` and `textitems`):</b>
+            <b>Table "languages" (Defined languages):</b>
             <br />
-            `TxID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            LgID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            `TxLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
+            LgName varchar(40) NOT NULL,
             <br />
-            `TxTitle` varchar(200) NOT NULL,
+            LgDict1URI varchar(200) NOT NULL,
             <br />
-            `TxText` text NOT NULL,
+            LgDict2URI varchar(200) DEFAULT NULL,
             <br />
-            `TxAudioURI` varchar(200) DEFAULT NULL,
+            LgGoogleTranslateURI varchar(200) DEFAULT NULL,
             <br />
-            PRIMARY KEY (`TxID`),
+            LgTextSize int(5) unsigned NOT NULL DEFAULT '100',
             <br />
-            KEY `TxLgID` (`TxLgID`)
+            LgCharacterSubstitutions varchar(500) NOT NULL,
+            <br />
+            LgRegexpSplitSentences varchar(500) NOT NULL,
+            <br />
+            LgExceptionsSplitSentences varchar(500) NOT NULL,
+            <br />
+            LgRegexpWordCharacters varchar(500) NOT NULL,
+            <br />
+            LgRemoveSpaces int(1) unsigned NOT NULL DEFAULT '0',
+            <br />
+            LgSplitEachChar int(1) unsigned NOT NULL DEFAULT '0',
+            <br />
+            LgRightToLeft INT(1) UNSIGNED NOT NULL DEFAULT '0',
+            <br />
+            PRIMARY KEY (LgID),
+            <br />
+            UNIQUE KEY LgName (LgName)
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table "texts" (Active texts, parsed and cached in sentences and textitems):</b>
+            <br />
+            TxID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            TxLgID int(11) unsigned NOT NULL, -- LANGUAGE --
+            <br />
+            TxTitle varchar(200) NOT NULL,
+            <br />
+            TxText text NOT NULL,
+            <br />
+            TxAudioURI varchar(200) DEFAULT NULL,
+            <br />
+            PRIMARY KEY (TxID),
+            <br />
+            KEY TxLgID (TxLgID)
             <br />
             <br />
           </li>
           
           <li>
-            <b>Table `archivedtexts`: (Text Archive, not parsed and cached)</b>
+            <b>Table "archivedtexts" (Text Archive, not parsed and cached):</b>
             <br />
-            `AtID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            AtID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            `AtLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
+            AtLgID int(11) unsigned NOT NULL, -- LANGUAGE --
             <br />
-            `AtTitle` varchar(200) NOT NULL,
+            AtTitle varchar(200) NOT NULL,
             <br />
-            `AtText` text NOT NULL,
+            AtText text NOT NULL,
             <br />
-            `AtAudioURI` varchar(200) DEFAULT NULL,
+            AtAudioURI varchar(200) DEFAULT NULL,
             <br />
-            PRIMARY KEY (`AtID`),
+            PRIMARY KEY (AtID),
             <br />
-            KEY `AtLgID` (`AtLgID`)
-            <br />
-            <br />
-          </li>
-
-          <li>
-          	<b>Table `tags2` (Text tags and comments):</b>
-            <br />
-  					`T2ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-  					`T2Text` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-            <br />
-  					`T2Comment` varchar(200) NOT NULL,
-            <br />
-  					PRIMARY KEY (`T2ID`),
-            <br />
-  					UNIQUE KEY `T2Text` (`T2Text`)
+            KEY AtLgID (AtLgID)
             <br />
             <br />
           </li>
 
           <li>
-            <b>Table `texttags` (Text tags relations):</b>
+          	<b>Table "tags2" (Text tags and comments):</b>
             <br />
-						`TtTxID` int(11) unsigned NOT NULL, -- TEXT --
+  					T2ID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-						`TtT2ID` int(11) unsigned NOT NULL, -- TEXT TAG --
+  					T2Text varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
             <br />
-						PRIMARY KEY (`TtTxID`,`TtT2ID`),
+  					T2Comment varchar(200) NOT NULL,
             <br />
-						KEY `TtTxID` (`TtTxID`),
+  					PRIMARY KEY (T2ID),
             <br />
-						KEY `TtT2ID` (`TtT2ID`)
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table `archtexttags` (Archived text tags relations):</b>
-            <br />
-						`AgAtID` int(11) unsigned NOT NULL, -- ARCHIVED TEXT --
-            <br />
-						`AgT2ID` int(11) unsigned NOT NULL, -- TEXT TAG --
-            <br />
-						PRIMARY KEY (`AgAtID`,`AgT2ID`),
-            <br />
-						KEY `AgAtID` (`AgAtID`),
-            <br />
-						KEY `AgT2ID` (`AgT2ID`)
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table `words` (the words and expressions you have saved):</b>
-            <br />
-            `WoID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            `WoLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
-            <br />
-            `WoText` varchar(250) NOT NULL,
-            <br />
-            `WoTextLC` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-            <br />
-            `WoStatus` tinyint(4) NOT NULL,
-            <br />
-            `WoTranslation` varchar(500) NOT NULL DEFAULT '*',
-            <br />
-            `WoRomanization` varchar(100) DEFAULT NULL,
-            <br />
-            `WoSentence` varchar(1000) DEFAULT NULL,
-            <br />
-            `WoCreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            <br />
-            `WoStatusChanged` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-            <br />
-  					`WoTodayScore` double NOT NULL DEFAULT '0',
-            <br />
-  					`WoTomorrowScore` double NOT NULL DEFAULT '0',
-            <br />
-  					`WoRandom` double NOT NULL DEFAULT '0',            
-            <br />
-  					PRIMARY KEY (`WoID`),
-            <br />
-            UNIQUE KEY `WoLgIDTextLC` (`WoLgID`,`WoTextLC`),
-            <br />
-            KEY `WoLgID` (`WoLgID`),
-            <br />
-            KEY `WoStatus` (`WoStatus`),
-            <br />
-            KEY `WoTextLC` (`WoTextLC`),
-            <br />
-            KEY `WoTranslation` (`WoTranslation`),
-            <br />
-            KEY `WoCreated` (`WoCreated`),
-            <br />
-            KEY `WoStatusChanged` (`WoStatusChanged`),
-            <br />
-  					KEY `WoTodayScore` (`WoTodayScore`),
-            <br />
-  					KEY `WoTomorrowScore` (`WoTomorrowScore`),
-            <br />
-  					KEY `WoRandom` (`WoRandom`)
-  					<br />
-            <br />
-          </li>
-
-          <li>
-            <b>Table `tags` (Term tags and comments):</b>
-            <br />
-            `TgID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  					<br />
-						`TgText` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  					<br />
-  					`TgComment` varchar(200) NOT NULL,
-  					<br />
-  					PRIMARY KEY (`TgID`),
-  					<br />
-  					UNIQUE KEY `TgText` (`TgText`)
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table `wordtags` (Term tags relations):</b>
-            <br />
-						`WtWoID` int(11) unsigned NOT NULL, -- TERM --
-            <br />
-  					`WtTgID` int(11) unsigned NOT NULL, -- TERM TAG --
-            <br />
-  					PRIMARY KEY (`WtWoID`,`WtTgID`),
-            <br />
-  					KEY `WtTgID` (`WtTgID`),
-            <br />
-  					KEY `WtWoID` (`WtWoID`)
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table `sentences` (Sentences cache):</b>
-            <br />
-            `SeID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            `SeLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
-            <br />
-            `SeTxID` int(11) unsigned NOT NULL, -- TEXT --
-            <br />
-            `SeOrder` int(11) unsigned NOT NULL,
-            <br />
-            `SeText` text,
-            <br />
-            PRIMARY KEY (`SeID`),
-            <br />
-            KEY `SeLgID` (`SeLgID`),
-            <br />
-            KEY `SeTxID` (`SeTxID`),
-            <br />
-            KEY `SeOrder` (`SeOrder`)
+  					UNIQUE KEY T2Text (T2Text)
             <br />
             <br />
           </li>
 
           <li>
-            <b>Table `textitems` (Text items cache):</b>
+            <b>Table "texttags" (Text tags relations):</b>
             <br />
-            `TiID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+						TtTxID int(11) unsigned NOT NULL, -- TEXT --
             <br />
-            `TiLgID` int(11) unsigned NOT NULL, -- LANGUAGE --
+						TtT2ID int(11) unsigned NOT NULL, -- TEXT TAG --
             <br />
-            `TiTxID` int(11) unsigned NOT NULL, -- TEXT --
+						PRIMARY KEY (TtTxID,TtT2ID),
             <br />
-            `TiSeID` int(11) unsigned NOT NULL, -- SENTENCE --
+						KEY TtTxID (TtTxID),
             <br />
-            `TiOrder` int(11) unsigned NOT NULL,
+						KEY TtT2ID (TtT2ID)
+  					<br />
+  					<br />
+          </li>
+
+          <li>
+            <b>Table "archtexttags" (Archived text tags relations):</b>
             <br />
-            `TiWordCount` int(1) unsigned NOT NULL,
+						AgAtID int(11) unsigned NOT NULL, -- ARCHIVED TEXT --
             <br />
-            `TiText` varchar(250) NOT NULL,
+						AgT2ID int(11) unsigned NOT NULL, -- TEXT TAG --
             <br />
-            `TiTextLC` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+						PRIMARY KEY (AgAtID,AgT2ID),
             <br />
-            `TiIsNotWord` tinyint(1) NOT NULL,
+						KEY AgAtID (AgAtID),
             <br />
-            PRIMARY KEY (`TiID`),
+						KEY AgT2ID (AgT2ID)
+  					<br />
+  					<br />
+          </li>
+
+          <li>
+            <b>Table "words" (the words and expressions you have saved):</b>
             <br />
-            KEY `TiLgID` (`TiLgID`),
+            WoID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            KEY `TiTxID` (`TiTxID`),
+            WoLgID int(11) unsigned NOT NULL, -- LANGUAGE --
             <br />
-            KEY `TiSeID` (`TiSeID`),
+            WoText varchar(250) NOT NULL,
             <br />
-            KEY `TiOrder` (`TiOrder`),
+            WoTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
             <br />
-            KEY `TiTextLC` (`TiTextLC`),
+            WoStatus tinyint(4) NOT NULL,
             <br />
-            KEY `TiIsNotWord` (`TiIsNotWord`)
+            WoTranslation varchar(500) NOT NULL DEFAULT '*',
+            <br />
+            WoRomanization varchar(100) DEFAULT NULL,
+            <br />
+            WoSentence varchar(1000) DEFAULT NULL,
+            <br />
+            WoCreated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            <br />
+            WoStatusChanged timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+            <br />
+  					WoTodayScore double NOT NULL DEFAULT '0',
+            <br />
+  					WoTomorrowScore double NOT NULL DEFAULT '0',
+            <br />
+  					WoRandom double NOT NULL DEFAULT '0',            
+            <br />
+  					PRIMARY KEY (WoID),
+            <br />
+            UNIQUE KEY WoLgIDTextLC (WoLgID,WoTextLC),
+            <br />
+            KEY WoLgID (WoLgID),
+            <br />
+            KEY WoStatus (WoStatus),
+            <br />
+            KEY WoTextLC (WoTextLC),
+            <br />
+            KEY WoTranslation (WoTranslation),
+            <br />
+            KEY WoCreated (WoCreated),
+            <br />
+            KEY WoStatusChanged (WoStatusChanged),
+            <br />
+  					KEY WoTodayScore (WoTodayScore),
+            <br />
+  					KEY WoTomorrowScore (WoTomorrowScore),
+            <br />
+  					KEY WoRandom (WoRandom)
+  					<br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table "tags" (Term tags and comments):</b>
+            <br />
+            TgID int(11) unsigned NOT NULL AUTO_INCREMENT,
+  					<br />
+						TgText varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  					<br />
+  					TgComment varchar(200) NOT NULL,
+  					<br />
+  					PRIMARY KEY (TgID),
+  					<br />
+  					UNIQUE KEY TgText (TgText)
+  					<br />
+  					<br />
+          </li>
+
+          <li>
+            <b>Table "wordtags" (Term tags relations):</b>
+            <br />
+						WtWoID int(11) unsigned NOT NULL, -- TERM --
+            <br />
+  					WtTgID int(11) unsigned NOT NULL, -- TERM TAG --
+            <br />
+  					PRIMARY KEY (WtWoID,WtTgID),
+            <br />
+  					KEY WtTgID (WtTgID),
+            <br />
+  					KEY WtWoID (WtWoID)
+  					<br />
+  					<br />
+          </li>
+
+          <li>
+            <b>Table "sentences" (Sentences cache):</b>
+            <br />
+            SeID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            SeLgID int(11) unsigned NOT NULL, -- LANGUAGE --
+            <br />
+            SeTxID int(11) unsigned NOT NULL, -- TEXT --
+            <br />
+            SeOrder int(11) unsigned NOT NULL,
+            <br />
+            SeText text,
+            <br />
+            PRIMARY KEY (SeID),
+            <br />
+            KEY SeLgID (SeLgID),
+            <br />
+            KEY SeTxID (SeTxID),
+            <br />
+            KEY SeOrder (SeOrder)
+            <br />
+            <br />
+          </li>
+
+          <li>
+            <b>Table "textitems" (Text items cache):</b>
+            <br />
+            TiID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            TiLgID int(11) unsigned NOT NULL, -- LANGUAGE --
+            <br />
+            TiTxID int(11) unsigned NOT NULL, -- TEXT --
+            <br />
+            TiSeID int(11) unsigned NOT NULL, -- SENTENCE --
+            <br />
+            TiOrder int(11) unsigned NOT NULL,
+            <br />
+            TiWordCount int(1) unsigned NOT NULL,
+            <br />
+            TiText varchar(250) NOT NULL,
+            <br />
+            TiTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+            <br />
+            TiIsNotWord tinyint(1) NOT NULL,
+            <br />
+            PRIMARY KEY (TiID),
+            <br />
+            KEY TiLgID (TiLgID),
+            <br />
+            KEY TiTxID (TiTxID),
+            <br />
+            KEY TiSeID (TiSeID),
+            <br />
+            KEY TiOrder (TiOrder),
+            <br />
+            KEY TiTextLC (TiTextLC),
+            <br />
+            KEY TiIsNotWord (TiIsNotWord)
           </li>
         </ul>
       </dd>

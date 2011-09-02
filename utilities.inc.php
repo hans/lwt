@@ -2432,19 +2432,25 @@ function check_update_db() {
 			runsql("UPDATE words SET " . make_score_random_insert_update('u'),'');
 		}
 		if ($currversion > 'v001001001') {
+			if ($debug) echo '<p>DEBUG: Doing db-upgrade ' . $currversion . ' &gt; v001001001</p>';
 			// updates for all versions > 1.1.1 : 
 			// New: Table "tags", created above
 			// New: Table "wordtags", created above
+		}
+		if ($currversion > 'v001002002') {
+			if ($debug) echo '<p>DEBUG: Doing db-upgrade ' . $currversion . ' &gt; v001002002</p>';
 			// updates for all versions > 1.2.2 :
 			// New: Table "tags2", created above
 			// New: Table "texttags", created above
 			// New: Table "archtexttags", created above
+			runsql("ALTER TABLE languages ADD LgRightToLeft INT(1) UNSIGNED NOT NULL DEFAULT  0",'');
+			runsql("ALTER TABLE languages DROP LgGoogleTTSURI",'');
 		}
 		// set to current.
 		saveSetting('dbversion',$currversion);
 	}
 	
-	// Do Scoring once per day, clean Wordtags, and optimize db
+	// Do Scoring once per day, clean Word/Texttags, and optimize db
 	
 	$lastscorecalc = getSetting('lastscorecalc');
 	$today = date('Y-m-d');
