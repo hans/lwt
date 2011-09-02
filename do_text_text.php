@@ -29,7 +29,7 @@ mysql_free_result($res);
 
 pagestart_nobody(tohtml($title));
 
-$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces from languages where LgID = ' . $langid;
+$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -38,6 +38,7 @@ $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
+$rtlScript = $record['LgRightToLeft'];
 mysql_free_result($res);
 
 $showAll = getSetting('showallwords');
@@ -64,7 +65,7 @@ $(document).ready( function() {
 </script>
 <?php
 
-echo '<div id="thetext"><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
+echo '<div id="thetext" ' .  ($rtlScript ? 'dir="rtl"' : '') . '><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
 'font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 10px;">';
 
 $sql = 'select TiWordCount as Code, TiText, TiTextLC, TiOrder, TiIsNotWord, WoID, WoText, WoTextLC, WoStatus, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder asc, TiWordCount desc';

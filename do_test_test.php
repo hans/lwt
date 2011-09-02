@@ -79,7 +79,7 @@ if ($count <= 0) {
 
 	$lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
 	
-	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters from languages where LgID = ' . $lang;
+	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	$record = mysql_fetch_assoc($res);
@@ -89,6 +89,7 @@ if ($count <= 0) {
 	$textsize = $record['LgTextSize'];
 	$removeSpaces = $record['LgRemoveSpaces'];
 	$regexword = $record['LgRegexpWordCharacters'];
+	$rtlScript = $record['LgRightToLeft'];
 	$langname = $record['LgName'];
 	mysql_free_result($res);
 	
@@ -177,7 +178,7 @@ if ($count <= 0) {
 		$cleansent = trim(str_replace("{", '', str_replace("}", '', $sent)));
 		// echo $cleansent;
 		
-		echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.4; text-align:center; margin-bottom:300px;">';
+		echo '<p ' . ($rtlScript ? 'dir="rtl"' : '') . ' style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.4; text-align:center; margin-bottom:300px;">';
 		$l = mb_strlen($sent,'utf-8');
 		$r = '';
 		$save = '';
@@ -191,7 +192,7 @@ if ($count <= 0) {
 				$r .= '>';
 				if ($testtype == 2) {
 					if ($nosent) $r .= tohtml($trans);
-					else $r .= '[' . tohtml($trans) . ']';
+					else $r .= '<span dir="ltr">[' . tohtml($trans) . ']</span>';
 				}
 				elseif ($testtype == 3) 
 					$r .= tohtml(str_replace("{", '[', str_replace("}", ']', 

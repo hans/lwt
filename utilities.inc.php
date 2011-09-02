@@ -1923,6 +1923,19 @@ function getLanguage($lid) {
 
 // -------------------------------------------------------------
 
+function getScriptDirectionTag($lid) {
+	if ( ! isset($lid) ) return '';
+	if ( trim($lid) == '' ) return '';
+	if ( ! is_numeric($lid) ) return '';
+	$r = get_first_value("select LgRightToLeft as value from languages where LgID='" . $lid . "'");
+	if ( isset($r) ) {
+		if ($r) return ' dir="rtl" '; 
+	}
+	return '';
+}
+
+// -------------------------------------------------------------
+
 function echodebug($var,$text) {
 	global $debug;
 	if (! $debug ) return;
@@ -2444,7 +2457,6 @@ function check_update_db() {
 			// New: Table "texttags", created above
 			// New: Table "archtexttags", created above
 			runsql("ALTER TABLE languages ADD LgRightToLeft INT(1) UNSIGNED NOT NULL DEFAULT  0",'');
-			runsql("ALTER TABLE languages DROP LgGoogleTTSURI",'');
 		}
 		// set to current.
 		saveSetting('dbversion',$currversion);

@@ -78,7 +78,7 @@ elseif (isset($_REQUEST['op'])) {
 	// INSERT
 	
 	if ($_REQUEST['op'] == 'Save')
-		$message = runsql('insert into languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar) values(' . 
+		$message = runsql('insert into languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft) values(' . 
 		convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' .
 		convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', '. 
 		convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', '.
@@ -89,7 +89,8 @@ elseif (isset($_REQUEST['op'])) {
 		convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgExceptionsSplitSentences"]) . ', '.
 		convert_string_to_sqlsyntax($_REQUEST["LgRegexpWordCharacters"]) . ', '.
 		$_REQUEST["LgRemoveSpaces"] . ', '.
-		$_REQUEST["LgSplitEachChar"] . 
+		$_REQUEST["LgSplitEachChar"] . ', '.
+		$_REQUEST["LgRightToLeft"] . 
 		')', 'Saved');
 	
 	// UPDATE
@@ -106,7 +107,8 @@ elseif (isset($_REQUEST['op'])) {
 		'LgExceptionsSplitSentences = ' . convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgExceptionsSplitSentences"]) . ', ' .
 		'LgRegexpWordCharacters = ' . convert_string_to_sqlsyntax($_REQUEST["LgRegexpWordCharacters"]) . ', ' .
 		'LgRemoveSpaces = ' . $_REQUEST["LgRemoveSpaces"] . ', ' .
-		'LgSplitEachChar = ' . $_REQUEST["LgSplitEachChar"] . 
+		'LgSplitEachChar = ' . $_REQUEST["LgSplitEachChar"] . ', ' . 
+		'LgRightToLeft = ' . $_REQUEST["LgRightToLeft"] . 
 		' where LgID = ' . $_REQUEST["LgID"], 'Updated');
 
 }
@@ -163,6 +165,10 @@ if (isset($_REQUEST['new'])) {
 	<tr>
 	<td class="td1 right">Remove spaces:</td>
 	<td class="td1"><select name="LgRemoveSpaces"><?php echo get_yesno_selectoptions(0); ?></select> (e.g. for Chinese, Japanese, etc.)</td>
+	</tr>
+	<tr>
+	<td class="td1 right">Right-To-Left Script:</td>
+	<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions(0); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu, etc.)</td>
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
@@ -237,6 +243,10 @@ elseif (isset($_REQUEST['chg'])) {
 		<tr>
 		<td class="td1 right">Remove spaces:</td>
 		<td class="td1"><select name="LgRemoveSpaces"><?php echo get_yesno_selectoptions($record['LgRemoveSpaces']); ?></select> (e.g. for Chinese, Japanese, etc.)</td>
+		</tr>
+		<tr>
+		<td class="td1 right">Right-To-Left Script:</td>
+		<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions($record['LgRightToLeft']); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu,  etc.)</td>
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 

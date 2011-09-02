@@ -38,7 +38,7 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
 			if ($show_rom  && (! $show_trans)) 
 				echo '<span class="annrom">' . tohtml($saverom) . '</span> ';
 			if ($show_rom && $show_trans) 
-				echo '<span class="annrom">[' . tohtml($saverom) . ']</span> ';
+				echo '<span class="annrom" dir="ltr">[' . tohtml($saverom) . ']</span> ';
 			echo ' <span class="annterm">';
 		}	
 		echo tohtml($saveterm);
@@ -53,7 +53,7 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
 			if ($show_rom  && (! $show_trans)) 
 				echo '<span class="annrom">' . tohtml($saverom) . '</span>';
 			if ($show_rom && $show_trans) 
-				echo '<span class="annrom">[' . tohtml($saverom) . ']</span> ';
+				echo '<span class="annrom" dir="ltr">[' . tohtml($saverom) . ']</span> ';
 			if ($show_trans) 
 				echo '<span class="anntrans">' . tohtml($savetrans) . '</span>';
 			echo ' ';
@@ -91,12 +91,13 @@ $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysql_free_result($res);
 
-$sql = 'select LgTextSize, LgRemoveSpaces from languages where LgID = ' . $langid;
+$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
+$rtlScript = $record['LgRightToLeft'];
 mysql_free_result($res);
 
 saveSetting('currenttext',$textid);
@@ -149,7 +150,7 @@ the term.<br />
 </p>
 </div> <!-- noprint -->
 
-<div id="print">
+<div id="print" <?php echo ($rtlScript ? 'dir="rtl"' : ''); ?> >
 <?php
 
 echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
