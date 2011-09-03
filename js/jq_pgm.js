@@ -244,7 +244,7 @@ function keydown_event_do_text_text(e) {
 		$('span.uwordmarked').removeClass('uwordmarked');
 		var unknownwordlist = $('span.status0.word:not(.hide):first');
 		if (unknownwordlist.size() == 0) return false;
-		$(window).scrollTo(unknownwordlist,{axis:'y', offset:-50});
+		$(window).scrollTo(unknownwordlist,{axis:'y', offset:-150});
 		unknownwordlist.addClass('uwordmarked').click();
 		cClick();
 		return false;
@@ -260,7 +260,7 @@ function keydown_event_do_text_text(e) {
 		TEXTPOS = 0;
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
-		$(window).scrollTo(curr,{axis:'y', offset:-50});
+		$(window).scrollTo(curr,{axis:'y', offset:-150});
 		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
 		return false;
 	}
@@ -269,7 +269,7 @@ function keydown_event_do_text_text(e) {
 		TEXTPOS = l_knownwordlist-1;
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
-		$(window).scrollTo(curr,{axis:'y', offset:-50});
+		$(window).scrollTo(curr,{axis:'y', offset:-150});
 		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
 		return false;
 	}
@@ -279,7 +279,7 @@ function keydown_event_do_text_text(e) {
 		if (TEXTPOS < 0) TEXTPOS = l_knownwordlist - 1;
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
-		$(window).scrollTo(curr,{axis:'y', offset:-50});
+		$(window).scrollTo(curr,{axis:'y', offset:-150});
 		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
 		return false;
 	}
@@ -289,7 +289,7 @@ function keydown_event_do_text_text(e) {
 		if (TEXTPOS >= l_knownwordlist) TEXTPOS = 0;
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
-		$(window).scrollTo(curr,{axis:'y', offset:-50});
+		$(window).scrollTo(curr,{axis:'y', offset:-150});
 		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
 ;
 		return false;
