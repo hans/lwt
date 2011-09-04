@@ -28,7 +28,7 @@ $message = '';
 if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) { 
 	$p = "selection=" . $_REQUEST['selection']; 
 	$testsql = $_SESSION['testsql'];
-	$totalcount = get_first_value('select count(WoID) as value from ' . $testsql);
+	$totalcount = get_first_value('select count(distinct WoID) as value from ' . $testsql);
 	$title = 'Selected ' . $totalcount . ' Term' . ($totalcount==1 ? '' : 's');
 	$cntlang = get_first_value('select count(distinct WoLgID) as value from ' . $testsql);
 	if ($cntlang > 1) 
