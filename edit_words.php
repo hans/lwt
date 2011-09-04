@@ -124,6 +124,15 @@ if (isset($_REQUEST['markaction'])) {
 				elseif ($markaction == 'today' ) {
 					$message = runsql('update words set WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID in ' . $list, "Updated Status Date (= Now)");
 				}
+				elseif ($markaction == 'delsent' ) {
+					$message = runsql('update words set WoSentence = NULL where WoID in ' . $list, "Term Sentence(s) deleted");
+				}
+				elseif ($markaction == 'lower' ) {
+					$message = runsql('update words set WoText = WoTextLC where WoID in ' . $list, "Term(s) set to lowercase");
+				}
+				elseif ($markaction == 'cap' ) {
+					$message = runsql('update words set WoText = CONCAT(UPPER(LEFT(WoTextLC,1)),SUBSTRING(WoTextLC,2)) where WoID in ' . $list, "Term(s) capitalized");
+				}
 				elseif ($markaction == 'exp' ) {
 					anki_export('select distinct WoID, LgRightToLeft, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence from words, languages where WoLgID = LgID AND WoTranslation != \'\' AND WoTranslation != \'*\' and WoSentence like concat(\'%{\',WoText,\'}%\') and WoID in ' . $list);
 				}
@@ -146,7 +155,7 @@ if (isset($_REQUEST['markaction'])) {
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
 	$actiondata = stripslashes(getreq('data'));
-	if ($allaction == 'delall' || $allaction == 'spl1all' || $allaction == 'smi1all' || $allaction == 's5all' || $allaction == 's1all' || $allaction == 's99all' || $allaction == 's98all' || $allaction == 'todayall' || $allaction == 'addtagall' || $allaction == 'deltagall') {
+	if ($allaction == 'delall' || $allaction == 'spl1all' || $allaction == 'smi1all' || $allaction == 's5all' || $allaction == 's1all' || $allaction == 's99all' || $allaction == 's98all' || $allaction == 'todayall' || $allaction == 'addtagall' || $allaction == 'deltagall' || $allaction == 'delsentall' || $allaction == 'lowerall' || $allaction == 'capall') {
 		if ($currenttext == '') {
 			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag;
 		} else {
@@ -190,6 +199,15 @@ if (isset($_REQUEST['allaction'])) {
 			elseif ($allaction == 'todayall' ) {
 				$message = runsql('update words set WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $id, "");
 			}
+			elseif ($allaction == 'delsentall' ) {
+				$message = runsql('update words set WoSentence = NULL where WoID = ' . $id, "");
+			}
+			elseif ($allaction == 'lowerall' ) {
+				$message = runsql('update words set WoText = WoTextLC where WoID = ' . $id, "");
+			}
+			elseif ($allaction == 'capall' ) {
+				$message = runsql('update words set WoText = CONCAT(UPPER(LEFT(WoTextLC,1)),SUBSTRING(WoTextLC,2)) where WoID = ' . $id, "");
+			}
 			$cnt += (int)$message;
 		}
 		mysql_free_result($res);
@@ -204,7 +222,7 @@ if (isset($_REQUEST['allaction'])) {
 			adjust_autoincr('words','WoID');
 			runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
 		}	else {
-			$message = "Status changed in $cnt Terms";
+			$message = "$cnt Terms changed";
 		}
 	}
 

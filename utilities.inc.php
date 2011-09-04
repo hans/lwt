@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.3.0 (September 03 2011)'  . 
+	return '1.3.1 (September 05 2011)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1201,6 +1201,10 @@ function get_multiplewordsactions_selectoptions() {
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"today\">Set Status Date to Today</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
+	$r .= "<option value=\"lower\">Set Marked Terms to Lowercase</option>";
+	$r .= "<option value=\"cap\">Capitalize Marked Terms</option>";
+	$r .= "<option value=\"delsent\">Delete Sentences of Marked Terms</option>";
+	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"addtag\">Add Tag</option>";
 	$r .= "<option value=\"deltag\">Remove Tag</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
@@ -1235,6 +1239,10 @@ function get_allwordsactions_selectoptions() {
 	$r .= get_set_status_option(98, "all");
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"todayall\">Set Status Date to Today</option>";
+	$r .= "<option disabled=\"disabled\">------------</option>";
+	$r .= "<option value=\"lowerall\">Set ALL Terms to Lowercase</option>";
+	$r .= "<option value=\"capall\">Capitalize ALL Terms</option>";
+	$r .= "<option value=\"delsentall\">Delete Sentences of ALL Terms</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"addtagall\">Add Tag</option>";
 	$r .= "<option value=\"deltagall\">Remove Tag</option>";
