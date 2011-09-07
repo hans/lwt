@@ -15,7 +15,8 @@ Call: mobile.php?...
 			...action=1&lang=[langid] ... Language menu
 			...action=2&lang=[langid] ... Texts in a language
 			...action=3&lang=[langid]&text=[textid] ... Sentences of a text
-			...action=4&lang=[langid]&text=[textid]&sent=[sentid] ... Words of a sentence
+			...action=4&lang=[langid]&text=[textid]&sent=[sentid] ... Terms of a sentence
+			...action=5&lang=[langid]&text=[textid]&sent=[sentid] ... Terms of a sentence (next sent)
 LWT Mobile 
 ***************************************************************/
 
@@ -139,22 +140,31 @@ if (isset($_REQUEST["action"])) {  // Action
 	
 	/* -------------------------------------------------------- */
 	
-	elseif ($action == 4) { 
+	elseif ($action == 4 || $action == 5) { 
 	
 		$lang = $_REQUEST["lang"];
 		$text = $_REQUEST["text"];
 		$sent = $_REQUEST["sent"];
 		$senttext = get_first_value('select SeText as value from sentences where SeID = ' . $sent);
+		$nextsent = get_first_value('select SeID as value from sentences where SeTxID = ' . $text . ' and trim(SeText) != \'¶\' and SeID > ' . $sent . ' order by SeID limit 1');
 		$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = ' . $sent . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
-
+		
+		if ($action == 4) {
 		?>
 
 		<ul id="<?php echo $action . '-' . $sent; ?>" title="<?php echo tohtml($senttext); ?>">
+		
+		<?php
+		
+		}
+		
+		?>
+		
 		<li class="group">Sentence</li>
 		<li><?php echo tohtml($senttext); ?></li>
-		<li class="group">Words</li>
+		<li class="group">Terms</li>
 
 		<?php
 		
@@ -204,16 +214,26 @@ if (isset($_REQUEST["action"])) {  // Action
 			echo '<li><span class="status' . $savestat . '">' . tohtml($saveterm) . '</span>' . 
 				tohtml($desc != '' ? ' → ' . $desc : '') . '</li>';	
 		}
+		
+		if (isset($nextsent)) {
+			echo '<li><a target="_replace" href="mobile.php?action=5&amp;lang=' . 
+				$lang . '&amp;text=' . $text . 
+				'&amp;sent=' . $nextsent . '">Next Sentence</a></li>';
+		}
 
+		if ($action == 4) {
+		
 		?>
 		
 		</ul>
 
 		<?php
 		
+		}
+		
 		mysql_free_result($res);
 	
-	} // $action == 4
+	} // $action == 4 / 5
 	
 	/* -------------------------------------------------------- */
 	
@@ -272,7 +292,7 @@ span.status5 {
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	while ($record = mysql_fetch_assoc($res)) {
-		echo '<li><a href="mobile.php?action=1&amp;lang=' . $record["LgID"] . '">' .
+		echo '<li><a href="mobile.php?action=2&amp;lang=' . $record["LgID"] . '">' .
 			tohtml($record["LgName"]) . '</a></li>';	
 	}
 	mysql_free_result($res);
