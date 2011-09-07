@@ -15,6 +15,7 @@ Call: mobile.php?...
 			...action=1&lang=[langid] ... Language menu
 			...action=2&lang=[langid] ... Texts in a language
 			...action=3&lang=[langid]&text=[textid] ... Sentences of a text
+			...action=4&lang=[langid]&text=[textid]&sent=[sentid] ... Words of a sentence
 LWT Mobile 
 ***************************************************************/
 
@@ -95,7 +96,9 @@ if (isset($_REQUEST["action"])) {  // Action
 
 		?>
 
-		<ul id="<?php echo $action . '-' . $_REQUEST["text"]; ?>" title="<?php echo tohtml($texttitle); ?>">
+		<ul id="<?php echo $action . '-' . $text; ?>" title="<?php echo tohtml($texttitle); ?>">
+		<li class="group">Title</li>
+		<li><?php echo tohtml($texttitle); ?></li>
 
 		<?php
 
@@ -118,7 +121,9 @@ if (isset($_REQUEST["action"])) {  // Action
 		
 		while ($record = mysql_fetch_assoc($res)) {
 			if (trim($record["SeText"]) != '¶')
-			 echo '<li><a href="mobile.php#notyetimpl">' .
+			 echo '<li><a href="mobile.php?action=4&amp;lang=' . 
+				$lang . '&amp;text=' . $text . 
+				'&amp;sent=' . $record["SeID"] . '">' .
 				tohtml($record["SeText"]) . '</a></li>';	
 		}
 
@@ -131,6 +136,84 @@ if (isset($_REQUEST["action"])) {  // Action
 		mysql_free_result($res);
 	
 	} // $action == 3
+	
+	/* -------------------------------------------------------- */
+	
+	elseif ($action == 4) { 
+	
+		$lang = $_REQUEST["lang"];
+		$text = $_REQUEST["text"];
+		$sent = $_REQUEST["sent"];
+		$senttext = get_first_value('select SeText as value from sentences where SeID = ' . $sent);
+		$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = ' . $sent . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+		$res = mysql_query($sql);		
+		if ($res == FALSE) die("Invalid Query: $sql");
+
+		?>
+
+		<ul id="<?php echo $action . '-' . $sent; ?>" title="<?php echo tohtml($senttext); ?>">
+		<li class="group">Sentence</li>
+		<li><?php echo tohtml($senttext); ?></li>
+		<li class="group">Words</li>
+
+		<?php
+		
+		$saveterm = '';
+		$savetrans = '';
+		$saverom = '';
+		$savestat = '';
+		$until = 0;
+		while ($record = mysql_fetch_assoc($res)) {
+			$actcode = $record['Code'] + 0;
+			$order = $record['TiOrder'] + 0;
+			
+			if ( $order <= $until ) {
+				continue;
+			}
+			if ( $order > $until ) {
+				if (trim($saveterm) != '') {
+					$desc = trim(($saverom != '' ? '[' . $saverom . '] ' : '') . $savetrans);
+					echo '<li><span class="status' . $savestat . '">' . tohtml($saveterm) . '</span>' . 
+						tohtml($desc != '' ? ' → ' . $desc : '') . '</li>';	
+				}
+				$saveterm = '';
+				$savetrans = '';
+				$saverom = '';
+				$savestat = '';
+				$until = $order;
+			}
+			if ($record['TiIsNotWord'] != 0 && trim($record['TiText']) != '') {
+				echo '<li>' . tohtml($record['TiText']) . '</li>';
+			}
+			else {
+				$until = $order + 2 * ($actcode-1);                
+				$saveterm = $record['TiText'];
+				$savetrans = '';
+				if(isset($record['WoID'])) {
+					$savetrans = $record['WoTranslation'];
+					if ($savetrans == '*') $savetrans = '';
+				}
+				$saverom = trim(isset($record['WoRomanization']) ?
+					$record['WoRomanization'] : "");
+				$savestat = $record['WoStatus'];
+			}
+		} 
+		mysql_free_result($res);
+		if (trim($saveterm) != '') {
+			$desc = trim(($saverom != '' ? '[' . $saverom . '] ' : '') . $savetrans);
+			echo '<li><span class="status' . $savestat . '">' . tohtml($saveterm) . '</span>' . 
+				tohtml($desc != '' ? ' → ' . $desc : '') . '</li>';	
+		}
+
+		?>
+		
+		</ul>
+
+		<?php
+		
+		mysql_free_result($res);
+	
+	} // $action == 4
 	
 	/* -------------------------------------------------------- */
 	
@@ -156,6 +239,21 @@ else {  // No Action = Start screen
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <style type="text/css" media="screen">
 @import "./iui/iui.css";
+span.status1 {
+	background-color: #F5B8A9;
+}
+span.status2 {
+	background-color: #F5CCA9;
+}
+span.status3 {
+	background-color: #F5E1A9;
+}
+span.status4 {
+	background-color: #F5F3A9;
+}
+span.status5 {
+	background-color: #DDFFDD;
+}
 </style>
 <script type="text/javascript" src="./iui/iui.js" charset="utf-8"></script>
 </head>
