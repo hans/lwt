@@ -48,7 +48,7 @@ $showAll = getSetting('showallwords');
 $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 
 ?>
-<table class="width99pc"><tr><td class="center" colspan="5" style="padding:10px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
+<table class="width99pc"><tr><td class="center" colspan="7" style="padding:10px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
 [Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">Show All&nbsp;<input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> /></span><span id="thetextid" class="hide"><?php echo $textid; ?></span></td></tr>
 
 <?php
@@ -60,7 +60,13 @@ if ($audio != '') {
 ?>
 <link type="text/css" href="css/jplayer_skin/<?php echo $playerskin; ?>.css" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery.jplayer.min.js"><!-- jPlayer © Happyworm ** http://www.jplayer.org/about/ --></script>
-<tr><td class="width45pc">&nbsp;</td><td>
+<tr>
+<td class="width45pc">&nbsp;</td>
+<td class="center">
+<span id="do-single" class="click hide"><img src="icn/arrow-stop.png" alt="Do not repeat" title="Do not repeat" style="width:24px;height:24px;" /></span><span id="do-repeat" class="click"><img src="icn/arrow-repeat.png" alt="Repeat audio" title="Repeat audio" style="width:24px;height:24px;" /></span>
+</td>
+<td class="center">&nbsp;</td>
+<td>
 <div id="jquery_jplayer_1" class="jp-jplayer">
 </div>
 <div class="jp-audio-container">
@@ -120,6 +126,22 @@ if($currentplayerseconds == '') $currentplayerseconds = 5;
 <script type="text/javascript">
 //<![CDATA[
 
+function click_single() {
+	$("#jquery_jplayer_1").unbind($.jPlayer.event.ended + ".jp-repeat");
+	$("#do-single").addClass('hide');
+	$("#do-repeat").removeClass('hide');
+	return false;
+}
+
+function click_repeat() {
+	$("#jquery_jplayer_1").bind($.jPlayer.event.ended + ".jp-repeat", function(event) { 
+		$(this).jPlayer("play"); 
+	});
+	$("#do-repeat").addClass('hide');
+	$("#do-single").removeClass('hide');
+	return false;
+}
+
 function click_back() {
 	var t = parseInt($("#playTime").text(),10);
 	var b = parseInt($("#backtime").val(),10);
@@ -163,6 +185,8 @@ $(document).ready(function(){
   
   $("#backbutt").click(click_back);
   $("#forwbutt").click(click_forw);
+  $("#do-single").click(click_single);
+  $("#do-repeat").click(click_repeat);
 });
 //]]>
 </script>
