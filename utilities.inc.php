@@ -88,11 +88,17 @@ function get_tag_selectoptions($v,$l) {
 		$sql = "select TgID, TgText from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $l . " group by TgID order by TgText";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
+	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["TgText"];
+		$cnt++;
 		$r .= "<option value=\"" . $record["TgID"] . "\"" . get_selected($v,$record["TgID"]) . ">" . tohtml($d) . "</option>";
 	}
 	mysql_free_result($res);
+	if ($cnt > 0) {
+		$r .= "<option disabled=\"disabled\">--------</option>";
+		$r .= "<option value=\"-1\"" . get_selected($v,-1) . ">UNTAGGED</option>";
+	}
 	return $r;
 }
 
@@ -134,11 +140,17 @@ function get_archivedtexttag_selectoptions($v,$l) {
 		$sql = "select T2ID, T2Text from archivedtexts, tags2, archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $l . " group by T2ID order by T2Text";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
+	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["T2Text"];
+		$cnt++;
 		$r .= "<option value=\"" . $record["T2ID"] . "\"" . get_selected($v,$record["T2ID"]) . ">" . tohtml($d) . "</option>";
 	}
 	mysql_free_result($res);
+	if ($cnt > 0) {
+		$r .= "<option disabled=\"disabled\">--------</option>";
+		$r .= "<option value=\"-1\"" . get_selected($v,-1) . ">UNTAGGED</option>";
+	}
 	return $r;
 }
 
@@ -885,7 +897,7 @@ function validateText($currenttext) {
 // -------------------------------------------------------------
 
 function validateTag($currenttag,$currentlang) {
-	if ($currenttag != '') {
+	if ($currenttag != '' && $currenttag != -1) {
 		if ($currentlang == '')
 			$sql = "select (" . $currenttag . " in (select TgID from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText)) as value";
 		else
@@ -899,7 +911,7 @@ function validateTag($currenttag,$currentlang) {
 // -------------------------------------------------------------
 
 function validateArchTextTag($currenttag,$currentlang) {
-	if ($currenttag != '') {
+	if ($currenttag != '' && $currenttag != -1) {
 		if ($currentlang == '')
 			$sql = "select (" . $currenttag . " in (select T2ID from archivedtexts, tags2, archtexttags where T2ID = AgT2ID and AgAtID = AtID group by T2ID order by T2Text)) as value";
 		else

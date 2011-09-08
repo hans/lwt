@@ -54,12 +54,24 @@ $wh_query = ($currentquery != '') ? (' and (WoText like ' . $wh_query . ' or WoR
 if ($currenttag1 == '' && $currenttag2 == '')
 	$wh_tag = '';
 else {
-	if ($currenttag1 != '' && $currenttag2 == '') 
-		$wh_tag = " having concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
-	elseif ($currenttag1 == '' && $currenttag2 != '') 
-		$wh_tag = " having concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
-	else 
-		$wh_tag = " having concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag1 . "/%'" . ($currenttag12 ? ' and ' : ' or ') . "concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
+	if ($currenttag1 != '') {
+		if ($currenttag1 == -1)
+			$wh_tag1 = "group_concat(WtTgID) IS NULL";
+		else
+			$wh_tag1 = "concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
+	} 
+	if ($currenttag2 != '') {
+		if ($currenttag2 == -1)
+			$wh_tag2 = "group_concat(WtTgID) IS NULL";
+		else
+			$wh_tag2 = "concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
+	} 
+	if ($currenttag1 != '' && $currenttag2 == '')	
+		$wh_tag = " having (" . $wh_tag1 . ') ';
+	elseif ($currenttag2 != '' && $currenttag1 == '')	
+		$wh_tag = " having (" . $wh_tag2 . ') ';
+	else
+		$wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) ';
 }
 
 $no_pagestart = 
