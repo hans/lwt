@@ -88,7 +88,7 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <li><a href="settings.php">Settings/Preferences</a>
 	<br /><br /></li>
 <li><a href="info.htm">Help/Information</a></li>
-<li><a href="mobile.php">Mobile Version</a></li>
+<li><a href="mobile.php">Mobile LWT (Experimental)</a></li>
 </ul>
 
 <p class="smallgray graydotted">&nbsp;</p>

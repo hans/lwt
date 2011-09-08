@@ -108,11 +108,17 @@ function get_texttag_selectoptions($v,$l) {
 		$sql = "select T2ID, T2Text from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $l . " group by T2ID order by T2Text";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
+	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["T2Text"];
+		$cnt++;
 		$r .= "<option value=\"" . $record["T2ID"] . "\"" . get_selected($v,$record["T2ID"]) . ">" . tohtml($d) . "</option>";
 	}
 	mysql_free_result($res);
+	if ($cnt > 0) {
+		$r .= "<option disabled=\"disabled\">--------</option>";
+		$r .= "<option value=\"-1\"" . get_selected($v,-1) . ">UNTAGGED</option>";
+	}
 	return $r;
 }
 
@@ -907,7 +913,7 @@ function validateArchTextTag($currenttag,$currentlang) {
 // -------------------------------------------------------------
 
 function validateTextTag($currenttag,$currentlang) {
-	if ($currenttag != '') {
+	if ($currenttag != '' && $currenttag != -1) {
 		if ($currentlang == '')
 			$sql = "select (" . $currenttag . " in (select T2ID from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by T2Text)) as value";
 		else
