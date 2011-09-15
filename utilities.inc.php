@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.4.0 (September 09 2011)'  . 
+	return '1.4.1 (September 15 2011)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1650,7 +1650,7 @@ function anki_export($sql) {
 		$sent1 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">' . $lpar, str_replace("}", $rpar . '</span>', 
 			mask_term_in_sentence($sent,$record["LgRegexpWordCharacters"])
 		));
-		$sent2 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">' . $lpar, str_replace("}", $rpar . '</span>', $sent));
+		$sent2 = str_replace("{", '<span style="font-weight:600; color:#0000ff;">', str_replace("}", '</span>', $sent));
 		$x .= $span1 . tohtml(repl_tab_nl($record["WoText"])) . $span2 . "\t" . 
 		tohtml(repl_tab_nl($record["WoTranslation"])) . "\t" . 
 		tohtml(repl_tab_nl($record["WoRomanization"])) . "\t" . 
