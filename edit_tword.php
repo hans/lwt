@@ -132,7 +132,7 @@ else {  // if (! isset($_REQUEST['op']))
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr title="Only change uppercase/lowercase!">
 <td class="td1 right"><b>Edit Term:</b></td>
-<td class="td1"><input <? echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
@@ -150,7 +150,7 @@ else {  // if (! isset($_REQUEST['op']))
 </tr>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
-<td class="td1"><textarea <? echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea></td>
+<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea></td>
 </tr>
 <tr>
 <td class="td1 right">Status:</td>

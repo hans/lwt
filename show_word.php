@@ -43,7 +43,7 @@ if ($record = mysql_fetch_assoc($res)) {
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr>
 <td class="td1 right" style="width:30px;">Term:</td>
-<td class="td1" style="font-size:120%;" <? echo $scrdir; ?>><b><?php echo tohtml($record['WoText']); ?></b></td>
+<td class="td1" style="font-size:120%;" <?php echo $scrdir; ?>><b><?php echo tohtml($record['WoText']); ?></b></td>
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
@@ -63,7 +63,7 @@ if ($record = mysql_fetch_assoc($res)) {
 <?php } ?>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
-<td class="td1" <? echo $scrdir; ?>><?php echo tohtml($record['WoSentence']); ?></td>
+<td class="td1" <?php echo $scrdir; ?>><?php echo tohtml($record['WoSentence']); ?></td>
 </tr>
 <tr>
 <td class="td1 right">Status:</td>
