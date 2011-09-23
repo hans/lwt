@@ -23,8 +23,8 @@ include "settings.inc.php";
 include "utilities.inc.php";
 
 $lang = $_POST['lang'] + 0;
-$word = stripslashes($_POST['word']);
-$ctl = stripslashes($_POST['ctl']);
+$word = stripTheSlashesIfNeeded($_POST['word']);
+$ctl = stripTheSlashesIfNeeded($_POST['ctl']);
 
 echo get20Sentences($lang,$word,$ctl, (int) getSettingWithDefault('set-term-sentence-count'));
 

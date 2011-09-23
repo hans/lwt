@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.4.3 (September 21 2011)'  . 
+	return '1.4.4 (September 23 2011)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -34,6 +34,15 @@ function get_version_number() {
 	if (count($vn) < 3) die ('wrong version:'. $v);
 	for ($i=0; $i<3; $i++) $r .= substr('000' . $vn[$i],-3);
 	return $r;  // 'vxxxyyyzzz' wenn version = x.y.z
+}
+
+// -------------------------------------------------------------
+
+function stripTheSlashesIfNeeded($s) {
+	if(get_magic_quotes_gpc())
+		return stripslashes($s);
+	else
+		return $s;
 }
 
 // -------------------------------------------------------------
@@ -659,7 +668,7 @@ function adjust_autoincr($table,$key) {
 // -------------------------------------------------------------
 
 function prepare_textdata($s) {
-	return str_replace("\r\n","\n", stripslashes($s));
+	return str_replace("\r\n","\n", stripTheSlashesIfNeeded($s));
 }
 
 // -------------------------------------------------------------
@@ -703,6 +712,7 @@ if (count($_REQUEST)) { echo '$_REQUEST...'; print_r($_REQUEST); }
 	if (count($_FILES)) { echo '$_FILES...'; print_r($_FILES); }
 	if (count($_SESSION)) { echo '$_SESSION...'; print_r($_SESSION); }
 	echo 'get_version_number()...'; echo get_version_number() . "\n";
+	echo 'get_magic_quotes_gpc()...'; echo get_magic_quotes_gpc() . "\n";
 	echo "********************************** DEBUGGING **</pre>";
 }
 
@@ -811,7 +821,7 @@ function get_sentence_count_selectoptions($v) {
 function saveSetting($k,$v) {
 	$dft = get_setting_data();
 	if (! isset($v)) $v ='';
-	$v = stripslashes($v);
+	$v = stripTheSlashesIfNeeded($v);
 	runsql('delete from settings where StKey = ' . convert_string_to_sqlsyntax($k), '');
 	if ($v !== '') {
 		if (array_key_exists($k,$dft)) {
@@ -832,7 +842,7 @@ function saveSetting($k,$v) {
 function processSessParam($reqkey,$sesskey,$default,$isnum) {
 	$result = '';
 	if(isset($_REQUEST[$reqkey])) {
-		$reqdata = stripslashes(trim($_REQUEST[$reqkey]));
+		$reqdata = stripTheSlashesIfNeeded(trim($_REQUEST[$reqkey]));
 		$_SESSION[$sesskey] = $reqdata;
 		$result = $reqdata;
 	}
@@ -852,7 +862,7 @@ function processDBParam($reqkey,$dbkey,$default,$isnum) {
 	$result = '';
 	$dbdata = getSetting($dbkey);
 	if(isset($_REQUEST[$reqkey])) {
-		$reqdata = stripslashes(trim($_REQUEST[$reqkey]));
+		$reqdata = stripTheSlashesIfNeeded(trim($_REQUEST[$reqkey]));
 		saveSetting($dbkey,$reqdata);
 		$result = $reqdata;
 	}

@@ -23,8 +23,8 @@ include "settings.inc.php";
 include "utilities.inc.php";
 
 $x = $_REQUEST["x"];
-$i = stripslashes($_REQUEST["i"]);
-$t = stripslashes($_REQUEST["t"]);
+$i = stripTheSlashesIfNeeded($_REQUEST["i"]);
+$t = stripTheSlashesIfNeeded($_REQUEST["t"]);
 
 if ( $x == 1 ) {
 	$sql = 'select SeText, LgGoogleTranslateURI from languages, sentences, textitems where TiSeID = SeID and TiLgID = LgID and TiTxID = ' . $t . ' and TiOrder = ' . $i;

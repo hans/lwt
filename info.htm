@@ -197,7 +197,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.4.3 (September 21 2011)</b>.
+          <li>The current version is <b>1.4.4 (September 23 2011)</b>.
           </li>
 
           <li>
@@ -246,7 +246,7 @@ $(document).ready( function() {
           
           <li>
             <b>LWT @ <a href="http://www.fluentin3months.com/" target="_blank">fluentin3months.com</a>:</b> 
-          	LWT is also offered by Benny, the Irish Polyglot, for all of his registered forum members. No LWT download, no LWT installation, LWT access worldwide! You only have to <a href="http://www.fluentin3months.com/wp-login.php?action=register&view=forum" target="_blank">signup for the fluentin3months.com forum</a>. After that, just log in with your forum username and password, and jump to <a href="http://fi3m.com/lwt">fi3m.com/lwt</a>. That's all! (Thank you, Benny!)
+          	LWT is also offered by Benny, the Irish Polyglot, for all of his registered forum members. No LWT download, no LWT installation, LWT access worldwide! You only have to <a href="http://www.fluentin3months.com/wp-login.php?action=register&view=forum" target="_blank">signup for the fluentin3months.com forum</a>. After that, just log in with your forum username and password, and jump to <a href="http://fi3m.com/lwt">fi3m.com/lwt</a>. That's all! Please understand that I am unable to support modified versions of LWT, like Benny's implementation! 
             <br />
             <br />
           </li>
@@ -443,6 +443,10 @@ Developed by J. Pierre in 2011.
             
             <li>
             Floating Menu - Copyright © JTricks.com, <a href="http://www.jtricks.com/licensing.html" target="_blank">http://www.jtricks.com/licensing.html</a> (js/floating.js)
+            </li>
+
+            <li>
+            iUI - Copyright © 2007-2011, <a href="http://www.iui-js.org/" target="_blank">http://www.iui-js.org/</a> (iui)
             </li>
             </ul>
             <br />
@@ -1107,7 +1111,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
               <li>"Exceptions Split Sentences" are a list of exceptions that are NOT to be treated as sentence endings with "|" as list separator. [A-Z] is a character range. If you don't want to split sentences after Mr. / Dr. / A. to Z. / Vd. / Vds. / U.S.A., then you should specify these here: "Mr.|Dr.|[A-Z].|Vd.|Vds.|U.S.A." (without ").<br /> <br /> 
               </li>
 
-              <li>"RegExp Word Characters" is a list of characters OR character ranges "x-y" that defines all characters in a word, e.g. English: "a-zA-Z", German: "a-zA-ZaöüÄÖÜß", Chinese: 一-龥. See also <a href="#langsetup">this table</a>. Characters can be also defined in <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">Unicode</a> form: "\x{....}"; the Chinese/Japanese character "one" "一" is then "\x{4E00}" (always without "). So the above specification for the range of characters in Chinese "一-龥" can also be specified: "\x{4E00}-\x{9FA5}". <br /> <br /> 
+              <li>"RegExp Word Characters" is a list of characters OR character ranges "x-y" that defines all characters in a word, e.g. English: "a-zA-Z", German: "a-zA-ZaöüÄÖÜß", Chinese: 一-龥. See also <a href="#langsetup">this table</a>. Characters can be also defined in <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">Unicode</a> form: "\x{....}"; the Chinese/Japanese character "one" "一" is then "\x{4E00}" (always without "). So the above specification for the range of characters in Chinese "一-龥" can also be specified: "\x{4E00}-\x{9FA5}".<br /> <br /> 
               </li>
 
               <li>"Make each character a word" is a special option for Chinese, etc. This makes EVERY character a single word (normally words are split by any non-word character or a space). See also <a href="#langsetup">this table</a>.<br /> <br /> 
@@ -1584,6 +1588,60 @@ with audioplayer", if needed.</li>
 
               <tr class="tr1">
                 <td class="td1">
+                  Greek
+                </td>
+                <td class="td1">
+                  .!?:;
+                </td>
+                <td class="td1">
+                  \x{0370}-\x{03FF}\x{1F00}-\x{1FFF}
+                </td>
+                <td class="td1">
+                  No
+                </td>
+                <td class="td1">
+                  No
+                </td>
+              </tr>
+
+              <tr class="tr1">
+                <td class="td1">
+                  Hebrew (Right-To-Left = Yes)
+                </td>
+                <td class="td1">
+                  .!?:;
+                </td>
+                <td class="td1">
+                  \x{0590}-\x{05FF}
+                </td>
+                <td class="td1">
+                  No
+                </td>
+                <td class="td1">
+                  No
+                </td>
+              </tr>
+             
+              <tr class="tr1">
+                <td class="td1">
+                  Thai
+                </td>
+                <td class="td1">
+                  .!?:;
+                </td>
+                <td class="td1">
+                  ก-๛
+                </td>
+                <td class="td1">
+                  No
+                </td>
+                <td class="td1">
+                  Yes
+                </td>
+              </tr>
+
+              <tr class="tr1">
+                <td class="td1">
                   Chinese
                 </td>
                 <td class="td1">
@@ -2049,6 +2107,11 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
 
+        	<li>1.4.4 (September 23 2011):
+        	Changed the handling of backslash removal in posted data on servers with magic_quotes_gpc = Off.
+        	Documentation updated.<br /><br />
+        	</li>        	
+        	
         	<li>1.4.3 (September 21 2011):
         	Changed some unintentionally written short PHP open tags "&lt;?" to "&lt;?php".
         	Thanks to a poster in the help forum for pointing this out.<br /><br />
