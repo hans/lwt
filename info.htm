@@ -557,7 +557,7 @@ Developed by J. Pierre in 2011.
           <li>Step 11: LWT can now be started in your web browser, go to: <a href="http://localhost/lwt" target="_blank">http://localhost/lwt</a>. 
           </li>
 
-          <li>Step 11: You may install the LWT demo database, or define the first language you want to learn.
+          <li>Step 12: You may install the LWT demo database, or define the first language you want to learn.
             <br />
             <br />
           </li>
@@ -1111,6 +1111,13 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
               As URI No. 3 ("Google Translate URI") is also used to translate whole sentences, I would recommend to enter here always the link to Google Translate, like shown in the examples. The link to Google Translate is  "http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###", where the two-character codes after "sl=" and "tl=" designate the <a href="http://bit.ly/n1Fz2C" target=_blank">language codes</a> for the source and the target language. But a different third web dictionary is of course possible.<br /><br /> 
               If the searchword in the three URIs needs to be converted into a different encoding (standard is UTF-8), you can use ###encoding### as a placeholder. Normally you see this right away if terms show up wrongly in the web dictionary. Example: Linguee expects the searchword in ISO-8859-15, not in UTF-8, so you define it this way: "http://www.linguee.de/search?direction=auto&query=###ISO-8859-15###".	A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php" target=_blank">here</a>.<br /><br /> 
               Some dictionary don't allow to be opened within a frame set. Put an asterisk * in front of the URI (Example: *http://mywebdict.com?q=###) to open such a dictionary not within the frame set but in a popup window (please don't forget to deactivate popup window blocking in your browser!).<br /> <br /> 
+              You don't know how and where to find a good web dictionary? Try these dictionary directories:<ul>
+              <li><a href="http://www.alphadictionary.com/langdir.html" target="_blank">http://www.alphadictionary.com/langdir.html</a></li>
+              <li><a href="http://dir.yahoo.com/reference/dictionaries/" target="_blank">http://dir.yahoo.com/reference/dictionaries/</a></li>
+              <li><a href="http://www.dmoz.org/Reference/Dictionaries/" target="_blank">http://www.dmoz.org/Reference/Dictionaries/</a></li>
+              <li><a href="http://www.lexicool.com/" target="_blank">http://www.lexicool.com/</a></li>
+              </ul>
+              If you have found a suitable web dictionary, try to translate some words and look whether the word is part of the web address (URI/URL). If yes, replace the word with ### and put this in one of the URI fields within LWT.<br /> <br /> 
               </li>
 
               <li>The entry "Text Size" defines the relative font size of the text. This is great for Chinese, etc.<br /> <br /> 
