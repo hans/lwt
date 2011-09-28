@@ -189,6 +189,14 @@ function mword_each_do_text_text(i) {
 		$(this).attr('data_status'));
 }
 
+function word_dblclick_event_do_text_text() {
+	var t = parseInt($("#totalcharcount").text(),10);	
+	if ( t == 0 ) return;
+	var p = 100 * ($(this).attr('data_pos')-5) / t;
+	if (p < 0) p = 0;
+	window.parent.frames['h'].new_pos(p);
+}
+
 function word_click_event_do_text_text() {
 	var status = $(this).attr('data_status');
 	if ( status < 1 ) {

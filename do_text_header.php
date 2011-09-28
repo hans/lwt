@@ -126,6 +126,10 @@ if($currentplayerseconds == '') $currentplayerseconds = 5;
 <script type="text/javascript">
 //<![CDATA[
 
+function new_pos(p) {
+	$("#jquery_jplayer_1").jPlayer("playHead", p);
+}
+
 function click_single() {
 	$("#jquery_jplayer_1").unbind($.jPlayer.event.ended + ".jp-repeat");
 	$("#do-single").addClass('hide');
