@@ -45,7 +45,6 @@ $showAll = getSetting('showallwords');
 $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 
 ?>
-<script type="text/javascript" src="js/jquery.jplayer.min.js"><!-- jPlayer © Happyworm ** http://www.jplayer.org/about/ --></script>
 <script type="text/javascript">
 //<![CDATA[
 TEXTPOS = -1;

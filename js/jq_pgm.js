@@ -194,7 +194,8 @@ function word_dblclick_event_do_text_text() {
 	if ( t == 0 ) return;
 	var p = 100 * ($(this).attr('data_pos')-5) / t;
 	if (p < 0) p = 0;
-	window.parent.frames['h'].new_pos(p);
+	if (typeof (window.parent.frames['h'].new_pos) == 'function')
+		window.parent.frames['h'].new_pos(p);
 }
 
 function word_click_event_do_text_text() {
@@ -324,6 +325,18 @@ function keydown_event_do_text_text(e) {
 	if (e.which == 87) {  // W : status=99
 		window.parent.frames['ro'].location.href = 
 			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99';
+		return false;
+	}
+	if (e.which == 65) {  // A : set audio pos.
+		var p = curr.attr('data_pos');
+		var t = parseInt($("#totalcharcount").text(),10);	
+		if ( t == 0 ) return true;
+		p = 100 * (p-5) / t;
+		if (p < 0) p = 0;
+		if (typeof (window.parent.frames['h'].new_pos) == 'function')
+			window.parent.frames['h'].new_pos(p);
+		else 
+			return true;
 		return false;
 	}
 	if (e.which == 69) { //  E : EDIT

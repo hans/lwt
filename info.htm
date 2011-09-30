@@ -197,7 +197,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.4.4 (September 23 2011)</b>.
+          <li>The current version is <b>1.4.5 (October 01 2011)</b>.
           </li>
 
           <li>
@@ -1202,7 +1202,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <b>Read a Text</b>
             <br />
             <br />
-            This is your "working area": Reading (and listening to) a text, saving/editing words and expressions, looking up words, expressions, sentences in external dictionaries or Google Translate. To create an expression, click on the first word. You see "Exp: 2..xx 3..yy 4..zz ...". Just click on the number of words (2..9) of the desired expression you want to save. The dictionary links for multi word expressions are always in the edit frame! You can also use the Keyboard in the text frame, see <a href="#keybind">Key Bindings</a>.
+            This is your "working area": Reading (and listening to) a text, saving/editing words and expressions, looking up words, expressions, sentences in external dictionaries or Google Translate. To create an expression, click on the first word. You see "Exp: 2..xx 3..yy 4..zz ...". Just click on the number of words (2..9) of the desired expression you want to save. The dictionary links for multi word expressions are always in the edit frame! You can also use the Keyboard in the text frame, see <a href="#keybind">Key Bindings</a>. Double clicking on a word sets the audio position approximately to the text position, if an audio was defined. The other audio controls are self-explanatory: automatic repeat, rewind and move forward n seconds, etc.). 
             <br />
             <br />
             <img class="grayborder" src="img/06.png" alt="Image" />
@@ -1801,6 +1801,8 @@ with audioplayer", if needed.</li>
 					<td class="td1">Set status of marked term to "Well Known"</td></tr>
 					<tr class="tr1"><td class="td1">E</td>
 					<td class="td1">Edit marked term</td></tr>
+					<tr class="tr1"><td class="td1">A</td>
+					<td class="td1">Set audio position approcimately position of marked trem</td></tr>
 					<tr class="tr1"><td class="td1">ESC</td>
 					<td class="td1">Reset marked term(s)</td></tr>
 					</table>
@@ -2128,6 +2130,10 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
 
+        	<li>1.4.5 (October 01 2011):
+        	Double-Click on a term and "A" key (while going through non-blue terms via keyboard) sets audio position approximately to text position. Some updates and corrections in the documentation.<br /><br />
+        	</li>        	
+        	
         	<li>1.4.4 (September 23 2011):
         	Changed the handling of backslash removal in posted data on servers with magic_quotes_gpc = Off.
         	Documentation updated.<br /><br />
