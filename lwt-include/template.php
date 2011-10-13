@@ -16,7 +16,8 @@ function render($template = NULL) {
     if ( $template === NULL )
         $template = pathinfo($_SERVER['SCRIPT_FILENAME'], PATHINFO_FILENAME);
 
-    require LWT_BASE . DIRECTORY_SEPARATOR . $template . '.php';
+    require LWT_BASE . DIRECTORY_SEPARATOR . 'lwt-view'
+        . DIRECTORY_SEPARATOR . $template . '.php';
 }
 
 function framesetheader($title) {
