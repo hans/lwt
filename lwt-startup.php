@@ -20,9 +20,9 @@ Start a PHP session
 define('LWT_BASE', dirname(__FILE__));
 
 require 'lwt-config.php';
-require 'lwt-include/database.php';
-require 'lwt-include/template.php';
-require 'lwt-include/utilities.php';
+require_once 'lwt-include/database.php';
+require_once 'lwt-include/template.php';
+require_once 'lwt-include/utilities.php';
 
 $err = @mysql_connect($server,$userid,$passwd);
 if ($err == FALSE) die('DB connect error (MySQL not running or connection parameters are wrong; start MySQL and/or correct file "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
