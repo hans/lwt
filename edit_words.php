@@ -32,6 +32,7 @@ Manage terms
 ***************************************************************/
 
 require 'lwt-startup.php';
+require_once 'lwt-includes/export.php';
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentwordsort','1',1);
