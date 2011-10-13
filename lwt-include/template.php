@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * Render a view.
+ *
+ * @param string $template optional
+ *   Name of template to render.
+ *
+ *   If this value is not provided, the template name is generated from the
+ *   basename of the current request URI.
+ *
+ *   For example, if the request is at /index.php, the default template to load
+ *   would be 'index'.
+ */
+function render($template = NULL) {
+    if ( $template === NULL ) {
+        $current_script = pathinfo($_SERVER['REQUEST_URI']);
+
+        $template = $current_script['basename'];
+    }
+
+    require LWT_BASE . DIRECTORY_SEPARATOR . $template . '.php';
+}
+
 function framesetheader($title) {
 	@header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 	@header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );

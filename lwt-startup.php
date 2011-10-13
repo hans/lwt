@@ -17,6 +17,8 @@ Set script time limit
 Start a PHP session
 ***************************************************************/
 
+define('LWT_BASE', dirname(__FILE__));
+
 require 'lwt-config.php';
 require 'lwt-include/database.php';
 require 'lwt-include/template.php';
