@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -15,25 +15,23 @@ Call: edit_words.php?....
       ... markaction=[opcode] ... do actions on marked terms
       ... allaction=[opcode] ... do actions on all terms
       ... del=[wordid] ... do delete
-      ... op=Save ... do insert new 
+      ... op=Save ... do insert new
       ... op=Change ... do update
-      ... new=1&lang=[langid] ... display new term screen 
-      ... chg=[wordid] ... display edit screen 
-      ... filterlang=[langid] ... language filter 
-      ... sort=[sortcode] ... sort 
-      ... page=[pageno] ... page  
-      ... query=[termtextfilter] ... term text filter   
-      ... status=[statuscode] ... status filter   
-      ... text=[textid] ... text filter   
-      ... tag1=[tagid] ... tag filter 1   
-      ... tag2=[tagid] ... tag filter 2   
-      ... tag12=0/1 ... tag1-tag2 OR=0, AND=1   
+      ... new=1&lang=[langid] ... display new term screen
+      ... chg=[wordid] ... display edit screen
+      ... filterlang=[langid] ... language filter
+      ... sort=[sortcode] ... sort
+      ... page=[pageno] ... page
+      ... query=[termtextfilter] ... term text filter
+      ... status=[statuscode] ... status filter
+      ... text=[textid] ... text filter
+      ... tag1=[tagid] ... tag filter 1
+      ... tag2=[tagid] ... tag filter 2
+      ... tag12=0/1 ... tag1-tag2 OR=0, AND=1
 Manage terms
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentwordsort','1',1);
@@ -59,22 +57,22 @@ else {
 			$wh_tag1 = "group_concat(WtTgID) IS NULL";
 		else
 			$wh_tag1 = "concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
-	} 
+	}
 	if ($currenttag2 != '') {
 		if ($currenttag2 == -1)
 			$wh_tag2 = "group_concat(WtTgID) IS NULL";
 		else
 			$wh_tag2 = "concat('/',group_concat(WtTgID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
-	} 
-	if ($currenttag1 != '' && $currenttag2 == '')	
+	}
+	if ($currenttag1 != '' && $currenttag2 == '')
 		$wh_tag = " having (" . $wh_tag1 . ') ';
-	elseif ($currenttag2 != '' && $currenttag1 == '')	
+	elseif ($currenttag2 != '' && $currenttag1 == '')
 		$wh_tag = " having (" . $wh_tag2 . ') ';
 	else
 		$wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) ';
 }
 
-$no_pagestart = 
+$no_pagestart =
 	(getreq('markaction') == 'exp') ||
 	(getreq('markaction') == 'exp2') ||
 	(getreq('markaction') == 'test') ||
@@ -162,7 +160,7 @@ if (isset($_REQUEST['markaction'])) {
 }
 
 
-// ALL ACTIONS 
+// ALL ACTIONS
 
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
@@ -245,7 +243,7 @@ if (isset($_REQUEST['allaction'])) {
 			anki_export('select distinct WoID, LgRightToLeft, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID AND WoTranslation != \'*\' and WoSentence like concat(\'%{\',WoText,\'}%\') ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag);
 		}
 	}
-	
+
 	elseif ($allaction == 'expall2' ) {
 		if ($currenttext == '') {
 			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages where WoLgID = LgID ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag);
@@ -253,7 +251,7 @@ if (isset($_REQUEST['allaction'])) {
 			tsv_export('select distinct WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, ifnull(group_concat(distinct TgText order by TgText separator \' \'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag);
 		}
 	}
-	
+
 	elseif ($allaction == 'testall' ) {
 		if ($currenttext == '') {
 			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag;
@@ -268,7 +266,7 @@ if (isset($_REQUEST['allaction'])) {
 			$cnt++;
 			$id = $record['WoID'];
 			$list .= ($cnt==1 ? '' : ',') . $id;
-		}	
+		}
 		$list .= ")";
 		mysql_free_result($res);
 		$_SESSION['testsql'] = ' words where WoID in ' . $list . ' ';
@@ -293,26 +291,26 @@ elseif (isset($_REQUEST['op'])) {
 	$translation_raw = repl_tab_nl(getreq("WoTranslation"));
 	if ( $translation_raw == '' ) $translation = '*';
 	else $translation = $translation_raw;
-	
+
 	// INSERT
-	
+
 	if ($_REQUEST['op'] == 'Save') {
-	
+
 		$message = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
-			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' .
 			$_REQUEST["WoLgID"] . ', ' .
 			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
 			$_REQUEST["WoStatus"] . ', ' .
 			convert_string_to_sqlsyntax($translation) . ', ' .
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
+			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')', "Saved");
 		$wid = get_last_key();
-	}	
-	
+	}
+
 	// UPDATE
-	
+
 	else {
 
 		$oldstatus = $_REQUEST["WoOldStatus"];
@@ -320,15 +318,15 @@ make_score_random_insert_update('id') . ')', "Saved");
 		$xx = '';
 		if ($oldstatus != $newstatus) $xx = ', WoStatus = ' .	$newstatus . ', WoStatusChanged = NOW()';
 		$wid = $_REQUEST["WoID"] + 0;
-		$message = runsql('update words set WoText = ' . 
-			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTextLC = ' . 
-			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', WoTranslation = ' . 
-			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
+		$message = runsql('update words set WoText = ' .
+			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTextLC = ' .
+			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', WoTranslation = ' .
+			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' .
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"],
 			"Updated");
 	}
-	
+
 	saveWordTags($wid);
 
 }
@@ -338,7 +336,7 @@ make_score_random_insert_update('id') . ')', "Saved");
 if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 
 	$scrdir = getScriptDirectionTag($_REQUEST['lang']);
-	
+
 	?>
 
 	<h4>New Term</h4>
@@ -381,32 +379,32 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<td class="td1 right" colspan="2">  &nbsp;
 		<?php echo createDictLinksInEditWin2($_REQUEST['lang'],'document.forms[\'newword\'].WoSentence','document.forms[\'newword\'].WoText'); ?>
 		&nbsp; &nbsp;
-	<input type="button" value="Cancel" onclick="location.href='edit_words.php';" /> 
+	<input type="button" value="Cancel" onclick="location.href='edit_words.php';" />
 	<input type="submit" name="op" value="Save" /></td>
 	</tr>
 	</table>
 	</form>
-	
+
 	<?php
-	
+
 }
 
 // CHG
 
 elseif (isset($_REQUEST['chg'])) {
-	
+
 	$sql = 'select * from words, languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
+	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
-		
+
 		$wordlc = $record['WoTextLC'];
 		$transl = repl_tab_nl($record['WoTranslation']);
 		if($transl == '*') $transl='';
 		$scrdir = ($record['LgRightToLeft'] ? ' dir="rtl" ' : '');
-	
+
 		?>
-	
+
 		<h4>Edit Term</h4>
 		<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="WoID" value="<?php echo $record['WoID']; ?>" />
@@ -432,7 +430,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Romaniz.:</td>
-		<td class="td1"><input type="text" name="WoRomanization" maxlength="100" size="40" 
+		<td class="td1"><input type="text" name="WoRomanization" maxlength="100" size="40"
 		value="<?php echo tohtml($record['WoRomanization']); ?>" /></td>
 		</tr>
 		<tr>
@@ -449,12 +447,12 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1 right" colspan="2">  &nbsp;
 		<?php echo createDictLinksInEditWin2($record['WoLgID'],'document.forms[\'editword\'].WoSentence','document.forms[\'editword\'].WoText'); ?>
 		&nbsp; &nbsp;
-		<input type="button" value="Cancel" onclick="location.href='edit_words.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
+		<input type="button" value="Cancel" onclick="location.href='edit_words.php#rec<?php echo $_REQUEST['chg']; ?>';" />
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>
 		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>
 <?php
 	}
 	mysql_free_result($res);
@@ -463,7 +461,7 @@ elseif (isset($_REQUEST['chg'])) {
 // DISPLAY
 
 else {
-	
+
 	echo error_message_with_hide($message,0);
 
 	if ($currenttext == '') {
@@ -473,11 +471,11 @@ else {
 	}
 	$recno = get_first_value($sql);
 	if ($debug) echo $sql . ' ===&gt; ' . $recno;
-	
+
 	$maxperpage = getSettingWithDefault('set-terms-per-page');
 
 	$pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
-	
+
 	if ($currentpage < 1) $currentpage = 1;
 	if ($currentpage > $pages) $currentpage = $pages;
 	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
@@ -486,7 +484,7 @@ else {
 	$lsorts = count($sorts);
 	if ($currentsort < 1) $currentsort = 1;
 	if ($currentsort > $lsorts) $currentsort = $lsorts;
-	
+
 
 	if ($currentlang != '') {
 ?>
@@ -568,14 +566,14 @@ if ($recno==0) {
 Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Actions" />
 </th></tr>
 <tr><td class="td1 center" colspan="2">
-<b>ALL</b> <?php echo ($recno == 1 ? '1 Term' : $recno . ' Terms'); ?>:&nbsp; 
+<b>ALL</b> <?php echo ($recno == 1 ? '1 Term' : $recno . ' Terms'); ?>:&nbsp;
 <select name="allaction" onchange="allActionGo(document.form2, document.form2.allaction,<?php echo $recno; ?>);"><?php echo get_allwordsactions_selectoptions(); ?></select>
 </td></tr>
 <tr><td class="td1 center">
 <input type="button" value="Mark All" onclick="selectToggle(true,'form2');" />
 <input type="button" value="Mark None" onclick="selectToggle(false,'form2');" />
 </td>
-<td class="td1 center">Marked Terms:&nbsp; 
+<td class="td1 center">Marked Terms:&nbsp;
 <select name="markaction" id="markaction" disabled="disabled" onchange="multiActionGo(document.form2, document.form2.markaction);"><?php echo get_multiplewordsactions_selectoptions(); ?></select>
 </td></tr></table>
 
@@ -600,7 +598,7 @@ if ($currenttext == '') {
 }
 if ($debug) echo $sql;
 flush();
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	$days = $record['Days'];

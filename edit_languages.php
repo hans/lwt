@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -14,32 +14,30 @@ Developed by J. Pierre in 2011.
 Call: edit_languages.php?....
       ... refresh=[langid] ... reparse all texts in lang
       ... del=[langid] ... do delete
-      ... op=Save ... do insert new 
-      ... op=Change ... do update 
-      ... new=1 ... display new lang. screen 
-      ... chg=[langid] ... display edit screen 
+      ... op=Save ... do insert new
+      ... op=Change ... do update
+      ... new=1 ... display new lang. screen
+      ... chg=[langid] ... display edit screen
 Manage languages
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 pagestart('My Languages',true);
 $message = '';
 
-// REFRESH 
+// REFRESH
 
 if (isset($_REQUEST['refresh'])) {
 	$id = $_REQUEST['refresh'] + 0;
-	$message2 = runsql('delete from sentences where SeLgID = ' . $id, 
+	$message2 = runsql('delete from sentences where SeLgID = ' . $id,
 		"Sentences deleted");
-	$message3 = runsql('delete from textitems where TiLgID = ' . $id, 
+	$message3 = runsql('delete from textitems where TiLgID = ' . $id,
 		"Text items deleted");
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
 	$sql = "select TxID, TxText from texts where TxLgID = " . $id . " order by TxID";
-	$res = mysql_query($sql);		
+	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	while ($record = mysql_fetch_assoc($res)) {
 		$txtid = $record["TxID"];
@@ -54,18 +52,18 @@ if (isset($_REQUEST['refresh'])) {
 
 if (isset($_REQUEST['del'])) {
 	$anztexts = get_first_value(
-		'select count(TxID) as value from texts where TxLgID = ' . 
+		'select count(TxID) as value from texts where TxLgID = ' .
 		$_REQUEST['del']);
 	$anzarchtexts = get_first_value(
-		'select count(AtID) as value from archivedtexts where AtLgID = ' . 
+		'select count(AtID) as value from archivedtexts where AtLgID = ' .
 		$_REQUEST['del']);
 	$anzwords = get_first_value(
-		'select count(WoID) as value from words where WoLgID = ' . 
+		'select count(WoID) as value from words where WoLgID = ' .
 		$_REQUEST['del']);
 	if ( $anztexts > 0 || $anzarchtexts > 0 || $anzwords > 0) {
 		$message = 'You must first delete texts, archived texts and words with this language!';
 	} else {
-		$message = runsql('delete from languages where LgID = ' . $_REQUEST['del'], 
+		$message = runsql('delete from languages where LgID = ' . $_REQUEST['del'],
 			"Deleted");
 		adjust_autoincr('languages','LgID');
 	}
@@ -74,13 +72,13 @@ if (isset($_REQUEST['del'])) {
 // INS/UPD
 
 elseif (isset($_REQUEST['op'])) {
-	
+
 	// INSERT
-	
+
 	if ($_REQUEST['op'] == 'Save')
-		$message = runsql('insert into languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft) values(' . 
+		$message = runsql('insert into languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft) values(' .
 		convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' .
-		convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', '. 
+		convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', '.
 		convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', '.
 		convert_string_to_sqlsyntax($_REQUEST["LgGoogleTranslateURI"]) . ', '.
 		$_REQUEST["LgTextSize"] . ', '.
@@ -90,14 +88,14 @@ elseif (isset($_REQUEST['op'])) {
 		convert_string_to_sqlsyntax($_REQUEST["LgRegexpWordCharacters"]) . ', '.
 		$_REQUEST["LgRemoveSpaces"] . ', '.
 		$_REQUEST["LgSplitEachChar"] . ', '.
-		$_REQUEST["LgRightToLeft"] . 
+		$_REQUEST["LgRightToLeft"] .
 		')', 'Saved');
-	
+
 	// UPDATE
-	
+
 	elseif ($_REQUEST['op'] == 'Change')
-		$message = runsql('update languages set ' . 
-		'LgName = ' . convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' . 
+		$message = runsql('update languages set ' .
+		'LgName = ' . convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' .
 		'LgDict1URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', ' .
 		'LgDict2URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', ' .
 		'LgGoogleTranslateURI = ' . convert_string_to_sqlsyntax($_REQUEST["LgGoogleTranslateURI"]) . ', ' .
@@ -107,8 +105,8 @@ elseif (isset($_REQUEST['op'])) {
 		'LgExceptionsSplitSentences = ' . convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgExceptionsSplitSentences"]) . ', ' .
 		'LgRegexpWordCharacters = ' . convert_string_to_sqlsyntax($_REQUEST["LgRegexpWordCharacters"]) . ', ' .
 		'LgRemoveSpaces = ' . $_REQUEST["LgRemoveSpaces"] . ', ' .
-		'LgSplitEachChar = ' . $_REQUEST["LgSplitEachChar"] . ', ' . 
-		'LgRightToLeft = ' . $_REQUEST["LgRightToLeft"] . 
+		'LgSplitEachChar = ' . $_REQUEST["LgSplitEachChar"] . ', ' .
+		'LgRightToLeft = ' . $_REQUEST["LgRightToLeft"] .
 		' where LgID = ' . $_REQUEST["LgID"], 'Updated');
 
 }
@@ -116,7 +114,7 @@ elseif (isset($_REQUEST['op'])) {
 // NEW
 
 if (isset($_REQUEST['new'])) {
-	
+
 	?>
 
 	<h4>New Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
@@ -171,27 +169,27 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions(0); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu, etc.)</td>
 	</tr>
 	<tr>
-	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
+	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" />
 	<input type="submit" name="op" value="Save" /></td>
 	</tr>
 	</table>
 	</form>
-	
+
 	<?php
-	
+
 }
 
 // CHG
 
 elseif (isset($_REQUEST['chg'])) {
-	
+
 	$sql = 'select * from languages where LgID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
+	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
-	
+
 		?>
-	
+
 		<h4>Edit Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="LgID" value="<?php echo $_REQUEST['chg']; ?>" />
@@ -249,7 +247,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions($record['LgRightToLeft']); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu,  etc.)</td>
 		</tr>
 		<tr>
-		<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
+		<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" />
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>
@@ -263,13 +261,13 @@ elseif (isset($_REQUEST['chg'])) {
 // DISPLAY
 
 else {
-	
+
 	echo error_message_with_hide($message,0);
-	
+
 	$current = (int) getSetting('currentlanguage');
-	
-	$recno = get_first_value('select count(*) as value from languages'); 
-	
+
+	$recno = get_first_value('select count(*) as value from languages');
+
 ?>
 
 <p><a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Language ...</a></p>
@@ -297,7 +295,7 @@ if ($recno==0) {
 
 $sql = 'select LgID, LgName from languages order by LgName';
 if ($debug) echo $sql;
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	$textcount = get_first_value('select count(TxID) as value from texts where TxLgID=' . $record['LgID']);
@@ -313,13 +311,13 @@ while ($record = mysql_fetch_assoc($res)) {
 	}
 	echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="do_test.php?lang=' . $record['LgID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a></' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['LgID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>';
-	if ($textcount == 0 && $archtextcount == 0 && $wordcount == 0) 
+	if ($textcount == 0 && $archtextcount == 0 && $wordcount == 0)
 		echo '&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['LgID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>';
-	else 
+	else
 		echo '&nbsp; <img src="icn/placeholder.png" title="Delete not possible" alt="Delete not possible" />';
 	echo '&nbsp;</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . tohtml($record['LgName']) . '</' . $tdth . '>';
-	if ($textcount > 0) 
+	if ($textcount > 0)
 		echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="edit_texts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $textcount . '</a> &nbsp;&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?refresh=' . $record['LgID'] . '"><img src="icn/lightning.png" title="Re-Parse Texts" alt="Re-Parse Texts" /></a>';
 	else
 		echo '<' . $tdth . ' class="' . $tdth . '1 center">0 &nbsp;&nbsp; <img src="icn/placeholder.png" title="No texts to re-parse" alt="No texts to re-parse" />';
@@ -341,4 +339,4 @@ mysql_free_result($res);
 
 pageend();
 
-?> 
+?>

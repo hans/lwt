@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -12,13 +12,11 @@ Developed by J. Pierre in 2011.
 
 /**************************************************************
 Call: upload_words.php?....
-      ... op=Import ... do the import 
+      ... op=Import ... do the import
 Import terms from file or Text area
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 function my_str_getcsv($input) {
   $temp=fopen("php://memory", "rw");
@@ -48,11 +46,11 @@ $message = '';
 // Import
 
 if (isset($_REQUEST['op'])) {
-	
+
 	// INSERT
-	
+
 	if ($_REQUEST['op'] == 'Import') {
-		
+
 		$col[0] = $_REQUEST["Col1"];
 		$col[1] = $_REQUEST["Col2"];
 		$col[2] = $_REQUEST["Col3"];
@@ -60,16 +58,16 @@ if (isset($_REQUEST['op'])) {
 		$col[4] = $_REQUEST["Col5"];
 		$overwrite = ($_REQUEST["Over"] == '1');
 		$tabs = $_REQUEST["Tab"];
-		
+
 		$sqlct = 0;
 		$lang = $_REQUEST["LgID"];
 		$status = $_REQUEST["WoStatus"];
-		
+
 		$protokoll = '<h4>Import Report (Language: ' . getLanguage($lang) . ', Status: ' . $status . ')</h4><table class="tab1" cellspacing="0" cellpadding="5"><tr><th class="th1">Line</th><th class="th1">Term</th><th class="th1">Translation</th><th class="th1">Romanization</th><th class="th1">Sentence</th><th class="th1">Tag List</th><th class="th1">Message</th></tr>';
-		
+
 		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
 			$lines = file($_FILES["thefile"]["tmp_name"], FILE_IGNORE_NEW_LINES);
-		} 
+		}
 		else {
 			$lines = explode("\n",prepare_textdata($_REQUEST["Upload"]));
 		}
@@ -77,7 +75,7 @@ if (isset($_REQUEST['op'])) {
 		for ($i=0; $i<$l; $i++) {
   		if ($tabs == 'h')
   			$lines[$i] = explode("#",trim(str_replace("\t", " ",$lines[$i])));
-  		elseif ($tabs == 'c') 
+  		elseif ($tabs == 'c')
   			$lines[$i] = my_str_getcsv(trim(str_replace("\t", " ",$lines[$i])));
 			else
   			$lines[$i] = explode("\t",trim($lines[$i]));
@@ -113,7 +111,7 @@ if (isset($_REQUEST['op'])) {
 						$status . ', ' .
 						convert_string_to_sqlsyntax($t) . ', ' .
 						convert_string_to_sqlsyntax($r) . ', ' .
-						convert_string_to_sqlsyntax($s) . ', NOW(), ' .  
+						convert_string_to_sqlsyntax($s) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')',"Imported");
 						$wid = get_last_key();
 						array_walk($g,'savetag',$wid);
@@ -131,7 +129,7 @@ make_score_random_insert_update('id') . ')',"Imported");
 					$status . ', ' .
 					convert_string_to_sqlsyntax($t) . ', ' .
 					convert_string_to_sqlsyntax($r) . ', ' .
-					convert_string_to_sqlsyntax($s) . ', NOW(), ' .  
+					convert_string_to_sqlsyntax($s) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')',"Imported");
 					$wid = get_last_key();
 					array_walk($g,'savetag',$wid);
@@ -143,14 +141,14 @@ make_score_random_insert_update('id') . ')',"Imported");
   			$protokoll .= '<td class="td1"><span class="red2">NOT IMPORTED (term and/or translation missing)</span></td></tr>';
  			}
 		} // for ($i=0; $i<$l; $i++)
-		
+
 		echo '<p class="red">*** Imported terms: ' . $sqlct . ' of ' . $l . ' *** ' . errorbutton('Error') . '</p>';
   	$protokoll .= '</table>';
 		echo $protokoll;
-		
-		
+
+
 	} // $_REQUEST['op'] == 'Import'
-	
+
 	else {
 		$message = 'Error: Wrong Operation: ' . $_REQUEST['op'];
 		echo error_message_with_hide($message,0);
@@ -169,7 +167,7 @@ make_score_random_insert_update('id') . ')',"Imported");
 	<?php
 	echo get_languages_selectoptions(getSetting('currentlanguage'),'[Choose...]');
 	?>
-	</select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /> 
+	</select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 	</td>
 	</tr>
 	<tr>
@@ -225,7 +223,7 @@ make_score_random_insert_update('id') . ')',"Imported");
 	<option value="g">Tag List</option>
 	<option value="x" selected="selected">Don't import</option>
 	</select><br />
-	<br /><b>Overwrite existent<br />terms</b>: 
+	<br /><b>Overwrite existent<br />terms</b>:
 	<select name="Over">
 	<option value="0" selected="selected">No</option>
 	<option value="1">Yes</option>
@@ -251,7 +249,7 @@ make_score_random_insert_update('id') . ')',"Imported");
 	</tr>
 	</table>
 	</form>
-	
+
 	<p>Sentences should contain the term in curly brackets "... {term} ...".<br />
 	If not, such sentences can be automatically created later with the <br />"Set Term Sentences" action in the <input type="button" value="My Texts" onclick="location.href='edit_texts.php?query=&amp;page=1';" /> screen.</p>
 

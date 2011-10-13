@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -13,23 +13,21 @@ Developed by J. Pierre in 2011.
 /**************************************************************
 Call: do_test_test.php?type=[testtype]&lang=[langid]
 Call: do_test_test.php?type=[testtype]&text=[textid]
-Call: do_test_test.php?type=[testtype]&selection=1  
+Call: do_test_test.php?type=[testtype]&selection=1
 			(SQL via $_SESSION['testsql'])
 Show test frame
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $p = '';
 
 if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) {
-	$testsql = $_SESSION['testsql']; 
+	$testsql = $_SESSION['testsql'];
 }
 
 elseif (isset($_REQUEST['lang'])) {
-	$testsql = ' words where WoLgID = ' . $_REQUEST['lang'] . ' '; 
+	$testsql = ' words where WoLgID = ' . $_REQUEST['lang'] . ' ';
 }
 
 elseif (isset($_REQUEST['text'])) {
@@ -71,16 +69,16 @@ $notyettested = $count;
 if ($count <= 0) {
 
 	$count2 = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTomorrowScore < 0');
-	
+
 	echo '<p class="center"><img src="img/ok.png" alt="Done!" /><br /><br /><span class="red2">Nothing ' . ($totaltests ? 'more ' : '') . 'to test here!<br /><br />Tomorrow you\'ll find here ' . $count2 . ' test' . ($count2 == 1 ? '' : 's') . '!</span></p></div>';
 	$count = 0;
 
 } else {
 
 	$lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
-	
+
 	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from languages where LgID = ' . $lang;
-	$res = mysql_query($sql);		
+	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid query: $sql");
 	$record = mysql_fetch_assoc($res);
 	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
@@ -92,16 +90,16 @@ if ($count <= 0) {
 	$rtlScript = $record['LgRightToLeft'];
 	$langname = $record['LgName'];
 	mysql_free_result($res);
-	
+
 	// Find the next word to test
-	
+
 	$pass = 0;
 	$num = 0;
 	while ($pass < 2) {
 		$pass++;
 		$sql = 'SELECT DISTINCT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, (ifnull(WoSentence,\'\') not like concat(\'%{\',WoText,\'}%\')) as notvalid, WoStatus, DATEDIFF( NOW( ), WoStatusChanged ) AS Days, WoTodayScore AS Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0 ' . ($pass == 1 ? 'AND WoRandom > RAND()' : '') . ' order by WoTodayScore, WoRandom LIMIT 1';
 		if ($debug) echo 'DEBUG TEST-SQL: ' . $sql . '<br />';
-		$res = mysql_query($sql);		
+		$res = mysql_query($sql);
 		if ($res == FALSE) die("Invalid query: $sql");
 		$record = mysql_fetch_assoc($res);
 		if ( $record ) {
@@ -120,13 +118,13 @@ if ($count <= 0) {
 		}
 		mysql_free_result($res);
 	}
-	
+
 	if ($num == 0) {
-	
+
 		// should not occur but...
 		echo '<p class="center"><img src="img/ok.png" alt="Done!" /><br /><br /><span class="red2">Nothing to test here!</span></p></div>';
 		$count = 0;
-		
+
 	} else {
 
 		if ( $nosent)	{  // No sent. mode 4+5
@@ -140,7 +138,7 @@ if ($count <= 0) {
 				$pass++;
 				if ($debug) echo "DEBUG search sent: pass: $pass <br />";
 				$sql = 'SELECT DISTINCT SeID FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
-				$res = mysql_query($sql);		
+				$res = mysql_query($sql);
 				if ($res == FALSE) die("Invalid query: $sql");
 				$record = mysql_fetch_assoc($res);
 				if ( $record ) {  // random sent found
@@ -168,37 +166,37 @@ if ($count <= 0) {
 				mysql_free_result($res);
 			} // while ( $pass < 3 )
 		}  // $nosent == FALSE
-	
+
 		if ($num == 0 ) {
 			// take term sent. if valid
 			if ($notvalid) $sent = '{' . $word . '}';
 			if ($debug) echo "DEBUG not found, use sent = $sent<br />";
 		}
-		
+
 		$cleansent = trim(str_replace("{", '', str_replace("}", '', $sent)));
 		// echo $cleansent;
-		
+
 		echo '<p ' . ($rtlScript ? 'dir="rtl"' : '') . ' style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.4; text-align:center; margin-bottom:300px;">';
 		$l = mb_strlen($sent,'utf-8');
 		$r = '';
 		$save = '';
 		$on = 0;
-		
+
 		for ($i=0; $i < $l; $i++) {  // go thru sent
 			$c = mb_substr($sent, $i, 1, 'UTF-8');
 			if ($c == '}') {
 				$r .= ' <span style="word-break:normal;" class="click todo todosty word wsty word' . $wid . '" data_wid="' . $wid . '" data_trans="' . tohtml($trans) . '" data_text="' . tohtml($word) . '" data_rom="' . tohtml($roman) . '" data_sent="' . tohtml($cleansent) . '" data_status="' . $status . '" data_todo="1"';
-				if ($testtype ==3) $r .= ' title="' . tohtml($trans) . '"'; 
+				if ($testtype ==3) $r .= ' title="' . tohtml($trans) . '"';
 				$r .= '>';
 				if ($testtype == 2) {
 					if ($nosent) $r .= tohtml($trans);
 					else $r .= '<span dir="ltr">[' . tohtml($trans) . ']</span>';
 				}
-				elseif ($testtype == 3) 
-					$r .= tohtml(str_replace("{", '[', str_replace("}", ']', 
+				elseif ($testtype == 3)
+					$r .= tohtml(str_replace("{", '[', str_replace("}", ']',
 					mask_term_in_sentence('{' . $save . '}',
 					$regexword)	)));
-				else 
+				else
 					$r .= tohtml($save);
 				$r .= '</span> ';
 				$on = 0;
@@ -212,10 +210,10 @@ if ($count <= 0) {
 				else $r .= tohtml($c);
 			}
 		} // for: go thru sent
-		
+
 		echo $r;  // Show Sentence
 	}
-	
+
 ?>
 
 <script type="text/javascript">
@@ -237,7 +235,7 @@ $(document).ready( function() {
 
 <?php
 
-} 
+}
 
 $wrong = $_SESSION['testwrong'];
 $correct = $_SESSION['testcorrect'];
@@ -256,15 +254,15 @@ $b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
 <div id="footer">
 <img src="icn/clock.png" title="Elapsed Time" alt="Elapsed Time" />
 <span id="timer" title="Elapsed Time"></span>
-&nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp;
 <img class="<?php echo $b_notyet; ?>" src="icn/test_notyet.png" title="Not yet tested" alt="Not yet tested" height="10" width="<?php echo $l_notyet; ?>" /><img class="<?php echo $b_wrong; ?>" src="icn/test_wrong.png" title="Wrong" alt="Wrong" height="10" width="<?php echo $l_wrong; ?>" /><img class="<?php echo $b_correct; ?>" src="icn/test_correct.png" title="Correct" alt="Correct" height="10" width="<?php echo $l_correct; ?>" />
-&nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp;
 <span title="Total number of tests"><?php echo $totaltests; ?></span>
-= 
+=
 <span class="todosty" title="Not yet tested"><?php echo $notyettested; ?></span>
-+ 
++
 <span class="donewrongsty" title="Wrong"><?php echo $wrong; ?></span>
-+ 
++
 <span class="doneoksty" title="Correct"><?php echo $correct; ?></span>
 </div>
 
@@ -284,7 +282,7 @@ if ($waittime <= 0 ) {
 <?php
 }
 ?>
-	new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 
+	new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>,
 		'timer', <?php echo ($count ? 0 : 1); ?>);
 });
 //]]>

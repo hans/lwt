@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -12,19 +12,17 @@ Developed by J. Pierre in 2011.
 
 /**************************************************************
 Call: new_word.php?...
-			... text=[textid]&lang=[langid] ... new term input  
+			... text=[textid]&lang=[langid] ... new term input
 			... op=Save ... do the insert
 New word, created while reading or testing
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 // INSERT
 
 if (isset($_REQUEST['op'])) {
-	
+
 	if ($_REQUEST['op'] == 'Save') {
 
 		$text = trim(prepare_textdata($_REQUEST["WoText"]));
@@ -32,32 +30,32 @@ if (isset($_REQUEST['op'])) {
 		$translation_raw = repl_tab_nl(getreq("WoTranslation"));
 		if ( $translation_raw == '' ) $translation = '*';
 		else $translation = $translation_raw;
-	
+
 		$titeltext = "New Term: " . tohtml($textlc);
 		pagestart_nobody($titeltext);
 		echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';
-	
+
 		$message = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
-			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' .
 			$_REQUEST["WoLgID"] . ', ' .
 			convert_string_to_sqlsyntax($textlc) . ', ' .
 			convert_string_to_sqlsyntax($text) . ', ' .
 			$_REQUEST["WoStatus"] . ', ' .
 			convert_string_to_sqlsyntax($translation) . ', ' .
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
+			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')', "Term saved");
 
 		if (substr($message,0,22) == 'Error: Duplicate entry') {
 			$message = 'Error: Duplicate entry for ' . $textlc;
 		}
-		
+
 		$wid = get_last_key();
 
 		$hex = strToClassName(prepare_textdata($textlc));
 
 		saveWordTags($wid);
-		
+
 		$showAll = getSetting('showallwords');
 		$showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 ?>
@@ -67,7 +65,7 @@ make_score_random_insert_update('id') . ')', "Term saved");
 <?php
 		if (substr($message,0,5) != 'Error') {
 ?>
-	
+
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;
@@ -81,12 +79,12 @@ $('.TERM<?php echo $hex; ?>', context).removeClass('status0 hide').addClass('wor
 $('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
-<?php 
+<?php
 		if (! $showAll) echo refreshText($text,$_REQUEST['tid']);
 ?>
 //]]>
 </script>
-	
+
 <?php
 		} // (substr($message,0,5) != 'Error')
 
@@ -99,14 +97,14 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 else {  // if (! isset($_REQUEST['op']))
 
 	// new_word.php?text=..&lang=..
-	
+
 	$lang = getreq('lang') + 0;
 	$text = getreq('text') + 0;
 	pagestart_nobody('');
 	$scrdir = getScriptDirectionTag($lang);
-	
+
 ?>
-	
+
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<input type="hidden" name="WoLgID" value="<?php echo $lang; ?>" />
 	<input type="hidden" name="tid" value="<?php echo $text; ?>" />

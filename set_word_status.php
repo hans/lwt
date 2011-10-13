@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -16,16 +16,14 @@ Call: set_word_status.php?...
 Change status of term while reading
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
 $status = $_REQUEST['status'];
 
 $sql = 'SELECT WoText, WoTranslation, WoRomanization FROM words where WoID = ' . $wid;
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
 if ($record) {
@@ -33,13 +31,13 @@ if ($record) {
 	$trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid,' ',1,0);
 	$roman = $record['WoRomanization'];
 } else {
-	die("Error: No results"); 
+	die("Error: No results");
 }
 mysql_free_result($res);
 
 pagestart("Term: " . $word, false);
 
-$m1 = runsql('update words set WoStatus = ' . 
+$m1 = runsql('update words set WoStatus = ' .
 	$_REQUEST['status'] . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed');
 
 echo '<p>OK, this term has status ' . get_colored_status_msg($status) . ' from now!</p>';

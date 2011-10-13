@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -16,17 +16,15 @@ Call: edit_archivedtexts.php?....
       ... del=[textid] ... do delete
       ... unarch=[textid] ... do unarchive
       ... op=Change ... do update
-      ... chg=[textid] ... display edit screen 
-      ... filterlang=[langid] ... language filter 
-      ... sort=[sortcode] ... sort 
-      ... page=[pageno] ... page  
-      ... query=[titlefilter] ... title filter   
+      ... chg=[textid] ... display edit screen
+      ... filterlang=[langid] ... language filter
+      ... sort=[sortcode] ... sort
+      ... page=[pageno] ... page
+      ... query=[titlefilter] ... title filter
 Manage archived texts
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentarchivesort','1',1);
@@ -49,22 +47,22 @@ else {
 			$wh_tag1 = "group_concat(AgT2ID) IS NULL";
 		else
 			$wh_tag1 = "concat('/',group_concat(AgT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
-	} 
+	}
 	if ($currenttag2 != '') {
 		if ($currenttag2 == -1)
 			$wh_tag2 = "group_concat(AgT2ID) IS NULL";
 		else
 			$wh_tag2 = "concat('/',group_concat(AgT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
-	} 
-	if ($currenttag1 != '' && $currenttag2 == '')	
+	}
+	if ($currenttag1 != '' && $currenttag2 == '')
 		$wh_tag = " having (" . $wh_tag1 . ') ';
-	elseif ($currenttag2 != '' && $currenttag1 == '')	
+	elseif ($currenttag2 != '' && $currenttag1 == '')
 		$wh_tag = " having (" . $wh_tag2 . ') ';
 	else
 		$wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) ';
 }
 
-$no_pagestart = 
+$no_pagestart =
 	(getreq('markaction') == 'deltag');
 if (! $no_pagestart) {
 	pagestart('My ' . getLanguage($currentlang) . ' Text Archive',true);
@@ -85,47 +83,47 @@ if (isset($_REQUEST['markaction'])) {
 				$list = "(" . $_REQUEST['marked'][0];
 				for ($i=1; $i<$l; $i++) $list .= "," . $_REQUEST['marked'][$i];
 				$list .= ")";
-				
+
 				if ($markaction == 'del') {
 					$message = runsql('delete from archivedtexts where AtID in ' . $list, "Archived Texts deleted");
 					adjust_autoincr('archivedtexts','AtID');
 					runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN archivedtexts on AgAtID = AtID) WHERE AtID IS NULL",'');
-				} 
+				}
 
 				elseif ($markaction == 'addtag' ) {
 					$message = addarchtexttaglist($actiondata,$list);
 				}
-				
+
 				elseif ($markaction == 'deltag' ) {
 					$message = removearchtexttaglist($actiondata,$list);
 					header("Location: edit_archivedtexts.php");
 					exit();
 				}
-				
+
 				elseif ($markaction == 'unarch') {
 					$count = 0;
 					$sql = "select AtID, AtLgID from archivedtexts where AtID in " . $list;
-					$res = mysql_query($sql);		
+					$res = mysql_query($sql);
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$ida = $record['AtID'];
 						$mess = 0 + runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $ida, "");
 						$count += $mess;
 						$id = get_last_key();
-						runsql('insert into texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from archtexttags where AgAtID = ' . $ida, "");	
+						runsql('insert into texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from archtexttags where AgAtID = ' . $ida, "");
 						splitText(
 							get_first_value(
-							'select TxText as value from texts where TxID = ' . $id), 
-							$record['AtLgID'], 
-							$id );	
+							'select TxText as value from texts where TxID = ' . $id),
+							$record['AtLgID'],
+							$id );
 						runsql('delete from archivedtexts where AtID = ' . $ida, "");
 					}
 					mysql_free_result($res);
 					adjust_autoincr('archivedtexts','AtID');
 					runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN archivedtexts on AgAtID = AtID) WHERE AtID IS NULL",'');
 					$message = 'Unarchived Text(s): ' . $count;
-				} 
-												
+				}
+
 			}
 		}
 	}
@@ -134,7 +132,7 @@ if (isset($_REQUEST['markaction'])) {
 // DEL
 
 if (isset($_REQUEST['del'])) {
-	$message = runsql('delete from archivedtexts where AtID = ' . $_REQUEST['del'], 
+	$message = runsql('delete from archivedtexts where AtID = ' . $_REQUEST['del'],
 		"Archived Texts deleted");
 	adjust_autoincr('archivedtexts','AtID');
 	runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN archivedtexts on AgAtID = AtID) WHERE AtID IS NULL",'');
@@ -145,13 +143,13 @@ if (isset($_REQUEST['del'])) {
 elseif (isset($_REQUEST['unarch'])) {
 	$message2 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $_REQUEST['unarch'], "Texts added");
 	$id = get_last_key();
-	runsql('insert into texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from archtexttags where AgAtID = ' . $_REQUEST['unarch'], "");	
+	runsql('insert into texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from archtexttags where AgAtID = ' . $_REQUEST['unarch'], "");
 	splitText(
 		get_first_value(
-		'select TxText as value from texts where TxID = ' . $id), 
+		'select TxText as value from texts where TxID = ' . $id),
 		get_first_value(
-		'select TxLgID as value from texts where TxID = ' . $id), 
-		$id );	
+		'select TxLgID as value from texts where TxID = ' . $id),
+		$id );
 	$message1 = runsql('delete from archivedtexts where AtID = ' . $_REQUEST['unarch'], "Archived Texts deleted");
 	$message = $message1 . " / " . $message2 . " / Sentences added: " . get_first_value('select count(*) as value from sentences where SeTxID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from textitems where TiTxID = ' . $id);
 	adjust_autoincr('archivedtexts','AtID');
@@ -161,9 +159,9 @@ elseif (isset($_REQUEST['unarch'])) {
 // UPD
 
 elseif (isset($_REQUEST['op'])) {
-	
+
 	// UPDATE
-	
+
 	if ($_REQUEST['op'] == 'Change') {
 		$message = runsql('update archivedtexts set ' .
 		'AtLgID = ' . $_REQUEST["AtLgID"] . ', ' .
@@ -174,20 +172,20 @@ elseif (isset($_REQUEST['op'])) {
 		$id = $_REQUEST["AtID"];
 	}
 	saveArchivedTextTags($id);
-	
+
 }
 
 // CHG
 
 if (isset($_REQUEST['chg'])) {
-	
+
 	$sql = 'select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
+	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
 
 		?>
-	
+
 		<h4>Edit Archived Text</h4>
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="AtID" value="<?php echo $_REQUEST['chg']; ?>" />
@@ -221,17 +219,17 @@ if (isset($_REQUEST['chg'])) {
 		<tr>
 		<td class="td1 right">Audio-URI:</td>
 		<td class="td1"><input type="text" name="AtAudioURI" value="<?php echo tohtml($record['AtAudioURI']); ?>" maxlength="200" size="60" />
-		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
+		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>
 		</td>
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<input type="button" value="Cancel" onclick="location.href='edit_archivedtexts.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
+		<input type="button" value="Cancel" onclick="location.href='edit_archivedtexts.php#rec<?php echo $_REQUEST['chg']; ?>';" />
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>
 		</form>
-		
+
 		<?php
 
 	}
@@ -252,7 +250,7 @@ else {
 	$maxperpage = getSettingWithDefault('set-archivedtexts-per-page');
 
 	$pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
-	
+
 	if ($currentpage < 1) $currentpage = 1;
 	if ($currentpage > $pages) $currentpage = $pages;
 	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
@@ -261,7 +259,7 @@ else {
 	$lsorts = count($sorts);
 	if ($currentsort < 1) $currentsort = 1;
 	if ($currentsort > $lsorts) $currentsort = $lsorts;
-	
+
 ?>
 
 <form name="form1" action="#" onsubmit="document.form1.querybutton.click(); return false;">
@@ -326,7 +324,7 @@ if ($recno==0) {
 <input type="button" value="Mark All" onclick="selectToggle(true,'form2');" />
 <input type="button" value="Mark None" onclick="selectToggle(false,'form2');" />
 </td><td class="td1 center">
-Marked Texts:&nbsp; 
+Marked Texts:&nbsp;
 <select name="markaction" id="markaction" disabled="disabled" onchange="multiActionGo(document.form2, document.form2.markaction);"><?php echo get_multiplearchivedtextactions_selectoptions(); ?></select>
 </td></tr></table>
 
@@ -344,7 +342,7 @@ $sql = 'select AtID, AtTitle, LgName, AtAudioURI, ifnull(concat(\'[\',group_conc
 
 if ($debug) echo $sql;
 
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	echo '<tr>';

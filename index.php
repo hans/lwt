@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -15,11 +15,9 @@ Call: index.php
 LWT Start Screen / Main Menu / Home
 ***************************************************************/
 
-if (! file_exists ('connect.inc.php')) die ('Fatal Error, cannot find file: "connect.inc.php". Please rename the correct file "connect_[servertype].inc.php" to "connect.inc.php" ([servertype] is the name of your server: xampp, mamp, or easyphp). Please read the documentation: http://lwt.sf.net');
+if (! file_exists ('lwt-config.php')) die ('Fatal Error, cannot find file: "lwt-config.php". Please rename lwt-config.sample.php to lwt-config.php and update the connection information.');
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 pagestart('Home',false);
 
@@ -45,11 +43,11 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <ul>
 <li>Language: <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}"><?php echo get_languages_selectoptions($currentlang,'[Select...]'); ?></select></li>
 </ul>
-	
+
 <?php
 	if ($currenttext != '') {
 		$txttit = get_first_value('select TxTitle as value from texts where TxID=' . (int)$currenttext);
-		if (isset($txttit)) {	
+		if (isset($txttit)) {
 			$txtlng = get_first_value('select TxLgID as value from texts where TxID=' . (int)$currenttext);
 			$lngname = getLanguage($txtlng);
 	?>
@@ -57,9 +55,9 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 			<li>My last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
 			<br />
 			<a href="do_text.php?start=<?php echo $currenttext; ?>"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read</a>
-			&nbsp; &nbsp; 
+			&nbsp; &nbsp;
 			<a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
-			&nbsp; &nbsp; 
+			&nbsp; &nbsp;
 			<a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
 			</li>
 			</ul>

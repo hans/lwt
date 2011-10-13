@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -15,19 +15,17 @@ Call: edit_texttags.php?....
       ... markaction=[opcode] ... do actions on marked text tags
       ... allaction=[opcode] ... do actions on all text tags
       ... del=[wordid] ... do delete
-      ... op=Save ... do insert new 
+      ... op=Save ... do insert new
       ... op=Change ... do update
-      ... new=1 ... display new text tag screen 
-      ... chg=[wordid] ... display edit screen 
-      ... sort=[sortcode] ... sort 
-      ... page=[pageno] ... page  
-      ... query=[tagtextfilter] ... tag text filter    
+      ... new=1 ... display new text tag screen
+      ... chg=[wordid] ... display edit screen
+      ... sort=[sortcode] ... sort
+      ... page=[pageno] ... page
+      ... query=[tagtextfilter] ... tag text filter
 Manage tags
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $currentsort = processDBParam("sort",'currenttexttagsort','1',1);
 
@@ -65,7 +63,7 @@ if (isset($_REQUEST['markaction'])) {
 }
 
 
-// ALL ACTIONS 
+// ALL ACTIONS
 
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
@@ -91,21 +89,21 @@ elseif (isset($_REQUEST['del'])) {
 elseif (isset($_REQUEST['op'])) {
 
 	// INSERT
-	
+
 	if ($_REQUEST['op'] == 'Save') {
-	
-		$message = runsql('insert into tags2 (T2Text, T2Comment) values(' . 
+
+		$message = runsql('insert into tags2 (T2Text, T2Comment) values(' .
 			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', ' .
 			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ')', "Saved");
 
-	}	
-	
+	}
+
 	// UPDATE
-	
+
 	elseif ($_REQUEST['op'] == 'Change') {
 
-		$message = runsql('update tags2 set T2Text = ' . 
-			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', T2Comment = ' . 
+		$message = runsql('update tags2 set T2Text = ' .
+			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', T2Comment = ' .
 			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ' where T2ID = ' . $_REQUEST["T2ID"], "Updated");
 
 	}
@@ -115,7 +113,7 @@ elseif (isset($_REQUEST['op'])) {
 // NEW
 
 if (isset($_REQUEST['new'])) {
-	
+
 	?>
 
 	<h4>New Tag</h4>
@@ -131,22 +129,22 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2">
-	<input type="button" value="Cancel" onclick="location.href='edit_texttags.php';" /> 
+	<input type="button" value="Cancel" onclick="location.href='edit_texttags.php';" />
 	<input type="submit" name="op" value="Save" /></td>
 	</tr>
 	</table>
 	</form>
-	
+
 	<?php
-	
+
 }
 
 // CHG
 
 elseif (isset($_REQUEST['chg'])) {
-	
+
 	$sql = 'select * from tags2 where T2ID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
+	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
 ?>
@@ -164,7 +162,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<input type="button" value="Cancel" onclick="location.href='edit_texttags.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
+		<input type="button" value="Cancel" onclick="location.href='edit_texttags.php#rec<?php echo $_REQUEST['chg']; ?>';" />
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>
@@ -177,19 +175,19 @@ elseif (isset($_REQUEST['chg'])) {
 // DISPLAY
 
 else {
-	
+
 	echo error_message_with_hide($message,0);
-	
+
 	get_texttags(1);   // refresh tags cache
 
 	$sql = 'select count(T2ID) as value from tags2 where (1=1) ' . $wh_query;
 	$recno = get_first_value($sql);
 	if ($debug) echo $sql . ' ===&gt; ' . $recno;
-	
+
 	$maxperpage = getSettingWithDefault('set-tags-per-page');
 
 	$pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
-	
+
 	if ($currentpage < 1) $currentpage = 1;
 	if ($currentpage > $pages) $currentpage = $pages;
 	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
@@ -198,7 +196,7 @@ else {
 	$lsorts = count($sorts);
 	if ($currentsort < 1) $currentsort = 1;
 	if ($currentsort > $lsorts) $currentsort = $lsorts;
-	
+
 ?>
 <p><a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Text Tag ...</a></p>
 
@@ -244,14 +242,14 @@ if ($recno==0) {
 Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Actions" />
 </th></tr>
 <tr><td class="td1 center" colspan="2">
-<b>ALL</b> <?php echo ($recno == 1 ? '1 Tag' : $recno . ' Tags'); ?>:&nbsp; 
+<b>ALL</b> <?php echo ($recno == 1 ? '1 Tag' : $recno . ' Tags'); ?>:&nbsp;
 <select name="allaction" onchange="allActionGo(document.form2, document.form2.allaction,<?php echo $recno; ?>);"><?php echo get_alltagsactions_selectoptions(); ?></select>
 </td></tr>
 <tr><td class="td1 center">
 <input type="button" value="Mark All" onclick="selectToggle(true,'form2');" />
 <input type="button" value="Mark None" onclick="selectToggle(false,'form2');" />
 </td>
-<td class="td1 center">Marked Tags:&nbsp; 
+<td class="td1 center">Marked Tags:&nbsp;
 <select name="markaction" id="markaction" disabled="disabled" onchange="multiActionGo(document.form2, document.form2.markaction);"><?php echo get_multipletagsactions_selectoptions(); ?></select>
 </td></tr></table>
 
@@ -269,7 +267,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 
 $sql = 'select T2ID, T2Text, T2Comment from tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	$c = get_first_value('select count(*) as value from texttags where TtT2ID=' . $record['T2ID']);

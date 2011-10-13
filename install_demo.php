@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -15,9 +15,7 @@ Call: install_demo.php
 Install LWT Demo Database
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $message = '';
 
@@ -79,7 +77,7 @@ if (isset($_REQUEST['install'])) {
 	else {
 		$message = "Error: File ' . $file . ' does not exist";
 	}
-} 
+}
 
 pagestart('Install LWT Demo Database',true);
 
@@ -96,12 +94,12 @@ $langcnt = get_first_value('select count(*) as value from languages');
 <p class="smallgray2">
 The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT demo database.
 
-<?php 
-if ($langcnt > 0 ) { 
+<?php
+if ($langcnt > 0 ) {
 	?>
 	<br /><b>Please be careful - the existent database will be overwritten!</b>
-	<?php 
-} 
+	<?php
+}
 ?>
 
 </p>
@@ -110,7 +108,7 @@ if ($langcnt > 0 ) {
 </td>
 </tr>
 <tr>
-<td class="td1 right" colspan="2"> 
+<td class="td1 right" colspan="2">
 <input type="button" value="&lt;&lt; Back to LWT Main Menu" onclick="location.href='index.php';" /></td>
 </tr>
 </table>

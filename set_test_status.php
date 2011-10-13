@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -16,9 +16,7 @@ Call: set_test_status.php?wid=[wordid]&stchange=+1/-1
 Change status of term while testing
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $stchange = getreq('stchange');
 $status = getreq('status');
@@ -34,22 +32,22 @@ if ($stchange == '') {
 	$stchange = $status - $oldstatus;
 	if ($stchange <= 0) $stchange=-1;
 	if ($stchange > 0) $stchange=1;
-	
+
 } else {
 
 	$stchange = $stchange + 0;
 	$status = $oldstatus + $stchange;
 	if ($status < 1) $status=1;
 	if ($status > 5) $status=5;
-	
+
 }
 
 $word = get_first_value("select WoText as value from words where WoID = " . $wid);
 pagestart("Term: " . $word, false);
 
-$m1 = runsql('update words set WoStatus = ' . 
+$m1 = runsql('update words set WoStatus = ' .
 	$status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed');
-	
+
 $newscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from words where WoID = ' . $wid) + 0;
 
 if ($oldstatus == $status)
@@ -64,11 +62,11 @@ $wrong = $_SESSION['testwrong'];
 $correct = $_SESSION['testcorrect'];
 $notyettested = $totaltests - $correct - $wrong;
 if ( $notyettested > 0 ) {
-	if ( $stchange >= 0 ) 
+	if ( $stchange >= 0 )
 		$_SESSION['testcorrect']++;
 	else
 		$_SESSION['testwrong']++;
-}		
+}
 
 ?>
 <script type="text/javascript">

@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -12,14 +12,12 @@ Developed by J. Pierre in 2011.
 
 /**************************************************************
 Call: backup_restore.php?....
-      ... restore=xxx ... do restore 
-      ... backup=xxx ... do backup 
+      ... restore=xxx ... do restore
+      ... backup=xxx ... do backup
 Backup/Restore LWT Database
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $message = '';
 
@@ -80,14 +78,14 @@ if (isset($_REQUEST['restore'])) {
 	else {
 		$message = "Error: No Restore file specified";
 	}
-} 
+}
 
 // BACKUP
 
 elseif (isset($_REQUEST['backup'])) {
 	$tables = array();
 	$result = mysql_query('SHOW TABLES');
-	while ($row = mysql_fetch_row($result)) 
+	while ($row = mysql_fetch_row($result))
 		$tables[] = $row[0];
 	$fname = "lwt-backup-" . date('Y-m-d-H-i-s') . ".sql.gz";
 	$out = "-- " . $fname . "\n";
@@ -100,9 +98,9 @@ elseif (isset($_REQUEST['backup'])) {
 		while ($row = mysql_fetch_row($result)) { // foreach record
 			$return = 'INSERT INTO ' . $table . ' VALUES(';
 			for ($j=0; $j < $num_fields; $j++) { // foreach field
-				if (isset($row[$j])) { 
+				if (isset($row[$j])) {
 					$return .= "'" . mysql_real_escape_string($row[$j]) . "'";
-				} else { 
+				} else {
 					$return .= 'NULL';
 				}
 				if ($j < ($num_fields-1)) $return .= ',';
@@ -115,7 +113,7 @@ elseif (isset($_REQUEST['backup'])) {
 	echo gzencode($out,9);
 	exit();
 }
-	
+
 pagestart('Backup/Restore LWT Database',true);
 
 echo error_message_with_hide($message,1);
@@ -151,7 +149,7 @@ You may also replace the database <i><?php echo tohtml($dbname); ?></i> by the L
 </td>
 </tr>
 <tr>
-<td class="td1 right" colspan="2"> 
+<td class="td1 right" colspan="2">
 <input type="button" value="&lt;&lt; Back" onclick="location.href='index.php';" /></td>
 </tr>
 </table>

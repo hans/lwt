@@ -7,18 +7,13 @@ In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
-Developed by J. Pierre in 2011
+
+Developed by J. Pierre in 2011.
 ***************************************************************/
 
-/**************************************************************
-Call: ajax_save_setting.php?k=[key]&v=[value]
-Save a Setting (k/v)
-***************************************************************/
-
-require 'lwt-config.php';
-
-$k = getreq('k');
-$v = getreq('v');
-saveSetting($k,$v);
+$server = "127.0.0.1";
+$userid = "root";
+$passwd = "";
+$dbname = "learning-with-texts";
 
 ?>

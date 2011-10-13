@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -15,9 +15,7 @@ Call: statistics.php
 Display statistics
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 pagestart('My Statistics',true);
 
@@ -53,11 +51,11 @@ $sum599 = 0;
 $sumall = 0;
 
 $sql = 'SELECT LgID, LgName FROM languages ORDER BY LgName';
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	$lang = $record['LgID'];
-	
+
 	flush();
 	$s1 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 1');
 	$s2 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 2');
@@ -70,7 +68,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	$s15 = $s14 + $s5;
 	$s599 = $s5 + $s99;
 	$all = $s15 + $s98 + $s99;
-	
+
 	$sum1 += $s1;
 	$sum2 += $s2;
 	$sum3 += $s3;
@@ -97,7 +95,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center"><span class="status5stat">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=599&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s599 . '</b></a>&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status98">&nbsp;<a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=' . $lang . '&amp;status=98&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $s98 . '</b></a>&nbsp;</span></td>';
 	echo '</tr>';
-	
+
 }
 mysql_free_result($res);
 echo '<tr>';
@@ -173,7 +171,7 @@ $sumkall = 0;
 </tr>
 <?php
 $sql = 'SELECT LgID, LgName FROM languages ORDER BY LgName';
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	$lang = $record['LgID'];
@@ -186,23 +184,23 @@ while ($record = mysql_fetch_assoc($res)) {
 	$cy = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) = subdate(curdate(), \'1 day\')');
 	$ay = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) = subdate(curdate(), \'1 day\')');
 	$ky = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) = subdate(curdate(), \'1 day\')');
-	
+
 	$cw = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'6 day\') and curdate()');
 	$aw = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'6 day\') and curdate()');
 	$kw = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'6 day\') and curdate()');
-	
+
 	$cm = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'29 day\') and curdate()');
 	$am = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'29 day\') and curdate()');
 	$km = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'29 day\') and curdate()');
-	
+
 	$ca = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'364 day\') and curdate()');
 	$aa = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'364 day\') and curdate()');
 	$ka = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'364 day\') and curdate()');
-	
+
 	$call = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99)');
 	$aall = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99)');
 	$kall = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99)');
-	
+
 	$sumct += $ct;
 	$sumat += $at;
 	$sumkt += $kt;
@@ -221,34 +219,34 @@ while ($record = mysql_fetch_assoc($res)) {
 	$sumcall += $call;
 	$sumaall += $aall;
 	$sumkall += $kall;
-	
+
 	echo '<tr>';
 	echo '<td class="td1">' . tohtml($record['LgName']) . '</td>';
-	
+
 	echo '<td class="td1 center"><span class="status1">&nbsp;' . $ct . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status3">&nbsp;' . $at . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status5stat">&nbsp;' . $kt . '&nbsp;</span></td>';
-	
+
 	echo '<td class="td1 center"><span class="status1">&nbsp;' . $cy . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status3">&nbsp;' . $ay . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status5stat">&nbsp;' . $ky . '&nbsp;</span></td>';
-	
+
 	echo '<td class="td1 center"><span class="status1">&nbsp;' . $cw . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status3">&nbsp;' . $aw . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status5stat">&nbsp;' . $kw . '&nbsp;</span></td>';
-	
+
 	echo '<td class="td1 center"><span class="status1">&nbsp;' . $cm . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status3">&nbsp;' . $am . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status5stat">&nbsp;' . $km . '&nbsp;</span></td>';
-	
+
 	echo '<td class="td1 center"><span class="status1">&nbsp;' . $ca . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status3">&nbsp;' . $aa . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status5stat">&nbsp;' . $ka . '&nbsp;</span></td>';
-	
+
 	echo '<td class="td1 center"><span class="status1">&nbsp;' . $call . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status3">&nbsp;' . $aall . '&nbsp;</span></td>';
 	echo '<td class="td1 center"><span class="status5stat">&nbsp;' . $kall . '&nbsp;</span></td>';
-	
+
 	echo '</tr>';
 }
 mysql_free_result($res);
@@ -281,7 +279,7 @@ echo '<th class="th1 center"><span class="status5stat">&nbsp;' . $sumkall . '&nb
 
 echo '</tr>';
 ?>
-</table> 
+</table>
 <p><input type="button" value="&lt;&lt; Back" onclick="location.href='index.php';" /></p>
 <?php
 

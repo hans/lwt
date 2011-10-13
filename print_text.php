@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -12,19 +12,17 @@ Developed by J. Pierre in 2011.
 
 /**************************************************************
 Call: print_text.php?text=[textid]&...
-			... ann=[annotationcode] ... ann. filter 
-      ... status=[statuscode] ... status filter   
+			... ann=[annotationcode] ... ann. filter
+      ... status=[statuscode] ... status filter
 Print a text
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 function output_text($saveterm,$saverom,$savetrans,$savetags,
 	$show_rom,$show_trans,$show_tags,$annplcmnt) {
 	if ($show_tags) {
-		if ($savetrans == '' && $savetags != '') 
+		if ($savetrans == '' && $savetags != '')
 			$savetrans = '* ' . $savetags;
 		else
 			$savetrans = trim($savetrans . ' ' . $savetags);
@@ -33,14 +31,14 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
 	if ($show_trans && $savetrans == '') $show_trans = 0;
 	if ($annplcmnt == 1) {
 		if ($show_rom || $show_trans) {
-			if ($show_trans) 
+			if ($show_trans)
 				echo '<span class="anntrans">' . tohtml($savetrans) . '</span> ';
-			if ($show_rom  && (! $show_trans)) 
+			if ($show_rom  && (! $show_trans))
 				echo '<span class="annrom">' . tohtml($saverom) . '</span> ';
-			if ($show_rom && $show_trans) 
+			if ($show_rom && $show_trans)
 				echo '<span class="annrom" dir="ltr">[' . tohtml($saverom) . ']</span> ';
 			echo ' <span class="annterm">';
-		}	
+		}
 		echo tohtml($saveterm);
 		if ($show_rom || $show_trans)
 			echo '</span> ';
@@ -50,14 +48,14 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
 		echo tohtml($saveterm);
 		if ($show_rom || $show_trans) {
 			echo '</span> ';
-			if ($show_rom  && (! $show_trans)) 
+			if ($show_rom  && (! $show_trans))
 				echo '<span class="annrom">' . tohtml($saverom) . '</span>';
-			if ($show_rom && $show_trans) 
+			if ($show_rom && $show_trans)
 				echo '<span class="annrom" dir="ltr">[' . tohtml($saverom) . ']</span> ';
-			if ($show_trans) 
+			if ($show_trans)
 				echo '<span class="anntrans">' . tohtml($savetrans) . '</span>';
 			echo ' ';
-		}	
+		}
 	}
 }
 
@@ -70,9 +68,9 @@ if($textid==0) {
 $ann = getreq('ann');
 if ($ann == '') $ann = getSetting('currentprintannotation');
 if ($ann == '') $ann = 3;
-$show_rom = $ann & 2; 
-$show_trans = $ann & 1; 
-$show_tags = $ann & 4; 
+$show_rom = $ann & 2;
+$show_trans = $ann & 1;
+$show_tags = $ann & 4;
 
 $status = getreq('status');
 if($status == '') $status = getSetting('currentprintstatus');
@@ -84,7 +82,7 @@ if($annplcmnt == '') $annplcmnt = getSetting('currentprintannotationplacement');
 if($annplcmnt == '') $annplcmnt = 0;
 
 $sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
 $title = $record['TxTitle'];
@@ -92,7 +90,7 @@ $langid = $record['TxLgID'];
 mysql_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
@@ -123,10 +121,10 @@ echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 Terms with <b>status(es)</b>
 <select id="status" onchange="{val=document.getElementById('status').options[document.getElementById('status').selectedIndex].value;location.href='print_text.php?<?php echo 'text=' . $textid;
 echo "&amp;status=' + val;}" . '">';
-echo get_wordstatus_selectoptions($status, true, true, false); 
-?> 
+echo get_wordstatus_selectoptions($status, true, true, false);
+?>
 </select> ...<br />will be
-<b>annotated</b> with 
+<b>annotated</b> with
 <select id="ann" onchange="{val=document.getElementById('ann').options[document.getElementById('ann').selectedIndex].value;location.href='print_text.php?<?php
 echo 'text=' . $textid;
 echo "&amp;ann=' + val;}" . '">';
@@ -163,14 +161,14 @@ $saverom = '';
 $savetags = '';
 $until = 0;
 
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 
 while ($record = mysql_fetch_assoc($res)) {
 
 	$actcode = $record['Code'] + 0;
 	$order = $record['TiOrder'] + 0;
-	
+
 	if ( $order <= $until ) {
 		continue;
 	}
@@ -190,7 +188,7 @@ while ($record = mysql_fetch_assoc($res)) {
 			tohtml($record['TiText']));
 	}
 	else {
-		$until = $order + 2 * ($actcode-1);                
+		$until = $order + 2 * ($actcode-1);
 		$saveterm = $record['TiText'];
 		$savetrans = '';
 		$savetags = '';

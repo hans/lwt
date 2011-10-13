@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -16,24 +16,22 @@ Call: edit_texts.php?....
       ... del=[textid] ... do delete
       ... arch=[textid] ... do archive
       ... op=Check ... do check
-      ... op=Save ... do insert new 
+      ... op=Save ... do insert new
       ... op=Change ... do update
-      ... op=Save+and+Open ... do insert new and open 
+      ... op=Save+and+Open ... do insert new and open
       ... op=Change+and+Open ... do update and open
-      ... new=1 ... display new text screen 
-      ... chg=[textid] ... display edit screen 
-      ... filterlang=[langid] ... language filter 
-      ... sort=[sortcode] ... sort 
-      ... page=[pageno] ... page  
-      ... query=[titlefilter] ... title filter   
+      ... new=1 ... display new text screen
+      ... chg=[textid] ... display edit screen
+      ... filterlang=[langid] ... language filter
+      ... sort=[sortcode] ... sort
+      ... page=[pageno] ... page
+      ... query=[titlefilter] ... title filter
 Manage active texts
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
-// Page, Sort, etc. 
+// Page, Sort, etc.
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currenttextsort','1',1);
@@ -56,16 +54,16 @@ else {
 			$wh_tag1 = "group_concat(TtT2ID) IS NULL";
 		else
 			$wh_tag1 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
-	} 
+	}
 	if ($currenttag2 != '') {
 		if ($currenttag2 == -1)
 			$wh_tag2 = "group_concat(TtT2ID) IS NULL";
 		else
 			$wh_tag2 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
-	} 
-	if ($currenttag1 != '' && $currenttag2 == '')	
+	}
+	if ($currenttag1 != '' && $currenttag2 == '')
 		$wh_tag = " having (" . $wh_tag1 . ') ';
-	elseif ($currenttag2 != '' && $currenttag1 == '')	
+	elseif ($currenttag2 != '' && $currenttag1 == '')
 		$wh_tag = " having (" . $wh_tag2 . ') ';
 	else
 		$wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) ';
@@ -92,7 +90,7 @@ if (isset($_REQUEST['markaction'])) {
 				$list = "(" . $_REQUEST['marked'][0];
 				for ($i=1; $i<$l; $i++) $list .= "," . $_REQUEST['marked'][$i];
 				$list .= ")";
-				
+
 				if ($markaction == 'del') {
 					$message3 = runsql('delete from textitems where TiTxID in ' . $list, "Text items deleted");
 					$message2 = runsql('delete from sentences where SeTxID in ' . $list, "Sentences deleted");
@@ -102,20 +100,20 @@ if (isset($_REQUEST['markaction'])) {
 					adjust_autoincr('sentences','SeID');
 					adjust_autoincr('textitems','TiID');
 					runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
-				} 
-				
+				}
+
 				elseif ($markaction == 'arch') {
 					runsql('delete from textitems where TiTxID in ' . $list, "");
 					runsql('delete from sentences where SeTxID in ' . $list, "");
 					$count = 0;
 					$sql = "select TxID from texts where TxID in " . $list;
-					$res = mysql_query($sql);		
+					$res = mysql_query($sql);
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$id = $record['TxID'];
 						$count += (0 + runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $id, ""));
 						$aid = get_last_key();
-						runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from texttags where TtTxID = ' . $id, "");	
+						runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from texttags where TtTxID = ' . $id, "");
 					}
 					mysql_free_result($res);
 					$message = 'Text(s) archived: ' . $count;
@@ -124,22 +122,22 @@ if (isset($_REQUEST['markaction'])) {
 					adjust_autoincr('texts','TxID');
 					adjust_autoincr('sentences','SeID');
 					adjust_autoincr('textitems','TiID');
-				} 
-				
+				}
+
 				elseif ($markaction == 'addtag' ) {
 					$message = addtexttaglist($actiondata,$list);
 				}
-				
+
 				elseif ($markaction == 'deltag' ) {
 					$message = removetexttaglist($actiondata,$list);
 					header("Location: edit_texts.php");
 					exit();
 				}
-				
+
 				elseif ($markaction == 'setsent') {
 					$count = 0;
 					$sql = "select WoID, WoTextLC, min(TiSeID) as SeID from words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(TiSeID)";
-					$res = mysql_query($sql);		
+					$res = mysql_query($sql);
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
@@ -147,12 +145,12 @@ if (isset($_REQUEST['markaction'])) {
 					}
 					mysql_free_result($res);
 					$message = 'Term Sentences set from Text(s): ' . $count;
-				} 
-				
+				}
+
 				elseif ($markaction == 'rebuild') {
 					$count = 0;
 					$sql = "select TxID, TxLgID from texts where TxID in " . $list;
-					$res = mysql_query($sql);		
+					$res = mysql_query($sql);
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$id = $record['TxID'];
@@ -162,20 +160,20 @@ if (isset($_REQUEST['markaction'])) {
 						adjust_autoincr('textitems','TiID');
 						splitText(
 							get_first_value(
-								'select TxText as value from texts where TxID = ' . $id), 
+								'select TxText as value from texts where TxID = ' . $id),
 								$record['TxLgID'], $id );
 						$count++;
 					}
 					mysql_free_result($res);
 					$message = 'Text(s) re-parsed: ' . $count;
 				}
-				
+
 				elseif ($markaction == 'test' ) {
 					$_SESSION['testsql'] = ' words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in ' . $list . ' ';
 					header("Location: do_test.php?selection=1");
 					exit();
 				}
-				
+
 			}
 		}
 	}
@@ -184,11 +182,11 @@ if (isset($_REQUEST['markaction'])) {
 // DEL
 
 if (isset($_REQUEST['del'])) {
-	$message3 = runsql('delete from textitems where TiTxID = ' . $_REQUEST['del'], 
+	$message3 = runsql('delete from textitems where TiTxID = ' . $_REQUEST['del'],
 		"Text items deleted");
-	$message2 = runsql('delete from sentences where SeTxID = ' . $_REQUEST['del'], 
+	$message2 = runsql('delete from sentences where SeTxID = ' . $_REQUEST['del'],
 		"Sentences deleted");
-	$message1 = runsql('delete from texts where TxID = ' . $_REQUEST['del'], 
+	$message1 = runsql('delete from texts where TxID = ' . $_REQUEST['del'],
 		"Texts deleted");
 	$message = $message1 . " / " . $message2 . " / " . $message3;
 	adjust_autoincr('texts','TxID');
@@ -200,13 +198,13 @@ if (isset($_REQUEST['del'])) {
 // ARCH
 
 elseif (isset($_REQUEST['arch'])) {
-	$message3 = runsql('delete from textitems where TiTxID = ' . $_REQUEST['arch'], 
+	$message3 = runsql('delete from textitems where TiTxID = ' . $_REQUEST['arch'],
 		"Text items deleted");
-	$message2 = runsql('delete from sentences where SeTxID = ' . $_REQUEST['arch'], 
+	$message2 = runsql('delete from sentences where SeTxID = ' . $_REQUEST['arch'],
 		"Sentences deleted");
 	$message4 = runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
 	$id = get_last_key();
-	runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from texttags where TtTxID = ' . $_REQUEST['arch'], "");	
+	runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from texttags where TtTxID = ' . $_REQUEST['arch'], "");
 	$message1 = runsql('delete from texts where TxID = ' . $_REQUEST['arch'], "Texts deleted");
 	$message = $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
 	adjust_autoincr('texts','TxID');
@@ -225,32 +223,32 @@ elseif (isset($_REQUEST['op'])) {
 	}
 
 	else {
-	
+
 		// CHECK
-		
+
 		if ($_REQUEST['op'] == 'Check') {
 			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
 			echo checkText($_REQUEST['TxText'], $_REQUEST['TxLgID']);
 			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
 			pageend();
 			exit();
-		} 
-		
+		}
+
 		// INSERT
-		
+
 		elseif (substr($_REQUEST['op'],0,4) == 'Save') {
-			$message1 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) values( ' . 
-			$_REQUEST["TxLgID"] . ', ' . 
-			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
+			$message1 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) values( ' .
+			$_REQUEST["TxLgID"] . ', ' .
+			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
 			')', "Saved");
 			$id = get_last_key();
 			saveTextTags($id);
-		} 
-		
+		}
+
 		// UPDATE
-		
+
 		elseif (substr($_REQUEST['op'],0,6) == 'Change') {
 			$message1 = runsql('update texts set ' .
 			'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
@@ -261,26 +259,26 @@ elseif (isset($_REQUEST['op'])) {
 			$id = $_REQUEST["TxID"];
 			saveTextTags($id);
 		}
-		
-		$message2 = runsql('delete from sentences where SeTxID = ' . $id, 
+
+		$message2 = runsql('delete from sentences where SeTxID = ' . $id,
 			"Sentences deleted");
-		$message3 = runsql('delete from textitems where TiTxID = ' . $id, 
+		$message3 = runsql('delete from textitems where TiTxID = ' . $id,
 			"Textitems deleted");
 		adjust_autoincr('sentences','SeID');
 		adjust_autoincr('textitems','TiID');
-	
+
 		splitText(
 			get_first_value(
-				'select TxText as value from texts where TxID = ' . $id), 
+				'select TxText as value from texts where TxID = ' . $id),
 			$_REQUEST["TxLgID"], $id );
-			
+
 		$message = $message1 . " / " . $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from sentences where SeTxID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from textitems where TiTxID = ' . $id);
-		
+
 		if(substr($_REQUEST['op'],-8) == "and Open") {
 			header('Location: do_text.php?start=' . $id);
 			exit();
 		}
-	
+
 	}
 
 }
@@ -288,7 +286,7 @@ elseif (isset($_REQUEST['op'])) {
 if (isset($_REQUEST['new'])) {
 
 // NEW
-	
+
 	?>
 
 	<h4>New Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
@@ -322,13 +320,13 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Audio-URI:</td>
-	<td class="td1"><input type="text" name="TxAudioURI" value="" maxlength="200" size="60" />		
-	<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
+	<td class="td1"><input type="text" name="TxAudioURI" value="" maxlength="200" size="60" />
+	<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>
 	</td>
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2">
-	<input type="button" value="Cancel" onclick="location.href='edit_texts.php';" /> 
+	<input type="button" value="Cancel" onclick="location.href='edit_texts.php';" />
 	<input type="submit" name="op" value="Check" />
 	<input type="submit" name="op" value="Save" />
 	<input type="submit" name="op" value="Save and Open" />
@@ -336,22 +334,22 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	</table>
 	</form>
-	
+
 	<?php
-	
+
 }
 
 // CHG
 
 elseif (isset($_REQUEST['chg'])) {
-	
+
 	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
+	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
 
 		?>
-	
+
 		<h4>Edit Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="TxID" value="<?php echo $_REQUEST['chg']; ?>" />
@@ -384,13 +382,13 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Audio-URI:</td>
-		<td class="td1"><input type="text" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
-		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
+		<td class="td1"><input type="text" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" />
+		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>
 		</td>
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<input type="button" value="Cancel" onclick="location.href='edit_texts.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
+		<input type="button" value="Cancel" onclick="location.href='edit_texts.php#rec<?php echo $_REQUEST['chg']; ?>';" />
 		<input type="submit" name="op" value="Check" />
 		<input type="submit" name="op" value="Change" />
 		<input type="submit" name="op" value="Change and Open" />
@@ -398,7 +396,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		</table>
 		</form>
-		
+
 		<?php
 
 	}
@@ -411,7 +409,7 @@ elseif (isset($_REQUEST['chg'])) {
 else {
 
 	echo error_message_with_hide($message,0);
-	
+
 	$sql = 'select count(*) as value from (select TxID from (texts left JOIN texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
 	$recno = get_first_value($sql);
 	if ($debug) echo $sql . ' ===&gt; ' . $recno;
@@ -419,7 +417,7 @@ else {
 	$maxperpage = getSettingWithDefault('set-texts-per-page');
 
 	$pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
-	
+
 	if ($currentpage < 1) $currentpage = 1;
 	if ($currentpage > $pages) $currentpage = $pages;
 	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
@@ -428,7 +426,7 @@ else {
 	$lsorts = count($sorts);
 	if ($currentsort < 1) $currentsort = 1;
 	if ($currentsort > $lsorts) $currentsort = $lsorts;
-	
+
 ?>
 
 <p>
@@ -495,7 +493,7 @@ if ($recno==0) {
 <input type="button" value="Mark All" onclick="selectToggle(true,'form2');" />
 <input type="button" value="Mark None" onclick="selectToggle(false,'form2');" />
 </td><td class="td1 center">
-Marked Texts:&nbsp; 
+Marked Texts:&nbsp;
 <select name="markaction" id="markaction" disabled="disabled" onchange="multiActionGo(document.form2, document.form2.markaction);"><?php echo get_multipletextactions_selectoptions(); ?></select>
 </td></tr></table>
 
@@ -516,7 +514,7 @@ Marked Texts:&nbsp;
 
 $sql = 'select TxID, TxTitle, LgName, TxAudioURI, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((texts left JOIN texttags ON TxID = TtTxID) left join tags2 on T2ID = TtT2ID), languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
 while ($record = mysql_fetch_assoc($res)) {
@@ -529,7 +527,7 @@ while ($record = mysql_fetch_assoc($res)) {
 		$txttodowords = $txttotalwords - $txtworkedwords;
 		$percentunknown = 0;
 		if ($txttotalwords != 0) {
-			$percentunknown = 
+			$percentunknown =
 				round(100*$txttodowords/$txttotalwords,0);
 			if ($percentunknown > 100) $percentunknown = 100;
 			if ($percentunknown < 0) $percentunknown = 0;
@@ -545,12 +543,12 @@ while ($record = mysql_fetch_assoc($res)) {
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
 	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . '</td>';
 	if ($showCounts) {
-		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>'; 
+		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>';
 		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $record['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';
 		echo '<td class="td1 center"><span title="Unknown" class="status0">&nbsp;' . $txttodowords . '&nbsp;</span></td>';
 		echo '<td class="td1 center"><span title="Unknown (%)">' . $percentunknown . '</span></td>';
 	} else {
-		echo '<td class="td1 center"><span id="total-' . $record['TxID'] . '"></span></td><td class="td1 center"><span data_id="' . $record['TxID'] . '" id="saved-' . $record['TxID'] . '"><span class="click" onclick="do_ajax_word_counts();"><img src="icn/lightning.png" title="View Word Counts" alt="View Word Counts" /></span></span></td><td class="td1 center"><span id="todo-' . $record['TxID'] . '"></span></td><td class="td1 center"><span id="todop-' . $record['TxID'] . '"></span></td>'; 
+		echo '<td class="td1 center"><span id="total-' . $record['TxID'] . '"></span></td><td class="td1 center"><span data_id="' . $record['TxID'] . '" id="saved-' . $record['TxID'] . '"><span class="click" onclick="do_ajax_word_counts();"><img src="icn/lightning.png" title="View Word Counts" alt="View Word Counts" /></span></span></td><td class="td1 center"><span id="todo-' . $record['TxID'] . '"></span></td><td class="td1 center"><span id="todop-' . $record['TxID'] . '"></span></td>';
 	}
 	echo '</tr>';
 }
@@ -568,8 +566,8 @@ mysql_free_result($res);
 </th><th class="th1" nowrap="nowrap">
 <?php makePager ($currentpage, $pages, 'edit_texts.php', 'form1'); ?>
 </th></tr></table>
-<?php 
-} 
+<?php
+}
 
 }
 

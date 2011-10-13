@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -15,9 +15,7 @@ Call: show_word.php?wid=...
 Show term
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 pagestart_nobody('Term');
 
@@ -26,13 +24,13 @@ $wid = getreq('wid');
 if ($wid == '') die ('Word not found');
 
 $sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 if ($record = mysql_fetch_assoc($res)) {
 
 	$transl = repl_tab_nl($record['WoTranslation']);
 	if($transl == '*') $transl='';
-	
+
 	$tags = getWordTagList($wid, '', 0, 0);
 	$rom = $record['WoRomanization'];
 	$scrdir = getScriptDirectionTag($record['WoLgID']);

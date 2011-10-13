@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -15,13 +15,11 @@ Call: do_text_header.php?text=[textid]
 Show text header frame
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $textid = getreq('text');
 $sql = 'select TxLgID, TxTitle, TxAudioURI from texts where TxID = ' . $textid;
-$res = mysql_query($sql);		
+$res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
 
@@ -31,7 +29,7 @@ $audio=trim($audio);
 
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
-mysql_free_result($res); 
+mysql_free_result($res);
 
 saveSetting('currenttext',$textid);
 
@@ -48,7 +46,7 @@ $showAll = getSetting('showallwords');
 $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 
 ?>
-<table class="width99pc"><tr><td class="center" colspan="7" style="padding:10px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
+<table class="width99pc"><tr><td class="center" colspan="7" style="padding:10px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.
 [Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">Show All&nbsp;<input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> /></span><span id="thetextid" class="hide"><?php echo $textid; ?></span></td></tr>
 
 <?php
@@ -138,8 +136,8 @@ function click_single() {
 }
 
 function click_repeat() {
-	$("#jquery_jplayer_1").bind($.jPlayer.event.ended + ".jp-repeat", function(event) { 
-		$(this).jPlayer("play"); 
+	$("#jquery_jplayer_1").bind($.jPlayer.event.ended + ".jp-repeat", function(event) {
+		$(this).jPlayer("play");
 	});
 	$("#do-repeat").addClass('hide');
 	$("#do-single").removeClass('hide');
@@ -163,30 +161,30 @@ function click_forw() {
 $(document).ready(function(){
   $("#jquery_jplayer_1").jPlayer({
     ready: function () {
-      $(this).jPlayer("setMedia", { 
-<?php 
+      $(this).jPlayer("setMedia", {
+<?php
 	$audio = trim($audio);
-	if (strcasecmp(substr($audio,-4), '.mp3') == 0) { 
-  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-  } elseif (strcasecmp(substr($audio,-4), '.ogg') == 0) { 
-  	echo 'oga: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" . 
-  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+	if (strcasecmp(substr($audio,-4), '.mp3') == 0) {
+  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio));
+  } elseif (strcasecmp(substr($audio,-4), '.ogg') == 0) {
+  	echo 'oga: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" .
+  			 'mp3: ' . prepare_textdata_js(encodeURI($audio));
   } elseif (strcasecmp(substr($audio,-4), '.wav') == 0) {
-  	echo 'wav: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" . 
-  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  	echo 'wav: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" .
+  			 'mp3: ' . prepare_textdata_js(encodeURI($audio));
   } else {
-  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio));
   }
 ?>
       });
     },
     swfPath: "js",
   });
-  
-  $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
+
+  $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) {
   	$("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
 	});
-  
+
   $("#backbutt").click(click_back);
   $("#forwbutt").click(click_forw);
   $("#do-single").click(click_single);

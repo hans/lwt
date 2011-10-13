@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -12,12 +12,10 @@ Developed by J. Pierre in 2011.
 
 /**************************************************************
 Call: delete_mword.php?wid=[wordid]&tid=[textid]
-Delete an expression 
+Delete an expression
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $showAll = getSetting('showallwords');
 $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
@@ -38,7 +36,7 @@ var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 $('.word<?php echo $wid; ?>', context).removeClass('status1 status2 status3 status4 status5 status98 status99 word<?php echo $wid; ?>').addClass('hide').attr('data_status','').attr('data_trans','').attr('data_rom','').attr('data_wid','').attr('title','');
 $('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
-<?php 
+<?php
 if (! $showAll) echo refreshText($word,$tid);
 ?>
 window.parent.frames['l'].focus();

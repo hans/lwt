@@ -4,7 +4,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -13,40 +13,38 @@ Developed by J. Pierre in 2011.
 /**************************************************************
 Call: do_test_header.php?lang=[langid]
 Call: do_test_header.php?text=[textid]
-Call: do_test_header.php?selection=1  
+Call: do_test_header.php?selection=1
 			(SQL via $_SESSION['testsql'])
 Show test header frame
 ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require 'lwt-startup.php';
 
 $p = '';
 $message = '';
 
-if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) { 
-	$p = "selection=" . $_REQUEST['selection']; 
+if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) {
+	$p = "selection=" . $_REQUEST['selection'];
 	$testsql = $_SESSION['testsql'];
 	$totalcount = get_first_value('select count(distinct WoID) as value from ' . $testsql);
 	$title = 'Selected ' . $totalcount . ' Term' . ($totalcount==1 ? '' : 's');
 	$cntlang = get_first_value('select count(distinct WoLgID) as value from ' . $testsql);
-	if ($cntlang > 1) 
+	if ($cntlang > 1)
 		$message = 'Error: The selected terms are in ' . $cntlang . ' languages, but tests are only possible in one language at a time.';
-	else 
+	else
 		$title .= ' in ' . get_first_value('select LgName as value from languages, ' . $testsql . ' and LgID = WoLgID limit 1');
 }
 
 if (isset($_REQUEST['lang'])) {
 	$langid = getreq('lang');
-	$p = "lang=" . $langid; 
+	$p = "lang=" . $langid;
 	$title = "All Terms in " . get_first_value('select LgName as value from languages where LgID = ' . $langid);
 	$testsql = ' words where WoLgID = ' . $langid . ' ';
 }
 
 if (isset($_REQUEST['text'])) {
 	$textid = getreq('text');
-	$p = "text=" . $textid; 
+	$p = "text=" . $textid;
 	$title = get_first_value('select TxTitle as value from texts where TxID = ' . $textid);
 	saveSetting('currenttext',$_REQUEST['text']);
 	$testsql = ' words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $textid . ' ';
