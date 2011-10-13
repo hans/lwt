@@ -13,11 +13,8 @@
  *   would be 'index'.
  */
 function render($template = NULL) {
-    if ( $template === NULL ) {
-        $current_script = pathinfo($_SERVER['REQUEST_URI']);
-
-        $template = $current_script['basename'];
-    }
+    if ( $template === NULL )
+        $template = pathinfo($_SERVER['SCRIPT_FILENAME'], PATHINFO_FILENAME);
 
     require LWT_BASE . DIRECTORY_SEPARATOR . $template . '.php';
 }
