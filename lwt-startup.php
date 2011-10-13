@@ -11,13 +11,30 @@ Developed by J. Pierre in 2011.
 ***************************************************************/
 
 /**************************************************************
+Connect to database
 Debug switch / Display PHP error settings
 Set script time limit
 Start a PHP session
 ***************************************************************/
 
 require 'lwt-config.php';
+require 'lwt-include/database.php';
+require 'lwt-include/template.php';
 require 'lwt-include/utilities.php';
+
+$err = @mysql_connect($server,$userid,$passwd);
+if ($err == FALSE) die('DB connect error (MySQL not running or connection parameters are wrong; start MySQL and/or correct file "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
+
+@mysql_query("SET NAMES 'utf8'");
+
+$err = @mysql_select_db($dbname);
+if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . $dbname . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');
+
+$err = @mysql_select_db($dbname);
+if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');
+
+// check/update db
+check_update_db();
 
 $debug = 0;  // 1 = debugging on, 0 = .. off
 
