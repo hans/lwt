@@ -228,7 +228,7 @@ elseif (isset($_REQUEST['op'])) {
 
 		if ($_REQUEST['op'] == 'Check') {
         $result = checkText($_REQUEST['TxText'], $_REQUEST['TxLgId']);
-        render('edit_texts/check', compact('result'));
+        render('texts/check', compact('result'));
         die();
 		}
 
@@ -282,13 +282,13 @@ elseif (isset($_REQUEST['op'])) {
 }
 
 if (isset($_REQUEST['new'])) {
-    render('edit_texts/new', compact('currentlang'));
+    render('texts/new', compact('currentlang'));
 } elseif (isset($_REQUEST['chg'])) {
 	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
-      render('edit_texts/edit', compact('record'));
+      render('texts/edit', compact('record'));
 	}
 
 	mysql_free_result($res);
@@ -357,7 +357,7 @@ if (isset($_REQUEST['new'])) {
 
   mysql_free_result($res);
 
-  render('edit_texts/display',
+  render('texts/display',
          compact('currentlang', 'currenttag1', 'currenttag12', 'currenttag2',
                  'recno', 'records', 'pages', 'currentpage', 'showCounts'));
 }
