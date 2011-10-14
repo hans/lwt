@@ -306,7 +306,7 @@ if (isset($_REQUEST['new'])) {
 
 	if ($currentpage < 1) $currentpage = 1;
 	if ($currentpage > $pages) $currentpage = $pages;
-	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
+	$limit = 'LIMIT ' . max(0, (($currentpage-1) * $maxperpage)) . ',' . $maxperpage;
 
 	$sorts = array('TxTitle','TxID desc');
 	$lsorts = count($sorts);
