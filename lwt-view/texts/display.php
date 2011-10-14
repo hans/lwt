@@ -4,10 +4,7 @@
     </a>
 </p>
 
-<?php render('texts/_filter', compact('currentlang', 'currentquery',
-                                      'currenttag1', 'currenttag12',
-                                      'currenttag2', 'recno', 'currentpage',
-                                      'pages', 'currentsort')); ?>
+<?php render('texts/_filter', compact('filter', 'recno', 'pages')); ?>
 
 <?php if ( $recno == 0 ): ?>
     <p>No texts found.</p>
@@ -41,7 +38,7 @@
                 <th class="th1 sorttable_nosort">Mark</th>
                 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
                 <th class="th1 sorttable_nosort">Actions</th>
-                <?php if ($currentlang == ''): ?><th class="th1 clickable">Lang.</th><?php endif; ?>
+                <?php if ($filter['language'] == ''): ?><th class="th1 clickable">Lang.</th><?php endif; ?>
                 <th class="th1 clickable">Title [Tags] / Audio?</th>
                 <th class="th1 sorttable_numeric clickable">Total<br />Words</th>
                 <th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex</th>
@@ -92,7 +89,7 @@
                     </td>
 
                     <!-- Language -->
-                    <?php if ( $currentlang == '' ): ?>
+                    <?php if ( $filter['language'] == '' ): ?>
                         <td class="td1 center">
                             <?php echo $record['LgName']; ?>
                         </td>
@@ -168,7 +165,7 @@
                     <?php echo $recno; ?> Text<?php echo ( $recno == 1 ? '' : 's' ); ?>
                 </th>
                 <th class="th1" nowrap="nowrap">
-                    <?php makePager($currentpage, $pages, 'edit_texts.php', 'form1'); ?>
+                    <?php makePager($filter['page'], $pages, 'edit_texts.php', 'form1'); ?>
                 </th>
             </tr>
         </table>

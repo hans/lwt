@@ -15,7 +15,7 @@
             </td>
             <td class="td1 center" colspan="2">
                 Text Title (Wildc.=*):
-                <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
+                <input type="text" name="query" value="<?php echo tohtml($filter['query']); ?>" maxlength="50" size="15" />&nbsp;
                 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value; location.href = '<?php echo $_SERVER['PHP_SELF']; ?>?page=1&amp;query=' + val;}" />&nbsp;
                 <input type="button" value="Clear" onclick="{location.href='<?php echo $_SERVER['PHP_SELF']; ?>?page=1&amp;query=';}" />
             </td>
@@ -24,20 +24,20 @@
             <td class="td1 center" colspan="2" nowrap="nowrap">
                 Tag #1:
                 <select name="tag1" onchange="{val=document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href='<?php echo $_SERVER['PHP_SELF']; ?>?page=1&amp;tag1=' + val;}">
-                    <?php echo get_texttag_selectoptions($currenttag1,$currentlang); ?>
+                    <?php echo get_texttag_selectoptions($filter['tag1'],$currentlang); ?>
                 </select>
             </td>
             <td class="td1 center" nowrap="nowrap">
                 Tag #1 ..
                 <select name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='<?php echo $_SERVER['PHP_SELF']; ?>?page=1&amp;tag12=' + val;}">
-                    <?php echo get_andor_selectoptions($currenttag12); ?>
+                    <?php echo get_andor_selectoptions($filter['tag12']); ?>
                 </select>
                 .. Tag #2
             </td>
             <td class="td1 center" nowrap="nowrap">
                 Tag #2:
                 <select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='<?php echo $_SERVER['PHP_SELF']; ?>?page=1&amp;tag2=' + val;}">
-                    <?php echo get_texttag_selectoptions($currenttag2,$currentlang); ?>
+                    <?php echo get_texttag_selectoptions($filter['tag2'],$currentlang); ?>
                 </select>
             </td>
         </tr>
@@ -48,12 +48,12 @@
                     <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
                 </th>
                 <th class="th1" colspan="2" nowrap="nowrap">
-                    <?php makePager ($currentpage, $pages, $_SERVER['PHP_SELF'], 'form1'); ?>
+                    <?php makePager ($filter['page'], $pages, $_SERVER['PHP_SELF'], 'form1'); ?>
                 </th>
                 <th class="th1" colspan="1" nowrap="nowrap">
                     Sort Order:
                     <select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='<?php echo $_SERVER['PHP_SELF']; ?>?page=1&amp;sort=' + val;}">
-                        <?php echo get_textssort_selectoptions($currentsort); ?>
+                        <?php echo get_textssort_selectoptions($filter['sort']); ?>
                     </select>
                 </th>
             </tr>

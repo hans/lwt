@@ -33,46 +33,46 @@ require 'lwt-startup.php';
 
 // Page, Sort, etc.
 
-$currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
-$currentsort = processDBParam("sort",'currenttextsort','1',1);
+$filter = array('language' => validateLang(processDBParam("filterlang",'currentlanguage','',0)),
+                'sort' => processDBParam("sort",'currenttextsort','1',1),
+                'page' => processSessParam("page","currenttextpage",'1',1),
+                'query' => processSessParam("query","currenttextquery",'',0),
+                'tag12' => processSessParam("tag12","currenttexttag12",'',0));
 
-$currentpage = processSessParam("page","currenttextpage",'1',1);
-$currentquery = processSessParam("query","currenttextquery",'',0);
-$currenttag1 = validateTextTag(processSessParam("tag1","currenttexttag1",'',0),$currentlang);
-$currenttag2 = validateTextTag(processSessParam("tag2","currenttexttag2",'',0),$currentlang);
-$currenttag12 = processSessParam("tag12","currenttexttag12",'',0);
+$filter['tag1'] = validateTextTag(processSessParam("tag1","currenttexttag1",'',0), $filter['language']);
+$filter['tag2'] = validateTextTag(processSessParam("tag2","currenttexttag2",'',0), $filter['language']);
 
-$wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
-$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
-$wh_query = ($currentquery != '') ? (' and TxTitle like ' . $wh_query) : '';
+$wh_lang = ($filter['language'] != '') ? (' and TxLgID=' . $filter['language']) : '';
+$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($filter['query'], 'UTF-8')));
+$wh_query = ($filter['query'] != '') ? (' and TxTitle like ' . $wh_query) : '';
 
-if ($currenttag1 == '' && $currenttag2 == '')
+if ($filter['tag1'] == '' && $filter['tag2'] == '')
 	$wh_tag = '';
 else {
-	if ($currenttag1 != '') {
-		if ($currenttag1 == -1)
+	if ($filter['tag1'] != '') {
+		if ($filter['tag1'] == -1)
 			$wh_tag1 = "group_concat(TtT2ID) IS NULL";
 		else
-			$wh_tag1 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
+			$wh_tag1 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $filter['tag1'] . "/%'";
 	}
-	if ($currenttag2 != '') {
-		if ($currenttag2 == -1)
+	if ($filter['tag2'] != '') {
+		if ($filter['tag2'] == -1)
 			$wh_tag2 = "group_concat(TtT2ID) IS NULL";
 		else
-			$wh_tag2 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
+			$wh_tag2 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $filter['tag2'] . "/%'";
 	}
-	if ($currenttag1 != '' && $currenttag2 == '')
+	if ($filter['tag1'] != '' && $filter['tag2'] == '')
 		$wh_tag = " having (" . $wh_tag1 . ') ';
-	elseif ($currenttag2 != '' && $currenttag1 == '')
+	elseif ($filter['tag2'] != '' && $filter['tag1'] == '')
 		$wh_tag = " having (" . $wh_tag2 . ') ';
 	else
-		$wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) ';
+		$wh_tag = " having ((" . $wh_tag1 . ($filter['tag12'] ? ') AND (' : ') OR (') . $wh_tag2 . ')) ';
 }
 
 $no_pagestart = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'),-8) == 'and Open');
 
 if (! $no_pagestart) {
-	pagestart('My ' . getLanguage($currentlang) . ' Texts',true);
+	pagestart('My ' . getLanguage($filter['language']) . ' Texts',true);
 }
 
 $message = '';
@@ -219,7 +219,7 @@ elseif (isset($_REQUEST['op'])) {
 
 	if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000) {
 		$message = "Error: Text too long, must be below 65000 Bytes";
-		if ($no_pagestart) pagestart('My ' . getLanguage($currentlang) . ' Texts',true);
+		if ($no_pagestart) pagestart('My ' . getLanguage($filter['language']) . ' Texts',true);
 	}
 
 	else {
@@ -304,14 +304,14 @@ if (isset($_REQUEST['new'])) {
 
 	$pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
 
-	if ($currentpage < 1) $currentpage = 1;
-	if ($currentpage > $pages) $currentpage = $pages;
-	$limit = 'LIMIT ' . max(0, (($currentpage-1) * $maxperpage)) . ',' . $maxperpage;
+	if ($filter['page'] < 1) $filter['page'] = 1;
+	if ($filter['page'] > $pages) $filter['page'] = $pages;
+	$limit = 'LIMIT ' . max(0, (($filter['page']-1) * $maxperpage)) . ',' . $maxperpage;
 
 	$sorts = array('TxTitle','TxID desc');
 	$lsorts = count($sorts);
-	if ($currentsort < 1) $currentsort = 1;
-	if ($currentsort > $lsorts) $currentsort = $lsorts;
+	if ($filter['sort'] < 1) $filter['sort'] = 1;
+	if ($filter['sort'] > $lsorts) $filter['sort'] = $lsorts;
 
   //
 
@@ -323,7 +323,7 @@ if (isset($_REQUEST['new'])) {
           languages
       WHERE LgID = TxLgID ' . $wh_lang . $wh_query . '
       GROUP BY TxID ' . $wh_tag . '
-      ORDER BY ' . $sorts[$currentsort-1] . ' ' . $limit;
+      ORDER BY ' . $sorts[$filter['sort']-1] . ' ' . $limit;
 
   if ($debug) echo $sql;
   $res = mysql_query($sql);
@@ -358,8 +358,6 @@ if (isset($_REQUEST['new'])) {
   mysql_free_result($res);
 
   render('texts/display',
-         compact('currentlang', 'currenttag1', 'currenttag12', 'currenttag2',
-                 'recno', 'records', 'pages', 'currentpage', 'showCounts',
-                 'currentquery', 'currentsort'));
+         compact('filter', 'recno', 'records', 'pages', 'showCounts'));
 }
 ?>
