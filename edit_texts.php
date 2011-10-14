@@ -359,6 +359,7 @@ if (isset($_REQUEST['new'])) {
 
   render('texts/display',
          compact('currentlang', 'currenttag1', 'currenttag12', 'currenttag2',
-                 'recno', 'records', 'pages', 'currentpage', 'showCounts'));
+                 'recno', 'records', 'pages', 'currentpage', 'showCounts',
+                 'currentquery', 'currentsort'));
 }
 ?>
