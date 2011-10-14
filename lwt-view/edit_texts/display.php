@@ -144,7 +144,7 @@
                         </a>
                         &nbsp;&nbsp;
                         <span class="click" onclick="if ( confirm('Are you sure?') ) location.href = '<?php echo $_SERVER['PHP_SELF']; ?>?del=<?php echo $record['TxID']; ?>';">
-                            <img src="icon/minus-button.png" title="Delete" alt="Delete" />
+                            <img src="icn/minus-button.png" title="Delete" alt="Delete" />
                         </span>
                         &nbsp;
                     </td>
