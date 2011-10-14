@@ -2,7 +2,7 @@
 "Learning with Texts" (LWT) is released into the Public Domain.
 This applies worldwide.
 In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
+right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 Developed by J. Pierre in 2011.
@@ -22,7 +22,7 @@ var WBLINK3 = '';
 var SOLUTION = '';
 var ADDFILTER = '';
 var RTL = 0;
- 
+
 /**************************************************************
 LWT jQuery functions
 ***************************************************************/
@@ -43,17 +43,17 @@ function getUTF8Length(string) {
 	}
 	return utf8length;
 }
- 
+
 function check() {
 	var count = 0;
 	$('input.notempty').each( function(n) {
-		if($(this).attr('value').trim()=='') count++; 
+		if($(this).attr('value').trim()=='') count++;
 	} );
 	$('textarea.notempty').each( function(n) {
-		if($(this).val().trim()=='') count++; 
+		if($(this).val().trim()=='') count++;
 	} );
 	$('select.notempty').each( function(n) {
-		if($(this).val().trim()=='') count++; 
+		if($(this).val().trim()=='') count++;
 	} );
 	if (count > 0) {
 		alert('ERROR\n\n' + count + ' field(s) - marked with * - must not be empty!');
@@ -92,7 +92,7 @@ function markClick() {
 function showallwordsClick() {
 	var option = $('#showallwords:checked').length;
 	var text = $('#thetextid').text();
-	window.parent.frames['ro'].location.href = 
+	window.parent.frames['ro'].location.href =
 		'set_text_mode.php?mode=' + option +
 		'&text=' + text;
 }
@@ -116,7 +116,7 @@ function setTheFocus() {
 
 function word_click_event_do_test_test() {
 	run_overlib_test(
-		WBLINK1, WBLINK2, WBLINK3, 
+		WBLINK1, WBLINK2, WBLINK3,
 		$(this).attr('data_wid'),
 		$(this).attr('data_text'),
 		$(this).attr('data_trans'),
@@ -138,39 +138,39 @@ function keydown_event_do_test_test(e) {
 	}
 	if (OPENED == 0) return true;
 	if (e.which == 38) {  // up : status+1
-		window.parent.frames['ro'].location.href = 
+		window.parent.frames['ro'].location.href =
 			'set_test_status.php?wid=' + WID + '&stchange=1';
 		return false;
 	}
 	if (e.which == 40) {  // down : status-1
-		window.parent.frames['ro'].location.href = 
+		window.parent.frames['ro'].location.href =
 			'set_test_status.php?wid=' + WID + '&stchange=-1';
 		return false;
 	}
 	if (e.which == 27) {  // esc : dont change status
-		window.parent.frames['ro'].location.href = 
+		window.parent.frames['ro'].location.href =
 			'set_test_status.php?wid=' + WID + '&status=' + $('.word').attr('data_status');
 		return false;
 	}
 	for (var i=1; i<=5; i++) {
 		if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
-			window.parent.frames['ro'].location.href = 
+			window.parent.frames['ro'].location.href =
 				'set_test_status.php?wid=' + WID + '&status=' + i;
 			return false;
 		}
 	}
 	if (e.which == 73) {  // I : status=98
-		window.parent.frames['ro'].location.href = 
+		window.parent.frames['ro'].location.href =
 			'set_test_status.php?wid=' + WID + '&status=98';
 		return false;
 	}
 	if (e.which == 87) {  // W : status=99
-		window.parent.frames['ro'].location.href = 
+		window.parent.frames['ro'].location.href =
 			'set_test_status.php?wid=' + WID + '&status=99';
 		return false;
 	}
 	if (e.which == 69) {  // E : EDIT
-		window.parent.frames['ro'].location.href = 
+		window.parent.frames['ro'].location.href =
 			'edit_tword.php?wid=' + WID;
 		return false;
 	}
@@ -178,19 +178,19 @@ function keydown_event_do_test_test(e) {
 }
 
 function word_each_do_text_text(i) {
-	this.title = make_tooltip($(this).text(), $(this).attr('data_trans'), 
+	this.title = make_tooltip($(this).text(), $(this).attr('data_trans'),
 		$(this).attr('data_rom'), $(this).attr('data_status'));
 }
 
 function mword_each_do_text_text(i) {
-	if ($(this).attr('data_status') != '') 
-		this.title = make_tooltip($(this).attr('data_text'), 
-		$(this).attr('data_trans'), $(this).attr('data_rom'), 
+	if ($(this).attr('data_status') != '')
+		this.title = make_tooltip($(this).attr('data_text'),
+		$(this).attr('data_trans'), $(this).attr('data_rom'),
 		$(this).attr('data_status'));
 }
 
 function word_dblclick_event_do_text_text() {
-	var t = parseInt($("#totalcharcount").text(),10);	
+	var t = parseInt($("#totalcharcount").text(),10);
 	if ( t == 0 ) return;
 	var p = 100 * ($(this).attr('data_pos')-5) / t;
 	if (p < 0) p = 0;
@@ -206,7 +206,7 @@ function word_click_event_do_text_text() {
 			$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),
 			$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),
 			$(this).attr('data_mw9'),RTL);
-		top.frames['ro'].location.href='edit_word.php?tid=' + TID + '&ord=' + 
+		top.frames['ro'].location.href='edit_word.php?tid=' + TID + '&ord=' +
 			$(this).attr('data_order') + '&wid=';
 	}
 	else if ( status == 99 )
@@ -229,10 +229,10 @@ function word_click_event_do_text_text() {
 			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL);
 	return false;
 }
-	
+
 function mword_click_event_do_text_text() {
 	var status = $(this).attr('data_status');
-	if (status != '') 
+	if (status != '')
 		run_overlib_multiword(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),TID,
 		$(this).attr('data_order'),$(this).attr('data_text'),$(this).attr('data_wid'),
 		status,$(this).attr('data_code'));
@@ -248,7 +248,7 @@ function keydown_event_do_text_text(e) {
 		cClick();
 		return false;
 	}
-	
+
 	if (e.which == 13) {  // return = edit next unknown word
 		$('span.uwordmarked').removeClass('uwordmarked');
 		var unknownwordlist = $('span.status0.word:not(.hide):first');
@@ -258,11 +258,11 @@ function keydown_event_do_text_text(e) {
 		cClick();
 		return false;
 	}
-	
+
 	var knownwordlist = $('span.word:not(.hide):not(.status0)' + ADDFILTER + ',span.mword:not(.hide)' + ADDFILTER);
 	var l_knownwordlist = knownwordlist.size();
 	if (l_knownwordlist == 0) return true;
-	
+
 	// the following only for a non-zero known words list
 	if (e.which == 36) {  // home : known word navigation -> first
 		$('span.kwordmarked').removeClass('kwordmarked');
@@ -308,43 +308,43 @@ function keydown_event_do_text_text(e) {
 	var curr = knownwordlist.eq(TEXTPOS);
 	var wid = curr.attr('data_wid');
 	var ord = curr.attr('data_ord');
-	
+
 	// the following only with valid pos.
 	for (var i=1; i<=5; i++) {
 		if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
-			window.parent.frames['ro'].location.href = 
+			window.parent.frames['ro'].location.href =
 				'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i;
 			return false;
 		}
 	}
 	if (e.which == 73) {  // I : status=98
-		window.parent.frames['ro'].location.href = 
+		window.parent.frames['ro'].location.href =
 			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=98';
 		return false;
 	}
 	if (e.which == 87) {  // W : status=99
-		window.parent.frames['ro'].location.href = 
+		window.parent.frames['ro'].location.href =
 			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99';
 		return false;
 	}
 	if (e.which == 65) {  // A : set audio pos.
 		var p = curr.attr('data_pos');
-		var t = parseInt($("#totalcharcount").text(),10);	
+		var t = parseInt($("#totalcharcount").text(),10);
 		if ( t == 0 ) return true;
 		p = 100 * (p-5) / t;
 		if (p < 0) p = 0;
 		if (typeof (window.parent.frames['h'].new_pos) == 'function')
 			window.parent.frames['h'].new_pos(p);
-		else 
+		else
 			return true;
 		return false;
 	}
 	if (e.which == 69) { //  E : EDIT
 		if(curr.has('.mword'))
-			window.parent.frames['ro'].location.href = 
+			window.parent.frames['ro'].location.href =
 				'edit_mword.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
 		else {
-			window.parent.frames['ro'].location.href = 
+			window.parent.frames['ro'].location.href =
 				'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
 		}
 		return false;
@@ -359,25 +359,25 @@ function do_ajax_save_setting(k, v) {
 
 function do_ajax_update_media_select() {
 	$('#mediaselect').html('&nbsp; <img src="icn/waiting2.gif" />');
-	$.post('ajax_update_media_select.php', 
-		function(data) { $('#mediaselect').html(data); } 
+	$.post('ajax_update_media_select.php',
+		function(data) { $('#mediaselect').html(data); }
 	);
 }
 
 function do_ajax_show_sentences(lang,word,ctl) {
 	$('#exsent').html('<img src="icn/waiting2.gif" />');
-	$.post('ajax_show_sentences.php', { lang: lang, word: word, ctl: ctl }, 
-		function(data) { $('#exsent').html(data); } 
+	$.post('ajax_show_sentences.php', { lang: lang, word: word, ctl: ctl },
+		function(data) { $('#exsent').html(data); }
 	);
 }
 
 function do_ajax_word_counts() {
 	$("span[id^='saved-']").each(
 		function(i) {
-			var textid = $(this).attr('data_id');
+			var textid = $(this).data('id');
 			$(this).html('<img src="icn/waiting2.gif" />');
 			$.post('ajax_word_counts.php', { id: textid },
-				function(data) { 
+				function(data) {
 					var res = eval('(' + data + ')');
 					$('#total-'+textid).html(res[0]);
 					$('#saved-'+textid).html(res[1]);
@@ -399,4 +399,4 @@ $(document).ready( function() {
 	markClick();
 	setTheFocus();
 	window.setTimeout(noShowAfter3Secs,3000);
-} ); 
+} );
