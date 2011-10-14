@@ -296,7 +296,13 @@ if (isset($_REQUEST['new'])) {
 
 	echo error_message_with_hide($message,0);
 
-	$sql = 'select count(*) as value from (select TxID from (texts left JOIN texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
+	$sql = 'SELECT COUNT(*) AS value
+      FROM
+          ( SELECT TxID
+            FROM ( texts LEFT JOIN texttags ON TxID = TtTxID )
+            WHERE ( 1 = 1 ) ' . $wh_lang . $wh_query . '
+            GROUP BY TxID ' . $wh_tag . ' ) AS dummy';
+
 	$recno = get_first_value($sql);
 	if ($debug) echo $sql . ' ===&gt; ' . $recno;
 
