@@ -11,11 +11,25 @@
  *
  *   For example, if the request is at /index.php, the default template to load
  *   would be 'index'.
+ * @param array $variables optional
+ *   Variables to pass to the template file
  */
 function render($_template = NULL, $variables = array()) {
-    if ( $_template === NULL )
+    if ( $_template === NULL ) {
         $_template = pathinfo($_SERVER['SCRIPT_FILENAME'], PATHINFO_FILENAME);
+    } else {
+        /**
+         * By default templates in sub-folders have forward slashes in their
+         * filenames. If we're on a system which doesn't use forward slashes
+         * for directory separators, adjustments must be made.
+         */
+        if ( DIRECTORY_SEPARATOR != '/' )
+            $_template = str_replace('/', DIRECTORY_SEPARATOR, $_template);
+    }
 
+    /**
+     * Extract all variables passed to the function into the local scope.
+     */
     extract($variables);
 
     require LWT_BASE . DIRECTORY_SEPARATOR . 'lwt-view'
