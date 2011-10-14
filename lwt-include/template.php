@@ -3,7 +3,7 @@
 /**
  * Render a view.
  *
- * @param string $template optional
+ * @param string $_template optional
  *   Name of template to render.
  *
  *   If this value is not provided, the template name is generated from the
@@ -12,12 +12,14 @@
  *   For example, if the request is at /index.php, the default template to load
  *   would be 'index'.
  */
-function render($template = NULL) {
-    if ( $template === NULL )
-        $template = pathinfo($_SERVER['SCRIPT_FILENAME'], PATHINFO_FILENAME);
+function render($_template = NULL, $variables = array()) {
+    if ( $_template === NULL )
+        $_template = pathinfo($_SERVER['SCRIPT_FILENAME'], PATHINFO_FILENAME);
+
+    extract($variables);
 
     require LWT_BASE . DIRECTORY_SEPARATOR . 'lwt-view'
-        . DIRECTORY_SEPARATOR . $template . '.php';
+        . DIRECTORY_SEPARATOR . $_template . '.php';
 }
 
 function framesetheader($title) {
@@ -53,14 +55,14 @@ function pagestart_nobody($page_title, $extra_css = '') {
 	@header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
 	@header( 'Pragma: no-cache' );
 
-  render('header');
+  render('header', compact('page_title', 'extra_css'));
 }
 
 function pagestart($page_title, $close) {
 	global $debug;
 
 	pagestart_nobody($page_title);
-  render('header_body');
+  render('header_body', compact('page_title', 'close'));
 }
 
 function pageend() {
