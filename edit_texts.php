@@ -359,6 +359,6 @@ if (isset($_REQUEST['new'])) {
 
   render('edit_texts/display',
          compact('currentlang', 'currenttag1', 'currenttag12', 'currenttag2',
-                 'recno', 'records', 'pages', 'currentpage'));
+                 'recno', 'records', 'pages', 'currentpage', 'showCounts'));
 }
 ?>
