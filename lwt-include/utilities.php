@@ -1815,6 +1815,7 @@ function checkText($text, $lid) {
 
 // -------------------------------------------------------------
 
+// TODO Refactor into parse_text(), move to lwt-include/texts.php
 function splitText($text, $lid, $id) {
 
 	$sql = "select * from languages where LgID=" . $lid;
