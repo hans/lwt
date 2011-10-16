@@ -177,12 +177,12 @@ function reparse_texts(array $ids) {
     delete_texts_data($ids);
 
     $sql_list = '(' . join(',', array_map('intval', $ids)) . ')';
-    $texts = mysql_query("SELECT TxLgID, TxText
+    $texts = mysql_query("SELECT TxID, TxLgID, TxText
         FROM texts
         WHERE TxID IN " . $sql_list);
 
     while ( $text = mysql_fetch_assoc($texts) ) {
-        splitText($text['TxText'], $text['TxLgID']);
+        splitText($text['TxText'], $text['TxLgID'], $text['TxID']);
     }
 
     mysql_free_result($texts);
