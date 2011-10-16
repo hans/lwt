@@ -30,7 +30,7 @@
       %td.td1.center(nowrap="nowrap")
         Tag #1 ..&nbsp;
         %select(name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='#{$_SERVER['PHP_SELF']}?page=1&amp;tag12=' + val;}")
-          = <?php echo get_andor_selectoptions($filter['tag12']); ?>
+          = get_andor_selectoptions($filter['tag12'])
         &nbsp;.. Tag #2
 
       %td.td1.center(nowrap="nowrap")
