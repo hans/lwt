@@ -2,39 +2,37 @@
   %table.tab1(cellspacing="1" cellpadding="5")
     %tr
       %th.th1(colspan="4")
-        Filter&nbsp;
+        Filter
         %img(src="icn/funnel.png" title="Filter" alt="Filter")
-        &nbsp;
 
         %input(type="button" value="Reset All" onclick="resetAll('#{$_SERVER['PHP_SELF']}');")
 
     %tr
       %td.td1.center(colspan="2")
-        Language:&nbsp;
+        Language:
         %select(name="filterlang" onchange="setLang(document.form1.filterlang, '#{$_SERVER['PHP_SELF']}');")
           = get_languages_selectoptions($filter['language'], '[Filter off]')
 
       %td.td1.center(colspan="2")
-        Text Title (Wildc.=*):&nbsp;
+        Text Title (Wildc.=*):
         %input(type="text" name="query" value="#{tohtml($filter['query'])}" maxlength="50" size="15")
         %input(type="button" name="querybutton" value="Filter" onclick="val = document.form1.query.value; location.href = '#{$_SERVER['PHP_SELF']}?page=1&amp;query=' + val;")
-        &nbsp;
         %input(type="button" value="Clear" onclick="location.href='#{$_SERVER['PHP_SELF']}?page=1&amp;query=';")
 
     %tr
       %td.td1.center(colspan="2" nowrap="nowrap")
-        Tag #1:&nbsp;
+        Tag #1:
         %select(name="tag1" onchange="val = document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href = '#{$_SERVER['PHP_SELF']}?page=1&amp;tag1=' + val;")
           = get_texttag_selectoptions($filter['tag1'], $filter['language']);
 
       %td.td1.center(nowrap="nowrap")
-        Tag #1 ..&nbsp;
+        Tag #1 ..
         %select(name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='#{$_SERVER['PHP_SELF']}?page=1&amp;tag12=' + val;}")
           = get_andor_selectoptions($filter['tag12'])
-        &nbsp;.. Tag #2
+        .. Tag #2
 
       %td.td1.center(nowrap="nowrap")
-        Tag #2:&nbsp;
+        Tag #2:
         %select(name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='#{$_SERVER['PHP_SELF']}?page=1&amp;tag2=' + val;}")
           = get_texttag_selectoptions($filter['tag2'], $filter['language']);
 
