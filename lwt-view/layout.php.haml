@@ -1,0 +1,39 @@
+!!! 5
+%html
+  %head
+    %meta(charset="utf-8")
+
+    %meta(name="viewport" content="width=900")
+    %link(rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png")
+    %meta(name="apple-mobile-web-app-capable" content="yes")
+
+    %link(rel="stylesheet" type="text/css" href="css/jquery-ui.css")
+    %link(rel="stylesheet" type="text/css" href="css/jquery.tagit.css")
+    %link(rel="stylesheet" type="text/css" href="css/tagit.ui-zendesk.css")
+    %link(rel="stylesheet" type="text/css" href="css/styles.css")
+
+    - if ( isset($extra_css) )
+      :css
+        #{$extra_css}
+
+    %script(type="text/javascript" src="js/jquery.js" charset="utf-8")
+    %script(type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8")
+    %script(type="text/javascript" src="js/jquery-ui.min.js" charset="utf-8")
+    %script(type="text/javascript" src="js/tag-it.js" charset="utf-8")
+    %script(type="text/javascript" src="js/sorttable/sorttable.js" charset="utf-8")
+    %script(type="text/javascript" src="js/countuptimer.js" charset="utf-8")
+    %script(type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8")
+
+    :javascript
+      var STATUSES = #{json_encode(get_statuses())};
+      var TAGS = #{json_encode(get_tags())};
+      var TEXTTAGS = #{json_encode(get_texttags())};
+
+    %script(type="text/javascript" src="js/pgm.js" charset="utf-8")
+    %script(type="text/javascript" src="js/jq_pgm.js" charset="utf-8")
+
+    %title= "Learning with Texts :: " . $page_title
+  %body
+    #overDiv(style="position: absolute; visibility: hidden; z-index: 1000;")
+
+    = $_body
