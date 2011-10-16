@@ -92,7 +92,7 @@ $langcnt = get_first_value('select count(*) as value from languages');
 <th class="th1 center">Install Demo</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT demo database.
+The database <i><?php echo tohtml(LWT_DB_NAME); ?></i> will be replaced by the LWT demo database.
 
 <?php
 if ($langcnt > 0 ) {

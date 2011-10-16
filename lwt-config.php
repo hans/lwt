@@ -11,9 +11,9 @@ unless such conditions are required by law.
 Developed by J. Pierre in 2011.
 ***************************************************************/
 
-$server = "127.0.0.1";
-$userid = "root";
-$passwd = "";
-$dbname = "learning-with-texts";
+define('LWT_SERVER', 'localhost');
+define('LWT_DB_USER', 'root');
+define('LWT_DB_PASSWORD', '');
+define('LWT_DB_NAME', 'learning-with-texts');
 
 ?>

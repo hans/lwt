@@ -81,7 +81,7 @@
             <p class="smallgray">
                 <a href="http://lwt.sourceforge.net/" target="_blank">"Learning with Texts" (LWT)</a> is released into the Public Domain. This applies worldwide.<br />In case this is not legally possible, any entity is granted the right to use this work for any purpose,<br />without any conditions, unless such conditions are required by law.<br />
 
-                This is <b>LWT <?php echo get_version(); ?></b> / Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / DB-Size: <b><?php echo $mb; ?> MB</b>
+                This is <b>LWT <?php echo get_version(); ?></b> / Database: <b><?php echo LWT_DB_NAME; ?></b> on <b><?php echo LWT_SERVER; ?></b> / DB-Size: <b><?php echo $mb; ?> MB</b>
             </p>
         </td>
     </tr>

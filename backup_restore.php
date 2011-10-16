@@ -125,7 +125,7 @@ echo error_message_with_hide($message,1);
 <th class="th1 center">Backup</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be exported to a gzipped SQL file. Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
+The database <i><?php echo tohtml(LWT_DB_NAME); ?></i> will be exported to a gzipped SQL file. Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
 <p class="right">&nbsp;<br /><input type="submit" name="backup" value="Download LWT Backup" /></p>
 </td>
 </tr>
@@ -133,7 +133,7 @@ The database <i><?php echo tohtml($dbname); ?></i> will be exported to a gzipped
 <th class="th1 center">Restore</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the data in the specified backup file<br />(gzipped or normal SQL file, created above).<br /><b>Please be careful - the existent database will be overwritten!</b> <br />Important: If the backup file is too large, the restore may not be possible.<br />Upload limits (in bytes): <b>post_max_size = <?php echo ini_get('post_max_size'); ?> / upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
+The database <i><?php echo tohtml(LWT_DB_NAME); ?></i> will be replaced by the data in the specified backup file<br />(gzipped or normal SQL file, created above).<br /><b>Please be careful - the existent database will be overwritten!</b> <br />Important: If the backup file is too large, the restore may not be possible.<br />Upload limits (in bytes): <b>post_max_size = <?php echo ini_get('post_max_size'); ?> / upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
 If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restart server.</p>
 <p><input name="thefile" type="file" /></p>
 <p class="right">&nbsp;<br /><input type="submit" name="restore" value="Restore from LWT Backup" /></p>
@@ -143,7 +143,7 @@ If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restar
 <th class="th1 center">Install<br />LWT<br />Demo</th>
 <td class="td1">
 <p class="smallgray2">
-You may also replace the database <i><?php echo tohtml($dbname); ?></i> by the LWT demo database.</p>
+You may also replace the database <i><?php echo tohtml(LWT_DB_NAME); ?></i> by the LWT demo database.</p>
 <p class="right">&nbsp;<br />
 <input type="button" value="Install LWT Demo Database" onclick="location.href='install_demo.php';" />
 </td>

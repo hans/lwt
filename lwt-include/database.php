@@ -159,7 +159,7 @@ function check_update_db() {
 	// Version
 
 	$res = mysql_query("select StValue as value from settings where StKey = 'dbversion'");
-	if (mysql_errno() != 0) die('There is something wrong with your database ' . $dbname . '. Please reinstall.');
+	if (mysql_errno() != 0) die('There is something wrong with your database ' . LWT_DB_NAME . '. Please reinstall.');
 	$record = mysql_fetch_assoc($res);
 	if ($record) {
 		$dbversion = $record["value"];
