@@ -18,7 +18,7 @@ define('LWT_DB_NAME', 'learning-with-texts');
 
 define('LWT_BASE', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
-define('LWT_INCLUDE', LWT_BASE . DS . 'lwt-include');
-define('LWT_VIEW', LWT_BASE . DS . 'lwt-view');
+define('LWT_INCLUDE', LWT_BASE . DS . 'lwt-include' . DS);
+define('LWT_VIEW', LWT_BASE . DS . 'lwt-view' . DS);
 
 ?>
