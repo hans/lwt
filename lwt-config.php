@@ -16,4 +16,6 @@ define('LWT_DB_USER', 'root');
 define('LWT_DB_PASSWORD', '');
 define('LWT_DB_NAME', 'learning-with-texts');
 
+define('LWT_BASE', dirname(__FILE__));
+
 ?>
