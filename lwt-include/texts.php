@@ -6,7 +6,6 @@
  * @since 2.0
  */
 
-require_once LWT_INCLUDE . 'sentences.php';
 require_once LWT_INCLUDE . 'tags.php';
 
 /**
