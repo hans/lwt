@@ -1,2 +1,3 @@
 .DS_Store
+lwt-view/*.php
 lwt-view/**/*.php
