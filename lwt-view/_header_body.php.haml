@@ -1,0 +1,11 @@
+%h4
+  - if ( $close )
+    %a(href="index.php" target="_top")
+      %img(class="lwtlogo" src="img/lwt_icon.png" alt="Logo")
+      #{"&nbsp;"}Learning with Texts
+  - else
+    %img(class="lwtlogo" src="img/lwt_icon.png" alt="Logo")
+    Learning with Texts
+
+%h3= $page_title . ( $debug ? ' <span class="red">DEBUG</span>' : '' )
+%p= '&nbsp;'
