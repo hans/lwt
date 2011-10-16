@@ -1,7 +1,7 @@
 %p
   %a(href="#{$_SERVER['PHP_SELF']}?new=1")
     %img(src="icn/plus-button.png" title="New" alt="New")
-    &nbsp;New Text &hellip;
+    New Text &hellip;
 
 - render_('texts/_filter', compact('filter', 'recno', 'pages'))
 
@@ -13,14 +13,14 @@
       %table.tab1{:cellpadding => "5", :cellspacing => "1"}
         %tr
           %th.th1{:colspan => "2"}
-            Multi Actions&nbsp;
+            Multi Actions
             %img{:alt => "Multi Actions", :src => "icn/lightning.png", :title => "Multi Actions"}
         %tr
           %td.td1.center
             %input{:onclick => "selectToggle(true,'form2');", :type => "button", :value => "Mark All"}
               %input{:onclick => "selectToggle(false,'form2');", :type => "button", :value => "Mark None"}
           %td.td1.center
-            Marked Texts:&nbsp;
+            Marked Texts:
             %select#markaction{:disabled => "disabled", :name => "markaction", :onchange => "multiActionGo(document.form2, document.form2.markaction);"}
               = get_multipletextactions_selectoptions()
 
@@ -49,29 +49,29 @@
 
             / Read & Test
             %td.td1.center{:nowrap => "nowrap"}
-              &nbsp;
+
               %a{:href => "do_text.php?start=#{$record['TxID']}"}
                 %img{:alt => "Read", :src => "icn/book-open-bookmark.png", :title => "Read"}
-              &nbsp;
+
               %a{:href => "do_test.php?text=#{$record['TxID']}"}
                 %img{:alt => "Test", :src => "icn/question-balloon.png", :title => "Test"}
-              &nbsp;
+
 
             / Actions
             %td.td1.center{:nowrap => "nowrap"}
-              &nbsp;
+
               %a{:href => "print_text.php?text=#{$record['TxID']}"}
                 %img{:alt => "Print", :src => "icn/printer.png", :title => "Print"}
-              &nbsp;
+
               %a{:href => "#{$_SERVER['PHP_SELF']}?arch=#{$record['TxID']}"}
                 %img{:alt => "Archive", :src => "icn/inbox-download.png", :title => "Archive"}
-              &nbsp;
+
               %a{:href => "#{$_SERVER['PHP_SELF']}?chg=#{$record['TxID']}"}
                 %img{:alt => "Edit", :src => "icn/document--pencil.png", :title => "Edit"}
-              &nbsp;
+
               %span.click{:onclick => "if ( confirm('Are you sure?') ) location.href = '#{$_SERVER['PHP_SELF']}?del=#{$record['TxID']}';"}
                 %img{:alt => "Delete", :src => "icn/minus-button.png", :title => "Delete"}/
-              &nbsp;
+
 
             / Language
             - if ( $filter['language'] == '' )
@@ -80,9 +80,8 @@
             / Title, Tags, Audio
             %td.td1.center
               = $record['TxTitle']
-              &nbsp;
+
               %span.smallgray2= $record['taglist']
-              &nbsp;
 
               - if ( $record['audio'] != '' )
                 %img{:alt => "With Audio", :src => "icn/speaker-volume.png", :title => "With Audio"}
