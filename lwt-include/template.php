@@ -35,7 +35,7 @@ function render($_template = NULL, $variables = array()) {
     render_($_template, $variables);
     $variables['_body'] = ob_get_clean();
 
-    render_('_layout', $variables);
+    render_('layout', $variables);
 }
 
 /**
