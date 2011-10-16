@@ -72,7 +72,7 @@ else {
 $no_pagestart = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'),-8) == 'and Open');
 
 if (! $no_pagestart) {
-	pagestart('My ' . getLanguage($filter['language']) . ' Texts',true);
+    $page_title = 'My ' . getLanguage($filter['language']) . ' Texts';
 }
 
 $message = '';
@@ -228,7 +228,7 @@ elseif (isset($_REQUEST['op'])) {
 
 		if ($_REQUEST['op'] == 'Check') {
         $result = checkText($_REQUEST['TxText'], $_REQUEST['TxLgId']);
-        render('texts/check', compact('result'));
+        render('texts/check', compact('result', 'page_title'));
         die();
 		}
 
@@ -282,13 +282,13 @@ elseif (isset($_REQUEST['op'])) {
 }
 
 if (isset($_REQUEST['new'])) {
-    render('texts/new', compact('currentlang'));
+    render('texts/new', compact('currentlang', 'page_title'));
 } elseif (isset($_REQUEST['chg'])) {
 	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
-      render('texts/edit', compact('record'));
+      render('texts/edit', compact('record', 'page_title'));
 	}
 
 	mysql_free_result($res);
@@ -364,6 +364,7 @@ if (isset($_REQUEST['new'])) {
   mysql_free_result($res);
 
   render('texts/display',
-         compact('filter', 'recno', 'records', 'pages', 'showCounts'));
+         compact('filter', 'recno', 'records', 'pages', 'showCounts',
+                 'page_title'));
 }
 ?>
