@@ -30,9 +30,8 @@ Manage active texts
 ***************************************************************/
 
 require 'lwt-startup.php';
-require LWT_INCLUDE . 'texts.php';
-require LWT_INCLUDE . 'tags.php';
-require LWT_INCLUDE . 'words.php';
+require_once LWT_INCLUDE . 'texts.php';
+require_once LWT_INCLUDE . 'tags.php';
 
 // Page, Sort, etc.
 
