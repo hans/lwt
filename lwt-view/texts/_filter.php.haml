@@ -1,0 +1,52 @@
+%form(name="form1" action="#" onsubmit="document.form1.querybutton.click(); return false;")
+  %table.tab1(cellspacing="1" cellpadding="5")
+    %tr
+      %th.th1(colspan="4")
+        Filter&nbsp;
+        %img(src="icn/funnel.png" title="Filter" alt="Filter")
+        &nbsp;
+
+        %input(type="button" value="Reset All" onclick="resetAll('#{$_SERVER['PHP_SELF']}');")
+
+    %tr
+      %td.td1.center(colspan="2")
+        Language:&nbsp;
+        %select(name="filterlang" onchange="setLang(document.form1.filterlang, '#{$_SERVER['PHP_SELF']}');")
+          = get_languages_selectoptions($filter['language'], '[Filter off]')
+
+      %td.td1.center(colspan="2")
+        Text Title (Wildc.=*):&nbsp;
+        %input(type="text" name="query" value="#{tohtml($filter['query'])}" maxlength="50" size="15")
+        %input(type="button" name="querybutton" value="Filter" onclick="val = document.form1.query.value; location.href = '#{$_SERVER['PHP_SELF']}?page=1&amp;query=' + val;")
+        &nbsp;
+        %input(type="button" value="Clear" onclick="location.href='#{$_SERVER['PHP_SELF']}?page=1&amp;query=';")
+
+    %tr
+      %td.td1.center(colspan="2" nowrap="nowrap")
+        Tag #1:&nbsp;
+        %select(name="tag1" onchange="val = document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href = '#{$_SERVER['PHP_SELF']}?page=1&amp;tag1=' + val;")
+          = get_texttag_selectoptions($filter['tag1'], $filter['language']);
+
+      %td.td1.center(nowrap="nowrap")
+        Tag #1 ..&nbsp;
+        %select(name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='#{$_SERVER['PHP_SELF']}?page=1&amp;tag12=' + val;}")
+          = <?php echo get_andor_selectoptions($filter['tag12']); ?>
+        &nbsp;.. Tag #2
+
+      %td.td1.center(nowrap="nowrap")
+        Tag #2:&nbsp;
+        %select(name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='#{$_SERVER['PHP_SELF']}?page=1&amp;tag2=' + val;}")
+          = get_texttag_selectoptions($filter['tag2'], $filter['language']);
+
+    - if ( $recno > 0 )
+      %tr
+        %th.th1(colspan="1" nowrap="nowrap")
+          #{$recno} Text#{ ( $recno == 1 ? '' : 's' ) }
+
+        %th.th1(colspan="2" nowrap="nowrap")
+          - makePager($filter['page'], $pages, $_SERVER['PHP_SELF'], 'form1');
+
+        %th.th1(colspan="1" nowrap="nowrap")
+          Sort Order:
+          %select(name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='#{$_SERVER['PHP_SELF']}?page=1&amp;sort=' + val;}")
+            = get_textssort_selectoptions($filter['sort'])

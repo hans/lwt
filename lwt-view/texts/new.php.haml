@@ -1,0 +1,42 @@
+%h4
+  New Text
+  %a{:href => "info.htm#howtotext", :target => "_blank"}
+    %img{:alt => "Help", :src => "icn/question-frame.png", :title => "Help"}
+
+%form.validate{:action => "#{$_SERVER['PHP_SELF']}", :method => "post"}
+  %table.tab3{:cellpadding => "5", :cellspacing => "1"}
+    %tr
+      %td.td1.right Language:
+      %td.td1
+        %select.notempty.setfocus{:name => "TxLgID"}
+          = get_languages_selectoptions($filter['language'],'[Choose...]');
+        %img{:alt => "Field must not be empty", :src => "icn/status-busy.png", :title => "Field must not be empty"}
+
+    %tr
+      %td.td1.right Title:
+      %td.td1
+        %input.notempty{:maxlength => "200", :name => "TxTitle", :size => "60", :type => "text", :value => ""}
+        %img{:alt => "Field must not be empty", :src => "icn/status-busy.png", :title => "Field must not be empty"}
+
+    %tr
+      %td.td1.right Text:
+      %td.td1
+        %textarea.notempty.checkbytes{:cols => "60", :data_info => "Text", :data_maxlength => "65000", :name => "TxText", :rows => "20"}
+        %img{:alt => "Field must not be empty", :src => "icn/status-busy.png", :title => "Field must not be empty"}
+
+    %tr
+      %td.td1.right Tags:
+      %td.td1= getTextTags(0)
+
+    %tr
+      %td.td1.right Audio-URI:
+      %td.td1
+        %input{:maxlength => "200", :name => "TxAudioURI", :size => "60", :type => "text", :value => ""}
+        %span#mediaselect= selectmediapath('TxAudioURI')
+
+    %tr
+      %td.td1.right{:colspan => "2"}
+        %input{:onclick => "location.href='edit_texts.php';", :type => "button", :value => "Cancel"}
+        %input{:name => "op", :type => "submit", :value => "Check"}
+        %input{:name => "op", :type => "submit", :value => "Save"}
+        %input{:name => "op", :type => "submit", :value => "Save and Open"}

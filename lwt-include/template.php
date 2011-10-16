@@ -28,21 +28,32 @@ function render($_template = NULL, $variables = array()) {
     }
 
     /**
-     * Extract all variables passed to the function into the local scope.
-     */
-    extract($variables);
-    $lwt_view_dir = LWT_BASE . DIRECTORY_SEPARATOR . 'lwt-view'
-        . DIRECTORY_SEPARATOR;
-
-    /**
      * Render the body first, inside an output buffer. This result will be
      * placed into the overall layout template.
      */
     ob_start();
-    require $lwt_view_dir . $_template . '.php';
-    $_body = ob_get_clean();
+    render_($_template, $variables);
+    $variables['_body'] = ob_get_clean();
 
-    require $lwt_view_dir . 'layout.php';
+    render_('_layout', $variables);
+}
+
+/**
+ * Render a partial (without a layout surrounding it).
+ *
+ * @param string $_template
+ *   Name of template to render.
+ * @param array $variables optional
+ *   Variables to pass to the template file
+ */
+function render_($_template = NULL, $variables = array()) {
+    /**
+     * Extract all variables passed to the function into the local scope.
+     */
+    extract($variables);
+
+    require LWT_BASE . DIRECTORY_SEPARATOR . 'lwt-view' . DIRECTORY_SEPARATOR
+        . $_template . '.php';
 }
 
 function framesetheader($title) {

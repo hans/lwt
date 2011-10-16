@@ -4,6 +4,8 @@ require 'lwt-config.php';
 require LWT_BASE . DIRECTORY_SEPARATOR . 'lwt-tools' . DIRECTORY_SEPARATOR
     . 'phamlp' . DIRECTORY_SEPARATOR . 'haml' . DIRECTORY_SEPARATOR
     . 'HamlParser.php';
+require LWT_BASE . DIRECTORY_SEPARATOR . 'lwt-tools' . DIRECTORY_SEPARATOR
+    . 'markdown' . DIRECTORY_SEPARATOR . 'markdown.php';
 
 $iter = new RecursiveDirectoryIterator(LWT_BASE . DIRECTORY_SEPARATOR . 'lwt-view');
 $parser = new HamlParser(array('ugly' => false, 'style' => 'nested'));

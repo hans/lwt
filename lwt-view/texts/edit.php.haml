@@ -1,0 +1,45 @@
+%h4
+  Edit Text
+  %a(target="_blank" href="info.htm#howtotext")
+    %img(src="icn/question-frame.png" title="Help" alt="Help")
+
+%form.validate{:action => "#{$_SERVER['PHP_SELF']}#rec#{$_REQUEST['chg']}", :method => "post"}
+  %input{:name => "TxID", :type => "hidden", :value => "#{$_REQUEST['chg']}"}
+  %table.tab3{:cellpadding => "5", :cellspacing => "1"}
+    %tr
+      %td.td1.right Language:
+      %td.td1
+        %select.notempty.setfocus{:name => "TxLgID"}
+          = get_languages_selectoptions($record['TxLgID'],"[Choose...]")
+        %img{:alt => "Field must not be empty", :src => "icn/status-busy.png", :title => "Field must not be empty"}
+
+    %tr
+      %td.td1.right Title:
+      %td.td1
+        %input.notempty{:maxlength => "200", :name => "TxTitle", :size => "60", :type => "text", :value => "#{tohtml($record['TxTitle'])}"}
+        %img{:alt => "Field must not be empty", :src => "icn/status-busy.png", :title => "Field must not be empty"}
+
+    %tr
+      %td.td1.right Text:
+      %td.td1
+        %textarea.notempty.checkbytes(name="TxText" dir="#{getScriptDirectionTag($record['TxLgID'])}" data_maxlength="65000" data_info="Text" cols="60" rows="20")
+          = tohtml($record['TxText']);
+
+        %img{:alt => "Field must not be empty", :src => "icn/status-busy.png", :title => "Field must not be empty"}
+
+    %tr
+      %td.td1.right Tags:
+      %td.td1= getTextTags($_REQUEST['chg'])
+
+    %tr
+      %td.td1.right Audio-URI:
+      %td.td1
+        %input{:maxlength => "200", :name => "TxAudioURI", :size => "60", :type => "text", :value => "#{tohtml($record['TxAudioURI'])}"}
+        %span#mediaselect= selectmediapath('TxAudioURI')
+
+    %tr
+      %td.td1.right{:colspan => "2"}
+        %input{:onclick => "location.href='edit_texts.php#rec#{$_REQUEST['chg']}';", :type => "button", :value => "Cancel"}
+        %input{:name => "op", :type => "submit", :value => "Check"}
+        %input{:name => "op", :type => "submit", :value => "Change"}
+        %input{:name => "op", :type => "submit", :value => "Change and Open"}

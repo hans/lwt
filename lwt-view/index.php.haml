@@ -1,0 +1,83 @@
+- $page_title = 'Home';
+
+- if ( $langcnt == 0 )
+  %table(class="tab3" cellspacing="1" cellpadding="5")
+    %tr
+      %th.th1
+        :markdown
+          Hint: The database seems to be empty.
+          [You may install the LWT demo database,](install_demo.php) or
+          [define the first language you want to learn.](edit_languages.php?new=1)
+
+:javascript
+  if ( !areCookiesEnabled() )
+      document.write('<p class="red">*** Cookies are not enabled! Please enable! ***</p>');
+
+- if ( $langcnt > 0 )
+  %ul
+    %li
+      Language:
+      %select#filterlang(onchange="setLang(document.getElementById('filterlang'), 'index.php');")
+        = get_languages_selectoptions($currentlang, '[Select...]')
+
+  - if ( $currenttext != '' && isset($txttit) )
+    %ul
+      %li
+        My last Text (in #{$lngname}):
+        %br
+        %em= $txttit
+
+        %a(href="do_text.php?start=#{$currenttext}")
+          %img(src="icn/book-open-bookmark.png" title="Read" alt="Read")
+          &nbsp;Read
+
+        %a(href="do_test.php?text=#{$currenttext}")
+          %img(src="icn/question-balloon.php" title="Test" alt="Test")
+          &nbsp;Test
+
+        %a(href="print_text.php?text=#{$currenttext}")
+          %img(src="icn/printer.png" title="Print" alt="Print")
+          &nbsp;Print
+
+%ul
+  %li
+    %a(href="edit_texts.php") My Texts
+  %li
+    %a(href="edit_archivedtexts.php") My Text Archive
+  %li
+    %a(href="edit_texttags.php") My Text Tags
+  %li
+    %a(href="edit_languages.php") My Languages
+  %li
+    %a(href="edit_words.php") My Terms (Words and Expressions)
+  %li
+    %a(href="edit_tags.php") My Term Tags
+  %li
+    %a(href="statistics.php") My Statistics
+  %li
+    %a(href="check_text.php") Check a Text
+  %li
+    %a(href="upload_words.php") Import Terms
+  %li
+    %a(href="backup_restore.php") Backup/Restore LWT Database
+  %li
+    %a(href="settings.php") Settings/Preferences
+  %li
+    %a(href="info.htm") Help/Information
+  %li
+
+%p.smallgray.graydotted &nbsp;
+
+%table
+  %tr
+    %td.width50px
+      %a(target="_blank" href="http://en.wikipedia.org/wiki/Public_domain_software")
+        %img(alt="Public Domain" src="img/public_domain.png")
+    %td
+      %p.smallgray
+        :markdown
+          ["Learning with Texts" (LWT)](http://lwt.sourceforge.net/) is released into the Public Domain. This applies worldwide.
+          In case this is not legally possible, any entity is granted the right to use this work for any purpose,
+          without any conditions, unless such conditions are required by law.
+
+          This is **LWT #{get_version()}** / Database: **#{LWT_DB_NAME}** on **#{LWT_SERVER}** / DB Size: **#{$mb}**

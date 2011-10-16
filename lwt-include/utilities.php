@@ -1643,14 +1643,14 @@ function getLanguage($lid) {
 // -------------------------------------------------------------
 
 function getScriptDirectionTag($lid) {
-	if ( ! isset($lid) ) return '';
-	if ( trim($lid) == '' ) return '';
-	if ( ! is_numeric($lid) ) return '';
+	if ( ! isset($lid) ) return 'ltr';
+	if ( trim($lid) == '' ) return 'ltr';
+	if ( ! is_numeric($lid) ) return 'ltr';
 	$r = get_first_value("select LgRightToLeft as value from languages where LgID='" . $lid . "'");
 	if ( isset($r) ) {
-		if ($r) return ' dir="rtl" ';
+		if ($r) return 'rtl';
 	}
-	return '';
+	return 'ltr';
 }
 
 // -------------------------------------------------------------
