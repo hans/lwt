@@ -27,10 +27,10 @@ Manage tags
 
 require 'lwt-startup.php';
 
-$currentsort = processDBParam("sort",'currenttagsort','1',1);
+$currentsort = get_parameter("sort", 'db', 'currenttagsort', 1, TRUE);
 
-$currentpage = get_parameter('page', 'currenttagpage', 1, TRUE);
-$currentquery = get_parameter('query', 'currenttagquery', '');
+$currentpage = get_parameter('page', 'session', 'currenttagpage', 1, TRUE);
+$currentquery = get_parameter('query', 'session', 'currenttagquery', '');
 
 $wh_query = convert_string_to_sqlsyntax(str_replace("*","%",$currentquery));
 $wh_query = ($currentquery != '') ? (' and (TgText like ' . $wh_query . ' or TgComment like ' . $wh_query . ')') : '';

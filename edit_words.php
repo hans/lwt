@@ -34,16 +34,16 @@ Manage terms
 require 'lwt-startup.php';
 require_once 'lwt-includes/export.php';
 
-$currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
-$currentsort = processDBParam("sort",'currentwordsort','1',1);
+$currentlang = validateLang(get_parameter("filterlang", 'db', 'currentlanguage', ''));
+$currentsort = get_parameter("sort", 'db', 'currentwordsort', 1, TRUE);
 
-$currentpage = get_parameter('page', 'currentwordpage', 1, TRUE);
-$currentquery = get_parameter("query", "currentwordquery", '');
-$currentstatus = get_parameter("status", "currentwordstatus", '');
-$currenttext = validateText(get_parameter("text", "currentwordtext", ''));
-$currenttag1 = validateTag(get_parameter("tag1", "currentwordtag1", ''), $currentlang);
-$currenttag2 = validateTag(get_parameter("tag2", "currentwordtag2", ''), $currentlang);
-$currenttag12 = get_parameter("tag12", "currentwordtag12", '');
+$currentpage = get_parameter('page', 'session', 'currentwordpage', 1, TRUE);
+$currentquery = get_parameter("query", 'session', "currentwordquery", '');
+$currentstatus = get_parameter("status", 'session', "currentwordstatus", '');
+$currenttext = validateText(get_parameter("text", 'session', "currentwordtext", ''));
+$currenttag1 = validateTag(get_parameter("tag1", 'session', "currentwordtag1", ''), $currentlang);
+$currenttag2 = validateTag(get_parameter("tag2", 'session', "currentwordtag2", ''), $currentlang);
+$currenttag12 = get_parameter("tag12", 'session', "currentwordtag12", '');
 
 $wh_lang = ($currentlang != '') ? (' and WoLgID=' . $currentlang ) : '';
 $wh_stat = ($currentstatus != '') ? (' and ' . makeStatusCondition('WoStatus', $currentstatus)) : '';

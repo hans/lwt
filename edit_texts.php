@@ -35,14 +35,14 @@ require_once LWT_INCLUDE . 'tags.php';
 
 // Page, Sort, etc.
 
-$filter = array('language' => validateLang(processDBParam("filterlang",'currentlanguage','',0)),
-                'sort' => processDBParam("sort",'currenttextsort','1',1),
-                'page' => get_parameter('page', 'currenttextpage', 1, TRUE),
-                'query' => get_parameter('query', 'currenttextquery', ''),
-                'tag12' => get_parameter('tag12', 'currenttexttag12', ''));
+$filter = array('language' => validateLang(get_parameter("filterlang", 'db', 'currentlanguage', '')),
+                'sort' => get_parameter("sort", 'db', 'currenttextsort', 1, TRUE),
+                'page' => get_parameter('page', 'session', 'currenttextpage', 1, TRUE),
+                'query' => get_parameter('query', 'session', 'currenttextquery', ''),
+                'tag12' => get_parameter('tag12', 'session', 'currenttexttag12', ''));
 
-$filter['tag1'] = validateTextTag(get_parameter('tag1', 'currenttexttag1', ''), $filter['language']);
-$filter['tag2'] = validateTextTag(get_parameter('tag2', 'currenttexttag2', ''), $filter['language']);
+$filter['tag1'] = validateTextTag(get_parameter('tag1', 'session', 'currenttexttag1', ''), $filter['language']);
+$filter['tag2'] = validateTextTag(get_parameter('tag2', 'session', 'currenttexttag2', ''), $filter['language']);
 
 $wh_lang = ($filter['language'] != '') ? (' and TxLgID=' . $filter['language']) : '';
 $wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($filter['query'], 'UTF-8')));

@@ -640,26 +640,6 @@ function saveSetting($k,$v) {
 
 // -------------------------------------------------------------
 
-function processDBParam($reqkey,$dbkey,$default,$isnum) {
-	$result = '';
-	$dbdata = getSetting($dbkey);
-	if(isset($_REQUEST[$reqkey])) {
-		$reqdata = stripslashes(trim($_REQUEST[$reqkey]));
-		saveSetting($dbkey,$reqdata);
-		$result = $reqdata;
-	}
-	elseif($dbdata != '') {
-		$result = $dbdata;
-	}
-	else {
-		$result = $default;
-	}
-	if($isnum) $result = (int)$result;
-	return $result;
-}
-
-// -------------------------------------------------------------
-
 function validateLang($currentlang) {
 	if ($currentlang != '') {
 		if (

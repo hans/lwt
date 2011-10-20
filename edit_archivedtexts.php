@@ -26,14 +26,14 @@ Manage archived texts
 
 require 'lwt-startup.php';
 
-$currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
-$currentsort = processDBParam("sort",'currentarchivesort','1',1);
+$currentlang = validateLang(get_parameter("filterlang", 'db', 'currentlanguage', ''));
+$currentsort = get_parameter("sort", 'db', 'currentarchivesort', 1, TRUE);
 
-$currentpage = get_parameter('page', 'currentarchivepage', 1, TRUE);
-$currentquery = get_parameter('query', 'currentarchivequery', '');
-$currenttag1 = validateArchTextTag(get_parameter('tag1', 'currentarchivetexttag1', ''), $currentlang);
-$currenttag2 = validateArchTextTag(get_parameter('tag2', 'currentarchivetexttag2', ''), $currentlang);
-$currenttag12 = get_parameter('tag12', 'currentarchivetexttag12', '');
+$currentpage = get_parameter('page', 'session', 'currentarchivepage', 1, TRUE);
+$currentquery = get_parameter('query', 'session', 'currentarchivequery', '');
+$currenttag1 = validateArchTextTag(get_parameter('tag1', 'session', 'currentarchivetexttag1', ''), $currentlang);
+$currenttag2 = validateArchTextTag(get_parameter('tag2', 'session', 'currentarchivetexttag2', ''), $currentlang);
+$currenttag12 = get_parameter('tag12', 'session', 'currentarchivetexttag12', '');
 
 $wh_lang = ($currentlang != '') ? (' and AtLgID=' . $currentlang) : '';
 $wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
