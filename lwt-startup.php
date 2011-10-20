@@ -18,9 +18,6 @@ Start a PHP session
 ***************************************************************/
 
 require 'lwt-config.php';
-require_once 'lwt-include/database.php';
-require_once 'lwt-include/template.php';
-require_once 'lwt-include/utilities.php';
 
 /**
  * Set debug options if necessary.
@@ -29,6 +26,7 @@ error_reporting(LWT_DEBUG ? E_ALL : 0);
 ini_set('display_errors', LWT_DEBUG);
 ini_set('display_startup_errors', LWT_DEBUG);
 
+require_once LWT_INCLUDE . 'database.php';
 db_connect();
 
 @ini_set('max_execution_time', '600');  // 10 min.
@@ -48,5 +46,8 @@ if ($err == FALSE)
  */
 require_once LWT_INCLUDE . 'sanitize.php';
 sanitize_init();
+
+require_once LWT_INCLUDE . 'template.php';
+require_once LWT_INCLUDE . 'utilities.php';
 
 ?>
