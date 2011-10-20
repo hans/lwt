@@ -39,13 +39,13 @@ check_update_db();
 $debug = 0;  // 1 = debugging on, 0 = .. off
 
 if ($debug) {
-	@error_reporting(E_ALL);
-	@ini_set('display_errors','1');
-	@ini_set('display_startup_errors','1');
+    @error_reporting(E_ALL);
+    @ini_set('display_errors','1');
+    @ini_set('display_startup_errors','1');
 } else {
-	@error_reporting(0);
-	@ini_set('display_errors','0');
-	@ini_set('display_startup_errors','0');
+    @error_reporting(0);
+    @ini_set('display_errors','0');
+    @ini_set('display_startup_errors','0');
 }
 
 @ini_set('max_execution_time', '600');  // 10 min.
@@ -55,6 +55,15 @@ if ($debug) {
 
 $err = @session_start();
 if ($err == FALSE)
-	die('SESSION error (Impossible to start a PHP session)');
+    die('SESSION error (Impossible to start a PHP session)');
+
+/**
+ * Run the sanitization process.
+ *
+ * Sanitize input globals - $_GET, $_POST, $_COOKIE, ... and make things just a
+ * bit safer.
+ */
+require_once LWT_INCLUDE . 'sanitize.php';
+sanitize_init();
 
 ?>
