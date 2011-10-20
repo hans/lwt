@@ -245,7 +245,7 @@ else {
 
 	$sql = 	'select count(*) as value from (select AtID from (archivedtexts left JOIN archtexttags ON AtID = AgAtID) where (1=1) ' . $wh_lang . $wh_query . ' group by AtID ' . $wh_tag . ') as dummy';
 	$recno = get_first_value($sql);
-	if ($debug) echo $sql . ' ===&gt; ' . $recno;
+	if (LWT_DEBUG) echo $sql . ' ===&gt; ' . $recno;
 
 	$maxperpage = getSettingWithDefault('set-archivedtexts-per-page');
 
@@ -340,7 +340,7 @@ Marked Texts:&nbsp;
 
 $sql = 'select AtID, AtTitle, LgName, AtAudioURI, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((archivedtexts left JOIN archtexttags ON AtID = AgAtID) left join tags2 on T2ID = AgT2ID), languages where LgID=AtLgID ' . $wh_lang . $wh_query . ' group by AtID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 
-if ($debug) echo $sql;
+if (LWT_DEBUG) echo $sql;
 
 $res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");

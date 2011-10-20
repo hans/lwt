@@ -182,7 +182,7 @@ else {
 
 	$sql = 'select count(T2ID) as value from tags2 where (1=1) ' . $wh_query;
 	$recno = get_first_value($sql);
-	if ($debug) echo $sql . ' ===&gt; ' . $recno;
+	if (LWT_DEBUG) echo $sql . ' ===&gt; ' . $recno;
 
 	$maxperpage = getSettingWithDefault('set-tags-per-page');
 
@@ -266,7 +266,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <?php
 
 $sql = 'select T2ID, T2Text, T2Comment from tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
-if ($debug) echo $sql;
+if (LWT_DEBUG) echo $sql;
 $res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {

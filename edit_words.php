@@ -471,7 +471,7 @@ else {
 		$sql = 'select count(*) as value from (select WoID from (words left JOIN wordtags ON WoID = WtWoID), textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag .') as dummy';
 	}
 	$recno = get_first_value($sql);
-	if ($debug) echo $sql . ' ===&gt; ' . $recno;
+	if (LWT_DEBUG) echo $sql . ' ===&gt; ' . $recno;
 
 	$maxperpage = getSettingWithDefault('set-terms-per-page');
 
@@ -597,7 +597,7 @@ if ($currenttext == '') {
 } else {
 	$sql = 'select distinct WoID, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(WoSentence,\'\') like \'%{%}%\' as SentOK, WoStatus, LgName, LgRightToLeft, DATEDIFF( NOW( ) , WoStatusChanged ) AS Days, WoTodayScore AS Score, WoTomorrowScore AS Score2, ifnull(concat(\'[\',group_concat(distinct TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((words left JOIN wordtags ON WoID = WtWoID) left join tags on TgID = WtTgID), languages, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . ' and WoLgID = LgID ' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 }
-if ($debug) echo $sql;
+if (LWT_DEBUG) echo $sql;
 flush();
 $res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");

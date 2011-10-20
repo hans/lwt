@@ -83,7 +83,6 @@ Developed by J. Pierre in 2011.
 }
 
 function pagestart_nobody($page_title, $extra_css = '') {
-	global $debug;
 	@header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 	@header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 	@header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
@@ -93,15 +92,12 @@ function pagestart_nobody($page_title, $extra_css = '') {
 }
 
 function pagestart($page_title, $close) {
-	global $debug;
-
 	pagestart_nobody($page_title);
   render('header_body', compact('page_title', 'close'));
 }
 
 function pageend() {
-	global $debug;
-	if ($debug) showRequest();
+	if (LWT_DEBUG) showRequest();
 
   render('footer');
 }

@@ -17,9 +17,8 @@ PHP Utility Functions
 // -------------------------------------------------------------
 
 function get_version() {
-	global $debug;
 	return '1.4.5 (October 01 2011)'  .
-	($debug ? ' <span class="red">DEBUG</span>' : '');
+	(LWT_DEBUG ? ' <span class="red">DEBUG</span>' : '');
 }
 
 // -------------------------------------------------------------
@@ -1656,8 +1655,7 @@ function getScriptDirectionTag($lid) {
 // -------------------------------------------------------------
 
 function echodebug($var,$text) {
-	global $debug;
-	if (! $debug ) return;
+	if (! LWT_DEBUG ) return;
 	echo "<pre> **DEBUGGING** " . tohtml($text) . ' = [[[';
 	print_r($var);
 	echo "]]]\n--------------</pre>";

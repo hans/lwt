@@ -212,7 +212,7 @@ if (isset($_REQUEST['new'])) {
             GROUP BY TxID ' . $wh_tag . ' ) AS dummy';
 
     $recno = get_first_value($sql);
-    if ($debug) echo $sql . ' ===&gt; ' . $recno;
+    if (LWT_DEBUG) echo $sql . ' ===&gt; ' . $recno;
 
     $maxperpage = getSettingWithDefault('set-texts-per-page');
 
@@ -239,7 +239,7 @@ if (isset($_REQUEST['new'])) {
       GROUP BY TxID ' . $wh_tag . '
       ORDER BY ' . $sorts[$filter['sort']-1] . ' ' . $limit;
 
-  if ($debug) echo $sql;
+  if (LWT_DEBUG) echo $sql;
   $res = mysql_query($sql);
   if ($res == FALSE) die("Invalid Query: $sql");
   $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;

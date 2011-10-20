@@ -294,7 +294,7 @@ if ($recno==0) {
 <?php
 
 $sql = 'select LgID, LgName from languages order by LgName';
-if ($debug) echo $sql;
+if (LWT_DEBUG) echo $sql;
 $res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {

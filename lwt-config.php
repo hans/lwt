@@ -16,9 +16,13 @@ define('LWT_DB_USER', 'root');
 define('LWT_DB_PASSWORD', '');
 define('LWT_DB_NAME', 'learning-with-texts');
 
+/** Please don't edit below this line unless you know what you are doing! **/
+
 define('LWT_BASE', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 define('LWT_INCLUDE', LWT_BASE . DS . 'lwt-include' . DS);
 define('LWT_VIEW', LWT_BASE . DS . 'lwt-view' . DS);
+
+define('LWT_DEBUG', false);
 
 ?>

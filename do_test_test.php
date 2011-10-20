@@ -63,7 +63,7 @@ if ($cntlang > 1) {
 <?php
 
 $count = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0');
-if ($debug) echo 'DEBUG - COUNT TO TEST: ' . $count . '<br />';
+if (LWT_DEBUG) echo 'DEBUG - COUNT TO TEST: ' . $count . '<br />';
 $notyettested = $count;
 
 if ($count <= 0) {
@@ -98,7 +98,7 @@ if ($count <= 0) {
 	while ($pass < 2) {
 		$pass++;
 		$sql = 'SELECT DISTINCT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, (ifnull(WoSentence,\'\') not like concat(\'%{\',WoText,\'}%\')) as notvalid, WoStatus, DATEDIFF( NOW( ), WoStatusChanged ) AS Days, WoTodayScore AS Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0 ' . ($pass == 1 ? 'AND WoRandom > RAND()' : '') . ' order by WoTodayScore, WoRandom LIMIT 1';
-		if ($debug) echo 'DEBUG TEST-SQL: ' . $sql . '<br />';
+		if (LWT_DEBUG) echo 'DEBUG TEST-SQL: ' . $sql . '<br />';
 		$res = mysql_query($sql);
 		if ($res == FALSE) die("Invalid query: $sql");
 		$record = mysql_fetch_assoc($res);
@@ -136,7 +136,7 @@ if ($count <= 0) {
 			$sentexcl = '';
 			while ( $pass < 3 ) {
 				$pass++;
-				if ($debug) echo "DEBUG search sent: pass: $pass <br />";
+				if (LWT_DEBUG) echo "DEBUG search sent: pass: $pass <br />";
 				$sql = 'SELECT DISTINCT SeID FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
 				$res = mysql_query($sql);
 				if ($res == FALSE) die("Invalid query: $sql");
@@ -145,7 +145,7 @@ if ($count <= 0) {
 					$num = 1;
 					$seid = $record['SeID'];
 					if (AreUnknownWordsInSentence ($seid)) {
-						if ($debug) echo "DEBUG sent: $seid has unknown words<br />";
+						if (LWT_DEBUG) echo "DEBUG sent: $seid has unknown words<br />";
 						$sentexcl = ' AND SeID != ' . $seid . ' ';
 						$num = 0;
 						// not yet found, $num == 0 (unknown words in sent)
@@ -153,14 +153,14 @@ if ($count <= 0) {
 						// echo ' OK ';
 						$sent = getSentence($seid, $wordlc,	(int) getSettingWithDefault('set-test-sentence-count'));
 						$sent = $sent[1];
-						if ($debug) echo "DEBUG sent: $seid OK: $sent <br />";
+						if (LWT_DEBUG) echo "DEBUG sent: $seid OK: $sent <br />";
 						$pass = 3;
 						// found, $num == 1
 					}
 				} else {  // no random sent found
 					$num = 0;
 					$pass = 3;
-					if ($debug) echo "DEBUG no random sent found<br />";
+					if (LWT_DEBUG) echo "DEBUG no random sent found<br />";
 					// no sent. take term sent. $num == 0
 				}
 				mysql_free_result($res);
@@ -170,7 +170,7 @@ if ($count <= 0) {
 		if ($num == 0 ) {
 			// take term sent. if valid
 			if ($notvalid) $sent = '{' . $word . '}';
-			if ($debug) echo "DEBUG not found, use sent = $sent<br />";
+			if (LWT_DEBUG) echo "DEBUG not found, use sent = $sent<br />";
 		}
 
 		$cleansent = trim(str_replace("{", '', str_replace("}", '', $sent)));
