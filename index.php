@@ -22,13 +22,19 @@ require 'lwt-startup.php';
 $currentlang = getSetting('currentlanguage');
 $currenttext = getSetting('currenttext');
 
-$langcnt = get_first_value('select count(*) as value from languages');
+$langcnt = get_first_value('SELECT COUNT(*) AS value
+    FROM languages');
 
 if ($langcnt > 0 ) {
-    $txttit = get_first_value('select TxTitle as value from texts where TxID=' . (int)$currenttext);
+    $txttit = get_first_value('SELECT TxTitle AS value
+        FROM texts
+        WHERE TxID = ' . (int)$currenttext);
 
     if ( isset($txttit) ) {
-        $txtlng = get_first_value("SELECT TxLgId AS value FROM texts WHERE TxID = " . (int)$currenttext);
+        $txtlng = get_first_value("SELECT TxLgId AS value
+            FROM texts
+            WHERE TxID = " . (int)$currenttext);
+
         $lngname = getLanguage($txtlng);
     }
 }
@@ -36,8 +42,12 @@ if ($langcnt > 0 ) {
 flush();
 optimizedb();
 
-$mb = get_first_value("SELECT round(sum(data_length+index_length)/1024/1024,1) as value FROM information_schema.TABLES where table_schema = " . convert_string_to_sqlsyntax(LWT_DB_NAME) . " GROUP BY table_schema");
+$mb = get_first_value("SELECT ROUND(SUM( data_length + index_length ) / 1024 / 1024, 1) AS value
+    FROM information_schema.TABLES
+    WHERE table_schema = " . convert_string_to_sqlsyntax(LWT_DB_NAME) . "
+    GROUP BY table_schema");
 
-render('index', compact('currentlang', 'currenttext', 'langcnt', 'txttit', 'lngname', 'mb', 'dbname', 'server'));
+render('index', compact('currentlang', 'currenttext', 'langcnt', 'txttit',
+                        'lngname', 'mb', 'dbname', 'server'));
 
 ?>

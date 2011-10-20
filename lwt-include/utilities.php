@@ -572,8 +572,8 @@ function getSetting($key) {
 	$val = get_first_value('select StValue as value from settings where StKey = ' . convert_string_to_sqlsyntax($key));
 	if ( isset($val) ) {
 		$val = trim($val);
-		if ($key == 'currentlanguage' ) $val = validateLang($val);
-		if ($key == 'currenttext' ) $val = validateText($val);
+		if ($key == 'currentlanguage' ) $val = filter('language', $val);
+		if ($key == 'currenttext' ) $val = filter('text', $val);
 		return $val;
 	}
 	else return '';
@@ -636,76 +636,6 @@ function saveSetting($k,$v) {
 			convert_string_to_sqlsyntax($k) . ', ' .
 			convert_string_to_sqlsyntax($v) . ')', '');
 	}
-}
-
-// -------------------------------------------------------------
-
-function validateLang($currentlang) {
-	if ($currentlang != '') {
-		if (
-			get_first_value(
-				'select count(LgID) as value from languages where LgID=' .
-				((int)$currentlang)
-			) == 0
-		)  $currentlang = '';
-	}
-	return $currentlang;
-}
-
-// -------------------------------------------------------------
-
-function validateText($currenttext) {
-	if ($currenttext != '') {
-		if (
-			get_first_value(
-				'select count(TxID) as value from texts where TxID=' .
-				((int)$currenttext)
-			) == 0
-		)  $currenttext = '';
-	}
-	return $currenttext;
-}
-
-// -------------------------------------------------------------
-
-function validateTag($currenttag,$currentlang) {
-	if ($currenttag != '' && $currenttag != -1) {
-		if ($currentlang == '')
-			$sql = "select (" . $currenttag . " in (select TgID from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText)) as value";
-		else
-			$sql = "select (" . $currenttag . " in (select TgID from words, tags, wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $currentlang . " group by TgID order by TgText)) as value";
-		$r = get_first_value($sql);
-		if ( $r == 0 ) $currenttag = '';
-	}
-	return $currenttag;
-}
-
-// -------------------------------------------------------------
-
-function validateArchTextTag($currenttag,$currentlang) {
-	if ($currenttag != '' && $currenttag != -1) {
-		if ($currentlang == '')
-			$sql = "select (" . $currenttag . " in (select T2ID from archivedtexts, tags2, archtexttags where T2ID = AgT2ID and AgAtID = AtID group by T2ID order by T2Text)) as value";
-		else
-			$sql = "select (" . $currenttag . " in (select T2ID from archivedtexts, tags2, archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $currentlang . " group by T2ID order by T2Text)) as value";
-		$r = get_first_value($sql);
-		if ( $r == 0 ) $currenttag = '';
-	}
-	return $currenttag;
-}
-
-// -------------------------------------------------------------
-
-function validateTextTag($currenttag,$currentlang) {
-	if ($currenttag != '' && $currenttag != -1) {
-		if ($currentlang == '')
-			$sql = "select (" . $currenttag . " in (select T2ID from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by T2Text)) as value";
-		else
-			$sql = "select (" . $currenttag . " in (select T2ID from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $currentlang . " group by T2ID order by T2Text)) as value";
-		$r = get_first_value($sql);
-		if ( $r == 0 ) $currenttag = '';
-	}
-	return $currenttag;
 }
 
 // -------------------------------------------------------------

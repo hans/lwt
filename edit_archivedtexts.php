@@ -26,13 +26,13 @@ Manage archived texts
 
 require 'lwt-startup.php';
 
-$currentlang = validateLang(get_parameter("filterlang", 'db', 'currentlanguage', ''));
+$currentlang = filter('language', get_parameter("filterlang", 'db', 'currentlanguage', ''));
 $currentsort = get_parameter("sort", 'db', 'currentarchivesort', 1, TRUE);
 
 $currentpage = get_parameter('page', 'session', 'currentarchivepage', 1, TRUE);
 $currentquery = get_parameter('query', 'session', 'currentarchivequery', '');
-$currenttag1 = validateArchTextTag(get_parameter('tag1', 'session', 'currentarchivetexttag1', ''), $currentlang);
-$currenttag2 = validateArchTextTag(get_parameter('tag2', 'session', 'currentarchivetexttag2', ''), $currentlang);
+$currenttag1 = filter('arch_text_tag', get_parameter('tag1', 'session', 'currentarchivetexttag1', ''), $currentlang);
+$currenttag2 = filter('arch_text_tag', get_parameter('tag2', 'session', 'currentarchivetexttag2', ''), $currentlang);
 $currenttag12 = get_parameter('tag12', 'session', 'currentarchivetexttag12', '');
 
 $wh_lang = ($currentlang != '') ? (' and AtLgID=' . $currentlang) : '';
