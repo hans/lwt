@@ -640,25 +640,6 @@ function saveSetting($k,$v) {
 
 // -------------------------------------------------------------
 
-function processSessParam($reqkey,$sesskey,$default,$isnum) {
-	$result = '';
-	if(isset($_REQUEST[$reqkey])) {
-		$reqdata = stripslashes(trim($_REQUEST[$reqkey]));
-		$_SESSION[$sesskey] = $reqdata;
-		$result = $reqdata;
-	}
-	elseif(isset($_SESSION[$sesskey])) {
-		$result = $_SESSION[$sesskey];
-	}
-	else {
-		$result = $default;
-	}
-	if($isnum) $result = (int)$result;
-	return $result;
-}
-
-// -------------------------------------------------------------
-
 function processDBParam($reqkey,$dbkey,$default,$isnum) {
 	$result = '';
 	$dbdata = getSetting($dbkey);

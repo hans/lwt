@@ -29,11 +29,11 @@ require 'lwt-startup.php';
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentarchivesort','1',1);
 
-$currentpage = processSessParam("page","currentarchivepage",'1',1);
-$currentquery = processSessParam("query","currentarchivequery",'',0);
-$currenttag1 = validateArchTextTag(processSessParam("tag1","currentarchivetexttag1",'',0),$currentlang);
-$currenttag2 = validateArchTextTag(processSessParam("tag2","currentarchivetexttag2",'',0),$currentlang);
-$currenttag12 = processSessParam("tag12","currentarchivetexttag12",'',0);
+$currentpage = get_parameter('page', 'currentarchivepage', 1, TRUE);
+$currentquery = get_parameter('query', 'currentarchivequery', '');
+$currenttag1 = validateArchTextTag(get_parameter('tag1', 'currentarchivetexttag1', ''), $currentlang);
+$currenttag2 = validateArchTextTag(get_parameter('tag2', 'currentarchivetexttag2', ''), $currentlang);
+$currenttag12 = get_parameter('tag12', 'currentarchivetexttag12', '');
 
 $wh_lang = ($currentlang != '') ? (' and AtLgID=' . $currentlang) : '';
 $wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));

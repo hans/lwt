@@ -37,13 +37,13 @@ require_once 'lwt-includes/export.php';
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentwordsort','1',1);
 
-$currentpage = processSessParam("page","currentwordpage",'1',1);
-$currentquery = processSessParam("query","currentwordquery",'',0);
-$currentstatus = processSessParam("status","currentwordstatus",'',0);
-$currenttext = validateText(processSessParam("text","currentwordtext",'',0));
-$currenttag1 = validateTag(processSessParam("tag1","currentwordtag1",'',0),$currentlang);
-$currenttag2 = validateTag(processSessParam("tag2","currentwordtag2",'',0),$currentlang);
-$currenttag12 = processSessParam("tag12","currentwordtag12",'',0);
+$currentpage = get_parameter('page', 'currentwordpage', 1, TRUE);
+$currentquery = get_parameter("query", "currentwordquery", '');
+$currentstatus = get_parameter("status", "currentwordstatus", '');
+$currenttext = validateText(get_parameter("text", "currentwordtext", ''));
+$currenttag1 = validateTag(get_parameter("tag1", "currentwordtag1", ''), $currentlang);
+$currenttag2 = validateTag(get_parameter("tag2", "currentwordtag2", ''), $currentlang);
+$currenttag12 = get_parameter("tag12", "currentwordtag12", '');
 
 $wh_lang = ($currentlang != '') ? (' and WoLgID=' . $currentlang ) : '';
 $wh_stat = ($currentstatus != '') ? (' and ' . makeStatusCondition('WoStatus', $currentstatus)) : '';

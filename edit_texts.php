@@ -37,12 +37,12 @@ require_once LWT_INCLUDE . 'tags.php';
 
 $filter = array('language' => validateLang(processDBParam("filterlang",'currentlanguage','',0)),
                 'sort' => processDBParam("sort",'currenttextsort','1',1),
-                'page' => processSessParam("page","currenttextpage",'1',1),
-                'query' => processSessParam("query","currenttextquery",'',0),
-                'tag12' => processSessParam("tag12","currenttexttag12",'',0));
+                'page' => get_parameter('page', 'currenttextpage', 1, TRUE),
+                'query' => get_parameter('query', 'currenttextquery', ''),
+                'tag12' => get_parameter('tag12', 'currenttexttag12', ''));
 
-$filter['tag1'] = validateTextTag(processSessParam("tag1","currenttexttag1",'',0), $filter['language']);
-$filter['tag2'] = validateTextTag(processSessParam("tag2","currenttexttag2",'',0), $filter['language']);
+$filter['tag1'] = validateTextTag(get_parameter('tag1', 'currenttexttag1', ''), $filter['language']);
+$filter['tag2'] = validateTextTag(get_parameter('tag2', 'currenttexttag2', ''), $filter['language']);
 
 $wh_lang = ($filter['language'] != '') ? (' and TxLgID=' . $filter['language']) : '';
 $wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($filter['query'], 'UTF-8')));

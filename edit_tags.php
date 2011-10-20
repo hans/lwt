@@ -29,8 +29,8 @@ require 'lwt-startup.php';
 
 $currentsort = processDBParam("sort",'currenttagsort','1',1);
 
-$currentpage = processSessParam("page","currenttagpage",'1',1);
-$currentquery = processSessParam("query","currenttagquery",'',0);
+$currentpage = get_parameter('page', 'currenttagpage', 1, TRUE);
+$currentquery = get_parameter('query', 'currenttagquery', '');
 
 $wh_query = convert_string_to_sqlsyntax(str_replace("*","%",$currentquery));
 $wh_query = ($currentquery != '') ? (' and (TgText like ' . $wh_query . ' or TgComment like ' . $wh_query . ')') : '';

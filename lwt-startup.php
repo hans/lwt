@@ -48,6 +48,7 @@ require_once LWT_INCLUDE . 'sanitize.php';
 sanitize_init();
 
 require_once LWT_INCLUDE . 'template.php';
+require_once LWT_INCLUDE . 'input.php';
 require_once LWT_INCLUDE . 'utilities.php';
 
 ?>
