@@ -1,4 +1,30 @@
 <?php
+/**
+ * Database functions.
+ *
+ * @package LWT
+ * @subpackage Database
+ * @since 2.0
+ */
+
+/**
+ * Connect to the database and configure the connection.
+ */
+function db_connect() {
+    $err = @mysql_connect(LWT_SERVER, LWT_DB_USER, LWT_DB_PASSWORD);
+    if ($err == FALSE) die('DB connect error (MySQL not running or connection parameters are wrong; start MySQL and/or correct file "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
+
+    @mysql_query("SET NAMES 'utf8'");
+
+    $err = @mysql_select_db(LWT_DB_NAME);
+    if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . LWT_DB_NAME . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');
+
+    $err = @mysql_select_db(LWT_DB_NAME);
+    if ($err == FALSE) die('DB select error (Cannot find database: "'. LWT_DB_NAME . '" or connection parameter LWT_DB_NAME is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');
+
+    // check/update db
+    check_update_db();
+}
 
 function runsql($sql, $m) {
 	$res = mysql_query($sql);
