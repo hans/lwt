@@ -1,12 +1,5 @@
 <?php
 
-function stripTheSlashesIfNeeded($s) {
-	if(get_magic_quotes_gpc())
-		return stripslashes($s);
-	else
-		return $s;
-}
-
 function runsql($sql, $m) {
 	$res = mysql_query($sql);
 	if ($res == FALSE) {

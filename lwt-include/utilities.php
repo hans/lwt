@@ -491,7 +491,7 @@ function adjust_autoincr($table,$key) {
 // -------------------------------------------------------------
 
 function prepare_textdata($s) {
-	return str_replace("\r\n","\n", stripTheSlashesIfNeeded($s));
+	return str_replace("\r\n","\n", stripslashes($s));
 }
 
 // -------------------------------------------------------------
@@ -622,7 +622,7 @@ function get_sentence_count_selectoptions($v) {
 function saveSetting($k,$v) {
 	$dft = get_setting_data();
 	if (! isset($v)) $v ='';
-	$v = stripTheSlashesIfNeeded($v);
+	$v = stripslashes($v);
 	runsql('delete from settings where StKey = ' . convert_string_to_sqlsyntax($k), '');
 	if ($v !== '') {
 		if (array_key_exists($k,$dft)) {
@@ -643,7 +643,7 @@ function saveSetting($k,$v) {
 function processSessParam($reqkey,$sesskey,$default,$isnum) {
 	$result = '';
 	if(isset($_REQUEST[$reqkey])) {
-		$reqdata = stripTheSlashesIfNeeded(trim($_REQUEST[$reqkey]));
+		$reqdata = stripslashes(trim($_REQUEST[$reqkey]));
 		$_SESSION[$sesskey] = $reqdata;
 		$result = $reqdata;
 	}
@@ -663,7 +663,7 @@ function processDBParam($reqkey,$dbkey,$default,$isnum) {
 	$result = '';
 	$dbdata = getSetting($dbkey);
 	if(isset($_REQUEST[$reqkey])) {
-		$reqdata = stripTheSlashesIfNeeded(trim($_REQUEST[$reqkey]));
+		$reqdata = stripslashes(trim($_REQUEST[$reqkey]));
 		saveSetting($dbkey,$reqdata);
 		$result = $reqdata;
 	}

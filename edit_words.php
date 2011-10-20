@@ -92,7 +92,7 @@ $message = '';
 
 if (isset($_REQUEST['markaction'])) {
 	$markaction = $_REQUEST['markaction'];
-	$actiondata = stripTheSlashesIfNeeded(getreq('data'));
+	$actiondata = stripslashes(getreq('data'));
 	$message = "Multiple Actions: 0";
 	if (isset($_REQUEST['marked'])) {
 		if (is_array($_REQUEST['marked'])) {
@@ -165,7 +165,7 @@ if (isset($_REQUEST['markaction'])) {
 
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
-	$actiondata = stripTheSlashesIfNeeded(getreq('data'));
+	$actiondata = stripslashes(getreq('data'));
 	if ($allaction == 'delall' || $allaction == 'spl1all' || $allaction == 'smi1all' || $allaction == 's5all' || $allaction == 's1all' || $allaction == 's99all' || $allaction == 's98all' || $allaction == 'todayall' || $allaction == 'addtagall' || $allaction == 'deltagall' || $allaction == 'delsentall' || $allaction == 'lowerall' || $allaction == 'capall') {
 		if ($currenttext == '') {
 			$sql = 'select distinct WoID from (words left JOIN wordtags ON WoID = WtWoID) where (1=1) ' . $wh_lang . $wh_stat .  $wh_query . ' group by WoID ' . $wh_tag;

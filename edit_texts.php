@@ -84,7 +84,7 @@ $message = '';
 if ( isset($_REQUEST['markaction'], $_REQUEST['marked']) && is_array($_REQUEST['marked']) ) {
     $markaction = $_REQUEST['markaction'];
     $marked = $_REQUEST['marked'];
-    $action_data = stripTheSlashesIfNeeded(getreq('data'));
+    $action_data = stripslashes(getreq('data'));
     $message = "Multiple Actions: 0";
 
     $l = count($marked);
