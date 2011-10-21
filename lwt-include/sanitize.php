@@ -61,7 +61,7 @@ function sanitize() {
             } else {
                 return $var;
             }
-        });
+        }, func_get_args());
 }
 
 /**
