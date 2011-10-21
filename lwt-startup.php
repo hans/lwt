@@ -26,6 +26,8 @@ error_reporting(LWT_DEBUG ? E_ALL : 0);
 ini_set('display_errors', LWT_DEBUG);
 ini_set('display_startup_errors', LWT_DEBUG);
 
+require_once LWT_INCLUDE . 'utilities.php';
+
 require_once LWT_INCLUDE . 'database.php';
 db_connect();
 
@@ -49,6 +51,5 @@ sanitize_init();
 
 require_once LWT_INCLUDE . 'template.php';
 require_once LWT_INCLUDE . 'input.php';
-require_once LWT_INCLUDE . 'utilities.php';
 
 ?>
