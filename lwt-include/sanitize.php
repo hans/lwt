@@ -50,10 +50,13 @@ function disable_magic_quotes() {
  *
  * @param mixed $var1,...
  *   Arrays and strings to sanitize
- * @return Array List of sanitized variables
+ * @return mixed List of sanitized variables (usually). If only one parameter
+ *   was passed, then this single sanitized parameter will be returned.
  */
 function sanitize() {
-    return array_map(function($var) {
+    $todo = func_get_args();
+
+    $result = array_map(function($var) {
             if ( is_array($var) ) {
                 return array_map('sanitize', $var);
             } else if ( is_string($var) ) {
@@ -61,7 +64,11 @@ function sanitize() {
             } else {
                 return $var;
             }
-        }, func_get_args());
+        }, $todo);
+
+    return ( count($todo) === 1
+             ? reset($result)
+             : $result );
 }
 
 /**
