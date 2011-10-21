@@ -55,7 +55,7 @@ function disable_magic_quotes() {
 function sanitize() {
     return array_map(function($var) {
             if ( is_array($var) ) {
-                return sanitize($var);
+                return array_map('sanitize', $var);
             } else if ( is_string($var) ) {
                 return addslashes($var);
             } else {
