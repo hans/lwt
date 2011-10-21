@@ -41,8 +41,8 @@ $filter = array('language' => filter('language', get_parameter("filterlang", 'db
                 'query' => get_parameter('query', 'session', 'currenttextquery', ''),
                 'tag12' => get_parameter('tag12', 'session', 'currenttexttag12', ''));
 
-$filter['tag1'] = validate('text_tag', get_parameter('tag1', 'session', 'currenttexttag1', ''), $filter['language']);
-$filter['tag2'] = validate('text_tag', get_parameter('tag2', 'session', 'currenttexttag2', ''), $filter['language']);
+$filter['tag1'] = filter('text_tag', get_parameter('tag1', 'session', 'currenttexttag1', ''), $filter['language']);
+$filter['tag2'] = filter('text_tag', get_parameter('tag2', 'session', 'currenttexttag2', ''), $filter['language']);
 
 $wh_lang = ($filter['language'] != '') ? (' and TxLgID=' . $filter['language']) : '';
 $wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($filter['query'], 'UTF-8')));
