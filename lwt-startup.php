@@ -25,6 +25,7 @@ require 'lwt-config.php';
 error_reporting(LWT_DEBUG ? E_ALL : 0);
 ini_set('display_errors', LWT_DEBUG);
 ini_set('display_startup_errors', LWT_DEBUG);
+ini_set('html_errors', LWT_DEBUG);
 
 require_once LWT_INCLUDE . 'utilities.php';
 
