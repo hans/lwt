@@ -2,11 +2,11 @@
 <!DOCTYPE database PUBLIC "-//Propel//Propel Schema//EN" "https://github.com/propelorm/Propel/blob/master/generator/resources/dtd/database.dtd">
 <database name="lwt" defaultIdMethod="native">
   <table name="archivedtexts" phpName="ArchivedText" idMethod="native">
-    <column name="AtID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="AtLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="AtTitle" phpName="title" type="VARCHAR" size="200" required="true"/>
-    <column name="AtText" phpName="text" type="LONGVARCHAR" required="true"/>
-    <column name="AtAudioURI" phpName="audio_uri" type="VARCHAR" size="200" required="false"/>
+    <column name="AtID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="AtLgID" phpName="LanguageId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="AtTitle" phpName="Title" type="VARCHAR" size="200" required="true"/>
+    <column name="AtText" phpName="Text" type="LONGVARCHAR" required="true"/>
+    <column name="AtAudioURI" phpName="AudioUri" type="VARCHAR" size="200" required="false"/>
 
     <index name="AtLgID">
       <index-column name="AtLgID"/>
@@ -18,8 +18,8 @@
   </table>
 
   <table name="archtexttags" isCrossRef="true">
-    <column name="AgAtID" phpName="archived_text_id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
-    <column name="AgT2ID" phpName="tag_id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="AgAtID" phpName="ArchivedTextId" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="AgT2ID" phpName="TagId" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
 
     <index name="AgAtID">
       <index-column name="AgAtID"/>
@@ -39,20 +39,20 @@
   </table>
 
   <table name="languages" phpName="Language" idMethod="native">
-    <column name="LgID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="LgName" phpName="name" type="VARCHAR" size="40" required="true"/>
-    <column name="LgDict1URI" phpName="dict1_uri" type="VARCHAR" size="200" required="true"/>
-    <column name="LgDict2URI" phpName="dict2_uri" type="VARCHAR" size="200" required="false"/>
-    <column name="LgGoogleTranslateURI" phpName="gtranslate_uri" type="VARCHAR" size="200" required="false"/>
-    <column name="LgGoogleTTSURI" phpName="gtts_uri" type="VARCHAR" size="200" required="false"/>
-    <column name="LgTextSize" phpName="text_display_size" type="INTEGER" size="5" sqlType="int(5) unsigned" required="true" defaultValue="100"/>
-    <column name="LgCharacterSubstitutions" phpName="character_substitutions" type="VARCHAR" size="500" required="true"/>
-    <column name="LgRegexpSplitSentences" phpName="regexp_split_sentences" type="VARCHAR" size="500" required="true"/>
-    <column name="LgExceptionsSplitSentences" phpName="exceptions_split_sentences" type="VARCHAR" size="500" required="true"/>
-    <column name="LgRegexpWordCharacters" phpName="regexp_word_characters" type="VARCHAR" size="500" required="true"/>
-    <column name="LgRemoveSpaces" phpName="remove_spaces" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
-    <column name="LgSplitEachChar" phpName="split_each_char" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
-    <column name="LgRightToLeft" phpName="right_to_left" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
+    <column name="LgID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="LgName" phpName="Name" type="VARCHAR" size="40" required="true"/>
+    <column name="LgDict1URI" phpName="Dict1Uri" type="VARCHAR" size="200" required="true"/>
+    <column name="LgDict2URI" phpName="Dict2Uri" type="VARCHAR" size="200" required="false"/>
+    <column name="LgGoogleTranslateURI" phpName="GTranslateUri" type="VARCHAR" size="200" required="false"/>
+    <column name="LgGoogleTTSURI" phpName="GTTSUri" type="VARCHAR" size="200" required="false"/>
+    <column name="LgTextSize" phpName="TextDisplaySize" type="INTEGER" size="5" sqlType="int(5) unsigned" required="true" defaultValue="100"/>
+    <column name="LgCharacterSubstitutions" phpName="CharacterSubstitutions" type="VARCHAR" size="500" required="true"/>
+    <column name="LgRegexpSplitSentences" phpName="RegexpSplitSentences" type="VARCHAR" size="500" required="true"/>
+    <column name="LgExceptionsSplitSentences" phpName="ExceptionsSplitSentences" type="VARCHAR" size="500" required="true"/>
+    <column name="LgRegexpWordCharacters" phpName="RegexpWordCharacters" type="VARCHAR" size="500" required="true"/>
+    <column name="LgRemoveSpaces" phpName="RemoveSpaces" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
+    <column name="LgSplitEachChar" phpName="SplitEachChar" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
+    <column name="LgRightToLeft" phpName="RightToLeft" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
 
     <unique name="LgName">
       <unique-column name="LgName"/>
@@ -60,11 +60,11 @@
   </table>
 
   <table name="sentences" phpName="Sentence" idMethod="native">
-    <column name="SeID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="SeLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="SeTxID" phpName="text_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="SeOrder" phpName="order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="SeText" phpName="text" type="LONGVARCHAR" required="false"/>
+    <column name="SeID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="SeLgID" phpName="LanguageId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="SeTxID" phpName="TextId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="SeOrder" phpName="Order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="SeText" phpName="Text" type="LONGVARCHAR" required="false"/>
 
     <index name="SeLgID">
       <index-column name="SeLgID"/>
@@ -88,14 +88,14 @@
   </table>
 
   <table name="settings" phpName="Setting" idMethod="native">
-    <column name="StKey" phpName="key" type="VARCHAR" size="40" primaryKey="true" required="true"/>
-    <column name="StValue" phpName="value" type="VARCHAR" size="40" required="false"/>
+    <column name="StKey" phpName="Key" type="VARCHAR" size="40" primaryKey="true" required="true"/>
+    <column name="StValue" phpName="Value" type="VARCHAR" size="40" required="false"/>
   </table>
 
   <table name="tags" phpName="Tag" idMethod="native">
-    <column name="TgID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="TgText" phpName="text" type="VARCHAR" size="20" required="true"/>
-    <column name="TgComment" phpName="comment" type="VARCHAR" size="200" required="true"/>
+    <column name="TgID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="TgText" phpName="Text" type="VARCHAR" size="20" required="true"/>
+    <column name="TgComment" phpName="Comment" type="VARCHAR" size="200" required="true"/>
 
     <unique name="TgText">
       <unique-column name="TgText"/>
@@ -103,9 +103,9 @@
   </table>
 
   <table name="tags2" phpName="Tags2" idMethod="native">
-    <column name="T2ID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="T2Text" phpName="text" type="VARCHAR" size="20" required="true"/>
-    <column name="T2Comment" phpName="comment" type="VARCHAR" size="200" required="true"/>
+    <column name="T2ID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="T2Text" phpName="Text" type="VARCHAR" size="20" required="true"/>
+    <column name="T2Comment" phpName="Comment" type="VARCHAR" size="200" required="true"/>
 
     <unique name="T2Text">
       <unique-column name="T2Text"/>
@@ -113,15 +113,15 @@
   </table>
 
   <table name="textitems" phpName="TextItem" idMethod="native">
-    <column name="TiID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="TiLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="TiTxID" phpName="text_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="TiSeID" phpName="sentence_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="TiOrder" phpName="order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="TiWordCount" phpName="word_count" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true"/>
-    <column name="TiText" phpName="text" type="VARCHAR" size="250" required="true"/>
-    <column name="TiTextLC" phpName="text_lowercase" type="VARCHAR" size="250" required="true"/>
-    <column name="TiIsNotWord" phpName="is_not_word" type="BOOLEAN" size="1" required="true"/>
+    <column name="TiID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="TiLgID" phpName="LanguageId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TiTxID" phpName="TextId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TiSeID" phpName="SentenceId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TiOrder" phpName="Order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TiWordCount" phpName="WordCount" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true"/>
+    <column name="TiText" phpName="Text" type="VARCHAR" size="250" required="true"/>
+    <column name="TiTextLC" phpName="TextLowercase" type="VARCHAR" size="250" required="true"/>
+    <column name="TiIsNotWord" phpName="IsNotWord" type="BOOLEAN" size="1" required="true"/>
 
     <index name="TiLgID">
       <index-column name="TiLgID"/>
@@ -157,11 +157,11 @@
   </table>
 
   <table name="texts" phpName="Text" idMethod="native">
-    <column name="TxID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="TxLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="TxTitle" phpName="title" type="VARCHAR" size="200" required="true"/>
-    <column name="TxText" phpName="text" type="LONGVARCHAR" required="true"/>
-    <column name="TxAudioURI" phpName="audio_uri" type="VARCHAR" size="200" required="false"/>
+    <column name="TxID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="TxLgID" phpName="LanguageId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TxTitle" phpName="Title" type="VARCHAR" size="200" required="true"/>
+    <column name="TxText" phpName="Text" type="LONGVARCHAR" required="true"/>
+    <column name="TxAudioURI" phpName="AudioUri" type="VARCHAR" size="200" required="false"/>
 
     <index name="TxLgID">
       <index-column name="TxLgID"/>
@@ -173,8 +173,8 @@
   </table>
 
   <table name="texttags" isCrossRef="true">
-    <column name="TtTxID" phpName="Tttxid" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
-    <column name="TtT2ID" phpName="Ttt2id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="TtTxID" phpName="TextId" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="TtT2ID" phpName="Tag2Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
     <index name="TtTxID">
       <index-column name="TtTxID"/>
     </index>
@@ -192,19 +192,19 @@
   </table>
 
   <table name="words" phpName="Word" idMethod="native">
-    <column name="WoID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="WoLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="WoText" phpName="text" type="VARCHAR" size="250" required="true"/>
-    <column name="WoTextLC" phpName="text_lowercase" type="VARCHAR" size="250" required="true"/>
-    <column name="WoStatus" phpName="status" type="TINYINT" required="true"/>
-    <column name="WoTranslation" phpName="translation" type="VARCHAR" size="500" required="true" defaultValue="*"/>
-    <column name="WoRomanization" phpName="romanization" type="VARCHAR" size="100" required="false"/>
-    <column name="WoSentence" phpName="sentence" type="VARCHAR" size="1000" required="false"/>
-    <column name="WoCreated" phpName="created" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
-    <column name="WoStatusChanged" phpName="status_changed" type="TIMESTAMP" required="true" defaultValue="0000-00-00 00:00:00"/>
-    <column name="WoTodayScore" phpName="today_score" type="DOUBLE" required="true" defaultValue="0"/>
-    <column name="WoTomorrowScore" phpName="tomorrow_score" type="DOUBLE" required="true" defaultValue="0"/>
-    <column name="WoRandom" phpName="random" type="DOUBLE" required="true" defaultValue="0"/>
+    <column name="WoID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="WoLgID" phpName="LanguageId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="WoText" phpName="Text" type="VARCHAR" size="250" required="true"/>
+    <column name="WoTextLC" phpName="TextLowercase" type="VARCHAR" size="250" required="true"/>
+    <column name="WoStatus" phpName="Status" type="TINYINT" required="true"/>
+    <column name="WoTranslation" phpName="Translation" type="VARCHAR" size="500" required="true" defaultValue="*"/>
+    <column name="WoRomanization" phpName="Romanization" type="VARCHAR" size="100" required="false"/>
+    <column name="WoSentence" phpName="Sentence" type="VARCHAR" size="1000" required="false"/>
+    <column name="WoCreated" phpName="Created" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="WoStatusChanged" phpName="StatusChanged" type="TIMESTAMP" required="true" defaultValue="0000-00-00 00:00:00"/>
+    <column name="WoTodayScore" phpName="TodayScore" type="DOUBLE" required="true" defaultValue="0"/>
+    <column name="WoTomorrowScore" phpName="TomorrowScore" type="DOUBLE" required="true" defaultValue="0"/>
+    <column name="WoRandom" phpName="Random" type="DOUBLE" required="true" defaultValue="0"/>
 
     <unique name="WoLgIDTextLC">
       <unique-column name="WoLgID"/>
@@ -253,8 +253,8 @@
   </table>
 
   <table name="wordtags" isCrossRef="true">
-    <column name="WtWoID" phpName="word_id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
-    <column name="WtTgID" phpName="tag_id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="WtWoID" phpName="WordId" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="WtTgID" phpName="TagId" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
 
     <index name="WtTgID">
       <index-column name="WtTgID"/>
