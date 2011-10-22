@@ -64,7 +64,7 @@
     <column name="SeLgID" phpName="LanguageId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
     <column name="SeTxID" phpName="TextId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
     <column name="SeOrder" phpName="Order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="SeText" phpName="Text" type="LONGVARCHAR" required="false"/>
+    <column name="SeText" phpName="SentenceText" type="LONGVARCHAR" required="false"/>
 
     <index name="SeLgID">
       <index-column name="SeLgID"/>
