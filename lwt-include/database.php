@@ -63,7 +63,9 @@ function convert_string_to_sqlsyntax_notrim_nonull($data) {
 
 function get_first_value($sql) {
     $conn = Propel::getConnection(TextPeer::DATABASE_NAME);
-    $value = $conn->query($sql)->fetchColumn();
+    $stmt = $conn->query($sql);
+    $value = $stmt->fetchColumn();
+    $stmt->closeCursor();
 
     if ( $value )
         return $value;
