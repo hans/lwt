@@ -14,7 +14,7 @@ require_once LWT_INCLUDE . 'db/propel/runtime/lib/Propel.php';
  */
 function db_connect() {
     Propel::init(LWT_INCLUDE . 'db/conf/lwt-conf.php');
-    set_include_path(LWT_INCLUDE . 'db/classes/lwt' . PATH_SEPARATOR . get_include_path());
+    set_include_path(LWT_INCLUDE . 'db/classes' . PATH_SEPARATOR . get_include_path());
 
     // check/update db
     //check_update_db();
