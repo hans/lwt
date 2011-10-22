@@ -7,7 +7,7 @@
  * @since 2.0
  */
 
-require_once LWT_INCLUDE . 'propel/runtime/lib/Propel.php';
+require_once LWT_INCLUDE . 'db/propel/runtime/lib/Propel.php';
 
 /**
  * Connect to the database and configure the connection.
