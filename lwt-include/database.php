@@ -60,15 +60,13 @@ function convert_string_to_sqlsyntax_notrim_nonull($data) {
 }
 
 function get_first_value($sql) {
-	$res = mysql_query($sql);
-	if ($res == FALSE) die("Invalid query: $sql");
-	$record = mysql_fetch_assoc($res);
-	if ($record)
-		$d = $record["value"];
-	else
-		$d = NULL;
-	mysql_free_result($res);
-	return $d;
+    $conn = Propel::getConnection(TextPeer::DATABASE_NAME);
+    $value = $conn->query($sql)->fetchColumn();
+
+    if ( $value )
+        return $value;
+
+    return NULL;
 }
 
 function get_last_key() {
