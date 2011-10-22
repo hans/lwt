@@ -126,9 +126,12 @@ function filter($type, $data) {
     }
 
     if ( isset($filter['count_sql']) ) {
-        $sql = sprintf($filter['count_sql'], $data);
+        $conn = Propel::getConnection(TextPeer::DATABASE_NAME);
 
-        $test = get_first_value($sql);
+        $stmt = $conn->prepare($filter['count_sql']);
+        $stmt->execute(array(':id' => $data));
+        $test = $stmt->fetchColumn();
+
         if ( $test === 0 ) return NULL;
     }
 

@@ -569,14 +569,18 @@ function getsess($s) {
 // -------------------------------------------------------------
 
 function getSetting($key) {
-	$val = get_first_value('select StValue as value from settings where StKey = ' . convert_string_to_sqlsyntax($key));
-	if ( isset($val) ) {
-		$val = trim($val);
-		if ($key == 'currentlanguage' ) $val = filter('language', $val);
-		if ($key == 'currenttext' ) $val = filter('text', $val);
-		return $val;
-	}
-	else return '';
+    $setting = SettingQuery::create()->filterByKey($key)->findOne();
+
+    if ( isset($setting) ) {
+        $setting = trim($setting);
+
+        if ($key == 'currentlanguage' ) $setting = filter('language', $setting);
+        if ($key == 'currenttext' ) $setting = filter('text', $setting);
+
+        return $val;
+    }
+
+    return '';
 }
 
 // -------------------------------------------------------------
