@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE database PUBLIC "-//Propel//Propel Schema//EN" "https://github.com/propelorm/Propel/blob/master/generator/resources/dtd/database.dtd">
+<database name="lwt" defaultIdMethod="native">
+  <table name="archivedtexts" phpName="ArchivedText" idMethod="native">
+    <column name="AtID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="AtLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="AtTitle" phpName="title" type="VARCHAR" size="200" required="true"/>
+    <column name="AtText" phpName="text" type="LONGVARCHAR" required="true"/>
+    <column name="AtAudioURI" phpName="audio_uri" type="VARCHAR" size="200" required="false"/>
+
+    <index name="AtLgID">
+      <index-column name="AtLgID"/>
+    </index>
+
+    <foreign-key foreignTable="languages" phpName="Language" refPhpName="ArchivedText">
+      <reference local="AtLgID" foreign="LgID" />
+    </foreign-key>
+  </table>
+
+  <table name="archtexttags" isCrossRef="true">
+    <column name="AgAtID" phpName="archived_text_id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="AgT2ID" phpName="tag_id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+
+    <index name="AgAtID">
+      <index-column name="AgAtID"/>
+    </index>
+
+    <index name="AgT2ID">
+      <index-column name="AgT2ID"/>
+    </index>
+
+    <foreign-key foreignTable="archivedtexts">
+      <reference local="AgAtID" foreign="AtID" />
+    </foreign-key>
+
+    <foreign-key foreignTable="tags2">
+      <reference local="AgT2ID" foreign="T2ID" />
+    </foreign-key>
+  </table>
+
+  <table name="languages" phpName="Language" idMethod="native">
+    <column name="LgID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="LgName" phpName="name" type="VARCHAR" size="40" required="true"/>
+    <column name="LgDict1URI" phpName="dict1_uri" type="VARCHAR" size="200" required="true"/>
+    <column name="LgDict2URI" phpName="dict2_uri" type="VARCHAR" size="200" required="false"/>
+    <column name="LgGoogleTranslateURI" phpName="gtranslate_uri" type="VARCHAR" size="200" required="false"/>
+    <column name="LgGoogleTTSURI" phpName="gtts_uri" type="VARCHAR" size="200" required="false"/>
+    <column name="LgTextSize" phpName="text_display_size" type="INTEGER" size="5" sqlType="int(5) unsigned" required="true" defaultValue="100"/>
+    <column name="LgCharacterSubstitutions" phpName="character_substitutions" type="VARCHAR" size="500" required="true"/>
+    <column name="LgRegexpSplitSentences" phpName="regexp_split_sentences" type="VARCHAR" size="500" required="true"/>
+    <column name="LgExceptionsSplitSentences" phpName="exceptions_split_sentences" type="VARCHAR" size="500" required="true"/>
+    <column name="LgRegexpWordCharacters" phpName="regexp_word_characters" type="VARCHAR" size="500" required="true"/>
+    <column name="LgRemoveSpaces" phpName="remove_spaces" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
+    <column name="LgSplitEachChar" phpName="split_each_char" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
+    <column name="LgRightToLeft" phpName="right_to_left" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true" defaultValue="0"/>
+
+    <unique name="LgName">
+      <unique-column name="LgName"/>
+    </unique>
+  </table>
+
+  <table name="sentences" phpName="Sentence" idMethod="native">
+    <column name="SeID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="SeLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="SeTxID" phpName="text_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="SeOrder" phpName="order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="SeText" phpName="text" type="LONGVARCHAR" required="false"/>
+
+    <index name="SeLgID">
+      <index-column name="SeLgID"/>
+    </index>
+
+    <index name="SeTxID">
+      <index-column name="SeTxID"/>
+    </index>
+
+    <index name="SeOrder">
+      <index-column name="SeOrder"/>
+    </index>
+
+    <foreign-key foreignTable="languages" phpName="Language" refPhpName="Sentence">
+      <reference local="SeLgID" foreign="LgID" />
+    </foreign-key>
+
+    <foreign-key foreignTable="texts" phpName="Text" refPhpName="Sentence">
+      <reference local="SeTxID" foreign="TxID" />
+    </foreign-key>
+  </table>
+
+  <table name="settings" phpName="Setting" idMethod="native">
+    <column name="StKey" phpName="key" type="VARCHAR" size="40" primaryKey="true" required="true"/>
+    <column name="StValue" phpName="value" type="VARCHAR" size="40" required="false"/>
+  </table>
+
+  <table name="tags" phpName="Tag" idMethod="native">
+    <column name="TgID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="TgText" phpName="text" type="VARCHAR" size="20" required="true"/>
+    <column name="TgComment" phpName="comment" type="VARCHAR" size="200" required="true"/>
+
+    <unique name="TgText">
+      <unique-column name="TgText"/>
+    </unique>
+  </table>
+
+  <table name="tags2" phpName="Tags2" idMethod="native">
+    <column name="T2ID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="T2Text" phpName="text" type="VARCHAR" size="20" required="true"/>
+    <column name="T2Comment" phpName="comment" type="VARCHAR" size="200" required="true"/>
+
+    <unique name="T2Text">
+      <unique-column name="T2Text"/>
+    </unique>
+  </table>
+
+  <table name="textitems" phpName="TextItem" idMethod="native">
+    <column name="TiID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="TiLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TiTxID" phpName="text_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TiSeID" phpName="sentence_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TiOrder" phpName="order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TiWordCount" phpName="word_count" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true"/>
+    <column name="TiText" phpName="text" type="VARCHAR" size="250" required="true"/>
+    <column name="TiTextLC" phpName="text_lowercase" type="VARCHAR" size="250" required="true"/>
+    <column name="TiIsNotWord" phpName="is_not_word" type="BOOLEAN" size="1" required="true"/>
+
+    <index name="TiLgID">
+      <index-column name="TiLgID"/>
+    </index>
+
+    <index name="TiTxID">
+      <index-column name="TiTxID"/>
+    </index>
+
+    <index name="TiSeID">
+      <index-column name="TiSeID"/>
+    </index>
+
+    <index name="TiOrder">
+      <index-column name="TiOrder"/>
+    </index>
+
+    <index name="TiTextLC">
+      <index-column name="TiTextLC"/>
+    </index>
+
+    <index name="TiIsNotWord">
+      <index-column name="TiIsNotWord"/>
+    </index>
+
+    <foreign-key foreignTable="languages" phpName="Language" refPhpName="TextItem">
+      <reference local="TiLgID" foreign="LgID" />
+    </foreign-key>
+
+    <foreign-key foreignTable="texts" phpName="Text" refPhpName="TextItem">
+      <reference local="TiTxID" foreign="TxID" />
+    </foreign-key>
+  </table>
+
+  <table name="texts" phpName="Text" idMethod="native">
+    <column name="TxID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="TxLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="TxTitle" phpName="title" type="VARCHAR" size="200" required="true"/>
+    <column name="TxText" phpName="text" type="LONGVARCHAR" required="true"/>
+    <column name="TxAudioURI" phpName="audio_uri" type="VARCHAR" size="200" required="false"/>
+
+    <index name="TxLgID">
+      <index-column name="TxLgID"/>
+    </index>
+
+    <foreign-key foreignTable="languages" phpName="Language" refPhpName="Text">
+      <reference local="TxLgID" foreign="LgID" />
+    </foreign-key>
+  </table>
+
+  <table name="texttags" isCrossRef="true">
+    <column name="TtTxID" phpName="Tttxid" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="TtT2ID" phpName="Ttt2id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <index name="TtTxID">
+      <index-column name="TtTxID"/>
+    </index>
+    <index name="TtT2ID">
+      <index-column name="TtT2ID"/>
+    </index>
+
+    <foreign-key foreignTable="texts">
+      <reference local="TtTxID" foreign="TxID" />
+    </foreign-key>
+
+    <foreign-key foreignTable="tags2">
+      <reference local="TtT2ID" foreign="T2ID" />
+    </foreign-key>
+  </table>
+
+  <table name="words" phpName="Word" idMethod="native">
+    <column name="WoID" phpName="id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="WoLgID" phpName="language_id" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
+    <column name="WoText" phpName="text" type="VARCHAR" size="250" required="true"/>
+    <column name="WoTextLC" phpName="text_lowercase" type="VARCHAR" size="250" required="true"/>
+    <column name="WoStatus" phpName="status" type="TINYINT" required="true"/>
+    <column name="WoTranslation" phpName="translation" type="VARCHAR" size="500" required="true" defaultValue="*"/>
+    <column name="WoRomanization" phpName="romanization" type="VARCHAR" size="100" required="false"/>
+    <column name="WoSentence" phpName="sentence" type="VARCHAR" size="1000" required="false"/>
+    <column name="WoCreated" phpName="created" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <column name="WoStatusChanged" phpName="status_changed" type="TIMESTAMP" required="true" defaultValue="0000-00-00 00:00:00"/>
+    <column name="WoTodayScore" phpName="today_score" type="DOUBLE" required="true" defaultValue="0"/>
+    <column name="WoTomorrowScore" phpName="tomorrow_score" type="DOUBLE" required="true" defaultValue="0"/>
+    <column name="WoRandom" phpName="random" type="DOUBLE" required="true" defaultValue="0"/>
+
+    <unique name="WoLgIDTextLC">
+      <unique-column name="WoLgID"/>
+      <unique-column name="WoTextLC"/>
+    </unique>
+
+    <index name="WoLgID">
+      <index-column name="WoLgID"/>
+    </index>
+
+    <index name="WoStatus">
+      <index-column name="WoStatus"/>
+    </index>
+
+    <index name="WoTextLC">
+      <index-column name="WoTextLC"/>
+    </index>
+
+    <index name="WoTranslation">
+      <index-column name="WoTranslation"/>
+    </index>
+
+    <index name="WoCreated">
+      <index-column name="WoCreated"/>
+    </index>
+
+    <index name="WoStatusChanged">
+      <index-column name="WoStatusChanged"/>
+    </index>
+
+    <index name="WoTodayScore">
+      <index-column name="WoTodayScore"/>
+    </index>
+
+    <index name="WoTomorrowScore">
+      <index-column name="WoTomorrowScore"/>
+    </index>
+
+    <index name="WoRandom">
+      <index-column name="WoRandom"/>
+    </index>
+
+    <foreign-key foreignTable="languages" phpName="Language" refPhpName="Word">
+      <reference local="WoLgID" foreign="LgID" />
+    </foreign-key>
+  </table>
+
+  <table name="wordtags" isCrossRef="true">
+    <column name="WtWoID" phpName="word_id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+    <column name="WtTgID" phpName="tag_id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" required="true"/>
+
+    <index name="WtTgID">
+      <index-column name="WtTgID"/>
+    </index>
+
+    <index name="WtWoID">
+      <index-column name="WtWoID"/>
+    </index>
+
+    <foreign-key foreignTable="words">
+      <reference local="WtWoID" foreign="WoID" />
+    </foreign-key>
+
+    <foreign-key foreignTable="tags">
+      <reference local="WtTgID" foreign="TgID" />
+    </foreign-key>
+  </table>
+</database>

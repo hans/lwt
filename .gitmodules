@@ -1,0 +1,3 @@
+[submodule "lwt-include/db/propel"]
+	path = lwt-include/db/propel
+	url = https://github.com/propelorm/Propel.git

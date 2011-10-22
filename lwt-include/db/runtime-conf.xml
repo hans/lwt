@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <log>
+    <type>file</type>
+    <name>lwt-include/propel/propel.log</name>
+    <ident>propel-lwt</ident>
+    <level>7</level>
+  </log>
+
+  <propel>
+    <datasources default="lwt">
+      <datasource id="lwt">
+        <adapter>mysql</adapter>
+        <connection>
+          <dsn>mysql:host=localhost;dbname=learning-with-texts</dsn>
+          <user>root</user>
+          <password></password>
+        </connection>
+      </datasource>
+    </datasources>
+  </propel>
+</config>
