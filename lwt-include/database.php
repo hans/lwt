@@ -9,6 +9,8 @@
 
 require_once LWT_INCLUDE . 'db/propel/runtime/lib/Propel.php';
 
+$lwt_db = null;
+
 /**
  * Connect to the database and configure the connection.
  */
@@ -16,19 +18,18 @@ function db_connect() {
     Propel::init(LWT_INCLUDE . 'db/conf/lwt-conf.php');
     set_include_path(LWT_INCLUDE . 'db/classes' . PATH_SEPARATOR . get_include_path());
 
+    global $lwt_db;
+    $lwt_db = Propel::getConnection(TextPeer::DATABASE_NAME);
+
     // check/update db
     //check_update_db();
 }
 
 function runsql($sql, $m) {
-	$res = mysql_query($sql);
-	if ($res == FALSE) {
-		$message = "Error: " . mysql_error();
-	} else {
-		$num = mysql_affected_rows();
-		$message = (($m == '') ? $num : ($m . ": " . $num));
-	}
-	return $message;
+    $affected_rows = $conn->exec($sql);
+		$message = ( ( $m == '' ) ? $affected_rows : ( $m . ": " . $affected_rows ) );
+
+    return $message;
 }
 
 function optimizedb() {
