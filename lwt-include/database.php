@@ -26,7 +26,8 @@ function db_connect() {
 }
 
 function runsql($sql, $m) {
-    $affected_rows = $conn->exec($sql);
+    global $lwt_db;
+    $affected_rows = $lwt_db->exec($sql);
 		$message = ( ( $m == '' ) ? $affected_rows : ( $m . ": " . $affected_rows ) );
 
     return $message;
