@@ -64,7 +64,7 @@
     <column name="SeLgID" phpName="LanguageId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
     <column name="SeTxID" phpName="TextId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
     <column name="SeOrder" phpName="Order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
-    <column name="SeText" phpName="SentenceText" type="LONGVARCHAR" required="false"/>
+    <column name="SeText" phpName="Content" type="LONGVARCHAR" required="false"/>
 
     <index name="SeLgID">
       <index-column name="SeLgID"/>
@@ -119,7 +119,7 @@
     <column name="TiSeID" phpName="SentenceId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
     <column name="TiOrder" phpName="Order" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
     <column name="TiWordCount" phpName="WordCount" type="INTEGER" size="1" sqlType="int(1) unsigned" required="true"/>
-    <column name="TiText" phpName="Text" type="VARCHAR" size="250" required="true"/>
+    <column name="TiText" phpName="Content" type="VARCHAR" size="250" required="true"/>
     <column name="TiTextLC" phpName="TextLowercase" type="VARCHAR" size="250" required="true"/>
     <column name="TiIsNotWord" phpName="IsNotWord" type="BOOLEAN" size="1" required="true"/>
 
@@ -160,7 +160,7 @@
     <column name="TxID" phpName="Id" type="INTEGER" sqlType="int(11) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="TxLgID" phpName="LanguageId" type="INTEGER" sqlType="int(11) unsigned" required="true"/>
     <column name="TxTitle" phpName="Title" type="VARCHAR" size="200" required="true"/>
-    <column name="TxText" phpName="Text" type="LONGVARCHAR" required="true"/>
+    <column name="TxText" phpName="Content" type="LONGVARCHAR" required="true"/>
     <column name="TxAudioURI" phpName="AudioUri" type="VARCHAR" size="200" required="false"/>
 
     <index name="TxLgID">
