@@ -196,7 +196,7 @@ if (isset($_REQUEST['new'])) {
         FROM texts
         WHERE TxID = :text_id');
 
-    $query->execute(array($_REQUEST['chg']));
+    $query->execute(array('text_id' => $_REQUEST['chg']));
     $record = $query->fetch(PDO::FETCH_ASSOC);
     render('texts/edit', compact('record', 'page_title'));
 
