@@ -96,27 +96,33 @@ function get_tag_selectoptions($v,$l) {
 // -------------------------------------------------------------
 
 function get_texttag_selectoptions($v,$l) {
-	if ( ! isset($v) ) $v = '';
-	$r = "<option value=\"\"" . get_selected($v,'');
-	$r .= ">[Filter off]</option>";
-	if ($l == '')
-		$sql = "select T2ID, T2Text from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by T2Text";
-	else
-		$sql = "select T2ID, T2Text from texts, tags2, texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $l . " group by T2ID order by T2Text";
-	$res = mysql_query($sql);
-	if ($res == FALSE) die("Invalid query: $sql");
-	$cnt = 0;
-	while ($record = mysql_fetch_assoc($res)) {
-		$d = $record["T2Text"];
-		$cnt++;
-		$r .= "<option value=\"" . $record["T2ID"] . "\"" . get_selected($v,$record["T2ID"]) . ">" . tohtml($d) . "</option>";
-	}
-	mysql_free_result($res);
-	if ($cnt > 0) {
-		$r .= "<option disabled=\"disabled\">--------</option>";
-		$r .= "<option value=\"-1\"" . get_selected($v,-1) . ">UNTAGGED</option>";
-	}
-	return $r;
+    if ( ! isset($v) ) $v = '';
+
+    $r = "<option value=\"\"" . get_selected($v, '');
+    $r .= ">[Filter off]</option>";
+
+    global $lwt_db;
+    $query = $lwt_db->query("SELECT T2ID, T2Text
+        FROM texts, tags2, texttags
+        WHERE T2ID = TtT2ID
+            AND TtTxID = TxID
+            " . ( !empty($l) ? "AND TxLgID = :language_id" : '' ) . "
+        GROUP BY T2ID
+        ORDER BY T2Text");
+
+    $records = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ( $records as $record ) {
+        $d = $record["T2Text"];
+        $r .= "<option value=\"" . $record["T2ID"] . "\"" . get_selected($v,$record["T2ID"]) . ">" . tohtml($d) . "</option>";
+    }
+
+    if ( count($records) > 0 ) {
+        $r .= "<option disabled=\"disabled\">--------</option>";
+        $r .= "<option value=\"-1\"" . get_selected($v,-1) . ">UNTAGGED</option>";
+    }
+
+    return $r;
 }
 
 // -------------------------------------------------------------
