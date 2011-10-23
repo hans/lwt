@@ -39,18 +39,6 @@ function runsql($sql, $m) {
     return $message;
 }
 
-function optimizedb() {
-	adjust_autoincr('archivedtexts','AtID');
-	adjust_autoincr('languages','LgID');
-	adjust_autoincr('sentences','SeID');
-	adjust_autoincr('textitems','TiID');
-	adjust_autoincr('texts','TxID');
-	adjust_autoincr('words','WoID');
-	adjust_autoincr('tags','TgID');
-	adjust_autoincr('tags2','T2ID');
-	$dummy = runsql('OPTIMIZE TABLE archivedtexts,languages,sentences,textitems,texts,words,settings,tags,wordtags,tags2,texttags,archtexttags', '');
-}
-
 function convert_string_to_sqlsyntax($data) {
     $data = trim(prepare_textdata($data));
     if($data != "") $result = "'" . sanitize($data) . "'";
@@ -228,7 +216,7 @@ function check_update_db() {
         runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
         runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
         runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN archivedtexts on AgAtID = AtID) WHERE AtID IS NULL",'');
-        optimizedb();
+
         saveSetting('lastscorecalc',$today);
     }
 }
