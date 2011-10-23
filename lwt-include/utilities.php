@@ -666,22 +666,28 @@ function get_selected($value,$selval) {
 // -------------------------------------------------------------
 
 function get_languages_selectoptions($v,$dt) {
-	$sql = "select LgID, LgName from languages order by LgName";
-	$res = mysql_query($sql);
-	if ($res == FALSE) die("Invalid query: $sql");
-	if ( ! isset($v) || trim($v) == '' ) {
-		$r = "<option value=\"\" selected=\"selected\">" . $dt . "</option>";
-	} else {
-		$r = "<option value=\"\">" . $dt . "</option>";
-	}
-	while ($record = mysql_fetch_assoc($res)) {
-		$d = $record["LgName"];
-		if ( strlen($d) > 30 ) $d = substr($d,0,30) . "...";
-		$r .= "<option value=\"" . $record["LgID"] . "\" " . get_selected($v,$record["LgID"]);
-		$r .= ">" . tohtml($d) . "</option>";
-	}
-	mysql_free_result($res);
-	return $r;
+    $query = $lwt_db->query("SELECT LgID, LgName
+        FROM languages
+        ORDER BY LgName");
+
+    if ( $query == FALSE ) die("Invalid query: $sql");
+
+    if ( ! isset($v) || trim($v) == '' ) {
+        $r = "<option value=\"\" selected=\"selected\">" . $dt . "</option>";
+    } else {
+        $r = "<option value=\"\">" . $dt . "</option>";
+    }
+
+    while ( $record = $query->fetch(PDO::FETCH_ASSOC) ) {
+        $d = $record["LgName"];
+        if ( strlen($d) > 30 ) $d = substr($d, 0, 30) . "...";
+
+        $r .= "<option value=\"" . $record["LgID"] . "\" " . get_selected($v,$record["LgID"]);
+        $r .= ">" . tohtml($d) . "</option>";
+    }
+
+    $query->closeCursor();
+    return $r;
 }
 
 // -------------------------------------------------------------
