@@ -665,7 +665,8 @@ function get_selected($value,$selval) {
 
 // -------------------------------------------------------------
 
-function get_languages_selectoptions($v,$dt) {
+function get_languages_selectoptions($v, $dt) {
+    global $lwt_db;
     $query = $lwt_db->query("SELECT LgID, LgName
         FROM languages
         ORDER BY LgName");
