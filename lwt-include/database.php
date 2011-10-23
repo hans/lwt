@@ -18,7 +18,7 @@ $lwt_db = null;
 function db_connect() {
     global $lwt_db;
     $lwt_db = new PDO('mysql:host=' . LWT_SERVER . ';dbname=' . LWT_DB_NAME . ';charset=UTF-8',
-                      LWT_DB_USER, LWT_DB_PASS);
+                      LWT_DB_USER, LWT_DB_PASSWORD);
 
     // Set error level based on LWT_DEBUG value
     $lwt_db->setAttribute(PDO::ATTR_ERRMODE,
