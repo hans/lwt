@@ -1706,145 +1706,175 @@ function checkText($text, $lid) {
 
 // TODO Refactor into parse_text(), move to lwt-include/texts.php
 function splitText($text, $lid, $id) {
+    global $lwt_db;
 
-	$sql = "select * from languages where LgID=" . $lid;
-	$res = mysql_query($sql);
-	if ($res == FALSE) die("Invalid Query: $sql");
-	$record = mysql_fetch_assoc($res);
-	if ($record == FALSE) die("No results: $sql");
-	$removeSpaces = $record['LgRemoveSpaces'];
-	$splitEachChar = $record['LgSplitEachChar'];
-	$splitSentence = $record['LgRegexpSplitSentences'];
-	$noSentenceEnd = $record['LgExceptionsSplitSentences'];
-	$termchar = $record['LgRegexpWordCharacters'];
-	$replace = explode("|",$record['LgCharacterSubstitutions']);
-	mysql_free_result($res);
-	$s = str_replace("\r\n", "\n", $text);
-	$s = str_replace("\n", " ¶ ", $s);
-	$s = str_replace("\t", " ", $s);
-	$s = trim($s);
-	if ($splitEachChar) {
-		$s = preg_replace('/([^\s])/u', "$1 ", $s);
-	}
-	$s = preg_replace('/\s{2,}/u', ' ', $s);
+    $stmt = $lwt_db->prepare("SELECT *
+        FROM languages
+        WHERE LgID = ?
+        LIMIT 1");
 
-	$s = str_replace('{', '[', $s);	// because of sent. spc. char
-	$s = str_replace('}', ']', $s);
-	foreach ($replace as $value) {
-		$fromto = explode("=",trim($value));
-		if(count($fromto) >= 2) {
-  		$s = str_replace(trim($fromto[0]), trim($fromto[1]), $s);
-		}
-	}
-	$s = trim($s);
+    if ( $stmt == FALSE )
+        die("Invalid Query: $sql");
 
-	if ($noSentenceEnd != '') $s = preg_replace('/(' . $noSentenceEnd . ')\s/u', '$1‧', $s);
-	$s = preg_replace('/([' . $splitSentence . '¶])\s/u', "$1\n", $s);
-	$s = str_replace(" ¶\n", "\n¶\n", $s);
-	$s = str_replace('‧', ' ', $s);
+    $record = $stmt->execute(array($lid))->fetch(PDO::FETCH_ASSOC);
 
-	if ($s=='') {
-		$textLines = array($s);
-	} else {
-		$s = explode("\n",$s);
-		$l = count($s);
-		for ($i=0; $i<$l; $i++) {
-  		$s[$i] = trim($s[$i]);
-  		if ($s[$i] != '') {
-	  		$pos = strpos($splitSentence, $s[$i]);
-	  		while ($pos !== false && $i > 0) {
-	  			$s[$i-1] .= " " . $s[$i];
-	  			for ($j=$i+1; $j<$l; $j++) $s[$j-1] = $s[$j];
-	  			array_pop($s);
-	  			$l = count($s);
-	  			$pos = strpos($splitSentence, $s[$i]);
-	  		}
-  		}
-		}
-		$l = count($s);
-		$textLines = array();
-		for ($i=0; $i<$l; $i++) {
-			$zz = trim($s[$i]);
-			if ($zz != '' ) $textLines[] = $zz;
-		}
-	}
+    $removeSpaces = $record['LgRemoveSpaces'];
+    $splitEachChar = $record['LgSplitEachChar'];
+    $splitSentence = $record['LgRegexpSplitSentences'];
+    $noSentenceEnd = $record['LgExceptionsSplitSentences'];
+    $termchar = $record['LgRegexpWordCharacters'];
+    $replace = explode("|", $record['LgCharacterSubstitutions']);
 
-	$lineWords = array();
-	$wordList = array();
-	$wordIndex = array();
-	$wordSeps = array();
-	$sentNumber = 0;
-	$lfdnr =0;
+    $s = str_replace("\r\n", "\n", $text);
+    $s = str_replace("\n", " ¶ ", $s);
+    $s = str_replace("\t", " ", $s);
+    $s = trim($s);
 
-	foreach ($textLines as $value) {
+    if ($splitEachChar)
+        $s = preg_replace('/([^\s])/u', "$1 ", $s);
 
-		$dummy = runsql('INSERT INTO sentences (SeLgID, SeTxID, SeOrder, SeText) VALUES (' . $lid . ',' .  $id . ',' .  ($sentNumber+1) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($value . ' ', $removeSpaces)) . ')', ' ');
-		$sentid = get_last_key();
-		/**** Speichern Sätze Ende ***/
-		$lineWords[$sentNumber] = preg_split('/([^' . $termchar . ']+)/u', $value . ' ', null, PREG_SPLIT_DELIM_CAPTURE );
-		$l = count($lineWords[$sentNumber]);
-		$sqltext = 'INSERT INTO textitems (TiLgID, TiTxID, TiSeID, TiOrder, TiWordCount, TiText, TiTextLC, TiIsNotWord) VALUES ';
-		$lfdnr1=0;
-		for ($i=0; $i<$l; $i++) {
-			$term = mb_strtolower($lineWords[$sentNumber][$i], 'UTF-8');
-			$rest2 = '';
-			$rest3 = '';
-			$rest4 = '';
-			$rest5 = '';
-			$rest6 = '';
-			$rest7 = '';
-			$rest8 = '';
-			$rest9 = '';
-			$restlc2 = '';
-			$restlc3 = '';
-			$restlc4 = '';
-			$restlc5 = '';
-			$restlc6 = '';
-			$restlc7 = '';
-			$restlc8 = '';
-			$restlc9 = '';
-			if ($term != '') {
-				if ($i % 2 == 0) {
-					$isnotwort=0;
-					$rest = $lineWords[$sentNumber][$i];
-					$cnt = 0;
-					for ($j=$i+1; $j<$l; $j++) {
-						if ($lineWords[$sentNumber][$j] != '') {
-							$rest .= $lineWords[$sentNumber][$j]; $cnt++;
-							if($cnt == 2) { $rest2 = $rest; $restlc2 = mb_strtolower($rest, 'UTF-8'); }
-							if($cnt == 4) { $rest3 = $rest; $restlc3 = mb_strtolower($rest, 'UTF-8'); }
-							if($cnt == 6) { $rest4 = $rest; $restlc4 = mb_strtolower($rest, 'UTF-8'); }
-							if($cnt == 8) { $rest5 = $rest; $restlc5 = mb_strtolower($rest, 'UTF-8'); }
-							if($cnt == 10) { $rest6 = $rest; $restlc6 = mb_strtolower($rest, 'UTF-8'); }
-							if($cnt == 12) { $rest7 = $rest; $restlc7 = mb_strtolower($rest, 'UTF-8'); }
-							if($cnt == 14) { $rest8 = $rest; $restlc8 = mb_strtolower($rest, 'UTF-8'); }
-							if($cnt == 16) { $rest9 = $rest; $restlc9 = mb_strtolower($rest, 'UTF-8'); break; }
-						}
-					}
-				} else {
-					$isnotwort=1;
-				}
+    $s = preg_replace('/\s{2,}/u', ' ', $s);
+    $s = str_replace('{', '[', $s);	// because of sent. spc. char
+    $s = str_replace('}', ']', $s);
 
-				$lfdnr++;
-				$lfdnr1++;
-				if ($lfdnr1 > 1) $sqltext .= ',';
-				$sqltext .= '(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 1, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($lineWords[$sentNumber][$i], $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($term, $removeSpaces)) . ',' . $isnotwort . ')';
-				if ($isnotwort==0) {
-					if ($rest2 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 2, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest2, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc2, $removeSpaces)) . ',' . $isnotwort . ')';
-					if ($rest3 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 3, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest3, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc3, $removeSpaces)) . ',' . $isnotwort . ')';
-					if ($rest4 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 4, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest4, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc4, $removeSpaces)) . ',' . $isnotwort . ')';
-					if ($rest5 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 5, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest5, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc5, $removeSpaces)) . ',' . $isnotwort . ')';
-					if ($rest6 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 6, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest6, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc6, $removeSpaces)) . ',' . $isnotwort . ')';
-					if ($rest7 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 7, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest7, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc7, $removeSpaces)) . ',' . $isnotwort . ')';
-					if ($rest8 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 8, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest8, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc8, $removeSpaces)) . ',' . $isnotwort . ')';
-					if ($rest9 != '') $sqltext .= ',(' . $lid . ',' .  $id . ',' .  $sentid . ',' . $lfdnr . ', 9, ' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($rest9, $removeSpaces)) . ',' . convert_string_to_sqlsyntax_notrim_nonull(remove_spaces($restlc9, $removeSpaces)) . ',' . $isnotwort . ')';
-				}
-			}
-		}
-		if ($lfdnr > 0) $dummy = runsql($sqltext,'');
-		$sentNumber += 1;
-	}
+    foreach ($replace as $value) {
+        $fromto = explode("=", trim($value));
 
+        if ( count($fromto) >= 2 )
+            $s = str_replace(trim($fromto[0]), trim($fromto[1]), $s);
+    }
+
+    $s = trim($s);
+
+    if ( $noSentenceEnd != '' )
+        $s = preg_replace('/(' . $noSentenceEnd . ')\s/u', '$1‧', $s);
+
+    $s = preg_replace('/([' . $splitSentence . '¶])\s/u', "$1\n", $s);
+    $s = str_replace(" ¶\n", "\n¶\n", $s);
+    $s = str_replace('‧', ' ', $s);
+
+    if ( $s == '' ) {
+        $textLines = array($s);
+    } else {
+        $s = explode("\n",$s);
+        $l = count($s);
+
+        for ( $i = 0; $i < $l; $i++ ) {
+            $s[$i] = trim($s[$i]);
+
+            if ( $s[$i] != '' ) {
+                $pos = strpos($splitSentence, $s[$i]);
+
+                while ( $pos !== false && $i > 0 ) {
+                    $s[$i-1] .= " " . $s[$i];
+
+                    for ( $j = $i + 1; $j < $l; $j++ ) {
+                        $s[$j - 1] = $s[$j];
+                    }
+
+                    array_pop($s);
+                    $l = count($s);
+                    $pos = strpos($splitSentence, $s[$i]);
+                }
+            }
+        }
+
+        $l = count($s);
+        $textLines = array();
+        for ( $i = 0; $i < $l; $i++ ) {
+            $zz = trim($s[$i]);
+            if ($zz != '' ) $textLines[] = $zz;
+        }
+    }
+
+    $lineWords = array();
+    $wordList = array();
+    $wordIndex = array();
+    $wordSeps = array();
+    $sentNumber = 0;
+    $lfdnr =0;
+
+    $insert_sentence = $lwt_db->prepare("INSERT INTO sentences
+        ( SeLgID, SeTxID, SeOrder, SeText )
+        VALUES ( :language, :text_id, :order, :text )");
+
+    $insert_textitem = $lwt_db->prepare("INSERT INTO textitems
+        ( TiLgID, TiTxID, TiSeID, TiOrder, TiWordCount, TiText, TiTextLC,
+          TiIsNotWord )
+        VALUES ( :language_id, :text_id, :sentence_id, :order, :word_count,
+                 :text, :text_lc, :is_not_word )");
+
+    foreach ($textLines as $value) {
+
+        $insert_sentence->execute(array('language' => $lid,
+                                        'text_id' => $id,
+                                        'order' => $sentNumber + 1,
+                                        'text' => remove_spaces($value . ' ', $removeSpaces)));
+        $sentid = get_last_key();
+        /**** Speichern Sätze Ende ***/
+        $lineWords[$sentNumber] = preg_split('/([^' . $termchar . ']+)/u', $value . ' ', null, PREG_SPLIT_DELIM_CAPTURE );
+        $l = count($lineWords[$sentNumber]);
+        $lfdnr1=0;
+
+        for ( $i = 0; $i < $l; $i++ ) {
+            $term = mb_strtolower($lineWords[$sentNumber][$i], 'UTF-8');
+            $rest2 = array();
+
+            if ( $term != '' ) {
+                if ( $i % 2 == 0 ) {
+                    $isnotwort = 0;
+                    $rest = $lineWords[$sentNumber][$i];
+                    $cnt = 0;
+
+                    for ( $j = $i + 1; $j < $l; $j++ ) {
+                        if ($lineWords[$sentNumber][$j] != '') {
+                            $rest .= $lineWords[$sentNumber][$j]; $cnt++;
+
+                            if ( $cnt >= 2 && $cnt % 2 == 0 ) {
+                                $rest[$cnt / 2 - 1] = array('text' => $rest,
+                                                            'text_lc' => mb_strtolower($rest, 'UTF-8'));
+
+                                if ( $cnt == 16 )
+                                    break;
+                            }
+                        }
+                    }
+                } else {
+                    $isnotwort = 1;
+                }
+
+                $lfdnr++;
+                $lfdnr1++;
+
+                $insert_textitem->execute(array('language_id' => $lid,
+                                                'text_id' => $id,
+                                                'sentence_id' => $sentid,
+                                                'order' => $lfdnr,
+                                                'word_count' => 1,
+                                                'text' => remove_spaces($lineWords[$sentNumber][$i], $removeSpaces),
+                                                'text_lc' => remove_spaces($term, $removeSpaces),
+                                                'is_not_word' => $isnotwort));
+
+                if ( $isnotwort == 0 ) {
+                    $word_count = 2;
+                    foreach ( $rest2 as $word ) {
+                        $insert_textitem->execute(array('language_id' => $lid,
+                                                        'text_id' => $id,
+                                                        'sentence_id' => $sentid,
+                                                        'order' => $lfdnr,
+                                                        'word_count' => $word_count,
+                                                        'text' => remove_spaces($word['text'], $removeSpaces),
+                                                        'text_lc' => remove_spaces($word['text_lc'], $removeSpaces),
+                                                        'is_not_word' => $isnotwort));
+
+                        $word_count += 1;
+                    }
+                }
+            }
+        }
+
+        $sentNumber += 1;
+    }
 }
 
 // -------------------------------------------------------------
