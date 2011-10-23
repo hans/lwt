@@ -110,6 +110,7 @@ function get_texttag_selectoptions($v,$l) {
         GROUP BY T2ID
         ORDER BY T2Text");
 
+    $query->execute(array('language_id' => $l));
     $records = $query->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ( $records as $record ) {
