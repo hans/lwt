@@ -39,9 +39,6 @@ if ($langcnt > 0 ) {
     }
 }
 
-flush();
-optimizedb();
-
 $mb = get_first_value("SELECT ROUND(SUM( data_length + index_length ) / 1024 / 1024, 1) AS value
     FROM information_schema.TABLES
     WHERE table_schema = " . convert_string_to_sqlsyntax(LWT_DB_NAME) . "
