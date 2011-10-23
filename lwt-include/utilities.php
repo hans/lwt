@@ -481,15 +481,11 @@ function limitlength($s, $l) {
 
 // -------------------------------------------------------------
 
+/**
+ * TODO remove
+ */
 function adjust_autoincr($table,$key) {
-    $val = get_first_value('select max(' . $key .')+1 as value from ' . $table);
-    if (! isset($val)) $val = 1;
-
-    global $lwt_db;
-    $stmt = $lwt_db->prepare('ALTER TABLE :table AUTO_INCREMENT = :incr');
-    $stmt->bindParam('table', $table);
-    $stmt->bindParam('incr', $val, PDO::PARAM_INT);
-    $stmt->execute();
+    return false;
 }
 
 // -------------------------------------------------------------
