@@ -102,7 +102,7 @@ function get_texttag_selectoptions($v,$l) {
     $r .= ">[Filter off]</option>";
 
     global $lwt_db;
-    $query = $lwt_db->query("SELECT T2ID, T2Text
+    $query = $lwt_db->prepare("SELECT T2ID, T2Text
         FROM texts, tags2, texttags
         WHERE T2ID = TtT2ID
             AND TtTxID = TxID
