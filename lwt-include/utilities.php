@@ -482,10 +482,12 @@ function limitlength($s, $l) {
 // -------------------------------------------------------------
 
 function adjust_autoincr($table,$key) {
-	$val = get_first_value('select max(' . $key .')+1 as value from ' . $table);
-	if (! isset($val)) $val = 1;
-	$sql = 'alter table ' . $table . ' AUTO_INCREMENT = ' . $val;
-	$res = mysql_query($sql);
+    $val = get_first_value('select max(' . $key .')+1 as value from ' . $table);
+    if (! isset($val)) $val = 1;
+
+    global $lwt_db;
+    $stmt = $lwt_db->prepare('ALTER TABLE ? AUTO_INCREMENT = ?');
+    $stmt->execute(array($table, $val));
 }
 
 // -------------------------------------------------------------
