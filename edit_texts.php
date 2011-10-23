@@ -192,14 +192,15 @@ if (isset($_REQUEST['del'])) {
 if (isset($_REQUEST['new'])) {
     render('texts/new', compact('currentlang', 'page_title'));
 } elseif (isset($_REQUEST['chg'])) {
-    $sql = 'select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['chg'];
-    $res = mysql_query($sql);
-    if ($res == FALSE) die("Invalid Query: $sql");
-    if ($record = mysql_fetch_assoc($res)) {
-      render('texts/edit', compact('record', 'page_title'));
-    }
+    $query = $lwt_db->prepare('SELECT TxLgID, TxTitle, TxText, TxAudioURI
+        FROM texts
+        WHERE TxID = :text_id');
 
-    mysql_free_result($res);
+    $query->execute(array($_REQUEST['chg']));
+    $record = $query->fetch(PDO::FETCH_ASSOC);
+    render('texts/edit', compact('record', 'page_title'));
+
+    $query->closeCursor();
 } else {
 
     echo error_message_with_hide($message,0);
