@@ -45,23 +45,23 @@ $filter['tag1'] = filter('text_tag', get_parameter('tag1', 'session', 'currentte
 $filter['tag2'] = filter('text_tag', get_parameter('tag2', 'session', 'currenttexttag2', ''), $filter['language']);
 
 $wh_lang = ($filter['language'] != '') ? (' and TxLgID=' . $filter['language']) : '';
-$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($filter['query'], 'UTF-8')));
+$wh_query = str_replace("*", "%", mb_strtolower($filter['query'], 'UTF-8'));
 $wh_query = ($filter['query'] != '') ? (' and TxTitle like ' . $wh_query) : '';
 
-if ($filter['tag1'] == '' && $filter['tag2'] == '')
+if ($filter['tag1'] == '' && $filter['tag2'] == '') {
     $wh_tag = '';
-else {
+} else {
     if ($filter['tag1'] != '') {
         if ($filter['tag1'] == -1)
             $wh_tag1 = "group_concat(TtT2ID) IS NULL";
         else
-            $wh_tag1 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $filter['tag1'] . "/%'";
+            $wh_tag1 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/:tag1/%'";
     }
     if ($filter['tag2'] != '') {
         if ($filter['tag2'] == -1)
             $wh_tag2 = "group_concat(TtT2ID) IS NULL";
         else
-            $wh_tag2 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $filter['tag2'] . "/%'";
+            $wh_tag2 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/:tag2/%'";
     }
     if ($filter['tag1'] != '' && $filter['tag2'] == '')
         $wh_tag = " having (" . $wh_tag1 . ') ';
@@ -230,22 +230,27 @@ if (isset($_REQUEST['new'])) {
   //
 
 
-  $sql = 'SELECT TxID, TxTitle, LgName, TxAudioURI, IFNULL(CONCAT(\'[\', GROUP_CONCAT(DISTINCT T2Text ORDER BY T2Text SEPARATOR \', \'),\']\'),\'\') AS taglist
-      FROM (
-          ( texts LEFT JOIN texttags ON TxID = TtTxID )
+    $query = $lwt_db->query("SELECT TxID, TxTitle, LgName, TxAudioURI,
+            IFNULL(CONCAT('[',
+                          GROUP_CONCAT(DISTINCT T2Text ORDER BY T2Text SEPARATOR ', '),
+                          ']'),
+                   '') AS taglist
+        FROM (
+            ( texts LEFT JOIN texttags ON TxID = TtTxID )
               LEFT JOIN tags2 ON T2ID = TtT2ID ),
-          languages
-      WHERE LgID = TxLgID ' . $wh_lang . $wh_query . '
-      GROUP BY TxID ' . $wh_tag . '
-      ORDER BY ' . $sorts[$filter['sort']-1] . ' ' . $limit;
+            languages
+        WHERE LgID = TxLgID " . $wh_lang . $wh_query . '
+        GROUP BY TxID ' . $wh_tag . '
+        ORDER BY ' . $sorts[$filter['sort'] - 1] . ' ' . $limit);
 
-  if (LWT_DEBUG) echo $sql;
-  $res = mysql_query($sql);
-  if ($res == FALSE) die("Invalid Query: $sql");
-  $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
+    if ( $query == FALSE ) die("Invalid Query: $sql");
+    $query->execute(array('tag1' => $filter['tag1'],
+                          'tag2' => $filter['tag2']));
 
-  $records = array();
-  while ($record = mysql_fetch_assoc($res)) {
+    $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
+
+    $records = $query->fetchAll(PDO::FETCH_ASSOC);
+    foreach ( $records as $record ) {
       if ( $showCounts ) {
           $record['total_words'] = textwordcount($record['TxID']);
           $record['worked_words'] = textworkcount($record['TxID']);
@@ -268,8 +273,6 @@ if (isset($_REQUEST['new'])) {
 
       $records[] = $record;
   }
-
-  mysql_free_result($res);
 
   render('texts/display',
          compact('filter', 'recno', 'records', 'pages', 'showCounts',
