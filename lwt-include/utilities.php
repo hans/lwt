@@ -35,21 +35,17 @@ function get_version_number() {
 }
 
 function get_tags($refresh = 0) {
-	if (isset($_SESSION['TAGS'])) {
-		if (is_array($_SESSION['TAGS'])) {
-			if ($refresh == 0) return $_SESSION['TAGS'];
-		}
-	}
-	$tags = array();
-	$sql = 'select TgText from tags order by TgText';
-	$res = mysql_query($sql);
-	if ($res == FALSE) die("Invalid query: $sql");
-	while ($record = mysql_fetch_assoc($res)) {
-		$tags[] = $record["TgText"];
-	}
-	mysql_free_result($res);
-	$_SESSION['TAGS'] = $tags;
-	return $_SESSION['TAGS'];
+    if ( isset($_SESSION['TAGS'])
+         && is_array($_SESSION['TAGS'])
+         && $refresh == 0 )
+        return $_SESSION['TAGS'];
+
+    global $lwt_db;
+    $tags = $lwt_db->query("SELECT TgText FROM tags ORDER BY TgText")
+        ->fetchAll(PDO::FETCH_COLUMN);
+
+    $_SESSION['TAGS'] = $tags;
+    return $_SESSION['TAGS'];
 }
 
 // -------------------------------------------------------------
