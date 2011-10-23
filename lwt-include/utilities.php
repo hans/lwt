@@ -486,7 +486,7 @@ function adjust_autoincr($table,$key) {
     if (! isset($val)) $val = 1;
 
     global $lwt_db;
-    $stmt = $lwt_db->prepare('ALTER TABLE ? AUTO_INCREMENT = ?');
+    $stmt = $lwt_db->prepare('ALTER TABLE ? SET AUTO_INCREMENT = ?');
     $stmt->execute(array($table, $val));
 }
 
