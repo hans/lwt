@@ -250,18 +250,23 @@ function getWordTags($wid) {
 // -------------------------------------------------------------
 
 function getTextTags($tid) {
-	$r = '<ul id="texttags">';
-	if ($tid > 0) {
-		$sql = 'select T2Text from texttags, tags2 where T2ID = TtT2ID and TtTxID = ' . $tid . ' order by T2Text';
-		$res = mysql_query($sql);
-		if ($res == FALSE) die("Invalid query: $sql");
-		while ($record = mysql_fetch_assoc($res)) {
-			$r .= '<li>' . tohtml($record["T2Text"]) . '</li>';
-		}
-		mysql_free_result($res);
-	}
-	$r .= '</ul>';
-	return $r;
+    $r = '<ul id="texttags">';
+
+    if ($tid > 0) {
+        global $lwt_db;
+        $tags = $lwt_db->query('SELECT T2Text
+            FROM texttags, tags2
+            WHERE T2ID = TtT2ID
+                AND TtTxID = ' . $tid . ' order by T2Text')
+            ->fetchAll(PDO::FETCH_COLUMN);
+
+        foreach ( $tags as $tag ) {
+            $r .= '<li>' . tohtml($tag) . '</li>';
+        }
+    }
+
+    $r .= '</ul>';
+    return $r;
 }
 
 // -------------------------------------------------------------
