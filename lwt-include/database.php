@@ -8,33 +8,35 @@
  */
 
 /**
+ * @global PDO $lwt_db PDO connection
+ */
+$lwt_db = null;
+
+/**
  * Connect to the database and configure the connection.
  */
 function db_connect() {
-    $err = @mysql_connect(LWT_SERVER, LWT_DB_USER, LWT_DB_PASSWORD);
-    if ($err == FALSE) die('DB connect error (MySQL not running or connection parameters are wrong; start MySQL and/or correct file "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
+    global $lwt_db;
+    $lwt_db = new PDO('mysql:host=' . LWT_SERVER . ';dbname=' . LWT_DB_NAME . ';charset=UTF-8',
+                      LWT_DB_USER, LWT_DB_PASS);
 
-    @mysql_query("SET NAMES 'utf8'");
-
-    $err = @mysql_select_db(LWT_DB_NAME);
-    if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . LWT_DB_NAME . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');
-
-    $err = @mysql_select_db(LWT_DB_NAME);
-    if ($err == FALSE) die('DB select error (Cannot find database: "'. LWT_DB_NAME . '" or connection parameter LWT_DB_NAME is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');
+    // Set error level based on LWT_DEBUG value
+    $lwt_db->setAttribute(PDO::ATTR_ERRMODE,
+                          ( LWT_DEBUG
+                            ? PDO::ERRMODE_EXCEPTION
+                            : PDO::ERRMODE_EXCEPTION ) );
 
     // check/update db
     check_update_db();
 }
 
 function runsql($sql, $m) {
-	$res = mysql_query($sql);
-	if ($res == FALSE) {
-		$message = "Error: " . mysql_error();
-	} else {
-		$num = mysql_affected_rows();
-		$message = (($m == '') ? $num : ($m . ": " . $num));
-	}
-	return $message;
+    global $lwt_db;
+
+    $affected = $lwt_db->exec($sql);
+		$message = ( ( $m == '' ) ? $affected : ($m . ": " . $affected ) );
+
+    return $message;
 }
 
 function optimizedb() {
@@ -50,31 +52,32 @@ function optimizedb() {
 }
 
 function convert_string_to_sqlsyntax($data) {
-	$result = "NULL";
-	$data = trim(prepare_textdata($data));
-	if($data != "") $result = "'" . mysql_real_escape_string($data) . "'";
-	return $result;
+    $data = trim(prepare_textdata($data));
+    if($data != "") $result = "'" . sanitize($data) . "'";
+
+    return $result;
 }
 
 function convert_string_to_sqlsyntax_nonull($data) {
-	$data = trim(prepare_textdata($data));
-	return  "'" . mysql_real_escape_string($data) . "'";
+    $data = trim(prepare_textdata($data));
+    return  "'" . sanitize($data) . "'";
 }
 
 function convert_string_to_sqlsyntax_notrim_nonull($data) {
-	return "'" . mysql_real_escape_string(prepare_textdata($data)) . "'";
+    return "'" . sanitize(prepare_textdata($data)) . "'";
 }
 
 function get_first_value($sql) {
-	$res = mysql_query($sql);
-	if ($res == FALSE) die("Invalid query: $sql");
-	$record = mysql_fetch_assoc($res);
-	if ($record)
-		$d = $record["value"];
-	else
-		$d = NULL;
-	mysql_free_result($res);
-	return $d;
+    global $lwt_db;
+
+    $stmt = $lwt_db->query($sql);
+    if ( $stmt == FALSE )
+        die("Invalid query: $sql");
+
+    $result = $stmt->fetchColumn();
+    $stmt->closeCursor();
+
+    return $result;
 }
 
 function get_last_key() {
