@@ -250,7 +250,7 @@ if (isset($_REQUEST['new'])) {
     $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
 
     $records = $query->fetchAll(PDO::FETCH_ASSOC);
-    foreach ( $records as $record ) {
+    foreach ( $records as &$record ) {
       if ( $showCounts ) {
           $record['total_words'] = textwordcount($record['TxID']);
           $record['worked_words'] = textworkcount($record['TxID']);
@@ -270,8 +270,6 @@ if (isset($_REQUEST['new'])) {
       }
 
       $record['audio'] = ( isset($record['TxAudioURI']) ? trim($record['TxAudioURI']) : '' );
-
-      $records[] = $record;
   }
 
   render('texts/display',
