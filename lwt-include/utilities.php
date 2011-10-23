@@ -50,22 +50,21 @@ function get_tags($refresh = 0) {
 
 // -------------------------------------------------------------
 
+/**
+ * TODO: merge with get_tags
+ */
 function get_texttags($refresh = 0) {
-	if (isset($_SESSION['TEXTTAGS'])) {
-		if (is_array($_SESSION['TEXTTAGS'])) {
-			if ($refresh == 0) return $_SESSION['TEXTTAGS'];
-		}
-	}
-	$tags = array();
-	$sql = 'select T2Text from tags2 order by T2Text';
-	$res = mysql_query($sql);
-	if ($res == FALSE) die("Invalid query: $sql");
-	while ($record = mysql_fetch_assoc($res)) {
-		$tags[] = $record["T2Text"];
-	}
-	mysql_free_result($res);
-	$_SESSION['TEXTTAGS'] = $tags;
-	return $_SESSION['TEXTTAGS'];
+    if ( isset($_SESSION['TEXTTAGS'])
+         && is_array($_SESSION['TEXTTAGS'])
+         && $refresh == 0 )
+        return $_SESSION['TEXTTAGS'];
+
+    global $lwt_db;
+    $tags = $lwt_db->query("SELECT T2Text FROM tags2 ORDER BY T2Text")
+        ->fetchAll(PDO::FETCH_COLUMN);
+
+    $_SESSION['TEXTTAGS'] = $tags;
+    return $_SESSION['TEXTTAGS'];
 }
 
 // -------------------------------------------------------------
