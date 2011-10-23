@@ -159,10 +159,11 @@ function check_update_db() {
     if ($count > 0) {
         // Rebuild Text Cache if cache tables new
         if (LWT_DEBUG) echo '<p>DEBUG: rebuilding cache tables</p>';
-        $sql = "select TxID, TxLgID from texts";
-        $res = mysql_query($sql);
-        if ($res == FALSE) die("Invalid Query: $sql");
-        while ($record = mysql_fetch_assoc($res)) {
+
+        $query = $lwt_db->query("select TxID, TxLgID from texts");
+        if ( $query == FALSE ) die("Invalid Query: $sql");
+
+        while ( $record = $query->fetch(PDO::FETCH_ASSOC) ) {
             $id = $record['TxID'];
             runsql('delete from sentences where SeTxID = ' . $id, "");
             runsql('delete from textitems where TiTxID = ' . $id, "");
@@ -171,22 +172,19 @@ function check_update_db() {
             splitText(
                       get_first_value('select TxText as value from texts where TxID = ' . $id), $record['TxLgID'], $id );
         }
-        mysql_free_result($res);
     }
 
     // Version
 
-    $res = mysql_query("select StValue as value from settings where StKey = 'dbversion'");
-    if (mysql_errno() != 0) die('There is something wrong with your database ' . LWT_DB_NAME . '. Please reinstall.');
-    $record = mysql_fetch_assoc($res);
-    if ($record) {
-        $dbversion = $record["value"];
-    } else {
+    $dbversion = $lwt_db->query("select StValue as value from settings where StKey = 'dbversion'")
+        ->fetchColumn();
+
+    if ( !$dbversion ) {
         $dbversion = 'v001000000';
+
         saveSetting('dbversion',$dbversion);
         if (LWT_DEBUG) echo '<p>DEBUG: DB version not found, set to: ' . $dbversion . '</p>';
     }
-    mysql_free_result($res);
 
     // Do DB Updates
 
