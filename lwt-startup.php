@@ -29,6 +29,15 @@ ini_set('html_errors', LWT_DEBUG);
 
 require_once LWT_INCLUDE . 'utilities.php';
 
+/**
+ * Run the sanitization process.
+ *
+ * Sanitize input globals - $_GET, $_POST, $_COOKIE, ... and make things just a
+ * bit safer.
+ */
+require_once LWT_INCLUDE . 'sanitize.php';
+sanitize_init();
+
 require_once LWT_INCLUDE . 'database.php';
 db_connect();
 
@@ -40,15 +49,6 @@ db_connect();
 $err = @session_start();
 if ($err == FALSE)
     die('SESSION error (Impossible to start a PHP session)');
-
-/**
- * Run the sanitization process.
- *
- * Sanitize input globals - $_GET, $_POST, $_COOKIE, ... and make things just a
- * bit safer.
- */
-require_once LWT_INCLUDE . 'sanitize.php';
-sanitize_init();
 
 require_once LWT_INCLUDE . 'template.php';
 require_once LWT_INCLUDE . 'input.php';
