@@ -1708,15 +1708,16 @@ function checkText($text, $lid) {
 function splitText($text, $lid, $id) {
     global $lwt_db;
 
-    $stmt = $lwt_db->prepare("SELECT *
+    $query = $lwt_db->prepare("SELECT *
         FROM languages
         WHERE LgID = ?
         LIMIT 1");
 
-    if ( $stmt == FALSE )
+    if ( $query == FALSE )
         die("Invalid Query: $sql");
 
-    $record = $stmt->execute(array($lid))->fetch(PDO::FETCH_ASSOC);
+    $query->execute(array($lid));
+    $record = $query->fetch(PDO::FETCH_ASSOC);
 
     $removeSpaces = $record['LgRemoveSpaces'];
     $splitEachChar = $record['LgSplitEachChar'];
