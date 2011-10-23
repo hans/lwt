@@ -486,8 +486,10 @@ function adjust_autoincr($table,$key) {
     if (! isset($val)) $val = 1;
 
     global $lwt_db;
-    $stmt = $lwt_db->prepare('ALTER TABLE ? SET AUTO_INCREMENT = ?');
-    $stmt->execute(array($table, $val));
+    $stmt = $lwt_db->prepare('ALTER TABLE :table AUTO_INCREMENT = :incr');
+    $stmt->bindParam('table', $table);
+    $stmt->bindParam('incr', $val, PDO::PARAM_INT);
+    $stmt->execute();
 }
 
 // -------------------------------------------------------------
