@@ -176,8 +176,7 @@ function check_update_db() {
     }
 
     // Version
-
-    $dbversion = $lwt_db->query(" StValue as value from settings where StKey = 'dbversion'")
+    $dbversion = $lwt_db->query("SELECT StValue FROM settings WHERE StKey = 'dbversion'")
         ->fetchColumn();
 
     if ( !$dbversion ) {
