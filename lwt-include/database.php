@@ -162,8 +162,9 @@ function check_update_db() {
 
         $query = $lwt_db->query("select TxID, TxLgID from texts");
         if ( $query == FALSE ) die("Invalid Query: $sql");
+        $records = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        while ( $record = $query->fetch(PDO::FETCH_ASSOC) ) {
+        foreach ( $records as $record ) {
             $id = $record['TxID'];
             runsql('delete from sentences where SeTxID = ' . $id, "");
             runsql('delete from textitems where TiTxID = ' . $id, "");
@@ -176,7 +177,7 @@ function check_update_db() {
 
     // Version
 
-    $dbversion = $lwt_db->query("select StValue as value from settings where StKey = 'dbversion'")
+    $dbversion = $lwt_db->query(" StValue as value from settings where StKey = 'dbversion'")
         ->fetchColumn();
 
     if ( !$dbversion ) {

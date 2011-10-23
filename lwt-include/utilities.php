@@ -1718,6 +1718,7 @@ function splitText($text, $lid, $id) {
 
     $query->execute(array($lid));
     $record = $query->fetch(PDO::FETCH_ASSOC);
+    $query->closeCursor();
 
     $removeSpaces = $record['LgRemoveSpaces'];
     $splitEachChar = $record['LgSplitEachChar'];
