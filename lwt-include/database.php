@@ -68,6 +68,76 @@ function get_first_value($sql) {
     return $result;
 }
 
+/**
+ * Fetch a single row from a query's result set.
+ *
+ * @since 2.0
+ *
+ * @param string $sql
+ * @param array $named_args
+ *   List of named arguments for the SQL query
+ *
+ * @param string $sql
+ * @param mixed $arg1,...
+ *
+ * @return array
+ *   Result row as an associative array
+ */
+function db_get_row($sql, $named_args) {
+    global $lwt_db;
+
+    $stmt = $lwt_db->prepare($sql);
+
+    if ( isset($named_args) && is_array($named_args) ) {
+        $stmt->execute($named_args);
+    } else {
+        $args = func_get_args();
+        array_shift($args);
+
+        $stmt->execute($args);
+    }
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $row;
+}
+
+/**
+ * Fetch all rows from a query's result set.
+ *
+ * @since 2.0
+ *
+ * @param string $sql
+ * @param array $named_args
+ *   List of named arguments for the SQL query
+ *
+ * @param string $sql
+ * @param mixed $arg1,...
+ *
+ * @return array
+ *   Set of result rows (each an associative array)
+ */
+function db_get_rows($sql, $named_args) {
+    global $lwt_db;
+
+    $stmt = $lwt_db->prepare($sql);
+
+    if ( isset($named_args) && is_array($named_args) ) {
+        $stmt->execute($named_args);
+    } else {
+        $args = func_get_args();
+        array_shift($args);
+
+        $stmt->execute($args);
+    }
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $rows;
+}
+
 function get_last_key() {
 	return get_first_value('SELECT LAST_INSERT_ID() as value');
 }

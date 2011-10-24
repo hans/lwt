@@ -192,15 +192,11 @@ if (isset($_REQUEST['del'])) {
 if (isset($_REQUEST['new'])) {
     render('texts/new', compact('currentlang', 'page_title'));
 } elseif (isset($_REQUEST['chg'])) {
-    $query = $lwt_db->prepare('SELECT TxLgID, TxTitle, TxText, TxAudioURI
+    $record = db_get_row("SELECT TxLgID, TxTitle, TxText, TxAudioURI
         FROM texts
-        WHERE TxID = :text_id');
+        WHERE TxID = ?", $_REQUEST['chg']);
 
-    $query->execute(array('text_id' => $_REQUEST['chg']));
-    $record = $query->fetch(PDO::FETCH_ASSOC);
     render('texts/edit', compact('record', 'page_title'));
-
-    $query->closeCursor();
 } else {
 
     echo error_message_with_hide($message,0);
@@ -231,7 +227,7 @@ if (isset($_REQUEST['new'])) {
   //
 
 
-    $query = $lwt_db->query("SELECT TxID, TxTitle, LgName, TxAudioURI,
+    $records = db_get_rows("SELECT TxID, TxTitle, LgName, TxAudioURI,
             IFNULL(CONCAT('[',
                           GROUP_CONCAT(DISTINCT T2Text ORDER BY T2Text SEPARATOR ', '),
                           ']'),
@@ -242,15 +238,10 @@ if (isset($_REQUEST['new'])) {
             languages
         WHERE LgID = TxLgID " . $wh_lang . $wh_query . '
         GROUP BY TxID ' . $wh_tag . '
-        ORDER BY ' . $sorts[$filter['sort'] - 1] . ' ' . $limit);
+        ORDER BY ' . $sorts[$filter['sort'] - 1] . ' ' . $limit,
+                           array('tag1' => $filter['tag1'],
+                                 'tag2' => $filter['tag2']));
 
-    if ( $query == FALSE ) die("Invalid Query: $sql");
-    $query->execute(array('tag1' => $filter['tag1'],
-                          'tag2' => $filter['tag2']));
-
-    $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
-
-    $records = $query->fetchAll(PDO::FETCH_ASSOC);
     foreach ( $records as &$record ) {
       if ( $showCounts ) {
           $record['total_words'] = textwordcount($record['TxID']);
