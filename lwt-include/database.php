@@ -30,13 +30,36 @@ function db_connect() {
     check_update_db();
 }
 
-function runsql($sql, $m) {
+/**
+ * Execute a SQL statement.
+ *
+ * @since 2.0
+ *
+ * @param string $sql
+ * @param array $named_args
+ *   List of named arguments for the SQL statement
+ *
+ * @param string $sql
+ * @param mixed $arg1,... optional
+ *
+ * @return bool Success
+ */
+function db_execute($sql, $named_args) {
     global $lwt_db;
 
-    $affected = $lwt_db->exec($sql);
-		$message = ( ( $m == '' ) ? $affected : ($m . ": " . $affected ) );
+    $stmt = $lwt_db->prepare($sql);
 
-    return $message;
+    $success = true;
+    if ( isset($named_args) && is_array($named_args) ) {
+        $success = $stmt->execute($named_args);
+    } else {
+        $args = func_get_args();
+        array_shift($args);
+
+        $success = $stmt->execute($args);
+    }
+
+    return $success;
 }
 
 function convert_string_to_sqlsyntax($data) {
