@@ -129,7 +129,7 @@ function add_tag_to_texts($id, array $texts) {
 function add_tags_to_text($id, array $tags) {
     $id = (int)$id;
 
-    $sql_list = join(', ', array_map(function($tag_id) {
+    $sql_list = join(', ', array_map(function($tag_id) use ($id) {
                 return "(" . (int)$tag_id . ", $id";
             }, $tags));
 
