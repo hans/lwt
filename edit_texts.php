@@ -44,6 +44,8 @@ $filter = array('language' => filter('language', get_parameter("filterlang", 'db
 $filter['tag1'] = filter('text_tag', get_parameter('tag1', 'session', 'currenttexttag1', ''), $filter['language']);
 $filter['tag2'] = filter('text_tag', get_parameter('tag2', 'session', 'currenttexttag2', ''), $filter['language']);
 
+$showCounts = getSettingWithDefault('set-show-text-word-counts') + 0;
+
 $wh_lang = ($filter['language'] != '') ? (' and TxLgID=' . $filter['language']) : '';
 $wh_query = str_replace("*", "%", mb_strtolower($filter['query'], 'UTF-8'));
 $wh_query = ($filter['query'] != '') ? (' and TxTitle like ' . $wh_query) : '';
