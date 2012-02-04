@@ -292,6 +292,4 @@ foreach ( $records as $record ) {
 
 }
 
-pageend();
-
 ?>
