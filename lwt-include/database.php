@@ -44,16 +44,27 @@ function db_connect() {
  *
  * @return bool Success
  */
-function db_execute($sql, $named_args) {
+function db_execute($sql) {
     global $lwt_db;
 
     $stmt = $lwt_db->prepare($sql);
 
+    $args = func_get_args();
     $success = true;
-    if ( isset($named_args) && is_array($named_args) ) {
-        $success = $stmt->execute($named_args);
+
+    if ( isset($args[1]) && is_array($args[1]) ) {
+        /**
+         * A second parameter has been passed, and it's an array. This means we
+         * are using named args with this parameter as our map from key->val.
+         */
+        $success = $stmt->execute($args[1]);
     } else {
-        $args = func_get_args();
+        /**
+         * We're not using named args, but we still need to support variable
+         * arity.
+         *
+         * The first arg was obviously the SQL query. Get that out of the way.
+         */
         array_shift($args);
 
         $success = $stmt->execute($args);
@@ -124,18 +135,28 @@ function convert_string_to_sqlsyntax_notrim_nonull($data) {
  * @return mixed
  *   Result column
  */
-function get_first_value($sql, $named_args) {
+function get_first_value($sql) {
     global $lwt_db;
 
     $stmt = $lwt_db->prepare($sql);
+    $args = func_get_args();
 
-    if ( isset($named_args) && is_array($named_args) ) {
-        $stmt->execute($named_args);
+    if ( isset($args[1]) && is_array($args[1]) ) {
+        /**
+         * A second parameter has been passed, and it's an array. This means we
+         * are using named args with this parameter as our map from key->val.
+         */
+        $success = $stmt->execute($args[1]);
     } else {
-        $args = func_get_args();
+        /**
+         * We're not using named args, but we still need to support variable
+         * arity.
+         *
+         * The first arg was obviously the SQL query. Get that out of the way.
+         */
         array_shift($args);
 
-        $stmt->execute($args);
+        $success = $stmt->execute($args);
     }
 
     $result = $stmt->fetchColumn();
@@ -159,18 +180,28 @@ function get_first_value($sql, $named_args) {
  * @return array
  *   Result row as an associative array
  */
-function db_get_row($sql, $named_args) {
+function db_get_row($sql) {
     global $lwt_db;
 
     $stmt = $lwt_db->prepare($sql);
+    $args = func_get_args();
 
-    if ( isset($named_args) && is_array($named_args) ) {
-        $stmt->execute($named_args);
+    if ( isset($args[1]) && is_array($args[1]) ) {
+        /**
+         * A second parameter has been passed, and it's an array. This means we
+         * are using named args with this parameter as our map from key->val.
+         */
+        $success = $stmt->execute($args[1]);
     } else {
-        $args = func_get_args();
+        /**
+         * We're not using named args, but we still need to support variable
+         * arity.
+         *
+         * The first arg was obviously the SQL query. Get that out of the way.
+         */
         array_shift($args);
 
-        $stmt->execute($args);
+        $success = $stmt->execute($args);
     }
 
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -194,18 +225,28 @@ function db_get_row($sql, $named_args) {
  * @return array
  *   Set of result rows (each an associative array)
  */
-function db_get_rows($sql, $named_args) {
+function db_get_rows($sql) {
     global $lwt_db;
 
     $stmt = $lwt_db->prepare($sql);
+    $args = func_get_args();
 
-    if ( isset($named_args) && is_array($named_args) ) {
-        $stmt->execute($named_args);
+    if ( isset($args[1]) && is_array($args[1]) ) {
+        /**
+         * A second parameter has been passed, and it's an array. This means we
+         * are using named args with this parameter as our map from key->val.
+         */
+        $success = $stmt->execute($args[1]);
     } else {
-        $args = func_get_args();
+        /**
+         * We're not using named args, but we still need to support variable
+         * arity.
+         *
+         * The first arg was obviously the SQL query. Get that out of the way.
+         */
         array_shift($args);
 
-        $stmt->execute($args);
+        $success = $stmt->execute($args);
     }
 
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
