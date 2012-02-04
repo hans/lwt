@@ -22,10 +22,10 @@ $showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
-$word = get_first_value("select WoText as value from words where WoID = " . $wid);
+$word = get_first_value("SELECT WoText FROM words WHERE WoID = " . $wid);
+
 pagestart("Term: " . $word, false);
-$m1 = runsql('delete from words where WoID = ' . $wid, '');
-adjust_autoincr('words','WoID');
+$m1 = db_execute('DELETE FROM words WHERE WoID = ?', $wid);
 
 echo "<p>OK, term deleted (" . $m1 . ").</p>";
 

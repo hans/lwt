@@ -19,10 +19,10 @@ require 'lwt-startup.php';
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
-$term = get_first_value("select WoText as value from words where WoID = " . $wid);
+$term = get_first_value("SELECT WoText FROM words WHERE WoID = " . $wid);
+
 pagestart("Term: " . $term, false);
-$m1 = runsql('delete from words where WoID = ' . $wid, '');
-adjust_autoincr('words','WoID');
+$m1 = db_execute('DELETE FROM words WHERE WoID = ?', $wid);
 
 echo "<p>OK, term deleted, now unknown (" . $m1 . ").</p>";
 

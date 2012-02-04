@@ -26,67 +26,59 @@ Manage tags
 ***************************************************************/
 
 require 'lwt-startup.php';
+require_once LWT_INCLUDE . 'tags.php';
 
-$currentsort = get_parameter("sort", 'db', 'currenttexttagsort', 1, TRUE);
+$filter = array('sort' => get_parameter('sort', 'db', 'currenttexttagsort', 1, TRUE),
+                'page' => get_parameter('page', 'session', 'currenttexttagpage', 1, TRUE),
+                'query' => get_parameter('query', 'session', 'currenttexttagquery', ''));
 
-$currentpage = get_parameter('page', 'session', 'currenttexttagpage', 1, TRUE);
-$currentquery = get_parameter('query', 'session', 'currenttexttagquery', '');
+$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",$filter['query']));
+$wh_query = ($filter['query'] != '') ? (' and (T2Text like ' . $wh_query . ' or T2Comment like ' . $wh_query . ')') : '';
 
-$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",$currentquery));
-$wh_query = ($currentquery != '') ? (' and (T2Text like ' . $wh_query . ' or T2Comment like ' . $wh_query . ')') : '';
-
-pagestart('My Text Tags',true);
-
+$page_title = 'My Text Tags';
 $message = '';
 
 // MARK ACTIONS
 
-if (isset($_REQUEST['markaction'])) {
-	$markaction = $_REQUEST['markaction'];
-	$message = "Multiple Actions: 0";
-	if (isset($_REQUEST['marked'])) {
-		if (is_array($_REQUEST['marked'])) {
-			$l = count($_REQUEST['marked']);
-			if ($l > 0 ) {
-				$list = "(" . $_REQUEST['marked'][0];
-				for ($i=1; $i<$l; $i++) $list .= "," . $_REQUEST['marked'][$i];
-				$list .= ")";
-				if ($markaction == 'del') {
-					$message = runsql('delete from tags2 where T2ID in ' . $list, "Deleted");
-					runsql("DELETE texttags FROM (texttags LEFT JOIN tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
-					runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
-					adjust_autoincr('tags2','T2ID');
+if ( isset($_REQUEST['markaction'], $_REQUEST['marked']) && is_array($_REQUEST['marked']) ) {
+    $markaction = $_REQUEST['markaction'];
+    $marked = $_REQUEST['marked'];
+    $message = "Multiple Actions: 0";
+
+    if ( count($marked) ) {
+				switch ( $markaction ) {
+        case 'del':
+            $success = delete_tags($marked);
+            $message = "Deleted";
+
+            break;
 				}
-			}
-		}
-	}
+    }
 }
 
 
 // ALL ACTIONS
 
-if (isset($_REQUEST['allaction'])) {
-	$allaction = $_REQUEST['allaction'];
-	if ($allaction == 'delall') {
-		$message = runsql('delete from tags2 where (1=1) ' . $wh_query, "Deleted");
-		runsql("DELETE texttags FROM (texttags LEFT JOIN tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
-		runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
-		adjust_autoincr('tags2','T2ID');
-	}
+if ( isset($_REQUEST['allaction']) ) {
+    $allaction = $_REQUEST['allaction'];
+
+    if ( $allaction == 'delall' ) {
+        $success = db_execute('DELETE FROM tags2 WHERE ( 1 = 1 ) ' . $wh_query)
+            && purge_tag_data();
+        $message = 'Deleted';
+    }
 }
 
 // DEL
 
-elseif (isset($_REQUEST['del'])) {
-	$message = runsql('delete from tags2 where T2ID = ' . $_REQUEST['del'], "Deleted");
-	runsql("DELETE texttags FROM (texttags LEFT JOIN tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
-	runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
-	adjust_autoincr('tags2','T2ID');
+elseif ( isset($_REQUEST['del']) ) {
+    $success = delete_tag($_REQUEST['del']);
+    $message = 'Deleted';
 }
 
 // INS/UPD
 
-elseif (isset($_REQUEST['op'])) {
+elseif ( isset($_REQUEST['op']) ) {
 
 	// INSERT
 
@@ -188,14 +180,14 @@ else {
 
 	$pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
 
-	if ($currentpage < 1) $currentpage = 1;
-	if ($currentpage > $pages) $currentpage = $pages;
-	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
+	if ($filter['page'] < 1) $filter['page'] = 1;
+	if ($filter['page'] > $pages) $filter['page'] = $pages;
+	$limit = 'LIMIT ' . (($filter['page']-1) * $maxperpage) . ',' . $maxperpage;
 
 	$sorts = array('T2Text','T2Comment','T2ID desc');
 	$lsorts = count($sorts);
-	if ($currentsort < 1) $currentsort = 1;
-	if ($currentsort > $lsorts) $currentsort = $lsorts;
+	if ($filter['sort'] < 1) $filter['sort'] = 1;
+	if ($filter['sort'] > $lsorts) $filter['sort'] = $lsorts;
 
 ?>
 <p><a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Text Tag ...</a></p>
@@ -209,7 +201,7 @@ else {
 <tr>
 <td class="td1 center" colspan="4">
 Tag Text or Comment:
-<input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
+<input type="text" name="query" value="<?php echo tohtml($filter['query']); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value; location.href='edit_texttags.php?page=1&amp;query=' + val;}" />&nbsp;
 <input type="button" value="Clear" onclick="{location.href='edit_texttags.php?page=1&amp;query=';}" />
 </td>
@@ -219,10 +211,10 @@ Tag Text or Comment:
 <th class="th1" colspan="1" nowrap="nowrap">
 <?php echo $recno; ?> Tag<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" colspan="2" nowrap="nowrap">
-<?php makePager ($currentpage, $pages, 'edit_texttags.php', 'form1'); ?>
+<?php makePager ($filter['page'], $pages, 'edit_texttags.php', 'form1'); ?>
 </th><th class="th1" nowrap="nowrap">
 Sort Order:
-<select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='edit_texttags.php?page=1&amp;sort=' + val;}"><?php echo get_tagsort_selectoptions($currentsort); ?></select>
+<select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='edit_texttags.php?page=1&amp;sort=' + val;}"><?php echo get_tagsort_selectoptions($filter['sort']); ?></select>
 </th></tr>
 <?php } ?>
 </table>
@@ -265,7 +257,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 
 <?php
 
-$sql = 'select T2ID, T2Text, T2Comment from tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select T2ID, T2Text, T2Comment from tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$filter['sort']-1] . ' ' . $limit;
 if (LWT_DEBUG) echo $sql;
 $res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
@@ -293,7 +285,7 @@ mysql_free_result($res);
 <th class="th1" nowrap="nowrap">
 <?php echo $recno; ?> Tag<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" nowrap="nowrap">
-<?php makePager ($currentpage, $pages, 'edit_texttags.php', 'form1'); ?>
+<?php makePager ($filter['page'], $pages, 'edit_texttags.php', 'form1'); ?>
 </th></tr></table>
 <?php } ?>
 

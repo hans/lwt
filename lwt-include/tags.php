@@ -7,6 +7,67 @@
  */
 
 /**
+ * Create a tag.
+ *
+ * @since 2.0
+ *
+ * @param array $properties
+ * @return int Created tag's ID
+ */
+function create_tag(array $properties) {
+
+}
+
+/**
+ * Delete a set of tags by ID.
+ *
+ * @since 2.0
+ *
+ * @param array $ids
+ * @return bool success
+ */
+function delete_tags($ids) {
+    $list = '(' . implode(',', $ids) . ')';
+
+    $success = db_execute('DELETE FROM tags2 WHERE T2ID IN ?', $list)
+        && purge_tag_data();
+
+    return $success;
+}
+
+/**
+ * Delete a single tag by ID.
+ *
+ * @see delete_tags
+ * @since 2.0
+ *
+ * @param int $id
+ * @return bool success
+ */
+function delete_tag($id) {
+    return delete_tags(array($id));
+}
+
+/**
+ * Purge leftover tag data (e.g., associations between texts and tags that no
+ * longer exist).
+ *
+ * @since 2.0
+ *
+ * @return bool success
+ */
+function purge_tag_data() {
+    $success = db_execute('DELETE texttags
+            FROM ( texttags LEFT JOIN tags2 ON TtT2ID = T2ID )
+            WHERE T2ID IS NULL')
+        && db_execute('DELETE archtexttags
+            FROM ( archtexttags LEFT JOIN tags2 ON AgT2ID = T2ID )
+            WHERE T2ID IS NULL');
+
+    return $success;
+}
+
+/**
  * Get a tag ID by the tag's name. If the tag doesn't exist, create it and
  * return the ID of the new object.
  *

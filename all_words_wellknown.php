@@ -21,33 +21,47 @@ $langid = get_first_value("select TxLgID as value from texts where TxID = " . $_
 
 pagestart("Setting all blue words to Well-known",false);
 
-$sql = 'select distinct TiText, TiTextLC from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiIsNotWord = 0 and WoID is null and TiWordCount = 1 and TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder';
-$res = mysql_query($sql);
-if ($res == FALSE) die("Invalid Query: $sql");
+$records = db_get_rows('SELECT DISTINCT TiText, TiTextLC
+    FROM ( textitems
+           LEFT JOIN words ON TiTextLC = WoTextLC
+               AND TiLgID = WoLgID )
+    WHERE TiIsNotWord = 0 AND WoID IS NULL AND TiWordCount = 1
+        AND TiTxID = ?
+    ORDER BY TiOrder', $_REQUEST['text']);
+
 $count = 0;
 $javascript = "var title='';";
-while ($record = mysql_fetch_assoc($res)) {
-	$term = $record['TiText'];
-	$termlc = $record['TiTextLC'];
-	$count1 = 0 + runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' .
-	$langid . ', ' .
-	convert_string_to_sqlsyntax($term) . ', ' .
-	convert_string_to_sqlsyntax($termlc) . ', 99 , NOW(), ' .
-make_score_random_insert_update('id') . ')','');
-	$wid = get_last_key();
-	if ($count1 > 0 )
-		$javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'*','','99');";
+
+$insert_word = $lwt_db->prepare('INSERT INTO words
+    ( WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged, WoTodayScore,
+      WoTomorrowScore, WoRandom )
+    VALUES ( :language_id, :term, :term_lc, 99, NOW(), :today_score,
+             :tomorrow_score, RAND() )');
+
+foreach ( $records as $record ) {
+    $term = $record['TiText'];
+    $termlc = $record['TiTextLC'];
+
+    $insert_word->execute(array('language_id' => $langid,
+                                'term' => $term,
+                                'term_lc' => $termlc,
+                                'today_score' => getsqlscoreformula(2),
+                                'tomorrow_score' => getsqlscoreformula(3)));
+
+    $wid = get_last_key();
+
+    $javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'*','','99');";
 		$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status99 word" . $wid . "').attr('data_status','99').attr('data_wid','" . $wid . "').attr('title',title);";
-	$count += $count1;
+
+    $count += 1;
 }
-mysql_free_result($res);
 
 echo "<p>OK, you know all " . $count . " word(s) well!</p>";
 
 ?>
 <script type="text/javascript">
-//<![CDATA[
-var context = window.parent.frames['l'].document;
+    //<![CDATA[
+    var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 <?php echo $javascript; ?>
 $('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['text']); ?>');
