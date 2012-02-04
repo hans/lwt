@@ -82,7 +82,7 @@ function purge_tag_data() {
 function load_tag($name, $create_if_not_exists = true) {
     $id = get_first_value("SELECT T2ID AS value
         FROM tags2
-        WHERE T2Text = " . sanitize($name));
+        WHERE T2Text = ?", $name);
 
     if ( !isset($id) ) {
         if ( $create_if_not_exists ) {
