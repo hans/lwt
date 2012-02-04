@@ -88,11 +88,8 @@ function load_tag($name, $create_if_not_exists = true) {
 
     if ( !isset($id) ) {
         if ( $create_if_not_exists ) {
-            $insert = mysql_query("INSERT INTO tags2 ( T2Text )
-                VALUES ( '$name' )");
+            $id = db_insert('tags2', array('T2Text' => $name));
             if ( !$insert ) return false;
-
-            $id = get_last_key();
         } else {
             return null;
         }
@@ -118,7 +115,7 @@ function add_tag_to_texts($id, array $texts) {
                 return "($id, " . (int)$text_id . ")";
             }, $texts));
 
-    return mysql_query("INSERT INTO texttags ( TtTxID, TtT2ID )
+    return db_execute("INSERT INTO texttags ( TtTxID, TtT2ID )
         VALUES " . $sql_list) !== FALSE;
 }
 
@@ -139,9 +136,9 @@ function add_tags_to_text($id, array $tags) {
             }, $tags));
 
     $success = true
-        && mysql_query("DELETE FROM texttags
-               WHERE TtTxID = " . $id)
-        && mysql_query("INSERT INTO texttags ( TtTxID, TtT2ID )
+        && db_execute("DELETE FROM texttags
+               WHERE TtTxID = ?", $id)
+        && db_execute("INSERT INTO texttags ( TtTxID, TtT2ID )
                VALUES " . $sql_list);
 
     return $success;
@@ -160,8 +157,8 @@ function remove_tag_from_texts($id, $texts) {
     $id = (int)$id;
     $sql_list = '(' . join(',', array_map('intval', $texts)) . ')';
 
-    $res = mysql_query("DELETE FROM texttags
-        WHERE TtT2ID = " . $id . " AND TtTxID IN " . $sql_list);
+    $res = db_execute("DELETE FROM texttags
+        WHERE TtT2ID = ? AND TtTxID IN " . $sql_list, $id);
 
     return $res !== FALSE;
 }
