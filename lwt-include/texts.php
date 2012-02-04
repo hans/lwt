@@ -62,8 +62,12 @@ function update_text($id, array $properties) {
 
     if ( !$res ) return FALSE;
 
-    $tags = array_map('load_tag', $properties['TxTags']);
-    $success = add_tags_to_text($id, $tags);
+    $success = true;
+
+    if ( !empty($properties['TxTags']) ) {
+        $tags = array_map('load_tag', $properties['TxTags']);
+        $success = add_tags_to_text($id, $tags) && $success;
+    }
 
     return $success;
 }
