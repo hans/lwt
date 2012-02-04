@@ -130,7 +130,7 @@ function add_tags_to_text($id, array $tags) {
     $id = (int)$id;
 
     $sql_list = join(', ', array_map(function($tag_id) use ($id) {
-                return "(" . (int)$tag_id . ", $id";
+                return "(" . (int)$tag_id . ", $id)";
             }, $tags));
 
     $success = true
