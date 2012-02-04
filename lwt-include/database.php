@@ -109,12 +109,34 @@ function convert_string_to_sqlsyntax_notrim_nonull($data) {
     return "'" . sanitize(prepare_textdata($data)) . "'";
 }
 
-function get_first_value($sql) {
+/**
+ * Get the first column of the first row in a result set for a given query.
+ *
+ * @since 1.4.5
+ *
+ * @param string $sql
+ * @param array $named_args
+ *   List of named arguments for the SQL query
+ *
+ * @param string $sql
+ * @param mixed $arg1,... optional
+ *
+ * @return mixed
+ *   Result column
+ */
+function get_first_value($sql, $named_args) {
     global $lwt_db;
 
     $stmt = $lwt_db->query($sql);
-    if ( $stmt == FALSE )
-        die("Invalid query: $sql");
+
+    if ( isset($named_args) && is_array($named_args) ) {
+        $stmt->execute($named_args);
+    } else {
+        $args = func_get_args();
+        array_shift($args);
+
+        $stmt->execute($args);
+    }
 
     $result = $stmt->fetchColumn();
     $stmt->closeCursor();
