@@ -80,11 +80,9 @@ function purge_tag_data() {
  * @return int Tag ID
  */
 function load_tag($name, $create_if_not_exists = true) {
-    $name = mysql_real_escape_string($name);
-
     $id = get_first_value("SELECT T2ID AS value
         FROM tags2
-        WHERE T2Text = " . $name);
+        WHERE T2Text = " . sanitize($name));
 
     if ( !isset($id) ) {
         if ( $create_if_not_exists ) {
