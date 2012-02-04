@@ -62,7 +62,38 @@ function db_execute($sql, $named_args) {
     return $success;
 }
 
-function convert_string_to_sqlsyntax($data) {
+/**
+ * Insert an object into the database.
+ *
+ * @since 2.0
+ *
+ * @param string $table Name of table to insert into
+ * @param array $properties Column -> value mapped array
+ *
+ * @return The ID of the newly created row on success, or NULL on failure.
+ */
+function db_insert($table, array $properties) {
+    global $lwt_db;
+
+    $sql = "INSERT INTO ?
+            (" . str_repeat('?,', count($properties)) . ")
+        VALUES (" . str_repeat('?,', count($properties)) . ")";
+
+    $args = array($table) + array_keys($properties) + array_values($properties);
+    $success = call_user_func_array('db_execute', array($sql) + $args);
+
+    return $success ? $lwt_db->lastInsertId() : NULL;
+}
+
+/**
+ * Trim and sanitize text to be inserted into the database.
+ *
+ * @since 2.0
+ *
+ * @param string $data
+ * @return string Sanitized data
+ */
+function db_text_prepare($data) {
     $data = trim(prepare_textdata($data));
     if($data != "") $result = "'" . sanitize($data) . "'";
 
