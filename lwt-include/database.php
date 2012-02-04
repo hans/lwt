@@ -193,7 +193,8 @@ function db_get_rows($sql, $named_args) {
 }
 
 function get_last_key() {
-	return get_first_value('SELECT LAST_INSERT_ID() as value');
+    global $lwt_db;
+    return $lwt_db->lastInsertId();
 }
 
 function check_update_db() {
