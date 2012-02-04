@@ -32,7 +32,7 @@ $filter = array('sort' => get_parameter('sort', 'db', 'currenttexttagsort', 1, T
                 'page' => get_parameter('page', 'session', 'currenttexttagpage', 1, TRUE),
                 'query' => get_parameter('query', 'session', 'currenttexttagquery', ''));
 
-$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",$filter['query']));
+$wh_query = db_text_prepare(str_replace("*","%",$filter['query']));
 $wh_query = ($filter['query'] != '') ? (' and (T2Text like ' . $wh_query . ' or T2Comment like ' . $wh_query . ')') : '';
 
 $page_title = 'My Text Tags';
@@ -85,7 +85,7 @@ elseif ( isset($_REQUEST['op']) ) {
 	if ($_REQUEST['op'] == 'Save') {
 
 		$message = runsql('insert into tags2 (T2Text, T2Comment) values(' .
-			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', ' .
+			db_text_prepare($_REQUEST["T2Text"]) . ', ' .
 			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ')', "Saved");
 
 	}
@@ -95,7 +95,7 @@ elseif ( isset($_REQUEST['op']) ) {
 	elseif ($_REQUEST['op'] == 'Change') {
 
 		$message = runsql('update tags2 set T2Text = ' .
-			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', T2Comment = ' .
+			db_text_prepare($_REQUEST["T2Text"]) . ', T2Comment = ' .
 			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ' where T2ID = ' . $_REQUEST["T2ID"], "Updated");
 
 	}

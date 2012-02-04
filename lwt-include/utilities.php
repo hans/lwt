@@ -166,9 +166,9 @@ function saveWordTags($wid) {
 							$tag = $_REQUEST['TermTags']['TagList'][$i];
 							if(! in_array($tag, $_SESSION['TAGS'])) {
 								runsql('insert into tags (TgText) values(' .
-								convert_string_to_sqlsyntax($tag) . ')', "");
+								db_text_prepare($tag) . ')', "");
 							}
-							runsql('insert into wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from tags where TgText = ' . convert_string_to_sqlsyntax($tag), "");
+							runsql('insert into wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from tags where TgText = ' . db_text_prepare($tag), "");
 						}
 						get_tags(1);  // refresh tags cache
 					}
@@ -192,9 +192,9 @@ function saveTextTags($tid) {
 							$tag = $_REQUEST['TextTags']['TagList'][$i];
 							if(! in_array($tag, $_SESSION['TEXTTAGS'])) {
 								runsql('insert into tags2 (T2Text) values(' .
-								convert_string_to_sqlsyntax($tag) . ')', "");
+								db_text_prepare($tag) . ')', "");
 							}
-							runsql('insert into texttags (TtTxID, TtT2ID) select ' . $tid . ', T2ID from tags2 where T2Text = ' . convert_string_to_sqlsyntax($tag), "");
+							runsql('insert into texttags (TtTxID, TtT2ID) select ' . $tid . ', T2ID from tags2 where T2Text = ' . db_text_prepare($tag), "");
 						}
 						get_texttags(1);  // refresh tags cache
 					}
@@ -218,9 +218,9 @@ function saveArchivedTextTags($tid) {
 							$tag = $_REQUEST['TextTags']['TagList'][$i];
 							if(! in_array($tag, $_SESSION['TEXTTAGS'])) {
 								runsql('insert into tags2 (T2Text) values(' .
-								convert_string_to_sqlsyntax($tag) . ')', "");
+								db_text_prepare($tag) . ')', "");
 							}
-							runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $tid . ', T2ID from tags2 where T2Text = ' . convert_string_to_sqlsyntax($tag), "");
+							runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $tid . ', T2ID from tags2 where T2Text = ' . db_text_prepare($tag), "");
 						}
 						get_texttags(1);  // refresh tags cache
 					}
@@ -289,10 +289,10 @@ function getArchivedTextTags($tid) {
 // -------------------------------------------------------------
 
 function addtaglist ($item, $list) {
-	$tagid = get_first_value('select TgID as value from tags where TgText = ' . convert_string_to_sqlsyntax($item));
+	$tagid = get_first_value('select TgID as value from tags where TgText = ' . db_text_prepare($item));
 	if (! isset($tagid)) {
-		runsql('insert into tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
-		$tagid = get_first_value('select TgID as value from tags where TgText = ' . convert_string_to_sqlsyntax($item));
+		runsql('insert into tags (TgText) values(' . db_text_prepare($item) . ')', "");
+		$tagid = get_first_value('select TgID as value from tags where TgText = ' . db_text_prepare($item));
 	}
 	$sql = 'select WoID from words where WoID in ' . $list;
 	$res = mysql_query($sql);
@@ -309,10 +309,10 @@ function addtaglist ($item, $list) {
 // -------------------------------------------------------------
 
 function addarchtexttaglist ($item, $list) {
-	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . db_text_prepare($item));
 	if (! isset($tagid)) {
-		runsql('insert into tags2 (T2Text) values(' . convert_string_to_sqlsyntax($item) . ')', "");
-		$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+		runsql('insert into tags2 (T2Text) values(' . db_text_prepare($item) . ')', "");
+		$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . db_text_prepare($item));
 	}
 	$sql = 'select AtID from archivedtexts where AtID in ' . $list;
 	$res = mysql_query($sql);
@@ -329,10 +329,10 @@ function addarchtexttaglist ($item, $list) {
 // -------------------------------------------------------------
 
 function addtexttaglist ($item, $list) {
-	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . db_text_prepare($item));
 	if (! isset($tagid)) {
-		runsql('insert into tags2 (T2Text) values(' . convert_string_to_sqlsyntax($item) . ')', "");
-		$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+		runsql('insert into tags2 (T2Text) values(' . db_text_prepare($item) . ')', "");
+		$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . db_text_prepare($item));
 	}
 	$sql = 'select TxID from texts where TxID in ' . $list;
 	$res = mysql_query($sql);
@@ -349,7 +349,7 @@ function addtexttaglist ($item, $list) {
 // -------------------------------------------------------------
 
 function removetaglist ($item, $list) {
-	$tagid = get_first_value('select TgID as value from tags where TgText = ' . convert_string_to_sqlsyntax($item));
+	$tagid = get_first_value('select TgID as value from tags where TgText = ' . db_text_prepare($item));
 	if (! isset($tagid)) return "Tag " . $ítem . " not found";
 	$sql = 'select WoID from words where WoID in ' . $list;
 	$res = mysql_query($sql);
@@ -366,7 +366,7 @@ function removetaglist ($item, $list) {
 // -------------------------------------------------------------
 
 function removearchtexttaglist ($item, $list) {
-	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . db_text_prepare($item));
 	if (! isset($tagid)) return "Tag " . $ítem . " not found";
 	$sql = 'select AtID from archivedtexts where AtID in ' . $list;
 	$res = mysql_query($sql);
@@ -383,7 +383,7 @@ function removearchtexttaglist ($item, $list) {
 // -------------------------------------------------------------
 
 function removetexttaglist ($item, $list) {
-	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
+	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . db_text_prepare($item));
 	if (! isset($tagid)) return "Tag " . $ítem . " not found";
 	$sql = 'select TxID from texts where TxID in ' . $list;
 	$res = mysql_query($sql);
@@ -504,7 +504,7 @@ function prepare_textdata($s) {
 // -------------------------------------------------------------
 
 function prepare_textdata_js($s) {
-	$s = convert_string_to_sqlsyntax($s);
+	$s = db_text_prepare($s);
 	if($s == "NULL") return "''";
 	return str_replace("''", "\\'", $s);
 }
@@ -576,7 +576,7 @@ function getsess($s) {
 // -------------------------------------------------------------
 
 function getSetting($key) {
-	$val = get_first_value('select StValue as value from settings where StKey = ' . convert_string_to_sqlsyntax($key));
+	$val = get_first_value('select StValue as value from settings where StKey = ' . db_text_prepare($key));
 	if ( isset($val) ) {
 		$val = trim($val);
 		if ($key == 'currentlanguage' ) $val = filter('language', $val);
@@ -590,7 +590,7 @@ function getSetting($key) {
 
 function getSettingWithDefault($key) {
 	$dft = get_setting_data();
-	$val = get_first_value('select StValue as value from settings where StKey = ' . convert_string_to_sqlsyntax($key));
+	$val = get_first_value('select StValue as value from settings where StKey = ' . db_text_prepare($key));
 	if ( isset($val) && $val != '' ) return trim($val);
 	else {
 		if (array_key_exists($key,$dft)) return $dft[$key]['dft'];
@@ -630,7 +630,7 @@ function saveSetting($k,$v) {
 	$dft = get_setting_data();
 	if (! isset($v)) $v ='';
 	$v = stripslashes($v);
-	runsql('delete from settings where StKey = ' . convert_string_to_sqlsyntax($k), '');
+	runsql('delete from settings where StKey = ' . db_text_prepare($k), '');
 	if ($v !== '') {
 		if (array_key_exists($k,$dft)) {
 			if ($dft[$k]['num']) {
@@ -640,8 +640,8 @@ function saveSetting($k,$v) {
 			}
 		}
 		$dum = runsql('insert into settings (StKey, StValue) values(' .
-			convert_string_to_sqlsyntax($k) . ', ' .
-			convert_string_to_sqlsyntax($v) . ')', '');
+			db_text_prepare($k) . ', ' .
+			db_text_prepare($v) . ')', '');
 	}
 }
 
@@ -1425,7 +1425,7 @@ function getSentence($seid, $wordlc,$mode) {
 
 function get20Sentences($lang, $wordlc, $jsctlname, $mode) {
 	$r = '<p><b>Sentences in active texts with <i>' . tohtml($wordlc) . '</i></b></p><p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy sentence into above term)</p>';
-	$sql = 'SELECT DISTINCT SeID, SeText FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
+	$sql = 'SELECT DISTINCT SeID, SeText FROM sentences, textitems WHERE TiTextLC = ' . db_text_prepare($wordlc) . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
 	$res = mysql_query($sql);
 	if ($res == FALSE) die("Invalid Query: $sql");
 	$r .= '<p>';
@@ -1694,7 +1694,7 @@ function checkText($text, $lid) {
 	ksort($wordList);
 	$anz = 0;
 	foreach ($wordList as $key => $value) {
-		$trans = get_first_value("select WoTranslation as value from words where WoLgID = " . $lid . " and WoTextLC = " . convert_string_to_sqlsyntax($key));
+		$trans = get_first_value("select WoTranslation as value from words where WoLgID = " . $lid . " and WoTextLC = " . db_text_prepare($key));
 		if (! isset($trans)) $trans="";
 		if ($trans == "*") $trans="";
 		if ($trans != "")
@@ -1916,7 +1916,7 @@ function refreshText($word,$tid) {
 	$out = '';
 	$wordlc = trim(mb_strtolower($word, 'UTF-8'));
 	if ( $wordlc == '') return '';
-	$sql = 'SELECT distinct TiSeID FROM textitems WHERE TiIsNotWord = 0 and TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' and TiTxID = ' . $tid . ' order by TiSeID';
+	$sql = 'SELECT distinct TiSeID FROM textitems WHERE TiIsNotWord = 0 and TiTextLC = ' . db_text_prepare($wordlc) . ' and TiTxID = ' . $tid . ' order by TiSeID';
 	$res = mysql_query($sql);
 	if ($res == FALSE) return '';
 	$inlist = '(';

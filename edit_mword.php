@@ -45,12 +45,12 @@ if (isset($_REQUEST['op'])) {
 			$message = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
 				'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' .
 				$_REQUEST["WoLgID"] . ', ' .
-				convert_string_to_sqlsyntax($_REQUEST["WoTextLC"]) . ', ' .
-				convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
+				db_text_prepare($_REQUEST["WoTextLC"]) . ', ' .
+				db_text_prepare($_REQUEST["WoText"]) . ', ' .
 				$_REQUEST["WoStatus"] . ', ' .
-				convert_string_to_sqlsyntax($translation) . ', ' .
-				convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
-				convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .
+				db_text_prepare($translation) . ', ' .
+				db_text_prepare(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
+				db_text_prepare($_REQUEST["WoRomanization"]) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')', "Term saved");
 			$wid = get_last_key();
 
@@ -73,10 +73,10 @@ make_score_random_insert_update('id') . ')', "Term saved");
 			if ($oldstatus != $newstatus) $xx = ', WoStatus = ' .	$newstatus . ', WoStatusChanged = NOW()';
 
 			$message = runsql('update words set WoText = ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' .
-			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' .
-			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"], "Updated");
+			db_text_prepare($_REQUEST["WoText"]) . ', WoTranslation = ' .
+			db_text_prepare($translation) . ', WoSentence = ' .
+			db_text_prepare(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
+			db_text_prepare($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"], "Updated");
 
 			$wid = $_REQUEST["WoID"];
 
@@ -150,7 +150,7 @@ else {  // if (! isset($_REQUEST['op']))
 		$term = prepare_textdata(getreq('txt'));
 		$termlc =	mb_strtolower($term, 'UTF-8');
 
-		$wid = get_first_value("select WoID as value from words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc));
+		$wid = get_first_value("select WoID as value from words where WoLgID = " . $lang . " and WoTextLC = " . db_text_prepare($termlc));
 		if (isset($wid)) $term = get_first_value("select WoText as value from words where WoID = " . $wid);
 
 	} else {

@@ -36,7 +36,7 @@ $currenttag2 = filter('arch_text_tag', get_parameter('tag2', 'session', 'current
 $currenttag12 = get_parameter('tag12', 'session', 'currentarchivetexttag12', '');
 
 $wh_lang = ($currentlang != '') ? (' and AtLgID=' . $currentlang) : '';
-$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
+$wh_query = db_text_prepare(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
 $wh_query = ($currentquery != '') ? (' and AtTitle like ' . $wh_query) : '';
 
 if ($currenttag1 == '' && $currenttag2 == '')

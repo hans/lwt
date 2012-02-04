@@ -137,7 +137,7 @@ if ($count <= 0) {
 			while ( $pass < 3 ) {
 				$pass++;
 				if (LWT_DEBUG) echo "DEBUG search sent: pass: $pass <br />";
-				$sql = 'SELECT DISTINCT SeID FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
+				$sql = 'SELECT DISTINCT SeID FROM sentences, textitems WHERE TiTextLC = ' . db_text_prepare($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
 				$res = mysql_query($sql);
 				if ($res == FALSE) die("Invalid query: $sql");
 				$record = mysql_fetch_assoc($res);

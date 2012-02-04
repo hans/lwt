@@ -38,12 +38,12 @@ if (isset($_REQUEST['op'])) {
 		$message = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
 			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' .
 			$_REQUEST["WoLgID"] . ', ' .
-			convert_string_to_sqlsyntax($textlc) . ', ' .
-			convert_string_to_sqlsyntax($text) . ', ' .
+			db_text_prepare($textlc) . ', ' .
+			db_text_prepare($text) . ', ' .
 			$_REQUEST["WoStatus"] . ', ' .
-			convert_string_to_sqlsyntax($translation) . ', ' .
-			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .
+			db_text_prepare($translation) . ', ' .
+			db_text_prepare(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
+			db_text_prepare($_REQUEST["WoRomanization"]) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')', "Term saved");
 
 		if (substr($message,0,22) == 'Error: Duplicate entry') {

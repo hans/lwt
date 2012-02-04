@@ -27,8 +27,8 @@ pagestart("Term: " . $word,false);
 
 $m1 = runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' .
 $langid . ', ' .
-convert_string_to_sqlsyntax($word) . ', ' .
-convert_string_to_sqlsyntax($wordlc) . ', 99, NOW(), ' .
+db_text_prepare($word) . ', ' .
+db_text_prepare($wordlc) . ', 99, NOW(), ' .
 make_score_random_insert_update('id') . ')','Term added');
 $wid = get_last_key();
 

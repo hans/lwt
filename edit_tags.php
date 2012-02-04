@@ -32,7 +32,7 @@ $currentsort = get_parameter("sort", 'db', 'currenttagsort', 1, TRUE);
 $currentpage = get_parameter('page', 'session', 'currenttagpage', 1, TRUE);
 $currentquery = get_parameter('query', 'session', 'currenttagquery', '');
 
-$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",$currentquery));
+$wh_query = db_text_prepare(str_replace("*","%",$currentquery));
 $wh_query = ($currentquery != '') ? (' and (TgText like ' . $wh_query . ' or TgComment like ' . $wh_query . ')') : '';
 
 pagestart('My Term Tags',true);
@@ -90,7 +90,7 @@ elseif (isset($_REQUEST['op'])) {
 	if ($_REQUEST['op'] == 'Save') {
 
 		$message = runsql('insert into tags (TgText, TgComment) values(' .
-			convert_string_to_sqlsyntax($_REQUEST["TgText"]) . ', ' .
+			db_text_prepare($_REQUEST["TgText"]) . ', ' .
 			convert_string_to_sqlsyntax_nonull($_REQUEST["TgComment"]) . ')', "Saved");
 
 	}
@@ -100,7 +100,7 @@ elseif (isset($_REQUEST['op'])) {
 	elseif ($_REQUEST['op'] == 'Change') {
 
 		$message = runsql('update tags set TgText = ' .
-			convert_string_to_sqlsyntax($_REQUEST["TgText"]) . ', TgComment = ' .
+			db_text_prepare($_REQUEST["TgText"]) . ', TgComment = ' .
 			convert_string_to_sqlsyntax_nonull($_REQUEST["TgComment"]) . ' where TgID = ' . $_REQUEST["TgID"], "Updated");
 
 	}

@@ -47,7 +47,7 @@ $currenttag12 = get_parameter("tag12", 'session', "currentwordtag12", '');
 
 $wh_lang = ($currentlang != '') ? (' and WoLgID=' . $currentlang ) : '';
 $wh_stat = ($currentstatus != '') ? (' and ' . makeStatusCondition('WoStatus', $currentstatus)) : '';
-$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
+$wh_query = db_text_prepare(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
 $wh_query = ($currentquery != '') ? (' and (WoText like ' . $wh_query . ' or WoRomanization like ' . $wh_query . ' or WoTranslation like ' . $wh_query . ')') : '';
 
 if ($currenttag1 == '' && $currenttag2 == '')
@@ -300,12 +300,12 @@ elseif (isset($_REQUEST['op'])) {
 		$message = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
 			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' .
 			$_REQUEST["WoLgID"] . ', ' .
-			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
+			db_text_prepare(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', ' .
+			db_text_prepare($_REQUEST["WoText"]) . ', ' .
 			$_REQUEST["WoStatus"] . ', ' .
-			convert_string_to_sqlsyntax($translation) . ', ' .
-			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .
+			db_text_prepare($translation) . ', ' .
+			db_text_prepare(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
+			db_text_prepare($_REQUEST["WoRomanization"]) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')', "Saved");
 		$wid = get_last_key();
 	}
@@ -320,11 +320,11 @@ make_score_random_insert_update('id') . ')', "Saved");
 		if ($oldstatus != $newstatus) $xx = ', WoStatus = ' .	$newstatus . ', WoStatusChanged = NOW()';
 		$wid = $_REQUEST["WoID"] + 0;
 		$message = runsql('update words set WoText = ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTextLC = ' .
-			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', WoTranslation = ' .
-			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' .
-			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"],
+			db_text_prepare($_REQUEST["WoText"]) . ', WoTextLC = ' .
+			db_text_prepare(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', WoTranslation = ' .
+			db_text_prepare($translation) . ', WoSentence = ' .
+			db_text_prepare(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
+			db_text_prepare($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"],
 			"Updated");
 	}
 

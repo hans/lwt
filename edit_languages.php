@@ -77,15 +77,15 @@ elseif (isset($_REQUEST['op'])) {
 
 	if ($_REQUEST['op'] == 'Save')
 		$message = runsql('insert into languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft) values(' .
-		convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' .
-		convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', '.
-		convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', '.
-		convert_string_to_sqlsyntax($_REQUEST["LgGoogleTranslateURI"]) . ', '.
+		db_text_prepare($_REQUEST["LgName"]) . ', ' .
+		db_text_prepare($_REQUEST["LgDict1URI"]) . ', '.
+		db_text_prepare($_REQUEST["LgDict2URI"]) . ', '.
+		db_text_prepare($_REQUEST["LgGoogleTranslateURI"]) . ', '.
 		$_REQUEST["LgTextSize"] . ', '.
 		convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgCharacterSubstitutions"]) . ', '.
-		convert_string_to_sqlsyntax($_REQUEST["LgRegexpSplitSentences"]) . ', '.
+		db_text_prepare($_REQUEST["LgRegexpSplitSentences"]) . ', '.
 		convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgExceptionsSplitSentences"]) . ', '.
-		convert_string_to_sqlsyntax($_REQUEST["LgRegexpWordCharacters"]) . ', '.
+		db_text_prepare($_REQUEST["LgRegexpWordCharacters"]) . ', '.
 		$_REQUEST["LgRemoveSpaces"] . ', '.
 		$_REQUEST["LgSplitEachChar"] . ', '.
 		$_REQUEST["LgRightToLeft"] .
@@ -95,15 +95,15 @@ elseif (isset($_REQUEST['op'])) {
 
 	elseif ($_REQUEST['op'] == 'Change')
 		$message = runsql('update languages set ' .
-		'LgName = ' . convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' .
-		'LgDict1URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', ' .
-		'LgDict2URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', ' .
-		'LgGoogleTranslateURI = ' . convert_string_to_sqlsyntax($_REQUEST["LgGoogleTranslateURI"]) . ', ' .
+		'LgName = ' . db_text_prepare($_REQUEST["LgName"]) . ', ' .
+		'LgDict1URI = ' . db_text_prepare($_REQUEST["LgDict1URI"]) . ', ' .
+		'LgDict2URI = ' . db_text_prepare($_REQUEST["LgDict2URI"]) . ', ' .
+		'LgGoogleTranslateURI = ' . db_text_prepare($_REQUEST["LgGoogleTranslateURI"]) . ', ' .
 		'LgTextSize = ' . $_REQUEST["LgTextSize"] . ', ' .
 		'LgCharacterSubstitutions = ' . convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgCharacterSubstitutions"]) . ', ' .
-		'LgRegexpSplitSentences = ' . convert_string_to_sqlsyntax($_REQUEST["LgRegexpSplitSentences"]) . ', ' .
+		'LgRegexpSplitSentences = ' . db_text_prepare($_REQUEST["LgRegexpSplitSentences"]) . ', ' .
 		'LgExceptionsSplitSentences = ' . convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgExceptionsSplitSentences"]) . ', ' .
-		'LgRegexpWordCharacters = ' . convert_string_to_sqlsyntax($_REQUEST["LgRegexpWordCharacters"]) . ', ' .
+		'LgRegexpWordCharacters = ' . db_text_prepare($_REQUEST["LgRegexpWordCharacters"]) . ', ' .
 		'LgRemoveSpaces = ' . $_REQUEST["LgRemoveSpaces"] . ', ' .
 		'LgSplitEachChar = ' . $_REQUEST["LgSplitEachChar"] . ', ' .
 		'LgRightToLeft = ' . $_REQUEST["LgRightToLeft"] .

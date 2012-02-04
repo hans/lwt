@@ -41,7 +41,7 @@ if ($langcnt > 0 ) {
 
 $mb = get_first_value("SELECT ROUND(SUM( data_length + index_length ) / 1024 / 1024, 1) AS value
     FROM information_schema.TABLES
-    WHERE table_schema = " . convert_string_to_sqlsyntax(LWT_DB_NAME) . "
+    WHERE table_schema = " . db_text_prepare(LWT_DB_NAME) . "
     GROUP BY table_schema");
 
 render('index', compact('currentlang', 'currenttext', 'langcnt', 'txttit',

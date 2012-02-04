@@ -36,8 +36,8 @@ function limit20(&$item, $key) {
 }
 
 function savetag($item, $key, $wid) {
-	runsql('insert into tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
-	runsql('insert into wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from tags where TgText = ' . convert_string_to_sqlsyntax($item), "");
+	runsql('insert into tags (TgText) values(' . db_text_prepare($item) . ')', "");
+	runsql('insert into wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from tags where TgText = ' . db_text_prepare($item), "");
 }
 
 pagestart('Import Terms',true);
@@ -100,18 +100,18 @@ if (isset($_REQUEST['op'])) {
   		$protokoll .= '<tr><td class="td1 right">' . ($i+1) . '</td><td class="td1">' . tohtml($w) . '</td><td class="td1">' . tohtml($t) . '</td><td class="td1">' . tohtml($r) . '</td><td class="td1">' . tohtml($s) . '</td><td class="td1">' . implode(", ", $g) . '</td>';
  			if ( $w != '' ) {
  				if ($t == '') $t = '*';
- 				$excnt = get_first_value('select count(*) as value from words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl));
+ 				$excnt = get_first_value('select count(*) as value from words where WoLgID = ' . $lang . ' and WoTextLC=' . db_text_prepare($wl));
  				if ($excnt > 0 ) { // exists
  					if ($overwrite) { // update
-	 					$msg1 = runsql('delete from words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl), "Exists, deleted");
+	 					$msg1 = runsql('delete from words where WoLgID = ' . $lang . ' and WoTextLC=' . db_text_prepare($wl), "Exists, deleted");
 	 					runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
 	 					$msg2 = runsql('insert into words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
-						convert_string_to_sqlsyntax($wl) . ', ' .
-						convert_string_to_sqlsyntax($w) . ', ' .
+						db_text_prepare($wl) . ', ' .
+						db_text_prepare($w) . ', ' .
 						$status . ', ' .
-						convert_string_to_sqlsyntax($t) . ', ' .
-						convert_string_to_sqlsyntax($r) . ', ' .
-						convert_string_to_sqlsyntax($s) . ', NOW(), ' .
+						db_text_prepare($t) . ', ' .
+						db_text_prepare($r) . ', ' .
+						db_text_prepare($s) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')',"Imported");
 						$wid = get_last_key();
 						array_walk($g,'savetag',$wid);
@@ -124,12 +124,12 @@ make_score_random_insert_update('id') . ')',"Imported");
  				} // exists
  				else { // exists not
  					$msg1 = runsql('insert into words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
-					convert_string_to_sqlsyntax($wl) . ', ' .
-					convert_string_to_sqlsyntax($w) . ', ' .
+					db_text_prepare($wl) . ', ' .
+					db_text_prepare($w) . ', ' .
 					$status . ', ' .
-					convert_string_to_sqlsyntax($t) . ', ' .
-					convert_string_to_sqlsyntax($r) . ', ' .
-					convert_string_to_sqlsyntax($s) . ', NOW(), ' .
+					db_text_prepare($t) . ', ' .
+					db_text_prepare($r) . ', ' .
+					db_text_prepare($s) . ', NOW(), ' .
 make_score_random_insert_update('id') . ')',"Imported");
 					$wid = get_last_key();
 					array_walk($g,'savetag',$wid);
