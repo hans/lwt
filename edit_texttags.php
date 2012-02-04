@@ -259,9 +259,8 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 
 $sql = 'select T2ID, T2Text, T2Comment from tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$filter['sort']-1] . ' ' . $limit;
 if (LWT_DEBUG) echo $sql;
-$res = mysql_query($sql);
-if ($res == FALSE) die("Invalid Query: $sql");
-while ($record = mysql_fetch_assoc($res)) {
+$records = db_get_rows($sql);
+foreach ( $records as $record ) {
 	$c = get_first_value('select count(*) as value from texttags where TtT2ID=' . $record['T2ID']);
 	$ca = get_first_value('select count(*) as value from archtexttags where AgT2ID=' . $record['T2ID']);
 	echo '<tr>';
@@ -273,7 +272,6 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center">' . ($ca > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $ca . '</a>' : '0' ) . '</td>';
 	echo '</tr>';
 }
-mysql_free_result($res);
 
 ?>
 </table>
