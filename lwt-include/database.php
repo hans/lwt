@@ -127,7 +127,7 @@ function convert_string_to_sqlsyntax_notrim_nonull($data) {
 function get_first_value($sql, $named_args) {
     global $lwt_db;
 
-    $stmt = $lwt_db->query($sql);
+    $stmt = $lwt_db->prepare($sql);
 
     if ( isset($named_args) && is_array($named_args) ) {
         $stmt->execute($named_args);
