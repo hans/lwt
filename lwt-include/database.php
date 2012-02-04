@@ -106,9 +106,9 @@ function db_insert($table, array $properties) {
  */
 function db_text_prepare($data) {
     $data = trim(prepare_textdata($data));
-    if($data != "") $result = "'" . sanitize($data) . "'";
+    if($data != "") $data = "'" . sanitize($data) . "'";
 
-    return $result;
+    return $data;
 }
 
 function convert_string_to_sqlsyntax_nonull($data) {
