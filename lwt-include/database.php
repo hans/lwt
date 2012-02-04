@@ -101,7 +101,7 @@ function get_first_value($sql) {
  *   List of named arguments for the SQL query
  *
  * @param string $sql
- * @param mixed $arg1,...
+ * @param mixed $arg1,... optional
  *
  * @return array
  *   Result row as an associative array
@@ -136,7 +136,7 @@ function db_get_row($sql, $named_args) {
  *   List of named arguments for the SQL query
  *
  * @param string $sql
- * @param mixed $arg1,...
+ * @param mixed $arg1,... optional
  *
  * @return array
  *   Set of result rows (each an associative array)
