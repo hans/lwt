@@ -15,24 +15,21 @@ require_once LWT_INCLUDE . 'tags.php';
  *
  * @param array $properties
  *   Required: TxLgID, TxTitle, TxText, TxAudioURI
- * @return int Created text's ID
+ * @return int Created text's ID or NULL on failure
  */
 function create_text(array $properties) {
-    $res = mysql_query("INSERT INTO texts
-            ( TxLgID, TxTitle, TxText, TxAudioURI )
-        VALUES (
-            " . (int)$properties['TxLgID'] . ",
-            " . convert_string_to_sqlsyntax($properties['TxTitle']) . ",
-            " . convert_string_to_sqlsyntax($properties['TxText']) . ",
-            " . convert_string_to_sqlsyntax($properties['TxAudioURI']) . ")");
-    if ( !$res ) return FALSE;
+    $data = array('TxLgID' => (int)$properties['TxLgID'],
+                  'TxTitle' => $properties['TxTitle'],
+                  'TxText' => db_text_prepare($properties['TxText']),
+                  'TxAudioURI' => $properties['TxAudioURI']);
 
-    $id = get_last_key();
+    $id = db_insert('texts', $data);
+    if ( $id === NULL ) return NULL;
 
     $tags = array_map('load_tag', $properties['TxTags']);
     $success = add_tags_to_text($id, $tags);
 
-    return $success;
+    return $success ? $id : NULL;
 }
 
 /**
@@ -48,12 +45,17 @@ function create_text(array $properties) {
 function update_text($id, array $properties) {
     $id = (int)$id;
 
-    $res = mysql_query("UPDATE texts SET
-            TxLgID = " . (int)$properties['TxLgID'] . "
-            TxTitle = " . convert_string_to_sqlsyntax($properties['TxTitle']) . "
-            TxText = " . convert_string_to_sqlsyntax($properties['TxText']) . "
-            TxAudioURI = " . convert_string_to_sqlsyntax($properties['TxAudioURI']) . "
-        WHERE TxID = $id");
+    $data = array('TxID' => (int)$id,
+                  'TxLgID' => (int)$properties['TxLgID'],
+                  'TxTitle' => $properties['TxTitle'],
+                  'TxText' => db_text_prepare($properties['TxText']),
+                  'TxAudioURI' => $properties['TxAudioURI']);
+
+    $res = db_execute("UPDATE texts SET
+            TxLgID = :TxLgID, TxTitle = :TxTitle, TxText = :TxText,
+            TxAudioURI = :TxAudioURI
+        WHERE TxID = :TxID", $data);
+
     if ( !$res ) return FALSE;
 
     $tags = array_map('load_tag', $properties['TxTags']);
