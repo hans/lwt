@@ -73,18 +73,16 @@ function update_text($id, array $properties) {
  * @return boolean Success
  */
 function delete_texts(array $ids) {
-    $res_data = delete_texts_data($ids);
+    global $lwt_db;
 
-    $res_texts = mysql_query("DELETE FROM texts
-        WHERE TxID IN $sql_list");
+    $success = delete_texts_data($ids)
+        && db_execute("DELETE FROM texts
+            WHERE TxID IN $sql_list")
+        && db_execute("DELETE texttags
+            FROM ( texttags LEFT JOIN texts ON TtTxID = TxID )
+            WHERE TxID IS NULL");
 
-    $res_tags = mysql_query("DELETE texttags
-        FROM ( texttags LEFT JOIN texts ON TtTxID = TxID )
-        WHERE TxID IS NULL");
-
-    return $res_data !== FALSE
-        && $res_texts !== FALSE
-        && $res_tags !== FALSE;
+    return $success;
 }
 
 /**
@@ -112,14 +110,12 @@ function delete_text($id) {
 function delete_texts_data(array $ids) {
     $sql_list = '(' . join(',', array_map('intval', $ids)) . ')';
 
-    $res_items = mysql_query("DELETE FROM textitems
-        WHERE TiTxID IN $sql_list");
+    $success = db_execute("DELETE FROM textitems
+            WHERE TiTxID IN $sql_list")
+        && db_execute("DELETE FROM sentences
+            WHERE SeTxID IN $sql_list");
 
-    $res_sentences = mysql_query("DELETE FROM sentences
-        WHERE SeTxID IN $sql_list");
-
-    return $res_items !== FALSE
-        && $res_sentences !== FALSE;
+    return $success;
 }
 
 /**
@@ -131,21 +127,22 @@ function delete_texts_data(array $ids) {
  * @return boolean Success
  */
 function archive_texts(array $ids) {
+    global $lwt_db;
     $ids = array_map('intval', $ids);
 
     $success = true;
     foreach ( $ids as $id ) {
-        $success = mysql_query('INSERT INTO archivedtexts
+        $success = db_execute('INSERT INTO archivedtexts
             ( AtLgID, AtTitle, AtText, AtAudioURI )
             SELECT TxLgId, TxTitle, TxText, TxAudioURI
                 FROM texts
-                WHERE TxID = ' . $id) && $success;
+                WHERE TxID = ?', $id) && $success;
 
         $arch_id = get_last_key();
-        $success = mysql_query('INSERT INTO archtexttags ( AgAtID, AgT2ID )
+        $success = db_execute('INSERT INTO archtexttags ( AgAtID, AgT2ID )
             SELECT ' . $arch_id . ', TtT2ID
                 FROM texttags
-                WHERE TtTxId = ' . $id) && $success;
+                WHERE TtTxId = ?', $id) && $success;
     }
 
     // Delete the old unarchived versions
@@ -179,15 +176,13 @@ function reparse_texts(array $ids) {
     delete_texts_data($ids);
 
     $sql_list = '(' . join(',', array_map('intval', $ids)) . ')';
-    $texts = mysql_query("SELECT TxID, TxLgID, TxText
+    $texts = db_get_rows("SELECT TxID, TxLgID, TxText
         FROM texts
         WHERE TxID IN " . $sql_list);
 
-    while ( $text = mysql_fetch_assoc($texts) ) {
+    foreach ( $texts as $text ) {
         splitText($text['TxText'], $text['TxLgID'], $text['TxID']);
     }
-
-    mysql_free_result($texts);
 }
 
 /**
@@ -215,7 +210,7 @@ function reparse_text($id) {
 function associate_text_words_with_sentences(array $ids) {
     $sql_list = '(' . join(',', array_map('intval', $ids)) . ')';
 
-    $res = mysql_query("SELECT WoId, WoTextLC, MIN(TiSeID) AS SeID
+    $records = db_get_rows("SELECT WoId, WoTextLC, MIN(TiSeID) AS SeID
         FROM words, textitems
         WHERE TiLgID = WoLgID
             AND TiTextLC = WoTextLC
@@ -226,15 +221,13 @@ function associate_text_words_with_sentences(array $ids) {
 
     $sentence_mode = (int)getSettingWithDefault('set-term-sentence-count');
 
-    while ( $record = mysql_fetch_assoc($res) ) {
+    foreach ( $records as $record ) {
         $sentence = getSentence($record['SeID'], $record['WoTextLC'], $sentence_mode);
 
-        mysql_query("UPDATE words
-            SET WoSentence = " . convert_string_to_sqlsyntax(repl_tab_nl($sentence[1])) . "
+        db_execute("UPDATE words
+            SET WoSentence = " . db_text_prepare(repl_tab_nl($sentence[1])) . "
             WHERE WoID = " . (int)$record['WoID']);
     }
-
-    mysql_free_result($res);
 }
 
 ?>
