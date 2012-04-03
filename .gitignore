@@ -1,2 +1,5 @@
 connect.inc.php
 media/
+_*
+.DS_Store
+
