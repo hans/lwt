@@ -33,6 +33,7 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
 	if ($show_trans && $savetrans == '') $show_trans = 0;
 	if ($annplcmnt == 1) {
 		if ($show_rom || $show_trans) {
+			echo ' ';
 			if ($show_trans) 
 				echo '<span class="anntrans">' . tohtml($savetrans) . '</span> ';
 			if ($show_rom  && (! $show_trans)) 
@@ -117,42 +118,22 @@ quickMenu();
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
 echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
-?>
-
-<p id="printoptions">
-Terms with <b>status(es)</b>
-<select id="status" onchange="{val=document.getElementById('status').options[document.getElementById('status').selectedIndex].value;location.href='print_text.php?<?php echo 'text=' . $textid;
-echo "&amp;status=' + val;}" . '">';
+echo "<p id=\"printoptions\">Terms with <b>status(es)</b><select id=\"status\" onchange=\"{val=document.getElementById('status').options[document.getElementById('status').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;status=' + val;}\">";
 echo get_wordstatus_selectoptions($status, true, true, false); 
-?> 
-</select> ...<br />will be
-<b>annotated</b> with 
-<select id="ann" onchange="{val=document.getElementById('ann').options[document.getElementById('ann').selectedIndex].value;location.href='print_text.php?<?php
-echo 'text=' . $textid;
-echo "&amp;ann=' + val;}" . '">';
+echo "</select> ...<br />will be <b>annotated</b> with "; 
+echo "<select id=\"ann\" onchange=\"{val=document.getElementById('ann').options[document.getElementById('ann').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;ann=' + val;}\">";
 echo "<option value=\"0\"" . get_selected(0,$ann) . ">Nothing</option>";
 echo "<option value=\"1\"" . get_selected(1,$ann) . ">Translation</option>";
 echo "<option value=\"5\"" . get_selected(5,$ann) . ">Translation &amp; Tags</option>";
 echo "<option value=\"2\"" . get_selected(2,$ann) . ">Romanization</option>";
 echo "<option value=\"3\"" . get_selected(3,$ann) . ">Romanization &amp; Translation</option>";
 echo "<option value=\"7\"" . get_selected(7,$ann) . ">Romanization, Translation &amp; Tags</option>";
-?>
-</select>
-<select id="annplcmnt" onchange="{val=document.getElementById('annplcmnt').options[document.getElementById('annplcmnt').selectedIndex].value;location.href='print_text.php?<?php
-echo 'text=' . $textid;
-echo "&amp;annplcmnt=' + val;}" . '">';
+echo "</select><select id=\"annplcmnt\" onchange=\"{val=document.getElementById('annplcmnt').options[document.getElementById('annplcmnt').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;annplcmnt=' + val;}\">";
 echo "<option value=\"0\"" . get_selected(0,$annplcmnt) . ">behind</option>";
 echo "<option value=\"1\"" . get_selected(1,$annplcmnt) . ">in front of</option>";
-?>
-</select>
-the term.<br />
-<input type="button" value="Print it!" onclick="window.print();" />  (only the text below the line)
-</p>
-</div> <!-- noprint -->
-
-<div id="print" <?php echo ($rtlScript ? 'dir="rtl"' : ''); ?> >
-<?php
-
+echo "</select> the term.<br />";
+echo "<input type=\"button\" value=\"Print it!\" onclick=\"window.print();\" />  (only the text below the line)</p></div> <!-- noprint -->";
+echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
 $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';

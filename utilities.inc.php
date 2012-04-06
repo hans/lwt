@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.4.6 (March 14 2012)'  . 
+	return '1.4.7 (April 6 2012)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -356,7 +356,7 @@ function addtexttaglist ($item, $list) {
 
 function removetaglist ($item, $list) {
 	$tagid = get_first_value('select TgID as value from tags where TgText = ' . convert_string_to_sqlsyntax($item));
-	if (! isset($tagid)) return "Tag " . $ítem . " not found";
+	if (! isset($tagid)) return "Tag " . $item . " not found";
 	$sql = 'select WoID from words where WoID in ' . $list;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
@@ -373,7 +373,7 @@ function removetaglist ($item, $list) {
 
 function removearchtexttaglist ($item, $list) {
 	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
-	if (! isset($tagid)) return "Tag " . $ítem . " not found";
+	if (! isset($tagid)) return "Tag " . $item . " not found";
 	$sql = 'select AtID from archivedtexts where AtID in ' . $list;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
@@ -390,7 +390,7 @@ function removearchtexttaglist ($item, $list) {
 
 function removetexttaglist ($item, $list) {
 	$tagid = get_first_value('select T2ID as value from tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
-	if (! isset($tagid)) return "Tag " . $ítem . " not found";
+	if (! isset($tagid)) return "Tag " . $item . " not found";
 	$sql = 'select TxID from texts where TxID in ' . $list;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
