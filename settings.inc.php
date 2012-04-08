@@ -17,7 +17,7 @@ Start a PHP session
 ***************************************************************/
 
 $debug = 0;  // 1 = debugging on, 0 = .. off
-$dspltime = 0;  // 1 = display time on, 0 = .. off
+$dspltime = 1;  // 1 = display time on, 0 = .. off
 
 if ($debug) {
 	@error_reporting(E_ALL);
