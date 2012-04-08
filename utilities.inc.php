@@ -493,6 +493,7 @@ Developed by J. Pierre in 2011.
 <body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <?php
+	if ($debug) showRequest();
 } 
 
 // -------------------------------------------------------------
@@ -514,10 +515,25 @@ function pagestart($titeltext,$close) {
 // -------------------------------------------------------------
 
 function pageend() {
-	global $debug;
+	global $debug, $dspltime;
 	if ($debug) showRequest();
+	if ($dspltime) echo "\n<p class=\"smallgray2\">" . 
+		round(get_execution_time(),5) . " secs</p>\n";
 ?></body></html><?php
 } 
+
+// -------------------------------------------------------------
+
+function get_execution_time()
+{
+    static $microtime_start = null;
+    if($microtime_start === null)
+    {
+        $microtime_start = microtime(true);
+        return 0.0; 
+    }    
+    return microtime(true) - $microtime_start; 
+}
 
 // -------------------------------------------------------------
 
@@ -2517,6 +2533,10 @@ function check_update_db() {
 // -------------------------------------------------------------
 
 //////////////////  S T A R T  /////////////////////////////////
+
+// Start Timer
+
+if ($dspltime) get_execution_time();
 
 // Connection, @ suppresses messages from function
 
