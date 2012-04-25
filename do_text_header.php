@@ -150,6 +150,7 @@ function click_back() {
 	var t = parseInt($("#playTime").text(),10);
 	var b = parseInt($("#backtime").val(),10);
 	var nt = t - b;
+	if (nt < 0) nt = 0;
 	$("#jquery_jplayer_1").jPlayer("play", nt);
 }
 
