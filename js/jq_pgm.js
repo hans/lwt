@@ -307,7 +307,7 @@ function keydown_event_do_text_text(e) {
 	if (TEXTPOS < 0 || TEXTPOS >= l_knownwordlist) return true;
 	var curr = knownwordlist.eq(TEXTPOS);
 	var wid = curr.attr('data_wid');
-	var ord = curr.attr('data_ord');
+	var ord = curr.attr('data_order');
 	
 	// the following only with valid pos.
 	for (var i=1; i<=5; i++) {
