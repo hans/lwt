@@ -7,7 +7,7 @@ In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
 
-Developed by J. Pierre in 2011.
+Developed by J.P. in 2011, 2012.
 ***************************************************************/
 
 /**************************************************************
@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.4.8 (June 19 2012)'  . 
+	return '1.4.9 (August 29 2012)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -421,7 +421,7 @@ In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
 
-Developed by J. Pierre in 2011.
+Developed by J.P. in 2011, 2012.
 ************************************************************ -->
 
 <head>
@@ -450,7 +450,7 @@ In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
 
-Developed by J. Pierre in 2011.
+Developed by J.P. in 2011, 2012.
 ************************************************************ -->
 
 <head>
