@@ -8,7 +8,7 @@ right to use this work for any purpose, without any conditions,
 unless such conditions are required by law.
 
 
-Developed by J.P. in 2011, 2012.
+Developed by J. P. in 2011, 2012, 2013.
 ***************************************************************/
 
 /**************************************************************

@@ -7,7 +7,7 @@ In case this is not legally possible, any entity is granted the
 right to use this work for any purpose, without any conditions, 
 unless such conditions are required by law.
 
-Developed by J.P. in 2011, 2012.
+Developed by J. P. in 2011, 2012, 2013.
 ***************************************************************/
 
 /**************************************************************
@@ -45,7 +45,20 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
 		echo tohtml($saveterm);
 		if ($show_rom || $show_trans)
 			echo '</span> ';
-	} else {
+	} elseif ($annplcmnt == 2) {
+		if ($show_rom || $show_trans) {
+			echo ' <ruby><rb><span class="anntermruby">' . tohtml($saveterm) . '</span></rb><rt> ';
+			if ($show_trans) 
+				echo '<span class="anntransruby">' . tohtml($savetrans) . '</span> ';
+			if ($show_rom  && (! $show_trans)) 
+				echo '<span class="annromrubysolo">' . tohtml($saverom) . '</span> ';
+			if ($show_rom && $show_trans) 
+				echo '<span class="annromruby" dir="ltr">[' . tohtml($saverom) . ']</span> ';
+			echo '</rt></ruby> ';
+		}	else {
+			echo tohtml($saveterm);
+		}
+	} else /* 0 or other */ {
 		if ($show_rom || $show_trans)
 			echo ' <span class="annterm">';
 		echo tohtml($saveterm);
@@ -59,7 +72,7 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
 				echo '<span class="anntrans">' . tohtml($savetrans) . '</span>';
 			echo ' ';
 		}	
-	}
+	} 
 }
 
 $textid = getreq('text')+0;
@@ -118,7 +131,7 @@ quickMenu();
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
 echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
-echo "<p id=\"printoptions\">Terms with <b>status(es)</b><select id=\"status\" onchange=\"{val=document.getElementById('status').options[document.getElementById('status').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;status=' + val;}\">";
+echo "<p id=\"printoptions\">Terms with <b>status(es)</b> <select id=\"status\" onchange=\"{val=document.getElementById('status').options[document.getElementById('status').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;status=' + val;}\">";
 echo get_wordstatus_selectoptions($status, true, true, false); 
 echo "</select> ...<br />will be <b>annotated</b> with "; 
 echo "<select id=\"ann\" onchange=\"{val=document.getElementById('ann').options[document.getElementById('ann').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;ann=' + val;}\">";
@@ -131,6 +144,7 @@ echo "<option value=\"7\"" . get_selected(7,$ann) . ">Romanization, Translation 
 echo "</select><select id=\"annplcmnt\" onchange=\"{val=document.getElementById('annplcmnt').options[document.getElementById('annplcmnt').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;annplcmnt=' + val;}\">";
 echo "<option value=\"0\"" . get_selected(0,$annplcmnt) . ">behind</option>";
 echo "<option value=\"1\"" . get_selected(1,$annplcmnt) . ">in front of</option>";
+echo "<option value=\"2\"" . get_selected(2,$annplcmnt) . ">above (ruby)</option>";
 echo "</select> the term.<br />";
 echo "<input type=\"button\" value=\"Print it!\" onclick=\"window.print();\" />  (only the text below the line)</p></div> <!-- noprint -->";
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
