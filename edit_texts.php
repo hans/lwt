@@ -350,7 +350,7 @@ if (isset($_REQUEST['new'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 	
-	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['chg'];
+	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, length(TxAnnotatedText) as annotlen from texts where TxID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
@@ -379,6 +379,12 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1 right">Text:</td>
 		<td class="td1">
 		<textarea <?php echo getScriptDirectionTag($record['TxLgID']); ?> name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		</td>
+		</tr>
+		<tr>
+		<td class="td1 right">Annotation:</td>
+		<td class="td1">
+		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> Exists (Will be lost if you change the text!)' : '<img src="icn/cross.png" title="No Annotation" alt="No Annotation" /> - None'); ?>
 		</td>
 		</tr>
 		<tr>
