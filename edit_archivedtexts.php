@@ -109,7 +109,7 @@ if (isset($_REQUEST['markaction'])) {
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$ida = $record['AtID'];
-						$mess = 0 + runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $ida, "");
+						$mess = 0 + runsql('insert into texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI from archivedtexts where AtID = ' . $ida, "");
 						$count += $mess;
 						$id = get_last_key();
 						runsql('insert into texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from archtexttags where AgAtID = ' . $ida, "");	
@@ -143,7 +143,7 @@ if (isset($_REQUEST['del'])) {
 // UNARCH
 
 elseif (isset($_REQUEST['unarch'])) {
-	$message2 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAudioURI from archivedtexts where AtID = ' . $_REQUEST['unarch'], "Texts added");
+	$message2 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI from archivedtexts where AtID = ' . $_REQUEST['unarch'], "Texts added");
 	$id = get_last_key();
 	runsql('insert into texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from archtexttags where AgAtID = ' . $_REQUEST['unarch'], "");	
 	splitText(
@@ -165,12 +165,17 @@ elseif (isset($_REQUEST['op'])) {
 	// UPDATE
 	
 	if ($_REQUEST['op'] == 'Change') {
+		$oldtext = get_first_value('select AtText as value from archivedtexts where AtID = ' . $_REQUEST["AtID"]);
+		$textsdiffer = (convert_string_to_sqlsyntax($_REQUEST["AtText"]) != convert_string_to_sqlsyntax($oldtext));
 		$message = runsql('update archivedtexts set ' .
 		'AtLgID = ' . $_REQUEST["AtLgID"] . ', ' .
 		'AtTitle = ' . convert_string_to_sqlsyntax($_REQUEST["AtTitle"]) . ', ' .
 		'AtText = ' . convert_string_to_sqlsyntax($_REQUEST["AtText"]) . ', ' .
 		'AtAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["AtAudioURI"]) . ' ' .
 		'where AtID = ' . $_REQUEST["AtID"], "Updated");
+		if (($message == 'Updated: 1') && $textsdiffer) {
+			$dummy = runsql("update archivedtexts set AtAnnotatedText = '' where AtID = " . $_REQUEST["AtID"], "");
+		}
 		$id = $_REQUEST["AtID"];
 	}
 	saveArchivedTextTags($id);
@@ -335,12 +340,12 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Mark</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
-<th class="th1 clickable">Title [Tags] / Audio?</th>
+<th class="th1 clickable">Title [Tags] / Audio, Annotation?</th>
 </tr>
 
 <?php
 
-$sql = 'select AtID, AtTitle, LgName, AtAudioURI, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((archivedtexts left JOIN archtexttags ON AtID = AgAtID) left join tags2 on T2ID = AgT2ID), languages where LgID=AtLgID ' . $wh_lang . $wh_query . ' group by AtID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select AtID, AtTitle, LgName, AtAudioURI, length(AtAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((archivedtexts left JOIN archtexttags ON AtID = AgAtID) left join tags2 on T2ID = AgT2ID), languages where LgID=AtLgID ' . $wh_lang . $wh_query . ' group by AtID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 
 if ($debug) echo $sql;
 
@@ -351,7 +356,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center"><a name="rec' . $record['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $record['AtID'] . '" ' . checkTest($record['AtID'], 'marked') . ' /></a></td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?unarch=' . $record['AtID'] . '"><img src="icn/inbox-upload.png" title="Unarchive" alt="Unarchive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['AtID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['AtID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;'  . (isset($record['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (isset($record['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . ($record['annotlen'] ? ' <img src="icn/tick.png" title="With Annotation" alt="With Annotation" />' : '') . '</td>';
 	echo '</tr>';
 }
 mysql_free_result($res);

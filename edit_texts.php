@@ -113,7 +113,7 @@ if (isset($_REQUEST['markaction'])) {
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$id = $record['TxID'];
-						$count += (0 + runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $id, ""));
+						$count += (0 + runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI from texts where TxID = ' . $id, ""));
 						$aid = get_last_key();
 						runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from texttags where TtTxID = ' . $id, "");	
 					}
@@ -204,7 +204,7 @@ elseif (isset($_REQUEST['arch'])) {
 		"Text items deleted");
 	$message2 = runsql('delete from sentences where SeTxID = ' . $_REQUEST['arch'], 
 		"Sentences deleted");
-	$message4 = runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAudioURI from texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
+	$message4 = runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI from texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
 	$id = get_last_key();
 	runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from texttags where TtTxID = ' . $_REQUEST['arch'], "");	
 	$message1 = runsql('delete from texts where TxID = ' . $_REQUEST['arch'], "Texts deleted");
@@ -252,12 +252,17 @@ elseif (isset($_REQUEST['op'])) {
 		// UPDATE
 		
 		elseif (substr($_REQUEST['op'],0,6) == 'Change') {
+			$oldtext = get_first_value('select TxText as value from texts where TxID = ' . $_REQUEST["TxID"]);
+			$textsdiffer = (convert_string_to_sqlsyntax($_REQUEST["TxText"]) != convert_string_to_sqlsyntax($oldtext));
 			$message1 = runsql('update texts set ' .
 			'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
 			'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
 			'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
 			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
 			'where TxID = ' . $_REQUEST["TxID"], "Updated");
+			if (($message1 == 'Updated: 1') && $textsdiffer) {
+				$dummy = runsql("update texts set TxAnnotatedText = '' where TxID = " . $_REQUEST["TxID"], "");
+			}
 			$id = $_REQUEST["TxID"];
 			saveTextTags($id);
 		}
@@ -505,7 +510,7 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
-<th class="th1 clickable">Title [Tags] / Audio?</th>
+<th class="th1 clickable">Title [Tags] / Audio, Annotation?</th>
 <th class="th1 sorttable_numeric clickable">Total<br />Words</th>
 <th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex</th>
 <th class="th1 sorttable_numeric clickable">Unkn.<br />Words</th>
@@ -514,7 +519,7 @@ Marked Texts:&nbsp;
 
 <?php
 
-$sql = 'select TxID, TxTitle, LgName, TxAudioURI, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((texts left JOIN texttags ON TxID = TtTxID) left join tags2 on T2ID = TtT2ID), languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select TxID, TxTitle, LgName, TxAudioURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((texts left JOIN texttags ON TxID = TtTxID) left join tags2 on T2ID = TtT2ID), languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
@@ -543,7 +548,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . ($record['annotlen'] ? ' <img src="icn/tick.png" title="With Annotation" alt="With Annotation" />' : '') . '</td>';
 	if ($showCounts) {
 		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>'; 
 		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $record['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';
