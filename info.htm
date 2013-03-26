@@ -197,7 +197,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.4.10 (February 22 2013)</b>.
+          <li>The current version is <b>1.5.0 (April ?? 2013)</b>.
           </li>
 
           <li>
@@ -1981,6 +1981,8 @@ with audioplayer", if needed.</li>
             <br />
             TxText text NOT NULL,
             <br />
+            TxAnnotatedText longtext NOT NULL DEFAULT '',
+            <br />
             TxAudioURI varchar(200) DEFAULT NULL,
             <br />
             PRIMARY KEY (TxID),
@@ -2000,6 +2002,8 @@ with audioplayer", if needed.</li>
             AtTitle varchar(200) NOT NULL,
             <br />
             AtText text NOT NULL,
+            <br />
+            AtAnnotatedText longtext NOT NULL DEFAULT '',
             <br />
             AtAudioURI varchar(200) DEFAULT NULL,
             <br />
@@ -2213,6 +2217,11 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
         
+        	<li>1.5.0 (April ?? 2013): 
+        	Better creation of annotated (interlinear) texts.
+        	 <br /><br />
+        	</li>
+
         	<li>1.4.10 (February 22 2013): 
         	New option in "Print" screen: annotation can now also be placed above the term (via <a href="http://en.wikipedia.org/wiki/Ruby_character" target="_blank">Ruby characters</a>). This is especially helpful for Chinese and Japanese, when annotating the text with the romanization (Pinyin, Hiragana, Katakana). Your browser must support ruby markup. Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/" target="_blank">HTML Ruby Add-On</a> to display ruby markup properly.<br />
         	Help document updated.

@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.4.10 (February 22 2013)'  . 
+	return '1.5.0 (April ?? 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -2391,7 +2391,7 @@ function check_update_db() {
 	
 	if (in_array('archivedtexts', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding archivedtexts</p>';
-		runsql("CREATE TABLE IF NOT EXISTS archivedtexts ( AtID int(11) unsigned NOT NULL AUTO_INCREMENT, AtLgID int(11) unsigned NOT NULL, AtTitle varchar(200) NOT NULL, AtText text NOT NULL, AtAudioURI varchar(200) DEFAULT NULL, PRIMARY KEY (AtID), KEY AtLgID (AtLgID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+		runsql("CREATE TABLE IF NOT EXISTS archivedtexts ( AtID int(11) unsigned NOT NULL AUTO_INCREMENT, AtLgID int(11) unsigned NOT NULL, AtTitle varchar(200) NOT NULL, AtText text NOT NULL, AtAnnotatedText LONGTEXT NOT NULL, AtAudioURI varchar(200) DEFAULT NULL, PRIMARY KEY (AtID), KEY AtLgID (AtLgID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array('languages', $tables) == FALSE) {
@@ -2418,7 +2418,7 @@ function check_update_db() {
 	
 	if (in_array('texts', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding texts</p>';
-		runsql("CREATE TABLE IF NOT EXISTS texts ( TxID int(11) unsigned NOT NULL AUTO_INCREMENT, TxLgID int(11) unsigned NOT NULL, TxTitle varchar(200) NOT NULL, TxText text NOT NULL, TxAudioURI varchar(200) DEFAULT NULL, PRIMARY KEY (TxID), KEY TxLgID (TxLgID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+		runsql("CREATE TABLE IF NOT EXISTS texts ( TxID int(11) unsigned NOT NULL AUTO_INCREMENT, TxLgID int(11) unsigned NOT NULL, TxTitle varchar(200) NOT NULL, TxText text NOT NULL, TxAnnotatedText LONGTEXT NOT NULL, TxAudioURI varchar(200) DEFAULT NULL, PRIMARY KEY (TxID), KEY TxLgID (TxLgID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array('words', $tables) == FALSE) {
@@ -2507,6 +2507,12 @@ function check_update_db() {
 			// New: Table "texttags", created above
 			// New: Table "archtexttags", created above
 			runsql("ALTER TABLE languages ADD LgRightToLeft INT(1) UNSIGNED NOT NULL DEFAULT  0",'');
+		}
+		if ($currversion > 'v001004010') {
+			if ($debug) echo '<p>DEBUG: Doing db-upgrade ' . $currversion . ' &gt; v001004010</p>';
+			// updates for all versions > 1.4.10 :
+			runsql("ALTER TABLE texts ADD TxAnnotatedText LONGTEXT NOT NULL AFTER TxText",'');
+			runsql("ALTER TABLE archivedtexts ADD AtAnnotatedText LONGTEXT NOT NULL AFTER AtText",'');
 		}
 		// set to current.
 		saveSetting('dbversion',$currversion);
