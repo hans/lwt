@@ -516,7 +516,7 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
-<th class="th1 clickable">Title [Tags] / Audio, Annotation?</th>
+<th class="th1 clickable">Title [Tags] / Audio: <img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />, Annotation: <img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> ?</th>
 <th class="th1 sorttable_numeric clickable">Total<br />Words</th>
 <th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex</th>
 <th class="th1 sorttable_numeric clickable">Unkn.<br />Words</th>

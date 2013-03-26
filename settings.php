@@ -82,6 +82,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-text-visit-statuses-via-key',
 		$_REQUEST['set-text-visit-statuses-via-key']);
 	
+		saveSetting('set-term-translation-delimiters',
+		$_REQUEST['set-term-translation-delimiters']);
+	
 		$message = 'Settings saved';
 	
 	} else {
@@ -242,6 +245,16 @@ getSettingWithDefault('set-term-sentence-count'));
 ?>
 </select>
 </td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<th class="th1 center">Term<br />Translations</th>
+<td class="td1 center">List of characters that<br />delimit different translations<br />(used in annotation selection)</td>
+<td class="td1 center">
+<input class="notempty center" type="text" 
+name="set-term-translation-delimiters" 
+value="<?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>" maxlength="8" size="8" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->
