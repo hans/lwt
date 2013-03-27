@@ -146,7 +146,11 @@ echo "<option value=\"0\"" . get_selected(0,$annplcmnt) . ">behind</option>";
 echo "<option value=\"1\"" . get_selected(1,$annplcmnt) . ">in front of</option>";
 echo "<option value=\"2\"" . get_selected(2,$annplcmnt) . ">above (ruby)</option>";
 echo "</select> the term.<br />";
-echo "<input type=\"button\" value=\"Print it!\" onclick=\"window.print();\" />  (only the text below the line)</p></div> <!-- noprint -->";
+echo "<input type=\"button\" value=\"Print it!\" onclick=\"window.print();\" />  (only the text below the line)";
+if ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0) {
+	echo " &nbsp; | &nbsp; Or <input type=\"button\" value=\"Print/Edit\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> your improved Annotation.";
+}
+echo "</p></div> <!-- noprint -->";
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
