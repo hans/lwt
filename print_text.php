@@ -149,6 +149,8 @@ echo "</select> the term.<br />";
 echo "<input type=\"button\" value=\"Print it!\" onclick=\"window.print();\" />  (only the text below the line)";
 if ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0) {
 	echo " &nbsp; | &nbsp; Or <input type=\"button\" value=\"Print/Edit\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> your improved Annotation.";
+} else {
+	echo " &nbsp; | &nbsp; Or <input type=\"button\" value=\"Create/Print\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" /> an improved Annotation.";
 }
 echo "</p></div> <!-- noprint -->";
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
