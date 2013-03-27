@@ -384,7 +384,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<tr>
 		<td class="td1 right">Annotation:</td>
 		<td class="td1">
-		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> Exists (Will be lost if you change the text!)' : '<img src="icn/cross.png" title="No Annotation" alt="No Annotation" /> - None'); ?>
+		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> Exists (Will be lost if you change the text!) | <input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Annotation" alt="No Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
 		</td>
 		</tr>
 		<tr>

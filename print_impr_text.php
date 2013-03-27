@@ -60,9 +60,9 @@ echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
 echo "<p id=\"printoptions\">";
 if($editmode) {
-	echo "<input type=\"button\" value=\"Finish Editing and Display/Print\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />";
+	echo "<input type=\"button\" value=\"Finish Editing and Display/Print...\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />";
 } else {
-	echo "<input type=\"button\" value=\"Edit Annotations\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" /> &nbsp; | &nbsp; ";
+	echo "<input type=\"button\" value=\"Edit Annotations...\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" /> &nbsp; | &nbsp; ";
 	echo "<input type=\"button\" value=\"Print\" onclick=\"window.print();\" />  (only the text below the line)";
 }
 echo "</p></div> <!-- noprint -->";
