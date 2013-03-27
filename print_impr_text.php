@@ -20,6 +20,13 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
+function process_term($savenonterm, $saveterm, $savetrans) {
+	$savenonterm = trim($savenonterm);
+	if ($savenonterm != '') echo "NON: '" . tohtml($savenonterm) . "'<br />";
+	$saveterm = trim($saveterm);
+	if ($saveterm != '') echo "TRM: '" . tohtml($saveterm) . "' / '" . tohtml($savetrans) . "'<br />";
+}
+
 $editmode = getreq('edit')+0;
 $textid = getreq('text')+0;
 if($textid==0) {
@@ -66,11 +73,51 @@ if($editmode) {
 	echo "<input type=\"button\" value=\"Print\" onclick=\"window.print();\" />  (only the text below the line)";
 }
 echo "</p></div> <!-- noprint -->";
+
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 
 echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
-echo 'The Text ...';
+$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+
+$savenonterm = '';
+$saveterm = '';
+$savetrans = '';
+$until = 0;
+
+$res = mysql_query($sql);		
+if ($res == FALSE) die("Invalid Query: $sql");
+
+while ($record = mysql_fetch_assoc($res)) {
+
+	$actcode = $record['Code'] + 0;
+	$order = $record['TiOrder'] + 0;
+	
+	if ( $order <= $until ) {
+		continue;
+	}
+	if ( $order > $until ) {
+		process_term($savenonterm, $saveterm, $savetrans);
+		$savenonterm = '';
+		$saveterm = '';
+		$savetrans = '';
+		$until = $order;
+	}
+	if ($record['TiIsNotWord'] != 0) {
+		$savenonterm = $savenonterm . $record['TiText'];
+	}
+	else {
+		$until = $order + 2 * ($actcode-1);                
+		$saveterm = $record['TiText'];
+		$savetrans = '';
+		if(isset($record['WoID'])) {
+			$savetrans = $record['WoTranslation'];
+			if ($savetrans == '*') $savetrans = '?';
+		}
+	}
+} // while
+mysql_free_result($res);
+process_term($savenonterm, $saveterm, $savetrans);
 
 echo "</p></div>";
 
