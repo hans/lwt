@@ -20,15 +20,27 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
-function process_term($savenonterm, $saveterm, $savetrans) {
-	$savenonterm = trim($savenonterm);
-	if ($savenonterm != '') echo "NON: '" . tohtml($savenonterm) . "'<br />";
-	$saveterm = trim($saveterm);
-	if ($saveterm != '') echo "TRM: '" . tohtml($saveterm) . "' / '" . tohtml($savetrans) . "'<br />";
+function process_term($nonterm, $term, $trans, $wordid) {
+	$r = '';
+	if ($nonterm != '') $r = $r . "0\t" . $nonterm . "\n";
+	if ($term != '') $r = $r . "1\t" . $term . "\t" . trim($wordid) . "\t" . get_first_translation($trans) . "\n";
+	return $r;
 }
 
-$editmode = getreq('edit')+0;
+function get_first_translation($trans) {
+	static $sepa;
+	if (!$sepa) {
+		$sepa = preg_quote(getSettingWithDefault('set-term-translation-delimiters'),'/');
+	}
+	$arr = preg_split('/[' . $sepa  . ']/u', $trans);
+	if (count($arr) < 1) return '';
+	return trim($arr[0]);
+}
+
 $textid = getreq('text')+0;
+$editmode = getreq('edit')+0;
+$ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0);
+
 if($textid==0) {
 	header("Location: edit_texts.php");
 	exit();
@@ -74,52 +86,101 @@ if($editmode) {
 }
 echo "</p></div> <!-- noprint -->";
 
-echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
+if ( $editmode ) {  // Edit Mode
 
-echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
-
-$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
-
-$savenonterm = '';
-$saveterm = '';
-$savetrans = '';
-$until = 0;
-
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
-
-while ($record = mysql_fetch_assoc($res)) {
-
-	$actcode = $record['Code'] + 0;
-	$order = $record['TiOrder'] + 0;
+	if ( ! $ann_exists ) {  // No Ann., Create...
 	
-	if ( $order <= $until ) {
-		continue;
-	}
-	if ( $order > $until ) {
-		process_term($savenonterm, $saveterm, $savetrans);
+		$ann = '';
+	
+		$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+		
 		$savenonterm = '';
 		$saveterm = '';
 		$savetrans = '';
-		$until = $order;
+		$savewordid = '';
+		$until = 0;
+		
+		$res = mysql_query($sql);		
+		if ($res == FALSE) die("Invalid Query: $sql");
+		
+		while ($record = mysql_fetch_assoc($res)) {
+		
+			$actcode = $record['Code'] + 0;
+			$order = $record['TiOrder'] + 0;
+			
+			if ( $order <= $until ) {
+				continue;
+			}
+			if ( $order > $until ) {
+				$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid);
+				$savenonterm = '';
+				$saveterm = '';
+				$savetrans = '';
+				$savewordid = '';
+				$until = $order;
+			}
+			if ($record['TiIsNotWord'] != 0) {
+				$savenonterm = $savenonterm . $record['TiText'];
+			}
+			else {
+				$until = $order + 2 * ($actcode-1);                
+				$saveterm = $record['TiText'];
+				$savetrans = '';
+				if(isset($record['WoID'])) {
+					$savetrans = $record['WoTranslation'];
+					$savewordid = $record['WoID'];
+				}
+			}
+		} // while
+		mysql_free_result($res);
+		$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid);
+		
+		$dummy = runsql('update texts set ' .
+			'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
+			
+		$ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0);
+		
 	}
-	if ($record['TiIsNotWord'] != 0) {
-		$savenonterm = $savenonterm . $record['TiText'];
+	
+	if ( ! $ann_exists ) {  // No Ann., not possible
+	
+		echo "<p>No Annotation found, and creation not possible.</p>";
+	
+	} else { // Ann. exists, set up for editing.
+	
+	
 	}
-	else {
-		$until = $order + 2 * ($actcode-1);                
-		$saveterm = $record['TiText'];
-		$savetrans = '';
-		if(isset($record['WoID'])) {
-			$savetrans = $record['WoTranslation'];
-			if ($savetrans == '*') $savetrans = '?';
+
+}
+
+else {  // Print Mode
+
+	echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
+	
+	echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
+
+	$ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
+	
+	$items = preg_split('/[\n]/u', $ann);
+	
+	foreach ($items as $item) {
+		$vals = preg_split('/[\t]/u', $item);
+		if ($vals[0] == 1) {
+			$trans = '';
+			if (count($vals) > 3) $trans = $vals[3];
+			if ($trans == '*') $trans = '[' . $vals[1] . ']';
+			echo '<ruby><rb><span class="anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class="anntransruby">' . tohtml($trans) . '</span></rt></ruby> ';
+		} else {
+			echo str_replace(
+			"¶",
+			'</p><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
+			tohtml($vals[1]));
 		}
 	}
-} // while
-mysql_free_result($res);
-process_term($savenonterm, $saveterm, $savetrans);
+	
+	echo "</p></div>";
 
-echo "</p></div>";
+}
 
 pageend();
 
