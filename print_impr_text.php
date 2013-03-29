@@ -12,7 +12,8 @@ Developed by J. P. in 2011, 2012, 2013.
 
 /**************************************************************
 Call: print_impr_text.php?text=[textid]&...
-			... edit=1 ... edit mode 
+			... edit=1 ... edit own annotation 
+			... del=1  ... delete own annotation 
 Print/Edit an improved annotated text
 ***************************************************************/
 
