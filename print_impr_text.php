@@ -39,11 +39,22 @@ function get_first_translation($trans) {
 
 $textid = getreq('text')+0;
 $editmode = getreq('edit')+0;
+$delmode = getreq('del')+0;
 $ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0);
 
 if($textid==0) {
 	header("Location: edit_texts.php");
 	exit();
+}
+
+if ( $delmode ) {  // Delete
+	if ( $ann_exists ) $dummy = runsql('update texts set ' .
+			'TxAnnotatedText = ' . convert_string_to_sqlsyntax("") . ' where TxID = ' . $textid, "");
+	$ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0);
+	if ( ! $ann_exists ) {
+		header("Location: print_text.php?text=" . $textid);
+		exit();
+	}
 }
 
 $sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
@@ -81,10 +92,14 @@ echo "<p id=\"printoptions\">";
 if($editmode) {
 	echo "<input type=\"button\" value=\"Finish Editing and Display/Print...\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />";
 } else {
-	echo "<input type=\"button\" value=\"Edit Annotations...\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" /> &nbsp; | &nbsp; ";
+	echo "<input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
+	echo " &nbsp; | &nbsp; ";
+	echo "<input type=\"button\" value=\"Delete\" onclick=\"location.href='print_impr_text.php?del=1&amp;text=" . $textid . "';\" /> ";
+	echo " &nbsp; | &nbsp; ";
 	echo "<input type=\"button\" value=\"Print\" onclick=\"window.print();\" />  (only the text below the line)";
 }
 echo "</p></div> <!-- noprint -->";
+
 
 if ( $editmode ) {  // Edit Mode
 
