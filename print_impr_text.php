@@ -20,6 +20,20 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
+function make_trans($i, $wid, $trans) {
+	if (is_numeric($wid)) {
+		$alltrans = get_first_value("select WoTranslation as value from words where WoID = " . $wid);
+		$transarr = preg_split('/[' . get_sepas()  . ']/u', $alltrans);
+		$r = "";
+		foreach ($transarr as $t) {
+			$tt = trim($t);
+			$r .= '<input ' . (($tt == trim($trans)) ? 'checked="checked" ' : '') . 'type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" /> ' . tohtml($tt) . ' &nbsp; ';
+		}
+		return $r;
+	}
+	return tohtml($trans);
+}
+
 function process_term($nonterm, $term, $trans, $wordid) {
 	$r = '';
 	if ($nonterm != '') $r = $r . "0\t" . $nonterm . "\n";
@@ -28,19 +42,24 @@ function process_term($nonterm, $term, $trans, $wordid) {
 }
 
 function get_first_translation($trans) {
+	$arr = preg_split('/[' . get_sepas()  . ']/u', $trans);
+	if (count($arr) < 1) return '';
+	return trim($arr[0]);
+}
+
+function get_sepas() {
 	static $sepa;
 	if (!$sepa) {
 		$sepa = preg_quote(getSettingWithDefault('set-term-translation-delimiters'),'/');
 	}
-	$arr = preg_split('/[' . $sepa  . ']/u', $trans);
-	if (count($arr) < 1) return '';
-	return trim($arr[0]);
+	return $sepa;
 }
 
 $textid = getreq('text')+0;
 $editmode = getreq('edit')+0;
 $delmode = getreq('del')+0;
-$ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0);
+$ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
+$ann_exists = (strlen($ann) > 0);
 
 if($textid==0) {
 	header("Location: edit_texts.php");
@@ -100,6 +119,7 @@ if($editmode) {
 }
 echo "</p></div> <!-- noprint -->";
 
+// --------------------------------------------------------
 
 if ( $editmode ) {  // Edit Mode
 
@@ -153,7 +173,7 @@ if ( $editmode ) {  // Edit Mode
 		$dummy = runsql('update texts set ' .
 			'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
 			
-		$ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0);
+		$ann_exists = (strlen($ann) > 0);
 		
 	}
 	
@@ -162,8 +182,58 @@ if ( $editmode ) {  // Edit Mode
 		echo "<p>No Annotation found, and creation not possible.</p>";
 	
 	} else { // Ann. exists, set up for editing.
+
+?>
 	
+<table class="tab1" cellspacing="0" cellpadding="5">
+<tr>
+<th class="th1 center">Term</th>
+<th class="th1 center">Translations</th>
+</tr>
+
+<?php	
+
+		$items = preg_split('/[\n]/u', $ann);
+		$i = 0;
+		foreach ($items as $item) {
+			$i++;
+			$vals = preg_split('/[\t]/u', $item);
+			if ($vals[0] == 1) {
+				$id = '';
+				$trans = '';
+				if (count($vals) > 2) $id = $vals[2];
+				if (count($vals) > 3) $trans = $vals[3];
+?>
 	
+<tr>
+<td class="td1 center"><?php echo tohtml($vals[1]); ?></td>
+<td class="td1"><?php echo make_trans($i, $id, $trans); ?></td>
+</tr>
+
+<?php
+
+			} else {
+				if (trim($vals[1]) != '') {
+				
+?>
+	
+<tr>
+<td class="td1 center"><?php echo str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($vals[1])); ?></td>
+<td class="td1">&nbsp;</td>
+</tr>
+
+<?php
+
+				}
+			}
+		}
+
+?>
+	
+</table>
+
+<?php	
+
 	}
 
 }
@@ -173,8 +243,6 @@ else {  // Print Mode
 	echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 	
 	echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
-
-	$ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 	
 	$items = preg_split('/[\n]/u', $ann);
 	
