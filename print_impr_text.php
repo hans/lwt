@@ -28,11 +28,12 @@ function make_trans($i, $wid, $trans) {
 		$r = "";
 		foreach ($transarr as $t) {
 			$tt = trim($t);
-			$r .= '<input ' . (($tt == trim($trans)) ? 'checked="checked" ' : '') . 'type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" /> ' . tohtml($tt) . ' &nbsp; ';
+			$r .= '<input ' . (($tt == trim($trans)) ? 'checked="checked" ' : '') . 'type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
 		}
+		$r .= '<input type="radio" name="rg' . $i . '" value="" />&nbsp;<input type="text" name="tx' . $i . '" value="" />';
 		return $r;
 	}
-	return tohtml($trans);
+	return '<input checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input type="text" name="tx' . $i . '" value="" />';
 }
 
 function process_term($nonterm, $term, $trans, $wordid) {
@@ -108,11 +109,12 @@ quickMenu();
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
 echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
-echo "<p id=\"printoptions\">";
+echo "<p id=\"printoptions\"><b>Improved Annotation";
+
 if($editmode) {
-	echo "<input type=\"button\" value=\"Finish Editing and Display/Print...\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />";
+	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Cancel (Don't Save)\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> &nbsp; | &nbsp; <input type=\"button\" value=\"Save\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />";
 } else {
-	echo "<input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
+	echo " (Display/Print Mode)</b><br /><input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
 	echo " &nbsp; | &nbsp; ";
 	echo "<input type=\"button\" value=\"Delete\" onclick=\"location.href='print_impr_text.php?del=1&amp;text=" . $textid . "';\" /> ";
 	echo " &nbsp; | &nbsp; ";
@@ -188,12 +190,13 @@ if ( $editmode ) {  // Edit Mode
 	
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
+<th class="th1 center">Non-Term</th>
 <th class="th1 center">Term</th>
-<th class="th1 center">Translations</th>
+<th class="th1 center">Term Translations</th>
 </tr>
 
 <?php	
-
+		$nonterms = "";
 		$items = preg_split('/[\n]/u', $ann);
 		$i = 0;
 		foreach ($items as $item) {
@@ -207,26 +210,27 @@ if ( $editmode ) {  // Edit Mode
 ?>
 	
 <tr>
+<td class="td1 center"><?php if(trim($nonterms) != "") echo str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($nonterms)); else echo "&nbsp;"; ?></td>
 <td class="td1 center"><?php echo tohtml($vals[1]); ?></td>
 <td class="td1"><?php echo make_trans($i, $id, $trans); ?></td>
 </tr>
 
 <?php
-
+				$nonterms = "";
 			} else {
-				if (trim($vals[1]) != '') {
-				
+				$nonterms .= $vals[1];
+			}
+		}
+		if ($nonterms != "") {
 ?>
 	
 <tr>
-<td class="td1 center"><?php echo str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($vals[1])); ?></td>
+<td class="td1 center"><?php if(trim($nonterms) != "") echo str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($nonterms)); else echo "&nbsp;"; ?></td>
+<td class="td1 center">&nbsp;</td>
 <td class="td1">&nbsp;</td>
 </tr>
 
 <?php
-
-				}
-			}
 		}
 
 ?>
