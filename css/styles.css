@@ -370,6 +370,9 @@ dt {
 	margin-bottom: 0px;
 	margin-left: 2px;
 }
+.editable_textarea {
+	display: inline;
+}
 
 /**************************************************************
 Additional styles for printing

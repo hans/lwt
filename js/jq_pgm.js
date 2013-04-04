@@ -394,6 +394,15 @@ function do_ajax_word_counts() {
 }
 
 $(document).ready( function() {
+	$('.edit_area').editable('inline_edit.php', { 
+			type      : 'textarea',
+      indicator : '<img src="icn/indicator.gif">',
+      tooltip   : 'Click to edit...',
+      submit    : 'Save',
+      cancel    : 'Cancel',
+      rows      : 3,
+      cols      : 30
+  });
 	$('input.othertext').change(changeOtherText);
 	$('form.validate').submit(check);
 	$('input.markcheck').click(markClick);

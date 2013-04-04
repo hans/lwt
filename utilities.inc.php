@@ -475,6 +475,7 @@ Developed by J. P. in 2011, 2012, 2013.
 	<script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
 	<script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery.jeditable.mini.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/sorttable/sorttable.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
