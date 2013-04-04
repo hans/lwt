@@ -22,18 +22,30 @@ include "settings.inc.php";
 include "utilities.inc.php";
 
 function make_trans($i, $wid, $trans) {
+	$trans = trim($trans);
 	if (is_numeric($wid)) {
 		$alltrans = get_first_value("select WoTranslation as value from words where WoID = " . $wid);
 		$transarr = preg_split('/[' . get_sepas()  . ']/u', $alltrans);
 		$r = "";
+		$set = false;
 		foreach ($transarr as $t) {
 			$tt = trim($t);
-			$r .= '<input ' . (($tt == trim($trans)) ? 'checked="checked" ' : '') . 'type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
+			if (($tt == '*') || ($tt == '')) continue;
+			if ((! $set) && ($tt == $trans)) {
+				$set = true;
+				$r .= '<input checked="checked" type="radio" name="rg[' . $i . ']" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
+			} else {
+				$r .= '<input type="radio" name="rg[' . $i . ']" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
+			}
 		}
-		$r .= '<input type="radio" name="rg' . $i . '" value="" />&nbsp;<input type="text" name="tx' . $i . '" value="" />';
+		if (! $set) {
+			$r .= '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input type="text" name="tx[' . $i . ']" value="' . tohtml($trans) . '" />';
+		} else {
+			$r .= '<input type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input type="text" name="tx[' . $i . ']" value="" />';
+		}
 		return $r;
 	}
-	return '<input checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input type="text" name="tx' . $i . '" value="" />';
+	return '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input type="text" name="tx[' . $i . ']" value="" />';
 }
 
 function process_term($nonterm, $term, $trans, $wordid) {
@@ -46,7 +58,9 @@ function process_term($nonterm, $term, $trans, $wordid) {
 function get_first_translation($trans) {
 	$arr = preg_split('/[' . get_sepas()  . ']/u', $trans);
 	if (count($arr) < 1) return '';
-	return trim($arr[0]);
+	$r = trim($arr[0]);
+	if ($r == '*') $r ="";
+	return $r;
 }
 
 function get_sepas() {
@@ -60,6 +74,7 @@ function get_sepas() {
 $textid = getreq('text')+0;
 $editmode = getreq('edit')+0;
 $delmode = getreq('del')+0;
+$savemode = getreq('op') . '';
 $ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 
@@ -76,6 +91,36 @@ if ( $delmode ) {  // Delete
 		header("Location: print_text.php?text=" . $textid);
 		exit();
 	}
+}
+
+if ($savemode == "Save") {
+		// Save data ...
+		$items = preg_split('/[\n]/u', $ann);
+		$i = 0;
+		foreach ($items as $item) {
+			$i++;
+			$vals = preg_split('/[\t]/u', $item);
+			if ($vals[0] == 1) {
+				$newtran = "";
+				if(isset($_REQUEST['rg'][$i])) {
+					$newtran = $_REQUEST['rg'][$i];
+				} 
+				if(trim($newtran) == "" && isset($_REQUEST['tx'][$i])) {
+						$newtran = $_REQUEST['tx'][$i];
+				}
+				$c = count($vals);
+				if($c == 2) {
+					$vals[2] = ''; $vals[3] = $newtran;
+				} elseif ($c > 2) {
+					$vals[3] = $newtran;
+				} 
+				$items[$i-1] = implode("\t",$vals);
+			}
+		}
+		$dummy = runsql('update texts set ' .
+			'TxAnnotatedText = ' . convert_string_to_sqlsyntax(implode("\n",$items)) . ' where TxID = ' . $textid, "");
+		header("Location: print_impr_text.php?text=" . $textid);
+		exit();
 }
 
 $sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
@@ -99,6 +144,7 @@ saveSetting('currenttext',$textid);
 
 pagestart_nobody('Print');
 
+echo '<form name="editann" action="' . $_SERVER['PHP_SELF'] . '?text=' . $textid . '" method="post">' . "\n";
 echo '<div id="noprint">';
 
 echo '<h4>';
@@ -112,7 +158,7 @@ echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 echo "<p id=\"printoptions\"><b>Improved Annotation";
 
 if($editmode) {
-	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Cancel (Don't Save)\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> &nbsp; | &nbsp; <input type=\"button\" value=\"Save\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />";
+	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Cancel (Don't Save)\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> &nbsp; | &nbsp; <input type=\"submit\" name=\"op\" value=\"Save\" />";
 } else {
 	echo " (Display/Print Mode)</b><br /><input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
 	echo " &nbsp; | &nbsp; ";
@@ -238,6 +284,7 @@ if ( $editmode ) {  // Edit Mode
 </table>
 
 <?php	
+	echo "<input type=\"button\" value=\"Cancel (Don't Save)\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> &nbsp; | &nbsp; <input type=\"submit\" name=\"op\" value=\"Save\" />";
 
 	}
 
@@ -269,6 +316,8 @@ else {  // Print Mode
 	echo "</p></div>";
 
 }
+
+echo "</form>";
 
 pageend();
 
