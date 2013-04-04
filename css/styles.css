@@ -317,6 +317,12 @@ dt {
 	font-style: normal;
 	word-break: normal;
 }
+.anntransruby2 {
+	color: #006699;
+	font-size: 125%;
+	font-style: normal;
+	word-break: normal;
+}
 #footer {
 	bottom: 0;
 	position: absolute;
