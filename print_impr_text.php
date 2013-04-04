@@ -39,13 +39,13 @@ function make_trans($i, $wid, $trans) {
 			}
 		}
 		if (! $set) {
-			$r .= '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input type="text" name="tx[' . $i . ']" value="' . tohtml($trans) . '" />';
+			$r .= '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="' . tohtml($trans) . '" />';
 		} else {
-			$r .= '<input type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input type="text" name="tx[' . $i . ']" value="" />';
+			$r .= '<input type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="" />';
 		}
 		return $r;
 	}
-	return '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input type="text" name="tx[' . $i . ']" value="" />';
+	return '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="' . tohtml($trans) . '" />';
 }
 
 function process_term($nonterm, $term, $trans, $wordid) {
@@ -94,7 +94,7 @@ if ( $delmode ) {  // Delete
 }
 
 if ($savemode == "Save") {
-		// Save data ...
+		// Save data and print
 		$items = preg_split('/[\n]/u', $ann);
 		$i = 0;
 		foreach ($items as $item) {

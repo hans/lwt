@@ -43,6 +43,10 @@ function getUTF8Length(string) {
 	}
 	return utf8length;
 }
+
+function changeOtherText() {
+	$(this).prev('input:radio').attr('checked', 'checked');
+}
  
 function check() {
 	var count = 0;
@@ -390,6 +394,7 @@ function do_ajax_word_counts() {
 }
 
 $(document).ready( function() {
+	$('input.othertext').change(changeOtherText);
 	$('form.validate').submit(check);
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);
