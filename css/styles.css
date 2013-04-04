@@ -211,6 +211,9 @@ img {
 .bigger {
 	font-size: 130%;
 }
+.smaller {
+	font-size: 80%;
+}
 .backgray {
 	background-color: #DDDDDD;
 }

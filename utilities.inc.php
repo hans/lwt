@@ -1572,6 +1572,30 @@ function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs) {
 
 // -------------------------------------------------------------
 
+function makeDictLinks($lang,$wordctljs) {
+	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from languages where LgID = ' . $lang;
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid Query: $sql");
+	$record = mysql_fetch_assoc($res);
+	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
+	if(substr($wb1,0,1) == '*') $wb1 = substr($wb1,1);
+	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
+	if(substr($wb2,0,1) == '*') $wb2 = substr($wb2,1);
+	$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
+	if(substr($wb3,0,1) == '*') $wb3 = substr($wb3,1);
+	mysql_free_result($res);
+	$r ='<span class="smaller">';
+	$r .= '<span class="click" onclick="translateWord3(' . prepare_textdata_js($wb1) . ',' . $wordctljs . ');">[1]</span> ';
+	if ($wb2 != "") 
+		$r .= '<span class="click" onclick="translateWord3(' . prepare_textdata_js($wb2) . ',' . $wordctljs . ');">[2]</span> ';
+	if ($wb3 != "") 
+		$r .= '<span class="click" onclick="translateWord3(' . prepare_textdata_js($wb3) . ',' . $wordctljs . ');">[G]</span>'; 
+	$r .= '</span>';
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function createDictLinksInEditWin3($lang,$sentctljs,$wordctljs) {
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		

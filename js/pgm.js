@@ -339,6 +339,10 @@ function translateWord2(url,wordctl) {
 	}
 }
 
+function translateWord3(url,word) {
+	owin ( createTheDictUrl(url, word) );
+}
+
 function make_tooltip(word,trans,roman,status) {
 	var nl = '\x0d';
 	var title = word;
