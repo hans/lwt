@@ -276,6 +276,7 @@ if ( $editmode ) {  // Edit Mode
 <td class="td1 center"><?php if(trim($nonterms) != "") echo str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($nonterms)); else echo "&nbsp;"; ?></td>
 <td class="td1 center">&nbsp;</td>
 <td class="td1">&nbsp;</td>
+<td class="td1">&nbsp;</td>
 </tr>
 
 <?php
