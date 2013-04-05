@@ -401,7 +401,7 @@ $(document).ready( function() {
       submit    : 'Save',
       cancel    : 'Cancel',
       rows      : 3,
-      cols      : 30
+      cols      : 35
   });
 	$('input.othertext').change(changeOtherText);
 	$('form.validate').submit(check);

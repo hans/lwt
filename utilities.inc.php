@@ -1746,11 +1746,10 @@ function tsv_export($sql) {
 // -------------------------------------------------------------
 
 function repl_tab_nl($s) {
-	return str_replace("\r",' ',
-		str_replace("\n",' ',
-		str_replace("\r\n",' ',
-		str_replace("\t",' ',$s)
-		)));
+	$s = str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $s);
+	$s = preg_replace('/\s/u', ' ', $s);
+	$s = preg_replace('/\s{2,}/u', ' ', $s);
+	return trim($s);
 }
 
 // -------------------------------------------------------------

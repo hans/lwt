@@ -150,6 +150,9 @@ th.clickable {
 	cursor: pointer;
 	color: #C00000;
 }
+.clickedit {
+	cursor: pointer;
+}
 .hide {
 	display: none;
 }
