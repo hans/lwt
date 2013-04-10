@@ -258,7 +258,17 @@ if ( $editmode ) {  // Edit Mode
 	
 <tr>
 <td class="td1 center"><?php if(trim($nonterms) != "") echo str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($nonterms)); else echo "&nbsp;"; ?></td>
+<?php
+				if ($id == '') {
+?>
 <td class="td1 center"><span id="term<?php echo $i; ?>"><?php echo tohtml($vals[1]); ?></span></td>
+<?php
+				} else {
+?>
+<td class="td1 center"><span class="click" id="term<?php echo $i; ?>" onclick="oewin('edit_word.php?fromAnn=yes&amp;wid=<?php echo $id; ?>');"><?php echo tohtml($vals[1]); ?></span></td>
+<?php
+				}
+?>
 <td class="td1"><?php echo make_trans($i, $id, $trans); ?></td>
 <td class="td1" nowrap="nowrap"><?php echo makeDictLinks($langid,prepare_textdata_js($vals[1])); ?></td>
 </tr>
@@ -284,6 +294,12 @@ if ( $editmode ) {  // Edit Mode
 
 ?>
 	
+<tr>
+<th class="th1 center">Non-Term</th>
+<th class="th1 center">Term</th>
+<th class="th1 center">Term Translations</th>
+<th class="th1 center">Dict</th>
+</tr>
 </table>
 
 <?php	
