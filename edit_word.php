@@ -14,6 +14,7 @@ Developed by J. P. in 2011, 2012, 2013.
 Call: edit_word.php?....
       ... op=Save ... do insert new
       ... op=Change ... do update
+      ... fromAnn=yes ... calling from impr. annotaion editing
       ... tid=[textid]&ord=[textpos]&wid= ... new word  
       ... tid=[textid]&ord=[textpos]&wid=[wordid] ... edit word 
 New/Edit single word
@@ -26,6 +27,8 @@ include "utilities.inc.php";
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));
 if ( $translation_raw == '' ) $translation = '*';
 else $translation = $translation_raw;
+
+$fromAnn = getreq("fromAnn"); // 'yes' or empty
 
 // INS/UPD
 
@@ -99,14 +102,20 @@ make_score_random_insert_update('id') . ')', "Term saved");
 		exit();
 	
 	}
-	
-	
+		
 	?>
 	
 	<p>OK: <?php echo tohtml($message); ?></p>
 	
 <script type="text/javascript">
 //<![CDATA[
+<?php
+if ($fromAnn == 'yes') {
+?>
+window.opener.location.reload();
+<?php
+} else {
+?>
 var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
@@ -128,6 +137,9 @@ $('.word' + woid, context).removeClass('status<?php echo $_REQUEST['WoOldStatus'
 $('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
+<?php
+}  // $fromAnn == 'yes'
+?>
 //]]>
 </script>
 	
@@ -193,6 +205,7 @@ else {  // if (! isset($_REQUEST['op']))
 ?>
 	
 		<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+		<input type="hidden" name="fromAnn" value="<?php echo $fromAnn; ?>" />
 		<input type="hidden" name="WoLgID" value="<?php echo $lang; ?>" />
 		<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
 		<input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
@@ -261,6 +274,7 @@ else {  // if (! isset($_REQUEST['op']))
 			?>
 		
 			<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+			<input type="hidden" name="fromAnn" value="<?php echo $fromAnn; ?>" />
 			<input type="hidden" name="WoID" value="<?php echo $wid; ?>" />
 			<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
 			<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
@@ -298,7 +312,9 @@ else {  // if (! isset($_REQUEST['op']))
 			</tr>
 			<tr>
 			<td class="td1 right" colspan="2">  
-			<?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',1); ?>
+			<?php echo (($fromAnn == 'yes') ? 
+				createDictLinksInEditWin2($lang,'document.forms[0].WoSentence','document.forms[0].WoText') : 
+				createDictLinksInEditWin ($lang,$term,'document.forms[0].WoSentence',1)); ?>
 			&nbsp; &nbsp; &nbsp; 
 			<input type="submit" name="op" value="Change" /></td>
 			</tr>
