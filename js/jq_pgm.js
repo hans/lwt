@@ -393,6 +393,14 @@ function do_ajax_word_counts() {
 	);
 }
 
+function do_ajax_edit_impr_text() {
+	$('#editimprtextdata').html('<img src="icn/waiting2.gif" />');
+	var textid = $('#editimprtextdata').attr('data_id');
+	$.post('ajax_edit_impr_text.php', { id: textid }, 
+		function(data) { $('#editimprtextdata').html(data); } 
+	);
+}
+
 $(document).ready( function() {
 	$('.edit_area').editable('inline_edit.php', 
 		{ 

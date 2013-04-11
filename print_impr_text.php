@@ -21,32 +21,6 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
-function make_trans($i, $wid, $trans) {
-	$trans = trim($trans);
-	if (is_numeric($wid)) {
-		$alltrans = get_first_value("select WoTranslation as value from words where WoID = " . $wid);
-		$transarr = preg_split('/[' . get_sepas()  . ']/u', $alltrans);
-		$r = "";
-		$set = false;
-		foreach ($transarr as $t) {
-			$tt = trim($t);
-			if (($tt == '*') || ($tt == '')) continue;
-			if ((! $set) && ($tt == $trans)) {
-				$set = true;
-				$r .= '<input checked="checked" type="radio" name="rg[' . $i . ']" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
-			} else {
-				$r .= '<input type="radio" name="rg[' . $i . ']" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
-			}
-		}
-		if (! $set) {
-			$r .= '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="' . tohtml($trans) . '" />';
-		} else {
-			$r .= '<input type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="" />';
-		}
-		return $r;
-	}
-	return '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="' . tohtml($trans) . '" />';
-}
 
 function process_term($nonterm, $term, $trans, $wordid) {
 	$r = '';
@@ -61,14 +35,6 @@ function get_first_translation($trans) {
 	$r = trim($arr[0]);
 	if ($r == '*') $r ="";
 	return $r;
-}
-
-function get_sepas() {
-	static $sepa;
-	if (!$sepa) {
-		$sepa = preg_quote(getSettingWithDefault('set-term-translation-delimiters'),'/');
-	}
-	return $sepa;
 }
 
 $textid = getreq('text')+0;
@@ -144,7 +110,6 @@ saveSetting('currenttext',$textid);
 
 pagestart_nobody('Print');
 
-echo '<form name="editann" action="' . $_SERVER['PHP_SELF'] . '?text=' . $textid . '" method="post">' . "\n";
 echo '<div id="noprint">';
 
 echo '<h4>';
@@ -158,7 +123,7 @@ echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 echo "<p id=\"printoptions\"><b>Improved Annotation";
 
 if($editmode) {
-	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Cancel (Don't Save)\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> &nbsp; | &nbsp; <input type=\"submit\" name=\"op\" value=\"Save\" />";
+	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /></div>";
 } else {
 	echo " (Display/Print Mode)</b><br /><input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
 	echo " &nbsp; | &nbsp; ";
@@ -228,68 +193,29 @@ if ( $editmode ) {  // Edit Mode
 	
 	if ( ! $ann_exists ) {  // No Ann., not possible
 	
-		echo "<p>No Annotation found, and creation not possible.</p>";
+		echo '<p>No Annotation found, and creation not possible.</p>';
 	
 	} else { // Ann. exists, set up for editing.
-
-?>
 	
-<table class="tab1" cellspacing="0" cellpadding="5">
-<tr>
-<th class="th1 center">Non-Term</th>
-<th class="th1 center">Term</th>
-<th class="th1 center">Term Translations</th>
-<th class="th1 center">Dict</th>
-</tr>
-
-<?php	
-		$nonterms = "";
-		$items = preg_split('/[\n]/u', $ann);
-		$i = 0;
-		foreach ($items as $item) {
-			$i++;
-			$vals = preg_split('/[\t]/u', $item);
-			if ($vals[0] == 1) {
-				$id = '';
-				$trans = '';
-				if (count($vals) > 2) $id = $vals[2];
-				if (count($vals) > 3) $trans = $vals[3];
+		echo "\n";
+		echo '<div data_id="' . $textid . '" id="editimprtextdata"></div>';
+		echo "\n";
 ?>
-	
-<tr>
-<td class="td1 center"><?php if(trim($nonterms) != "") echo str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($nonterms)); else echo "&nbsp;"; ?></td>
-<td class="td1 center"><span id="term<?php echo $i; ?>"><?php echo tohtml($vals[1]); ?></span></td>
-<td class="td1"><?php echo make_trans($i, $id, $trans); ?></td>
-<td class="td1" nowrap="nowrap"><?php echo makeDictLinks($langid,prepare_textdata_js($vals[1])); ?></td>
-</tr>
-
+	<script type="text/javascript">
+	//<![CDATA[
+	$(document).ready( function() {
+	do_ajax_edit_impr_text();
+	} ); 
+	//]]>
+	</script>
 <?php
-				$nonterms = "";
-			} else {
-				$nonterms .= $vals[1];
-			}
-		}
-		if ($nonterms != "") {
-?>
-	
-<tr>
-<td class="td1 center"><?php if(trim($nonterms) != "") echo str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($nonterms)); else echo "&nbsp;"; ?></td>
-<td class="td1 center">&nbsp;</td>
-<td class="td1">&nbsp;</td>
-<td class="td1">&nbsp;</td>
-</tr>
-
-<?php
-		}
-
-?>
-	
-</table>
-
-<?php	
-	echo "<input type=\"button\" value=\"Cancel (Don't Save)\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> &nbsp; | &nbsp; <input type=\"submit\" name=\"op\" value=\"Save\" />";
-
+		
 	}
+
+?>
+	
+<?php	
+	echo '<div id="noprint"><input type="button" value="Display/Print Mode" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /></div>';
 
 }
 
@@ -319,8 +245,6 @@ else {  // Print Mode
 	echo "</p></div>";
 
 }
-
-echo "</form>";
 
 pageend();
 

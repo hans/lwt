@@ -784,6 +784,16 @@ function getsess($s) {
 
 // -------------------------------------------------------------
 
+function get_sepas() {
+	static $sepa;
+	if (!$sepa) {
+		$sepa = preg_quote(getSettingWithDefault('set-term-translation-delimiters'),'/');
+	}
+	return $sepa;
+}
+
+// -------------------------------------------------------------
+
 function getSetting($key) {
 	$val = get_first_value('select StValue as value from settings where StKey = ' . convert_string_to_sqlsyntax($key));
 	if ( isset($val) ) {
