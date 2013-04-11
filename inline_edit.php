@@ -33,7 +33,7 @@ if (substr($id, 0, 5) == "trans") {
 }
 
 if (substr($id, 0, 5) == "roman") {
-	// usleep(100000);
+	// usleep(200000);
 	$id = substr($id, 5);
 	$message = runsql('update words set WoRomanization = ' . 
 		convert_string_to_sqlsyntax(repl_tab_nl($value)) . ' where WoID = ' . $id,
