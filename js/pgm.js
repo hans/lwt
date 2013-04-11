@@ -369,14 +369,6 @@ function owin(url) {
 	);
 }
 
-function oewin(url) {
-	window.open(
-		url, 
-		'editwin', 
-		'width=600, height=600, scrollbars=yes, menubar=no, resizable=yes, status=no'
-	);
-}
-
 function createTheDictUrl(u,w) {
 	var url = u.trim();
 	var trm = w.trim();
