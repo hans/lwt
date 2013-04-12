@@ -32,19 +32,19 @@ function make_trans($i, $wid, $trans) {
 			if (($tt == '*') || ($tt == '')) continue;
 			if ((! $set) && ($tt == $trans)) {
 				$set = true;
-				$r .= '<input checked="checked" type="radio" name="rg[' . $i . ']" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
+				$r .= '<input class="impr-ann-radio" checked="checked" type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
 			} else {
-				$r .= '<input type="radio" name="rg[' . $i . ']" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
+				$r .= '<input class="impr-ann-radio" type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
 			}
 		}
 		if (! $set) {
-			$r .= '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="' . tohtml($trans) . '" />';
+			$r .= '<input class="impr-ann-radio" checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" value="' . tohtml($trans) . '" />';
 		} else {
-			$r .= '<input type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="" />';
+			$r .= '<input class="impr-ann-radio" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" value="" />';
 		}
 		return $r;
 	}
-	return '<input checked="checked" type="radio" name="rg[' . $i . ']" value="" />&nbsp;<input class="othertext" type="text" name="tx[' . $i . ']" value="' . tohtml($trans) . '" />';
+	return '<input checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" value="' . tohtml($trans) . '" />';
 }
 
 $textid = $_REQUEST["id"] + 0;
@@ -59,7 +59,7 @@ mysql_free_result($res);
 
 $ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
-$r = '<table class="tab1" cellspacing="0" cellpadding="5"><tr>';
+$r = '<form action="" method="post"><table class="tab1" cellspacing="0" cellpadding="5"><tr>';
 $r .= '<th class="th1 center">Non-Term</th>';
 $r .= '<th class="th1 center">Term</th>';
 $r .= '<th class="th1 center">Term Translations</th>';
@@ -101,6 +101,15 @@ if ($nonterms != "") {
 		$r .= '&nbsp;';
 	$r .= '</td><td class="td1 center">&nbsp;</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td></tr>';
 }
-echo $r . '</table>';
+$r .= '</table></form>' . "\n";
+$r .= '<script type="text/javascript">' . "\n";
+$r .= '//<![CDATA[' . "\n";
+$r .= '$(document).ready( function() {' . "\n";
+$r .= "$('input.impr-ann-text').change(changeImprAnnText);\n";
+$r .= "$('input.impr-ann-radio').change(changeImprAnnRadio);\n";
+$r .= '} );' . "\n";
+$r .= '//]]>' . "\n";
+$r .= '</script>' . "\n";
+echo $r;
 
 ?>

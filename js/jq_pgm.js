@@ -44,8 +44,21 @@ function getUTF8Length(string) {
 	return utf8length;
 }
 
-function changeOtherText() {
+function changeImprAnnText() {
+	var textid = $('#editimprtextdata').attr('data_id');
 	$(this).prev('input:radio').attr('checked', 'checked');
+	var elem = $(this).attr('name');
+	var thedata = JSON.stringify($('form').serializeObject());
+	$.post('ajax_save_impr_text.php', { id: textid, elem: elem, data : thedata }
+		/* , function(d) { console.log(d); } */ );
+}
+ 
+function changeImprAnnRadio() {
+	var textid = $('#editimprtextdata').attr('data_id');
+	var elem = $(this).attr('name');
+	var thedata = JSON.stringify($('form').serializeObject());
+	$.post('ajax_save_impr_text.php', { id: textid, elem: elem, data : thedata }
+		/* , function(d) { console.log(d); } */ );
 }
  
 function check() {
@@ -401,6 +414,23 @@ function do_ajax_edit_impr_text() {
 	);
 }
 
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
 $(document).ready( function() {
 	$('.edit_area').editable('inline_edit.php', 
 		{ 
@@ -413,7 +443,6 @@ $(document).ready( function() {
 			cols      : 35
 		}
 	);
-	$('input.othertext').change(changeOtherText);
 	$('form.validate').submit(check);
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);

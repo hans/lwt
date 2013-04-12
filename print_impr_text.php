@@ -123,7 +123,7 @@ echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 echo "<p id=\"printoptions\"><b>Improved Annotation";
 
 if($editmode) {
-	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /></div>";
+	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> | <input type=\"button\" value=\"Reload\" onclick=\"location.reload();\" /></div>";
 } else {
 	echo " (Display/Print Mode)</b><br /><input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
 	echo " &nbsp; | &nbsp; ";
@@ -215,7 +215,7 @@ if ( $editmode ) {  // Edit Mode
 ?>
 	
 <?php	
-	echo '<div id="noprint"><input type="button" value="Display/Print Mode" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /></div>';
+	echo '<div id="noprint"><input type="button" value="Display/Print Mode" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /> | <input type="button" value="Reload" onclick="location.reload();" /></div>';
 
 }
 
@@ -232,7 +232,7 @@ else {  // Print Mode
 		if ($vals[0] == 1) {
 			$trans = '';
 			if (count($vals) > 3) $trans = $vals[3];
-			if ($trans == '*') $trans = '[' . $vals[1] . ']';
+			if ($trans == '*') $trans = $vals[1];
 			echo ' <ruby><rb><span class="anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class="anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
 		} else {
 			echo str_replace(
