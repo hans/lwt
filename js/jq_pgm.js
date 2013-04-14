@@ -44,6 +44,12 @@ function getUTF8Length(string) {
 	return utf8length;
 }
 
+function scrollToAnchor(aid){
+    //var aTag = $("a[name='"+ aid +"']");
+    //$('html,body').animate({scrollTop: aTag.offset().top},'fast');
+    document.location.href = '#' + aid;
+}
+
 function changeImprAnnText() {
 	var textid = $('#editimprtextdata').attr('data_id');
 	$(this).prev('input:radio').attr('checked', 'checked');
@@ -406,11 +412,12 @@ function do_ajax_word_counts() {
 	);
 }
 
-function do_ajax_edit_impr_text() {
+function do_ajax_edit_impr_text(anchor) {
 	$('#editimprtextdata').html('<img src="icn/waiting2.gif" />');
 	var textid = $('#editimprtextdata').attr('data_id');
 	$.post('ajax_edit_impr_text.php', { id: textid }, 
-		function(data) { $('#editimprtextdata').html(data); } 
+		function(data) { $('#editimprtextdata').html(data); 
+			if (anchor != '') scrollToAnchor(anchor); } 
 	);
 }
 

@@ -204,7 +204,7 @@ if ( $editmode ) {  // Edit Mode
 	<script type="text/javascript">
 	//<![CDATA[
 	$(document).ready( function() {
-	do_ajax_edit_impr_text();
+	do_ajax_edit_impr_text('');
 	} ); 
 	//]]>
 	</script>

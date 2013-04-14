@@ -62,8 +62,8 @@ $ann_exists = (strlen($ann) > 0);
 $r = '<form action="" method="post"><table class="tab1" cellspacing="0" cellpadding="5"><tr>';
 $r .= '<th class="th1 center">Non-Term</th>';
 $r .= '<th class="th1 center">Term</th>';
-$r .= '<th class="th1 center">Term Translations<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text();" /></th>';
-$r .= '<th class="th1 center">Edit</th>';
+$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(\'\');" /></th>';
+$r .= '<th class="th1 center">Edit<br />Term</th>';
 $r .= '<th class="th1 center">Dict</th>';
 $r .= '</tr>';
 $nonterms = "";
@@ -92,7 +92,7 @@ foreach ($items as $item) {
 		} else {
 			$r .= '<a name="rec' . $i . '"></a><span class="click" onclick="oewin(\'edit_word.php?fromAnn=' . $i . '&amp;wid=' . $id . '\');"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></span>';
 		}
-		$r .= '</td><td class="td1" nowrap="nowrap">';
+		$r .= '</td><td class="td1 center" nowrap="nowrap">';
 		$r .= makeDictLinks($langid,prepare_textdata_js($vals[1]));
 		$r .= '</td></tr>';
 		$nonterms = "";
@@ -110,8 +110,8 @@ if ($nonterms != "") {
 }
 $r .= '<tr><th class="th1 center">Non-Term</th>';
 $r .= '<th class="th1 center">Term</th>';
-$r .= '<th class="th1 center">Term Translations<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text();" /></th>';
-$r .= '<th class="th1 center">Edit</th>';
+$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(\'bottom\');" /><a name="bottom"></a></th>';
+$r .= '<th class="th1 center">Edit<br />Term</th>';
 $r .= '<th class="th1 center">Dict</th>';
 $r .= '</tr></table></form>' . "\n";
 $r .= '<script type="text/javascript">' . "\n";
