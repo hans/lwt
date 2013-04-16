@@ -110,7 +110,7 @@ saveSetting('currenttext',$textid);
 
 pagestart_nobody('Print');
 
-echo '<div id="noprint">';
+echo '<div class="noprint">';
 
 echo '<h4>';
 echo '<a href="edit_texts.php" target="_top">';
@@ -123,7 +123,7 @@ echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 echo "<p id=\"printoptions\"><b>Improved Annotation";
 
 if($editmode) {
-	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /></div>";
+	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />\n";
 } else {
 	echo " (Display/Print Mode)</b><br /><input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
 	echo " &nbsp; | &nbsp; ";
@@ -198,6 +198,9 @@ if ( $editmode ) {  // Edit Mode
 	} else { // Ann. exists, set up for editing.
 	
 		echo "\n";
+?>
+<p class="smallgray3 noprint"><b>What's this?</b> -- Within <i>"Improved Annotation Edit Mode"</i>, you may <b>select</b> one of the term translations by clicking on one of the <b>radio buttons</b>. To be able to do this, the different translations must be delimited with one of the delimiters specified in the LWT settings (currently: <?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>). You may also <b>type a new</b> translation into the <b>text box</b> at the end (this does <b>not</b> change your saved term translation), or you may <b>change your term</b> by clicking on the <b>yellow icon</b>, add another translation, and select it afterwards. It's not possible to create new terms here - please do this in the reading view. All changes you do here are saved automatically in the background! <b>The best time for the creation</b> of an improved annotation as interlinear text (for reading or printing) is after you have read the text completely and created all terms and expressions. <b>Warning:</b> If you change the text, you will lose the saved improved annotation! Changing the language settings (e.g. the word characters) has no effect until you recreate the improved annotation.</p>
+<?php
 		echo '<div data_id="' . $textid . '" id="editimprtextdata"></div>';
 		echo "\n";
 ?>
@@ -215,7 +218,7 @@ if ( $editmode ) {  // Edit Mode
 ?>
 	
 <?php	
-	echo '<div id="noprint"><input type="button" value="Display/Print Mode" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /></div>';
+	echo '<div class="noprint"><input type="button" value="Display/Print Mode" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /></div>';
 
 }
 

@@ -45,7 +45,6 @@ if (count($items) >= $line) {
 	}
 }
 
-// Only for debug
-echo 'Line ' . $line . ' changed: ' . $val . " / " . $success;
+echo $success;
 
 ?>

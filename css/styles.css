@@ -228,6 +228,12 @@ img {
 	color: gray;
 	font-size:80%;
 }
+.smallgray3 { 
+	color: gray;
+	font-size:70%;
+	width: 850px;
+	margin-bottom: 20px;
+}
 #learnstatus {
 	color: #000000;
 	font-size: 120%;
@@ -383,7 +389,7 @@ Additional styles for printing
 
 @media print
 {
-	#noprint {
+	.noprint {
 		display: none;
 	}
 	#print {

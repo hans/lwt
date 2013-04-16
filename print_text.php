@@ -121,7 +121,7 @@ saveSetting('currentprintannotationplacement',$annplcmnt);
 
 pagestart_nobody('Print');
 
-echo '<div id="noprint">';
+echo '<div class="noprint">';
 
 echo '<h4>';
 echo '<a href="edit_texts.php" target="_top">';

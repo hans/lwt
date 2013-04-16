@@ -90,7 +90,11 @@ foreach ($items as $item) {
 		if ($id == '') {
 			$r .= '&nbsp;';
 		} else {
-			$r .= '<a name="rec' . $i . '"></a><span class="click" onclick="oewin(\'edit_word.php?fromAnn=' . $i . '&amp;wid=' . $id . '\');"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></span>';
+			if(get_first_value("select count(WoID) as value from words where WoID = " . $id) > 0) {
+				$r .= '<a name="rec' . $i . '"></a><span class="click" onclick="oewin(\'edit_word.php?fromAnn=' . $i . '&amp;wid=' . $id . '\');"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></span>';
+			} else {
+				$r .= '&nbsp;';
+			}
 		}
 		$r .= '</td><td class="td1 center" nowrap="nowrap">';
 		$r .= makeDictLinks($langid,prepare_textdata_js($vals[1]));
