@@ -45,9 +45,7 @@ function getUTF8Length(string) {
 }
 
 function scrollToAnchor(aid){
-    //var aTag = $("a[name='"+ aid +"']");
-    //$('html,body').animate({scrollTop: aTag.offset().top},'fast');
-    document.location.href = '#' + aid;
+  document.location.href = '#' + aid;
 }
 
 function changeImprAnnText() {
@@ -420,12 +418,14 @@ function do_ajax_word_counts() {
 	);
 }
 
-function do_ajax_edit_impr_text(anchor) {
+function do_ajax_edit_impr_text(pagepos) {
 	$('#editimprtextdata').html('<img src="icn/waiting2.gif" />');
 	var textid = $('#editimprtextdata').attr('data_id');
 	$.post('ajax_edit_impr_text.php', { id: textid }, 
-		function(data) { $('#editimprtextdata').html(data); 
-			if (anchor != '') scrollToAnchor(anchor); } 
+		function(data) { 
+			$('#editimprtextdata').html(data); 
+			$.scrollTo(pagepos); 
+		} 
 	);
 }
 

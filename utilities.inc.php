@@ -1989,7 +1989,7 @@ function get_setting_data() {
 		'set-text-visit-statuses-via-key' => 
 		array("dft" => '', "num" => 0),
 		'set-term-translation-delimiters' => 
-		array("dft" => '|/;', "num" => 0)
+		array("dft" => '/;|', "num" => 0)
 		);
 	}
 	return $setting_data;

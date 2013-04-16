@@ -382,6 +382,9 @@ dt {
 .editable_textarea {
 	display: inline;
 }
+.nowrap {
+	white-space: nowrap;
+}
 
 /**************************************************************
 Additional styles for printing

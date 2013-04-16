@@ -22,7 +22,8 @@ include "utilities.inc.php";
 
 function make_trans($i, $wid, $trans) {
 	$trans = trim($trans);
-	if (is_numeric($wid)) {
+	$widset = is_numeric($wid);
+	if ($widset) {
 		$alltrans = get_first_value("select WoTranslation as value from words where WoID = " . $wid);
 		$transarr = preg_split('/[' . get_sepas()  . ']/u', $alltrans);
 		$r = "";
@@ -32,19 +33,25 @@ function make_trans($i, $wid, $trans) {
 			if (($tt == '*') || ($tt == '')) continue;
 			if ((! $set) && ($tt == $trans)) {
 				$set = true;
-				$r .= '<input class="impr-ann-radio" checked="checked" type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
+				$r .= '<span class="nowrap"><input class="impr-ann-radio" checked="checked" type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . '</span><br />';
 			} else {
-				$r .= '<input class="impr-ann-radio" type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . ' &nbsp; ';
+				$r .= '<span class="nowrap"><input class="impr-ann-radio" type="radio" name="rg' . $i . '" value="' . tohtml($tt) . '" />&nbsp;' . tohtml($tt) . '</span><br />';
 			}
 		}
 		if (! $set) {
-			$r .= '<input class="impr-ann-radio" checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" value="' . tohtml($trans) . '" />';
+			$r .= '<span class="nowrap"><input class="impr-ann-radio" checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" id="tx' . $i . '" value="' . tohtml($trans) . '" maxlength="50" size="30" />';
 		} else {
-			$r .= '<input class="impr-ann-radio" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" value="" />';
+			$r .= '<span class="nowrap"><input class="impr-ann-radio" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" id="tx' . $i . '" value="" maxlength="50" size="30" />';
 		}
-		return $r;
+	} else {
+		$r = '<span class="nowrap"><input checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" id="tx' . $i . '" value="' . tohtml($trans) . '" maxlength="50" size="30" />';
 	}
-	return '<input checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" value="' . tohtml($trans) . '" />';
+	$r .= ' <img class="click" src="icn/eraser.png" title="Erase Text Field" alt="Erase Text Field" onclick="$(\'#tx' . $i . '\').val(\'\').trigger(\'change\');" />';
+	$r .= ' <img class="click" src="icn/star.png" title="* (Set to Term)" alt="* (Set to Term)" onclick="$(\'#tx' . $i . '\').val(\'*\').trigger(\'change\');" />';
+	if ($widset)
+		$r .= ' <img class="click" src="icn/plus-button.png" title="Save new translation to term" alt="Save new translation to term" onclick="alert(\'not yet implemented\');" />';
+	$r .= '</span>';
+	return $r;
 }
 
 $textid = $_REQUEST["id"] + 0;
@@ -60,9 +67,9 @@ mysql_free_result($res);
 $ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 $r = '<form action="" method="post"><table class="tab1" cellspacing="0" cellpadding="5"><tr>';
-$r .= '<th class="th1 center">Non-Term</th>';
+$r .= '<th class="th1 center">Non-<br />Term</th>';
 $r .= '<th class="th1 center">Term</th>';
-$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(\'\');" /></th>';
+$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(0);" /></th>';
 $r .= '<th class="th1 center">Edit<br />Term</th>';
 $r .= '<th class="th1 center">Dict</th>';
 $r .= '</tr>';
@@ -75,7 +82,13 @@ foreach ($items as $item) {
 	if ($vals[0] == 1) {
 		$id = '';
 		$trans = '';
-		if (count($vals) > 2) $id = $vals[2];
+		if (count($vals) > 2) {
+			$id = $vals[2];
+			if (is_numeric($id)) {
+				if(get_first_value("select count(WoID) as value from words where WoID = "
+				 . $id) < 1) $id = '';
+			}
+		}
 		if (count($vals) > 3) $trans = $vals[3];
 		$r .= '<tr><td class="td1 center">';
 		if(trim($nonterms) != "") 
@@ -90,11 +103,7 @@ foreach ($items as $item) {
 		if ($id == '') {
 			$r .= '&nbsp;';
 		} else {
-			if(get_first_value("select count(WoID) as value from words where WoID = " . $id) > 0) {
-				$r .= '<a name="rec' . $i . '"></a><span class="click" onclick="oewin(\'edit_word.php?fromAnn=' . $i . '&amp;wid=' . $id . '\');"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></span>';
-			} else {
-				$r .= '&nbsp;';
-			}
+			$r .= '<a name="rec' . $i . '"></a><span class="click" onclick="oewin(\'edit_word.php?fromAnn=\' + $(document).scrollTop() + \'&amp;wid=' . $id . '\');"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></span>';
 		}
 		$r .= '</td><td class="td1 center" nowrap="nowrap">';
 		$r .= makeDictLinks($langid,prepare_textdata_js($vals[1]));
@@ -112,9 +121,9 @@ if ($nonterms != "") {
 		$r .= '&nbsp;';
 	$r .= '</td><td class="td1 center">&nbsp;</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td></tr>';
 }
-$r .= '<tr><th class="th1 center">Non-Term</th>';
+$r .= '<tr><th class="th1 center">Non-<br />Term</th>';
 $r .= '<th class="th1 center">Term</th>';
-$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(\'bottom\');" /><a name="bottom"></a></th>';
+$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(1e6);" /><a name="bottom"></a></th>';
 $r .= '<th class="th1 center">Edit<br />Term</th>';
 $r .= '<th class="th1 center">Dict</th>';
 $r .= '</tr></table></form>' . "\n";

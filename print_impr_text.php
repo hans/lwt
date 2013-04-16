@@ -127,7 +127,7 @@ if($editmode) {
 } else {
 	echo " (Display/Print Mode)</b><br /><input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
 	echo " &nbsp; | &nbsp; ";
-	echo "<input type=\"button\" value=\"Delete\" onclick=\"location.href='print_impr_text.php?del=1&amp;text=" . $textid . "';\" /> ";
+	echo "<input type=\"button\" value=\"Delete\" onclick=\"if (confirm ('Are you sure?')) location.href='print_impr_text.php?del=1&amp;text=" . $textid . "';\" /> ";
 	echo " &nbsp; | &nbsp; ";
 	echo "<input type=\"button\" value=\"Print\" onclick=\"window.print();\" />  (only the text below the line)";
 }
@@ -199,7 +199,7 @@ if ( $editmode ) {  // Edit Mode
 	
 		echo "\n";
 ?>
-<p class="smallgray3 noprint"><b>What's this?</b> -- Within <i>"Improved Annotation Edit Mode"</i>, you may <b>select</b> one of the term translations by clicking on one of the <b>radio buttons</b>. To be able to do this, the different translations must be delimited with one of the delimiters specified in the LWT settings (currently: <?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>). You may also <b>type a new</b> translation into the <b>text box</b> at the end (this does <b>not</b> change your saved term translation), or you may <b>change your term</b> by clicking on the <b>yellow icon</b>, add another translation, and select it afterwards. It's not possible to create new terms here - please do this in the reading view. All changes you do here are saved automatically in the background! <b>The best time for the creation</b> of an improved annotation as interlinear text (for reading or printing) is after you have read the text completely and created all terms and expressions. <b>Warning:</b> If you change the text, you will lose the saved improved annotation! Changing the language settings (e.g. the word characters) has no effect until you recreate the improved annotation.</p>
+<p class="smallgray3 noprint"><img id="explainlogo" src="icn/question-frame.png" title="Show explainations" alt="Show explainations" class="click" onclick="$('#explain').show(); $('#explainlogo').hide();" /> <span id="explain" style="display:none;"><b>A few explanations:</b>  Within <i>"Improved Annotation Edit Mode"</i>, you may <b>select</b> one of the term translations by clicking on one of the <b>radio buttons</b>. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT <a href="settings.php">Settings</a> (currently: <?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>). You may also <b>type in a new translation</b> into the <b>text box</b> at the end (this does <b>not</b> change your saved term translation!), or you may <b>change your term</b> by clicking on the <b>yellow icon</b> or add a translation by clicking on the <b>green "+" icon</b>, and select it. It's not possible to create new terms here - new terms will have no effect unless you start from scratch. Changing the language settings (e.g. the word characters) has no effect unless you start from scratch. So, <b>the best time for the creation</b> of an improved annotation as interlinear text (for reading or printing) is <b>after</b> you have read the text completely and created <b>all</b> terms and expressions.<br /><b>Warning: If you change the text, you will lose the saved improved annotation! <br />All changes you do here are saved automatically in the background!</b></span></p>
 <?php
 		echo '<div data_id="' . $textid . '" id="editimprtextdata"></div>';
 		echo "\n";
@@ -207,7 +207,7 @@ if ( $editmode ) {  // Edit Mode
 	<script type="text/javascript">
 	//<![CDATA[
 	$(document).ready( function() {
-	do_ajax_edit_impr_text('');
+	do_ajax_edit_impr_text(0);
 	} ); 
 	//]]>
 	</script>
