@@ -89,12 +89,15 @@ if ($savemode == "Save") {
 		exit();
 }
 
-$sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxTitle, TxAudioURI from texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
+$audio = $record['TxAudioURI'];
+if(!isset($audio)) $audio='';
+$audio=trim($audio);
 mysql_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
@@ -129,7 +132,9 @@ if($editmode) {
 	echo " &nbsp; | &nbsp; ";
 	echo "<input type=\"button\" value=\"Delete\" onclick=\"if (confirm ('Are you sure?')) location.href='print_impr_text.php?del=1&amp;text=" . $textid . "';\" /> ";
 	echo " &nbsp; | &nbsp; ";
-	echo "<input type=\"button\" value=\"Print\" onclick=\"window.print();\" />  (only the text below the line)";
+	echo "<input type=\"button\" value=\"Print\" onclick=\"window.print();\" />";
+	echo " &nbsp; | &nbsp; ";
+	echo "<input type=\"button\" value=\"Display" . (($audio != '') ? ' with Audio Player' : '') . " in new Window\" onclick=\"window.open('display_impr_text.php?text=" . $textid . "');\" />";
 }
 echo "</p></div> <!-- noprint -->";
 
