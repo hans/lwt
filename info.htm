@@ -324,6 +324,9 @@ $(document).ready( function() {
           		  	<li>
           		  		<a href="http://lingro.com/" target="_blank">lingro.com</a> (An on-line environment that allows anyone learning a language to quickly look up and learn the vocabulary).
           		  	</li>
+          		  	<li>
+          		  		<a href="http://readlang.com//" target="_blank">readlang.com</a> (An on-line service where you can import articles, read and translate them, and learn new words.).
+          		  	</li>
           		  </ul>
           		</li>
 							<li>
@@ -345,6 +348,14 @@ $(document).ready( function() {
 									</li>
 									<li>
 										<a href="http://nihongo.dpwright.com/spaces/index.php" target="_blank">Japanese Space Inserter</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								Installing LWT on other operating systems 
+								<ul>
+									<li>
+										<a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">Installing Learning With Texts on Ubuntu</a>
 									</li>
 								</ul>
 							</li>
@@ -386,7 +397,7 @@ $(document).ready( function() {
           <li>Import of terms in TSV/CSV format, export in TSV format, and export to <a href="http://ankisrs.net" target="_blank">Anki</a> (prepared for cloze tests), are also possible.
           </li>
 
-          <li>To run LWT, you need a good web browser (Firefox, Chrome, Safari, ..., but not IE6, IE7, IE8!) and a local web server (Apache) with PHP and mySQL.
+          <li>IMPORTANT: To run LWT, you need a modern web browser (Chrome or Safari; Firefox is also OK, but dowsn't play MP3 audio files, Internet Explorer is not recommended), and a local web server (Apache) with PHP and mySQL.
           </li>
 
           <li>An easy way to install a local web server are preconfigured packages like <a href="http://www.apachefriends.org/en/xampp.html" target="_blank">XAMPP</a> (Win, Mac, Linux), <a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Win) or <a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac).
@@ -437,6 +448,9 @@ $(document).ready( function() {
           </li>
 
           <li>You may upload words and expressions into LWT (from LingQ or other sources, CSV/TSV) - they are immediately available in all texts!
+          </li>
+          
+          <li><a name="il"></a><b>New since Version 1.5.0:</b> Create and edit an annotated text version (as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning - similar to the material created by <a target="_blank" href="http://en.assimil.com/">Assimil</a> or proposed by <a target="_blank" href="http://web.archive.org/web/20070223080453/http://195.149.74.241/BIRKENBIHL/PDF/MethodEnglish.pdf">V. F. Birkenbihl</a>. Language learning via interlinear texts is quite old as you can see in <a target="_blank" href="http://www.youtube.com/watch?v=XnEKnezLXJg">this YouTube video</a>. While listening to the audio, first read the blue annotations in your native language. Later you read the foreign language text below. Repeat this often. If you fully understand the whole text, you listen to the text passively. 
           </li>
           
           <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
@@ -2222,8 +2236,9 @@ with audioplayer", if needed.</li>
         <ul>
         
         	<li>1.5.0 (April ?? 2013): 
-        	From the Print Screen, you are now able to create a "better" interlinear annotated text. The data inputted for this feature will NOT influence or change your terms and their translations in any way. It's only the starting point. The translations of the terms will be split according to the "List of characters that delimit different translations" in the Settings (default: /;|). You select one of these translations, or you input your own. With this information, a better interlinear annotated text will be created. Important: If you change the text, the special annotation will be deleted. Later changes in your terms are not recognized. The best time to do the creation of a better annotated text is after finishing the creation of all terms of the text. It's also important to create the terms with some discipline and delimit different translations with "/" or "|" or ";" (you may change this).<br />
-        	In place editing of translations and romanizations now possible in term table.
+        	From the Print Screen, you are now able to create and edit an interlinear annotated text for online or offline study (reasons: read <a href="#il">this</a>). To do this in an easy way, different translations of a term must be delimited by one character of the "List of characters that delimit different translations" in the Settings (default: /;|). While editing, you select one of these translations, or you input your own. With this information, a better interlinear annotated text will then be created. Important: If you change the basic text, this special annotation will be deleted. Important: The best time to do the creation of such an annotated text is after finishing the creation of all terms of the text.<br />
+        	In place editing of translations and romanizations now possible in term table.<br />
+        	Help document updated.
         	 <br /><br />
         	</li>
 
