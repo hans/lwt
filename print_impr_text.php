@@ -120,7 +120,7 @@ quickMenu();
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
 echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
-echo "<p id=\"printoptions\"><b>Improved Annotation";
+echo "<p id=\"printoptions\"><b>Improved Annotated Text";
 
 if($editmode) {
 	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />\n";
@@ -193,13 +193,13 @@ if ( $editmode ) {  // Edit Mode
 	
 	if ( ! $ann_exists ) {  // No Ann., not possible
 	
-		echo '<p>No Annotation found, and creation not possible.</p>';
+		echo '<p>No annotated text found, and creation not possible.</p>';
 	
 	} else { // Ann. exists, set up for editing.
 	
 		echo "\n";
 ?>
-<p class="smallgray3 noprint"><img id="explainlogo" src="icn/question-frame.png" title="Show explainations" alt="Show explainations" class="click" onclick="$('#explain').show(); $('#explainlogo').hide();" /> <span id="explain" style="display:none;"><b>A few explanations:</b>  Within <i>"Improved Annotation Edit Mode"</i>, you may <b>select</b> one of the term translations by clicking on one of the <b>radio buttons</b>. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT <a href="settings.php">Settings</a> (currently: <?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>). You may also <b>type in a new translation</b> into the <b>text box</b> at the end (this does <b>not</b> change your saved term translation!), or you may <b>change your term</b> by clicking on the <b>yellow icon</b> or add a translation by clicking on the <b>green "+" icon</b>, and select it. It's not possible to create new terms here - new terms will have no effect unless you start from scratch. Changing the language settings (e.g. the word characters) has no effect unless you start from scratch. So, <b>the best time for the creation</b> of an improved annotation as interlinear text (for reading or printing) is <b>after</b> you have read the text completely and created <b>all</b> terms and expressions.<br /><b>Warning: If you change the text, you will lose the saved improved annotation! <br />All changes you do here are saved automatically in the background!</b></span></p>
+<p class="smallgray3 noprint"><img id="explainlogo" src="icn/question-frame.png" title="Show explainations" alt="Show explainations" class="click" onclick="$('#explain').show(); $('#explainlogo').hide();" /> <span id="explain" style="display:none;"><b>A few explanations:</b>  Within the <i>"Improved Annotated Text - Edit Mode"</i>, you can <b>select</b> the most suitable of the term translations by clicking on one of the <b>radio buttons</b>. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT <a href="settings.php">Settings</a> (currently: <?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>). You can also <b>type in a new translation</b> into the <b>text box</b> at the end (this does <b>not</b> change your saved term translation!), or you may <b>change your term</b> by clicking on the <b>yellow icon</b> or add a translation by clicking on the <b>green "+" icon</b>, and select it. It's not possible to create new terms here - new terms will have no effect unless you start from scratch. Changing the language settings (e.g. the word characters) has no effect unless you start from scratch. So, <b>the best time for the creation</b> of an improved annotated text (an interlinear text for reading or printing) is <b>after</b> you have read the text completely and created <b>all</b> terms and expressions.<br /><b>Warning: If you change the text, you will lose the saved improved annotated text! <br />All changes you do here are saved automatically in the background!</b></span></p>
 <?php
 		echo '<div data_id="' . $textid . '" id="editimprtextdata"></div>';
 		echo "\n";

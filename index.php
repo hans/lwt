@@ -61,6 +61,14 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 			<a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
 			&nbsp; &nbsp; 
 			<a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
+<?php
+			if ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . (int)$currenttext) + 0) > 0) {
+?>
+			&nbsp; &nbsp; 
+			<a href="print_impr_text.php?text=<?php echo $currenttext; ?>"><img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text</a>
+<?php
+			}
+?>
 			</li>
 			</ul>
 <?php

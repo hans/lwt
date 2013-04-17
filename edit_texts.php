@@ -382,9 +382,9 @@ elseif (isset($_REQUEST['chg'])) {
 		</td>
 		</tr>
 		<tr>
-		<td class="td1 right">Annotation:</td>
+		<td class="td1 right">Ann.Text:</td>
 		<td class="td1">
-		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> Exists (Will be lost if you change the text!) | <input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Annotation" alt="No Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
+		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> Exists (Will be lost if you change the text!) | <input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Improved Annotation" alt="No Improved Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
 		</td>
 		</tr>
 		<tr>
@@ -516,7 +516,7 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
-<th class="th1 clickable">Title [Tags] / Audio: <img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />, Annotation: <img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> ?</th>
+<th class="th1 clickable">Title [Tags] / Audio: <img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />, Ann.Text: <img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> ?</th>
 <th class="th1 sorttable_numeric clickable">Total<br />Words</th>
 <th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex</th>
 <th class="th1 sorttable_numeric clickable">Unkn.<br />Words</th>
