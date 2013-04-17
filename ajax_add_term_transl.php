@@ -25,7 +25,7 @@ function trim_value(&$value)
 }
 
 $wid = $_POST['id'] + 0;
-$data = stripTheSlashesIfNeeded($_POST['data']);
+$data = trim(stripTheSlashesIfNeeded($_POST['data']));
 
 // Save data
 $success = "NOTOK";
@@ -38,10 +38,13 @@ if(get_first_value("select count(WoID) as value from words where WoID = " . $wid
 	array_walk($oldtransarr, 'trim_value');
 	
 	if (! in_array($data, $oldtransarr)) {
-		$oldtrans .= ' ' . get_first_sepa() . ' ' . $data;
+		if ((trim($oldtrans) == '') || (trim($oldtrans) == '*')) {
+			$oldtrans = $data;
+		} else {
+			$oldtrans .= ' ' . get_first_sepa() . ' ' . $data;
+		}
 		$dummy = runsql('update words set ' .
 			'WoTranslation = ' . convert_string_to_sqlsyntax($oldtrans) . ' where WoID = ' . $wid, "");
-
 	}
 	
 	$success = "OK";	

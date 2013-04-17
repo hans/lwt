@@ -76,8 +76,8 @@ function changeImprAnnRadio() {
 function addTermTranslation(wordid,txid) {
 	var thedata = $(txid).val().trim();
 	var pagepos = $(document).scrollTop();
-	if(thedata == '') {
-		alert('Text Field is empty!');
+	if((thedata == '') || (thedata == '*')) {
+		alert('Text Field is empty or = \'*\'!');
 		return;
 	}
 	$.post('ajax_add_term_transl.php', { id: wordid, data : thedata }
