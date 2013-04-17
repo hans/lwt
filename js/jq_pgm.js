@@ -72,6 +72,24 @@ function changeImprAnnRadio() {
 			} 
 	);
 }
+
+function addTermTranslation(wordid,txid) {
+	var thedata = $(txid).val().trim();
+	var pagepos = $(document).scrollTop();
+	if(thedata == '') {
+		alert('Text Field is empty!');
+		return;
+	}
+	$.post('ajax_add_term_transl.php', { id: wordid, data : thedata }
+		, function(d) { 
+				if(d != 'OK') {
+					alert('Adding translation to term failed, please reload page and try again!'); 
+				} else {
+					do_ajax_edit_impr_text(pagepos);
+				}
+			} 
+	);
+}
  
 function check() {
 	var count = 0;

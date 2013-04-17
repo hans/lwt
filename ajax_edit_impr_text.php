@@ -49,7 +49,7 @@ function make_trans($i, $wid, $trans) {
 	$r .= ' <img class="click" src="icn/eraser.png" title="Erase Text Field" alt="Erase Text Field" onclick="$(\'#tx' . $i . '\').val(\'\').trigger(\'change\');" />';
 	$r .= ' <img class="click" src="icn/star.png" title="* (Set to Term)" alt="* (Set to Term)" onclick="$(\'#tx' . $i . '\').val(\'*\').trigger(\'change\');" />';
 	if ($widset)
-		$r .= ' <img class="click" src="icn/plus-button.png" title="Save new translation to term" alt="Save new translation to term" onclick="alert(\'not yet implemented\');" />';
+		$r .= ' <img class="click" src="icn/plus-button.png" title="Save new translation to term" alt="Save new translation to term" onclick="addTermTranslation(' . $wid . ', \'#tx' . $i . '\');" />';
 	$r .= '</span>';
 	return $r;
 }

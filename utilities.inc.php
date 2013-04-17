@@ -794,6 +794,17 @@ function get_sepas() {
 
 // -------------------------------------------------------------
 
+function get_first_sepa() {
+	static $sepa;
+	if (!$sepa) {
+		$sepa = mb_substr(getSettingWithDefault('set-term-translation-delimiters'),
+		0,1,'UTF-8');
+	}
+	return $sepa;
+}
+
+// -------------------------------------------------------------
+
 function getSetting($key) {
 	$val = get_first_value('select StValue as value from settings where StKey = ' . convert_string_to_sqlsyntax($key));
 	if ( isset($val) ) {
