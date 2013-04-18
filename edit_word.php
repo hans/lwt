@@ -262,9 +262,11 @@ else {  // if (! isset($_REQUEST['op']))
 		if ($record = mysql_fetch_assoc($res)) {
 			
 			$status = $record['WoStatus'];
-			if ($status >= 98) $status = 1;
+			if ($fromAnn == '' ) {
+				if ($status >= 98) $status = 1;
+			}
 			$sentence = repl_tab_nl($record['WoSentence']);
-			if ($sentence == '') {
+			if ($sentence == '' && isset($_REQUEST['tid']) && isset($_REQUEST['ord'])) {
 				$seid = get_first_value("select TiSeID as value from textitems where TiTxID = " . $_REQUEST['tid'] . " and TiWordCount = 1 and TiOrder = " . $_REQUEST['ord']);
 				$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
 				$sentence = repl_tab_nl($sent[1]);
