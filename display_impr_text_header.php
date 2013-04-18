@@ -36,7 +36,11 @@ mysql_free_result($res);
 saveSetting('currenttext',$textid);
 
 pagestart_nobody(tohtml($title));
-echo '<h2 class="center" style="margin:5px;margin-top:-10px;">' . tohtml($title) . ' <img style="padding-left:30px; margin-bottom:-5px;" class="click" src="icn/cross-big.png" title="Close Window" alt="Close Window" onclick="top.close();" /></h2>';
+echo '<h2 class="center" style="margin:5px;margin-top:-10px;">';
+echo '<img id="hide" style="padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb.png" title="Hide Annotation" alt="Hide Annotation" onclick="{$(\'#show\').show(); $(\'#hide\').hide(); $(\'.anntransruby2\',window.parent.frames[\'text\'].document).css(\'visibility\',\'hidden\');}" />';
+echo '<img id="show" style="display:none; padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-off.png" title="Show Annotation" alt="Show Annotation" onclick="{$(\'#show\').hide(); $(\'#hide\').show(); $(\'.anntransruby2\',window.parent.frames[\'text\'].document).css(\'visibility\',\'visible\');}" />';
+echo tohtml($title);
+echo '<img style="padding-left:30px; margin-bottom:-5px;" class="click" src="icn/cross-big.png" title="Close Window" alt="Close Window" onclick="top.close();" /></h2>';
 
 if ($audio != '') {
 	$playerskin = getSettingWithDefault('set-player-skin-name');
