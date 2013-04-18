@@ -51,7 +51,7 @@ if ($audio != '') {
 <tr>
 <td class="width45pc">&nbsp;</td>
 <td class="center">
-<span id="do-single" class="click hide"><img src="icn/arrow-stop.png" alt="Do not repeat" title="Do not repeat" style="width:24px;height:24px;" /></span><span id="do-repeat" class="click"><img src="icn/arrow-repeat.png" alt="Repeat audio" title="Repeat audio" style="width:24px;height:24px;" /></span>
+<span id="do-single" class="click hide"><img src="icn/arrow-repeat.png" alt="Toggle Repeat (Now ON)" title="Toogle Repeat (Now ON)" style="width:24px;height:24px;" /></span><span id="do-repeat" class="click"><img src="icn/arrow-norepeat.png" alt="Toggle Repeat (Now OFF)" title="Toggle Repeat (Now OFF)" style="width:24px;height:24px;" /></span>
 </td>
 <td class="center">&nbsp;</td>
 <td>
