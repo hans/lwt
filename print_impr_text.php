@@ -68,7 +68,7 @@ mysql_free_result($res);
 
 saveSetting('currenttext',$textid);
 
-pagestart_nobody('Print');
+pagestart_nobody('Annotated Text');
 
 echo '<div class="noprint">';
 
@@ -78,7 +78,7 @@ echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />Learning with Tex
 echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
-echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
+echo '</h4><h3>ANN.TEXT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
 echo "<p id=\"printoptions\"><b>Improved Annotated Text";
 

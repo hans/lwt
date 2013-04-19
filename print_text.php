@@ -128,7 +128,7 @@ echo '<a href="edit_texts.php" target="_top">';
 echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />Learning with Texts';
 echo '</a>&nbsp; | &nbsp;';
 quickMenu();
-echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
+echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>' . get_annotation_link($textid) . ' &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
 echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 
 echo "<p id=\"printoptions\">Terms with <b>status(es)</b> <select id=\"status\" onchange=\"{val=document.getElementById('status').options[document.getElementById('status').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;status=' + val;}\">";
@@ -148,9 +148,9 @@ echo "<option value=\"2\"" . get_selected(2,$annplcmnt) . ">above (ruby)</option
 echo "</select> the term.<br />";
 echo "<input type=\"button\" value=\"Print it!\" onclick=\"window.print();\" />  (only the text below the line)";
 if ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0) {
-	echo " &nbsp; | &nbsp; Or <input type=\"button\" value=\"Print/Edit/Delete\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> your <b>improved</b> annotated text.";
+	echo " &nbsp; | &nbsp; Or <input type=\"button\" value=\"Print/Edit/Delete\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> your <b>Improved Annotated Text</b>" . get_annotation_link($textid) . ".";
 } else {
-	echo " &nbsp; | &nbsp; <input type=\"button\" value=\"Create/Print\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" /> an <b>improved</b> Annotation.";
+	echo " &nbsp; | &nbsp; <input type=\"button\" value=\"Create\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" /> an <b>Improved Annotated Text</b> [<img src=\"icn/tick.png\" title=\"Annotated Text\" alt=\"Annotated Text\" />].";
 }
 echo "</p></div> <!-- noprint -->";
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";

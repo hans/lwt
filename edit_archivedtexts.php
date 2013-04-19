@@ -346,7 +346,7 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Mark</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
-<th class="th1 clickable">Title [Tags] / Audio: <img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />, Annotation: <img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> ?</th>
+<th class="th1 clickable">Title [Tags]<br />Audio: <img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" /> , Ann. Text: <img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /> ?</th>
 </tr>
 
 <?php
@@ -362,7 +362,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center"><a name="rec' . $record['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $record['AtID'] . '" ' . checkTest($record['AtID'], 'marked') . ' /></a></td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?unarch=' . $record['AtID'] . '"><img src="icn/inbox-upload.png" title="Unarchive" alt="Unarchive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['AtID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['AtID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (isset($record['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . ($record['annotlen'] ? ' <img src="icn/tick.png" title="With Annotation" alt="With Annotation" />' : '') . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (isset($record['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . ($record['annotlen'] ? ' <img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" />' : '') . '</td>';
 	echo '</tr>';
 }
 mysql_free_result($res);

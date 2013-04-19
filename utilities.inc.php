@@ -2444,6 +2444,15 @@ function get_first_translation($trans) {
 
 // -------------------------------------------------------------
 
+function get_annotation_link($textid) {
+	if ( get_first_value('select length(TxAnnotatedText) as value from texts where TxID=' . $textid) > 0) 
+	return ' &nbsp;<a href="print_impr_text.php?text=' . $textid . '" target="_top"><img src="icn/tick.png" title="Annotated Text" alt="Annotated Text" /></a>';
+	else 
+		return '';
+}
+
+// -------------------------------------------------------------
+
 function trim_value(&$value) 
 { 
 	$value = trim($value); 
