@@ -2336,6 +2336,122 @@ function splitText($text, $lid, $id) {
 
 // -------------------------------------------------------------
 
+function recreate_save_ann($textid, $oldann) {
+	$newann = create_ann($textid);
+	// Get the translations from $oldann:
+	$oldtrans = array();
+	$olditems = preg_split('/[\n]/u', $oldann);
+	foreach ($olditems as $olditem) {
+		$oldvals = preg_split('/[\t]/u', $olditem);
+		if ($oldvals[0] > -1) {
+			$trans = '';
+			if (count($oldvals) > 3) $trans = $oldvals[3];
+			$oldtrans[$oldvals[0] . "\t" . $oldvals[1]] = $trans;
+		}
+	}
+	// Reset the translations from $oldann in $newann and rebuild in $ann:
+	$newitems = preg_split('/[\n]/u', $newann);
+	$ann = '';
+	foreach ($newitems as $newitem) {
+		$newvals = preg_split('/[\t]/u', $newitem);
+		if ($newvals[0] > -1) {
+			$key = $newvals[0] . "\t" . $newvals[1];
+			if (array_key_exists($key, $oldtrans)) {
+				$newvals[3] = $oldtrans[$key];
+			}
+			$item = implode("\t", $newvals);
+		} else {
+			$item = $newitem;
+		}
+		$ann .= $item . "\n";
+	}
+	$dummy = runsql('update texts set ' .
+		'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
+	return $ann;
+}
+
+// -------------------------------------------------------------
+
+function create_ann($textid) {
+	$ann = '';
+	$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+	$savenonterm = '';
+	$saveterm = '';
+	$savetrans = '';
+	$savewordid = '';
+	$until = 0;
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid Query: $sql");
+	while ($record = mysql_fetch_assoc($res)) {
+		$actcode = $record['Code'] + 0;
+		$order = $record['TiOrder'] + 0;
+		if ( $order <= $until ) {
+			continue;
+		}
+		if ( $order > $until ) {
+			$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid, $order);
+			$savenonterm = '';
+			$saveterm = '';
+			$savetrans = '';
+			$savewordid = '';
+			$until = $order;
+		}
+		if ($record['TiIsNotWord'] != 0) {
+			$savenonterm = $savenonterm . $record['TiText'];
+		}
+		else {
+			$until = $order + 2 * ($actcode-1);
+			$saveterm = $record['TiText'];
+			$savetrans = '';
+			if(isset($record['WoID'])) {
+				$savetrans = $record['WoTranslation'];
+				$savewordid = $record['WoID'];
+			}
+		}
+	} // while
+	mysql_free_result($res);
+	$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid, $order);
+	return $ann;
+}
+
+// -------------------------------------------------------------
+
+function create_save_ann($textid) {
+	$ann = create_ann($textid);
+	$dummy = runsql('update texts set ' .
+		'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
+	if ($dummy == 1) return $ann;
+	return '';
+}
+
+// -------------------------------------------------------------
+
+function process_term($nonterm, $term, $trans, $wordid, $line) {
+	$r = '';
+	if ($nonterm != '') $r = $r . "-1\t" . $nonterm . "\n";
+	if ($term != '') $r = $r . $line . "\t" . $term . "\t" . trim($wordid) . "\t" . get_first_translation($trans) . "\n";
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function get_first_translation($trans) {
+	$arr = preg_split('/[' . get_sepas()  . ']/u', $trans);
+	if (count($arr) < 1) return '';
+	$r = trim($arr[0]);
+	if ($r == '*') $r ="";
+	return $r;
+}
+
+// -------------------------------------------------------------
+
+function trim_value(&$value) 
+{ 
+	$value = trim($value); 
+}
+
+// -------------------------------------------------------------
+
 function make_score_random_insert_update($type) {  // $type='iv'/'id'/'u'
 	if ($type == 'iv') {
 		return ' WoTodayScore, WoTomorrowScore, WoRandom ';

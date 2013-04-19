@@ -73,17 +73,17 @@ function changeImprAnnRadio() {
 	);
 }
 
-function addTermTranslation(wordid,txid) {
+function addTermTranslation(wordid,txid,word,lang) {
 	var thedata = $(txid).val().trim();
 	var pagepos = $(document).scrollTop();
 	if((thedata == '') || (thedata == '*')) {
 		alert('Text Field is empty or = \'*\'!');
 		return;
 	}
-	$.post('ajax_add_term_transl.php', { id: wordid, data : thedata }
+	$.post('ajax_add_term_transl.php', { id: wordid, data : thedata, text: word, lang: lang }
 		, function(d) { 
 				if(d != 'OK') {
-					alert('Adding translation to term failed, please reload page and try again!'); 
+					alert('Adding translation to term OR term creation failed, please reload page and try again!'); 
 				} else {
 					do_ajax_edit_impr_text(pagepos);
 				}

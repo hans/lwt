@@ -20,7 +20,7 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
-function make_trans($i, $wid, $trans) {
+function make_trans($i, $wid, $trans, $word, $lang) {
 	$trans = trim($trans);
 	$widset = is_numeric($wid);
 	if ($widset) {
@@ -49,7 +49,9 @@ function make_trans($i, $wid, $trans) {
 	$r .= ' <img class="click" src="icn/eraser.png" title="Erase Text Field" alt="Erase Text Field" onclick="$(\'#tx' . $i . '\').val(\'\').trigger(\'change\');" />';
 	$r .= ' <img class="click" src="icn/star.png" title="* (Set to Term)" alt="* (Set to Term)" onclick="$(\'#tx' . $i . '\').val(\'*\').trigger(\'change\');" />';
 	if ($widset)
-		$r .= ' <img class="click" src="icn/plus-button.png" title="Save new translation to term" alt="Save new translation to term" onclick="addTermTranslation(' . $wid . ', \'#tx' . $i . '\');" />';
+		$r .= ' <img class="click" src="icn/plus-button.png" title="Save another translation to existent term" alt="Save another translation to existent term" onclick="addTermTranslation(' . $wid . ', \'#tx' . $i . '\',\'\',' . $lang . ');" />';
+	else 
+		$r .= ' <img class="click" src="icn/plus-button.png" title="Save translation to new term" alt="Save translation to new term" onclick="addTermTranslation(0, \'#tx' . $i . '\',' . prepare_textdata_js($word) . ',' . $lang . ');" />';
 	$r .= '</span>';
 	return $r;
 }
@@ -66,6 +68,11 @@ mysql_free_result($res);
 
 $ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
+if ($ann_exists) {
+	$ann = recreate_save_ann($textid, $ann);
+	$ann_exists = (strlen($ann) > 0);
+}
+
 $r = '<form action="" method="post"><table class="tab1" cellspacing="0" cellpadding="5"><tr>';
 $r .= '<th class="th1 center">Text</th>';
 $r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(0);" /></th>';
@@ -93,7 +100,7 @@ foreach ($items as $item) {
 		$r .= tohtml($vals[1]);
 		$r .= '</b></span></td>';
 		$r .= '<td class="td1">';
-		$r .= make_trans($i, $id, $trans);
+		$r .= make_trans($i, $id, $trans, $vals[1], $langid);
 		$r .= '</td><td class="td1bot center">';
 		if ($id == '') {
 			$r .= '&nbsp;';
