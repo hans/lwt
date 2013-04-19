@@ -2367,7 +2367,7 @@ function recreate_save_ann($textid, $oldann) {
 	}
 	$dummy = runsql('update texts set ' .
 		'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
-	return $ann;
+	return get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 }
 
 // -------------------------------------------------------------
@@ -2410,7 +2410,7 @@ function create_ann($textid) {
 		}
 	} // while
 	mysql_free_result($res);
-	$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid, $order);
+	$ann .= process_term($savenonterm, $saveterm, $savetrans, $savewordid, $order);
 	return $ann;
 }
 
@@ -2420,8 +2420,7 @@ function create_save_ann($textid) {
 	$ann = create_ann($textid);
 	$dummy = runsql('update texts set ' .
 		'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
-	if ($dummy == 1) return $ann;
-	return '';
+	return get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 }
 
 // -------------------------------------------------------------

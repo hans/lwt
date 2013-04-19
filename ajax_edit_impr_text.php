@@ -73,7 +73,8 @@ if ($ann_exists) {
 	$ann_exists = (strlen($ann) > 0);
 }
 
-$r = '<form action="" method="post"><table class="tab1" cellspacing="0" cellpadding="5"><tr>';
+$r = "";
+$r .= '<form action="" method="post"><table class="tab1" cellspacing="0" cellpadding="5"><tr>';
 $r .= '<th class="th1 center">Text</th>';
 $r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(0);" /></th>';
 $r .= '<th class="th1 center">Edit<br />Term</th>';
