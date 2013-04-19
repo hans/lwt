@@ -45,10 +45,10 @@ if(get_first_value("select count(WoID) as value from words where WoID = " . $wid
 		}
 		$dummy = runsql('update words set ' .
 			'WoTranslation = ' . convert_string_to_sqlsyntax($oldtrans) . ' where WoID = ' . $wid, "");
-	}
-	
-	$success = "OK";	
-	
+		$success = "OK";	
+	} else {
+		$success = "OK";
+	}	
 }
 
 echo $success;

@@ -21,11 +21,94 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
+function recreate_save_ann($textid, $oldann) {
+	$newann = create_ann($textid);
+	// Get the translations from $oldann:
+	$oldtrans = array();
+	$olditems = preg_split('/[\n]/u', $oldann);
+	foreach ($olditems as $olditem) {
+		$oldvals = preg_split('/[\t]/u', $olditem);
+		if ($oldvals[0] > -1) {
+			$trans = '';
+			if (count($oldvals) > 3) $trans = $oldvals[3];
+			$oldtrans[$oldvals[0] . "\t" . $oldvals[1]] = $trans;
+		}
+	}
+	// Reset the translations from $oldann in $newann and rebuild in $ann:
+	$newitems = preg_split('/[\n]/u', $newann);
+	$ann = '';
+	foreach ($newitems as $newitem) {
+		$newvals = preg_split('/[\t]/u', $newitem);
+		if ($newvals[0] > -1) {
+			$key = $newvals[0] . "\t" . $newvals[1];
+			if (array_key_exists($key, $oldtrans)) {
+				$newvals[3] = $oldtrans[$key];
+			}
+			$item = implode("\t", $newvals);
+		} else {
+			$item = $newitem;
+		}
+		$ann .= $item . "\n";
+	}
+	$dummy = runsql('update texts set ' .
+		'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
+	return $ann;
+}
 
-function process_term($nonterm, $term, $trans, $wordid) {
+function create_ann($textid) {
+	$ann = '';
+	$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+	$savenonterm = '';
+	$saveterm = '';
+	$savetrans = '';
+	$savewordid = '';
+	$until = 0;
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid Query: $sql");
+	while ($record = mysql_fetch_assoc($res)) {
+		$actcode = $record['Code'] + 0;
+		$order = $record['TiOrder'] + 0;
+		if ( $order <= $until ) {
+			continue;
+		}
+		if ( $order > $until ) {
+			$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid, $order);
+			$savenonterm = '';
+			$saveterm = '';
+			$savetrans = '';
+			$savewordid = '';
+			$until = $order;
+		}
+		if ($record['TiIsNotWord'] != 0) {
+			$savenonterm = $savenonterm . $record['TiText'];
+		}
+		else {
+			$until = $order + 2 * ($actcode-1);
+			$saveterm = $record['TiText'];
+			$savetrans = '';
+			if(isset($record['WoID'])) {
+				$savetrans = $record['WoTranslation'];
+				$savewordid = $record['WoID'];
+			}
+		}
+	} // while
+	mysql_free_result($res);
+	$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid, $order);
+	return $ann;
+}
+
+function create_save_ann($textid) {
+	$ann = create_ann($textid);
+	$dummy = runsql('update texts set ' .
+		'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
+	if ($dummy == 1) return $ann;
+	return '';
+}
+
+function process_term($nonterm, $term, $trans, $wordid, $line) {
 	$r = '';
-	if ($nonterm != '') $r = $r . "0\t" . $nonterm . "\n";
-	if ($term != '') $r = $r . "1\t" . $term . "\t" . trim($wordid) . "\t" . get_first_translation($trans) . "\n";
+	if ($nonterm != '') $r = $r . "-1\t" . $nonterm . "\n";
+	if ($term != '') $r = $r . $line . "\t" . $term . "\t" . trim($wordid) . "\t" . get_first_translation($trans) . "\n";
 	return $r;
 }
 
@@ -40,9 +123,12 @@ function get_first_translation($trans) {
 $textid = getreq('text')+0;
 $editmode = getreq('edit')+0;
 $delmode = getreq('del')+0;
-$savemode = getreq('op') . '';
 $ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
+if ($ann_exists) {
+	$ann = recreate_save_ann($textid, $ann);
+	$ann_exists = (strlen($ann) > 0);
+}
 
 if($textid==0) {
 	header("Location: edit_texts.php");
@@ -59,36 +145,6 @@ if ( $delmode ) {  // Delete
 	}
 }
 
-if ($savemode == "Save") {
-		// Save data and print
-		$items = preg_split('/[\n]/u', $ann);
-		$i = 0;
-		foreach ($items as $item) {
-			$i++;
-			$vals = preg_split('/[\t]/u', $item);
-			if ($vals[0] == 1) {
-				$newtran = "";
-				if(isset($_REQUEST['rg'][$i])) {
-					$newtran = $_REQUEST['rg'][$i];
-				} 
-				if(trim($newtran) == "" && isset($_REQUEST['tx'][$i])) {
-						$newtran = $_REQUEST['tx'][$i];
-				}
-				$c = count($vals);
-				if($c == 2) {
-					$vals[2] = ''; $vals[3] = $newtran;
-				} elseif ($c > 2) {
-					$vals[3] = $newtran;
-				} 
-				$items[$i-1] = implode("\t",$vals);
-			}
-		}
-		$dummy = runsql('update texts set ' .
-			'TxAnnotatedText = ' . convert_string_to_sqlsyntax(implode("\n",$items)) . ' where TxID = ' . $textid, "");
-		header("Location: print_impr_text.php?text=" . $textid);
-		exit();
-}
-
 $sql = 'select TxLgID, TxTitle, TxAudioURI from texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
@@ -96,8 +152,8 @@ $record = mysql_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 $audio = $record['TxAudioURI'];
-if(!isset($audio)) $audio='';
-$audio=trim($audio);
+if(! isset($audio)) $audio='';
+$audio = trim($audio);
 mysql_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
@@ -143,68 +199,16 @@ echo "</p></div> <!-- noprint -->";
 if ( $editmode ) {  // Edit Mode
 
 	if ( ! $ann_exists ) {  // No Ann., Create...
-	
-		$ann = '';
-	
-		$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
-		
-		$savenonterm = '';
-		$saveterm = '';
-		$savetrans = '';
-		$savewordid = '';
-		$until = 0;
-		
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
-		
-		while ($record = mysql_fetch_assoc($res)) {
-		
-			$actcode = $record['Code'] + 0;
-			$order = $record['TiOrder'] + 0;
-			
-			if ( $order <= $until ) {
-				continue;
-			}
-			if ( $order > $until ) {
-				$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid);
-				$savenonterm = '';
-				$saveterm = '';
-				$savetrans = '';
-				$savewordid = '';
-				$until = $order;
-			}
-			if ($record['TiIsNotWord'] != 0) {
-				$savenonterm = $savenonterm . $record['TiText'];
-			}
-			else {
-				$until = $order + 2 * ($actcode-1);                
-				$saveterm = $record['TiText'];
-				$savetrans = '';
-				if(isset($record['WoID'])) {
-					$savetrans = $record['WoTranslation'];
-					$savewordid = $record['WoID'];
-				}
-			}
-		} // while
-		mysql_free_result($res);
-		$ann = $ann . process_term($savenonterm, $saveterm, $savetrans, $savewordid);
-		
-		$dummy = runsql('update texts set ' .
-			'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, "");
-			
+		$ann = create_save_ann($textid);
 		$ann_exists = (strlen($ann) > 0);
-		
 	}
 	
 	if ( ! $ann_exists ) {  // No Ann., not possible
-	
-		echo '<p>No annotated text found, and creation not possible.</p>';
-	
+		echo '<p>No annotated text found, and creation seems not possible.</p>';
 	} else { // Ann. exists, set up for editing.
-	
 		echo "\n";
 ?>
-<p class="smallgray3 noprint"><img id="explainlogo" src="icn/question-frame.png" title="Show explainations" alt="Show explainations" class="click" onclick="$('#explain').show(); $('#explainlogo').hide();" /> <span id="explain" style="display:none;"><b>A few explanations:</b>  Within the <i>"Improved Annotated Text - Edit Mode"</i>, you can <b>select</b> the most suitable of the term translations by clicking on one of the <b>radio buttons</b>. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT <a href="settings.php">Settings</a> (currently: <?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>). You can also <b>type in a new translation</b> into the <b>text box</b> at the end (this does <b>not</b> change your saved term translation!), or you may <b>change your term</b> by clicking on the <b>yellow icon</b> or add a translation by clicking on the <b>green "+" icon</b>, and select it. It's not possible to create new terms here - new terms will have no effect unless you start from scratch. Changing the language settings (e.g. the word characters) has no effect unless you start from scratch. So, <b>the best time for the creation</b> of an improved annotated text (an interlinear text for reading or printing) is <b>after</b> you have read the text completely and created <b>all</b> terms and expressions.<br /><b>Warning: If you change the text, you will lose the saved improved annotated text! <br />All changes you do here are saved automatically in the background!</b></span></p>
+<p class="smallgray3 noprint"><img id="explainlogo" src="icn/question-frame.png" title="Show explainations" alt="Show explainations" class="click" onclick="$('#explain').show(); $('#explainlogo').hide();" /> <span id="explain" style="display:none;"><b>A few explanations:</b>  Within the <i>"Improved Annotated Text - Edit Mode"</i>, you can <b>select</b> here the most suitable of the term translations by clicking on one of the <b>radio buttons</b>. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT <a href="settings.php">Settings</a> (currently: <?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>). You can also <b>type in a new translation</b> into the <b>text box</b> at the end (this does <b>not</b> change your saved term translation), or you may <b>change your term</b> by clicking on the <b>yellow icon</b> or add a translation by clicking on the <b>green "+" icon</b> (this <b>does</b> change your saved term translation), and select it afterwards. It's not possible to create new terms here - please do this in the read screen. Changing the language settings (e.g. the word characters) may have the effect that you have to start from scratch. So, <b>the best time for the creation</b> of an improved annotated text (an interlinear text for reading or printing) is <b>after</b> you have read the text completely and created <b>all</b> terms and expressions.<br /><b>Warning: If you change the text, you will lose the saved improved annotated text! <br />All changes you do here are saved automatically in the background!</b></span></p>
 <?php
 		echo '<div data_id="' . $textid . '" id="editimprtextdata"></div>';
 		echo "\n";
@@ -217,12 +221,7 @@ if ( $editmode ) {  // Edit Mode
 	//]]>
 	</script>
 <?php
-		
 	}
-
-?>
-	
-<?php	
 	echo '<div class="noprint"><input type="button" value="Display/Print Mode" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /></div>';
 
 }
@@ -237,7 +236,7 @@ else {  // Print Mode
 	
 	foreach ($items as $item) {
 		$vals = preg_split('/[\t]/u', $item);
-		if ($vals[0] == 1) {
+		if ($vals[0] > -1) {
 			$trans = '';
 			if (count($vals) > 3) $trans = $vals[3];
 			if ($trans == '*') $trans = $vals[1];

@@ -78,7 +78,7 @@ $i = 0;
 foreach ($items as $item) {
 	$i++;
 	$vals = preg_split('/[\t]/u', $item);
-	if ($vals[0] == 1) {
+	if ($vals[0] > -1) {
 		$id = '';
 		$trans = '';
 		if (count($vals) > 2) {

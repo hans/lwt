@@ -57,7 +57,7 @@ $items = preg_split('/[\n]/u', $ann);
 
 foreach ($items as $item) {
 	$vals = preg_split('/[\t]/u', $item);
-	if ($vals[0] == 1) {
+	if ($vals[0] > -1) {
 		$trans = '';
 		if (count($vals) > 3) $trans = $vals[3];
 		if ($trans == '*') $trans = $vals[1];
