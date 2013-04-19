@@ -49,6 +49,22 @@ saveSetting('currenttext',$textid);
 
 pagestart_nobody('Display');
 
+?>
+<script type="text/javascript">
+//<![CDATA[
+
+function click_ann() {
+	$(this).css('color','#006699');
+}
+
+$(document).ready(function(){
+  $(".anntransruby2").click(click_ann);
+});
+//]]>
+</script>
+
+<?php
+
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 
 echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">';
@@ -61,7 +77,7 @@ foreach ($items as $item) {
 		$trans = '';
 		if (count($vals) > 3) $trans = $vals[3];
 		if ($trans == '*') $trans = $vals[1];
-		echo ' <ruby><rb><span class="anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class="anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
+		echo ' <ruby><rb><span class="anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class=" click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
 	} else {
 		echo str_replace(
 		"¶",

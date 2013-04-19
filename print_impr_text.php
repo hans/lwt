@@ -83,7 +83,7 @@ echo '</h4><h3>ANN.TEXT&nbsp;▶ ' . tohtml($title) . '</h3>';
 echo "<p id=\"printoptions\"><b>Improved Annotated Text";
 
 if($editmode) {
-	echo " (Edit Mode)</b><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />\n";
+	echo " (Edit Mode)</b> <img src=\"icn/question-frame.png\" title=\"Help\" alt=\"Help\" class=\"click\" onclick=\"window.open('info.htm#il2');\" /><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />\n";
 } else {
 	echo " (Display/Print Mode)</b><br /><input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
 	echo " &nbsp; | &nbsp; ";
@@ -109,7 +109,6 @@ if ( $editmode ) {  // Edit Mode
 	} else { // Ann. exists, set up for editing.
 		echo "\n";
 ?>
-<p class="smallgray3 noprint"><img id="explainlogo" src="icn/question-frame.png" title="Show explainations" alt="Show explainations" class="click" onclick="$('#explain').show(); $('#explainlogo').hide();" /> <span id="explain" style="display:none;"><b>A few explanations:</b>  Within the <i>"Improved Annotated Text - Edit Mode"</i>, you can <b>select</b> here the most suitable of the term translations by clicking on one of the <b>radio buttons</b>. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT <a href="settings.php">Settings</a> (currently: <?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters')); ?>). You can also <b>type in a new translation</b> into the <b>text box</b> at the end (this does <b>not</b> change your saved term translation), or you may <b>change your term</b> by clicking on the <b>yellow icon</b> or add a translation by clicking on the <b>green "+" icon</b> (this <b>does</b> change your saved term translation), and select it afterwards. It's not possible to create new terms here - please do this in the read screen. Changing the language settings (e.g. the word characters) may have the effect that you have to start from scratch. So, <b>the best time for the creation</b> of an improved annotated text (an interlinear text for reading or printing) is <b>after</b> you have read the text completely and created <b>all</b> terms and expressions.<br /><b>Warning: If you change the text, you will lose the saved improved annotated text! <br />All changes you do here are saved automatically in the background!</b></span></p>
 <?php
 		echo '<div data_id="' . $textid . '" id="editimprtextdata"></div>';
 		echo "\n";
