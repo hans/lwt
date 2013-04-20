@@ -66,12 +66,12 @@ $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysql_free_result($res);
 
-$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
+$sql = 'select LgTextSize, LgRightToLeft from languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
-$textsize = $record['LgTextSize'];
-$removeSpaces = $record['LgRemoveSpaces'];
+$textsize = $record['LgTextSize'] + 0;
+if ($textsize > 100) $textsize = intval($textsize * 0.8);
 $rtlScript = $record['LgRightToLeft'];
 mysql_free_result($res);
 
@@ -123,7 +123,7 @@ foreach ($items as $item) {
 		$r .= '</td></tr>';
 	} else {
 		if (trim($vals[1]) != '') {
-			$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%; font-weight:bold;">';
+			$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%;">';
 			$r .= str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($vals[1])); 
 			$r .= '</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td></tr>';
 		}
