@@ -66,6 +66,15 @@ $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysql_free_result($res);
 
+$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
+$res = mysql_query($sql);		
+if ($res == FALSE) die("Invalid Query: $sql");
+$record = mysql_fetch_assoc($res);
+$textsize = $record['LgTextSize'];
+$removeSpaces = $record['LgRemoveSpaces'];
+$rtlScript = $record['LgRightToLeft'];
+mysql_free_result($res);
+
 $ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 if ($ann_exists) {
@@ -97,9 +106,10 @@ foreach ($items as $item) {
 			}
 		}
 		if (count($vals) > 3) $trans = $vals[3];
-		$r .= '<tr><td class="td1 center"><span id="term' . $i . '"><b>';
+		$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%;"' . 
+			($rtlScript ? ' dir="rtl"' : '') . '><span id="term' . $i . '">';
 		$r .= tohtml($vals[1]);
-		$r .= '</b></span></td>';
+		$r .= '</span></td>';
 		$r .= '<td class="td1">';
 		$r .= make_trans($i, $id, $trans, $vals[1], $langid);
 		$r .= '</td><td class="td1bot center">';
@@ -113,7 +123,7 @@ foreach ($items as $item) {
 		$r .= '</td></tr>';
 	} else {
 		if (trim($vals[1]) != '') {
-			$r .= '<tr><td class="td1 center">';
+			$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%; font-weight:bold;">';
 			$r .= str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($vals[1])); 
 			$r .= '</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td></tr>';
 		}

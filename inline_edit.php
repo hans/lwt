@@ -25,6 +25,7 @@ $id = (isset($_POST['id'])) ? $_POST['id'] : "";
 if (substr($id, 0, 5) == "trans") {
 	// usleep(200000);
 	$id = substr($id, 5);
+	if(trim($value) == '') $value='*';
 	$message = runsql('update words set WoTranslation = ' . 
 		convert_string_to_sqlsyntax(repl_tab_nl($value)) . ' where WoID = ' . $id,
 		"");
