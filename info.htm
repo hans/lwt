@@ -450,7 +450,7 @@ $(document).ready( function() {
           <li>You may upload words and expressions into LWT (from LingQ or other sources, CSV/TSV) - they are immediately available in all texts!
           </li>
           
-          <li><a name="il"></a><b>New since Version 1.5.0:</b> Create and edit an annotated text version (as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning - similar to the material created by <a target="_blank" href="http://en.assimil.com/">Assimil</a> or proposed by <a target="_blank" href="http://web.archive.org/web/20070223080453/http://195.149.74.241/BIRKENBIHL/PDF/MethodEnglish.pdf">V. F. Birkenbihl</a>. Language learning via interlinear texts is quite old as you can see in <a target="_blank" href="http://www.youtube.com/watch?v=XnEKnezLXJg">this YouTube video</a>. While listening to the audio, first read the blue annotations in your native language. Later you read the foreign language text below. Repeat this often. If you fully understand the whole text, you listen to the text passively. Read more <a href="#il2">here</a>.
+          <li><b>New since Version 1.5.0:</b> Create and edit an improved annotated text version (as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>.
           </li>
           
           <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
@@ -1399,27 +1399,33 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <img class="grayborder" src="img/21.jpg" alt="Image" />
             <br />
             <br />
-           	<a name="il2"></a><b>How to create, edit, and use an "Improved Annotated Text":</b>
+           	<a name="il"></a><b>How to create, edit, and use an <i>Improved Annotated Text</i>:</b>
+            <br /><br />
+            <b>Motivation:</b> Annotated texts (as interlinear text) are used for language learning for a long time. One example are the word-by-word translations in <a target="_blank" href="http://en.assimil.com/">Assimil</a> courses. The German <a target="_blank" href="http://web.archive.org/web/20070223080453/http://195.149.74.241/BIRKENBIHL/PDF/MethodEnglish.pdf">V. F. Birkenbihl</a> proposes the creation of interlinear word-by-word translations (she calls it "decoding") in foreign language learning. Learning via interlinear texts is quite old as you can see in <a target="_blank" href="http://www.youtube.com/watch?v=XnEKnezLXJg">this YouTube video</a>. 
+            <br /><br />
+            LWT's old "Print Screen" offers annotations, but it displays ALL translations. The <i>Improved Annotated Text</i> feature enables you to select the best translation for every word in the text. As a result, you create an L1 word-by-word translation that is displayed above the L2 text. This interlinear text is better suited for language study, especially for beginners.
+            <br /><br />
+            <b>Method:</b> While listening to the audio, first follow the blue annotations in your native language while listening and understanding. Later, after understanding the text fully, you read the foreign language text alone. Repeat this often. After these steps, you listen to the text passively or do shadowing. 
             <br /><br />
             On the Print Screen, click on "Create" an Improved Annotated Text. The system creates a default annotated text. 
             <br /><br />
-            Edit Mode:
+            <b>Edit Mode:</b>
             <br /><br />
             <img class="grayborder" src="img/28.jpg" alt="Image" />
             <br /><br />
-            Within the "Improved Annotated Text - Edit Mode", you can select the best term translation by clicking on one of the radio buttons. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT Settings (currently: /;|). You can also type in a new translation into the text box at the end (this does not change your saved term translation), or you may change your term by clicking on the yellow icon or add a translation by clicking on the green "+" icon (this does change your saved term translation), and select it afterwards. It's not possible to create new terms here - please do this in the read screen. Changing the language settings (e.g. the word characters) may have the effect that you have to start from scratch. So, the best time for the creation of an improved annotated text (an interlinear text for reading or printing) is after you have read the text completely and created all terms and expressions.
+            Within the "Improved Annotated Text - Edit Mode", you can select the best term translation by clicking on one of the radio buttons. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT Settings (currently: /;|). You can also type in a new translation into the text box at the end (this does not change your saved term translation), or you may change your term by clicking on the yellow icon or add a translation by clicking on the green "+" icon (this does change your saved term translation), and select it afterwards. The "Star" icon indicated that you want the term itself as annotation. Important: It's not possible to create new terms here - please do this in the "Read text" screen. Changing the language settings (e.g. the word characters) may have the effect that you have to start from scratch. The best time for the creation of an improved annotated text is after you have read the text completely and created all terms and expressions in the "Read text" screen.
             <br /><br />
 						<b>Warning:</b> If you change the text, you will lose the saved improved annotated text! 
 						<br />
 						All changes in the Edit screen are saved automatically in the background!
             <br /><br />
-            To leave the Edit mode, click on "Display/Print" Mode. You may then print or display (with audio) the text, and work with text online or offline.
+            To leave the Edit mode, click on "Display/Print Mode". You may then print or display (with audio) the text, and work with the text online or offline.
             <br /><br />
-            Print Mode:
+            <b>Print Mode:</b>
             <br /><br />
             <img class="grayborder" src="img/27.jpg" alt="Image" />
             <br /><br />
-            Display Mode (with audio player) in a separate window:
+            <b>Display Mode</b> (with audio player) in a separate window. Clicking the lightbulb icon hides/shows the blue annotations. You may also click on/above a term to show or hide an individual annotation.
             <br /><br />
             <img class="grayborder" src="img/29.jpg" alt="Image" />
             <br /><br />
@@ -1541,10 +1547,10 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
           </li>
 
           <li>
-            <b>Backup/Restore LWT Database</b>
+            <b>Backup/Restore/Empty Database</b>
             <br />
             <br />
-            This screen offers a possibility to save and restore the LWT database. This makes it easy to try out new things or just to make regular backups. "Restore" only accepts files that have been created with the "Backup" function above. Other SQL files, e.g. the SQL files in the installation package, will not be accepted here.
+            This screen offers a possibility to save, restore or empty the LWT database. This makes it easy to try out new things or just to make regular backups. "Restore" only accepts files that have been created with the "Backup" function above. "Empty Database" deletes the data of all tables (except the settings), and you can start from scratch afterwards. Be careful: you may lose valuable data!
             <br />
             <br />
             <img class="grayborder" src="img/18.jpg" alt="Image" />
@@ -2260,9 +2266,13 @@ with audioplayer", if needed.</li>
         <ul>
         
         	<li>1.5.0 (April 27 2013): 
-        	New Feature: From the Print Screen, you are now able to create and edit an interlinear annotated text for online or offline study (Reasons: Please read <a href="#il">this</a>). To do this in an easy way, different translations of a term must be delimited by one character of the "List of characters that delimit different translations" in the Settings (default: /;|). While editing an "Improved Annotated Text", you select - via clicking on a radio button - one of these translations, or you input your own. With all this information, a better interlinear annotated text will be created that can be used for printing and offline learning, or for online study while listening to the audio. Read more <a href="#il">here</a> or <a href="#il2">here</a>. 
+        	New Feature: Create and edit an improved annotated text version (as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>. 
         	<br />
         	In-Place-editing of translations and romanizations now possible within the terms table.
+        	<br />
+        	You may now empty (= delete the contents of) the LWT database in the "Backup/Restore/Empty Database" screen. 
+        	<br />
+        	Some minor improvements.
         	<br />
         	Documentation, screenshots and demo database updated. 
         	 <br /><br />

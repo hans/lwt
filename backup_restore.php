@@ -14,7 +14,8 @@ Developed by J. P. in 2011, 2012, 2013.
 Call: backup_restore.php?....
       ... restore=xxx ... do restore 
       ... backup=xxx ... do backup 
-Backup/Restore LWT Database
+      ... empty=xxx ... do truncate
+Backup/Restore/Empty LWT Database
 ***************************************************************/
 
 include "connect.inc.php";
@@ -115,13 +116,32 @@ elseif (isset($_REQUEST['backup'])) {
 	echo gzencode($out,9);
 	exit();
 }
+
+// EMPTY
+
+elseif (isset($_REQUEST['empty'])) {
+	$dummy = runsql('TRUNCATE archivedtexts','');
+	$dummy = runsql('TRUNCATE archtexttags','');
+	$dummy = runsql('TRUNCATE languages','');
+	$dummy = runsql('TRUNCATE sentences','');
+	$dummy = runsql('TRUNCATE tags','');
+	$dummy = runsql('TRUNCATE tags2','');
+	$dummy = runsql('TRUNCATE textitems','');
+	$dummy = runsql('TRUNCATE texts','');
+	$dummy = runsql('TRUNCATE texttags','');
+	$dummy = runsql('TRUNCATE words','');
+	$dummy = runsql('TRUNCATE wordtags', '');
+	$dummy = runsql('DELETE FROM settings where StKey = \'currenttext\'', '');
+	optimizedb();
+	$message = "Database content has been deleted (but settings have been kept)";
+}
 	
-pagestart('Backup/Restore LWT Database',true);
+pagestart('Backup/Restore/Empty Database',true);
 
 echo error_message_with_hide($message,1);
 
 ?>
-<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return confirm('Are you sure?');">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1 center">Backup</th>
@@ -138,7 +158,8 @@ The database <i><?php echo tohtml($dbname); ?></i> will be exported to a gzipped
 The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the data in the specified backup file<br />(gzipped or normal SQL file, created above).<br /><b>Please be careful - the existent database will be overwritten!</b> <br />Important: If the backup file is too large, the restore may not be possible.<br />Upload limits (in bytes): <b>post_max_size = <?php echo ini_get('post_max_size'); ?> / upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
 If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restart server.</p>
 <p><input name="thefile" type="file" /></p>
-<p class="right">&nbsp;<br /><input type="submit" name="restore" value="Restore from LWT Backup" /></p>
+<p class="right">&nbsp;<br /><span class="red2">YOU MAY LOSE DATA - BE CAREFUL: &nbsp; &nbsp; &nbsp;</span> 
+<input type="submit" name="restore" value="Restore from LWT Backup" /></p>
 </td>
 </tr>
 <tr>
@@ -146,8 +167,17 @@ If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restar
 <td class="td1">
 <p class="smallgray2">
 You may also replace the database <i><?php echo tohtml($dbname); ?></i> by the LWT demo database.</p>
-<p class="right">&nbsp;<br />
+<p class="right">&nbsp;<br /><span class="red2">YOU MAY LOSE DATA - BE CAREFUL: &nbsp; &nbsp; &nbsp;</span> 
 <input type="button" value="Install LWT Demo Database" onclick="location.href='install_demo.php';" />
+</td>
+</tr>
+<tr>
+<th class="th1 center">Empty<br />Database</th>
+<td class="td1">
+<p class="smallgray2">
+Empty (= delete the contents of) all tables - except the Settings - of your database <i><?php echo tohtml($dbname); ?></i>.</p>
+<p class="right">&nbsp;<br /><span class="red2">YOU MAY LOSE DATA - BE CAREFUL: &nbsp; &nbsp; &nbsp;</span>
+<input type="submit" name="empty" value="Empty LWT Database" />
 </td>
 </tr>
 <tr>

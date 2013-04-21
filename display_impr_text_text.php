@@ -54,11 +54,23 @@ pagestart_nobody('Display');
 //<![CDATA[
 
 function click_ann() {
-	$(this).css('color','#006699');
+	if($(this).css('color') == 'rgb(255, 255, 255)') 
+		$(this).css('color','#006699');
+	else
+		$(this).css('color','white');
+}
+
+function click_text() {
+	var elem = $(this).closest('ruby').find('rt').find('span.anntransruby2');
+	if(elem.css('color') == 'rgb(255, 255, 255)') 
+		elem.css('color','#006699');
+	else
+		elem.css('color','white');
 }
 
 $(document).ready(function(){
-  $(".anntransruby2").click(click_ann);
+  $('.anntransruby2').click(click_ann);
+  $('.anntermruby').click(click_text);
 });
 //]]>
 </script>
@@ -77,12 +89,12 @@ foreach ($items as $item) {
 		$trans = '';
 		if (count($vals) > 3) $trans = $vals[3];
 		if ($trans == '*') $trans = $vals[1];
-		echo ' <ruby><rb><span class="anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class=" click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
+		echo ' <ruby><rb><span class="click anntermruby" style="color:black;">' . tohtml($vals[1]) . '</span></rb><rt><span class=" click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
 	} else {
 		echo str_replace(
 		"¶",
 		'</p><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
-		" " . tohtml($vals[1]) . " ");
+		" " . tohtml($vals[1]));
 	}
 }
 
