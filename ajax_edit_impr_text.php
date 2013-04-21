@@ -46,12 +46,12 @@ function make_trans($i, $wid, $trans, $word, $lang) {
 	} else {
 		$r = '<span class="nowrap"><input checked="checked" type="radio" name="rg' . $i . '" value="" />&nbsp;<input class="impr-ann-text" type="text" name="tx' . $i . '" id="tx' . $i . '" value="' . tohtml($trans) . '" maxlength="50" size="40" />';
 	}
-	$r .= ' <img class="click" src="icn/eraser.png" title="Erase Text Field" alt="Erase Text Field" onclick="$(\'#tx' . $i . '\').val(\'\').trigger(\'change\');" />';
-	$r .= ' <img class="click" src="icn/star.png" title="* (Set to Term)" alt="* (Set to Term)" onclick="$(\'#tx' . $i . '\').val(\'*\').trigger(\'change\');" />';
+	$r .= ' &nbsp;<img class="click" src="icn/eraser.png" title="Erase Text Field" alt="Erase Text Field" onclick="$(\'#tx' . $i . '\').val(\'\').trigger(\'change\');" />';
+	$r .= ' &nbsp;<img class="click" src="icn/star.png" title="* (Set to Term)" alt="* (Set to Term)" onclick="$(\'#tx' . $i . '\').val(\'*\').trigger(\'change\');" />';
 	if ($widset)
-		$r .= ' <img class="click" src="icn/plus-button.png" title="Save another translation to existent term" alt="Save another translation to existent term" onclick="addTermTranslation(' . $wid . ', \'#tx' . $i . '\',\'\',' . $lang . ');" />';
+		$r .= ' &nbsp;<img class="click" src="icn/plus-button.png" title="Save another translation to existent term" alt="Save another translation to existent term" onclick="addTermTranslation(' . $wid . ', \'#tx' . $i . '\',\'\',' . $lang . ');" />';
 	else 
-		$r .= ' <img class="click" src="icn/plus-button.png" title="Save translation to new term" alt="Save translation to new term" onclick="addTermTranslation(0, \'#tx' . $i . '\',' . prepare_textdata_js($word) . ',' . $lang . ');" />';
+		$r .= ' &nbsp;<img class="click" src="icn/plus-button.png" title="Save translation to new term" alt="Save translation to new term" onclick="addTermTranslation(0, \'#tx' . $i . '\',' . prepare_textdata_js($word) . ',' . $lang . ');" />';
 	$r .= '</span>';
 	return $r;
 }
@@ -85,17 +85,24 @@ if ($ann_exists) {
 $r = "";
 $r .= '<form action="" method="post"><table class="tab1" cellspacing="0" cellpadding="5"><tr>';
 $r .= '<th class="th1 center">Text</th>';
-$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(0);" /></th>';
-$r .= '<th class="th1 center">Edit<br />Term</th>';
 $r .= '<th class="th1 center">Dict.</th>';
+$r .= '<th class="th1 center">Edit<br />Term</th>';
+$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(0);" /></th>';
 $r .= '</tr>';
 $nonterms = "";
 $items = preg_split('/[\n]/u', $ann);
 $i = 0;
+$nontermbuffer ='';
 foreach ($items as $item) {
 	$i++;
 	$vals = preg_split('/[\t]/u', $item);
 	if ($vals[0] > -1) {
+		if ($nontermbuffer != '') {
+			$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%;">';
+			$r .= $nontermbuffer; 
+			$r .= '</td><td class="td1 right" colspan="3"><img class="click" src="icn/tick.png" title="Back to \'Display/Print Mode\'" alt="Back to \'Display/Print Mode\'" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /></td></tr>';
+			$nontermbuffer ='';
+		}
 		$id = '';
 		$trans = '';
 		if (count($vals) > 2) {
@@ -109,30 +116,32 @@ foreach ($items as $item) {
 		$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%;"' . 
 			($rtlScript ? ' dir="rtl"' : '') . '><span id="term' . $i . '">';
 		$r .= tohtml($vals[1]);
-		$r .= '</span></td>';
-		$r .= '<td class="td1">';
-		$r .= make_trans($i, $id, $trans, $vals[1], $langid);
-		$r .= '</td><td class="td1bot center">';
+		$r .= '</span></td><td class="td1 center" nowrap="nowrap">';
+		$r .= makeDictLinks($langid,prepare_textdata_js($vals[1]));
+		$r .= '</td><td class="td1 center">';
 		if ($id == '') {
 			$r .= '&nbsp;';
 		} else {
 			$r .= '<a name="rec' . $i . '"></a><span class="click" onclick="oewin(\'edit_word.php?fromAnn=\' + $(document).scrollTop() + \'&amp;wid=' . $id . '\');"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></span>';
 		}
-		$r .= '</td><td class="td1bot center" nowrap="nowrap">';
-		$r .= makeDictLinks($langid,prepare_textdata_js($vals[1]));
+		$r .= '</td><td class="td1" style="font-size:90%;">';
+		$r .= make_trans($i, $id, $trans, $vals[1], $langid);
 		$r .= '</td></tr>';
 	} else {
 		if (trim($vals[1]) != '') {
-			$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%;">';
-			$r .= str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($vals[1])); 
-			$r .= '</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td><td class="td1">&nbsp;</td></tr>';
+			$nontermbuffer .= str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($vals[1])); 
 		}
 	}
 }
+if ($nontermbuffer != '') {
+	$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%;">';
+	$r .= $nontermbuffer; 
+	$r .= '</td><td class="td1 right" colspan="3"><img class="click" src="icn/tick.png" title="Back to \'Display/Print Mode\'" alt="Back to \'Display/Print Mode\'" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /></td></tr>';
+}
 $r .= '<th class="th1 center">Text</th>';
-$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(1e6);" /><a name="bottom"></a></th>';
-$r .= '<th class="th1 center">Edit<br />Term</th>';
 $r .= '<th class="th1 center">Dict.</th>';
+$r .= '<th class="th1 center">Edit<br />Term</th>';
+$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(1e6);" /><a name="bottom"></a></th>';
 $r .= '</tr></table></form>' . "\n";
 $r .= '<script type="text/javascript">' . "\n";
 $r .= '//<![CDATA[' . "\n";
