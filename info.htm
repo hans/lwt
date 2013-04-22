@@ -197,7 +197,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.0 (April 27 2013)</b>.
+          <li>The current version is <b>1.5.0 (April 22 2013)</b>.
           </li>
 
           <li>
@@ -397,7 +397,7 @@ $(document).ready( function() {
           <li>Import of terms in TSV/CSV format, export in TSV format, and export to <a href="http://ankisrs.net" target="_blank">Anki</a> (prepared for cloze tests), are also possible.
           </li>
 
-          <li>IMPORTANT: To run LWT, you need a modern web browser (Chrome or Safari; Firefox is also OK, but dowsn't play MP3 audio files, Internet Explorer is not recommended), and a local web server (Apache) with PHP and mySQL.
+          <li><b>IMPORTANT:</b> To run LWT, you need a modern web browser (Chrome or Safari; Firefox is also OK, but dowsn't play MP3 audio files, Internet Explorer is not recommended), and a local web server (Apache) with PHP and mySQL.
           </li>
 
           <li>An easy way to install a local web server are preconfigured packages like <a href="http://www.apachefriends.org/en/xampp.html" target="_blank">XAMPP</a> (Win, Mac, Linux), <a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Win) or <a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac).
@@ -1211,7 +1211,7 @@ Developed by J. P. in 2011, 2012, 2013.
 Another example: The URI to query "travailler" in sansagent is "http://dictionary.sensagent.com/travailler/fr-en/", so you enter in LWT "http://dictionary.sensagent.com/###/fr-en/". <br /> <br />            
               As URI No. 3 ("Google Translate URI") is also used to translate whole sentences, I would recommend to enter here always the link to Google Translate, like shown in the examples. The link to Google Translate is  "http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###", where the two-character codes after "sl=" and "tl=" designate the <a href="http://bit.ly/n1Fz2C" target=_blank">language codes</a> for the source and the target language. But a different third web dictionary is of course possible.<br /><br /> 
               If the searchword in the three URIs needs to be converted into a different encoding (standard is UTF-8), you can use ###encoding### as a placeholder. Normally you see this right away if terms show up wrongly in the web dictionary. Example: Linguee expects the searchword in ISO-8859-15, not in UTF-8, so you define it this way: "http://www.linguee.de/search?direction=auto&query=###ISO-8859-15###".	A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php" target=_blank">here</a>.<br /><br /> 
-              IMPORTANT: Some dictionaries (including "Google Translate") don't allow to be opened within a frame set. Put an asterisk * in front of the URI (Examples: *http://mywebdict.com?q=### or *http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###) to open such a dictionary not within the frame set but in a popup window (please don't forget to deactivate popup window blocking in your browser!).<br /> <br /> 
+              <b>IMPORTANT:</b> Some dictionaries (including "Google Translate") don't allow to be opened within a frame set. Put an asterisk * in front of the URI (Examples: *http://mywebdict.com?q=### or *http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###) to open such a dictionary not within the frame set but in a popup window (please don't forget to deactivate popup window blocking in your browser!).<br /> <br /> 
               You don't know how and where to find a good web dictionary? Try these dictionary directories:<ul>
               <li><a href="http://www.alphadictionary.com/langdir.html" target="_blank">http://www.alphadictionary.com/langdir.html</a></li>
               <li><a href="http://dir.yahoo.com/reference/dictionaries/" target="_blank">http://dir.yahoo.com/reference/dictionaries/</a></li>
@@ -1413,7 +1413,7 @@ Another example: The URI to query "travailler" in sansagent is "http://dictionar
             <br /><br />
             <img class="grayborder" src="img/28.jpg" alt="Image" />
             <br /><br />
-            Within the "Improved Annotated Text - Edit Mode", you can select the best term translation by clicking on one of the radio buttons. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT Settings (currently: /;|). You can also type in a new translation into the text box at the end (this does not change your saved term translation), or you may change your term by clicking on the yellow icon or add a translation by clicking on the green "+" icon (this does change your saved term translation), and select it afterwards. The "Star" icon indicated that you want the term itself as annotation. Important: It's not possible to create new terms here - please do this in the "Read text" screen. Changing the language settings (e.g. the word characters) may have the effect that you have to start from scratch. The best time for the creation of an improved annotated text is after you have read the text completely and created all terms and expressions in the "Read text" screen.
+            Within the "Improved Annotated Text - Edit Mode", you can select the best term translation by clicking on one of the radio buttons. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT Settings (currently: /;|). You can also type in a new translation into the text box at the end (this does not change your saved term translation), or you may change your term by clicking on the yellow icon or add a translation by clicking on the green "+" icon (this does change your saved term translation), and select it afterwards. The "Star" icon indicated that you want the term itself as annotation. <b>Important:</b> It's not possible to create new terms here - please do this in the "Read text" screen. Changing the language settings (e.g. the word characters) may have the effect that you have to start from scratch. The best time for the creation of an improved annotated text is after you have read the text completely and created all terms and expressions in the "Read text" screen.
             <br /><br />
 						<b>Warning:</b> If you change the text, you will lose the saved improved annotated text! 
 						<br />
@@ -2265,17 +2265,15 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
         
-        	<li>1.5.0 (April 27 2013): 
-        	New Feature: Create and edit an improved annotated text version (as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>. 
+        	<li>1.5.0 (April 22 2013): 
+        	<b>New Feature:</b> Create and edit an improved annotated text version (as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. <b>Read more <a href="#il">here</a></b>. 
         	<br />
         	In-Place-editing of translations and romanizations now possible within the terms table.
         	<br />
         	You may now empty (= delete the contents of) the LWT database in the "Backup/Restore/Empty Database" screen. 
         	<br />
-        	Some minor improvements.
-        	<br />
-        	Documentation, screenshots and demo database updated. 
-        	 <br /><br />
+        	Some minor improvements. Documentation, screenshots and demo database updated. 
+        	<br /><br />
         	</li>
 
         	<li>1.4.10 (February 22 2013): 
