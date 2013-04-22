@@ -82,10 +82,10 @@ function addTermTranslation(wordid,txid,word,lang) {
 	}
 	$.post('ajax_add_term_transl.php', { id: wordid, data : thedata, text: word, lang: lang }
 		, function(d) { 
-				if(d != 'OK') {
+				if(d == '') {
 					alert('Adding translation to term OR term creation failed, please reload page and try again!'); 
 				} else {
-					do_ajax_edit_impr_text(pagepos);
+					do_ajax_edit_impr_text(pagepos,d);
 				}
 			} 
 	);
@@ -436,13 +436,16 @@ function do_ajax_word_counts() {
 	);
 }
 
-function do_ajax_edit_impr_text(pagepos) {
-	$('#editimprtextdata').html('<img src="icn/waiting2.gif" />');
+function do_ajax_edit_impr_text(pagepos, word) {
+	if (word=='') $('#editimprtextdata').html('<img src="icn/waiting2.gif" />');
 	var textid = $('#editimprtextdata').attr('data_id');
-	$.post('ajax_edit_impr_text.php', { id: textid }, 
-		function(data) { 
-			$('#editimprtextdata').html(data); 
+	$.post('ajax_edit_impr_text.php', { id: textid, word: word }, 
+		function(data) {
+			// alert(data);
+			eval(data);
 			$.scrollTo(pagepos); 
+			$('input.impr-ann-text').change(changeImprAnnText);
+			$('input.impr-ann-radio').change(changeImprAnnRadio);
 		} 
 	);
 }
@@ -476,6 +479,8 @@ $(document).ready( function() {
 			cols      : 35
 		}
 	);
+	$('input.impr-ann-text').change(changeImprAnnText);
+	$('input.impr-ann-radio').change(changeImprAnnRadio);
 	$('form.validate').submit(check);
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);

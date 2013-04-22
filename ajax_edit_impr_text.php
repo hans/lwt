@@ -56,7 +56,8 @@ function make_trans($i, $wid, $trans, $word, $lang) {
 	return $r;
 }
 
-$textid = $_REQUEST["id"] + 0;
+$textid = $_POST["id"] + 0;
+$wordlc = stripTheSlashesIfNeeded($_POST['word']);
 
 $sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
@@ -82,12 +83,13 @@ if ($ann_exists) {
 	$ann_exists = (strlen($ann) > 0);
 }
 
+$rr = "";
 $r = "";
 $r .= '<form action="" method="post"><table class="tab1" cellspacing="0" cellpadding="5"><tr>';
 $r .= '<th class="th1 center">Text</th>';
 $r .= '<th class="th1 center">Dict.</th>';
 $r .= '<th class="th1 center">Edit<br />Term</th>';
-$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(0);" /></th>';
+$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(0,\'\');" /></th>';
 $r .= '</tr>';
 $nonterms = "";
 $items = preg_split('/[\n]/u', $ann);
@@ -116,17 +118,26 @@ foreach ($items as $item) {
 		$r .= '<tr><td class="td1 center" style="font-size:' . $textsize . '%;"' . 
 			($rtlScript ? ' dir="rtl"' : '') . '><span id="term' . $i . '">';
 		$r .= tohtml($vals[1]);
+		$mustredo = (trim($wordlc) == mb_strtolower(trim($vals[1]), 'UTF-8'));
 		$r .= '</span></td><td class="td1 center" nowrap="nowrap">';
 		$r .= makeDictLinks($langid,prepare_textdata_js($vals[1]));
-		$r .= '</td><td class="td1 center">';
+		$r .= '</td><td class="td1 center"><span id="editlink' . $i . '">';
+		/***** editlink + $i ******/
 		if ($id == '') {
-			$r .= '&nbsp;';
+			$plus = '&nbsp;';
 		} else {
-			$r .= '<a name="rec' . $i . '"></a><span class="click" onclick="oewin(\'edit_word.php?fromAnn=\' + $(document).scrollTop() + \'&amp;wid=' . $id . '\');"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></span>';
+			$plus = '<a name="rec' . $i . '"></a><span class="click" onclick="oewin(\'edit_word.php?fromAnn=\' + $(document).scrollTop() + \'&amp;wid=' . $id . '\');"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></span>';
 		}
-		$r .= '</td><td class="td1" style="font-size:90%;">';
-		$r .= make_trans($i, $id, $trans, $vals[1], $langid);
-		$r .= '</td></tr>';
+		if ($mustredo) $rr .= "$('#editlink" . $i . "').html(" . prepare_textdata_js($plus) . ");";
+		$r .= $plus;
+		/***** END editlink + $i ******/
+		$r .= '</span></td><td class="td1" style="font-size:90%;"><span id="transsel' . $i . '">';
+		/***** transsel + $i ******/
+		$plus = make_trans($i, $id, $trans, $vals[1], $langid);
+		if ($mustredo) $rr .= "$('#transsel" . $i . "').html(" . prepare_textdata_js($plus) . ");";
+		$r .= $plus;
+		/***** END transsel + $i ******/
+		$r .= '</span></td></tr>';
 	} else {
 		if (trim($vals[1]) != '') {
 			$nontermbuffer .= str_replace("¶", '<img src="icn/new_line.png" title="New Line" alt="New Line" />', tohtml($vals[1])); 
@@ -141,8 +152,9 @@ if ($nontermbuffer != '') {
 $r .= '<th class="th1 center">Text</th>';
 $r .= '<th class="th1 center">Dict.</th>';
 $r .= '<th class="th1 center">Edit<br />Term</th>';
-$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(1e6);" /><a name="bottom"></a></th>';
+$r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(1e6,\'\');" /><a name="bottom"></a></th>';
 $r .= '</tr></table></form>' . "\n";
+/*
 $r .= '<script type="text/javascript">' . "\n";
 $r .= '//<![CDATA[' . "\n";
 $r .= '$(document).ready( function() {' . "\n";
@@ -151,6 +163,11 @@ $r .= "$('input.impr-ann-radio').change(changeImprAnnRadio);\n";
 $r .= '} );' . "\n";
 $r .= '//]]>' . "\n";
 $r .= '</script>' . "\n";
-echo $r;
+*/
+
+if ($wordlc == '')
+	echo "$('#editimprtextdata').html(" . prepare_textdata_js($r) . ");";
+else
+	echo $rr;
 
 ?>

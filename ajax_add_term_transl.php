@@ -25,7 +25,7 @@ $text = trim(stripTheSlashesIfNeeded($_POST['text'])); // only wid=0 (new)
 $lang = $_POST['lang'] + 0; // only wid=0 (lang-id)
 
 // Save data
-$success = "NOTOK";
+$success = "";
 
 if ($wid == 0) {
 	$textlc = mb_strtolower($text, 'UTF-8');
@@ -38,12 +38,10 @@ if ($wid == 0) {
 		convert_string_to_sqlsyntax('') . ', ' .
 		convert_string_to_sqlsyntax('') . ', NOW(), ' .  
 		make_score_random_insert_update('id') . ')', "");
-	if ($dummy == 1) $success = "OK";	
-	echo $success;
-	exit;
+	if ($dummy == 1) $success = $textlc;	
 }
 
-if(get_first_value("select count(WoID) as value from words where WoID = " . $wid) == 1) {
+else if(get_first_value("select count(WoID) as value from words where WoID = " . $wid) == 1) {
 
 	$oldtrans = get_first_value("select WoTranslation as value from words where WoID = " . $wid);
 	
@@ -59,7 +57,7 @@ if(get_first_value("select count(WoID) as value from words where WoID = " . $wid
 		$dummy = runsql('update words set ' .
 			'WoTranslation = ' . convert_string_to_sqlsyntax($oldtrans) . ' where WoID = ' . $wid, "");
 	}
-	$success = "OK";	
+	$success = get_first_value("select WoTextLC as value from words where WoID = " . $wid);;	
 }
 
 echo $success;

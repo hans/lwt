@@ -260,9 +260,9 @@ elseif (isset($_REQUEST['op'])) {
 			'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
 			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
 			'where TxID = ' . $_REQUEST["TxID"], "Updated");
-			if (($message1 == 'Updated: 1') && $textsdiffer) {
+			/* if (($message1 == 'Updated: 1') && $textsdiffer) {
 				$dummy = runsql("update texts set TxAnnotatedText = '' where TxID = " . $_REQUEST["TxID"], "");
-			}
+			} */
 			$id = $_REQUEST["TxID"];
 			saveTextTags($id);
 		}
@@ -384,7 +384,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<tr>
 		<td class="td1 right">Ann.Text:</td>
 		<td class="td1">
-		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> Exists (Will be lost if you change the text!) | <input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Improved Annotation" alt="No Improved Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
+		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> Exists - May be partially or fully lost if you change the text!<br /><input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Improved Annotation" alt="No Improved Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
 		</td>
 		</tr>
 		<tr>

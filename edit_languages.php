@@ -253,6 +253,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>
+		<p class="smallgray"><b>Warning:</b> Changing certain language settings may cause partial or complete loss of improved annotated texts!</p>
 		</form>
 		<?php
 

@@ -112,7 +112,7 @@ make_score_random_insert_update('id') . ')', "Term saved");
 <?php
 if ($fromAnn !== '') {
 ?>
-window.opener.do_ajax_edit_impr_text(<?php echo $fromAnn; ?>);
+window.opener.do_ajax_edit_impr_text(<?php echo $fromAnn; ?>, <?php echo prepare_textdata_js($textlc); ?>);
 <?php
 } else {
 ?>
