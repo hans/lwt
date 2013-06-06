@@ -94,9 +94,16 @@ foreach ($items as $item) {
 	$vals = preg_split('/[\t]/u', $item);
 	if ($vals[0] > -1) {
 		$trans = '';
-		if (count($vals) > 3) $trans = $vals[3];
+		$c = count($vals);
+		$rom = '';
+		if ($c > 2) {
+			$wid = $vals[2] + 0;
+			$rom = get_first_value("select WoRomanization as value from words where WoID = " . $wid);
+			if (! isset($rom)) $rom = '';
+		}
+		if ($c > 3) $trans = $vals[3];
 		if ($trans == '*') $trans = $vals[1];
-		echo ' <ruby><rb><span class="click anntermruby" style="color:black;">' . tohtml($vals[1]) . '</span></rb><rt><span class=" click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
+		echo ' <ruby><rb><span class="click anntermruby" style="color:black;"' . ($rom == '' ? '' : (' title="' . tohtml($rom) . '"')) . '>' . tohtml($vals[1]) . '</span></rb><rt><span class="click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
 	} else {
 		echo str_replace(
 		"¶",
