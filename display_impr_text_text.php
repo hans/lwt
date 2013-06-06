@@ -54,17 +54,25 @@ pagestart_nobody('Display');
 //<![CDATA[
 
 function click_ann() {
-	if($(this).css('color') == 'rgb(255, 255, 255)') 
+	if($(this).css('color') == 'rgb(200, 220, 240)') {
 		$(this).css('color','#006699');
-	else
-		$(this).css('color','white');
+		$(this).css('background-color','white');
+	}
+	else {
+		$(this).css('color','#C8DCF0');
+		$(this).css('background-color','#C8DCF0');
+	}
 }
 
 function click_text() {
-	if($(this).css('color') == 'rgb(255, 255, 255)') 
+	if($(this).css('color') == 'rgb(229, 228, 226)') {
 		$(this).css('color','black');
-	else
-		$(this).css('color','white');
+		$(this).css('background-color','white');
+	}
+	else {
+		$(this).css('color','#E5E4E2');
+		$(this).css('background-color','#E5E4E2');
+	}
 }
 
 $(document).ready(function(){
