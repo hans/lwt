@@ -37,8 +37,10 @@ saveSetting('currenttext',$textid);
 
 pagestart_nobody(tohtml($title));
 echo '<h2 class="center" style="margin:5px;margin-top:-10px;">';
-echo '<img id="hide" style="padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb.png" title="Hide Annotation" alt="Hide Annotation" onclick="{$(\'#show\').show(); $(\'#hide\').hide(); $(\'.anntransruby2\',window.parent.frames[\'text\'].document).css(\'color\',\'white\');}" />';
-echo '<img id="show" style="display:none; padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-off.png" title="Show Annotation" alt="Show Annotation" onclick="{$(\'#show\').hide(); $(\'#hide\').show(); $(\'.anntransruby2\',window.parent.frames[\'text\'].document).css(\'color\',\'#006699\');}" />';
+echo '<img id="hidet" style="margin-bottom:-5px;" class="click" src="icn/light-bulb-T.png" title="Hide Text" alt="Hide Text" onclick="{$(\'#showt\').show(); $(\'#hidet\').hide(); $(\'.anntermruby\',window.parent.frames[\'text\'].document).css(\'color\',\'white\');}" />';
+echo '<img id="showt" style="display:none; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-T.png" title="Show Text" alt="Show Text" onclick="{$(\'#showt\').hide(); $(\'#hidet\').show(); $(\'.anntermruby\',window.parent.frames[\'text\'].document).css(\'color\',\'black\');}" />';
+echo '<img id="hide" style="padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-A.png" title="Hide Annotation" alt="Hide Annotation" onclick="{$(\'#show\').show(); $(\'#hide\').hide(); $(\'.anntransruby2\',window.parent.frames[\'text\'].document).css(\'color\',\'white\');}" />';
+echo '<img id="show" style="display:none; padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-A.png" title="Show Annotation" alt="Show Annotation" onclick="{$(\'#show\').hide(); $(\'#hide\').show(); $(\'.anntransruby2\',window.parent.frames[\'text\'].document).css(\'color\',\'#006699\');}" />';
 echo tohtml($title);
 echo '<img style="padding-left:30px; margin-bottom:-5px;" class="click" src="icn/cross-big.png" title="Close Window" alt="Close Window" onclick="top.close();" /></h2>';
 

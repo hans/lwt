@@ -61,11 +61,10 @@ function click_ann() {
 }
 
 function click_text() {
-	var elem = $(this).closest('ruby').find('rt').find('span.anntransruby2');
-	if(elem.css('color') == 'rgb(255, 255, 255)') 
-		elem.css('color','#006699');
+	if($(this).css('color') == 'rgb(255, 255, 255)') 
+		$(this).css('color','black');
 	else
-		elem.css('color','white');
+		$(this).css('color','white');
 }
 
 $(document).ready(function(){
