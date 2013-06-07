@@ -67,10 +67,10 @@ echo '<h2 class="center" style="margin:5px;margin-top:-10px;">';
 
 <?php
 
-echo '<img id="hidet" style="margin-bottom:-5px;" class="click" src="icn/light-bulb-T.png" title="Hide Text" alt="Hide Text" onclick="do_hide_t();" />';
-echo '<img id="showt" style="display:none; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-T.png" title="Show Text" alt="Show Text" onclick="do_show_t();" />';
-echo '<img id="hide" style="padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-A.png" title="Hide Annotation" alt="Hide Annotation" onclick="do_hide_a();" />';
-echo '<img id="show" style="display:none; padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-A.png" title="Show Annotation" alt="Show Annotation" onclick="do_show_a();" />';
+echo '<img id="hidet" style="margin-bottom:-5px;" class="click" src="icn/light-bulb-T.png" title="Toggle Text Display (Now ON)" alt="Toggle Text Display (Now ON)" onclick="do_hide_t();" />';
+echo '<img id="showt" style="display:none; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-T.png" title="Toggle Text Display (Now OFF)" alt="Toggle Text Display (Now OFF)" onclick="do_show_t();" />';
+echo '<img id="hide" style="padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-A.png" title="Toggle Annotation Display (Now ON)" alt="Toggle Annotation Display (Now ON)" onclick="do_hide_a();" />';
+echo '<img id="show" style="display:none; padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-A.png" title="Toggle Annotation Display (Now OFF)" alt="Toggle Annotation Display (Now OFF)" onclick="do_show_a();" />';
 echo tohtml($title);
 echo '<img style="padding-left:30px; margin-bottom:-5px;" class="click" src="icn/cross-big.png" title="Close Window" alt="Close Window" onclick="top.close();" /></h2>';
 
