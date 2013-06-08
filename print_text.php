@@ -125,9 +125,10 @@ echo '<div class="noprint">';
 
 echo '<h4>';
 echo '<a href="edit_texts.php" target="_top">';
-echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />Learning with Texts';
+echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />LWT';
 echo '</a>&nbsp; | &nbsp;';
 quickMenu();
+echo '&nbsp; | &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/navigation-180-button.png" title="Previous Text" alt="Previous Text" /></a> <a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/navigation-000-button.png" title="Next Text" alt="Next Text" /></a>';
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>' . get_annotation_link($textid) . ' &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
 echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . '</h3>';
 

@@ -72,7 +72,8 @@ echo '<img id="showt" style="display:none; margin-bottom:-5px;" class="click" sr
 echo '<img id="hide" style="padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-A.png" title="Toggle Annotation Display (Now ON)" alt="Toggle Annotation Display (Now ON)" onclick="do_hide_a();" />';
 echo '<img id="show" style="display:none; padding-right:30px; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-A.png" title="Toggle Annotation Display (Now OFF)" alt="Toggle Annotation Display (Now OFF)" onclick="do_show_a();" />';
 echo tohtml($title);
-echo '<img style="padding-left:30px; margin-bottom:-5px;" class="click" src="icn/cross-big.png" title="Close Window" alt="Close Window" onclick="top.close();" /></h2>';
+echo '<span style="padding-left:30px; margin-bottom:-5px;"><a href="display_impr_text.php?text=' . $textid . '" target="_top"><img src="icn/navigation-180-button.png" title="Previous Text" alt="Previous Text" /></a> <a href="display_impr_text.php?text=' . $textid . '" target="_top"><img src="icn/navigation-000-button.png" title="Next Text" alt="Next Text" /></a>';
+echo ' <img class="click" src="icn/cross.png" title="Close Window" alt="Close Window" onclick="top.close();" /></span></h2>';
 
 if ($audio != '') {
 	$playerskin = getSettingWithDefault('set-player-skin-name');

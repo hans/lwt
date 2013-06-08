@@ -426,7 +426,7 @@ Developed by J. P. in 2011, 2012, 2013.
 
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>Learning with Texts :: <?php echo tohtml($title); ?></title>
+	<title>LWT :: <?php echo tohtml($title); ?></title>
 </head>
 <?php
 }
@@ -489,7 +489,7 @@ Developed by J. P. in 2011, 2012, 2013.
 	<script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
 	
-	<title>Learning with Texts :: <?php echo $titeltext; ?></title>
+	<title>LWT :: <?php echo $titeltext; ?></title>
 </head>
 <body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
@@ -504,7 +504,9 @@ function pagestart($titeltext,$close) {
 	pagestart_nobody($titeltext);
 	echo '<h4>';
 	if ($close) echo '<a href="index.php" target="_top">';
-	echo '<img class="lwtlogo" src="img/lwt_icon.png" alt="Logo" />Learning with Texts';
+	echo '<img class="lwtlogo" src="img/lwt_icon.png" alt="Logo" />';
+	if ($close) echo "LWT";
+	else echo "Learning With Texts (LWT)";
 	if ($close) {
 		echo '</a>&nbsp; | &nbsp;';
 		quickMenu();
