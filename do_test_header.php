@@ -64,7 +64,7 @@ echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />LWT';
 echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 if (substr($p,0,4) == 'text') {
-	echo '&nbsp; | &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/navigation-180-button.png" title="Previous Text" alt="Previous Text" /></a> <a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/navigation-000-button.png" title="Next Text" alt="Next Text" /></a>';
+	echo getPreviousAndNextTextLinks($textid, 'do_test.php?text=', FALSE, '&nbsp; | &nbsp;');
 	echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /></a>' . get_annotation_link($textid);
 }
 echo '</h4><table><tr><td><h3>TEST&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . ' (Due: ' . $totalcountdue . ')</h3></td></tr><tr><td colspan="2">';

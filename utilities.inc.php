@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.5.1 (June 07 2013)'  . 
+	return '1.5.2 (June ?? 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -43,6 +43,79 @@ function stripTheSlashesIfNeeded($s) {
 		return stripslashes($s);
 	else
 		return $s;
+}
+
+// -------------------------------------------------------------
+
+function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add) {
+	$currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
+	$wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
+
+	$currentquery = processSessParam("query","currenttextquery",'',0);
+	$wh_query = convert_string_to_sqlsyntax(str_replace("*","%",mb_strtolower($currentquery, 'UTF-8')));
+	$wh_query = ($currentquery != '') ? (' and TxTitle like ' . $wh_query) : '';
+
+	$currenttag1 = validateTextTag(processSessParam("tag1","currenttexttag1",'',0),$currentlang);
+	$currenttag2 = validateTextTag(processSessParam("tag2","currenttexttag2",'',0),$currentlang);
+	$currenttag12 = processSessParam("tag12","currenttexttag12",'',0);
+	if ($currenttag1 == '' && $currenttag2 == '')
+		$wh_tag = '';
+	else {
+		if ($currenttag1 != '') {
+			if ($currenttag1 == -1)
+				$wh_tag1 = "group_concat(TtT2ID) IS NULL";
+			else
+				$wh_tag1 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
+		} 
+		if ($currenttag2 != '') {
+			if ($currenttag2 == -1)
+				$wh_tag2 = "group_concat(TtT2ID) IS NULL";
+			else
+				$wh_tag2 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
+		} 
+		if ($currenttag1 != '' && $currenttag2 == '')	
+			$wh_tag = " having (" . $wh_tag1 . ') ';
+		elseif ($currenttag2 != '' && $currenttag1 == '')	
+			$wh_tag = " having (" . $wh_tag2 . ') ';
+		else
+			$wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) ';
+	}
+
+	$currentsort = processDBParam("sort",'currenttextsort','1',1);
+	$sorts = array('TxTitle','TxID desc');
+	$lsorts = count($sorts);
+	if ($currentsort < 1) $currentsort = 1;
+	if ($currentsort > $lsorts) $currentsort = $lsorts;
+
+	if ($onlyann) 
+		$sql = 'select TxID from ((texts left JOIN texttags ON TxID = TtTxID) left join tags2 on T2ID = TtT2ID), languages where LgID = TxLgID AND LENGTH(TxAnnotatedText) > 0 ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1];
+	else
+		$sql = 'select TxID from ((texts left JOIN texttags ON TxID = TtTxID) left join tags2 on T2ID = TtT2ID), languages where LgID = TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1];
+
+	$list = array(0);
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid Query: $sql");
+	while ($record = mysql_fetch_assoc($res)) {
+		array_push($list, ($record['TxID']+0));
+	}
+	mysql_free_result($res);
+	array_push($list, 0);
+	$listlen = count($list);
+	for ($i=1; $i < $listlen-1; $i++) {
+		if($list[$i] == $textid) {
+			if ($list[$i-1] !== 0) 
+				$prev = '<a href="' . $url . $list[$i-1] . '" target="_top"><img src="icn/navigation-180-button.png" title="Previous Text" alt="Previous Text" /></a>';
+			else
+				$prev = '';
+			if ($list[$i+1] !== 0) 
+				$next = '<a href="' . $url . $list[$i+1] . '" target="_top"><img src="icn/navigation-000-button.png" title="Next Text" alt="Next Text" /></a>';
+			else
+				$next = '';
+			if ($next == '' && $prev == '') return '';
+			else return $add . $prev . ' ' . $next;
+		}
+	}
+	return '';
 }
 
 // -------------------------------------------------------------
