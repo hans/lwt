@@ -67,6 +67,19 @@ if (isset($_REQUEST['install'])) {
 			} // while (! feof($handle))
 			gzclose ($handle);
 			if ($errors == 0) {
+				runsql('TRUNCATE sentences');
+				runsql('TRUNCATE textitems');
+				adjust_autoincr('sentences','SeID');
+				adjust_autoincr('textitems','TiID');
+				$sql = "select TxID, TxLgID from texts";
+				$res = mysql_query($sql);		
+				if ($res == FALSE) die("Invalid Query: $sql");
+				while ($record = mysql_fetch_assoc($res)) {
+					$id = $record['TxID'];
+					splitText(
+						get_first_value('select TxText as value from texts where TxID = ' . $id), $record['TxLgID'], $id );
+				}
+				mysql_free_result($res);
 				optimizedb();
 				$message = "Success: Demo Database restored - " .
 				$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";

@@ -2271,6 +2271,8 @@ with audioplayer", if needed.</li>
         	<li>1.5.2 (June ?? 2013): 
         	Navigation to previous and/or next text (according to current text filters and sort order) now possible.
         	<br />
+        	Backup does not store anymore the tables 'sentences' and 'textitems'. These tables are now automatically recreated (by reparsing the texts) within Restore. This makes Backup faster and the backup files much smaller, while Restore will take a bit longer.
+        	<br />
         	Documentation and screenshots updated. 
         	<br /><br />
         	</li>

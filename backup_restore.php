@@ -69,6 +69,19 @@ if (isset($_REQUEST['restore'])) {
 			} // while (! feof($handle))
 			gzclose ($handle);
 			if ($errors == 0) {
+				runsql('TRUNCATE sentences');
+				runsql('TRUNCATE textitems');
+				adjust_autoincr('sentences','SeID');
+				adjust_autoincr('textitems','TiID');
+				$sql = "select TxID, TxLgID from texts";
+				$res = mysql_query($sql);		
+				if ($res == FALSE) die("Invalid Query: $sql");
+				while ($record = mysql_fetch_assoc($res)) {
+					$id = $record['TxID'];
+					splitText(
+						get_first_value('select TxText as value from texts where TxID = ' . $id), $record['TxLgID'], $id );
+				}
+				mysql_free_result($res);
 				optimizedb();
 				$message = "Success: Database restored - " .
 				$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
@@ -98,18 +111,20 @@ elseif (isset($_REQUEST['backup'])) {
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
 		$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE ' . $table));
 		$out .= str_replace("\n"," ",$row2[1]) . ";\n";
-		while ($row = mysql_fetch_row($result)) { // foreach record
-			$return = 'INSERT INTO ' . $table . ' VALUES(';
-			for ($j=0; $j < $num_fields; $j++) { // foreach field
-				if (isset($row[$j])) { 
-					$return .= "'" . mysql_real_escape_string($row[$j]) . "'";
-				} else { 
-					$return .= 'NULL';
-				}
-				if ($j < ($num_fields-1)) $return .= ',';
-			} // foreach field
-			$out .= $return . ");\n";
-		} // foreach record
+		if ($table !== 'sentences' && $table !== 'textitems') {
+			while ($row = mysql_fetch_row($result)) { // foreach record
+				$return = 'INSERT INTO ' . $table . ' VALUES(';
+				for ($j=0; $j < $num_fields; $j++) { // foreach field
+					if (isset($row[$j])) { 
+						$return .= "'" . mysql_real_escape_string($row[$j]) . "'";
+					} else { 
+						$return .= 'NULL';
+					}
+					if ($j < ($num_fields-1)) $return .= ',';
+				} // foreach field
+				$out .= $return . ");\n";
+			} // foreach record
+		} // if
 	} // foreach table
 	header('Content-type: application/x-gzip');
 	header("Content-disposition: attachment; filename=" . $fname);
