@@ -86,7 +86,7 @@ if (isset($_REQUEST['restore'])) {
 				$message = "Success: Database restored - " .
 				$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
 			} else {
-				$message = "Error: Database NOT restored - " .
+				$message = "ERROR: Database NOT restored - " .
 				$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
 			}
 		} // $handle OK
@@ -181,8 +181,8 @@ If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restar
 <th class="th1 center">Install<br />LWT<br />Demo</th>
 <td class="td1">
 <p class="smallgray2">
-You may also replace the database <i><?php echo tohtml($dbname); ?></i> by the LWT demo database.</p>
-<p class="right">&nbsp;<br /><span class="red2">YOU MAY LOSE DATA - BE CAREFUL: &nbsp; &nbsp; &nbsp;</span> 
+The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT demo database.</p>
+<p class="right">&nbsp;<br /> 
 <input type="button" value="Install LWT Demo Database" onclick="location.href='install_demo.php';" />
 </td>
 </tr>

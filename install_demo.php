@@ -101,7 +101,7 @@ echo error_message_with_hide($message,1);
 $langcnt = get_first_value('select count(*) as value from languages');
 
 ?>
-<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return confirm('Are you sure?');">
 <table class="tab3" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1 center">Install Demo</th>
@@ -112,13 +112,13 @@ The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT d
 <?php 
 if ($langcnt > 0 ) { 
 	?>
-	<br /><b>Please be careful - the existent database will be overwritten!</b>
+	<br /><b>The existent database will be overwritten!</b>
 	<?php 
 } 
 ?>
 
 </p>
-<p class="right">&nbsp;<br />
+<p class="right">&nbsp;<br /><span class="red2">YOU MAY LOSE DATA - BE CAREFUL: &nbsp; &nbsp; &nbsp;</span> 
 <input type="submit" name="install" value="Install LWT demo database" /></p>
 </td>
 </tr>

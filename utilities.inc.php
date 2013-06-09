@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.5.2 (June ?? 2013)'  . 
+	return '1.5.2 (June 09 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -103,19 +103,22 @@ function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add) {
 	$listlen = count($list);
 	for ($i=1; $i < $listlen-1; $i++) {
 		if($list[$i] == $textid) {
-			if ($list[$i-1] !== 0) 
-				$prev = '<a href="' . $url . $list[$i-1] . '" target="_top"><img src="icn/navigation-180-button.png" title="Previous Text" alt="Previous Text" /></a>';
+			if ($list[$i-1] !== 0) {
+				$title = tohtml(getTextTitle($list[$i-1]));
+				$prev = '<a href="' . $url . $list[$i-1] . '" target="_top"><img src="icn/navigation-180-button.png" title="Previous Text: ' . $title . '" alt="Previous Text: ' . $title . '" /></a>';
+			}
 			else
-				$prev = '';
-			if ($list[$i+1] !== 0) 
-				$next = '<a href="' . $url . $list[$i+1] . '" target="_top"><img src="icn/navigation-000-button.png" title="Next Text" alt="Next Text" /></a>';
+				$prev = '<img src="icn/navigation-180-button-light.png" title="No Previous Text" alt="No Previous Text" />';
+			if ($list[$i+1] !== 0) {
+				$title = tohtml(getTextTitle($list[$i+1]));
+				$next = '<a href="' . $url . $list[$i+1] . '" target="_top"><img src="icn/navigation-000-button.png" title="Next Text: ' . $title . '" alt="Next Text: ' . $title . '" /></a>';
+			}
 			else
-				$next = '';
-			if ($next == '' && $prev == '') return '';
-			else return $add . $prev . ' ' . $next;
+				$next = '<img src="icn/navigation-000-button-light.png" title="No Next Text" alt="No Next Text" />';
+			return $add . $prev . ' ' . $next;
 		}
 	}
-	return '';
+	return $add . '<img src="icn/navigation-180-button-light.png" title="No Previous Text" alt="No Previous Text" /> <img src="icn/navigation-000-button-light.png" title="No Next Text" alt="No Next Text" />';
 }
 
 // -------------------------------------------------------------
@@ -156,6 +159,14 @@ function get_texttags($refresh = 0) {
 	mysql_free_result($res);
 	$_SESSION['TEXTTAGS'] = $tags;
 	return $_SESSION['TEXTTAGS'];
+}
+
+// -------------------------------------------------------------
+
+function getTextTitle ($textid) {
+	$text = get_first_value("select TxTitle as value from texts where TxID=" . $textid);
+	if (! isset($text)) $text = "?";
+	return $text;
 }
 
 // -------------------------------------------------------------

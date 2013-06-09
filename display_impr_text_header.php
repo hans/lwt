@@ -71,9 +71,9 @@ echo '<img id="hidet" style="margin-bottom:-5px;" class="click" src="icn/light-b
 echo '<img id="showt" style="display:none; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-T.png" title="Toggle Text Display (Now OFF)" alt="Toggle Text Display (Now OFF)" onclick="do_show_t();" />';
 echo '<img id="hide" style="margin-bottom:-5px;" class="click" src="icn/light-bulb-A.png" title="Toggle Annotation Display (Now ON)" alt="Toggle Annotation Display (Now ON)" onclick="do_hide_a();" />';
 echo '<img id="show" style="display:none; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-A.png" title="Toggle Annotation Display (Now OFF)" alt="Toggle Annotation Display (Now OFF)" onclick="do_show_a();" />';
-echo '&nbsp; &nbsp;';
+echo ' &nbsp; &nbsp; ';
 echo tohtml($title);
-echo getPreviousAndNextTextLinks($textid, 'display_impr_text.php?text=', TRUE, '&nbsp; &nbsp;');
+echo getPreviousAndNextTextLinks($textid, 'display_impr_text.php?text=', TRUE, ' &nbsp; &nbsp; ');
 echo ' <img class="click" src="icn/cross.png" title="Close Window" alt="Close Window" onclick="top.close();" /></span></h2>';
 
 if ($audio != '') {
