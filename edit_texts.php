@@ -260,9 +260,6 @@ elseif (isset($_REQUEST['op'])) {
 			'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
 			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
 			'where TxID = ' . $_REQUEST["TxID"], "Updated");
-			/* if (($message1 == 'Updated: 1') && $textsdiffer) {
-				$dummy = runsql("update texts set TxAnnotatedText = '' where TxID = " . $_REQUEST["TxID"], "");
-			} */
 			$id = $_REQUEST["TxID"];
 			saveTextTags($id);
 		}

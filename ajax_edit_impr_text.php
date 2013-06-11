@@ -123,7 +123,6 @@ foreach ($items as $item) {
 		$r .= '</span></td><td class="td1 center" nowrap="nowrap">';
 		$r .= makeDictLinks($langid,prepare_textdata_js($vals[1]));
 		$r .= '</td><td class="td1 center"><span id="editlink' . $i . '">';
-		/***** editlink + $i ******/
 		if ($id == '') {
 			$plus = '&nbsp;';
 		} else {
@@ -131,13 +130,10 @@ foreach ($items as $item) {
 		}
 		if ($mustredo) $rr .= "$('#editlink" . $i . "').html(" . prepare_textdata_js($plus) . ");";
 		$r .= $plus;
-		/***** END editlink + $i ******/
 		$r .= '</span></td><td class="td1" style="font-size:90%;"><span id="transsel' . $i . '">';
-		/***** transsel + $i ******/
 		$plus = make_trans($i, $id, $trans, $vals[1], $langid);
 		if ($mustredo) $rr .= "$('#transsel" . $i . "').html(" . prepare_textdata_js($plus) . ");";
 		$r .= $plus;
-		/***** END transsel + $i ******/
 		$r .= '</span></td></tr>';
 	} else {
 		if (trim($vals[1]) != '') {

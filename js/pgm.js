@@ -70,7 +70,6 @@ function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,tx
 {
 	return overlib(
 		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
-		/* make_overlib_link_new_word(txid,torder,'') + ' <br /> ' + */
 		make_overlib_link_wellknown_word(txid,torder) + ' <br /> ' +  
 		make_overlib_link_ignore_word(txid,torder) + 
 		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +

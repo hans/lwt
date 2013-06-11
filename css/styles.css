@@ -58,8 +58,6 @@ span.status4 {
 }
 span.status5 {
 	background-color: #DDFFDD;
-	/* background-color: #F8F8F8; */
-	/* border-bottom: dotted 1px #A9F5A9; */
 	color: #000000;
 }
 span.status99 {
@@ -73,7 +71,6 @@ span.status98 {
 	color: #000000;
 }
 span.mwsty {
-	/* border-right: solid 2px #FFF; */
 	margin-right: 2px;
 	font-size: 60%;
 	font-weight: bold;
@@ -81,7 +78,6 @@ span.mwsty {
 	vertical-align: top; 
 }
 span.wsty {
-	/* border-right: solid 2px #FFF; */
 	margin-right: 2px;
 	color: #000000;
 }
