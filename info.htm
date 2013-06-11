@@ -2270,9 +2270,9 @@ with audioplayer", if needed.</li>
         <ul>
         
         	<li>1.5.3 (June ?? 2013): 
-        	It is now possible to define a table name prefix in "connect.inc.php": $tbpref = "...". The default (if not set) is an empty prefix string. Please use only characters that are allowed in <a href="http://dev.mysql.com/doc/refman/5.1/de/legal-names.html" target=_blank">MySQL table names</a>. The prefix will be put in front of the normal table name (see previous section), plus an minus sign "-", e.g. "prefix-textitems", "prefix-words", etc. Please observe that the total length of the final table name must not exceed 64 bytes. This feature is especially useful for people who have limits in the allowed number of databases, or want to set up a multi user environment with a set of tables for each user (such a usage needs some additional PHP programming by you to set the correct prefix for each user).
+        	It is now possible to define a table name prefix in "connect.inc.php": $tbpref = "...". The default (if not set) is an empty prefix string (like in all versions of LWT before 1.5.3). The prefix will be put in front of the normal table name (see previous section), e.g. "ppptextitems", "pppwords", with ppp = prefix. Only the characters a-z (lowercase only) and the digits 0-9 are allowed in the prefix, the maximum length is 20 characters/digits. This feature is especially useful for users who have limits in the allowed number of databases in their webhosting plans, or for users who want to set up a multi user environment with a set of tables for each user (such a usage needs some additional PHP programming by you to set the correct prefix for each user!).
         	<br />
-        	Documentation updated.<br />
+        	Documentation updated.
         	<br /><br />
         	</li>
 
