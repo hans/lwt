@@ -2700,7 +2700,7 @@ function check_update_db() {
 	global $debug, $tbpref;
 	$tables = array();
 	
-	$res = mysql_query("SHOW TABLES");
+	$res = mysql_query("SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull($tbpref . '%'));
 	if ($res == FALSE) die("SHOW TABLES error");
   while ($row = mysql_fetch_row($res)) 
   	$tables[] = $row[0];
