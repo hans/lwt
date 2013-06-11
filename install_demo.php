@@ -99,7 +99,7 @@ pagestart('Install LWT Demo Database',true);
 
 echo error_message_with_hide($message,1);
 
-$langcnt = get_first_value('select count(*) as value from languages');
+$langcnt = get_first_value('select count(*) as value from ' . $tbpref . 'languages');
 
 if ($tbpref == '') 
 	$prefinfo = "(No Table Prefix)";

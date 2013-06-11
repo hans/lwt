@@ -153,7 +153,7 @@ function get_texttags($refresh = 0) {
 		}
 	}
 	$tags = array();
-	$sql = 'select ' . $tbpref . 'T2Text from tags2 order by T2Text';
+	$sql = 'select T2Text from ' . $tbpref . 'tags2 order by T2Text';
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	while ($record = mysql_fetch_assoc($res)) {
