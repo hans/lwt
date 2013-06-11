@@ -20,7 +20,7 @@ include "settings.inc.php";
 include "utilities.inc.php";
 
 $textid = getreq('text');
-$sql = 'select TxLgID, TxTitle, TxAudioURI from texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxTitle, TxAudioURI from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);

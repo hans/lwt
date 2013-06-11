@@ -94,33 +94,33 @@ if (isset($_REQUEST['markaction'])) {
 				$list .= ")";
 				
 				if ($markaction == 'del') {
-					$message3 = runsql('delete from textitems where TiTxID in ' . $list, "Text items deleted");
-					$message2 = runsql('delete from sentences where SeTxID in ' . $list, "Sentences deleted");
-					$message1 = runsql('delete from texts where TxID in ' . $list, "Texts deleted");
+					$message3 = runsql('delete from ' . $tbpref . 'textitems where TiTxID in ' . $list, "Text items deleted");
+					$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID in ' . $list, "Sentences deleted");
+					$message1 = runsql('delete from ' . $tbpref . 'texts where TxID in ' . $list, "Texts deleted");
 					$message = $message1 . " / " . $message2 . " / " . $message3;
 					adjust_autoincr('texts','TxID');
 					adjust_autoincr('sentences','SeID');
 					adjust_autoincr('textitems','TiID');
-					runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
+					runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
 				} 
 				
 				elseif ($markaction == 'arch') {
-					runsql('delete from textitems where TiTxID in ' . $list, "");
-					runsql('delete from sentences where SeTxID in ' . $list, "");
+					runsql('delete from ' . $tbpref . 'textitems where TiTxID in ' . $list, "");
+					runsql('delete from ' . $tbpref . 'sentences where SeTxID in ' . $list, "");
 					$count = 0;
-					$sql = "select TxID from texts where TxID in " . $list;
+					$sql = "select TxID from " . $tbpref . "texts where TxID in " . $list;
 					$res = mysql_query($sql);		
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$id = $record['TxID'];
-						$count += (0 + runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI from texts where TxID = ' . $id, ""));
+						$count += (0 + runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI from ' . $tbpref . 'texts where TxID = ' . $id, ""));
 						$aid = get_last_key();
-						runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from texttags where TtTxID = ' . $id, "");	
+						runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $id, "");	
 					}
 					mysql_free_result($res);
 					$message = 'Text(s) archived: ' . $count;
-					runsql('delete from texts where TxID in ' . $list, "");
-					runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
+					runsql('delete from ' . $tbpref . 'texts where TxID in ' . $list, "");
+					runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
 					adjust_autoincr('texts','TxID');
 					adjust_autoincr('sentences','SeID');
 					adjust_autoincr('textitems','TiID');
@@ -138,12 +138,12 @@ if (isset($_REQUEST['markaction'])) {
 				
 				elseif ($markaction == 'setsent') {
 					$count = 0;
-					$sql = "select WoID, WoTextLC, min(TiSeID) as SeID from words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(TiSeID)";
+					$sql = "select WoID, WoTextLC, min(TiSeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(TiSeID)";
 					$res = mysql_query($sql);		
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
-						$count += runsql('update words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
+						$count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
 					}
 					mysql_free_result($res);
 					$message = 'Term Sentences set from Text(s): ' . $count;
@@ -151,18 +151,18 @@ if (isset($_REQUEST['markaction'])) {
 				
 				elseif ($markaction == 'rebuild') {
 					$count = 0;
-					$sql = "select TxID, TxLgID from texts where TxID in " . $list;
+					$sql = "select TxID, TxLgID from " . $tbpref . "texts where TxID in " . $list;
 					$res = mysql_query($sql);		
 					if ($res == FALSE) die("Invalid Query: $sql");
 					while ($record = mysql_fetch_assoc($res)) {
 						$id = $record['TxID'];
-						$message2 = runsql('delete from sentences where SeTxID = ' . $id, "Sentences deleted");
-						$message3 = runsql('delete from textitems where TiTxID = ' . $id, "Text items deleted");
+						$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
+						$message3 = runsql('delete from ' . $tbpref . 'textitems where TiTxID = ' . $id, "Text items deleted");
 						adjust_autoincr('sentences','SeID');
 						adjust_autoincr('textitems','TiID');
 						splitText(
 							get_first_value(
-								'select TxText as value from texts where TxID = ' . $id), 
+								'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), 
 								$record['TxLgID'], $id );
 						$count++;
 					}
@@ -171,7 +171,7 @@ if (isset($_REQUEST['markaction'])) {
 				}
 				
 				elseif ($markaction == 'test' ) {
-					$_SESSION['testsql'] = ' words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in ' . $list . ' ';
+					$_SESSION['testsql'] = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in ' . $list . ' ';
 					header("Location: do_test.php?selection=1");
 					exit();
 				}
@@ -184,35 +184,35 @@ if (isset($_REQUEST['markaction'])) {
 // DEL
 
 if (isset($_REQUEST['del'])) {
-	$message3 = runsql('delete from textitems where TiTxID = ' . $_REQUEST['del'], 
+	$message3 = runsql('delete from ' . $tbpref . 'textitems where TiTxID = ' . $_REQUEST['del'], 
 		"Text items deleted");
-	$message2 = runsql('delete from sentences where SeTxID = ' . $_REQUEST['del'], 
+	$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $_REQUEST['del'], 
 		"Sentences deleted");
-	$message1 = runsql('delete from texts where TxID = ' . $_REQUEST['del'], 
+	$message1 = runsql('delete from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['del'], 
 		"Texts deleted");
 	$message = $message1 . " / " . $message2 . " / " . $message3;
 	adjust_autoincr('texts','TxID');
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
-	runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
+	runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
 }
 
 // ARCH
 
 elseif (isset($_REQUEST['arch'])) {
-	$message3 = runsql('delete from textitems where TiTxID = ' . $_REQUEST['arch'], 
+	$message3 = runsql('delete from ' . $tbpref . 'textitems where TiTxID = ' . $_REQUEST['arch'], 
 		"Text items deleted");
-	$message2 = runsql('delete from sentences where SeTxID = ' . $_REQUEST['arch'], 
+	$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $_REQUEST['arch'], 
 		"Sentences deleted");
-	$message4 = runsql('insert into archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI from texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
+	$message4 = runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
 	$id = get_last_key();
-	runsql('insert into archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from texttags where TtTxID = ' . $_REQUEST['arch'], "");	
-	$message1 = runsql('delete from texts where TxID = ' . $_REQUEST['arch'], "Texts deleted");
+	runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $_REQUEST['arch'], "");	
+	$message1 = runsql('delete from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['arch'], "Texts deleted");
 	$message = $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
 	adjust_autoincr('texts','TxID');
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
-	runsql("DELETE texttags FROM (texttags LEFT JOIN texts on TtTxID = TxID) WHERE TxID IS NULL",'');
+	runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
 }
 
 // INS/UPD
@@ -239,7 +239,7 @@ elseif (isset($_REQUEST['op'])) {
 		// INSERT
 		
 		elseif (substr($_REQUEST['op'],0,4) == 'Save') {
-			$message1 = runsql('insert into texts (TxLgID, TxTitle, TxText, TxAudioURI) values( ' . 
+			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAudioURI) values( ' . 
 			$_REQUEST["TxLgID"] . ', ' . 
 			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
 			convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
@@ -252,9 +252,9 @@ elseif (isset($_REQUEST['op'])) {
 		// UPDATE
 		
 		elseif (substr($_REQUEST['op'],0,6) == 'Change') {
-			$oldtext = get_first_value('select TxText as value from texts where TxID = ' . $_REQUEST["TxID"]);
+			$oldtext = get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST["TxID"]);
 			$textsdiffer = (convert_string_to_sqlsyntax($_REQUEST["TxText"]) != convert_string_to_sqlsyntax($oldtext));
-			$message1 = runsql('update texts set ' .
+			$message1 = runsql('update ' . $tbpref . 'texts set ' .
 			'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
 			'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
 			'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
@@ -264,19 +264,19 @@ elseif (isset($_REQUEST['op'])) {
 			saveTextTags($id);
 		}
 		
-		$message2 = runsql('delete from sentences where SeTxID = ' . $id, 
+		$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, 
 			"Sentences deleted");
-		$message3 = runsql('delete from textitems where TiTxID = ' . $id, 
+		$message3 = runsql('delete from ' . $tbpref . 'textitems where TiTxID = ' . $id, 
 			"Textitems deleted");
 		adjust_autoincr('sentences','SeID');
 		adjust_autoincr('textitems','TiID');
 	
 		splitText(
 			get_first_value(
-				'select TxText as value from texts where TxID = ' . $id), 
+				'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), 
 			$_REQUEST["TxLgID"], $id );
 			
-		$message = $message1 . " / " . $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from sentences where SeTxID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from textitems where TiTxID = ' . $id);
+		$message = $message1 . " / " . $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from ' . $tbpref . 'sentences where SeTxID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from ' . $tbpref . 'textitems where TiTxID = ' . $id);
 		
 		if(substr($_REQUEST['op'],-8) == "and Open") {
 			header('Location: do_text.php?start=' . $id);
@@ -347,7 +347,7 @@ if (isset($_REQUEST['new'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 	
-	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, length(TxAnnotatedText) as annotlen from texts where TxID = ' . $_REQUEST['chg'];
+	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
@@ -420,7 +420,7 @@ else {
 
 	echo error_message_with_hide($message,0);
 	
-	$sql = 'select count(*) as value from (select TxID from (texts left JOIN texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
+	$sql = 'select count(*) as value from (select TxID from (' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
 	$recno = get_first_value($sql);
 	if ($debug) echo $sql . ' ===&gt; ' . $recno;
 
@@ -522,7 +522,7 @@ Marked Texts:&nbsp;
 
 <?php
 
-$sql = 'select TxID, TxTitle, LgName, TxAudioURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((texts left JOIN texttags ON TxID = TtTxID) left join tags2 on T2ID = TtT2ID), languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select TxID, TxTitle, LgName, TxAudioURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");

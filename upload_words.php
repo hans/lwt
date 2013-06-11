@@ -38,8 +38,9 @@ function limit20(&$item, $key) {
 }
 
 function savetag($item, $key, $wid) {
-	runsql('insert into tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
-	runsql('insert into wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from tags where TgText = ' . convert_string_to_sqlsyntax($item), "");
+	global $tbpref;
+	runsql('insert into ' . $tbpref . 'tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
+	runsql('insert into ' . $tbpref . 'wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item), "");
 }
 
 pagestart('Import Terms',true);
@@ -102,12 +103,12 @@ if (isset($_REQUEST['op'])) {
   		$protokoll .= '<tr><td class="td1 right">' . ($i+1) . '</td><td class="td1">' . tohtml($w) . '</td><td class="td1">' . tohtml($t) . '</td><td class="td1">' . tohtml($r) . '</td><td class="td1">' . tohtml($s) . '</td><td class="td1">' . implode(", ", $g) . '</td>';
  			if ( $w != '' ) {
  				if ($t == '') $t = '*';
- 				$excnt = get_first_value('select count(*) as value from words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl));
+ 				$excnt = get_first_value('select count(*) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl));
  				if ($excnt > 0 ) { // exists
  					if ($overwrite) { // update
-	 					$msg1 = runsql('delete from words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl), "Exists, deleted");
-	 					runsql("DELETE wordtags FROM (wordtags LEFT JOIN words on WtWoID = WoID) WHERE WoID IS NULL",'');
-	 					$msg2 = runsql('insert into words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
+	 					$msg1 = runsql('delete from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl), "Exists, deleted");
+	 					runsql("DELETE ' . $tbpref . 'wordtags FROM (' . $tbpref . 'wordtags LEFT JOIN ' . $tbpref . 'words on WtWoID = WoID) WHERE WoID IS NULL",'');
+	 					$msg2 = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
 						convert_string_to_sqlsyntax($wl) . ', ' .
 						convert_string_to_sqlsyntax($w) . ', ' .
 						$status . ', ' .
@@ -125,7 +126,7 @@ make_score_random_insert_update('id') . ')',"Imported");
  					} // no overwrite
  				} // exists
  				else { // exists not
- 					$msg1 = runsql('insert into words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
+ 					$msg1 = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
 					convert_string_to_sqlsyntax($wl) . ', ' .
 					convert_string_to_sqlsyntax($w) . ', ' .
 					$status . ', ' .

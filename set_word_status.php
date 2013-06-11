@@ -24,7 +24,7 @@ $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
 $status = $_REQUEST['status'];
 
-$sql = 'SELECT WoText, WoTranslation, WoRomanization FROM words where WoID = ' . $wid;
+$sql = 'SELECT WoText, WoTranslation, WoRomanization FROM ' . $tbpref . 'words where WoID = ' . $wid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -39,7 +39,7 @@ mysql_free_result($res);
 
 pagestart("Term: " . $word, false);
 
-$m1 = runsql('update words set WoStatus = ' . 
+$m1 = runsql('update ' . $tbpref . 'words set WoStatus = ' . 
 	$_REQUEST['status'] . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed');
 
 echo '<p>OK, this term has status ' . get_colored_status_msg($status) . ' from now!</p>';

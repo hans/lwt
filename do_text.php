@@ -21,7 +21,7 @@ include "utilities.inc.php";
 
 if (isset($_REQUEST['start'])) {
 	
-	$audio = get_first_value('select TxAudioURI as value from texts where TxID = ' . $_REQUEST['start']);
+	$audio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['start']);
 	
 	framesetheader('Read');
 

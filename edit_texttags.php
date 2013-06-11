@@ -54,9 +54,9 @@ if (isset($_REQUEST['markaction'])) {
 				for ($i=1; $i<$l; $i++) $list .= "," . $_REQUEST['marked'][$i];
 				$list .= ")";
 				if ($markaction == 'del') {
-					$message = runsql('delete from tags2 where T2ID in ' . $list, "Deleted");
-					runsql("DELETE texttags FROM (texttags LEFT JOIN tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
-					runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
+					$message = runsql('delete from ' . $tbpref . 'tags2 where T2ID in ' . $list, "Deleted");
+					runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
+					runsql("DELETE " . $tbpref . "archtexttags FROM (" . $tbpref . "archtexttags LEFT JOIN " . $tbpref . "tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
 					adjust_autoincr('tags2','T2ID');
 				}
 			}
@@ -70,9 +70,9 @@ if (isset($_REQUEST['markaction'])) {
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
 	if ($allaction == 'delall') {
-		$message = runsql('delete from tags2 where (1=1) ' . $wh_query, "Deleted");
-		runsql("DELETE texttags FROM (texttags LEFT JOIN tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
-		runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
+		$message = runsql('delete from ' . $tbpref . 'tags2 where (1=1) ' . $wh_query, "Deleted");
+		runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
+		runsql("DELETE " . $tbpref . "archtexttags FROM (" . $tbpref . "archtexttags LEFT JOIN " . $tbpref . "tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
 		adjust_autoincr('tags2','T2ID');
 	}
 }
@@ -80,9 +80,9 @@ if (isset($_REQUEST['allaction'])) {
 // DEL
 
 elseif (isset($_REQUEST['del'])) {
-	$message = runsql('delete from tags2 where T2ID = ' . $_REQUEST['del'], "Deleted");
-	runsql("DELETE texttags FROM (texttags LEFT JOIN tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
-	runsql("DELETE archtexttags FROM (archtexttags LEFT JOIN tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
+	$message = runsql('delete from ' . $tbpref . 'tags2 where T2ID = ' . $_REQUEST['del'], "Deleted");
+	runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "tags2 on TtT2ID = T2ID) WHERE T2ID IS NULL",'');
+	runsql("DELETE " . $tbpref . "archtexttags FROM (" . $tbpref . "archtexttags LEFT JOIN " . $tbpref . "tags2 on AgT2ID = T2ID) WHERE T2ID IS NULL",'');
 	adjust_autoincr('tags2','T2ID');
 }
 
@@ -94,7 +94,7 @@ elseif (isset($_REQUEST['op'])) {
 	
 	if ($_REQUEST['op'] == 'Save') {
 	
-		$message = runsql('insert into tags2 (T2Text, T2Comment) values(' . 
+		$message = runsql('insert into ' . $tbpref . 'tags2 (T2Text, T2Comment) values(' . 
 			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', ' .
 			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ')', "Saved");
 
@@ -104,7 +104,7 @@ elseif (isset($_REQUEST['op'])) {
 	
 	elseif ($_REQUEST['op'] == 'Change') {
 
-		$message = runsql('update tags2 set T2Text = ' . 
+		$message = runsql('update ' . $tbpref . 'tags2 set T2Text = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', T2Comment = ' . 
 			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ' where T2ID = ' . $_REQUEST["T2ID"], "Updated");
 
@@ -145,7 +145,7 @@ if (isset($_REQUEST['new'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 	
-	$sql = 'select * from tags2 where T2ID = ' . $_REQUEST['chg'];
+	$sql = 'select * from ' . $tbpref . 'tags2 where T2ID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
@@ -182,7 +182,7 @@ else {
 	
 	get_texttags(1);   // refresh tags cache
 
-	$sql = 'select count(T2ID) as value from tags2 where (1=1) ' . $wh_query;
+	$sql = 'select count(T2ID) as value from ' . $tbpref . 'tags2 where (1=1) ' . $wh_query;
 	$recno = get_first_value($sql);
 	if ($debug) echo $sql . ' ===&gt; ' . $recno;
 	
@@ -267,13 +267,13 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 
 <?php
 
-$sql = 'select T2ID, T2Text, T2Comment from tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select T2ID, T2Text, T2Comment from ' . $tbpref . 'tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
-	$c = get_first_value('select count(*) as value from texttags where TtT2ID=' . $record['T2ID']);
-	$ca = get_first_value('select count(*) as value from archtexttags where AgT2ID=' . $record['T2ID']);
+	$c = get_first_value('select count(*) as value from ' . $tbpref . 'texttags where TtT2ID=' . $record['T2ID']);
+	$ca = get_first_value('select count(*) as value from ' . $tbpref . 'archtexttags where AgT2ID=' . $record['T2ID']);
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['T2ID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $record['T2ID'] . '" ' . checkTest($record['T2ID'], 'marked') . ' /></a></td>';
 	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['T2ID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['T2ID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';

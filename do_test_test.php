@@ -29,11 +29,11 @@ if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) {
 }
 
 elseif (isset($_REQUEST['lang'])) {
-	$testsql = ' words where WoLgID = ' . $_REQUEST['lang'] . ' '; 
+	$testsql = ' ' . $tbpref . 'words where WoLgID = ' . $_REQUEST['lang'] . ' '; 
 }
 
 elseif (isset($_REQUEST['text'])) {
-	$testsql = ' words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $_REQUEST['text'] . ' ';
+	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $_REQUEST['text'] . ' ';
 }
 
 else die("Called with wrong parameters");
@@ -79,7 +79,7 @@ if ($count <= 0) {
 
 	$lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
 	
-	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from languages where LgID = ' . $lang;
+	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid query: $sql");
 	$record = mysql_fetch_assoc($res);
@@ -139,7 +139,7 @@ if ($count <= 0) {
 			while ( $pass < 3 ) {
 				$pass++;
 				if ($debug) echo "DEBUG search sent: pass: $pass <br />";
-				$sql = 'SELECT DISTINCT SeID FROM sentences, textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
+				$sql = 'SELECT DISTINCT SeID FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
 				$res = mysql_query($sql);		
 				if ($res == FALSE) die("Invalid query: $sql");
 				$record = mysql_fetch_assoc($res);

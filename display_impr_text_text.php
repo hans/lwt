@@ -20,7 +20,7 @@ include "settings.inc.php";
 include "utilities.inc.php";
 
 $textid = getreq('text')+0;
-$ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
+$ann = get_first_value("select TxAnnotatedText as value from ' . $tbpref . 'texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 
 if(($textid==0) || (! $ann_exists)) {
@@ -28,7 +28,7 @@ if(($textid==0) || (! $ann_exists)) {
 	exit();
 }
 
-$sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -36,7 +36,7 @@ $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysql_free_result($res);
 
-$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
+$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -98,7 +98,7 @@ foreach ($items as $item) {
 		$rom = '';
 		if ($c > 2) {
 			$wid = $vals[2] + 0;
-			$rom = get_first_value("select WoRomanization as value from words where WoID = " . $wid);
+			$rom = get_first_value("select WoRomanization as value from " . $tbpref . "words where WoID = " . $wid);
 			if (! isset($rom)) $rom = '';
 		}
 		if ($c > 3) $trans = $vals[3];

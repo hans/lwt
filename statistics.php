@@ -52,20 +52,20 @@ $sum15 = 0;
 $sum599 = 0;
 $sumall = 0;
 
-$sql = 'SELECT LgID, LgName FROM languages ORDER BY LgName';
+$sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages ORDER BY LgName';
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 	
 	flush();
-	$s1 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 1');
-	$s2 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 2');
-	$s3 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 3');
-	$s4 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 4');
-	$s5 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 5');
-	$s98 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 98');
-	$s99 = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus = 99');
+	$s1 = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus = 1');
+	$s2 = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus = 2');
+	$s3 = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus = 3');
+	$s4 = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus = 4');
+	$s5 = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus = 5');
+	$s98 = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus = 98');
+	$s99 = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus = 99');
 	$s14 = $s1 + $s2 + $s3 + $s4;
 	$s15 = $s14 + $s5;
 	$s599 = $s5 + $s99;
@@ -172,36 +172,36 @@ $sumkall = 0;
 <th class="th1">K</th>
 </tr>
 <?php
-$sql = 'SELECT LgID, LgName FROM languages ORDER BY LgName';
+$sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages ORDER BY LgName';
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 
 	flush();
-	$ct = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) = curdate()');
-	$at = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) = curdate()');
-	$kt = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) = curdate()');
+	$ct = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) = curdate()');
+	$at = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) = curdate()');
+	$kt = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) = curdate()');
 
-	$cy = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) = subdate(curdate(), \'1 day\')');
-	$ay = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) = subdate(curdate(), \'1 day\')');
-	$ky = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) = subdate(curdate(), \'1 day\')');
+	$cy = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) = subdate(curdate(), \'1 day\')');
+	$ay = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) = subdate(curdate(), \'1 day\')');
+	$ky = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) = subdate(curdate(), \'1 day\')');
 	
-	$cw = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'6 day\') and curdate()');
-	$aw = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'6 day\') and curdate()');
-	$kw = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'6 day\') and curdate()');
+	$cw = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'6 day\') and curdate()');
+	$aw = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'6 day\') and curdate()');
+	$kw = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'6 day\') and curdate()');
 	
-	$cm = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'29 day\') and curdate()');
-	$am = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'29 day\') and curdate()');
-	$km = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'29 day\') and curdate()');
+	$cm = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'29 day\') and curdate()');
+	$am = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'29 day\') and curdate()');
+	$km = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'29 day\') and curdate()');
 	
-	$ca = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'364 day\') and curdate()');
-	$aa = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'364 day\') and curdate()');
-	$ka = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'364 day\') and curdate()');
+	$ca = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoCreated as date) between subdate(curdate(), \'364 day\') and curdate()');
+	$aa = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'364 day\') and curdate()');
+	$ka = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (5,99) and cast(WoStatusChanged as date) between subdate(curdate(), \'364 day\') and curdate()');
 	
-	$call = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99)');
-	$aall = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99)');
-	$kall = get_first_value('select count(WoID) as value from words where WoLgID = ' . $lang . ' and WoStatus in (5,99)');
+	$call = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99)');
+	$aall = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (1,2,3,4,5,99)');
+	$kall = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoStatus in (5,99)');
 	
 	$sumct += $ct;
 	$sumat += $at;

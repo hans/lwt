@@ -26,7 +26,7 @@ pagestart('Home',false);
 $currentlang = getSetting('currentlanguage');
 $currenttext = getSetting('currenttext');
 
-$langcnt = get_first_value('select count(*) as value from languages');
+$langcnt = get_first_value('select count(*) as value from ' . $tbpref . 'languages');
 
 if ($langcnt == 0) {
 echo '<table class="tab3" cellspacing="0" cellpadding="5"><tr><th class="th1">Hint: The database seems to be empty.<br /><a href="install_demo.php">You may install the LWT demo database, </a><br />or<br /><a href="edit_languages.php?new=1">define the first language you want to learn.</a></th></tr></table>';
@@ -48,9 +48,9 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 	
 <?php
 	if ($currenttext != '') {
-		$txttit = get_first_value('select TxTitle as value from texts where TxID=' . (int)$currenttext);
+		$txttit = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
 		if (isset($txttit)) {	
-			$txtlng = get_first_value('select TxLgID as value from texts where TxID=' . (int)$currenttext);
+			$txtlng = get_first_value('select TxLgID as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
 			$lngname = getLanguage($txtlng);
 	?>
 			<ul>
@@ -62,7 +62,7 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 			&nbsp; &nbsp; 
 			<a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
 <?php
-			if ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . (int)$currenttext) + 0) > 0) {
+			if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . (int)$currenttext) + 0) > 0) {
 ?>
 			&nbsp; &nbsp; 
 			<a href="print_impr_text.php?text=<?php echo $currenttext; ?>"><img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text</a>

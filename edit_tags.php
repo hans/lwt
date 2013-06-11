@@ -54,8 +54,8 @@ if (isset($_REQUEST['markaction'])) {
 				for ($i=1; $i<$l; $i++) $list .= "," . $_REQUEST['marked'][$i];
 				$list .= ")";
 				if ($markaction == 'del') {
-					$message = runsql('delete from tags where TgID in ' . $list, "Deleted");
-					runsql("DELETE wordtags FROM (wordtags LEFT JOIN tags on WtTgID = TgID) WHERE TgID IS NULL",'');
+					$message = runsql('delete from ' . $tbpref . 'tags where TgID in ' . $list, "Deleted");
+					runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "tags on WtTgID = TgID) WHERE TgID IS NULL",'');
 					adjust_autoincr('tags','TgID');
 				}
 			}
@@ -69,8 +69,8 @@ if (isset($_REQUEST['markaction'])) {
 if (isset($_REQUEST['allaction'])) {
 	$allaction = $_REQUEST['allaction'];
 	if ($allaction == 'delall') {
-		$message = runsql('delete from tags where (1=1) ' . $wh_query, "Deleted");
-		runsql("DELETE wordtags FROM (wordtags LEFT JOIN tags on WtTgID = TgID) WHERE TgID IS NULL",'');
+		$message = runsql('delete from ' . $tbpref . 'tags where (1=1) ' . $wh_query, "Deleted");
+		runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "tags on WtTgID = TgID) WHERE TgID IS NULL",'');
 		adjust_autoincr('tags','TgID');
 	}
 }
@@ -78,8 +78,8 @@ if (isset($_REQUEST['allaction'])) {
 // DEL
 
 elseif (isset($_REQUEST['del'])) {
-	$message = runsql('delete from tags where TgID = ' . $_REQUEST['del'], "Deleted");
-	runsql("DELETE wordtags FROM (wordtags LEFT JOIN tags on WtTgID = TgID) WHERE TgID IS NULL",'');
+	$message = runsql('delete from ' . $tbpref . 'tags where TgID = ' . $_REQUEST['del'], "Deleted");
+	runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "tags on WtTgID = TgID) WHERE TgID IS NULL",'');
 	adjust_autoincr('tags','TgID');
 }
 
@@ -91,7 +91,7 @@ elseif (isset($_REQUEST['op'])) {
 	
 	if ($_REQUEST['op'] == 'Save') {
 	
-		$message = runsql('insert into tags (TgText, TgComment) values(' . 
+		$message = runsql('insert into ' . $tbpref . 'tags (TgText, TgComment) values(' . 
 			convert_string_to_sqlsyntax($_REQUEST["TgText"]) . ', ' .
 			convert_string_to_sqlsyntax_nonull($_REQUEST["TgComment"]) . ')', "Saved");
 
@@ -101,7 +101,7 @@ elseif (isset($_REQUEST['op'])) {
 	
 	elseif ($_REQUEST['op'] == 'Change') {
 
-		$message = runsql('update tags set TgText = ' . 
+		$message = runsql('update ' . $tbpref . 'tags set TgText = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["TgText"]) . ', TgComment = ' . 
 			convert_string_to_sqlsyntax_nonull($_REQUEST["TgComment"]) . ' where TgID = ' . $_REQUEST["TgID"], "Updated");
 
@@ -142,7 +142,7 @@ if (isset($_REQUEST['new'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 	
-	$sql = 'select * from tags where TgID = ' . $_REQUEST['chg'];
+	$sql = 'select * from ' . $tbpref . 'tags where TgID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
@@ -179,7 +179,7 @@ else {
 	
 	get_tags(1);   // refresh tags cache
 
-	$sql = 'select count(TgID) as value from tags where (1=1) ' . $wh_query;
+	$sql = 'select count(TgID) as value from ' . $tbpref . 'tags where (1=1) ' . $wh_query;
 	$recno = get_first_value($sql);
 	if ($debug) echo $sql . ' ===&gt; ' . $recno;
 	
@@ -263,12 +263,12 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 
 <?php
 
-$sql = 'select TgID, TgText, TgComment from tags where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select TgID, TgText, TgComment from ' . $tbpref . 'tags where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
-	$c = get_first_value('select count(*) as value from wordtags where WtTgID=' . $record['TgID']);
+	$c = get_first_value('select count(*) as value from ' . $tbpref . 'wordtags where WtTgID=' . $record['TgID']);
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['TgID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $record['TgID'] . '" ' . checkTest($record['TgID'], 'marked') . ' /></a></td>';
 	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TgID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['TgID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';

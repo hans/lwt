@@ -19,15 +19,15 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
-$word = get_first_value("select TiText as value from textitems where TiWordCount = 1 and TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);
+$word = get_first_value("select TiText as value from " . $tbpref . "textitems where TiWordCount = 1 and TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);
 
 $wordlc =	mb_strtolower($word, 'UTF-8');
 
-$langid = get_first_value("select TxLgID as value from texts where TxID = " . $_REQUEST['tid']);
+$langid = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['tid']);
 
 pagestart("Term: " . $word,false);
 
-$m1 = runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+$m1 = runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 $langid . ', ' . 
 convert_string_to_sqlsyntax($word) . ', ' . 
 convert_string_to_sqlsyntax($wordlc) . ', 99, NOW(), ' .  

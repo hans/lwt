@@ -37,7 +37,7 @@ if (isset($_REQUEST['op'])) {
 		pagestart_nobody($titeltext);
 		echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';
 	
-		$message = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
+		$message = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
 			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 			$_REQUEST["WoLgID"] . ', ' .
 			convert_string_to_sqlsyntax($textlc) . ', ' .

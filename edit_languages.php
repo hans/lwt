@@ -32,13 +32,13 @@ $message = '';
 
 if (isset($_REQUEST['refresh'])) {
 	$id = $_REQUEST['refresh'] + 0;
-	$message2 = runsql('delete from sentences where SeLgID = ' . $id, 
+	$message2 = runsql('delete from ' . $tbpref . 'sentences where SeLgID = ' . $id, 
 		"Sentences deleted");
-	$message3 = runsql('delete from textitems where TiLgID = ' . $id, 
+	$message3 = runsql('delete from ' . $tbpref . 'textitems where TiLgID = ' . $id, 
 		"Text items deleted");
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
-	$sql = "select TxID, TxText from texts where TxLgID = " . $id . " order by TxID";
+	$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	while ($record = mysql_fetch_assoc($res)) {
@@ -47,25 +47,25 @@ if (isset($_REQUEST['refresh'])) {
 		splitText($txttxt, $id, $txtid );
 	}
 	mysql_free_result($res);
-	$message = $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from sentences where SeLgID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from textitems where TiLgID = ' . $id);
+	$message = $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from ' . $tbpref . 'sentences where SeLgID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from ' . $tbpref . 'textitems where TiLgID = ' . $id);
 }
 
 // DEL
 
 if (isset($_REQUEST['del'])) {
 	$anztexts = get_first_value(
-		'select count(TxID) as value from texts where TxLgID = ' . 
+		'select count(TxID) as value from ' . $tbpref . 'texts where TxLgID = ' . 
 		$_REQUEST['del']);
 	$anzarchtexts = get_first_value(
-		'select count(AtID) as value from archivedtexts where AtLgID = ' . 
+		'select count(AtID) as value from ' . $tbpref . 'archivedtexts where AtLgID = ' . 
 		$_REQUEST['del']);
 	$anzwords = get_first_value(
-		'select count(WoID) as value from words where WoLgID = ' . 
+		'select count(WoID) as value from ' . $tbpref . 'words where WoLgID = ' . 
 		$_REQUEST['del']);
 	if ( $anztexts > 0 || $anzarchtexts > 0 || $anzwords > 0) {
 		$message = 'You must first delete texts, archived texts and words with this language!';
 	} else {
-		$message = runsql('delete from languages where LgID = ' . $_REQUEST['del'], 
+		$message = runsql('delete from ' . $tbpref . 'languages where LgID = ' . $_REQUEST['del'], 
 			"Deleted");
 		adjust_autoincr('languages','LgID');
 	}
@@ -78,7 +78,7 @@ elseif (isset($_REQUEST['op'])) {
 	// INSERT
 	
 	if ($_REQUEST['op'] == 'Save')
-		$message = runsql('insert into languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft) values(' . 
+		$message = runsql('insert into ' . $tbpref . 'languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft) values(' . 
 		convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' .
 		convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', '. 
 		convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', '.
@@ -96,7 +96,7 @@ elseif (isset($_REQUEST['op'])) {
 	// UPDATE
 	
 	elseif ($_REQUEST['op'] == 'Change')
-		$message = runsql('update languages set ' . 
+		$message = runsql('update ' . $tbpref . 'languages set ' . 
 		'LgName = ' . convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' . 
 		'LgDict1URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', ' .
 		'LgDict2URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', ' .
@@ -185,7 +185,7 @@ if (isset($_REQUEST['new'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 	
-	$sql = 'select * from languages where LgID = ' . $_REQUEST['chg'];
+	$sql = 'select * from ' . $tbpref . 'languages where LgID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
@@ -269,7 +269,7 @@ else {
 	
 	$current = (int) getSetting('currentlanguage');
 	
-	$recno = get_first_value('select count(*) as value from languages'); 
+	$recno = get_first_value('select count(*) as value from ' . $tbpref . 'languages'); 
 	
 ?>
 
@@ -296,14 +296,14 @@ if ($recno==0) {
 
 <?php
 
-$sql = 'select LgID, LgName from languages order by LgName';
+$sql = 'select LgID, LgName from ' . $tbpref . 'languages order by LgName';
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
-	$textcount = get_first_value('select count(TxID) as value from texts where TxLgID=' . $record['LgID']);
-	$archtextcount = get_first_value('select count(AtID) as value from archivedtexts where AtLgID=' . $record['LgID']);
-	$wordcount = get_first_value('select count(WoID) as value from words where WoLgID=' . $record['LgID']);
+	$textcount = get_first_value('select count(TxID) as value from ' . $tbpref . 'texts where TxLgID=' . $record['LgID']);
+	$archtextcount = get_first_value('select count(AtID) as value from ' . $tbpref . 'archivedtexts where AtLgID=' . $record['LgID']);
+	$wordcount = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID=' . $record['LgID']);
 	echo '<tr>';
 	if ( $current == $record['LgID'] ) {
 		$tdth = 'th';

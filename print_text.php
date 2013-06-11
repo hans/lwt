@@ -97,7 +97,7 @@ $annplcmnt = getreq('annplcmnt');
 if($annplcmnt == '') $annplcmnt = getSetting('currentprintannotationplacement');
 if($annplcmnt == '') $annplcmnt = 0;
 
-$sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -105,7 +105,7 @@ $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysql_free_result($res);
 
-$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
+$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -148,7 +148,7 @@ echo "<option value=\"1\"" . get_selected(1,$annplcmnt) . ">in front of</option>
 echo "<option value=\"2\"" . get_selected(2,$annplcmnt) . ">above (ruby)</option>";
 echo "</select> the term.<br />";
 echo "<input type=\"button\" value=\"Print it!\" onclick=\"window.print();\" />  (only the text below the line)";
-if ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0) {
+if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . $textid) + 0) > 0) {
 	echo " &nbsp; | &nbsp; Or <input type=\"button\" value=\"Print/Edit/Delete\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> your <b>Improved Annotated Text</b>" . get_annotation_link($textid) . ".";
 } else {
 	echo " &nbsp; | &nbsp; <input type=\"button\" value=\"Create\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" /> an <b>Improved Annotated Text</b> [<img src=\"icn/tick.png\" title=\"Annotated Text\" alt=\"Annotated Text\" />].";
@@ -157,7 +157,7 @@ echo "</p></div> <!-- noprint -->";
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
-$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
 
 $saveterm = '';
 $savetrans = '';

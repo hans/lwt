@@ -34,22 +34,22 @@ if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) {
 	if ($cntlang > 1) 
 		$message = 'Error: The selected terms are in ' . $cntlang . ' languages, but tests are only possible in one language at a time.';
 	else 
-		$title .= ' in ' . get_first_value('select LgName as value from languages, ' . $testsql . ' and LgID = WoLgID limit 1');
+		$title .= ' in ' . get_first_value('select LgName as value from ' . $tbpref . 'languages, ' . $testsql . ' and LgID = WoLgID limit 1');
 }
 
 if (isset($_REQUEST['lang'])) {
 	$langid = getreq('lang');
 	$p = "lang=" . $langid; 
-	$title = "All Terms in " . get_first_value('select LgName as value from languages where LgID = ' . $langid);
-	$testsql = ' words where WoLgID = ' . $langid . ' ';
+	$title = "All Terms in " . get_first_value('select LgName as value from ' . $tbpref . 'languages where LgID = ' . $langid);
+	$testsql = ' ' . $tbpref . 'words where WoLgID = ' . $langid . ' ';
 }
 
 if (isset($_REQUEST['text'])) {
 	$textid = getreq('text');
 	$p = "text=" . $textid; 
-	$title = get_first_value('select TxTitle as value from texts where TxID = ' . $textid);
+	$title = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $textid);
 	saveSetting('currenttext',$_REQUEST['text']);
-	$testsql = ' words, textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $textid . ' ';
+	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $textid . ' ';
 
 }
 

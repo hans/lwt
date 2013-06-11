@@ -27,7 +27,7 @@ $i = stripTheSlashesIfNeeded($_REQUEST["i"]);
 $t = stripTheSlashesIfNeeded($_REQUEST["t"]);
 
 if ( $x == 1 ) {
-	$sql = 'select SeText, LgGoogleTranslateURI from languages, sentences, textitems where TiSeID = SeID and TiLgID = LgID and TiTxID = ' . $t . ' and TiOrder = ' . $i;
+	$sql = 'select SeText, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'sentences, ' . $tbpref . 'textitems where TiSeID = SeID and TiLgID = LgID and TiTxID = ' . $t . ' and TiOrder = ' . $i;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	$record = mysql_fetch_assoc($res);

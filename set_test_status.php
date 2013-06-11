@@ -24,9 +24,9 @@ $stchange = getreq('stchange');
 $status = getreq('status');
 $wid = getreq('wid') + 0;
 
-$oldstatus = get_first_value("select WoStatus as value from words where WoID = " . $wid) + 0;
+$oldstatus = get_first_value("select WoStatus as value from " . $tbpref . "words where WoID = " . $wid) + 0;
 
-$oldscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from words where WoID = ' . $wid) + 0;
+$oldscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from ' . $tbpref . 'words where WoID = ' . $wid) + 0;
 
 if ($stchange == '') {
 
@@ -44,13 +44,13 @@ if ($stchange == '') {
 	
 }
 
-$word = get_first_value("select WoText as value from words where WoID = " . $wid);
+$word = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid);
 pagestart("Term: " . $word, false);
 
-$m1 = runsql('update words set WoStatus = ' . 
+$m1 = runsql('update ' . $tbpref . 'words set WoStatus = ' . 
 	$status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed');
 	
-$newscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from words where WoID = ' . $wid) + 0;
+$newscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from ' . $tbpref . 'words where WoID = ' . $wid) + 0;
 
 if ($oldstatus == $status)
 	echo '<p>Status ' . get_colored_status_msg($status) . ' not changed.</p>';

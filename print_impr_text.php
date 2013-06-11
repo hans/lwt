@@ -24,7 +24,7 @@ include "utilities.inc.php";
 $textid = getreq('text')+0;
 $editmode = getreq('edit')+0;
 $delmode = getreq('del')+0;
-$ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
+$ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 if ($ann_exists) {
 	$ann = recreate_save_ann($textid, $ann);
@@ -37,16 +37,16 @@ if($textid==0) {
 }
 
 if ( $delmode ) {  // Delete
-	if ( $ann_exists ) $dummy = runsql('update texts set ' .
+	if ( $ann_exists ) $dummy = runsql('update ' . $tbpref . 'texts set ' .
 			'TxAnnotatedText = ' . convert_string_to_sqlsyntax("") . ' where TxID = ' . $textid, "");
-	$ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from texts where TxID = " . $textid) + 0) > 0);
+	$ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . $textid) + 0) > 0);
 	if ( ! $ann_exists ) {
 		header("Location: print_text.php?text=" . $textid);
 		exit();
 	}
 }
 
-$sql = 'select TxLgID, TxTitle, TxAudioURI from texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxTitle, TxAudioURI from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -57,7 +57,7 @@ if(! isset($audio)) $audio='';
 $audio = trim($audio);
 mysql_free_result($res);
 
-$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from languages where LgID = ' . $langid;
+$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);

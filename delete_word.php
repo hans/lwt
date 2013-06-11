@@ -21,9 +21,9 @@ include "utilities.inc.php";
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
-$term = get_first_value("select WoText as value from words where WoID = " . $wid);
+$term = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid);
 pagestart("Term: " . $term, false);
-$m1 = runsql('delete from words where WoID = ' . $wid, '');
+$m1 = runsql('delete from ' . $tbpref . 'words where WoID = ' . $wid, '');
 adjust_autoincr('words','WoID');
 
 echo "<p>OK, term deleted, now unknown (" . $m1 . ").</p>";

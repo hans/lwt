@@ -26,20 +26,20 @@ if (substr($id, 0, 5) == "trans") {
 	// usleep(200000);
 	$id = substr($id, 5);
 	if(trim($value) == '') $value='*';
-	$message = runsql('update words set WoTranslation = ' . 
+	$message = runsql('update ' . $tbpref . 'words set WoTranslation = ' . 
 		convert_string_to_sqlsyntax(repl_tab_nl($value)) . ' where WoID = ' . $id,
 		"");
-	echo get_first_value("select WoTranslation as value from words where WoID = " . $id);
+	echo get_first_value("select WoTranslation as value from " . $tbpref . "words where WoID = " . $id);
 	exit;
 }
 
 if (substr($id, 0, 5) == "roman") {
 	// usleep(100000);
 	$id = substr($id, 5);
-	$message = runsql('update words set WoRomanization = ' . 
+	$message = runsql('update ' . $tbpref . 'words set WoRomanization = ' . 
 		convert_string_to_sqlsyntax(repl_tab_nl($value)) . ' where WoID = ' . $id,
 		"");
-	echo get_first_value("select WoRomanization as value from words where WoID = " . $id);
+	echo get_first_value("select WoRomanization as value from " . $tbpref . "words where WoID = " . $id);
 	exit;
 }
 

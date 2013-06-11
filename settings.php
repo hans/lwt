@@ -89,7 +89,7 @@ if (isset($_REQUEST['op'])) {
 	
 	} else {
 	
-		$dummy = runsql("delete from settings where StKey like 'set-%'",''); 
+		$dummy = runsql("delete from " . $tbpref . "settings where StKey like 'set-%'",''); 
 	
 		$message = 'All Settings reset to default values';
 	

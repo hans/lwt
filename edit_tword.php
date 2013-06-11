@@ -47,7 +47,7 @@ if (isset($_REQUEST['op'])) {
 			$xx = '';
 			if ($oldstatus != $newstatus) $xx = ', WoStatus = ' .	$newstatus . ', WoStatusChanged = NOW()';
 		
-			$message = runsql('update words set WoText = ' . 
+			$message = runsql('update ' . $tbpref . 'words set WoText = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' . 
 			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
@@ -101,7 +101,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	if ($wid == '') die("Error: Term ID missing");
 	
-	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
+	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	$record = mysql_fetch_assoc($res);

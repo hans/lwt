@@ -25,7 +25,7 @@ $wid = getreq('wid');
 
 if ($wid == '') die ('Word not found');
 
-$sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
+$sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 if ($record = mysql_fetch_assoc($res)) {

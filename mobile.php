@@ -58,7 +58,7 @@ if (isset($_REQUEST["action"])) {  // Action
 	
 		$lang = $_REQUEST["lang"];
 		$langname = getLanguage($lang);
-		$sql = 'select TxID, TxTitle from texts where TxLgID = ' . $lang . 
+		$sql = 'select TxID, TxTitle from ' . $tbpref . 'texts where TxLgID = ' . $lang . 
 		' order by TxTitle';
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
@@ -89,9 +89,9 @@ if (isset($_REQUEST["action"])) {  // Action
 	
 		$lang = $_REQUEST["lang"];
 		$text = $_REQUEST["text"];
-		$texttitle = get_first_value('select TxTitle as value from texts where TxID = ' . $text);
-		$textaudio = get_first_value('select TxAudioURI as value from texts where TxID = ' . $text);
-		$sql = 'select SeID, SeText from sentences where SeTxID = ' . $text . ' order by SeOrder';
+		$texttitle = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $text);
+		$textaudio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $text);
+		$sql = 'select SeID, SeText from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' order by SeOrder';
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
 
@@ -145,9 +145,9 @@ if (isset($_REQUEST["action"])) {  // Action
 		$lang = $_REQUEST["lang"];
 		$text = $_REQUEST["text"];
 		$sent = $_REQUEST["sent"];
-		$senttext = get_first_value('select SeText as value from sentences where SeID = ' . $sent);
-		$nextsent = get_first_value('select SeID as value from sentences where SeTxID = ' . $text . ' and trim(SeText) != \'¶\' and SeID > ' . $sent . ' order by SeID limit 1');
-		$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = ' . $sent . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+		$senttext = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID = ' . $sent);
+		$nextsent = get_first_value('select SeID as value from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' and trim(SeText) != \'¶\' and SeID > ' . $sent . ' order by SeID limit 1');
+		$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = ' . $sent . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
 		
@@ -288,7 +288,7 @@ span.status5 {
 <ul id="home" title="Mobile LWT" selected="true">
 	<li class="group">Languages</li>
 <?php
-	$sql = 'select LgID, LgName from languages order by LgName';
+	$sql = 'select LgID, LgName from ' . $tbpref . 'languages order by LgName';
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	while ($record = mysql_fetch_assoc($res)) {

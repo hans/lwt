@@ -44,7 +44,7 @@ if (isset($_REQUEST['op'])) {
 			pagestart_nobody($titeltext);
 			echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';
 					
-			$message = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
+			$message = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
 				'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 				$_REQUEST["WoLgID"] . ', ' .
 				convert_string_to_sqlsyntax($_REQUEST["WoTextLC"]) . ', ' .
@@ -74,7 +74,7 @@ make_score_random_insert_update('id') . ')', "Term saved");
 			$xx = '';
 			if ($oldstatus != $newstatus) $xx = ', WoStatus = ' .	$newstatus . ', WoStatusChanged = NOW()';
 		
-			$message = runsql('update words set WoText = ' . 
+			$message = runsql('update ' . $tbpref . 'words set WoText = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' . 
 			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
@@ -148,16 +148,16 @@ else {  // if (! isset($_REQUEST['op']))
 	$wid = getreq('wid');
 	
 	if ($wid == '') {	
-		$lang = get_first_value("select TxLgID as value from texts where TxID = " . $_REQUEST['tid']);
+		$lang = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['tid']);
 		$term = prepare_textdata(getreq('txt'));
 		$termlc =	mb_strtolower($term, 'UTF-8');
 		
-		$wid = get_first_value("select WoID as value from words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc)); 
-		if (isset($wid)) $term = get_first_value("select WoText as value from words where WoID = " . $wid); 
+		$wid = get_first_value("select WoID as value from " . $tbpref . "words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc)); 
+		if (isset($wid)) $term = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid); 
 		
 	} else {
 
-		$sql = 'select WoText, WoLgID from words where WoID = ' . $wid;
+		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
 		$record = mysql_fetch_assoc($res);
@@ -182,7 +182,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	if ($neu) {
 		
-		$seid = get_first_value("select TiSeID as value from textitems where TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);
+		$seid = get_first_value("select TiSeID as value from " . $tbpref . "textitems where TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);
 		$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
 			
 		?>
@@ -238,7 +238,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	else {
 		
-		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
+		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 		$res = mysql_query($sql);		
 		if ($res == FALSE) die("Invalid Query: $sql");
 		if ($record = mysql_fetch_assoc($res)) {
@@ -247,7 +247,7 @@ else {  // if (! isset($_REQUEST['op']))
 			if ($status >= 98) $status = 1;
 			$sentence = repl_tab_nl($record['WoSentence']);
 			if ($sentence == '') {
-				$seid = get_first_value("select TiSeID as value from textitems where TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);
+				$seid = get_first_value("select TiSeID as value from " . $tbpref . "textitems where TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);
 				$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
 				$sentence = repl_tab_nl($sent[1]);
 			}
