@@ -29,7 +29,7 @@ $success = "";
 
 if ($wid == 0) {
 	$textlc = mb_strtolower($text, 'UTF-8');
-	$dummy = runsql('insert into words (WoLgID, WoTextLC, WoText, ' .
+	$dummy = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
 		'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 		$lang . ', ' .
 		convert_string_to_sqlsyntax($textlc) . ', ' .
@@ -41,9 +41,9 @@ if ($wid == 0) {
 	if ($dummy == 1) $success = $textlc;	
 }
 
-else if(get_first_value("select count(WoID) as value from words where WoID = " . $wid) == 1) {
+else if(get_first_value("select count(WoID) as value from " . $tbpref . "words where WoID = " . $wid) == 1) {
 
-	$oldtrans = get_first_value("select WoTranslation as value from words where WoID = " . $wid);
+	$oldtrans = get_first_value("select WoTranslation as value from " . $tbpref . "words where WoID = " . $wid);
 	
 	$oldtransarr = preg_split('/[' . get_sepas()  . ']/u', $oldtrans);
 	array_walk($oldtransarr, 'trim_value');
@@ -54,10 +54,10 @@ else if(get_first_value("select count(WoID) as value from words where WoID = " .
 		} else {
 			$oldtrans .= ' ' . get_first_sepa() . ' ' . $data;
 		}
-		$dummy = runsql('update words set ' .
+		$dummy = runsql('update ' . $tbpref . 'words set ' .
 			'WoTranslation = ' . convert_string_to_sqlsyntax($oldtrans) . ' where WoID = ' . $wid, "");
 	}
-	$success = get_first_value("select WoTextLC as value from words where WoID = " . $wid);;	
+	$success = get_first_value("select WoTextLC as value from " . $tbpref . "words where WoID = " . $wid);;	
 }
 
 echo $success;

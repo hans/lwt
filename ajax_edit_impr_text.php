@@ -21,10 +21,11 @@ include "settings.inc.php";
 include "utilities.inc.php";
 
 function make_trans($i, $wid, $trans, $word, $lang) {
+	global $tbpref;	
 	$trans = trim($trans);
 	$widset = is_numeric($wid);
 	if ($widset) {
-		$alltrans = get_first_value("select WoTranslation as value from words where WoID = " . $wid);
+		$alltrans = get_first_value("select WoTranslation as value from " . $tbpref . "words where WoID = " . $wid);
 		$transarr = preg_split('/[' . get_sepas()  . ']/u', $alltrans);
 		$r = "";
 		$set = false;
@@ -59,7 +60,7 @@ function make_trans($i, $wid, $trans, $word, $lang) {
 $textid = $_POST["id"] + 0;
 $wordlc = stripTheSlashesIfNeeded($_POST['word']);
 
-$sql = 'select TxLgID, TxTitle from texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -67,7 +68,7 @@ $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysql_free_result($res);
 
-$sql = 'select LgTextSize, LgRightToLeft from languages where LgID = ' . $langid;
+$sql = 'select LgTextSize, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -76,7 +77,7 @@ if ($textsize > 100) $textsize = intval($textsize * 0.8);
 $rtlScript = $record['LgRightToLeft'];
 mysql_free_result($res);
 
-$ann = get_first_value("select TxAnnotatedText as value from texts where TxID = " . $textid);
+$ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 if ($ann_exists) {
 	$ann = recreate_save_ann($textid, $ann);

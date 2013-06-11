@@ -52,10 +52,10 @@ if (isset($_REQUEST['restore'])) {
 							break;
 						}
 						$start = 0;
+						continue;
 					}
-					if(strpos($sql_line, "--") === false) {
-						//echo tohtml($sql_line) . "<br />"; $res=TRUE;
-						$res = mysql_query($sql_line);
+					if ( substr($sql_line,0,3) !== '-- ' ) {
+						$res = mysql_query(insert_prefix_in_sql($sql_line));
 						$lines++;
 						if ($res == FALSE) $errors++;
 						else {
@@ -64,22 +64,23 @@ if (isset($_REQUEST['restore'])) {
 							elseif (substr($sql_line,0,10) == "DROP TABLE") $drops++;
 							elseif (substr($sql_line,0,12) == "CREATE TABLE") $creates++;
 						}
+						// echo $ok . " / " . tohtml(insert_prefix_in_sql($sql_line)) . "<br />";
 					}
 				}
 			} // while (! feof($handle))
 			gzclose ($handle);
 			if ($errors == 0) {
-				runsql('TRUNCATE sentences');
-				runsql('TRUNCATE textitems');
+				runsql('TRUNCATE ' . $tbpref . 'sentences','');
+				runsql('TRUNCATE ' . $tbpref . 'textitems','');
 				adjust_autoincr('sentences','SeID');
 				adjust_autoincr('textitems','TiID');
-				$sql = "select TxID, TxLgID from texts";
+				$sql = "select TxID, TxLgID from " . $tbpref . "texts";
 				$res = mysql_query($sql);		
 				if ($res == FALSE) die("Invalid Query: $sql");
 				while ($record = mysql_fetch_assoc($res)) {
 					$id = $record['TxID'];
 					splitText(
-						get_first_value('select TxText as value from texts where TxID = ' . $id), $record['TxLgID'], $id );
+						get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id );
 				}
 				mysql_free_result($res);
 				optimizedb();
@@ -99,18 +100,15 @@ if (isset($_REQUEST['restore'])) {
 // BACKUP
 
 elseif (isset($_REQUEST['backup'])) {
-	$tables = array();
-	$result = mysql_query('SHOW TABLES');
-	while ($row = mysql_fetch_row($result)) 
-		$tables[] = $row[0];
+	$tables = array('archivedtexts', 'archtexttags', 'languages', 'sentences', 'tags', 'tags2', 'textitems', 'texts', 'texttags', 'words', 'wordtags');
 	$fname = "lwt-backup-" . date('Y-m-d-H-i-s') . ".sql.gz";
 	$out = "-- " . $fname . "\n";
 	foreach($tables as $table) { // foreach table
-		$result = mysql_query('SELECT * FROM ' . $table);
+		$result = mysql_query('SELECT * FROM ' . $tbpref . $table);
 		$num_fields = mysql_num_fields($result);
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
-		$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE ' . $table));
-		$out .= str_replace("\n"," ",$row2[1]) . ";\n";
+		$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE ' . $tbpref . $table));
+		$out .= str_replace($tbpref . $table, $table, str_replace("\n"," ",$row2[1])) . ";\n";
 		if ($table !== 'sentences' && $table !== 'textitems') {
 			while ($row = mysql_fetch_row($result)) { // foreach record
 				$return = 'INSERT INTO ' . $table . ' VALUES(';
@@ -135,18 +133,18 @@ elseif (isset($_REQUEST['backup'])) {
 // EMPTY
 
 elseif (isset($_REQUEST['empty'])) {
-	$dummy = runsql('TRUNCATE archivedtexts','');
-	$dummy = runsql('TRUNCATE archtexttags','');
-	$dummy = runsql('TRUNCATE languages','');
-	$dummy = runsql('TRUNCATE sentences','');
-	$dummy = runsql('TRUNCATE tags','');
-	$dummy = runsql('TRUNCATE tags2','');
-	$dummy = runsql('TRUNCATE textitems','');
-	$dummy = runsql('TRUNCATE texts','');
-	$dummy = runsql('TRUNCATE texttags','');
-	$dummy = runsql('TRUNCATE words','');
-	$dummy = runsql('TRUNCATE wordtags', '');
-	$dummy = runsql('DELETE FROM settings where StKey = \'currenttext\'', '');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'archivedtexts','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'archtexttags','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'languages','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'sentences','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'tags','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'tags2','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'textitems','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'texts','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'texttags','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'words','');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'wordtags', '');
+	$dummy = runsql('DELETE FROM ' . $tbpref . 'settings where StKey = \'currenttext\'', '');
 	optimizedb();
 	$message = "Database content has been deleted (but settings have been kept)";
 }
@@ -155,6 +153,11 @@ pagestart('Backup/Restore/Empty Database',true);
 
 echo error_message_with_hide($message,1);
 
+if ($tbpref == '') 
+	$prefinfo = "(No Table Prefix)";
+else
+	$prefinfo = "(Table Prefix: <i>" . tohtml($tbpref) . "</i>)";
+
 ?>
 <form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return confirm('Are you sure?');">
 <table class="tab1" cellspacing="0" cellpadding="5">
@@ -162,7 +165,7 @@ echo error_message_with_hide($message,1);
 <th class="th1 center">Backup</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be exported to a gzipped SQL file. Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
+The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be exported to a gzipped SQL file. Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
 <p class="right">&nbsp;<br /><input type="submit" name="backup" value="Download LWT Backup" /></p>
 </td>
 </tr>
@@ -170,7 +173,7 @@ The database <i><?php echo tohtml($dbname); ?></i> will be exported to a gzipped
 <th class="th1 center">Restore</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the data in the specified backup file<br />(gzipped or normal SQL file, created above).<br /><b>Please be careful - the existent database will be overwritten!</b> <br />Important: If the backup file is too large, the restore may not be possible.<br />Upload limits (in bytes): <b>post_max_size = <?php echo ini_get('post_max_size'); ?> / upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
+The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be replaced by the data in the specified backup file<br />(gzipped or normal SQL file, created above).<br /><b>Please be careful - the existent database will be overwritten!</b> <br />Important: If the backup file is too large, the restore may not be possible.<br />Upload limits (in bytes): <b>post_max_size = <?php echo ini_get('post_max_size'); ?> / upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
 If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restart server.</p>
 <p><input name="thefile" type="file" /></p>
 <p class="right">&nbsp;<br /><span class="red2">YOU MAY LOSE DATA - BE CAREFUL: &nbsp; &nbsp; &nbsp;</span> 
@@ -181,7 +184,7 @@ If needed, increase in "<?php echo tohtml(php_ini_loaded_file()); ?>" and restar
 <th class="th1 center">Install<br />LWT<br />Demo</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT demo database.</p>
+The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be replaced by the LWT demo database.</p>
 <p class="right">&nbsp;<br /> 
 <input type="button" value="Install LWT Demo Database" onclick="location.href='install_demo.php';" />
 </td>
@@ -190,7 +193,7 @@ The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT d
 <th class="th1 center">Empty<br />Database</th>
 <td class="td1">
 <p class="smallgray2">
-Empty (= delete the contents of) all tables - except the Settings - of your database <i><?php echo tohtml($dbname); ?></i>.</p>
+Empty (= delete the contents of) all tables - except the Settings - of your database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?>.</p>
 <p class="right">&nbsp;<br /><span class="red2">YOU MAY LOSE DATA - BE CAREFUL: &nbsp; &nbsp; &nbsp;</span>
 <input type="submit" name="empty" value="Empty LWT Database" />
 </td>

@@ -19,11 +19,11 @@ include "connect.inc.php";
 include "settings.inc.php";
 include "utilities.inc.php";
 
-$langid = get_first_value("select TxLgID as value from texts where TxID = " . $_REQUEST['text']);
+$langid = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['text']);
 
 pagestart("Setting all blue words to Well-known",false);
 
-$sql = 'select distinct TiText, TiTextLC from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiIsNotWord = 0 and WoID is null and TiWordCount = 1 and TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder';
+$sql = 'select distinct TiText, TiTextLC from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiIsNotWord = 0 and WoID is null and TiWordCount = 1 and TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder';
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $count = 0;
@@ -31,7 +31,7 @@ $javascript = "var title='';";
 while ($record = mysql_fetch_assoc($res)) {
 	$term = $record['TiText'];	
 	$termlc = $record['TiTextLC'];	
-	$count1 = 0 + runsql('insert into words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+	$count1 = 0 + runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 	$langid . ', ' . 
 	convert_string_to_sqlsyntax($term) . ', ' . 
 	convert_string_to_sqlsyntax($termlc) . ', 99 , NOW(), ' .  

@@ -46,14 +46,14 @@ if (isset($_REQUEST['install'])) {
 				if ($sql_line != "") {
 					if($start) {
 						if (strpos($sql_line,"-- lwt-backup-") === false ) {
-							$message = "Error: Invalid file (possibly not created by LWT backup)";
+							$message = "Error: Invalid Restore file (possibly not created by LWT backup)";
 							break;
 						}
 						$start = 0;
+						continue;
 					}
-					if(strpos($sql_line, "--") === false) {
-						//echo tohtml($sql_line) . "<br />"; $res=TRUE;
-						$res = mysql_query($sql_line);
+					if ( substr($sql_line,0,3) !== '-- ' ) {
+						$res = mysql_query(insert_prefix_in_sql($sql_line));
 						$lines++;
 						if ($res == FALSE) $errors++;
 						else {
@@ -62,22 +62,23 @@ if (isset($_REQUEST['install'])) {
 							elseif (substr($sql_line,0,10) == "DROP TABLE") $drops++;
 							elseif (substr($sql_line,0,12) == "CREATE TABLE") $creates++;
 						}
+						// echo $ok . " / " . tohtml(insert_prefix_in_sql($sql_line)) . "<br />";
 					}
 				}
 			} // while (! feof($handle))
 			gzclose ($handle);
 			if ($errors == 0) {
-				runsql('TRUNCATE sentences');
-				runsql('TRUNCATE textitems');
+				runsql('TRUNCATE ' . $tbpref . 'sentences','');
+				runsql('TRUNCATE ' . $tbpref . 'textitems','');
 				adjust_autoincr('sentences','SeID');
 				adjust_autoincr('textitems','TiID');
-				$sql = "select TxID, TxLgID from texts";
+				$sql = "select TxID, TxLgID from " . $tbpref . "texts";
 				$res = mysql_query($sql);		
 				if ($res == FALSE) die("Invalid Query: $sql");
 				while ($record = mysql_fetch_assoc($res)) {
 					$id = $record['TxID'];
 					splitText(
-						get_first_value('select TxText as value from texts where TxID = ' . $id), $record['TxLgID'], $id );
+						get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id );
 				}
 				mysql_free_result($res);
 				optimizedb();
@@ -100,6 +101,11 @@ echo error_message_with_hide($message,1);
 
 $langcnt = get_first_value('select count(*) as value from languages');
 
+if ($tbpref == '') 
+	$prefinfo = "(No Table Prefix)";
+else
+	$prefinfo = "(Table Prefix: <i>" . tohtml($tbpref) . "</i>)";
+
 ?>
 <form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return confirm('Are you sure?');">
 <table class="tab3" cellspacing="0" cellpadding="5">
@@ -107,7 +113,7 @@ $langcnt = get_first_value('select count(*) as value from languages');
 <th class="th1 center">Install Demo</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT demo database.
+The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be replaced by the LWT demo database.
 
 <?php 
 if ($langcnt > 0 ) { 
