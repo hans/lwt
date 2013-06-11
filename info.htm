@@ -199,7 +199,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.2 (June 09 2013)</b>.
+          <li>The current version is <b>1.5.3 (June ?? 2013)</b>.
           </li>
 
           <li>
@@ -2269,6 +2269,13 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
         
+        	<li>1.5.3 (June ?? 2013): 
+        	It is now possible to define a table name prefix in "connect.inc.php": $tbpref = "...". The default (if not set) is an empty prefix string. Please use only characters that are allowed in <a href="http://dev.mysql.com/doc/refman/5.1/de/legal-names.html" target=_blank">MySQL table names</a>. The prefix will be put in front of the normal table name (see previous section), plus an minus sign "-", e.g. "prefix-textitems", "prefix-words", etc. Please observe that the total length of the final table name must not exceed 64 bytes. This feature is especially useful for people who have limits in the allowed number of databases, or want to set up a multi user environment with a set of tables for each user (such a usage needs some additional PHP programming by you to set the correct prefix for each user).
+        	<br />
+        	Documentation updated.<br />
+        	<br /><br />
+        	</li>
+
         	<li>1.5.2 (June 09 2013): 
         	Easy navigation to the previous and the next text (according to current text filters and sort order) is now possible.
         	<br />

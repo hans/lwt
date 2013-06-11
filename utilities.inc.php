@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Update
 
 function get_version() {
 	global $debug;
-	return '1.5.2 (June 09 2013)'  . 
+	return '1.5.3 (June ?? 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -2812,7 +2812,15 @@ $err = @mysql_select_db($dbname);
 if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . $dbname . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');
 
 $err = @mysql_select_db($dbname);
-if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');   
+if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
+
+// Is $tbpref set?
+
+if (! isset($tbpref))  $tbpref = '';
+
+// Create complete prefix
+
+if ($tbpref !== '') $tbpref = $tbpref . '-';
 
 // check/update db
 check_update_db();
