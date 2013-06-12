@@ -148,6 +148,11 @@ foreach ($prefix as $value) {
 </td>
 </tr>
 
+<tr>
+<td class="td1 right" colspan="2"> 
+<input type="button" value="&lt;&lt; Back" onclick="location.href='index.php';" /></td>
+</tr>
+
 </table>
 
 <?php
