@@ -154,9 +154,9 @@ pagestart('Backup/Restore/Empty Database',true);
 echo error_message_with_hide($message,1);
 
 if ($tbpref == '') 
-	$prefinfo = "(No Table Prefix)";
+	$prefinfo = "(Default Table Set)";
 else
-	$prefinfo = "(Table Prefix: <i>" . tohtml($tbpref) . "</i>)";
+	$prefinfo = "(Table Set: <i>" . tohtml($tbpref) . "</i>)";
 
 ?>
 <form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return confirm('Are you sure?');">

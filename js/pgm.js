@@ -596,10 +596,10 @@ function iknowall(t) {
 function check_table_prefix(p) {
 	var r = false;
 	var re = /^[_a-zA-Z0-9]*$/;
-	if (p.length <= 20) {
+	if (p.length <= 20 && p.length > 0) {
 		if (p.match(re)) r = true;
 	}
 	if (! r) 
-		alert('Table prefix contains characters other than 0-9, a-z, A-Z and _.\n\nPlease fix.'); 
+		alert('Table Set is either empty or\ncontains characters other than 0-9, a-z, A-Z and _.\nPlease fix.'); 
 	return r;
 }

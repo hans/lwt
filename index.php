@@ -124,13 +124,13 @@ $mb = get_first_value("SELECT round(sum(data_length+index_length)/1024/1024,1) a
 if (! isset($mb)) $mb = '0.0';
 
 if ($tbpref == '') 
-	$prefinfo = "<b>No</b> Table Prefix";
+	$prefinfo = "<b>Default</b> Table Set";
 else
-	$prefinfo = "Table Prefix: <b>" . tohtml($tbpref) . "</b>";
+	$prefinfo = "Table Set: <b>" . tohtml($tbpref) . "</b>";
 
 ?>
 
-This is <b>LWT <?php echo get_version(); ?></b><br />Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / <a href="select.php"><?php echo $prefinfo; ?></a> / Size: <b><?php echo $mb; ?> MB</b></p></td></tr></table>
+This is <b>LWT <?php echo get_version(); ?></b><br />Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / <span onclick="{if (confirm('\'Select, Create or Delete a Table set\'\n\nDo you really want to enter?')) location.href='select.php';}" class="click"><?php echo $prefinfo; ?></span> / Size: <b><?php echo $mb; ?> MB</b></p></td></tr></table>
 
 <?php
 

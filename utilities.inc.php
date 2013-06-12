@@ -2546,6 +2546,32 @@ function create_ann($textid) {
 
 // -------------------------------------------------------------
 
+function LWTTableCheck () {
+	$tables = array();
+	$res = mysql_query("SHOW TABLES LIKE 'learning_with_texts'");
+	if ($res == FALSE) die("SHOW TABLES error");
+  while ($row = mysql_fetch_row($res)) 
+  	$tables[] = $row[0];
+	mysql_free_result($res);
+	if (count($tables) == 0) {
+		runsql("CREATE TABLE IF NOT EXISTS learning_with_texts ( LWTKey varchar(40) NOT NULL, LWTValue varchar(40) DEFAULT NULL, PRIMARY KEY (LWTKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+	}
+}
+
+// -------------------------------------------------------------
+
+function LWTTableSet ($key, $val) {
+	runsql("INSERT INTO learning_with_texts (LWTKey, LWTValue) VALUES (" . convert_string_to_sqlsyntax($key) . ", " . convert_string_to_sqlsyntax($val) . ") ON DUPLICATE KEY UPDATE LWTValue = " . convert_string_to_sqlsyntax($val),'');
+}
+
+// -------------------------------------------------------------
+
+function LWTTableGet ($key) {
+	return get_first_value("SELECT LWTValue as value FROM learning_with_texts WHERE LWTKey = " . convert_string_to_sqlsyntax($key));
+}
+
+// -------------------------------------------------------------
+
 function insert_prefix_in_sql ($sql_line) {
 	global $tbpref;
 	//                                 123456789012345678901
@@ -2878,23 +2904,32 @@ if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . $dbname
 $err = @mysql_select_db($dbname);
 if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
 
-// Is $tbpref set? Take it.
-// If not: Is $_SESSION['tbpref'] set? Take it.
+// Is $tbpref set in connect.inc.php? Take it.
+// If not: Is $_COOKIE['tbpref'] set? Take it.
 // If not: Use $tbpref = '' (no prefix, old/standard behaviour).
 
+LWTTableCheck();
+
 if (! isset($tbpref)) {
-	if (isset($_SESSION['tbpref'])) 
-		$tbpref = $_SESSION['tbpref'];
-	else
+	$fixed_tbpref = 0;
+	$p = LWTTableGet("current_table_prefix");
+	if (isset($p)) 
+		$tbpref = $p;
+	else {
 		$tbpref = '';
-}
+	}
+} 
+else
+	$fixed_tbpref = 1;
 
 $len_tbpref = strlen($tbpref); 
 if ($len_tbpref > 0) {
-	if ($len_tbpref > 20) die('Table prefix "' . $tbpref . '" longer than 20 digits or characters. Please fix in "connect.inc.php".');
+	if ($len_tbpref > 20) die('Table prefix/set "' . $tbpref . '" longer than 20 digits or characters. Please fix in "connect.inc.php".');
 	for ($i=0; $i < $len_tbpref; $i++) 
-		if (strpos("_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", substr($tbpref,$i,1)) === FALSE) die('Table prefix "' . $tbpref . '" contains characters or digits other than 0-9, a-z, A-Z or _. Please fix in "connect.inc.php".'); 
+		if (strpos("_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", substr($tbpref,$i,1)) === FALSE) die('Table prefix/set "' . $tbpref . '" contains characters or digits other than 0-9, a-z, A-Z or _. Please fix in "connect.inc.php".'); 
 }
+
+LWTTableSet ("current_table_prefix", $tbpref);
 
 // check/update db
 check_update_db();
