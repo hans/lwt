@@ -2905,8 +2905,10 @@ $err = @mysql_select_db($dbname);
 if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
 
 // Is $tbpref set in connect.inc.php? Take it.
-// If not: Is $_COOKIE['tbpref'] set? Take it.
+// If not: Is it set in table learning_with_texts? Take it.
 // If not: Use $tbpref = '' (no prefix, old/standard behaviour).
+
+// $fixed_tbpref = 1 if $tbpref was fixed in connect.inc.php.
 
 LWTTableCheck();
 
