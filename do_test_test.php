@@ -18,8 +18,8 @@ Call: do_test_test.php?type=[testtype]&selection=1
 Show test frame
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $p = '';

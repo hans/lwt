@@ -16,8 +16,8 @@ Call: set_word_status.php?...
 Change status of term while reading
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $tid = $_REQUEST['tid'];

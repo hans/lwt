@@ -15,8 +15,8 @@ Call: display_impr_text_text.php?text=[textid]
 Display an improved annotated text (text frame)
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $textid = getreq('text')+0;

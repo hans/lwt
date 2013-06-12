@@ -18,8 +18,8 @@ Call: do_test_header.php?selection=1
 Show test header frame
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $p = '';

@@ -15,8 +15,8 @@ Call: delete_mword.php?wid=[wordid]&tid=[textid]
 Delete an expression 
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $showAll = getSetting('showallwords');

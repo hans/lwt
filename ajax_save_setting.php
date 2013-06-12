@@ -15,8 +15,8 @@ Call: ajax_save_setting.php?k=[key]&v=[value]
 Save a Setting (k/v)
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $k = getreq('k');

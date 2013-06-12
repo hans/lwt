@@ -18,8 +18,8 @@ Call 2: trans.php?x=2&t=[text]&i=[dictURI]
 Get a translation from Web Dictionary
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $x = $_REQUEST["x"];

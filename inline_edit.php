@@ -15,8 +15,8 @@ Call: inline_edit.php?...
 ...
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $value = (isset($_POST['value'])) ? $_POST['value'] : "";

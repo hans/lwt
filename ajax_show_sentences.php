@@ -18,8 +18,8 @@ Call: ajax_show_sentences.php?...
 Show sentences in edit_texts.php, etc.
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $lang = $_POST['lang'] + 0;

@@ -15,8 +15,8 @@ Call: display_impr_text.php?text=[textid]
 Display an improved annotated text (frame set)
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php"; 
 
 if (isset($_REQUEST['text'])) {

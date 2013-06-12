@@ -17,8 +17,8 @@ Call: print_text.php?text=[textid]&...
 Print a text
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 function output_text($saveterm,$saverom,$savetrans,$savetags,

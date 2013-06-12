@@ -15,8 +15,8 @@ Call: delete_word.php?wid=[wordid]&tid=[textid]
 Delete a word
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $tid = $_REQUEST['tid'];

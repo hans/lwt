@@ -15,8 +15,8 @@ Call: do_text_header.php?text=[textid]
 Show text header frame
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $textid = getreq('text');

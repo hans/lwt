@@ -16,8 +16,8 @@ Display table for Improved Annotation (Edit Mode),
 Ajax call in print_impr_text.php
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 function make_trans($i, $wid, $trans, $word, $lang) {

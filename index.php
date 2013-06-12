@@ -17,8 +17,8 @@ LWT Start Screen / Main Menu / Home
 
 if (! file_exists ('connect.inc.php')) die ('Fatal Error, cannot find file: "connect.inc.php". Please rename the correct file "connect_[servertype].inc.php" to "connect.inc.php" ([servertype] is the name of your server: xampp, mamp, or easyphp). Please read the documentation: http://lwt.sf.net');
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 pagestart('Home',false);
@@ -130,7 +130,7 @@ else
 
 ?>
 
-This is <b>LWT <?php echo get_version(); ?></b> / Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / <?php echo $prefinfo; ?> / Size: <b><?php echo $mb; ?> MB</b></p></td></tr></table>
+This is <b>LWT <?php echo get_version(); ?></b><br />Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / <a href="select.php"><?php echo $prefinfo; ?></a> / Size: <b><?php echo $mb; ?> MB</b></p></td></tr></table>
 
 <?php
 

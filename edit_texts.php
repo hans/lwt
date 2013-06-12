@@ -29,8 +29,8 @@ Call: edit_texts.php?....
 Manage active texts
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 // Page, Sort, etc. 

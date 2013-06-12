@@ -16,8 +16,8 @@ Call: upload_words.php?....
 Import terms from file or Text area
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 function my_str_getcsv($input) {

@@ -16,8 +16,8 @@ Call: check_text.php?...
 Check (parse & split) a Text (into sentences/words)
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 pagestart('Check a Text',true);

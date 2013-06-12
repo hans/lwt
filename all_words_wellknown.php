@@ -15,8 +15,8 @@ Call: all_words_wellknown.php?text=[textid]
 Setting all unknown words to Well Known (99)
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['text']);

@@ -15,8 +15,8 @@ Call: do_text_text.php?text=[textid]
 Show text header frame
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text'];

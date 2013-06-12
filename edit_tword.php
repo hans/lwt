@@ -17,8 +17,8 @@ Call: edit_tword.php?....
 Edit term while testing
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));

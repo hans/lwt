@@ -15,8 +15,8 @@ Call: set_text_mode.php?text=[textid]&mode=0/1
 Change the text display mode
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php"; 
 
 $tid = getreq('text') + 0;

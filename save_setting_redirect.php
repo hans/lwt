@@ -15,8 +15,8 @@ Call: save_setting_redirect.php?k=[key]&v=[value]&u=[RedirURI]
 Save a Setting (k/v) and redirect to URI u
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $k = getreq('k');

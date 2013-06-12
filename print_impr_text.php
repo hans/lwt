@@ -17,8 +17,8 @@ Call: print_impr_text.php?text=[textid]&...
 Print/Edit an improved annotated text
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $textid = getreq('text')+0;

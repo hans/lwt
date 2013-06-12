@@ -21,8 +21,8 @@ Call: edit_languages.php?....
 Manage languages
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 pagestart('My Languages',true);

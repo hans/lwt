@@ -25,8 +25,8 @@ Call: edit_texttags.php?....
 Manage tags
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $currentsort = processDBParam("sort",'currenttexttagsort','1',1);

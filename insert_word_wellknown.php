@@ -15,8 +15,8 @@ Call: insert_word_wellknown.php?tid=[textid]&ord=[textpos]
 Ignore single word (new term with status 99)
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $word = get_first_value("select TiText as value from " . $tbpref . "textitems where TiWordCount = 1 and TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);

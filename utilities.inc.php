@@ -2878,9 +2878,16 @@ if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . $dbname
 $err = @mysql_select_db($dbname);
 if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
 
-// Is $tbpref set?  Check if set...
+// Is $tbpref set? Take it.
+// If not: Is $_SESSION['tbpref'] set? Take it.
+// If not: Use $tbpref = '' (no prefix, old/standard behaviour).
 
-if (! isset($tbpref))  $tbpref = '';
+if (! isset($tbpref)) {
+	if (isset($_SESSION['tbpref'])) 
+		$tbpref = $_SESSION['tbpref'];
+	else
+		$tbpref = '';
+}
 
 $len_tbpref = strlen($tbpref); 
 if ($len_tbpref > 0) {

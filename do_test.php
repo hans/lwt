@@ -17,8 +17,8 @@ Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
 Start a test (frameset)
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $p = '';

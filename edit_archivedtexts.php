@@ -24,8 +24,8 @@ Call: edit_archivedtexts.php?....
 Manage archived texts
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));

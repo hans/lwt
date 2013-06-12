@@ -15,8 +15,8 @@ Call: ajax_save_impr_text.php
 Save Improved Annotation
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $textid = $_POST['id'] + 0;

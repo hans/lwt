@@ -15,8 +15,8 @@ Call: install_demo.php
 Install LWT Demo Database
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $message = '';

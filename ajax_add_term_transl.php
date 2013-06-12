@@ -15,8 +15,8 @@ Call: ajax_add_term_transl.php
 Add a translation to term
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $wid = $_POST['id'] + 0;

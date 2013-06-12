@@ -18,8 +18,8 @@ Call: backup_restore.php?....
 Backup/Restore/Empty LWT Database
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $message = '';

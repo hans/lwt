@@ -31,8 +31,8 @@ Call: edit_words.php?....
 Manage terms
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));

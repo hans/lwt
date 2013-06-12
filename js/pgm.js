@@ -592,3 +592,14 @@ function iknowall(t) {
 	if (answer) 
 		top.frames['ro'].location.href='all_words_wellknown.php?text=' + t;
 }
+
+function check_table_prefix(p) {
+	var r = false;
+	var re = /^[_a-zA-Z0-9]*$/;
+	if (p.length <= 20) {
+		if (p.match(re)) r = true;
+	}
+	if (! r) 
+		alert('Table prefix contains characters other than 0-9, a-z, A-Z and _.\n\nPlease fix.'); 
+	return r;
+}

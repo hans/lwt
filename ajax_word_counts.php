@@ -15,8 +15,8 @@ Call: ajax_word_counts.php?id=[textid]
 Calculating Word Counts, Ajax call in edit_texts.php
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $id = $_POST["id"] + 0;

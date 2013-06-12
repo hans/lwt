@@ -13,7 +13,7 @@ Developed by J. P. in 2011, 2012, 2013.
 /**************************************************************
 Debug switch / Display PHP error settings
 Set script time limit
-Start a PHP session
+Start a PHP session if not one already exists
 ***************************************************************/
 
 $debug = 0;  // 1 = debugging on, 0 = .. off
@@ -34,8 +34,15 @@ if ($debug) {
 
 @ini_set('memory_limit', '999M');  
 
-$err = @session_start();
-if ($err == FALSE) 
-	die('SESSION error (Impossible to start a PHP session)');
+if(session_id() == '') {
+	// session isn't started
+	$err = @session_start();
+	if ($err === FALSE) 
+		die('SESSION error (Impossible to start a PHP session)');
+	if(session_id() == '')
+		die('SESSION ID empty (Impossible to start a PHP session)');
+	if (! isset($_SESSION))
+		die('SESSION array not set (Impossible to start a PHP session)');
+}
 
 ?>

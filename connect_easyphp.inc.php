@@ -19,6 +19,5 @@ $server = "127.0.0.1";
 $userid = "root";
 $passwd = "";
 $dbname = "learning-with-texts";
-$tbpref = "";
 
 ?>

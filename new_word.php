@@ -17,8 +17,8 @@ Call: new_word.php?...
 New word, created while reading or testing
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 // INSERT

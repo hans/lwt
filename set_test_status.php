@@ -16,8 +16,8 @@ Call: set_test_status.php?wid=[wordid]&stchange=+1/-1
 Change status of term while testing
 ***************************************************************/
 
-include "connect.inc.php";
 include "settings.inc.php";
+include "connect.inc.php";
 include "utilities.inc.php";
 
 $stchange = getreq('stchange');
