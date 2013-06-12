@@ -20,7 +20,7 @@ include "connect.inc.php";
 include "utilities.inc.php";
 
 $textid = getreq('text')+0;
-$ann = get_first_value("select TxAnnotatedText as value from ' . $tbpref . 'texts where TxID = " . $textid);
+$ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 
 if(($textid==0) || (! $ann_exists)) {
