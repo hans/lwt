@@ -17,17 +17,18 @@ Start a PHP session if not one already exists
 ***************************************************************/
 
 $debug = 0;  // 1 = debugging on, 0 = .. off
-$dspltime = 1;  // 1 = display time on, 0 = .. off
+$dspltime = 0;  // 1 = display time on, 0 = .. off
 
-if ($debug) {
+// if ($debug) {
 	@error_reporting(E_ALL);
 	@ini_set('display_errors','1');
 	@ini_set('display_startup_errors','1');
+/* 
 } else {
 	@error_reporting(0);
 	@ini_set('display_errors','0');
 	@ini_set('display_startup_errors','0');
-}
+}  */
 
 @ini_set('max_execution_time', '600');  // 10 min.
 @set_time_limit(600);  // 10 min.
