@@ -11,8 +11,8 @@ Developed by J. P. in 2011, 2012, 2013.
 ***************************************************************/
 
 /**************************************************************
-Call: select.php
-Analyse DB tables and offer management functions
+Call: table_set_management.php
+Analyse DB tables, and manage Table Sets
 ***************************************************************/
 
 include "settings.inc.php";
