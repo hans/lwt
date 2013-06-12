@@ -39,7 +39,7 @@ var context = window.parent.frames['l'].document;
 /**************************************************************
 (jquery, deact.)
 
-$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (textitems left join words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
+$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
 
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");

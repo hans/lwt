@@ -111,7 +111,7 @@ foreach ($items as $item) {
 		if (count($vals) > 2) {
 			$id = $vals[2];
 			if (is_numeric($id)) {
-				if(get_first_value("select count(WoID) as value from words where WoID = "
+				if(get_first_value("select count(WoID) as value from " . $tbpref . "words where WoID = "
 				 . $id) < 1) $id = '';
 			}
 		}

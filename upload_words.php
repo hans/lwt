@@ -107,7 +107,7 @@ if (isset($_REQUEST['op'])) {
  				if ($excnt > 0 ) { // exists
  					if ($overwrite) { // update
 	 					$msg1 = runsql('delete from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl), "Exists, deleted");
-	 					runsql("DELETE ' . $tbpref . 'wordtags FROM (' . $tbpref . 'wordtags LEFT JOIN ' . $tbpref . 'words on WtWoID = WoID) WHERE WoID IS NULL",'');
+	 					runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
 	 					$msg2 = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
 						convert_string_to_sqlsyntax($wl) . ', ' .
 						convert_string_to_sqlsyntax($w) . ', ' .

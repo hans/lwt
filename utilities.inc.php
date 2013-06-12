@@ -2806,8 +2806,8 @@ function check_update_db() {
 		if ($res == FALSE) die("Invalid Query: $sql");
 		while ($record = mysql_fetch_assoc($res)) {
 			$id = $record['TxID'];
-			runsql('delete from " . $tbpref . "sentences where SeTxID = ' . $id, "");
-			runsql('delete from " . $tbpref . "textitems where TiTxID = ' . $id, "");
+			runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "");
+			runsql('delete from ' . $tbpref . 'textitems where TiTxID = ' . $id, "");
 			adjust_autoincr('sentences','SeID');
 			adjust_autoincr('textitems','TiID');
 			splitText(
