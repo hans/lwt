@@ -1574,6 +1574,36 @@ Developed by J. P. in 2011, 2012, 2013.
             <br />
           </li>
 
+          <li>
+            <b><a name="mue"></a>Multiple LWT table sets</b>
+            <br />
+            <br />
+            When you start using LWT, you store all your data in the "Default Table Set" within the database you have defined in the file "connect.inc.php" during the LWT installation. 
+            <br />
+            <br />
+            Beginning with LWT Version 1.5.3, you are able to create and to use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set".
+            <br />
+            <br />
+						Just click on the link at the bottom of the LWT home screen where the current table set name (or "Default") is displayed. In a new screen "Select, Create or Delete a Table Set" you may switch and manage table sets. A table set name is max. 20 characters long. Allowed characters are only: a-z, A-Z, 0-9, and the underscore "_". You will find more details how table sets are internally implemented <a href="#database">here</a>. 
+            <br />
+            <br />
+            <img class="grayborder" src="img/31.jpg" alt="Image" />
+            <br />
+            <br />
+            If you want "switch off" this feature, and use just one table set, you may define the name in the file "connect.inc.php":
+            <br />
+            <br />
+            <b>$tbpref = "";</b> &nbsp; &nbsp; &nbsp;  // only the default table set
+            <br />
+            <br />
+            <b>$tbpref = "setname";</b> &nbsp; &nbsp; &nbsp;   // only the table set "setname"
+            <br />
+            <br />
+          	After adding such a line in the file "connect.inc.php", you are not  able to select, create or delete table sets anymore. Only the one you have defined in "connect.inc.php" will be used. PLease observe the rules for table set names (see above)!!
+            <br />
+            <br />
+          </li>
+
         </ul>
       </dd>
 
@@ -2283,7 +2313,7 @@ with audioplayer", if needed.</li>
         <ul>
         
         	<li>1.5.3 (June ?? 2013): 
-        	<b>New Feature:</b> It is now possible to create and use not only ONE set of LWT tables within one database. You are now able to create and use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for each language - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". <b>Read more <a href="#mue">here</a></b>.      
+        	<b>New Feature:</b> It is now possible to create and to use not only ONE set of LWT tables within one database. You are now able to create and use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". <b>Read more <a href="#mue">here</a> and <a href="#database">here</a></b>.      
         	<br />
         	Documentation updated.
         	<br />

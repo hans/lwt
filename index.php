@@ -124,13 +124,18 @@ $mb = get_first_value("SELECT round(sum(data_length+index_length)/1024/1024,1) a
 if (! isset($mb)) $mb = '0.0';
 
 if ($tbpref == '') 
-	$prefinfo = "<b>Default</b> Table Set";
+	$span2 = "<b>Default</b> Table Set</span>";
+else 
+	$span2 = "Table Set: <b>" . tohtml(substr($tbpref,0,-1)) . "</b></span>";
+
+if ($fixed_tbpref) 
+	$span1 = '<span>';
 else
-	$prefinfo = "Table Set: <b>" . tohtml(substr($tbpref,0,-1)) . "</b>";
+	$span1 = '<span title="Manage Table Sets" onclick="location.href=\'table_set_management.php\';" class="click">';
 
 ?>
 
-This is <b>LWT <?php echo get_version(); ?></b><br />Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / <span title="Change &amp; ets" onclick="location.href='table_set_management.php';" class="click"><?php echo $prefinfo; ?></span> / Size: <b><?php echo $mb; ?> MB</b></p></td></tr></table>
+This is <b>LWT <?php echo get_version(); ?></b><br />Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / <?php echo $span1 . $span2; ?> / Size: <b><?php echo $mb; ?> MB</b></p></td></tr></table>
 
 <?php
 
