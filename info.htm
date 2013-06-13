@@ -1599,7 +1599,7 @@ Developed by J. P. in 2011, 2012, 2013.
             <b>$tbpref = "setname";</b> &nbsp; &nbsp; &nbsp;   // only the table set "setname"
             <br />
             <br />
-          	After adding such a line in the file "connect.inc.php", you are not  able to select, create or delete table sets anymore. Only the one you have defined in "connect.inc.php" will be used. PLease observe the rules for table set names (see above)!!
+          	After adding such a line in the file "connect.inc.php", you are not  able to select, create or delete table sets anymore. Only the one you have defined in "connect.inc.php" will be used. Please observe the rules for table set names (see above)!!
             <br />
             <br />
           </li>
@@ -2312,16 +2312,14 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
         
-        	<li>1.5.3 (June 15 2013): 
+        	<li>1.5.3 (June 15 2013): <br />
         	<b>New Feature:</b> It is now possible to create and to use not only ONE set of LWT tables within one database. You are now able to create and use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". <b>Read more <a href="#mue">here</a> and <a href="#database">here</a></b>.      
         	<br />
-        	Documentation updated.
-        	<br />
-        	Anki template decks updated.
+        	Some minor improvements and bugfixes. Documentation &amp; Anki template decks updated.
         	<br /><br />
         	</li>
 
-        	<li>1.5.2 (June 09 2013): 
+        	<li>1.5.2 (June 09 2013): <br />
         	Easy navigation to the previous and the next text (according to current text filters and sort order) is now possible.
         	<br />
         	"Backup" does not store anymore the tables 'sentences' and 'textitems'. These tables are now automatically recreated (by reparsing the texts) within "Restore". This makes backup faster and the backup file much smaller, while "Restore" will take a bit longer.
@@ -2331,14 +2329,14 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
 
-        	<li>1.5.1 (June 07 2013): 
+        	<li>1.5.1 (June 07 2013): <br />
         	Display screen of improved annotated texts (= <a target="_blank" href="http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations">hyperliteral translations</a> as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) improved: Clicking the "T" or "A" lightbulb icons hides/shows the complete text or all annotations. You may also click on a single term or a single annotation to show or to hide it. This enables you to test yourself or to concentrate on one text only.  Romanizations, if available, appear now while hovering over a term.
         	<br />
         	Documentation and screenshots updated.
         	<br /><br />
         	</li>
 
-        	<li>1.5.0 (April 22 2013): 
+        	<li>1.5.0 (April 22 2013): <br />
         	<b>New Feature:</b> Create and edit an improved annotated text version (as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. <b>Read more <a href="#il">here</a></b>. 
         	<br />
         	In-Place-editing of translations and romanizations now possible within the terms table.
@@ -2349,70 +2347,70 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
 
-        	<li>1.4.10 (February 22 2013): 
+        	<li>1.4.10 (February 22 2013): <br />
         	New option in "Print" screen: annotation can now also be placed above the term (via <a href="http://en.wikipedia.org/wiki/Ruby_character" target="_blank">Ruby characters</a>). This is especially helpful for Chinese and Japanese, when annotating the text with the romanization (Pinyin, Hiragana, Katakana). Your browser must support ruby markup. Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/" target="_blank">HTML Ruby Add-On</a> to display ruby markup properly.<br />
         	Help document updated.
         	 <br /><br />
         	</li>
 
-        	<li>1.4.9 (August 29 2012): 
+        	<li>1.4.9 (August 29 2012): <br />
         	Anki and TSV export bug fixed (in some cases the term tags were not exported). <br /><br />
         	</li>
 
-        	<li>1.4.8 (May 11 2012, some external links updated June 19 2012):
+        	<li>1.4.8 (May 11 2012, some external links updated June 19 2012):<br />
         	Correction of a small (typo) bug in js/jq_pgm.js that caused an SQL error when pressing the "E" key (Thank you, anthonylauder!). See also <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5265425" target=_blank">this thread</a>.<br />
         	Correction in do_text_header.php: fix negative audio positions to zero. See also <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5220016" target=_blank">this thread</a>.<br />Timing of transactions now possible as an additional debugging option in settings.inc.php ($dspltime = 1; normally switched off = 0).<br />
         	"Important Links" section within this document updated and expanded.<br /><br />
         	</li>        	
         	
-        	<li>1.4.7 (April 6 2012):
+        	<li>1.4.7 (April 6 2012):<br />
         	Correction of some minor mistakes and glitches in the code.<br /><br />
         	</li>        	
         	
-        	<li>1.4.6 (March 14 2012):
+        	<li>1.4.6 (March 14 2012):<br />
         	Documentation and example database corrected. Google Translate links now open in a popup window, not in a frame of the frameset, as Google now disallows this. Please make sure to deactivate popup window blockers.<br /><br />
         	</li>        	
         	
-        	<li>1.4.5 (October 01 2011, documentation updated Oct 13 2011, external links updated Dec 8 2011):
+        	<li>1.4.5 (October 01 2011, documentation updated Oct 13 2011, external links updated Dec 8 2011):<br />
         	Double-Click on a term and "A" key (while going through non-blue terms via keyboard) sets audio position approximately to text position. Hovering over sentence marker (green or red dot) in the terms table shows tooltip with sentence. Some updates and corrections in the documentation.<br /><br />
         	</li>        	
         	
-        	<li>1.4.4 (September 23 2011):
+        	<li>1.4.4 (September 23 2011):<br />
         	Changed the handling of backslash removal in posted data on servers with magic_quotes_gpc = Off.
         	Documentation updated.<br /><br />
         	</li>        	
         	
-        	<li>1.4.3 (September 21 2011):
+        	<li>1.4.3 (September 21 2011):<br />
         	Changed some unintentionally written short PHP open tags "&lt;?" to "&lt;?php".
         	Thanks to a poster in the help forum for pointing this out.<br /><br />
         	</li>        	
         	
-        	<li>1.4.2 (September 19 2011):
+        	<li>1.4.2 (September 19 2011):<br />
         	Removed PGUP/PGDN key bindings (mark first/last non-blue term, use HOME/END keys). Some minor changes in the documentation.
         	<br /><br />
         	</li>        	
         	
-        	<li>1.4.1 (September 15 2011):
+        	<li>1.4.1 (September 15 2011):<br />
         	Anki Export changed. The full sentence doesn't have brackets anymore.<br />
         	Data in Anki template updated.
         	<br /><br />
         	</li>        	
         	
-        	<li>1.4.0 (September 09 2011):
+        	<li>1.4.0 (September 09 2011):<br />
         	Mobile Version (experimental, via mobile.php): Selection of Language, Text, and Sentence, Playing the audio (if exists), Reading the text either sentence-by-sentence or term-by-term (saved words shown with translation, romanization, and status (via color). This mobile interface does not yet allow data manipulations.<br />
         	Texts, archived texts and terms can now also be filtered by "untagged".<br />
         	Added a "Repeat Audio / Single Play" toggle button for media player.
         	<br /><br />
         	</li>        	
         	
-        	<li>1.3.1 (September 05 2011):
+        	<li>1.3.1 (September 05 2011):<br />
         	New multi actions for marked/all terms: Set Terms to Lowercase, Capitalize Terms, Delete Sentences of Terms.
         	<br />
         	Screenshots updated.
         	<br /><br />
         	</li>        	
         	
-        	<li>1.3.0 (September 03 2011):
+        	<li>1.3.0 (September 03 2011):<br />
         	Tagging of texts and archived texts introduced. With this feature, it will be easier to categorize and organize your texts. After having tagged your texts, you are able to filter texts according to one or two tags.<br />
         	Rudimentary right-to-left (rtl) script support: new db field in languages to set a language to right-to-left script, all relevant parts with respect to rtl support changed. A simple Hebrew example added to demonstrate rtl support.  
         	<br />
@@ -2420,7 +2418,7 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>        	
         	
-        	<li>1.2.2 (August 26 2011):
+        	<li>1.2.2 (August 26 2011):<br />
         	Removed a bug that prevented Strg-C/Cmd-C (and other key strokes) in text/test frames. <br />
         	Removed a bug in statistics calculation. <br />
         	Removed a bug in text selection dropdown control. <br />
@@ -2432,14 +2430,14 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
 
-        	<li>1.2.1 (August 25 2011):
+        	<li>1.2.1 (August 25 2011):<br />
         	New Rewind and Fast Forward button for audio player. User can set the time to rewind or fast forward from 1 to 10 seconds.<br />
         	Added a section in the help document about the setup of LWT for iPads, etc.<br /> 
         	Documentation and screenshots updated.
         	<br /><br />
         	</li>
 
-        	<li>1.2.0 (August 24 2011):
+        	<li>1.2.0 (August 24 2011):<br />
         	Tagging of terms introduced. Tags are little pieces of information (20 characters max., no spaces, no commas, case sensitive!) attached to terms to help you catagorize and organize your terms. You can import (CSV, TSV) and export (Anki, TSV) terms together with tag information. Two new tables save tag information, and they are created automatically during first usage after update.<br />
         	Display of example sentences is now delayed.<br />
         	Backup creates the database SQL file now as a gzipped file. Restore can process old unzipped or new gzipped files. Gzipped files are much smaller in size (10-20 % of original size).<br /> 
@@ -2447,7 +2445,7 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
 
-        	<li>1.1.1 (August 17 2011):
+        	<li>1.1.1 (August 17 2011):<br />
         	New option in "Print" screen to select whether annotation should be placed in front (new option) or after (default) the term.<br />
         	New option in settings screen "Visit only saved terms with status(es) ..." to specify which terms are visited when using RIGHT/SPACE/LEFT/etc. keys in the text frame (default: ALL non-blue terms = statuses 1..5, Ign, WKn).<br />
         	The Status filter lists have been expanded.<br />
@@ -2456,7 +2454,7 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
 
-        	<li>1.1.0 (August 16 2011): 
+        	<li>1.1.0 (August 16 2011): <br />
         	DB design altered: Table "words" changed: 3 new columns to make random word selection (in tests) and score calculation/query faster.<br />
         	Translation, romanization and sentence are now optional. An empty translation or an asterisk in the translation field are equivalent. Terms without translation or in status "Well Known" or "Ignore" will never be tested. Import of terms without translation is now possible.<br />
         	Textarea input boxes have now all a maximum text/bytes length check.<br />
@@ -2473,7 +2471,7 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
 
-        	<li>1.0.4 (August 11 2011): 
+        	<li>1.0.4 (August 11 2011): <br />
         	Code cleanup and optimization, better code documentation. <br />
         	Checking maximum text length in text input/edit/check screens.<br />
         	Media directory is not anymore included, user has to create it if needed.
@@ -2487,7 +2485,7 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
 
-        	<li>1.0.3 (August 09 2011): 
+        	<li>1.0.3 (August 09 2011): <br />
         	New button to open a new text immediately after saving. <br />
         	Dictionaries can now be opened not only within the frame set (default) but also in a popup window (please deactivate popup window blocking in your browser!). To open a dictionary in a separate popup window, put an asterisk * in front of the Uniform Resource Identifier  (Example: *http://mywebdict.com?q=###). Please use this method if a web dictionary does not open properly within the frame set. <br />  
         	The application now always checks if the current text or language still exist (could have sometimes resulted in empty query results after deleting).	<br />
@@ -2497,22 +2495,22 @@ with audioplayer", if needed.</li>
 					<br /><br />
         	</li>
 
-        	<li>1.0.2 (August 05 2011): 
+        	<li>1.0.2 (August 05 2011): <br />
         	Language definition: If the searchword in the Uniform Resource Identifiers (URIs) needs to be converted into a different encoding (standard is UTF-8), you can now use <i>###encoding###</i> as a placeholder. Example: <i>http://mywebdict.com?q=###ISO-8859-15###</i>.	A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php" target=_blank">here</a> (omit the asterisk if one is at the end).<br />Documentation and screenshots updated. Thai example added in demo database.
         	<br /><br />
         	</li>
 
-        	<li>1.0.1 (August 04 2011): 
+        	<li>1.0.1 (August 04 2011): <br />
         	Testing: Last term tested will not show up immediately. Automatically selected sentences in tests now must not contain unsaved (blue) words. This does not apply if a sentence saved with a term contains unknown words - such sentences may come up within a test.<br />Empty database will be created automatically if database does not exist. Tables will be automatically recreated if some or all tables are missing. System handles (future) database changes automatically. <br />Documentation and screenshots updated.
         	<br /><br />
         	</li>
 
-        	<li>1.0.0 (August 01 2011): 
+        	<li>1.0.0 (August 01 2011): <br />
         	First stable release. For some time, there won't be any new releases. I hope you'll understand that. Please post all problems, questions, and (hopefully not too many) bugs <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497" target="_blank">here</a>, and ideas and  suggestions for new features <a href="http://lwt.uservoice.com" target="_blank">here</a>. Thanks!
         	<br /><br />
         	</li>
 
-        	<li>0.9.8 (July 31 2011): 
+        	<li>0.9.8 (July 31 2011): <br />
         	New Text Display Mode (see new checkbox on the "Read text" screen).<br />
         	[Show All] = ON (the only mode in previous releases): ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. <br />
         	[Show All] = OFF (new): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts. <br />
@@ -2520,22 +2518,22 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
 
-        	<li>0.9.7 (July 28 2011): 
+        	<li>0.9.7 (July 28 2011): <br />
         	Internal improvements, status names, abbreviations, and tooltips (Thanks, Arthaey!). Printout of texts with optional inline annotation (translation and/or romanization) of terms that are of specified status(es). Documentation and screenshots corrected.
         	<br /><br />
         	</li>
 
-        	<li>0.9.6 (July 26 2011): 
+        	<li>0.9.6 (July 26 2011): <br />
         	More visual improvements (layout, tables, etc.), many improvements and bugfixes. Dictionary Uniform Resource Identifiers (URIs) use now ### as a placeholder for the searchword. If ### is missing, the searchword will be appended (like in older versions). More multi-actions for terms. Translation and sentence fields do NOT accept newlines anymore, now the form is submitted. Status entry changed from dropdown to radio buttons. Backup/Restore improved. CSS and XHTML corrected and validated. Korean example added. An Anki example deck is now provided: "LWT.anki" in directory "anki". Documentation and screenshots improved.
         	<br /><br />
         	</li>
 
-        	<li>0.9.5 (July 23 2011): 
+        	<li>0.9.5 (July 23 2011): <br />
         	Visual improvements (icons), a few bug fixes. Database Restore changed for bigger files. Two new tests to test L2 -&gt; L1 or L1 -&gt; L2 without sentence (just the term). The term filter operates not only on the term field but also on the romanization and translation field. 
         	<br /><br />
         	</li>
 
-        	<li>0.9.4 (July 22 2011): 
+        	<li>0.9.4 (July 22 2011): <br />
         	"Import of terms" now only needs a translation if the status is set to 1, 2, 3, 4 or 5. Furthermore it not only imports terms as TAB (ASCII 9) separated values (TSV) or "#" separated values, but also as comma separated values (CSV, strings in quotes ("...", if needed), a quote within a string as double quotes (""); this is the format that LingQ uses for exporting terms).<br /> 
         	New buttons to switch easier between active texts and archived texts. <br />
         	New settings "Testing: Number of sentences displayed from text, if available" and "Terms: Number of sentences generated from text, if available". Default is "Just ONE". The options "TWO (+ previous)" and "THREE (+ previous, + next)" now allow you to do MCD (Massive-Context Cloze Deletion) testing, as proposed by Khatzumoto @ AJATT.<br />
@@ -2544,61 +2542,73 @@ with audioplayer", if needed.</li>
         	<br /><br />
         	</li>
         	
-        	<li>0.9.3 (July 21 2011): 
+        	<li>0.9.3 (July 21 2011): <br />
         	After a lot of multi-platform/multi-server testing: several bug fixes and improvements. One severe bug that crashed importing and checking of texts on XAMPP/Win removed (Thanks, Kendall!). Within text, archive, and term queries, selected sort order will be retained (saved in database). All other query settings are now retained per session. Documentation updated. 
         	<br /><br />
         	</li>
         	
-        	<li>0.9.2 (July 19 2011): 
+        	<li>0.9.2 (July 19 2011): <br />
         	Bugfixes. New "Settings" screen. Documentation updated and improved.
         	<br /><br />
         	</li>
         	
-          <li>0.9.1 (July 18 2011): Testing totally revamped (and extended). Many, many improvements and bugfixes. Documentation and screenshots updated. EasyPHP for Windows installation explained.
+          <li>0.9.1 (July 18 2011): <br />
+          Testing totally revamped (and extended). Many, many improvements and bugfixes. Documentation and screenshots updated. EasyPHP for Windows installation explained.
         	<br /><br />
           </li>
 
-          <li>0.9.0 (July 14 2011): Frame screen "Edit term" is now more compact to save space. TSV export of terms added, Anki export improved. The multi actions drop-down-list is now disabled when no checkboxes are checked. Testing completely revised and improved. New buttons to jump from test to text and vice versa. It is now possible to create expressions with up to 9 words (previous releases: up to 6 words). Important: Re-parsing is necessary to use this feature in existing texts. New texts have this feature will automatically. Documentation and screenshots updated. Questions and answers added.
+          <li>0.9.0 (July 14 2011): <br />
+          Frame screen "Edit term" is now more compact to save space. TSV export of terms added, Anki export improved. The multi actions drop-down-list is now disabled when no checkboxes are checked. Testing completely revised and improved. New buttons to jump from test to text and vice versa. It is now possible to create expressions with up to 9 words (previous releases: up to 6 words). Important: Re-parsing is necessary to use this feature in existing texts. New texts have this feature will automatically. Documentation and screenshots updated. Questions and answers added.
         	<br /><br />
           </li>
 
-          <li>0.8.2 (July 13 2011): Minor improvements and bug fixes. Term score formula revised. Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically. Documentation (topic: Term scores) added.
+          <li>0.8.2 (July 13 2011): <br />
+          Minor improvements and bug fixes. Term score formula revised. Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically. Documentation (topic: Term scores) added.
         	<br /><br />
           </li>
 
-          <li>0.8.1 (July 12 2011): Mac installation and upgrade (see documentation) completely changed.
+          <li>0.8.1 (July 12 2011): <br />
+          Mac installation and upgrade (see documentation) completely changed.
         	<br /><br />
           </li>
 
-          <li>0.8.0 (July 11 2011): Possibility to change term (but only uppercase/lowercase changes allowed). Import terms with overwrite now possible. "Learn/Edit Word/Expression" opens first dictionary automatically. Number of saved words and "To Do" words are now displayed in "My Texts". Backup and Restore of the LWT database. Documentation updated and improved.
+          <li>0.8.0 (July 11 2011): <br />
+          Possibility to change term (but only uppercase/lowercase changes allowed). Import terms with overwrite now possible. "Learn/Edit Word/Expression" opens first dictionary automatically. Number of saved words and "To Do" words are now displayed in "My Texts". Backup and Restore of the LWT database. Documentation updated and improved.
         	<br /><br />
           </li>
 
-          <li>0.7.0 (July 09 2011): Minor improvements, more documentation, Japanese example added.
+          <li>0.7.0 (July 09 2011): <br />
+          Minor improvements, more documentation, Japanese example added.
         	<br /><br />
           </li>
 
-          <li>0.6.0 (July 08 2011): Improvements, bugfixes, more documentation, settings now stored in DB (not in cookies anymore).
+          <li>0.6.0 (July 08 2011): <br />
+          Improvements, bugfixes, more documentation, settings now stored in DB (not in cookies anymore).
         	<br /><br />
           </li>
 
-          <li>0.5.0 (June 30 2011): Improvements, bugfixes, text archiving added.
+          <li>0.5.0 (June 30 2011): <br />
+          Improvements, bugfixes, text archiving added.
         	<br /><br />
           </li>
 
-          <li>0.4.0 (June 29 2011): Improvements, bugfixes, basic documentation completed, two new tests.
+          <li>0.4.0 (June 29 2011): <br />
+          Improvements, bugfixes, basic documentation completed, two new tests.
         	<br /><br />
           </li>
 
-          <li>0.3.0 (June 27 2011): Improvements, bugfixes, more documentation.
+          <li>0.3.0 (June 27 2011): <br />
+          Improvements, bugfixes, more documentation.
         	<br /><br />
           </li>
 
-          <li>0.2.0 (June 25 2011): Improvements, bugfixes, more documentation.
+          <li>0.2.0 (June 25 2011): <br />
+          Improvements, bugfixes, more documentation.
         	<br /><br />
           </li>
 
-          <li>0.1.0 (June 24 2011): Initial release.
+          <li>0.1.0 (June 24 2011): <br />
+          Initial release.
           </li>
         </ul>
       </dd>
