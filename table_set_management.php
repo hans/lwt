@@ -22,7 +22,7 @@ include "utilities.inc.php";
 function getprefixes() {
 	$prefix = array();
 	$res = mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings')));
-	if ($res == FALSE) die("SHOW TABLES error");
+	if ($res == FALSE) die("Unable to check existent tables");
 	while ($row = mysql_fetch_row($res)) 
 		$prefix[] = substr($row[0], 0, -9);
 	mysql_free_result($res);
@@ -136,7 +136,7 @@ foreach ($prefix as $value) {
 <tr>
 <th class="th1 center">Delete</th>
 <td class="td1">
-<form name="f3" class="inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="if (document.f3.delpref.selectedIndex > 0) { return confirm('\n\n*** DELETING TABLE SET: ' + document.f3.delpref.options[document.f3.delpref.selectedIndex].text + ' ***\n\n*** ALL DATA IN THIS TABLE SET WILL BE LOST! ***\n\n*** ARE YOU SURE ?? ***'); } else { return true; }">
+<form name="f3" class="inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="if (document.f3.delpref.selectedIndex > 0) { return confirm('\n*** DELETING TABLE SET: ' + document.f3.delpref.options[document.f3.delpref.selectedIndex].text + ' ***\n\n*** ALL DATA IN THIS TABLE SET WILL BE LOST! ***\n\n*** ARE YOU SURE ?? ***'); } else { return true; }">
 <p>Table Set: <select name="delpref">
 <option value="-" selected="selected">[Choose...]</option>
 <?php

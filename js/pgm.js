@@ -600,6 +600,6 @@ function check_table_prefix(p) {
 		if (p.match(re)) r = true;
 	}
 	if (! r) 
-		alert('Table Set Name (= Table Prefix) is either empty or\ncontains characters other than 0-9, a-z, A-Z and _.\nPlease correct your input.'); 
+		alert('Table Set Name (= Table Prefix) must\ncontain 1 to 20 characters (only 0-9, a-z, A-Z and _).\nPlease correct your input.'); 
 	return r;
 }

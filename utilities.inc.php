@@ -12,14 +12,14 @@ Developed by J. P. in 2011, 2012, 2013.
 
 /**************************************************************
 PHP Utility Functions
-Plus (at end): Database Connect, .. Select, .. Update
+Plus (at end): Database Connect, .. Select, .. Updates
 ***************************************************************/
 
 // -------------------------------------------------------------
 
 function get_version() {
 	global $debug;
-	return '1.5.3 (June ?? 2013)'  . 
+	return '1.5.3 (June 15 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -769,7 +769,7 @@ function optimizedb() {
 	adjust_autoincr('words','WoID');
 	adjust_autoincr('tags','TgID');
 	adjust_autoincr('tags2','T2ID');
-	$dummy = runsql('OPTIMIZE TABLE ' . $tbpref . 'archivedtexts,' . $tbpref . 'languages,' . $tbpref . 'sentences,' . $tbpref . 'textitems,' . $tbpref . 'texts,' . $tbpref . 'words,' . $tbpref . 'settings,' . $tbpref . 'tags,' . $tbpref . 'wordtags,' . $tbpref . 'tags2,' . $tbpref . 'texttags,' . $tbpref . 'archtexttags', '');
+	$dummy = runsql('OPTIMIZE TABLE ' . $tbpref . 'archivedtexts,' . $tbpref . 'languages,' . $tbpref . 'sentences,' . $tbpref . 'textitems,' . $tbpref . 'texts,' . $tbpref . 'words,' . $tbpref . 'settings,' . $tbpref . 'tags,' . $tbpref . 'wordtags,' . $tbpref . 'tags2,' . $tbpref . 'texttags,' . $tbpref . 'archtexttags, _lwtgeneral', '');
 }
 
 // -------------------------------------------------------------
@@ -2616,14 +2616,9 @@ function create_ann($textid) {
 // -------------------------------------------------------------
 
 function LWTTableCheck () {
-	$tables = array();
-	$res = mysql_query("SHOW TABLES WHERE '_lwtgeneral'");
-	if ($res == FALSE) die("SHOW TABLES error");
-  while ($row = mysql_fetch_row($res)) 
-  	$tables[] = $row[0];
-	mysql_free_result($res);
-	if (count($tables) == 0) {
+	if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) {
 		runsql("CREATE TABLE IF NOT EXISTS _lwtgeneral ( LWTKey varchar(40) NOT NULL, LWTValue varchar(40) DEFAULT NULL, PRIMARY KEY (LWTKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+		if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) die("Unable to create table '_lwtgeneral'!");
 	}
 }
 
@@ -2796,7 +2791,7 @@ function check_update_db() {
 	$tables = array();
 	
 	$res = mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull($tbpref . '%')));
-	if ($res == FALSE) die("SHOW TABLES error");
+	if ($res == FALSE) die("Unable to check existent tables");
   while ($row = mysql_fetch_row($res)) 
   	$tables[] = $row[0];
 	mysql_free_result($res);
