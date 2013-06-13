@@ -31,63 +31,7 @@ if (isset($_REQUEST['install'])) {
 			$message = "Error: File ' . $file . ' could not be opened";
 		} // $handle not OK
 		else { // $handle OK
-			$lines = 0;
-			$ok = 0;
-			$errors = 0;
-			$drops = 0;
-			$inserts = 0;
-			$creates = 0;
-			$start = 1;
-			while (! gzeof($handle)) {
-				$sql_line = trim(
-					str_replace("\r","",
-					str_replace("\n","",
-					gzgets($handle, 99999))));
-				if ($sql_line != "") {
-					if($start) {
-						if (strpos($sql_line,"-- lwt-backup-") === false ) {
-							$message = "Error: Invalid Restore file (possibly not created by LWT backup)";
-							break;
-						}
-						$start = 0;
-						continue;
-					}
-					if ( substr($sql_line,0,3) !== '-- ' ) {
-						$res = mysql_query(insert_prefix_in_sql($sql_line));
-						$lines++;
-						if ($res == FALSE) $errors++;
-						else {
-							$ok++;
-							if (substr($sql_line,0,11) == "INSERT INTO") $inserts++;
-							elseif (substr($sql_line,0,10) == "DROP TABLE") $drops++;
-							elseif (substr($sql_line,0,12) == "CREATE TABLE") $creates++;
-						}
-						// echo $ok . " / " . tohtml(insert_prefix_in_sql($sql_line)) . "<br />";
-					}
-				}
-			} // while (! feof($handle))
-			gzclose ($handle);
-			if ($errors == 0) {
-				runsql('TRUNCATE ' . $tbpref . 'sentences','');
-				runsql('TRUNCATE ' . $tbpref . 'textitems','');
-				adjust_autoincr('sentences','SeID');
-				adjust_autoincr('textitems','TiID');
-				$sql = "select TxID, TxLgID from " . $tbpref . "texts";
-				$res = mysql_query($sql);		
-				if ($res == FALSE) die("Invalid Query: $sql");
-				while ($record = mysql_fetch_assoc($res)) {
-					$id = $record['TxID'];
-					splitText(
-						get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id );
-				}
-				mysql_free_result($res);
-				optimizedb();
-				$message = "Success: Demo Database restored - " .
-				$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
-			} else {
-				$message = "Error: Demo Database NOT restored - " .
-				$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
-			}
+			$message = restore_file($handle, "Demo Database");
 		} // $handle OK
 	} // restore file specified
 	else {
@@ -104,7 +48,7 @@ $langcnt = get_first_value('select count(*) as value from ' . $tbpref . 'languag
 if ($tbpref == '') 
 	$prefinfo = "(Default Table Set)";
 else
-	$prefinfo = "(Table Set: <i>" . tohtml($tbpref) . "</i>)";
+	$prefinfo = "(Table Set: <i>" . tohtml(substr($tbpref,0,-1)) . "</i>)";
 
 ?>
 <form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return confirm('Are you sure?');">

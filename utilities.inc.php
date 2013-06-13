@@ -2464,6 +2464,74 @@ function splitText($text, $lid, $id) {
 
 // -------------------------------------------------------------
 
+function restore_file($handle, $title) {
+	global $tbpref;
+	$message = "";
+	$lines = 0;
+	$ok = 0;
+	$errors = 0;
+	$drops = 0;
+	$inserts = 0;
+	$creates = 0;
+	$start = 1;
+	while (! gzeof($handle)) {
+		$sql_line = trim(
+			str_replace("\r","",
+			str_replace("\n","",
+			gzgets($handle, 99999))));
+		if ($sql_line != "") {
+			if($start) {
+				if (strpos($sql_line,"-- lwt-backup-") === false ) {
+					$message = "Error: Invalid " . $title . " Restore file (possibly not created by LWT backup)";
+					$errors = 1;
+					break;
+				}
+				$start = 0;
+				continue;
+			}
+			if ( substr($sql_line,0,3) !== '-- ' ) {
+				$res = mysql_query(insert_prefix_in_sql($sql_line));
+				$lines++;
+				if ($res == FALSE) $errors++;
+				else {
+					$ok++;
+					if (substr($sql_line,0,11) == "INSERT INTO") $inserts++;
+					elseif (substr($sql_line,0,10) == "DROP TABLE") $drops++;
+					elseif (substr($sql_line,0,12) == "CREATE TABLE") $creates++;
+				}
+				// echo $ok . " / " . tohtml(insert_prefix_in_sql($sql_line)) . "<br />";
+			}
+		}
+	} // while (! feof($handle))
+	gzclose ($handle);
+	if ($errors == 0) {
+		runsql('TRUNCATE ' . $tbpref . 'sentences','');
+		runsql('TRUNCATE ' . $tbpref . 'textitems','');
+		adjust_autoincr('sentences','SeID');
+		adjust_autoincr('textitems','TiID');
+		$sql = "select TxID, TxLgID from " . $tbpref . "texts";
+		$res = mysql_query($sql);		
+		if ($res == FALSE) die("Invalid Query: $sql");
+		while ($record = mysql_fetch_assoc($res)) {
+			$id = $record['TxID'];
+			splitText(
+				get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id );
+		}
+		mysql_free_result($res);
+		optimizedb();
+		$message = "Success: " . $title . " restored - " .
+		$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
+	} else {
+		if ($message == "") {
+			$message = "Error: " . $title . " NOT restored - " .
+			$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
+		}
+	}
+	return $message;
+}
+
+// -------------------------------------------------------------
+
 function recreate_save_ann($textid, $oldann) {
 	global $tbpref;
 	$newann = create_ann($textid);
@@ -2484,7 +2552,8 @@ function recreate_save_ann($textid, $oldann) {
 	foreach ($newitems as $newitem) {
 		$newvals = preg_split('/[\t]/u', $newitem);
 		if ($newvals[0] > -1) {
-			$key = $newvals[0] . "\t" . $newvals[1];
+			$key = $newvals[0] . "\t";
+			if (isset($newvals[1])) $key .= $newvals[1];
 			if (array_key_exists($key, $oldtrans)) {
 				$newvals[3] = $oldtrans[$key];
 			}
@@ -2548,26 +2617,26 @@ function create_ann($textid) {
 
 function LWTTableCheck () {
 	$tables = array();
-	$res = mysql_query("SHOW TABLES LIKE 'learning_with_texts'");
+	$res = mysql_query("SHOW TABLES WHERE '_lwtgeneral'");
 	if ($res == FALSE) die("SHOW TABLES error");
   while ($row = mysql_fetch_row($res)) 
   	$tables[] = $row[0];
 	mysql_free_result($res);
 	if (count($tables) == 0) {
-		runsql("CREATE TABLE IF NOT EXISTS learning_with_texts ( LWTKey varchar(40) NOT NULL, LWTValue varchar(40) DEFAULT NULL, PRIMARY KEY (LWTKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+		runsql("CREATE TABLE IF NOT EXISTS _lwtgeneral ( LWTKey varchar(40) NOT NULL, LWTValue varchar(40) DEFAULT NULL, PRIMARY KEY (LWTKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 }
 
 // -------------------------------------------------------------
 
 function LWTTableSet ($key, $val) {
-	runsql("INSERT INTO learning_with_texts (LWTKey, LWTValue) VALUES (" . convert_string_to_sqlsyntax($key) . ", " . convert_string_to_sqlsyntax($val) . ") ON DUPLICATE KEY UPDATE LWTValue = " . convert_string_to_sqlsyntax($val),'');
+	runsql("INSERT INTO _lwtgeneral (LWTKey, LWTValue) VALUES (" . convert_string_to_sqlsyntax($key) . ", " . convert_string_to_sqlsyntax($val) . ") ON DUPLICATE KEY UPDATE LWTValue = " . convert_string_to_sqlsyntax($val),'');
 }
 
 // -------------------------------------------------------------
 
 function LWTTableGet ($key) {
-	return get_first_value("SELECT LWTValue as value FROM learning_with_texts WHERE LWTKey = " . convert_string_to_sqlsyntax($key));
+	return get_first_value("SELECT LWTValue as value FROM _lwtgeneral WHERE LWTKey = " . convert_string_to_sqlsyntax($key));
 }
 
 // -------------------------------------------------------------
@@ -2726,7 +2795,7 @@ function check_update_db() {
 	global $debug, $tbpref;
 	$tables = array();
 	
-	$res = mysql_query("SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull($tbpref . '%'));
+	$res = mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull($tbpref . '%')));
 	if ($res == FALSE) die("SHOW TABLES error");
   while ($row = mysql_fetch_row($res)) 
   	$tables[] = $row[0];
@@ -2905,7 +2974,7 @@ $err = @mysql_select_db($dbname);
 if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
 
 // Is $tbpref set in connect.inc.php? Take it.
-// If not: Is it set in table learning_with_texts? Take it.
+// If not: Is it set in table "_lwtgeneral"? Take it.
 // If not: Use $tbpref = '' (no prefix, old/standard behaviour).
 
 // $fixed_tbpref = 1 if $tbpref was fixed in connect.inc.php.
@@ -2932,6 +3001,11 @@ if ($len_tbpref > 0) {
 }
 
 LWTTableSet ("current_table_prefix", $tbpref);
+
+// *******************************************************************
+// IF PREFIX IS NOT '', THEN ADD A '_', TO ENSURE NO IDENTICAL NAMES
+if ( $tbpref !== '') $tbpref .= "_";
+// *******************************************************************
 
 // check/update db
 check_update_db();

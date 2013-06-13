@@ -126,7 +126,7 @@ if (! isset($mb)) $mb = '0.0';
 if ($tbpref == '') 
 	$prefinfo = "<b>Default</b> Table Set";
 else
-	$prefinfo = "Table Set: <b>" . tohtml($tbpref) . "</b>";
+	$prefinfo = "Table Set: <b>" . tohtml(substr($tbpref,0,-1)) . "</b>";
 
 ?>
 

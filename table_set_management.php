@@ -19,24 +19,34 @@ include "settings.inc.php";
 include "connect.inc.php";
 include "utilities.inc.php";
 
+function getprefixes() {
+	$prefix = array();
+	$res = mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings')));
+	if ($res == FALSE) die("SHOW TABLES error");
+	while ($row = mysql_fetch_row($res)) 
+		$prefix[] = substr($row[0], 0, -9);
+	mysql_free_result($res);
+	return $prefix;
+}
+
 $message = "";
 
 if (isset($_REQUEST['delpref'])) {
 	if($_REQUEST['delpref'] !== '-') {
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'archivedtexts','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'archtexttags','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'languages','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'sentences','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'tags','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'tags2','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'textitems','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'texts','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'texttags','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'words','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'wordtags', '');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . 'settings', '');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archivedtexts','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archtexttags','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_languages','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_sentences','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags2','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_textitems','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texts','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texttags','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_words','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_wordtags', '');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_settings', '');
 		$message = 'Table Set "' . $_REQUEST['delpref'] . '" deleted';
-		if ($_REQUEST['delpref'] == $tbpref) {
+		if ($_REQUEST['delpref'] == substr($tbpref, 0, -1)) {
 			$tbpref = "";
 			LWTTableSet ("current_table_prefix", $tbpref);
 		}
@@ -44,10 +54,14 @@ if (isset($_REQUEST['delpref'])) {
 }
 
 elseif (isset($_REQUEST['newpref'])) {
-	$tbpref = $_REQUEST['newpref'];
-	LWTTableSet ("current_table_prefix", $tbpref);
-	header("Location: index.php");
-	exit(); 
+	if (in_array($_REQUEST['newpref'], getprefixes())) {
+		$message = 'Table Set "' . $_REQUEST['newpref'] . '" already exists';
+	} else {
+		$tbpref = $_REQUEST['newpref'];
+		LWTTableSet ("current_table_prefix", $tbpref);
+		header("Location: index.php");
+		exit(); 
+	}
 }
 
 elseif (isset($_REQUEST['prefix'])) {
@@ -79,12 +93,7 @@ if ($fixed_tbpref) {
 
 } else {
 
-$prefix = array();
-$res = mysql_query("SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%settings'));
-if ($res == FALSE) die("SHOW TABLES error");
-while ($row = mysql_fetch_row($res)) 
-	$prefix[] = substr($row[0], 0, -8);
-mysql_free_result($res);
+$prefix = getprefixes();
 
 ?>
 
@@ -96,10 +105,11 @@ mysql_free_result($res);
 <form name="f1" class="inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <p>Table Set: <select name="prefix">
 <option value="-" selected="selected">[Choose...]</option>
+<option value="">* Default Table Set *</option>
 <?php
 foreach ($prefix as $value) {
 ?>
-<option value="<?php echo tohtml($value); ?>"><?php echo ($value == '' ? '* Default Table Set *' : tohtml($value)); ?></option>
+<option value="<?php echo tohtml($value); ?>"><?php echo tohtml($value); ?></option>
 <?php
 }
 ?>
