@@ -199,7 +199,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.3 (June 15 2013)</b>.
+          <li>The current version is <b>1.5.3 (June 14 2013)</b>.
           </li>
 
           <li>
@@ -251,10 +251,10 @@ $(document).ready( function() {
 						<ul>
 							<li>
 							<a href="http://lwt.sourceforge.net/testdb/" target="_blank"><b>START ONLINE DEMO</b></a> <br />
-							This LWT trial runs on a rather slow Sourceforge server. Please do not use for productive work. Your data may be deleted at any time!
+							This LWT trial runs on a rather slow Sourceforge server. Please do not use for productive work. Your data may be deleted at any time! Only one LWT table set is available - the multiple table set feature has been deactivated in this demo!
 							</li>
 							<li>
-							<b>Hint: </b>You may "reset" the demo by going to "Backup/Restore", and by clicking on "Install LWT Demo Database".
+							<b>Hint: </b>You may "reset" the demo by going to "Backup/Restore", and by clicking on "Install LWT Demo Database". 
 							</li>
 						</ul>
             <br />
@@ -1554,7 +1554,7 @@ Developed by J. P. in 2011, 2012, 2013.
             <b>Backup/Restore/Empty Database</b>
             <br />
             <br />
-            This screen offers a possibility to save, restore or empty the LWT database. This makes it easy to try out new things or just to make regular backups. "Restore" only accepts files that have been created with the "Backup" function above. "Empty Database" deletes the data of all tables (except the settings), and you can start from scratch afterwards. Be careful: you may lose valuable data!
+            This screen offers a possibility to save, restore or empty the LWT database (ONLY the current table set!). This makes it easy to try out new things or just to make regular backups. "Restore" only accepts files that have been created with the "Backup" function above. "Empty Database" deletes the data of all tables (except the settings) of the current table set, and you can start from scratch afterwards. Be careful: you may lose valuable data!
             <br />
             <br />
             <img class="grayborder" src="img/18.jpg" alt="Image" />
@@ -1581,7 +1581,7 @@ Developed by J. P. in 2011, 2012, 2013.
             When you start using LWT, you store all your data in the "Default Table Set" within the database you have defined in the file "connect.inc.php" during the LWT installation. 
             <br />
             <br />
-            Beginning with LWT Version 1.5.3, you are able to create and to use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set".
+            Beginning with LWT Version 1.5.3, you are able to create and to use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". Please observe that the "Backup/Restore/Empty Database" function only works for the CURRENT table set, NOT for ALL table sets you have created!
             <br />
             <br />
 						Just click on the link at the bottom of the LWT home screen where the current table set name (or "Default") is displayed. In a new screen "Select, Create or Delete a Table Set" you may switch and manage table sets. A table set name is max. 20 characters long. Allowed characters are only: a-z, A-Z, 0-9, and the underscore "_". You will find more details how table sets are internally implemented <a href="#database">here</a>. 
@@ -2010,7 +2010,7 @@ with audioplayer", if needed.</li>
         		The "table set name" is max. 20 characters long. Allowed characters are only: a-z, A-Z, 0-9, and the underscore "_".
             <br />
             <br />
-            The currently used table set is saved in a global table "_lwtgeneral", in column LWTValue of row with LWTKey = "current_table_prefix". If this row does not exist, the default table set will be used, or automatically created.
+            The currently used table set is saved in a global table "_lwtgeneral", in column LWTValue of row with LWTKey = "current_table_prefix". If this row does not exist, the default table set will be used, or will be automatically created and used.
             <br />
             <br />
         	</li>
@@ -2312,10 +2312,10 @@ with audioplayer", if needed.</li>
       <dd>
         <ul>
         
-        	<li>1.5.3 (June 15 2013): <br />
+        	<li>1.5.3 (June 14 2013): <br />
         	<b>New Feature:</b> It is now possible to create and to use not only ONE set of LWT tables within one database. You are now able to create and use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". <b>Read more <a href="#mue">here</a> and <a href="#database">here</a></b>.      
         	<br />
-        	Some minor improvements and bugfixes. Documentation &amp; Anki template decks updated.
+        	Complete code review. Some minor improvements and bugfixes. Documentation &amp; Anki 1+2 template decks updated.
         	<br /><br />
         	</li>
 
