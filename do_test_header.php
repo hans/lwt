@@ -56,6 +56,7 @@ if (isset($_REQUEST['text'])) {
 if ($p == '') die("Called with wrong parameters");
 
 $totalcountdue = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0');
+$totalcount = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql);
 
 pagestart_nobody(tohtml($title));
 echo '<h4>';
@@ -68,7 +69,7 @@ if (substr($p,0,4) == 'text') {
 	echo getPreviousAndNextTextLinks($textid, 'do_test.php?text=', FALSE, '&nbsp; | &nbsp;');
 	echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /></a>' . get_annotation_link($textid);
 }
-echo '</h4><table><tr><td><h3>TEST&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . ' (Due: ' . $totalcountdue . ')</h3></td></tr><tr><td colspan="2">';
+echo '</h4><table><tr><td><h3>TEST&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . ' (Due: ' . $totalcountdue . ' of ' . $totalcount . ')</h3></td></tr><tr><td colspan="2">';
 
 $_SESSION['teststart'] = gmmktime() + 2;
 $_SESSION['testcorrect'] = 0;
@@ -87,7 +88,8 @@ else {  // OK
 <input type="button" value="..[L1].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=2&amp;<?php echo $p; ?>';}" />
 <input type="button" value="..[••].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=3&amp;<?php echo $p; ?>';}" /> |
 <input type="button" value="[L2]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=4&amp;<?php echo $p; ?>';}" />
-<input type="button" value="[L1]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=5&amp;<?php echo $p; ?>';}" />
+<input type="button" value="[L1]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=5&amp;<?php echo $p; ?>';}" /> |
+<input type="button" value="Table" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_table.php?<?php echo $p; ?>';}" />
 </p></td></tr></table>
 
 <?php
