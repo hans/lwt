@@ -38,11 +38,11 @@ if ($fixed_tbpref) {
 		$span3 = '<span>';	
 }
 
-pagestart_nobody($titeltext);
+pagestart_nobody("Home");
 echo '<h4>' . $span3;
 echo_lwt_logo();
 echo "Learning With Texts (LWT)";
-echo '</span></h4><h3>' . $titeltext . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
+echo '</span></h4><h3>Home' . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
 echo "<p>&nbsp;</p>";
 
 $currentlang = getSetting('currentlanguage');
