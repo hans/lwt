@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.3 (June 14 2013)'  . 
+	return '1.5.4 (June ?? 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -607,9 +607,8 @@ function pagestart($titeltext,$close) {
 	pagestart_nobody($titeltext);
 	echo '<h4>';
 	if ($close) echo '<a href="index.php" target="_top">';
-	echo '<img class="lwtlogo" src="img/lwt_icon.png" alt="Logo" />';
-	if ($close) echo "LWT";
-	else echo "Learning With Texts (LWT)";
+	echo_lwt_logo();
+	echo "LWT";
 	if ($close) {
 		echo '</a>&nbsp; | &nbsp;';
 		quickMenu();
@@ -630,6 +629,15 @@ function pageend() {
 
 // -------------------------------------------------------------
 
+function echo_lwt_logo() {
+	global $tbpref;
+	$pref = substr($tbpref,0,-1);
+	if($pref == '') $pref = 'Default Table Set';
+	echo '<img class="lwtlogo" src="img/lwt_icon.png"  title="LWT - Current Table Set: ' . tohtml($pref) . '" alt="LWT - Current Table Set: ' . tohtml($pref) . '" />';
+}
+
+// -------------------------------------------------------------
+
 function get_execution_time()
 {
     static $microtime_start = null;
@@ -639,6 +647,18 @@ function get_execution_time()
         return 0.0; 
     }    
     return microtime(true) - $microtime_start; 
+}
+
+// -------------------------------------------------------------
+
+function getprefixes() {
+	$prefix = array();
+	$res = mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings')));
+	if ($res == FALSE) die("Unable to check existent tables");
+	while ($row = mysql_fetch_row($res)) 
+		$prefix[] = substr($row[0], 0, -9);
+	mysql_free_result($res);
+	return $prefix;
 }
 
 // -------------------------------------------------------------

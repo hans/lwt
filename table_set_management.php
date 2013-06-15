@@ -19,16 +19,6 @@ include "settings.inc.php";
 include "connect.inc.php";
 include "utilities.inc.php";
 
-function getprefixes() {
-	$prefix = array();
-	$res = mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings')));
-	if ($res == FALSE) die("Unable to check existent tables");
-	while ($row = mysql_fetch_row($res)) 
-		$prefix[] = substr($row[0], 0, -9);
-	mysql_free_result($res);
-	return $prefix;
-}
-
 $message = "";
 
 if (isset($_REQUEST['delpref'])) {
@@ -73,7 +63,7 @@ elseif (isset($_REQUEST['prefix'])) {
 	}
 }
 
-pagestart('Select, Create or Delete a Table Set',true);
+pagestart('Select, Create or Delete a Table Set',false);
 echo error_message_with_hide($message,0);
 
 if ($fixed_tbpref) {
@@ -97,7 +87,7 @@ $prefix = getprefixes();
 
 ?>
 
-<table class="tab1" cellspacing="0" cellpadding="5">
+<table class="tab1" style="width: auto;" cellspacing="0" cellpadding="5">
 
 <tr>
 <th class="th1 center">Select</th>
@@ -105,7 +95,7 @@ $prefix = getprefixes();
 <form name="f1" class="inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <p>Table Set: <select name="prefix">
 <option value="-" selected="selected">[Choose...]</option>
-<option value="">* Default Table Set *</option>
+<option value="">Default Table Set</option>
 <?php
 foreach ($prefix as $value) {
 ?>

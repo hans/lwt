@@ -21,7 +21,29 @@ include "settings.inc.php";
 include "connect.inc.php";
 include "utilities.inc.php";
 
-pagestart('Home',false);
+if ($tbpref == '') {
+	$span2 = "<b>Default</b> Table Set</span>";
+} else {
+	$span2 = "Table Set: <b>" . tohtml(substr($tbpref,0,-1)) . "</b></span>";
+}
+
+if ($fixed_tbpref) {
+	$span1 = '<span>';
+	$span3 = '<span>';
+} else {
+	$span1 = '<span title="Manage Table Sets" onclick="location.href=\'table_set_management.php\';" class="click">';
+	if (count(getprefixes()) > 0)
+		$span3 = '<span title="Select Table Set" onclick="location.href=\'start.php\';" class="click">';
+	else
+		$span3 = '<span>';	
+}
+
+pagestart_nobody($titeltext);
+echo '<h4>' . $span3;
+echo_lwt_logo();
+echo "Learning With Texts (LWT)";
+echo '</span></h4><h3>' . $titeltext . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
+echo "<p>&nbsp;</p>";
 
 $currentlang = getSetting('currentlanguage');
 $currenttext = getSetting('currenttext');
@@ -122,16 +144,6 @@ $mb = get_first_value("SELECT round(sum(data_length+index_length)/1024/1024,1) a
 	"CONCAT(" . $p . ",'words')," .
 	"CONCAT(" . $p . ",'wordtags'))");
 if (! isset($mb)) $mb = '0.0';
-
-if ($tbpref == '') 
-	$span2 = "<b>Default</b> Table Set</span>";
-else 
-	$span2 = "Table Set: <b>" . tohtml(substr($tbpref,0,-1)) . "</b></span>";
-
-if ($fixed_tbpref) 
-	$span1 = '<span>';
-else
-	$span1 = '<span title="Manage Table Sets" onclick="location.href=\'table_set_management.php\';" class="click">';
 
 ?>
 

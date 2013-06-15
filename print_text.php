@@ -125,7 +125,8 @@ echo '<div class="noprint">';
 
 echo '<h4>';
 echo '<a href="edit_texts.php" target="_top">';
-echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />LWT';
+echo_lwt_logo();
+echo 'LWT';
 echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo getPreviousAndNextTextLinks($textid, 'print_text.php?text=', FALSE, '&nbsp; | &nbsp;');
