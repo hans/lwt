@@ -57,7 +57,7 @@ if ($p == '') die("Called with wrong parameters");
 $totalcountdue = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0');
 $totalcount = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\'');
 
-pagestart_nobody(tohtml($title));
+pagestart_nobody(tohtml($title),$addcss='html, body {margin-bottom:0;}');
 echo '<h4>';
 echo '<a href="edit_texts.php" target="_top">';
 echo_lwt_logo();
@@ -82,7 +82,7 @@ if ($message != '') {
 else {  // OK
 
 ?>
-<p>
+<p style="margin-bottom:0;">
 <input type="button" value="..[L2].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '<?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>%,*'; parent.frames['l'].location.href='do_test_test.php?type=1&amp;<?php echo $p; ?>';}" />
 <input type="button" value="..[L1].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '<?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>%,*'; parent.frames['l'].location.href='do_test_test.php?type=2&amp;<?php echo $p; ?>';}" />
 <input type="button" value="..[••].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '<?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>%,*'; parent.frames['l'].location.href='do_test_test.php?type=3&amp;<?php echo $p; ?>';}" /> |

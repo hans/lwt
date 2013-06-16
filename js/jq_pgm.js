@@ -90,6 +90,16 @@ function addTermTranslation(wordid,txid,word,lang) {
 			} 
 	);
 }
+
+function changeTableTestStatus(wordid,up) {
+	$.post('ajax_chg_term_status.php', { id: wordid, data: (up ? 1 : 0) }
+		, function(data) { 
+				if(data != '') {
+					$('#TERM' + wordid).html(data);
+				}
+			} 
+	);
+}
  
 function check() {
 	var count = 0;

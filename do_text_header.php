@@ -35,7 +35,7 @@ mysql_free_result($res);
 
 saveSetting('currenttext',$textid);
 
-pagestart_nobody(tohtml($title));
+pagestart_nobody(tohtml($title),$addcss='html, body {margin-bottom:0;}');
 echo '<h4>';
 echo '<a href="edit_texts.php" target="_top">';
 echo_lwt_logo();

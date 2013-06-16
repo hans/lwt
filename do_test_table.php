@@ -58,52 +58,58 @@ $regexword = get_first_value('select LgRegexpWordCharacters as value from ' . $t
 ?>
 <script type="text/javascript">
 //<![CDATA[
-$(function() {
-$('#cbTerm').click(function() {
-	if($('#cbTerm').is(':checked')) 
-		$('td:nth-child(2)').css('color', 'black').css('cursor', 'auto');
-	else 
-		$('td:nth-child(2)').css('color', 'white').css('cursor', 'pointer');
-});
-$('#cbRom').click(function() {
-	if($('#cbRom').is(':checked')) 
-		$('td:nth-child(4),th:nth-child(4)').show();
-	else 
-		$('td:nth-child(4),th:nth-child(4)').hide();
-});
-$('#cbTrans').click(function() {
-	if($('#cbTrans').is(':checked')) 
-		$('td:nth-child(3)').css('color', 'black').css('cursor', 'auto');
-	else 
-		$('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
-});
-$('#cbSentence').click(function() {
-	if($('#cbSentence').is(':checked'))
-		$('td:nth-child(5),th:nth-child(5)').show();
-	else 
-		$('td:nth-child(5),th:nth-child(5)').hide();
-});
-$('#cbStatus').click(function() {
-	if($('#cbStatus').is(':checked')) 
-		$('td:nth-child(1),th:nth-child(1)').show();
-	else 
-		$('td:nth-child(1),th:nth-child(1)').hide();
-});
-$('td').click(function() {
-	$(this).css('color', 'black').css('cursor', 'auto');
-});
-$('td:nth-child(5),th:nth-child(5)').hide();
-$('td:nth-child(4),th:nth-child(4)').hide();
-$('td').css('background-color', 'white');
+$(document).ready( function() {
+	$('#cbStatus').click(function() {
+		if($('#cbStatus').is(':checked')) 
+			$('td:nth-child(1),th:nth-child(1)').show();
+		else 
+			$('td:nth-child(1),th:nth-child(1)').hide();
+	});
+	
+	$('#cbTerm').click(function() {
+		if($('#cbTerm').is(':checked')) 
+			$('td:nth-child(2)').css('color', 'black').css('cursor', 'auto');
+		else 
+			$('td:nth-child(2)').css('color', 'white').css('cursor', 'pointer');
+	});
+	
+	$('#cbTrans').click(function() {
+		if($('#cbTrans').is(':checked')) 
+			$('td:nth-child(3)').css('color', 'black').css('cursor', 'auto');
+		else 
+			$('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
+	});
+	
+	$('#cbRom').click(function() {
+		if($('#cbRom').is(':checked')) 
+			$('td:nth-child(4),th:nth-child(4)').show();
+		else 
+			$('td:nth-child(4),th:nth-child(4)').hide();
+	});
+	
+	$('#cbSentence').click(function() {
+		if($('#cbSentence').is(':checked'))
+			$('td:nth-child(5),th:nth-child(5)').show();
+		else 
+			$('td:nth-child(5),th:nth-child(5)').hide();
+	});
+	
+	$('td').click(function() {
+		$(this).css('color', 'black').css('cursor', 'auto');
+	});
+	
+	$('td').css('background-color', 'white');
+	$('td:nth-child(2)').css('color', 'white').css('cursor', 'pointer');
+	$('td:nth-child(4),th:nth-child(4)').hide();
 });
 //]]>
 </script>
 <p>
 <input type="checkbox" id="cbStatus" checked="checked" /> Status
-<input type="checkbox" id="cbTerm" checked="checked" /> Term
+<input type="checkbox" id="cbTerm" /> Term
 <input type="checkbox" id="cbTrans" checked="checked" /> Translation
 <input type="checkbox" id="cbRom" /> Romanization
-<input type="checkbox" id="cbSentence" /> Sentence
+<input type="checkbox" id="cbSentence" checked="checked" /> Sentence
 </p>
 
 <table class="sortable tab1" style="width:auto;" cellspacing="0" cellpadding="5">
@@ -112,7 +118,7 @@ $('td').css('background-color', 'white');
 <th class="th1 clickable">Term</th>
 <th class="th1 clickable">Translation</th>
 <th class="th1 clickable">Romanization</th>
-<th class="th1 clickable">Sentences</th>
+<th class="th1 clickable">Sentence</th>
 </tr>
 <?php
 
@@ -124,22 +130,9 @@ while ($record = mysql_fetch_assoc($res)) {
 	$sent = tohtml(repl_tab_nl($record["WoSentence"]));
 	$sent1 = str_replace("{", ' <b>' . $lpar, str_replace("}", $rpar . '</b> ', 
 		mask_term_in_sentence($sent,$regexword)));
-	$score = $record['Score'];
-	if ( $score < 0 ) 
-		$scoret = '<span class="red2">' . $record['WoStatus'] . '</span>';
-	else
-		$scoret = $record['WoStatus'];
-	if ( $record['WoStatus'] < 5 ) 
-		$plus = '<img src="icn/plus.png" title="+" alt="+" />';
-	else
-		$plus = '<img src="icn/placeholder.png" title="" alt="" />';
-	if ( $record['WoStatus'] > 1 ) 
-		$minus = '<img src="icn/minus.png" title="-" alt="-" />';
-	else
-		$minus = '<img src="icn/placeholder.png" title="" alt="" />';
 ?>
 <tr>
-<td class="td1 center"><?php echo $minus . ' ' . $scoret . ' ' . $plus; ?></td>
+<td class="td1 center" nowrap="nowrap"><span id="TERM<?php echo $record['WoID']; ?>"><?php echo make_status_controls_test_table($record['Score'], $record['WoStatus'], $record['WoID']); ?></span></td>
 <td class="td1 center"><?php echo $span1 . tohtml($record['WoText']) . $span2; ?></td>
 <td class="td1 center"><?php echo tohtml($record['WoTranslation']); ?></td>
 <td class="td1 center"><?php echo tohtml($record['WoRomanization']); ?></td>
