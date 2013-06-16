@@ -50,13 +50,12 @@ if (isset($_REQUEST['text'])) {
 	$title = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $textid);
 	saveSetting('currenttext',$_REQUEST['text']);
 	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $textid . ' ';
-
 }
 
 if ($p == '') die("Called with wrong parameters");
 
 $totalcountdue = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0');
-$totalcount = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql);
+$totalcount = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\'');
 
 pagestart_nobody(tohtml($title));
 echo '<h4>';
@@ -83,13 +82,13 @@ if ($message != '') {
 else {  // OK
 
 ?>
-<p><b>Choose:</b>
-<input type="button" value="..[L2].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=1&amp;<?php echo $p; ?>';}" />
-<input type="button" value="..[L1].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=2&amp;<?php echo $p; ?>';}" />
-<input type="button" value="..[••].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=3&amp;<?php echo $p; ?>';}" /> |
-<input type="button" value="[L2]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=4&amp;<?php echo $p; ?>';}" />
-<input type="button" value="[L1]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=5&amp;<?php echo $p; ?>';}" /> |
-<input type="button" value="Table" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_table.php?<?php echo $p; ?>';}" />
+<p>
+<input type="button" value="..[L2].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '<?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>%,*'; parent.frames['l'].location.href='do_test_test.php?type=1&amp;<?php echo $p; ?>';}" />
+<input type="button" value="..[L1].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '<?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>%,*'; parent.frames['l'].location.href='do_test_test.php?type=2&amp;<?php echo $p; ?>';}" />
+<input type="button" value="..[••].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '<?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>%,*'; parent.frames['l'].location.href='do_test_test.php?type=3&amp;<?php echo $p; ?>';}" /> |
+<input type="button" value="[L2]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '<?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>%,*'; parent.frames['l'].location.href='do_test_test.php?type=4&amp;<?php echo $p; ?>';}" />
+<input type="button" value="[L1]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '<?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>%,*';  parent.frames['l'].location.href='do_test_test.php?type=5&amp;<?php echo $p; ?>';}" /> |
+<input type="button" value="Table" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.document.getElementById('topframeset').cols = '100%,*'; parent.frames['l'].location.href='do_test_table.php?<?php echo $p; ?>';}" />
 </p></td></tr></table>
 
 <?php

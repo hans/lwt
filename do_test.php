@@ -34,9 +34,9 @@ if ($p != '') {
 	framesetheader('Test');
 
 ?>
-<frameset cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
+<frameset id="topframeset" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
 	<frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
-		<frame src="do_test_header.php?<?php echo $p; ?>" scrolling="no" name="h" />			
+		<frame src="do_test_header.php?<?php echo $p; ?>" scrolling="auto" name="h" />			
 		<frame src="empty.htm" scrolling="auto" name="l" />
 	</frameset>	
 	<frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-r-frameheight-percent')); ?>%,*">
