@@ -48,50 +48,65 @@ if ($cntlang > 1) {
 }
 
 $lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
-$rtlScript = get_first_value('select LgRightToLeft as value from ' . $tbpref . 'languages where LgID = ' . $lang);
+
+$sql = 'select LgTextSize, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
+$res = mysql_query($sql);		
+if ($res == FALSE) die("Invalid query: $sql");
+$record = mysql_fetch_assoc($res);
+$textsize = round(($record['LgTextSize']-100)/2,0)+100;
+
+$regexword = $record['LgRegexpWordCharacters'];
+$rtlScript = $record['LgRightToLeft'];
+mysql_free_result($res);
 $span1 = ($rtlScript ? '<span dir="rtl">' : '');
 $span2 = ($rtlScript ? '</span>' : '');
 $lpar = ($rtlScript ? '[' : '[');
 $rpar = ($rtlScript ? ']' : ']');
-$regexword = get_first_value('select LgRegexpWordCharacters as value from ' . $tbpref . 'languages where LgID = ' . $lang);
 
 ?>
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready( function() {
-	$('#cbStatus').click(function() {
-		if($('#cbStatus').is(':checked')) 
+	$('#cbEdit').click(function() {
+		if($('#cbEdit').is(':checked')) 
 			$('td:nth-child(1),th:nth-child(1)').show();
 		else 
 			$('td:nth-child(1),th:nth-child(1)').hide();
 	});
 	
-	$('#cbTerm').click(function() {
-		if($('#cbTerm').is(':checked')) 
-			$('td:nth-child(2)').css('color', 'black').css('cursor', 'auto');
+	$('#cbStatus').click(function() {
+		if($('#cbStatus').is(':checked')) 
+			$('td:nth-child(2),th:nth-child(2)').show();
 		else 
-			$('td:nth-child(2)').css('color', 'white').css('cursor', 'pointer');
+			$('td:nth-child(2),th:nth-child(2)').hide();
 	});
 	
-	$('#cbTrans').click(function() {
-		if($('#cbTrans').is(':checked')) 
+	$('#cbTerm').click(function() {
+		if($('#cbTerm').is(':checked')) 
 			$('td:nth-child(3)').css('color', 'black').css('cursor', 'auto');
 		else 
 			$('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
 	});
 	
+	$('#cbTrans').click(function() {
+		if($('#cbTrans').is(':checked')) 
+			$('td:nth-child(4)').css('color', 'black').css('cursor', 'auto');
+		else 
+			$('td:nth-child(4)').css('color', 'white').css('cursor', 'pointer');
+	});
+	
 	$('#cbRom').click(function() {
 		if($('#cbRom').is(':checked')) 
-			$('td:nth-child(4),th:nth-child(4)').show();
+			$('td:nth-child(5),th:nth-child(5)').show();
 		else 
-			$('td:nth-child(4),th:nth-child(4)').hide();
+			$('td:nth-child(5),th:nth-child(5)').hide();
 	});
 	
 	$('#cbSentence').click(function() {
 		if($('#cbSentence').is(':checked'))
-			$('td:nth-child(5),th:nth-child(5)').show();
+			$('td:nth-child(6),th:nth-child(6)').show();
 		else 
-			$('td:nth-child(5),th:nth-child(5)').hide();
+			$('td:nth-child(6),th:nth-child(6)').hide();
 	});
 	
 	$('td').click(function() {
@@ -99,12 +114,13 @@ $(document).ready( function() {
 	});
 	
 	$('td').css('background-color', 'white');
-	$('td:nth-child(2)').css('color', 'white').css('cursor', 'pointer');
-	$('td:nth-child(4),th:nth-child(4)').hide();
+	$('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
+	$('td:nth-child(5),th:nth-child(5)').hide();
 });
 //]]>
 </script>
 <p>
+<input type="checkbox" id="cbEdit" checked="checked" /> Edit
 <input type="checkbox" id="cbStatus" checked="checked" /> Status
 <input type="checkbox" id="cbTerm" /> Term
 <input type="checkbox" id="cbTrans" checked="checked" /> Translation
@@ -114,6 +130,7 @@ $(document).ready( function() {
 
 <table class="sortable tab1" style="width:auto;" cellspacing="0" cellpadding="5">
 <tr>
+<th class="th1 clickable">Ed</th>
 <th class="th1 clickable">Status</th>
 <th class="th1 clickable">Term</th>
 <th class="th1 clickable">Translation</th>
@@ -132,11 +149,13 @@ while ($record = mysql_fetch_assoc($res)) {
 		mask_term_in_sentence($sent,$regexword)));
 ?>
 <tr>
-<td class="td1 center" nowrap="nowrap"><span id="TERM<?php echo $record['WoID']; ?>"><?php echo make_status_controls_test_table($record['Score'], $record['WoStatus'], $record['WoID']); ?></span></td>
-<td class="td1 center"><?php echo $span1 . tohtml($record['WoText']) . $span2; ?></td>
-<td class="td1 center"><?php echo tohtml($record['WoTranslation']); ?></td>
-<td class="td1 center"><?php echo tohtml($record['WoRomanization']); ?></td>
-<td class="td1 center"><?php echo $span1 . $sent1 . $span2; ?></td>
+<td class="td1 center" nowrap="nowrap"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" class="click" onclick="window.parent.frames['ro'].location.href = 
+			'edit_tword.php?wid=<?php echo $record['WoID']; ?>';" /></td>
+<td class="td1 center" nowrap="nowrap"><span id="STAT<?php echo $record['WoID']; ?>"><?php echo make_status_controls_test_table($record['Score'], $record['WoStatus'], $record['WoID']); ?></span></td>
+<td class="td1 center" style="font-size:<?php echo $textsize; ?>%;" nowrap="nowrap"><span id="TERM<?php echo $record['WoID']; ?>"><?php echo $span1 . tohtml($record['WoText']) . $span2; ?></span></td>
+<td class="td1 center"><span id="TRAN<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoTranslation']); ?></span></td>
+<td class="td1 center"><span id="ROMA<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoRomanization']); ?></span></td>
+<td class="td1 center"><span id="SENT<?php echo $record['WoID']; ?>"><?php echo $span1 . $sent1 . $span2; ?></span></td>
 </tr>
 <?php
 }

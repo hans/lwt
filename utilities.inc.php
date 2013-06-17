@@ -1173,15 +1173,15 @@ function make_status_controls_test_table($score, $status, $wordid) {
 	else
 		$scoret = get_status_abbr($status);
 		
-	if ( $status <= 5 ) 
+	if ( $status <= 5 || $status == 98 ) 
 		$plus = '<img src="icn/plus.png" class="click" title="+" alt="+" onclick="changeTableTestStatus(' . $wordid .',true);" />';
 	else
 		$plus = '<img src="icn/placeholder.png" title="" alt="" />';
-	if ( $status > 1 ) 
+	if ( $status >= 1 ) 
 		$minus = '<img src="icn/minus.png" class="click" title="-" alt="-" onclick="changeTableTestStatus(' . $wordid .',false);" />';
 	else
 		$minus = '<img src="icn/placeholder.png" title="" alt="" />';
-	return $minus . ' ' . $scoret . ($status == 99 ? '' : ' ' . $plus);
+	return ($status == 98 ? '' : $minus . ' ') . $scoret . ($status == 99 ? '' : ' ' . $plus);
 }
 
 // -------------------------------------------------------------
