@@ -75,15 +75,37 @@ if (isset($_REQUEST['op'])) {
 	
 <p>OK: <?php echo tohtml($message); ?></p>
 
+<?php
+
+	$lang = get_first_value('select WoLgID as value from ' . $tbpref . 'words where WoID = ' . $wid);
+	if ( ! isset($lang) ) die('Error: Cannot retrieve language.');
+	$regexword = get_first_value('select LgRegexpWordCharacters as value from ' . $tbpref . 'languages where LgID = ' . $lang);
+	if ( ! isset($regexword) ) die('Error: Cannot retrieve language data.');
+	$sent = tohtml(repl_tab_nl($_REQUEST["WoSentence"]));
+	$sent1 = str_replace("{", ' <b>[', str_replace("}", ']</b> ', 
+		mask_term_in_sentence($sent,$regexword)));
+
+?>
+
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
-var wotext = <?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>;
-var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
-var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
-var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-$('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
+if(window.parent.frames['l'].location.href.indexOf('do_test_table') !== -1) {
+	// Table Test
+	$('#STAT' + woid, context).html(<?php echo prepare_textdata_js(make_status_controls_test_table(1, $_REQUEST["WoStatus"], $wid)); ?>);
+	$('#TERM' + woid, context).html(<?php echo prepare_textdata_js(tohtml($_REQUEST["WoText"])); ?>);
+	$('#TRAN' + woid, context).html(<?php echo prepare_textdata_js(tohtml($translation)); ?>);
+	$('#ROMA' + woid, context).html(<?php echo prepare_textdata_js(tohtml($_REQUEST["WoRomanization"])); ?>);
+	$('#SENT' + woid, context).html(<?php echo prepare_textdata_js($sent1); ?>);
+} else {
+	// Normal Test
+	var wotext = <?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>;
+	var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
+	var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
+	var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
+	$('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
+}
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>

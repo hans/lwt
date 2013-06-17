@@ -60,8 +60,6 @@ $rtlScript = $record['LgRightToLeft'];
 mysql_free_result($res);
 $span1 = ($rtlScript ? '<span dir="rtl">' : '');
 $span2 = ($rtlScript ? '</span>' : '');
-$lpar = ($rtlScript ? '[' : '[');
-$rpar = ($rtlScript ? ']' : ']');
 
 ?>
 <script type="text/javascript">
@@ -130,7 +128,7 @@ $(document).ready( function() {
 
 <table class="sortable tab1" style="width:auto;" cellspacing="0" cellpadding="5">
 <tr>
-<th class="th1 clickable">Ed</th>
+<th class="th1">Ed</th>
 <th class="th1 clickable">Status</th>
 <th class="th1 clickable">Term</th>
 <th class="th1 clickable">Translation</th>
@@ -145,17 +143,17 @@ $res = mysql_query($sql);
 if ($res == FALSE) die("Invalid Query: $sql");
 while ($record = mysql_fetch_assoc($res)) {
 	$sent = tohtml(repl_tab_nl($record["WoSentence"]));
-	$sent1 = str_replace("{", ' <b>' . $lpar, str_replace("}", $rpar . '</b> ', 
+	$sent1 = str_replace("{", ' <b>[', str_replace("}", ']</b> ', 
 		mask_term_in_sentence($sent,$regexword)));
 ?>
 <tr>
 <td class="td1 center" nowrap="nowrap"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" class="click" onclick="window.parent.frames['ro'].location.href = 
 			'edit_tword.php?wid=<?php echo $record['WoID']; ?>';" /></td>
 <td class="td1 center" nowrap="nowrap"><span id="STAT<?php echo $record['WoID']; ?>"><?php echo make_status_controls_test_table($record['Score'], $record['WoStatus'], $record['WoID']); ?></span></td>
-<td class="td1 center" style="font-size:<?php echo $textsize; ?>%;" nowrap="nowrap"><span id="TERM<?php echo $record['WoID']; ?>"><?php echo $span1 . tohtml($record['WoText']) . $span2; ?></span></td>
+<td class="td1 center" style="font-size:<?php echo $textsize; ?>%;"><?php echo $span1; ?><span id="TERM<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoText']); ?></span><?php echo $span2; ?></td>
 <td class="td1 center"><span id="TRAN<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoTranslation']); ?></span></td>
 <td class="td1 center"><span id="ROMA<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoRomanization']); ?></span></td>
-<td class="td1 center"><span id="SENT<?php echo $record['WoID']; ?>"><?php echo $span1 . $sent1 . $span2; ?></span></td>
+<td class="td1 center"><?php echo $span1; ?><span id="SENT<?php echo $record['WoID']; ?>"><?php echo $sent1; ?></span><?php echo $span2; ?></td>
 </tr>
 <?php
 }
