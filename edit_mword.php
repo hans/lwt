@@ -116,8 +116,7 @@ var title = make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>
 <?php
 	if ($_REQUEST['op'] == 'Save') {
 		// new
-		$showAll = getSetting('showallwords');
-		$showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
+		$showAll = getSettingZeroOrOne('showallwords', 1);
 ?>
 $('.TERM<?php echo $hex; ?>', context).removeClass('hide').addClass('word' + woid + ' ' + 'status' + status).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status).attr('data_wid',woid).attr('title',title);
 $('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');

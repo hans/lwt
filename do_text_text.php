@@ -41,8 +41,7 @@ $removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
 mysql_free_result($res);
 
-$showAll = getSetting('showallwords');
-$showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
+$showAll = getSettingZeroOrOne('showallwords',1);
 
 ?>
 <script type="text/javascript">

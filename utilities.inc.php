@@ -932,6 +932,14 @@ function get_first_sepa() {
 
 // -------------------------------------------------------------
 
+function getSettingZeroOrOne($key, $dft) {
+	$r = getSetting($key);
+	$r = ($r == '' ? $dft : ((((int) $r) !== 0) ? 1 : 0));
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function getSetting($key) {
 	global $tbpref;
 	$val = get_first_value('select StValue as value from ' . $tbpref . 'settings where StKey = ' . convert_string_to_sqlsyntax($key));
@@ -2741,8 +2749,7 @@ function trim_value(&$value)
 function makeAudioPlayer($audio) {
 	if ($audio != '') {
 		$playerskin = getSettingWithDefault('set-player-skin-name');
-		$repeatMode = getSetting('currentplayerrepeatmode');
-		$repeatMode = ($repeatMode == '' ? 0 : ((((int)$repeatMode) != 0) ? 1 : 0));
+		$repeatMode = getSettingZeroOrOne('currentplayerrepeatmode',0);
 ?>
 <link type="text/css" href="css/jplayer_skin/<?php echo $playerskin; ?>.css" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery.jplayer.min.js"><!-- jPlayer © Happyworm ** http://www.jplayer.org/about/ --></script>

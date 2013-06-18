@@ -61,50 +61,75 @@ mysql_free_result($res);
 $span1 = ($rtlScript ? '<span dir="rtl">' : '');
 $span2 = ($rtlScript ? '</span>' : '');
 
+$currenttabletestsetting1 = getSettingZeroOrOne('currenttabletestsetting1',1);
+$currenttabletestsetting2 = getSettingZeroOrOne('currenttabletestsetting2',1);
+$currenttabletestsetting3 = getSettingZeroOrOne('currenttabletestsetting3',0);
+$currenttabletestsetting4 = getSettingZeroOrOne('currenttabletestsetting4',1);
+$currenttabletestsetting5 = getSettingZeroOrOne('currenttabletestsetting5',0);
+$currenttabletestsetting6 = getSettingZeroOrOne('currenttabletestsetting6',1);
+
 ?>
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready( function() {
-	$('#cbEdit').click(function() {
-		if($('#cbEdit').is(':checked')) 
+	$('#cbEdit').change(function() {
+		if($('#cbEdit').is(':checked')) {
 			$('td:nth-child(1),th:nth-child(1)').show();
-		else 
+			do_ajax_save_setting('currenttabletestsetting1','1');
+		} else { 
 			$('td:nth-child(1),th:nth-child(1)').hide();
+			do_ajax_save_setting('currenttabletestsetting1','0');
+		}
 	});
 	
-	$('#cbStatus').click(function() {
-		if($('#cbStatus').is(':checked')) 
+	$('#cbStatus').change(function() {
+		if($('#cbStatus').is(':checked')) {
 			$('td:nth-child(2),th:nth-child(2)').show();
-		else 
+			do_ajax_save_setting('currenttabletestsetting2','1');
+		} else { 
 			$('td:nth-child(2),th:nth-child(2)').hide();
+			do_ajax_save_setting('currenttabletestsetting2','0');
+		}
 	});
 	
-	$('#cbTerm').click(function() {
-		if($('#cbTerm').is(':checked')) 
+	$('#cbTerm').change(function() {
+		if($('#cbTerm').is(':checked')) {
 			$('td:nth-child(3)').css('color', 'black').css('cursor', 'auto');
-		else 
+			do_ajax_save_setting('currenttabletestsetting3','1');
+		} else { 
 			$('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
+			do_ajax_save_setting('currenttabletestsetting3','0');
+		}
 	});
 	
-	$('#cbTrans').click(function() {
-		if($('#cbTrans').is(':checked')) 
+	$('#cbTrans').change(function() {
+		if($('#cbTrans').is(':checked')) {
 			$('td:nth-child(4)').css('color', 'black').css('cursor', 'auto');
-		else 
+			do_ajax_save_setting('currenttabletestsetting4','1');
+		} else {
 			$('td:nth-child(4)').css('color', 'white').css('cursor', 'pointer');
+			do_ajax_save_setting('currenttabletestsetting4','0');
+		}
 	});
 	
-	$('#cbRom').click(function() {
-		if($('#cbRom').is(':checked')) 
+	$('#cbRom').change(function() {
+		if($('#cbRom').is(':checked')) {
 			$('td:nth-child(5),th:nth-child(5)').show();
-		else 
+			do_ajax_save_setting('currenttabletestsetting5','1');
+		} else {
 			$('td:nth-child(5),th:nth-child(5)').hide();
+			do_ajax_save_setting('currenttabletestsetting5','0');
+		}
 	});
 	
-	$('#cbSentence').click(function() {
-		if($('#cbSentence').is(':checked'))
+	$('#cbSentence').change(function() {
+		if($('#cbSentence').is(':checked')) {
 			$('td:nth-child(6),th:nth-child(6)').show();
-		else 
+			do_ajax_save_setting('currenttabletestsetting6','1');
+		} else {
 			$('td:nth-child(6),th:nth-child(6)').hide();
+			do_ajax_save_setting('currenttabletestsetting6','0');
+		}
 	});
 	
 	$('td').click(function() {
@@ -112,18 +137,24 @@ $(document).ready( function() {
 	});
 	
 	$('td').css('background-color', 'white');
-	$('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
-	$('td:nth-child(5),th:nth-child(5)').hide();
+	
+	$('#cbEdit').change();
+	$('#cbStatus').change();
+	$('#cbTerm').change();
+	$('#cbTrans').change();
+	$('#cbRom').change();
+	$('#cbSentence').change();
+	 
 });
 //]]>
 </script>
 <p>
-<input type="checkbox" id="cbEdit" checked="checked" /> Edit
-<input type="checkbox" id="cbStatus" checked="checked" /> Status
-<input type="checkbox" id="cbTerm" /> Term
-<input type="checkbox" id="cbTrans" checked="checked" /> Translation
-<input type="checkbox" id="cbRom" /> Romanization
-<input type="checkbox" id="cbSentence" checked="checked" /> Sentence
+<input type="checkbox" id="cbEdit" <?php echo get_checked($currenttabletestsetting1); ?> /> Edit
+<input type="checkbox" id="cbStatus" <?php echo get_checked($currenttabletestsetting2); ?> /> Status
+<input type="checkbox" id="cbTerm" <?php echo get_checked($currenttabletestsetting3); ?> /> Term
+<input type="checkbox" id="cbTrans" <?php echo get_checked($currenttabletestsetting4); ?> /> Translation
+<input type="checkbox" id="cbRom" <?php echo get_checked($currenttabletestsetting5); ?> /> Romanization
+<input type="checkbox" id="cbSentence" <?php echo get_checked($currenttabletestsetting6); ?> /> Sentence
 </p>
 
 <table class="sortable tab1" style="width:auto;" cellspacing="0" cellpadding="5">

@@ -58,8 +58,7 @@ make_score_random_insert_update('id') . ')', "Term saved");
 
 		saveWordTags($wid);
 		
-		$showAll = getSetting('showallwords');
-		$showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
+		$showAll = getSettingZeroOrOne('showallwords',1);
 ?>
 
 <p><?php echo tohtml($message); ?></p>

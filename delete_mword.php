@@ -19,8 +19,7 @@ include "settings.inc.php";
 include "connect.inc.php";
 include "utilities.inc.php";
 
-$showAll = getSetting('showallwords');
-$showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
+$showAll = getSettingZeroOrOne('showallwords',1);
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
