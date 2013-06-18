@@ -41,7 +41,8 @@ div.jp-interface {
 	background-color:#eee;
 	/* width:418px; */
 	width:100%;
-	border:1px solid #009be3;
+	/* border:1px solid #009be3; */
+	border:1px solid #eee;
 }
 div.jp-audio div.jp-type-single div.jp-interface {
 	height:50px;  /* 80 */
@@ -352,7 +353,8 @@ div.jp-playlist {
 	/* width:418px; */
 	width:100%;
 	background-color:#ccc;
-	border:1px solid #009be3;
+	/* border:1px solid #009be3; */
+	border:1px solid #eee;
 	border-top:none;
 }
 div.jp-playlist ul {
@@ -431,7 +433,8 @@ div.jp-jplayer {
 	height:0px;
 }
 div.jp-video div.jp-jplayer {
-	border:1px solid #009be3;
+	border:1px solid #eee;
+	/* border:1px solid #009be3; */
 	border-bottom:none;
 	z-index:1;
 }

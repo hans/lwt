@@ -382,6 +382,23 @@ dt {
 	white-space: nowrap;
 	margin-left: 20pt;
 }
+.borderleft {
+	border-left: 1px solid black;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	background-color: #EEEEEE;
+}
+.bordermiddle {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	background-color: #EEEEEE;
+}
+.borderright {
+	border-right: 1px solid black;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	background-color: #EEEEEE;
+} 
 
 /**************************************************************
 Additional styles for printing
