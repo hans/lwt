@@ -342,11 +342,8 @@ $(document).ready( function() {
 								Resources for various languages 
 								<ul>
 									<li>
-										<a href="http://tinyurl.com/cbpndlt" target="_blank">GoogleDocs Spreadsheet</a> with LWT Language Settings ("Templates")<br/><b>Important:</b> Please be careful when making additions or corrections!
+										<a href="http://tinyurl.com/cbpndlt" target="_blank">GoogleDocs Spreadsheet</a> with recommendations for LWT Language Settings ("Templates")<br/><b>Important:</b> Please be careful when making additions or corrections!
 									</li>
-									<li>
-										<a href="http://glosbe.com/" target="_blank">glosbe.com</a> - Multi-Lingual Web Dictionary,<br /> e. g. http://glosbe.com/xx/yy/### with xx = L2 lang code and yy = L1 lang code.
-									</li> 
 								</ul>
 							</li>
 							<li>
@@ -406,11 +403,13 @@ $(document).ready( function() {
           <li>Import of terms in TSV/CSV format, export in TSV format, and export to <a href="http://ankisrs.net" target="_blank">Anki</a> (prepared for cloze tests), are also possible.<br /><br />
           </li>
 
-          <li><b>IMPORTANT: To run LWT, you need: a modern web browser (Windows: Chrome or Firefox (Internet Explorer is not recommended); Mac OS X: Chrome (Safari is not recommended)), and a local web server (Apache) with PHP and MySQL.</b>
+          <li><b><u>MOST IMPORTANT:</u><br /><br /> To run LWT, you'll need: </b><br /><br />
+          <b>(1) A modern web browser.</b><ul><li>Windows: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a>. MS Internet Explorer is not recommended.</li><li>OS X: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a>. Safari does not display frame sets properly and is not recommended. Firefox does not play MP3 files under OS X.</li><li>Linux: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a>.</li></ul><br />
+          <b>(2) A local web server.</b><br />An easy way to install a local web server are preconfigured packages like<ul><li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Windows), </li><li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac OS X), or</li><li><a href="http://www.apachefriends.org/en/xampp.html" target="_blank">XAMPP</a> (Windows, Mac OS X, Linux).</li></ul><br />
+          <b>(3) The LWT Application.</b><br />The ZIP Archive can be downloaded <a href="http://sourceforge.net/projects/lwt/files/" target="_blank">here</a>.<br />The installation is explained<ul><li><a href="#installwin">here (Windows)</a>,</li><li><a href="#installmac">here (Mac OS X)</a> and</li><li><a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">here (Ubuntu Linux)</a>.</li></ul>
+          <br />
           </li>
-
-          <li><b>An easy way to install a local web server are preconfigured packages like <a href="http://www.apachefriends.org/en/xampp.html" target="_blank">XAMPP</a> (Win, Mac, Linux), <a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Win) or <a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac).</b>
-          </li>
+          
         </ul>
       </dd>
 
@@ -1214,9 +1213,10 @@ Developed by J. P. in 2011, 2012, 2013.
             <ul>
               <li>The three Uniform Resource Identifiers (<a href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URIs</a>) are URIs to three web dictionaries (the second and third is optional). Use ### as a placeholder for the searchword in the URIs. If ### is missing, the searchword will be appended. If the URI to query "travailler" in WordReference is "http://www.wordreference.com/fren/travailler", you enter: "http://www.wordreference.com/fren/###" or "http://www.wordreference.com/fren/". 
 							Another example: The URI to query "travailler" in sansagent is "http://dictionary.sensagent.com/travailler/fr-en/", so you enter in LWT "http://dictionary.sensagent.com/###/fr-en/". <br /> <br />            
-              As URI No. 3 ("Google Translate URI") is also used to translate whole sentences, I would recommend to enter here always the link to Google Translate, like shown in the examples. The link to Google Translate is  "http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###", where the two-character codes after "sl=" and "tl=" designate the <a href="http://bit.ly/n1Fz2C" target=_blank">language codes</a> for the source and the target language. But a different third web dictionary is of course possible.<br /><br /> 
+              As URI No. 3 ("Google Translate URI") is also used to translate whole sentences, I would recommend to enter here always the link to Google Translate, like shown in the examples. The link to Google Translate is  "http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###", where the two-character codes after "sl=" and "tl=" designate the <a href="http://www.iana.org/assignments/language-subtag-registry" target=_blank">language codes (or "subtags")</a> for the source and the target language. But a different third web dictionary is of course possible, but sentence translations may not work.<br /><br /> 
               If the searchword in the three URIs needs to be converted into a different encoding (standard is UTF-8), you can use ###encoding### as a placeholder. Normally you see this right away if terms show up wrongly in the web dictionary. Example: Linguee expects the searchword in ISO-8859-15, not in UTF-8, so you define it this way: "http://www.linguee.de/search?direction=auto&query=###ISO-8859-15###".	A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php" target=_blank">here</a>.<br /><br /> 
-              <b>IMPORTANT:</b> Some dictionaries (including "Google Translate") don't allow to be opened within a frame set. Put an asterisk * in front of the URI (Examples: *http://mywebdict.com?q=### or *http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###) to open such a dictionary not within the frame set but in a popup window (please don't forget to deactivate popup window blocking in your browser!).<br /> <br /> 
+              <b>IMPORTANT:</b> Some dictionaries (including "Google Translate") don't allow to be opened within a frame set. Put an asterisk * in front of the URI (Examples: *http://mywebdict.com?q=### or *http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###) to open such a dictionary not within the frame set but in a popup window (please don't forget to deactivate popup window blocking in your browser!).<br /> <br /> <a name="glosbe"></a>
+              One dictionary (<a href="http://glosbe.com/" target="_blank">Glosbe</a>) has been closely integrated into LWT via the Glosbe API. To use this dictionary, input the "special" dictionary link "<i>glosbe_api.php?from=...&dest=...&phrase=###</i>" (NO "http://" at the beginning!!) with <i>from</i>: "L2 language code" (the language of your texts) and <i>dest</i>: "L1 language code" (e.g. mother tongue). To find the language codes, open <a href="http://glosbe.com/all-languages" target="_blank">this page</a> to select the "from" (L2) language. On the next page, select the "L2 - L1" language pair. The URL of the next page shows the two language codes, here as an example "French - English": http://glosbe.com/<b>fr</b>/<b>en</b>/. The "from" code is "fr", the "dest" code is "en". Using this dictionary makes the transfer of translation(s) from the Glosbe to LWT very easy: just click on the icon next to the translations to copy them into the LWT edit screen. I recommend to use the LWT-integrated Glosbe dictionary as the "Dictionary 1 URI". Note: I cannot guarantee that the Glosbe API and this special integration will work in the future!<br /> <br /> 
               You don't know how and where to find a good web dictionary? Try these dictionary directories:<ul>
               <li><a href="http://www.alphadictionary.com/langdir.html" target="_blank">http://www.alphadictionary.com/langdir.html</a></li>
               <li><a href="http://dir.yahoo.com/reference/dictionaries/" target="_blank">http://dir.yahoo.com/reference/dictionaries/</a></li>
@@ -2335,7 +2335,7 @@ with audioplayer", if needed.</li>
         <ul>
         	
         	<li>1.5.5 (June ?? 2013):<br />
-        	Integration of the Glosbe API into LWT as a "special" dictionary link "glosbe_api.php?from=...&dest=...&phrase=###" with from: "L2 language code" (the language of your texts) and dest: "L1 language code" (e.g. mother tongue). To find the language codes, open <a href="http://glosbe.com/all-languages" target="_blank">this page</a> to select the "from" (L2) language. On the next page, select the "L2 - L1" language pair. The URL of the next page shows the two language codes, here as an example "French - English": http://glosbe.com/<b>fr</b>/<b>en</b>/. The "from" code is "fr", the "dest" code is "en". Using this dictionary makes the transfer of translation(s) from the Glosbe to LWT very easy: just click on the icon next to the translations to copy them into the LWT edit screen.
+        	Integration of the Glosbe API into LWT via a "special" dictionary link. Read more <a href="#glosbe">here</a>.
         	<br />
         	Some minor improvements: Window width of dictionary popups changed from 600 to 800 Pixel. No "_lwtgeneral" operations if table prefix is fixed.
         	<br />
