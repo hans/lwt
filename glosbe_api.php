@@ -92,6 +92,7 @@ if ( $ok ) {
 					$word = "(" . $value['meanings'][0]['text'] . ")";
 			}
 			if ($word != '') {
+				$word = trim(strip_tags($word));
 				echo '<span class="click" onclick="addTranslation(' . prepare_textdata_js($word) . ');"><img src="icn/tick-button.png" title="Copy" alt="Copy" /></span> &nbsp;' . $word . '<br />' . "\n";
 				$i++;
 			}
@@ -146,6 +147,7 @@ if ( $ok ) {
 								$word = "(" . $value['meanings'][0]['text'] . ")";
 						}
 						if ($word != '') {
+							$word = trim(strip_tags($word));
 							echo '<span class="click" onclick="addTranslation(' . prepare_textdata_js($word) . ');"><img src="icn/tick-button.png" title="Copy" alt="Copy" /></span> &nbsp;' . $word . '<br />' . "\n";
 							$i++;
 						}
