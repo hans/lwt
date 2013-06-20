@@ -364,7 +364,7 @@ function owin(url) {
 	window.open(
 		url, 
 		'dictwin', 
-		'width=600, height=400, scrollbars=yes, menubar=no, resizable=yes, status=no'
+		'width=800, height=400, scrollbars=yes, menubar=no, resizable=yes, status=no'
 	);
 }
 
@@ -372,7 +372,7 @@ function oewin(url) {
 	window.open(
 		url, 
 		'editwin', 
-		'width=600, height=600, scrollbars=yes, menubar=no, resizable=yes, status=no'
+		'width=800, height=600, scrollbars=yes, menubar=no, resizable=yes, status=no'
 	);
 }
 
@@ -390,11 +390,11 @@ function createTheDictLink(u,w,t,b) {
 	var txtbefore = b.trim();
 	var r = '';
 	if (url != '' && txt != '') {
-		if(url.substr(0,8) == '*http://') {
+		if(url.substr(0,1) == '*') {
 			r = ' ' + txtbefore + 
 			' <span class=\x22click\x22 onclick=\x22owin(\'' + createTheDictUrl(url.substring(1),escape_apostrophes(trm)) + '\');\x22>' + txt + '</span> ';
 		} 
-		else if (url.substr(0,7) == 'http://') {
+		else {
 			r = ' ' + txtbefore + 
 			' <a href=\x22' + createTheDictUrl(url,trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
 		} 

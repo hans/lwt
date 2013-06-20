@@ -1694,10 +1694,10 @@ function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst) {
 function makeOpenDictStr($url, $txt) {
 	$r = '';
 	if ($url != '' && $txt != '') {
-		if(substr($url,0,8) == '*http://') {
+		if(substr($url,0,1) == '*') {
 			$r = ' <span class="click" onclick="owin(' . prepare_textdata_js(substr($url,1)) . ');">' . tohtml($txt) . '</span> ';
 		} 
-		elseif (substr($url,0,7) == 'http://') {
+		else {
 			$r = ' <a href="' . $url . '" target="ru">' . tohtml($txt) . '</a> ';
 		} 
 	}
@@ -1709,10 +1709,10 @@ function makeOpenDictStr($url, $txt) {
 function makeOpenDictStrJS($url) {
 	$r = '';
 	if ($url != '') {
-		if(substr($url,0,8) == '*http://') {
+		if(substr($url,0,1) == '*') {
 			$r = "owin(" . prepare_textdata_js(substr($url,1)) . ");\n";
 		} 
-		elseif (substr($url,0,7) == 'http://') {
+		else {
 			$r = "top.frames['ru'].location.href=" . prepare_textdata_js($url) . ";\n";
 		} 
 	}
@@ -1724,10 +1724,10 @@ function makeOpenDictStrJS($url) {
 function makeOpenDictStrDynSent($url, $sentctljs, $txt) {
 	$r = '';
 	if ($url != '') {
-		if(substr($url,0,8) == '*http://') {
+		if(substr($url,0,1) == '*') {
 			$r = '<span class="click" onclick="translateSentence2(' . prepare_textdata_js(substr($url,1)) . ',' . $sentctljs . ');">' . tohtml($txt) . '</span>';
 		} 
-		elseif (substr($url,0,7) == 'http://') {
+		else {
 			$r = '<span class="click" onclick="translateSentence(' . prepare_textdata_js($url) . ',' . $sentctljs . ');">' . tohtml($txt) . '</span>';
 		} 
 	}
@@ -2672,12 +2672,14 @@ function LWTTableCheck () {
 // -------------------------------------------------------------
 
 function LWTTableSet ($key, $val) {
+	LWTTableCheck ();
 	runsql("INSERT INTO _lwtgeneral (LWTKey, LWTValue) VALUES (" . convert_string_to_sqlsyntax($key) . ", " . convert_string_to_sqlsyntax($val) . ") ON DUPLICATE KEY UPDATE LWTValue = " . convert_string_to_sqlsyntax($val),'');
 }
 
 // -------------------------------------------------------------
 
 function LWTTableGet ($key) {
+	LWTTableCheck ();
 	return get_first_value("SELECT LWTValue as value FROM _lwtgeneral WHERE LWTKey = " . convert_string_to_sqlsyntax($key));
 }
 
@@ -3168,16 +3170,17 @@ if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . $dbname
 $err = @mysql_select_db($dbname);
 if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
 
-// Is $tbpref set in connect.inc.php? Take it.
-// If not: Is it set in table "_lwtgeneral"? Take it.
+// *** GLOBAL VARAIABLES ***
+// $tbpref = Current Table Prefix
+// $fixed_tbpref = Table Prefix is fixed, no changes possible
+// *** GLOBAL VARAIABLES ***
+
+// Is $tbpref set in connect.inc.php? Take it and $fixed_tbpref=1.
+// If not: $fixed_tbpref=0. Is it set in table "_lwtgeneral"? Take it.
 // If not: Use $tbpref = '' (no prefix, old/standard behaviour).
 
-// $fixed_tbpref = 1 if $tbpref was fixed in connect.inc.php.
-
-LWTTableCheck();
-
 if (! isset($tbpref)) {
-	$fixed_tbpref = 0;
+	$fixed_tbpref = 0;             
 	$p = LWTTableGet("current_table_prefix");
 	if (isset($p)) 
 		$tbpref = $p;
@@ -3195,7 +3198,8 @@ if ($len_tbpref > 0) {
 		if (strpos("_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", substr($tbpref,$i,1)) === FALSE) die('Table prefix/set "' . $tbpref . '" contains characters or digits other than 0-9, a-z, A-Z or _. Please fix in "connect.inc.php".'); 
 }
 
-LWTTableSet ("current_table_prefix", $tbpref);
+if (! $fixed_tbpref) 
+	LWTTableSet ("current_table_prefix", $tbpref);
 
 // *******************************************************************
 // IF PREFIX IS NOT '', THEN ADD A '_', TO ENSURE NO IDENTICAL NAMES

@@ -30,6 +30,11 @@ $dest = trim(stripTheSlashesIfNeeded($_REQUEST["dest"]));
 $phrase = mb_strtolower(trim(stripTheSlashesIfNeeded($_REQUEST["phrase"])), 'UTF-8');
 $ok = FALSE;
 
+pagestart_nobody('');
+$titeltext = '<a href="http://glosbe.com/' . $from . '/' . $dest . '/' . $phrase . '" target="_blank">Glosbe Dictionary (' . tohtml($from) . "-" . tohtml($dest) . "):  &nbsp; <span class=\"red2\">" . tohtml($phrase) . "</span></a>";
+echo '<h3>' . $titeltext . '</h3>';
+echo '<p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy word(s) into above term)<br />&nbsp;</p>';
+
 if ($from != '' && $dest != '' && $phrase != '') {
 
 	$glosbe_data = file_get_contents('http://glosbe.com/gapi/translate?from=' . urlencode($from) . '&dest=' . urlencode($dest) . '&format=json&phrase=' . urlencode($phrase));
@@ -47,35 +52,105 @@ if ($from != '' && $dest != '' && $phrase != '') {
 
 if ( $ok ) {
 
-	echo "<h1>" . tohtml($data['phrase']) . "</h1>\n";
-
 	if (count($data['tuc']) > 0) {
+	
+		$i = 0;
 
-		echo "<p>Translations:</p>\n<ul>\n";
+		echo "<p>\n";
 		foreach ($data['tuc'] as &$value) {
+			$word = '';
 			if (isset($value['phrase'])) {
 				if (isset($value['phrase']['text']))
-					echo "<li>" . $value['phrase']['text'] . "</li>\n";
+					$word = $value['phrase']['text'];
 			} else if (isset($value['meanings'])) {
 				if (isset($value['meanings'][0]['text']))
-					echo "<li>(" .  $value['meanings'][0]['text'] . ")</li>\n";
+					$word = $value['meanings'][0]['text'];
+			}
+			if ($word != '') {
+				echo '<span class="click" onclick=""><img src="icn/tick-button.png" title="Copy" alt="Copy" /></span> &nbsp;' . $word . '<br />' . "\n";
+				$i++;
 			}
 		}
-		echo "</ul>\n<hr />\n<pre>\n";
+		echo "</p>";
+		/*
+		echo "\n<hr />\n<pre>\n";
 		print_r($data['tuc']);
 		echo "</pre>\n";
+		*/
+		if ($i) {
+		echo '<p>&nbsp;<br/>' . $i . ' translation' . ($i==1 ? '' : 's') . ' retrieved via <a href="http://glosbe.com/a-api" target="_blank">Glosbe API</a>.</p>';
+		}
 		
 	} else {
+		
+		echo '<p>No translations found (' . tohtml($from) . '-' . tohtml($dest) . ').<br />&nbsp;</p>';
+		
+		if ($dest != "en" && $from != "en") {
+		
+			$ok = FALSE;
+		
+			$dest = "en";
+			$titeltext = '<a href="http://glosbe.com/' . $from . '/' . $dest . '/' . $phrase . '" target="_blank">Glosbe Dictionary (' . tohtml($from) . "-" . tohtml($dest) . "):  &nbsp; <span class=\"red2\">" . tohtml($phrase) . "</span></a>";
+			echo '<hr /><p>&nbsp;</p><h3>' . $titeltext . '</h3>';
+
+			$glosbe_data = file_get_contents('http://glosbe.com/gapi/translate?from=' . urlencode($from) . '&dest=' . urlencode($dest) . '&format=json&phrase=' . urlencode($phrase));
+
+			if(! ($glosbe_data === FALSE)) {
+
+				$data = json_decode ($glosbe_data, true);
+				if ( isset($data['phrase']) ) {
+					$ok = (($data['phrase'] == $phrase) && (isset($data['tuc'])));
+				}
+
+			}
+
+			if ( $ok ) {
+
+				if (count($data['tuc']) > 0) {
 	
-		echo "<p>No translations available.</p>";
+					$i = 0;
+
+					echo "<p>&nbsp;<br />\n";
+					foreach ($data['tuc'] as &$value) {
+						$word = '';
+						if (isset($value['phrase'])) {
+							if (isset($value['phrase']['text']))
+								$word = $value['phrase']['text'];
+						} else if (isset($value['meanings'])) {
+							if (isset($value['meanings'][0]['text']))
+								$word = $value['meanings'][0]['text'];
+						}
+						if ($word != '') {
+							echo '<span class="click" onclick=""><img src="icn/tick-button.png" title="Copy" alt="Copy" /></span> &nbsp;' . $word . '<br />' . "\n";
+							$i++;
+						}
+					}
+					echo "</p>";
+					if ($i) {
+					echo '<p>&nbsp;<br/>' . $i . ' translation' . ($i==1 ? '' : 's') . ' retrieved via <a href="http://glosbe.com/a-api" target="_blank">Glosbe API</a>.</p>';
+					}
+		
+				} else {
+	
+					echo '<p>&nbsp;<br/>No translations found (' . tohtml($from) . '-' . tohtml($dest) . ').</p>';
+		
+				}
+	
+			} else {
+
+				echo '<p>&nbsp;<br/>Retrieval error (' . tohtml($from) . '-' . tohtml($dest) . ').</p>';
+
+			}
+		}
 	
 	}
 	
 } else {
 
-	echo "<h1>" . tohtml($phrase) . "</h1>\n";
-	echo "<p>No data available or retrieval error./p>";
+	echo '<p>Retrieval error (' . tohtml($from) . '-' . tohtml($dest) . ').</p>';
 
 }
+
+pageend();
 
 ?>
