@@ -35,6 +35,31 @@ $titeltext = '<a href="http://glosbe.com/' . $from . '/' . $dest . '/' . $phrase
 echo '<h3>' . $titeltext . '</h3>';
 echo '<p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy word(s) into above term)<br />&nbsp;</p>';
 
+?>
+<script type="text/javascript">
+//<![CDATA[
+function addTranslation (s) {
+	var w = window.parent.frames['ro'];
+	if (typeof w == 'undefined') w = window.opener;
+	if (typeof w == 'undefined') {
+		alert ('Translation can not be copied!');
+		return;
+	}
+	var c = w.document.forms[0].WoTranslation;
+	if (typeof c != 'object') {
+		alert ('Translation can not be copied!');
+		return;
+	}
+	var oldValue = c.value;
+	if (oldValue.trim() == '') 
+		c.value = s;
+	else
+		c.value = oldValue + ' / ' + s;
+}
+//]]>
+</script>
+<?php
+
 if ($from != '' && $dest != '' && $phrase != '') {
 
 	$glosbe_data = file_get_contents('http://glosbe.com/gapi/translate?from=' . urlencode($from) . '&dest=' . urlencode($dest) . '&format=json&phrase=' . urlencode($phrase));
@@ -64,10 +89,10 @@ if ( $ok ) {
 					$word = $value['phrase']['text'];
 			} else if (isset($value['meanings'])) {
 				if (isset($value['meanings'][0]['text']))
-					$word = $value['meanings'][0]['text'];
+					$word = "(" . $value['meanings'][0]['text'] . ")";
 			}
 			if ($word != '') {
-				echo '<span class="click" onclick=""><img src="icn/tick-button.png" title="Copy" alt="Copy" /></span> &nbsp;' . $word . '<br />' . "\n";
+				echo '<span class="click" onclick="addTranslation(' . prepare_textdata_js($word) . ');"><img src="icn/tick-button.png" title="Copy" alt="Copy" /></span> &nbsp;' . $word . '<br />' . "\n";
 				$i++;
 			}
 		}
@@ -118,10 +143,10 @@ if ( $ok ) {
 								$word = $value['phrase']['text'];
 						} else if (isset($value['meanings'])) {
 							if (isset($value['meanings'][0]['text']))
-								$word = $value['meanings'][0]['text'];
+								$word = "(" . $value['meanings'][0]['text'] . ")";
 						}
 						if ($word != '') {
-							echo '<span class="click" onclick=""><img src="icn/tick-button.png" title="Copy" alt="Copy" /></span> &nbsp;' . $word . '<br />' . "\n";
+							echo '<span class="click" onclick="addTranslation(' . prepare_textdata_js($word) . ');"><img src="icn/tick-button.png" title="Copy" alt="Copy" /></span> &nbsp;' . $word . '<br />' . "\n";
 							$i++;
 						}
 					}
