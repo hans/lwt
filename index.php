@@ -118,12 +118,14 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <li><a href="settings.php">Settings/Preferences</a>
 
 <?php
+// ********* WORDPRESS LOGOUT *********
 if (isset($_COOKIE['LWT-WP-User'])) {
 ?>
 	<br /><br /></li>
-<li><a href="../lwtstop.php"><span style="font-size:120%; font-weight:bold; color:red;">LOGOUT</span> (from WordPress and LWT)</a>
+<li><a href="../lwtstop.php"><span style="font-size:120%; font-weight:bold; color:red;">LOGOUT</span></a> (from WordPress and LWT)
 <?php
 }
+// ********* WORDPRESS LOGOUT *********
 ?>
 
 	<br /><br /></li>

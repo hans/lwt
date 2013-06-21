@@ -12,7 +12,7 @@ Developed by J. P. in 2011, 2012, 2013.
 ***************************************************************/
 
 /**************************************************************
-DB variables when integrated with WordPress
+DB variables when LWT is integrated with WordPress 
 ***************************************************************/
 
 $server = "....";		 // database server 

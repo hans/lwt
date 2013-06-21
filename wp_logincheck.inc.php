@@ -16,11 +16,11 @@ WordPress Login Check
 To be inserted in "connect.inc.php" when used with WordPress
 ***************************************************************/
 
-if (! isset($_COOKIE['LWT-WP-User'])) {
-	header("Location: ../wp-login.php?redirect_to=./lwtstart.php");
-	exit;
-} else {
+if (isset($_COOKIE['LWT-WP-User'])) {
 	$tbpref = $_COOKIE['LWT-WP-User'];
+} else {
+	header("Location: ../lwtstart.php");
+	exit;
 }
 
 ?>

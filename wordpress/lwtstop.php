@@ -13,9 +13,11 @@ Developed by J. P. in 2011, 2012, 2013.
 
 /**************************************************************
 lwtstop.php
+-----------
 This script must be installed into the WordPress main directory.
-To logout from WordPress and LWT:
-../lwtstop.php (called from index.php within LWT)
+To properly logout from both WordPress and LWT, use:
+http://...path-to-wp-blog.../lwtstop.php
+(link also provided on LWT main page)
 ***************************************************************/
 
 require_once( 'wp-load.php' );
