@@ -15,10 +15,10 @@ Developed by J. P. in 2011, 2012, 2013.
 DB variables when LWT is integrated with WordPress 
 ***************************************************************/
 
-$server = "....";		 // database server 
-$userid = "....";		 // database userid
-$passwd = "....";		 // database password
-$dbname = "....";    // database name
+$server = "....";  // database server 
+$userid = "....";  // database userid
+$passwd = "....";  // database password
+$dbname = "....";  // database name
 
 include "wp_logincheck.inc.php";    
 

@@ -12,19 +12,18 @@ Developed by J. P. in 2011, 2012, 2013.
 ***************************************************************/
 
 /**************************************************************
-lwtstop.php
------------
-This script must be installed into the WordPress main directory.
-To properly logout from both WordPress and LWT, use:
-http://...path-to-wp-blog.../lwtstop.php
-(link also provided on LWT main page)
+wp_lwt_stop.php
+---------------
+To properly log out from both WordPress and LWT, use:
+http://...path-to-wp-blog.../lwt/wp_lwt_stop.php
+(such a link is also provided on the LWT home page 'index.php')
 ***************************************************************/
 
-require_once( 'wp-load.php' );
+require_once( '../wp-load.php' );
 
 wp_logout();
 setcookie('LWT-WP-User', $wpuser, time() - 1000, '/');
-header("Location: ./wp-login.php?redirect_to=./lwtstart.php");
+header("Location: ../wp-login.php?redirect_to=./lwt/wp_lwt_start.php");
 exit;
 
 ?>

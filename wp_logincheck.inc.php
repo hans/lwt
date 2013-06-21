@@ -13,13 +13,13 @@ Developed by J. P. in 2011, 2012, 2013.
 
 /**************************************************************
 WordPress Login Check
-To be inserted in "connect.inc.php" when used with WordPress
+To be inserted in "connect.inc.php" when LWT used with WordPress
 ***************************************************************/
 
 if (isset($_COOKIE['LWT-WP-User'])) {
 	$tbpref = $_COOKIE['LWT-WP-User'];
 } else {
-	header("Location: ../lwtstart.php");
+	header("Location: ./wp_lwt_start.php");
 	exit;
 }
 

@@ -12,22 +12,21 @@ Developed by J. P. in 2011, 2012, 2013.
 ***************************************************************/
 
 /**************************************************************
-lwtstart.php
-------------
-This script must be installed into the WordPress main directory.
+wp_lwt_start.php
+----------------
 To start LWT (and to login into WordPress), use this URL:
-http://...path-to-wp-blog.../lwtstart.php
+http://...path-to-wp-blog.../lwt/wp_lwt_start.php
 Cookies must be enabled.
 The lwt installation must be in sub directory "lwt" under
-the WP main drectory.
+the WordPress main drectory.
 In the "lwt" directory, "connect.inc.php" must contain 
-include "wp_logincheck.inc.php"; 
+           include "wp_logincheck.inc.php"; 
 at the end!
-To properly logout from both WordPress and LWT, use:
-http://...path-to-wp-blog.../lwtstop.php
+To properly log out from both WordPress and LWT, use:
+http://...path-to-wp-blog.../lwt/wp_lwt_stop.php
 ***************************************************************/
 
-require_once( 'wp-load.php' );
+require_once( '../wp-load.php' );
 
 if (is_user_logged_in()){
 	global $current_user;
@@ -36,12 +35,12 @@ if (is_user_logged_in()){
 	$wpuser = $current_user->ID;
 
 	setcookie('LWT-WP-User', $wpuser, time() + 60*60*18, '/');
-	header("Location: ./lwt/index.php");
+	header("Location: ./index.php");
 	exit;
 }
 else { 
 	setcookie('LWT-WP-User', $wpuser, time() - 1000, '/');
-	header("Location: ./wp-login.php?redirect_to=./lwtstart.php");
+	header("Location: ../wp-login.php?redirect_to=./lwt/wp_lwt_start.php");
 	exit;
 }
 

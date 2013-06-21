@@ -581,7 +581,7 @@ Developed by J. P. in 2011, 2012, 2013.
           </li>
           
           <li>
-            The icons in the "icn" sub directory are Copyright &copy; <a href="http://p.yusukekamiyamane.com/" target="_blank">Yusuke Kamiyamane</a>. All rights reserved. Licensed under a <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Creative Commons Attribution 3.0 license</a>.
+            The icons in the "icn" subdirectory are Copyright &copy; <a href="http://p.yusukekamiyamane.com/" target="_blank">Yusuke Kamiyamane</a>. All rights reserved. Licensed under a <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Creative Commons Attribution 3.0 license</a>.
             <br />
             <br />
           </li>
@@ -1300,7 +1300,7 @@ Developed by J. P. in 2011, 2012, 2013.
             <b><a name="howtolang" id="howtotext">New/Edit Text (with Check)</a></b>
             <br />
             <br />
-            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" sub directory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files, but be aware that not all browsers and/or operating systems support all media types! If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
+            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" subdirectory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files, but be aware that not all browsers and/or operating systems support all media types! If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
             <br />
             <br />
             <img class="grayborder" src="img/05.jpg" alt="Image" />
@@ -2028,9 +2028,27 @@ with audioplayer", if needed.</li>
 
       <dd>
         <ul>
-        	<li>Not yet done.
+        	<li>The following instructions are for users who have installed WordPress, and want to install LWT for multiple WordPress users in conjunction with WordPress authentification. Every WordPress user will have his/her own LWT table set. 
           </li>
         </ul>
+        <ol>
+        	<li><a href="http://wordpress.org/" target="_blank">Download</a> and install WordPress. 
+          </li>
+        	<li><a href="http://sourceforge.net/projects/lwt/files/" target="_blank">Download</a> and install LWT into a new subdirectory "lwt", located in the main directory of your WordPress installation.
+          </li>
+        	<li>In subdirectory "lwt", rename the file <i>connect_wordpress.inc.php</i> into <i>connect.inc.php</i>, and enter the database parameters $server (database server), $userid (database user id), $passwd (database password), and $dbname (database name, can be the same like your wordpress database, or a different one) by editing the file with a text editor. 
+          </li>
+        	<li>In the WordPress General Settings, decide whether anyone can register and use LWT (Membership = "Anyone can register"), or not (an administrator must create new users). The "New User Default Role" should be "Subscriber".
+          </li>
+        	<li>The link to start LWT (with WordPress authentification) is: <br />
+					http://...path-to-wp-blog.../lwt/wp_lwt_start.php<br />
+					Cookies must be enabled. 
+					</li>
+        	<li>To properly log out from both WordPress and LWT, use the link:<br />
+					http://...path-to-wp-blog.../lwt/wp_lwt_stop.php<br />
+					The LWT home page has a link to logout.
+          </li>
+        </ol>
       </dd>
       
       <dt>
