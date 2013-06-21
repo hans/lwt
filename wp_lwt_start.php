@@ -16,7 +16,7 @@ wp_lwt_start.php
 ----------------
 To start LWT (and to login into WordPress), use this URL:
 http://...path-to-wp-blog.../lwt/wp_lwt_start.php
-Cookies must be enabled.
+Cookies must be enabled. A session cookie will be set.
 The lwt installation must be in sub directory "lwt" under
 the WordPress main drectory.
 In the "lwt" directory, "connect.inc.php" must contain 
@@ -34,7 +34,7 @@ if (is_user_logged_in()){
 	get_currentuserinfo();
 	$wpuser = $current_user->ID;
 
-	setcookie('LWT-WP-User', $wpuser, time() + 60*60*18, '/');
+	setcookie('LWT-WP-User', $wpuser, 0, '/');
 	header("Location: ./index.php");
 	exit;
 }

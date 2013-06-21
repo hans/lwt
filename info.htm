@@ -2040,13 +2040,16 @@ with audioplayer", if needed.</li>
           </li>
         	<li>In the WordPress General Settings, decide whether anyone can register and use LWT (Membership = "Anyone can register"), or not (an administrator must create new users). The "New User Default Role" should be "Subscriber".
           </li>
-        	<li>The link to start LWT (with WordPress authentification) is: <br />
-					http://...path-to-wp-blog.../lwt/<br />
-					Cookies must be enabled. 
+        	<li>The link to start LWT with <b>complete</b> WordPress authentification is: <br />
+					<i>http://...path-to-wp-blog.../lwt/wp_lwt_start.php</i>
+					</li>
+        	<li>The link to start LWT (without WordPress authentification, only by checking the session cookie that is valid until the browser is closed) is: <br />
+					<i>http://...path-to-wp-blog.../lwt/</i><br />
+					If the session cookie does not exist, both above start methods are the same. 
 					</li>
         	<li>To properly log out from both WordPress and LWT, use the link:<br />
-					http://...path-to-wp-blog.../lwt/wp_lwt_stop.php<br />
-					The LWT home page has such a link. If you only log out via the links on the WordPress pages, you will be still able to use LWT (as long as the cookie exists - approx. 18 hours.). If you want to log out from both WordPress and LWT, use the above link, or the link on the LWT home page!
+					<i>http://...path-to-wp-blog.../lwt/wp_lwt_stop.php</i><br />
+					The LWT home page has such a link. If you only log out via the links on the WordPress pages, you will still be  able to use LWT until the browser is closed. If you want to log out from both WordPress and LWT, use the above link, or click on the link on the LWT home page!
           </li>
           <li>If you delete a user, you must find out its user number (table "wp_users"). After deleting the user in WordPress, you can delete all LWT tables with table names beginning with the user number plus an underscore "_". You can do this in phpMyAdmin. 
 					</li>
