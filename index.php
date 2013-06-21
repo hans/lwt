@@ -116,6 +116,16 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <li><a href="backup_restore.php">Backup/Restore/Empty Database</a>
 	<br /><br /></li>
 <li><a href="settings.php">Settings/Preferences</a>
+
+<?php
+if (isset($_COOKIE['LWT-WP-User'])) {
+?>
+	<br /><br /></li>
+<li><a href="../lwtstop.php"><span style="font-size:120%; font-weight:bold; color:red;">LOGOUT</span> (from WordPress and LWT)</a>
+<?php
+}
+?>
+
 	<br /><br /></li>
 <li><a href="info.htm">Help/Information</a></li>
 <li><a href="mobile.php">Mobile LWT (Experimental)</a></li>
