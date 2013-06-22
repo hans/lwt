@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.6 (June 22 2013)'  . 
+	return '1.5.7 (June 24 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -3127,6 +3127,12 @@ function check_update_db() {
 			runsql("ALTER TABLE " . $tbpref . "texts ADD TxAnnotatedText LONGTEXT NOT NULL AFTER TxText",'');
 			runsql("ALTER TABLE " . $tbpref . "archivedtexts ADD AtAnnotatedText LONGTEXT NOT NULL AFTER AtText",'');
 		}
+		if ($currversion > 'v001005006') {
+			if ($debug) echo '<p>DEBUG: Doing db-upgrade ' . $currversion . ' &gt; v001005006</p>';
+			// updates for all versions > 1.5.6 (missing default values):
+			runsql("ALTER TABLE " . $tbpref . "tags CHANGE TgComment TgComment VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ''",'');
+			runsql("ALTER TABLE " . $tbpref . "tags2 CHANGE T2Comment T2Comment VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ''",'');
+		}
 		// set to current.
 		saveSetting('dbversion',$currversion);
 	}
@@ -3163,6 +3169,9 @@ $err = @mysql_connect($server,$userid,$passwd);
 if ($err == FALSE) die('DB connect error (MySQL not running or connection parameters are wrong; start MySQL and/or correct file "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
 
 @mysql_query("SET NAMES 'utf8'");
+
+// @mysql_query("SET SESSION sql_mode = 'STRICT_ALL_TABLES'");
+@mysql_query("SET SESSION sql_mode = ''");
 
 $err = @mysql_select_db($dbname);
 if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . $dbname . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');

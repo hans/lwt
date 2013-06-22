@@ -239,12 +239,11 @@ elseif (isset($_REQUEST['op'])) {
 		// INSERT
 		
 		elseif (substr($_REQUEST['op'],0,4) == 'Save') {
-			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAudioURI) values( ' . 
+			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI) values( ' . 
 			$_REQUEST["TxLgID"] . ', ' . 
 			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
-			convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
-			')', "Saved");
+			convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ", '', " .
+			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ')', "Saved");
 			$id = get_last_key();
 			saveTextTags($id);
 		} 
