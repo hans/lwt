@@ -78,11 +78,12 @@ elseif (isset($_REQUEST['op'])) {
 	// INSERT
 	
 	if ($_REQUEST['op'] == 'Save')
-		$message = runsql('insert into ' . $tbpref . 'languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft) values(' . 
+		$message = runsql('insert into ' . $tbpref . 'languages (LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgExportTemplate, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft) values(' . 
 		convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' .
 		convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', '. 
 		convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', '.
 		convert_string_to_sqlsyntax($_REQUEST["LgGoogleTranslateURI"]) . ', '.
+		convert_string_to_sqlsyntax($_REQUEST["LgExportTemplate"]) . ', '.
 		$_REQUEST["LgTextSize"] . ', '.
 		convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgCharacterSubstitutions"]) . ', '.
 		convert_string_to_sqlsyntax($_REQUEST["LgRegexpSplitSentences"]) . ', '.
@@ -101,6 +102,7 @@ elseif (isset($_REQUEST['op'])) {
 		'LgDict1URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', ' .
 		'LgDict2URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict2URI"]) . ', ' .
 		'LgGoogleTranslateURI = ' . convert_string_to_sqlsyntax($_REQUEST["LgGoogleTranslateURI"]) . ', ' .
+		'LgExportTemplate = ' . convert_string_to_sqlsyntax($_REQUEST["LgExportTemplate"]) . ', ' .
 		'LgTextSize = ' . $_REQUEST["LgTextSize"] . ', ' .
 		'LgCharacterSubstitutions = ' . convert_string_to_sqlsyntax_notrim_nonull($_REQUEST["LgCharacterSubstitutions"]) . ', ' .
 		'LgRegexpSplitSentences = ' . convert_string_to_sqlsyntax($_REQUEST["LgRegexpSplitSentences"]) . ', ' .
@@ -169,6 +171,10 @@ if (isset($_REQUEST['new'])) {
 	<tr>
 	<td class="td1 right">Right-To-Left Script:</td>
 	<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions(0); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu, etc.)</td>
+	</tr>
+	<tr>
+	<td class="td1 right">Export Template:</td>
+	<td class="td1"><input type="text" name="LgExportTemplate" value="" maxlength="1000" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
@@ -249,11 +255,15 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions($record['LgRightToLeft']); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu,  etc.)</td>
 		</tr>
 		<tr>
+		<td class="td1 right">Export Template:</td>
+		<td class="td1"><input type="text" name="LgExportTemplate" value="<?php echo tohtml($record['LgExportTemplate']); ?>" maxlength="1000" size="60" /></td>
+		</tr>
+		<tr>
 		<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>
-		<p class="smallgray"><b>Warning:</b> Changing certain language settings may cause partial or complete loss of improved annotated texts!</p>
+		<p class="smallgray"><b>Warning:</b> Changing certain language settings (e.g. RegExp Word Characters, etc.)<br />may cause partial or complete loss of improved annotated texts!</p>
 		</form>
 		<?php
 
@@ -292,11 +302,12 @@ if ($recno==0) {
 <th class="th1 sorttable_numeric clickable">Texts,<br />Re-Parse</th>
 <th class="th1 sorttable_numeric clickable">Arch.<br />Texts</th>
 <th class="th1 sorttable_numeric clickable">Terms</th>
+<th class="th1 sorttable_nosort">Export<br />Template?</th>
 </tr>
 
 <?php
 
-$sql = 'select LgID, LgName from ' . $tbpref . 'languages order by LgName';
+$sql = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages order by LgName';
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
@@ -327,6 +338,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($archtextcount > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $archtextcount . '</a>' : '0' ) . '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($wordcount > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=' . $record['LgID'] . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=">' . $wordcount . '</a>' : '0' ) . '</' . $tdth . '>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . (isset($record['LgExportTemplate']) ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />' ) . '</' . $tdth . '>';
 	echo '</tr>';
 }
 mysql_free_result($res);
