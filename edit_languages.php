@@ -173,7 +173,7 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions(0); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu, etc.)</td>
 	</tr>
 	<tr>
-	<td class="td1 right">Export Template:</td>
+	<td class="td1 right">Export Template <img class="click" src="icn/question-frame.png" title="Help" alt="Help" onclick="oewin('info_export_template.htm');" /> :</td>
 	<td class="td1"><input type="text" name="LgExportTemplate" value="" maxlength="1000" size="60" /></td>
 	</tr>
 	<tr>
@@ -255,7 +255,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions($record['LgRightToLeft']); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu,  etc.)</td>
 		</tr>
 		<tr>
-		<td class="td1 right">Export Template:</td>
+		<td class="td1 right">Export Template <img class="click" src="icn/question-frame.png" title="Help" alt="Help" onclick="oewin('info_export_template.htm');" /> :</td>
 		<td class="td1"><input type="text" name="LgExportTemplate" value="<?php echo tohtml($record['LgExportTemplate']); ?>" maxlength="1000" size="60" /></td>
 		</tr>
 		<tr>
