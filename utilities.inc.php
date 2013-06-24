@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.7 (June 24 2013)'  . 
+	return '1.5.7 (June 25 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1938,18 +1938,87 @@ function tsv_export($sql) {
 // -------------------------------------------------------------
 
 function flexible_export($sql) {
+	// WoID, LgName, LgExportTemplate, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, WoStatus, taglist
 	$res = mysql_query($sql);
 	$x = '';		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	while ($record = mysql_fetch_assoc($res)) {
-		// not yet finished
-		$x .= "";
+		if (isset($record['LgExportTemplate'])) {
+			$woid = $record['WoID'] + 0;
+			$langname = repl_tab_nl($record['LgName']);
+			$term = repl_tab_nl($record['WoText']);
+			$term_lc = repl_tab_nl($record['WoTextLC']);
+			$transl = repl_tab_nl($record['WoTranslation']);
+			$rom = repl_tab_nl($record['WoRomanization']);
+			$sent_raw = repl_tab_nl($record['WoSentence']);
+			$sent = str_replace('{','',str_replace('}','',$sent_raw));
+			$sent_c = mask_term_in_sentence_v2($sent_raw);
+			$sent_d = str_replace('{','[',str_replace('}',']',$sent_raw));
+			$sent_x = str_replace('{','{{c1::',str_replace('}','}}',$sent_raw));
+			$sent_y = str_replace('{','{{c1::',str_replace('}','::' . $transl . '}}',$sent_raw));
+			$status = $record['WoStatus'] + 0;
+			$taglist = trim($record['taglist']);
+			$xx = repl_tab_nl($record['LgExportTemplate']);	
+			$xx = str_replace('%w',$term,$xx);		
+			$xx = str_replace('%t',$transl,$xx);		
+			$xx = str_replace('%s',$sent,$xx);		
+			$xx = str_replace('%c',$sent_c,$xx);		
+			$xx = str_replace('%d',$sent_d,$xx);		
+			$xx = str_replace('%r',$rom,$xx);		
+			$xx = str_replace('%a',$status,$xx);		
+			$xx = str_replace('%k',$term_lc,$xx);		
+			$xx = str_replace('%z',$taglist,$xx);		
+			$xx = str_replace('%l',$langname,$xx);		
+			$xx = str_replace('%n',$woid,$xx);		
+			$xx = str_replace('%%','%',$xx);		
+			$xx = str_replace('$w',tohtml($term),$xx);		
+			$xx = str_replace('$t',tohtml($transl),$xx);		
+			$xx = str_replace('$s',tohtml($sent),$xx);		
+			$xx = str_replace('$c',tohtml($sent_c),$xx);		
+			$xx = str_replace('$d',tohtml($sent_d),$xx);		
+			$xx = str_replace('$x',tohtml($sent_x),$xx);		
+			$xx = str_replace('$y',tohtml($sent_y),$xx);		
+			$xx = str_replace('$r',tohtml($rom),$xx);		
+			$xx = str_replace('$k',tohtml($term_lc),$xx);		
+			$xx = str_replace('$z',tohtml($taglist),$xx);		
+			$xx = str_replace('$l',tohtml($langname),$xx);		
+			$xx = str_replace('$$','$',$xx);		
+			$xx = str_replace('\\t',"\t",$xx);		
+			$xx = str_replace('\\n',"\n",$xx);		
+			$xx = str_replace('\\r',"\r",$xx);		
+			$xx = str_replace('\\\\','\\',$xx);		
+			$x .= $xx;
+		}
 	}
 	mysql_free_result($res);
 	header('Content-type: text/plain; charset=utf-8');
 	header("Content-disposition: attachment; filename=lwt_flexible_export_" . date('Y-m-d-H-i-s') . ".txt");
 	echo $x;
 	exit();
+}
+
+// -------------------------------------------------------------
+
+function mask_term_in_sentence_v2($s) {
+	$l = mb_strlen($s,'utf-8');
+	$r = '';
+	$on = 0;
+	for ($i=0; $i < $l; $i++) {
+		$c = mb_substr($s, $i, 1, 'UTF-8');
+		if ($c == '}') { 
+			$on = 0;
+			continue;
+		}
+		if ($c == '{') {
+			$on = 1;
+			$r .= '[...]';
+			continue;
+		}
+		if ($on == 0) {
+			$r .= $c;
+		}
+	}
+	return $r;
 }
 
 // -------------------------------------------------------------

@@ -35,9 +35,11 @@ Info Export Templates
       Information about Export Templates
     </h3>
     
-    <p>An export template consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, see the following table. For each term (word or expression), that has been selected for export, and that has a non-empty translation or a translation not equal "*", the placeholders of the export template will be replaced by the term data and the string will be written to the export file. </p>
+    <p>An export template consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, see the following table. For each term (word or expression), that has been selected for export, the placeholders of the export template will be replaced by the term data and the string will be written to the export file. </p>
     
-    <p>A template must end with either "\n" (UNIX, Mac), or "\r\n" (Windows), or "\r" (Mac). If you omit this, all term data will be in one single line.</p>
+    <p>A template must end with either "\n" (UNIX, Mac), or "\r\n" (Windows), or "\r" (Mac). If you omit this, all term data will be in one single line!</p>
+
+    <p>If the export template is empty, nothing will be exported.</p>
 
 		<table class="tab3" cellspacing="0" cellpadding="5">
 			<tr class="tr1">
