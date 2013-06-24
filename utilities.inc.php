@@ -1938,7 +1938,7 @@ function tsv_export($sql) {
 // -------------------------------------------------------------
 
 function flexible_export($sql) {
-	// WoID, LgName, LgExportTemplate, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, WoStatus, taglist
+	// WoID, LgName, LgExportTemplate, LgRightToLeft, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, WoStatus, taglist
 	$res = mysql_query($sql);
 	$x = '';		
 	if ($res == FALSE) die("Invalid Query: $sql");
@@ -1946,6 +1946,9 @@ function flexible_export($sql) {
 		if (isset($record['LgExportTemplate'])) {
 			$woid = $record['WoID'] + 0;
 			$langname = repl_tab_nl($record['LgName']);
+			$rtlScript = $record['LgRightToLeft'];
+			$span1 = ($rtlScript ? '<span dir="rtl">' : '');
+			$span2 = ($rtlScript ? '</span>' : '');
 			$term = repl_tab_nl($record['WoText']);
 			$term_lc = repl_tab_nl($record['WoTextLC']);
 			$transl = repl_tab_nl($record['WoTranslation']);
@@ -1971,15 +1974,15 @@ function flexible_export($sql) {
 			$xx = str_replace('%l',$langname,$xx);		
 			$xx = str_replace('%n',$woid,$xx);		
 			$xx = str_replace('%%','%',$xx);		
-			$xx = str_replace('$w',tohtml($term),$xx);		
+			$xx = str_replace('$w',$span1 . tohtml($term) . $span2,$xx);		
 			$xx = str_replace('$t',tohtml($transl),$xx);		
-			$xx = str_replace('$s',tohtml($sent),$xx);		
-			$xx = str_replace('$c',tohtml($sent_c),$xx);		
-			$xx = str_replace('$d',tohtml($sent_d),$xx);		
-			$xx = str_replace('$x',tohtml($sent_x),$xx);		
-			$xx = str_replace('$y',tohtml($sent_y),$xx);		
+			$xx = str_replace('$s',$span1 . tohtml($sent) . $span2,$xx);		
+			$xx = str_replace('$c',$span1 . tohtml($sent_c) . $span2,$xx);		
+			$xx = str_replace('$d',$span1 . tohtml($sent_d) . $span2,$xx);		
+			$xx = str_replace('$x',$span1 . tohtml($sent_x) . $span2,$xx);		
+			$xx = str_replace('$y',$span1 . tohtml($sent_y) . $span2,$xx);		
 			$xx = str_replace('$r',tohtml($rom),$xx);		
-			$xx = str_replace('$k',tohtml($term_lc),$xx);		
+			$xx = str_replace('$k',$span1 . tohtml($term_lc) . $span2,$xx);		
 			$xx = str_replace('$z',tohtml($taglist),$xx);		
 			$xx = str_replace('$l',tohtml($langname),$xx);		
 			$xx = str_replace('$$','$',$xx);		
