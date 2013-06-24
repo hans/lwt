@@ -167,7 +167,7 @@ if (isset($_REQUEST['markaction'])) {
 						$count++;
 					}
 					mysql_free_result($res);
-					$message = 'Text(s) re-parsed: ' . $count;
+					$message = 'Text(s) reparsed: ' . $count;
 				}
 				
 				elseif ($markaction == 'test' ) {

@@ -96,7 +96,36 @@ elseif (isset($_REQUEST['op'])) {
 	
 	// UPDATE
 	
-	elseif ($_REQUEST['op'] == 'Change')
+	elseif ($_REQUEST['op'] == 'Change') {
+		// Get old values
+		$sql = "select * from " . $tbpref . "languages where LgID=" . $_REQUEST["LgID"];
+		$res = mysql_query($sql);		
+		if ($res == FALSE) die("Invalid Query: $sql");
+		$record = mysql_fetch_assoc($res);
+		if ($record == FALSE) die("No results: $sql");
+		$oldCharacterSubstitutions = $record['LgCharacterSubstitutions'];
+		$oldRegexpSplitSentences = $record['LgRegexpSplitSentences'];
+		$oldExceptionsSplitSentences = $record['LgExceptionsSplitSentences'];
+		$oldRegexpWordCharacters = $record['LgRegexpWordCharacters'];
+		$oldRemoveSpaces = $record['LgRemoveSpaces'];
+		$oldSplitEachChar = $record['LgSplitEachChar'];
+		mysql_free_result($res);
+	
+		$needReParse = 
+		(convert_string_to_sqlsyntax_notrim_nonull( $_REQUEST["LgCharacterSubstitutions"]) != convert_string_to_sqlsyntax_notrim_nonull( $oldCharacterSubstitutions)) 
+			||
+		(convert_string_to_sqlsyntax( $_REQUEST["LgRegexpSplitSentences"]) != convert_string_to_sqlsyntax( $oldRegexpSplitSentences)) 
+			||
+		(convert_string_to_sqlsyntax_notrim_nonull( $_REQUEST["LgExceptionsSplitSentences"]) != convert_string_to_sqlsyntax_notrim_nonull( $oldExceptionsSplitSentences)) 
+			||
+		(convert_string_to_sqlsyntax( $_REQUEST["LgRegexpWordCharacters"]) != convert_string_to_sqlsyntax( $oldRegexpWordCharacters)) 
+			||
+		($_REQUEST["LgRemoveSpaces"] != $oldRemoveSpaces) 
+			||
+		($_REQUEST["LgSplitEachChar"] != $oldSplitEachChar) 
+			;
+		$needReParse = ($needReParse ? 1 : 0);
+	
 		$message = runsql('update ' . $tbpref . 'languages set ' . 
 		'LgName = ' . convert_string_to_sqlsyntax($_REQUEST["LgName"]) . ', ' . 
 		'LgDict1URI = ' . convert_string_to_sqlsyntax($_REQUEST["LgDict1URI"]) . ', ' .
@@ -112,6 +141,32 @@ elseif (isset($_REQUEST['op'])) {
 		'LgSplitEachChar = ' . $_REQUEST["LgSplitEachChar"] . ', ' . 
 		'LgRightToLeft = ' . $_REQUEST["LgRightToLeft"] . 
 		' where LgID = ' . $_REQUEST["LgID"], 'Updated');
+		
+		if ($needReParse) {
+			$id = $_REQUEST["LgID"] + 0;
+			runsql('delete from ' . $tbpref . 'sentences where SeLgID = ' . $id, 
+				"Sentences deleted");
+			runsql('delete from ' . $tbpref . 'textitems where TiLgID = ' . $id, 
+				"Text items deleted");
+			adjust_autoincr('sentences','SeID');
+			adjust_autoincr('textitems','TiID');
+			$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
+			$res = mysql_query($sql);		
+			if ($res == FALSE) die("Invalid Query: $sql");
+			$cntrp = 0;
+			while ($record = mysql_fetch_assoc($res)) {
+				$txtid = $record["TxID"];
+				$txttxt = $record["TxText"];
+				splitText($txttxt, $id, $txtid );
+				$cntrp++;
+			}
+			mysql_free_result($res);
+			$message .= " / Reparsed texts: " . $cntrp;
+		} else {
+			$message .= " / Reparsing not needed";
+		}
+
+	}
 
 }
 
@@ -299,7 +354,7 @@ if ($recno==0) {
 <th class="th1 sorttable_nosort">Test<br />↓↓↓</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <th class="th1 clickable">Language</th>
-<th class="th1 sorttable_numeric clickable">Texts,<br />Re-Parse</th>
+<th class="th1 sorttable_numeric clickable">Texts,<br />Reparse</th>
 <th class="th1 sorttable_numeric clickable">Arch.<br />Texts</th>
 <th class="th1 sorttable_numeric clickable">Terms</th>
 <th class="th1 sorttable_nosort">Export<br />Template?</th>
@@ -332,9 +387,9 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '&nbsp;</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . tohtml($record['LgName']) . '</' . $tdth . '>';
 	if ($textcount > 0) 
-		echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="edit_texts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $textcount . '</a> &nbsp;&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?refresh=' . $record['LgID'] . '"><img src="icn/lightning.png" title="Re-Parse Texts" alt="Re-Parse Texts" /></a>';
+		echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="edit_texts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $textcount . '</a> &nbsp;&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?refresh=' . $record['LgID'] . '"><img src="icn/lightning.png" title="Reparse Texts" alt="Reparse Texts" /></a>';
 	else
-		echo '<' . $tdth . ' class="' . $tdth . '1 center">0 &nbsp;&nbsp; <img src="icn/placeholder.png" title="No texts to re-parse" alt="No texts to re-parse" />';
+		echo '<' . $tdth . ' class="' . $tdth . '1 center">0 &nbsp;&nbsp; <img src="icn/placeholder.png" title="No texts to reparse" alt="No texts to reparse" />';
 	echo '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($archtextcount > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $archtextcount . '</a>' : '0' ) . '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($wordcount > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=' . $record['LgID'] . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=">' . $wordcount . '</a>' : '0' ) . '</' . $tdth . '>';
