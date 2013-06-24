@@ -2271,6 +2271,25 @@ function get_setting_data() {
 
 // -------------------------------------------------------------
 
+function reparse_all_texts() {
+	global $tbpref;
+	runsql('TRUNCATE ' . $tbpref . 'sentences','');
+	runsql('TRUNCATE ' . $tbpref . 'textitems','');
+	adjust_autoincr('sentences','SeID');
+	adjust_autoincr('textitems','TiID');
+	$sql = "select TxID, TxLgID from " . $tbpref . "texts";
+	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid Query: $sql");
+	while ($record = mysql_fetch_assoc($res)) {
+		$id = $record['TxID'];
+		splitText(
+			get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id );
+	}
+	mysql_free_result($res);
+}
+
+// -------------------------------------------------------------
+
 function getLanguage($lid) {
 	global $tbpref;
 	if ( ! isset($lid) ) return '';
@@ -2640,19 +2659,7 @@ function restore_file($handle, $title) {
 	} // while (! feof($handle))
 	gzclose ($handle);
 	if ($errors == 0) {
-		runsql('TRUNCATE ' . $tbpref . 'sentences','');
-		runsql('TRUNCATE ' . $tbpref . 'textitems','');
-		adjust_autoincr('sentences','SeID');
-		adjust_autoincr('textitems','TiID');
-		$sql = "select TxID, TxLgID from " . $tbpref . "texts";
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
-		while ($record = mysql_fetch_assoc($res)) {
-			$id = $record['TxID'];
-			splitText(
-				get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id );
-		}
-		mysql_free_result($res);
+		reparse_all_texts();
 		optimizedb();
 		$message = "Success: " . $title . " restored - " .
 		$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
@@ -3155,19 +3162,7 @@ function check_update_db() {
 	if ($count > 0) {		
 		// Rebuild Text Cache if cache tables new
 		if ($debug) echo '<p>DEBUG: rebuilding cache tables</p>';
-		$sql = "select TxID, TxLgID from " . $tbpref . "texts";
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
-		while ($record = mysql_fetch_assoc($res)) {
-			$id = $record['TxID'];
-			runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "");
-			runsql('delete from ' . $tbpref . 'textitems where TiTxID = ' . $id, "");
-			adjust_autoincr('sentences','SeID');
-			adjust_autoincr('textitems','TiID');
-			splitText(
-				get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id );
-		}
-		mysql_free_result($res);
+		reparse_all_texts();
 	}
 	
 	// Version
