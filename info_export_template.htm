@@ -35,9 +35,9 @@ Info Export Templates
       Information about Export Templates
     </h3>
     
-    <p>An export template consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, see the following table. For each term (word or expression), that has been selected for export, and that has a non-empty translation or a translation not equal "*", an export line will be written to the export file. </p>
+    <p>An export template consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, see the following table. For each term (word or expression), that has been selected for export, and that has a non-empty translation or a translation not equal "*", the placeholders of the export template will be replaced by the term data and the string will be written to the export file. </p>
     
-    <p>A template must end with either "\n" (UNIX, Mac), or "\r\n" (Windows), or "\r" (Mac). If you omit this, all data will be in one single line.
+    <p>A template must end with either "\n" (UNIX, Mac), or "\r\n" (Windows), or "\r" (Mac). If you omit this, all term data will be in one single line.</p>
 
 		<table class="tab3" cellspacing="0" cellpadding="5">
 			<tr class="tr1">
@@ -132,6 +132,15 @@ Info Export Templates
 
 			<tr class="tr1">
 				<td class="td1 center">
+					%z
+				</td>
+				<td class="td1">
+					Tag List - as <b>raw text</b>.
+				</td>
+			</tr>
+
+			<tr class="tr1">
+				<td class="td1 center">
 					%l
 				</td>
 				<td class="td1">
@@ -144,7 +153,16 @@ Info Export Templates
 					%n
 				</td>
 				<td class="td1">
-					Word Number in LWT - as <b>raw text</b>.
+					Word Number in LWT (key in table "words") - as <b>raw text</b>.
+				</td>
+			</tr>
+
+			<tr class="tr1">
+				<td class="td1 center">
+					%%
+				</td>
+				<td class="td1">
+					Just one percent sign "%".
 				</td>
 			</tr>
 
@@ -240,6 +258,15 @@ Info Export Templates
 
 			<tr class="tr1">
 				<td class="td1 center">
+					$z
+				</td>
+				<td class="td1">
+					Tag List - as <b>HTML text</b>.
+				</td>
+			</tr>
+
+			<tr class="tr1">
+				<td class="td1 center">
 					$l
 				</td>
 				<td class="td1">
@@ -248,11 +275,20 @@ Info Export Templates
 			</tr>
 
 			<tr class="tr1">
+				<td class="td1 center">
+					$$
+				</td>
+				<td class="td1">
+					Just one dollar sign "$".
+				</td>
+			</tr>
+
+			<tr class="tr1">
 				<th class="th1">
-					Other
+					\...
 				</th>
 				<th class="th1">
-					Special Text
+					Special Characters
 				</th>
 			</tr>
 
@@ -285,10 +321,10 @@ Info Export Templates
 
 			<tr class="tr1">
 				<td class="td1 center">
-					\\, $$, %%
+					\\
 				</td>
 				<td class="td1">
-					Just a backslash "\", or a dollar sign "$", or a percent sign "%".
+					Just one backslash "\".
 				</td>
 			</tr>
 

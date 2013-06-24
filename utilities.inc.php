@@ -1440,6 +1440,7 @@ function get_multiplewordsactions_selectoptions() {
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"exp\">Export Marked Terms (Anki)</option>";
 	$r .= "<option value=\"exp2\">Export Marked Terms (TSV)</option>";
+	$r .= "<option value=\"exp3\">Export Marked Terms (Flexible)</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"del\">Delete Marked Terms</option>";
 	return $r;
@@ -1479,6 +1480,7 @@ function get_allwordsactions_selectoptions() {
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"expall\">Export ALL Terms (Anki)</option>";
 	$r .= "<option value=\"expall2\">Export ALL Terms (TSV)</option>";
+	$r .= "<option value=\"expall3\">Export ALL Terms (Flexible)</option>";
 	$r .= "<option disabled=\"disabled\">------------</option>";
 	$r .= "<option value=\"delall\">Delete ALL Terms</option>";
 	return $r;
@@ -1904,7 +1906,7 @@ function anki_export($sql) {
 	}
 	mysql_free_result($res);
 	header('Content-type: text/plain; charset=utf-8');
-	header("Content-disposition: attachment; filename=lwt_anki_export.txt");
+	header("Content-disposition: attachment; filename=lwt_anki_export_" . date('Y-m-d-H-i-s') . ".txt");
 	echo $x;
 	exit();
 }
@@ -1928,7 +1930,24 @@ function tsv_export($sql) {
 	}
 	mysql_free_result($res);
 	header('Content-type: text/plain; charset=utf-8');
-	header("Content-disposition: attachment; filename=lwt_tsv_export.txt");
+	header("Content-disposition: attachment; filename=lwt_tsv_export_" . date('Y-m-d-H-i-s') . ".txt");
+	echo $x;
+	exit();
+}
+
+// -------------------------------------------------------------
+
+function flexible_export($sql) {
+	$res = mysql_query($sql);
+	$x = '';		
+	if ($res == FALSE) die("Invalid Query: $sql");
+	while ($record = mysql_fetch_assoc($res)) {
+		// not yet finished
+		$x .= "";
+	}
+	mysql_free_result($res);
+	header('Content-type: text/plain; charset=utf-8');
+	header("Content-disposition: attachment; filename=lwt_flexible_export_" . date('Y-m-d-H-i-s') . ".txt");
 	echo $x;
 	exit();
 }

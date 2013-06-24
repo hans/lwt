@@ -1250,12 +1250,16 @@ Developed by J. P. in 2011, 2012, 2013.
 
               <li>"Remove spaces" is another option for Chinese, etc. It removes all spaces from the text (and the example sentences). See also <a href="#langsetup">this table</a>.<br /> <br />
               </li>
-              <li>"Right-To-Left Script" must be set to "Yes" if the language/script is written from right to left, like Arabic, Hebrew, Farsi, Urdu, etc. 
+              
+              <li>"Right-To-Left Script" must be set to "Yes" if the language/script is written from right to left, like Arabic, Hebrew, Farsi, Urdu, etc. <br /> <br />
+              </li>
+              
+              <li><a name="extmpl"></a>"Export Template". The export template controls "Flexible" Term Exports for the terms of that language. It consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, <a target="_blank" href="info_export_template.htm">see this table</a>. For each term (word or expression), that has been selected for export, and that has a non-empty translation or a translation not equal "*", the placeholders of the export template will be replaced by the term data and the string will be written to the export file.
               </li>
             </ul>
 
             <br />
-            To understand all these options, please study <a href="#langsetup">this</a>, look at the examples and play around with different settings and different texts.
+            To understand all these options, please study also <a href="#langsetup">this</a>, look at the examples and play around with different settings and different texts.
             <br />
             <br />
             <img class="grayborder" src="img/03.jpg" alt="Image" />
@@ -2104,7 +2108,7 @@ with audioplayer", if needed.</li>
             <br />
             LgGoogleTranslateURI varchar(200) DEFAULT NULL,
             <br />
-            LgGoogleTTSURI varchar(200) DEFAULT NULL, -- NOT USED --
+            LgExportTemplate varchar(1000) DEFAULT NULL,
             <br />
             LgTextSize int(5) unsigned NOT NULL DEFAULT '100',
             <br />
@@ -2134,7 +2138,7 @@ with audioplayer", if needed.</li>
             <br />
             TxID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            TxLgID int(11) unsigned NOT NULL, -- LANGUAGE --
+            TxLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
             TxTitle varchar(200) NOT NULL,
             <br />
@@ -2156,7 +2160,7 @@ with audioplayer", if needed.</li>
             <br />
             AtID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            AtLgID int(11) unsigned NOT NULL, -- LANGUAGE --
+            AtLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
             AtTitle varchar(200) NOT NULL,
             <br />
@@ -2180,7 +2184,7 @@ with audioplayer", if needed.</li>
             <br />
   					T2Text varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
             <br />
-  					T2Comment varchar(200) NOT NULL,
+  					T2Comment varchar(200) NOT NULL DEFAULT '',
             <br />
   					PRIMARY KEY (T2ID),
             <br />
@@ -2192,9 +2196,9 @@ with audioplayer", if needed.</li>
           <li>
             <b>Table "texttags" (Text tags relations):</b>
             <br />
-						TtTxID int(11) unsigned NOT NULL, -- TEXT --
+						TtTxID int(11) unsigned NOT NULL, -- TEXT FOREIGN KEY --
             <br />
-						TtT2ID int(11) unsigned NOT NULL, -- TEXT TAG --
+						TtT2ID int(11) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
             <br />
 						PRIMARY KEY (TtTxID,TtT2ID),
             <br />
@@ -2208,9 +2212,9 @@ with audioplayer", if needed.</li>
           <li>
             <b>Table "archtexttags" (Archived text tags relations):</b>
             <br />
-						AgAtID int(11) unsigned NOT NULL, -- ARCHIVED TEXT --
+						AgAtID int(11) unsigned NOT NULL, -- ARCHIVED TEXT FOREIGN KEY --
             <br />
-						AgT2ID int(11) unsigned NOT NULL, -- TEXT TAG --
+						AgT2ID int(11) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
             <br />
 						PRIMARY KEY (AgAtID,AgT2ID),
             <br />
@@ -2226,7 +2230,7 @@ with audioplayer", if needed.</li>
             <br />
             WoID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            WoLgID int(11) unsigned NOT NULL, -- LANGUAGE --
+            WoLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
             WoText varchar(250) NOT NULL,
             <br />
@@ -2282,7 +2286,7 @@ with audioplayer", if needed.</li>
   					<br />
 						TgText varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   					<br />
-  					TgComment varchar(200) NOT NULL,
+  					TgComment varchar(200) NOT NULL DEFAULT '',
   					<br />
   					PRIMARY KEY (TgID),
   					<br />
@@ -2294,9 +2298,9 @@ with audioplayer", if needed.</li>
           <li>
             <b>Table "wordtags" (Term tags relations):</b>
             <br />
-						WtWoID int(11) unsigned NOT NULL, -- TERM --
+						WtWoID int(11) unsigned NOT NULL, -- TERM FOREIGN KEY --
             <br />
-  					WtTgID int(11) unsigned NOT NULL, -- TERM TAG --
+  					WtTgID int(11) unsigned NOT NULL, -- TERM TAG FOREIGN KEY --
             <br />
   					PRIMARY KEY (WtWoID,WtTgID),
             <br />
@@ -2308,13 +2312,13 @@ with audioplayer", if needed.</li>
           </li>
 
           <li>
-            <b>Table "sentences" (Sentences cache):</b>
+            <b>Table "sentences" (Sentences cache, no backup needed):</b>
             <br />
             SeID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            SeLgID int(11) unsigned NOT NULL, -- LANGUAGE --
+            SeLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
-            SeTxID int(11) unsigned NOT NULL, -- TEXT --
+            SeTxID int(11) unsigned NOT NULL, -- TEXT FOREIGN KEY --
             <br />
             SeOrder int(11) unsigned NOT NULL,
             <br />
@@ -2332,15 +2336,15 @@ with audioplayer", if needed.</li>
           </li>
 
           <li>
-            <b>Table "textitems" (Text items cache):</b>
+            <b>Table "textitems" (Text items cache, no backup needed):</b>
             <br />
             TiID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            TiLgID int(11) unsigned NOT NULL, -- LANGUAGE --
+            TiLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
-            TiTxID int(11) unsigned NOT NULL, -- TEXT --
+            TiTxID int(11) unsigned NOT NULL, -- TEXT FOREIGN KEY --
             <br />
-            TiSeID int(11) unsigned NOT NULL, -- SENTENCE --
+            TiSeID int(11) unsigned NOT NULL, -- SENTENCE FOREIGN KEY --
             <br />
             TiOrder int(11) unsigned NOT NULL,
             <br />
@@ -2377,8 +2381,10 @@ with audioplayer", if needed.</li>
         <ul>
 
         	<li>1.5.7 (June 24 2013):<br />
-        	Some minor corrections in some SQL statements. Setting now MySQL session string to an empty string to avoid too strict SQL checking.
-        	Thanks to a poster in the help forum for pointing this out!<br /><br />
+        	Some minor corrections in some SQL CREATE/INSERT statements. Setting now MySQL session string to an empty string to avoid too strict SQL checking.
+        	Thanks to a poster in the help forum for pointing this out!<br />
+        	New "Flexible" term export, controlled by an "Export Template" in the language settings. <a href="#extmpl">Read more ...</a><br />
+        	Documentation updated.<br /><br />
         	</li>        	
         	        	
         	<li>1.5.6 (June 22 2013):<br />
