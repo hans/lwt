@@ -70,7 +70,7 @@ if (substr($p,0,4) == 'text') {
 }
 echo '</h4><table><tr><td><h3>TEST&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . ' (Due: ' . $totalcountdue . ' of ' . $totalcount . ')</h3></td></tr><tr><td colspan="2">';
 
-$_SESSION['teststart'] = gmmktime() + 2;
+$_SESSION['teststart'] = time() + 2;
 $_SESSION['testcorrect'] = 0;
 $_SESSION['testwrong'] = 0;
 $_SESSION['testtotal'] = $totalcountdue;

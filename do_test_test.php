@@ -284,7 +284,7 @@ if ($waittime <= 0 ) {
 <?php
 }
 ?>
-	new CountUp(<?php echo gmmktime() . ', ' . $_SESSION['teststart']; ?>, 
+	new CountUp(<?php echo time() . ', ' . $_SESSION['teststart']; ?>, 
 		'timer', <?php echo ($count ? 0 : 1); ?>);
 });
 //]]>

@@ -769,7 +769,7 @@ function errorbutton($msg) {
 function runsql($sql, $m) {
 	$res = mysql_query($sql);		
 	if ($res == FALSE) {
-		die("Invalid Query: $sql");
+		$message = "Error: " . mysql_error();
 	} else {
 		$num = mysql_affected_rows();
 		$message = (($m == '') ? $num : ($m . ": " . $num));
