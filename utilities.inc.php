@@ -769,7 +769,7 @@ function errorbutton($msg) {
 function runsql($sql, $m) {
 	$res = mysql_query($sql);		
 	if ($res == FALSE) {
-		$message = "Error: " . mysql_error();
+		die("Invalid Query: $sql");
 	} else {
 		$num = mysql_affected_rows();
 		$message = (($m == '') ? $num : ($m . ": " . $num));
@@ -807,6 +807,7 @@ function adjust_autoincr($table,$key) {
 	if (! isset($val)) $val = 1;
 	$sql = 'alter table ' . $tbpref . $table . ' AUTO_INCREMENT = ' . $val;
 	$res = mysql_query($sql);		
+	if ($res == FALSE) die("Invalid Query: $sql");
 }
 
 // -------------------------------------------------------------

@@ -17,9 +17,10 @@ Start a PHP session if not one already exists
 ***************************************************************/
 
 $debug = 0;  // 1 = debugging on, 0 = .. off
-$dspltime = 1;  // 1 = display time on, 0 = .. off
+$dsplerrors = 1;  // 1 = display errors on, 0 = .. off
+$dspltime = 0;  // 1 = display time on, 0 = .. off
 
-if ($debug) {
+if ($dsplerrors) {
 	@error_reporting(E_ALL);
 	@ini_set('display_errors','1');
 	@ini_set('display_startup_errors','1');
