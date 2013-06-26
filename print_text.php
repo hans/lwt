@@ -158,7 +158,7 @@ echo "</p></div> <!-- noprint -->";
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
-$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, IFNULL( CONCAT( \'[\', GROUP_CONCAT( DISTINCT TgText ORDER BY TgText SEPARATOR  \', \' ),  \']\' ) , \'\') AS taglist from ( ' . $tbpref . 'textitems LEFT JOIN ( ( ' . $tbpref . 'words LEFT JOIN ' . $tbpref . 'wordtags ON WoID = WtWoID ) LEFT JOIN ' . $tbpref . 'tags ON TgID = WtTgID ) ON ( TiTextLC = WoTextLC ) AND ( TiLgID = WoLgID ) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) GROUP BY TiOrder, TiWordCount order by TiOrder asc, TiWordCount desc';
 
 $saveterm = '';
 $savetrans = '';
@@ -199,7 +199,7 @@ while ($record = mysql_fetch_assoc($res)) {
 		$savetags = '';
 		if(isset($record['WoID'])) {
 			$savetrans = $record['WoTranslation'];
-			$savetags = getWordTagList($record['WoID'],'',1,0);
+			$savetags = $record['taglist'];
 			if ($savetrans == '*') $savetrans = '';
 		}
 		$saverom = trim(isset($record['WoRomanization']) ?
