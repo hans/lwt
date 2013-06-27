@@ -49,6 +49,12 @@ if ($cntlang > 1) {
 
 $lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
 
+if (! isset($lang)) {
+	echo '<p class="center">&nbsp;<br />Sorry - No terms to display or to test at this time.</p>';
+	pageend();
+	exit();
+}
+
 $sql = 'select LgTextSize, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid query: $sql");

@@ -220,7 +220,7 @@ if (isset($_REQUEST['chg'])) {
 		<tr>
 		<td class="td1 right">Annotation:</td>
 		<td class="td1">
-		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> Exists (Will be lost if you change the text!)' : '<img src="icn/cross.png" title="No Annotation" alt="No Annotation" /> - None'); ?>
+		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Annotation" alt="With Annotation" /> Exists - May be partially or fully lost if you change the text!' : '<img src="icn/cross.png" title="No Annotation" alt="No Annotation" /> - None'); ?>
 		</td>
 		</tr>
 		<tr>
