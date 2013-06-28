@@ -727,15 +727,16 @@ function quickMenu() {
 <option value="" selected="selected">[Menu]</option>
 <option value="index">Home</option>
 <option value="edit_texts">Texts</option>
-<option value="edit_archivedtexts">Archive</option>
+<option value="edit_archivedtexts">Text Archive</option>
 <option value="edit_texttags">Text Tags</option>
 <option value="edit_languages">Languages</option>
 <option value="edit_words">Terms</option>
 <option value="edit_tags">Term Tags</option>
 <option value="statistics">Statistics</option>
 <option value="check_text">Text Check</option>
-<option value="upload_words">Import</option>
-<option value="backup_restore">Backup</option>
+<option value="long_text_import">Long Text Import</option>
+<option value="upload_words">Term Import</option>
+<option value="backup_restore">Backup/Restore</option>
 <option value="settings">Settings</option>
 <option value="INFO">Help</option>
 </select><?php
