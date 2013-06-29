@@ -20,7 +20,7 @@ include "connect.inc.php";
 include "utilities.inc.php";
 
 $textid = getreq('text');
-$sql = 'select TxLgID, TxTitle, TxAudioURI from ' . $tbpref . 'texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
 $record = mysql_fetch_assoc($res);
@@ -30,6 +30,7 @@ if(!isset($audio)) $audio='';
 $audio=trim($audio);
 
 $title = $record['TxTitle'];
+$sourceURI = $record['TxSourceURI'];
 $langid = $record['TxLgID'];
 mysql_free_result($res); 
 
@@ -73,6 +74,7 @@ echo '<img id="hide" style="margin-bottom:-5px;" class="click" src="icn/light-bu
 echo '<img id="show" style="display:none; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-A.png" title="Toggle Annotation Display (Now OFF)" alt="Toggle Annotation Display (Now OFF)" onclick="do_show_a();" />';
 echo ' &nbsp; &nbsp; ';
 echo tohtml($title);
+echo (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="icn/chain.png" title="Text Source" alt="Text Source" /></a>' : '');
 echo getPreviousAndNextTextLinks($textid, 'display_impr_text.php?text=', TRUE, ' &nbsp; &nbsp; ');
 echo ' <img class="click" src="icn/cross.png" title="Close Window" alt="Close Window" onclick="top.close();" /></span></h2>';
 

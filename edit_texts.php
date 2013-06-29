@@ -239,11 +239,12 @@ elseif (isset($_REQUEST['op'])) {
 		// INSERT
 		
 		elseif (substr($_REQUEST['op'],0,4) == 'Save') {
-			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI) values( ' . 
+			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
 			$_REQUEST["TxLgID"] . ', ' . 
 			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
 			convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ", '', " .
-			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ')', "Saved");
+			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
+			convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ')', "Saved");
 			$id = get_last_key();
 			saveTextTags($id);
 		} 
@@ -257,7 +258,8 @@ elseif (isset($_REQUEST['op'])) {
 			'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
 			'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
 			'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
-			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ' ' .
+			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
+			'TxSourceURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ' ' .
 			'where TxID = ' . $_REQUEST["TxID"], "Updated");
 			$id = $_REQUEST["TxID"];
 			saveTextTags($id);
@@ -316,6 +318,10 @@ if (isset($_REQUEST['new'])) {
 	</td>
 	</tr>
 	<tr>
+	<td class="td1 right">Source URI:</td>
+	<td class="td1"><input type="text" class="checkurl" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
+	</tr>
+	<tr>
 	<td class="td1 right">Tags:</td>
 	<td class="td1">
 	<?php echo getTextTags(0); ?>
@@ -346,7 +352,7 @@ if (isset($_REQUEST['new'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 	
-	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
+	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
 	$res = mysql_query($sql);		
 	if ($res == FALSE) die("Invalid Query: $sql");
 	if ($record = mysql_fetch_assoc($res)) {
@@ -382,6 +388,10 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1">
 		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> Exists - May be partially or fully lost if you change the text!<br /><input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Improved Annotation" alt="No Improved Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
 		</td>
+		</tr>
+		<tr>
+		<td class="td1 right">Source URI:</td>
+		<td class="td1"><input type="text" class="checkurl" data_info="Source URI" name="TxSourceURI" value="<?php echo tohtml($record['TxSourceURI']); ?>" maxlength="1000" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Tags:</td>
@@ -512,7 +522,7 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
-<th class="th1 clickable">Title [Tags]<br />Audio: <img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" /> , Ann. Text: <img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /> ?</th>
+<th class="th1 clickable">Title [Tags] / Audio:&nbsp;<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />, Src.Link:&nbsp;<img src="icn/chain.png" title="Source Link available" alt="Source Link available" />, Ann.Text:&nbsp;<img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></th>
 <th class="th1 sorttable_numeric clickable">Total<br />Words</th>
 <th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex</th>
 <th class="th1 sorttable_numeric clickable">Unkn.<br />Words</th>
@@ -521,7 +531,7 @@ Marked Texts:&nbsp;
 
 <?php
 
-$sql = 'select TxID, TxTitle, LgName, TxAudioURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = 'select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $res = mysql_query($sql);		
 if ($res == FALSE) die("Invalid Query: $sql");
@@ -550,7 +560,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
-	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . ($record['annotlen'] ? ' <a href="print_impr_text.php?text=' . $record['TxID'] . '"><img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></a>' : '') . '</td>';
+	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (($audio != '') ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . (isset($record['TxSourceURI']) ? ' <a href="' . $record['TxSourceURI'] . '" target="_blank"><img src="icn/chain.png" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <a href="print_impr_text.php?text=' . $record['TxID'] . '"><img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></a>' : '') . '</td>';
 	if ($showCounts) {
 		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>'; 
 		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text=' . $record['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';

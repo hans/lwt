@@ -117,6 +117,14 @@ function check() {
 		return false;
 	}
 	count = 0;
+	$('input.checkurl').each( function(n) {
+		if($(this).val().trim().length > 0) {
+			if(($(this).val().trim().indexOf('http://') != 0) &&   ($(this).val().trim().indexOf('https://') != 0)) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must start with "http://" or "https://" if not empty.');
+				count++;
+			}
+		}
+	} );
 	$('textarea.checklength').each( function(n) {
 		if($(this).val().trim().length > (0 + $(this).attr('data_maxlength'))) {
 			alert('ERROR\n\nText is too long in field "' + $(this).attr('data_info') + '", please make it shorter! (Maximum length: ' + $(this).attr('data_maxlength') + ' char.)');
