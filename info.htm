@@ -2148,6 +2148,8 @@ with audioplayer", if needed.</li>
             <br />
             TxAudioURI varchar(200) DEFAULT NULL,
             <br />
+            TxSourceURI varchar(1000) DEFAULT NULL,
+            <br />
             PRIMARY KEY (TxID),
             <br />
             KEY TxLgID (TxLgID)
@@ -2169,6 +2171,8 @@ with audioplayer", if needed.</li>
             AtAnnotatedText longtext NOT NULL,
             <br />
             AtAudioURI varchar(200) DEFAULT NULL,
+            <br />
+            AtSourceURI varchar(1000) DEFAULT NULL,
             <br />
             PRIMARY KEY (AtID),
             <br />
@@ -2381,7 +2385,7 @@ with audioplayer", if needed.</li>
         <ul>
         	<li>1.5.9 (July ?? 2013):<br />
         	<b>New Feature:</b> Long Text Import: Importing a long text via file upload or from a text box, with splitting options.<br />
-        	Possibility to save the source URI with a text.<br />
+        	Possibility to save the source URI with an active or archived text.<br />
         	Documentation updated.<br /><br />
         	</li>        	
 
