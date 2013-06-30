@@ -26,13 +26,35 @@ $message = '';
 
 if (isset($_REQUEST['op'])) {
 	
-	echo "<p>Processing not yet implemented.</p>";
+	if ($_REQUEST['op'] == 'Split Text') {
+		
+		$langid = $_REQUEST["LgID"];
+		$title = $_REQUEST["TxTitle"];
+		$paragraph_handling = $_REQUEST["paragraph_handling"];
+		$maxsent = $_REQUEST["maxsent"];
+		$source_uri = $_REQUEST["TxSourceURI"];
+		
+		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
+			$lines = file($_FILES["thefile"]["tmp_name"], FILE_IGNORE_NEW_LINES);
+		} else {
+			$lines = explode("\n",prepare_textdata($_REQUEST["Upload"]));
+		}
+		$count_lines = count($lines);
+		
+		if ($count_lines == 0 || ($count_lines == 1 && trim($lines[0]) == '')) {
+			$message = "Error: No text specified!";
+			echo error_message_with_hide($message,0);
+		}
+		else {
+			echo $count_lines . " lines";
+		}
+	}
 
 } else {
 
 ?>
 
-	<form enctype="multipart/form-data" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return confirm ('Did you double-check everything?');">
+	<form enctype="multipart/form-data" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
@@ -56,8 +78,22 @@ if (isset($_REQUEST['op'])) {
 	Either specify a <b>File to upload</b>:<br />
 	<input name="thefile" type="file" /><br /><br />
 	<b>Or</b> type in or paste from clipboard (do <b>NOT</b> specify file):<br />
-	<textarea name="Upload" cols="60" rows="25"></textarea>
+	<textarea name="Upload" cols="60" rows="25"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 	</td>
+	</tr>
+	<tr>
+	<td class="td1 right">Paragraphs:</td>
+	<td class="td1">
+	<select name="paragraph_handling">
+	<option value="1" selected="selected">ONE Newline = Paragraph ends</option>
+	<option value="2">TWO Newlines = Paragraph ends; single Newline -&gt; SPACE</option>
+	</select>
+	<img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+	</td>
+	</tr>
+	<tr>
+	<td class="td1 right">Sent./Text:</td>
+	<td class="td1"><input type="text" class="notempty posintnumber"  data_info="Sentences per Text" name="maxsent" value="50" maxlength="3" size="3" /> ← Max. Sentences per text, and max. 65,000 bytes per text. <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Source URI:</td>
@@ -70,7 +106,7 @@ if (isset($_REQUEST['op'])) {
 	</td>
 	</tr>
 	<tr>
-	<td class="td1 right" colspan="2"><input type="button" value="&lt;&lt; Back" onclick="location.href='index.php';" /> &nbsp; &nbsp; &nbsp; | &nbsp; &nbsp; &nbsp; <input type="submit" name="op" value="Import" />
+	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='index.php';" /> &nbsp; | &nbsp; <input type="submit" name="op" value="Split Text" />
 	</td>
 	</tr>
 	</table>

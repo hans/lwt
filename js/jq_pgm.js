@@ -125,6 +125,14 @@ function check() {
 			}
 		}
 	} );
+	$('input.posintnumber').each( function(n) {
+		if ($(this).val().trim().length > 0) {
+			if (! (isInt($(this).val().trim()) && (($(this).val().trim()+0) != 0))) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" is not a positive integer number.');
+				count++;
+			}
+		}
+	} );
 	$('textarea.checklength').each( function(n) {
 		if($(this).val().trim().length > (0 + $(this).attr('data_maxlength'))) {
 			alert('ERROR\n\nText is too long in field "' + $(this).attr('data_info') + '", please make it shorter! (Maximum length: ' + $(this).attr('data_maxlength') + ' char.)');
@@ -144,6 +152,15 @@ function check() {
 		}
 	} );
 	return (count == 0);
+}
+
+function isInt(value) {
+	for (i = 0 ; i < value.length ; i++) {
+		if ((value.charAt(i) < '0') || (value.charAt(i) > '9')) {
+			return false;
+		}
+	}
+	return true;
 }
 
 function markClick() {
