@@ -919,7 +919,7 @@ Developed by J. P. in 2011, 2012, 2013.
               <li>cd /Users/[username]/Sites
               </li>
 
-              <li>chmod -R 777 lwt
+              <li>chmod -R a+rx lwt
               </li>
             </ul>
           </li>
@@ -1007,7 +1007,7 @@ Developed by J. P. in 2011, 2012, 2013.
               <li>cd /Users/[username]/Sites
               </li>
 
-              <li>chmod -R 777 lwt
+              <li>chmod -R a+rx lwt
               </li>
             </ul>
           </li>
@@ -1683,6 +1683,14 @@ Developed by J. P. in 2011, 2012, 2013.
             <br />
             <br />
             Answer: The Webserver and the database is running, but the database connection parameter file <i>../htdocs/lwt/connect.inc.php</i> is not found. Please rename one of the connection files (according to your server) to <i>../htdocs/lwt/connect.inc.php</i>.
+            <br />
+            <br />
+          </li>
+
+          <li>I have installed or updated LWT on Mac OS X or Linux/Unix, but the application does not run as expected:
+            <br />
+            <br />
+            Answer: The Webserver does seem to have full access to all files (insufficient rights). Open a terminal window, go to the directory where the directory "lwt" has been created with all LWT files, e. g. <br /><b>cd /var/www/</b><br />Now execute:<br /><b>sudo chmod -R 775 lwt</b><br />and everything should now work as expected.
             <br />
             <br />
           </li>
