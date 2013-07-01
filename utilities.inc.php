@@ -2332,9 +2332,10 @@ function echodebug($var,$text) {
 
 // -------------------------------------------------------------
 
-function splitCheckText($text, $lid, $id=-1) {   
-	// $id = -1     => Check
-	// $id = TextID => Split
+function splitCheckText($text, $lid, $id) {   
+	// $id = -1     => Check, return protocol
+	// $id = -2     => Only return sentence array
+	// $id = TextID => Split: insert sentences/textitems entries in DB
 	global $tbpref;
 	$r = '';
 	$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
@@ -2350,7 +2351,7 @@ function splitCheckText($text, $lid, $id=-1) {
 	$replace = explode("|",$record['LgCharacterSubstitutions']);
 	$rtlScript = $record['LgRightToLeft'];
 	mysql_free_result($res);
-	$s = str_replace("\r\n", "\n", $text);
+	$s = prepare_textdata($text);
 	$s = str_replace("\n", " ¶ ", $s);
 	$s = str_replace("\t", " ", $s);
 	$s = trim($s);
@@ -2401,16 +2402,25 @@ function splitCheckText($text, $lid, $id=-1) {
 		}
 	}
 	
-	$lineWords = array();
-	$wordList = array();
-	$wordIndex = array();
-	$wordSeps = array();
 	
+	if ($id == -2) {
+	
+		////////////////////////////////////
+		// Only return sentence array
+		
+		return $textLines;
+		
+	}
+
+	$lineWords = array();
+		
 	if ($id == -1) {
 	
 		////////////////////////////////////
-		// Check: 
+		// Check, return protocol
 		
+		$wordList = array();
+		$wordSeps = array();
 		$r .= "<h4>Sentences</h4><ol>";
 		$sentNumber = 0;
 		foreach ($textLines as $value) { 
@@ -2427,7 +2437,6 @@ function splitCheckText($text, $lid, $id=-1) {
 						}
 						else {
 							$wordList[$term] = array(1, array($sentNumber));
-							$wordIndex[] = $term;
 						}
 					} else {
 						$ww = remove_spaces($term, $removeSpaces);
@@ -2466,7 +2475,7 @@ function splitCheckText($text, $lid, $id=-1) {
 	}
 	
 	////////////////////////////////////
-	// Split:
+	// Split: insert sentences/textitems entries in DB
 	
 	$sentNumber = 0;
 	$lfdnr =0;

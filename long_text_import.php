@@ -35,18 +35,75 @@ if (isset($_REQUEST['op'])) {
 		$source_uri = $_REQUEST["TxSourceURI"];
 		
 		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
-			$lines = file($_FILES["thefile"]["tmp_name"], FILE_IGNORE_NEW_LINES);
+			$data = file_get_contents($_FILES["thefile"]["tmp_name"]);
+			$data = str_replace("\r\n","\n",$data);
 		} else {
-			$lines = explode("\n",prepare_textdata($_REQUEST["Upload"]));
+			$data = prepare_textdata($_REQUEST["Upload"]);
 		}
-		$count_lines = count($lines);
+		$data = trim($data);
 		
-		if ($count_lines == 0 || ($count_lines == 1 && trim($lines[0]) == '')) {
+		if((0 + $paragraph_handling) == 2) {
+			$data = preg_replace('/\n\s*?\n/u', '¶', $data);
+			$data = str_replace("\n"," ",$data);
+			$data = str_replace("¶","\n",$data);
+		}
+		
+		if ($data == "") {
 			$message = "Error: No text specified!";
 			echo error_message_with_hide($message,0);
 		}
 		else {
-			echo $count_lines . " lines";
+			$sent_array = splitCheckText($data, $langid, -2);
+			$texts = array();
+			$text_index = 0;
+			$texts[$text_index] = array();
+			$cnt = 0;
+			$bytes = 0;
+			foreach ($sent_array as $item) {
+				$item_len = strlen($item)+1;
+				if ($item != '¶') $cnt++;
+				if (($cnt <= $maxsent) && (($bytes+$item_len) < 65000)) {
+					$texts[$text_index][] = $item;
+					$bytes += $item_len;
+				} else {
+					$text_index++;
+					$texts[$text_index] = array($item);
+					$cnt = 1;
+					$bytes = $item_len;
+				}
+			}
+
+?>
+			<form enctype="multipart/form-data"  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+			<table class="tab3" cellspacing="0" cellpadding="5">
+			<tr>
+			<td class="td1" colspan="2">
+			<?php echo "This long text will be split into " . count($texts) . " shorter text(s) - as follows:"; ?>
+			</td>
+			</tr>
+			<tr>
+			<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='index.php';" /> &nbsp; | &nbsp; <input type="button" value="Go Back" onclick="history.back();" /> &nbsp; | &nbsp; <input type="submit" name="op" value="Create the <?php echo count($texts); ?> Text(s)" />
+			</td>
+			</tr>
+<?php
+			$textno = 0;
+			foreach ($texts as $item) {
+				$textno++;
+				$textstring = str_replace("¶","\n",implode(" ",$item));
+				$bytes = strlen($textstring);
+?>			
+			<tr>
+			<td class="td1 right"><b>Text <?php echo $textno; ?>:</b><br /><br />L=<?php echo $bytes; ?></td>
+			<td class="td1">
+			<textarea <?php echo getScriptDirectionTag($langid); ?> name="text[<?php echo $textno; ?>]" cols="60" rows="20"><?php echo str_replace("¶","\n",implode(" ",$item)); ?></textarea>
+			</td>
+			</tr>
+<?php
+			}
+?>
+		</table>
+		</form>
+<?php
 		}
 	}
 
