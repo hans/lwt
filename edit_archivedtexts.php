@@ -113,7 +113,7 @@ if (isset($_REQUEST['markaction'])) {
 						$count += $mess;
 						$id = get_last_key();
 						runsql('insert into ' . $tbpref . 'texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from ' . $tbpref . 'archtexttags where AgAtID = ' . $ida, "");	
-						splitText(
+						splitCheckText(
 							get_first_value(
 							'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), 
 							$record['AtLgID'], 
@@ -146,7 +146,7 @@ elseif (isset($_REQUEST['unarch'])) {
 	$message2 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI from ' . $tbpref . 'archivedtexts where AtID = ' . $_REQUEST['unarch'], "Texts added");
 	$id = get_last_key();
 	runsql('insert into ' . $tbpref . 'texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from ' . $tbpref . 'archtexttags where AgAtID = ' . $_REQUEST['unarch'], "");	
-	splitText(
+	splitCheckText(
 		get_first_value(
 		'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), 
 		get_first_value(

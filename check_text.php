@@ -28,7 +28,7 @@ if (isset($_REQUEST['op'])) {
 	if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000)
 		echo "<p>Error: Text too long, must be below 65000 Bytes.</p>";
 	else
-		echo checkText($_REQUEST['TxText'], $_REQUEST['TxLgID']);
+		echo splitCheckText($_REQUEST['TxText'], $_REQUEST['TxLgID'], -1);
 	echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
 
 } else {

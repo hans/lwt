@@ -2288,7 +2288,7 @@ function reparse_all_texts() {
 	if ($res == FALSE) die("Invalid Query: $sql");
 	while ($record = mysql_fetch_assoc($res)) {
 		$id = $record['TxID'];
-		splitText(
+		splitCheckText(
 			get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id );
 	}
 	mysql_free_result($res);
@@ -2332,7 +2332,9 @@ function echodebug($var,$text) {
 
 // -------------------------------------------------------------
 
-function checkText($text, $lid) {
+function splitCheckText($text, $lid, $id=-1) {   
+	// $id = -1     => Check
+	// $id = TextID => Split
 	global $tbpref;
 	$r = '';
 	$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
@@ -2341,159 +2343,12 @@ function checkText($text, $lid) {
 	$record = mysql_fetch_assoc($res);
 	if ($record == FALSE) die("No results: $sql");
 	$removeSpaces = $record['LgRemoveSpaces'];
-	// echodebug($removeSpaces,'$removeSpaces');
 	$splitEachChar = $record['LgSplitEachChar'];
-	// echodebug($splitEachChar,'$splitEachChar');
 	$splitSentence = $record['LgRegexpSplitSentences'];
-	// echodebug($splitSentence,'$splitSentence');
 	$noSentenceEnd = $record['LgExceptionsSplitSentences'];
-	// echodebug($noSentenceEnd,'$noSentenceEnd');
 	$termchar = $record['LgRegexpWordCharacters'];
-	// echodebug($termchar,'$termchar');
 	$replace = explode("|",$record['LgCharacterSubstitutions']);
-	// echodebug($replace,'$replace');
 	$rtlScript = $record['LgRightToLeft'];
-	mysql_free_result($res);
-	// echodebug($text,'$text');
-	$s = prepare_textdata($text);
-	// echodebug($s,'$s/1');
-	$s = str_replace("\n", " ¶ ", $s);
-	// echodebug($s,'$s/2');
-	$s = str_replace("\t", " ", $s);
-	$s = trim($s);
-	// echodebug($s,'$s/3');
-	if ($splitEachChar) {
-		$s = preg_replace('/([^\s])/u', "$1 ", $s);
-	}
-	// echodebug($s,'$s/4');
-	$s = preg_replace('/\s{2,}/u', ' ', $s);
-	// echodebug($s,'$s/5');
-	$r .= "<div style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
-
-	$s = str_replace('{', '[', $s);	// because of sent. spc. char
-	// echodebug($s,'$s/6');
-	$s = str_replace('}', ']', $s);	
-	// echodebug($s,'$s/7');
-	foreach ($replace as $value) {
-		$fromto = explode("=",trim($value));
-		if(count($fromto) >= 2) {
-  		$s = str_replace(trim($fromto[0]), trim($fromto[1]), $s);
-		}
-	}
-	$s = trim($s);
-	// echodebug($s,'$s/8');
-	
-	if ($noSentenceEnd != '') $s = preg_replace('/(' . $noSentenceEnd . ')\s/u', '$1‧', $s);
-	// echodebug($s,'$s/9');
-	$s = preg_replace('/([' . $splitSentence . '¶])\s/u', "$1\n", $s);
-	// echodebug($s,'$s/10');
-	$s = str_replace(" ¶\n", "\n¶\n", $s);
-	// echodebug($s,'$s/11');
-	$s = str_replace('‧', ' ', $s);
-	// echodebug($s,'$s/12');
-	
-	if ($s=='') {
-		$textLines = array($s);
-	} else {
-		$s = explode("\n",$s);
-		$l = count($s);
-		for ($i=0; $i<$l; $i++) {
-  		$s[$i] = trim($s[$i]);
-  		if ($s[$i] != '') {
-	  		$pos = strpos($splitSentence, $s[$i]);
-	  		while ($pos !== false && $i > 0) {
-	  			$s[$i-1] .= " " . $s[$i];
-	  			for ($j=$i+1; $j<$l; $j++) $s[$j-1] = $s[$j];
-	  			array_pop($s);
-	  			$l = count($s);
-	  			$pos = strpos($splitSentence, $s[$i]);
-	  		}
-  		}
-		}
-		$l = count($s);
-		$textLines = array();
-		for ($i=0; $i<$l; $i++) {
-			$zz = trim($s[$i]);
-			if ($zz != '' ) $textLines[] = $zz;
-		}
-	}
-	// echodebug($textLines,'$textLines');
-	
-	$lineWords = array();
-	$wordList = array();
-	$wordIndex = array();
-	$wordSeps = array();
-
-	$r .= "<h4>Sentences</h4><ol>";
-	$sentNumber = 0;
-	foreach ($textLines as $value) { 
-		$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . tohtml(remove_spaces($value, $removeSpaces)) . "</li>";
-		$lineWords[$sentNumber] = preg_split('/([^' . $termchar . ']{1,})/u', $value, -1, PREG_SPLIT_DELIM_CAPTURE );
-		$l = count($lineWords[$sentNumber]);
-		for ($i=0; $i<$l; $i++) {
-			$term = mb_strtolower($lineWords[$sentNumber][$i], 'UTF-8');
-			if ($term != '') {
-				if ($i % 2 == 0) {
-					if(array_key_exists($term,$wordList)) {
-						$wordList[$term][0]++;
-						$wordList[$term][1][] = $sentNumber;
-					}
-					else {
-						$wordList[$term] = array(1, array($sentNumber));
-						$wordIndex[] = $term;
-					}
-				} else {
-					$ww = remove_spaces($term, $removeSpaces);
-					if(array_key_exists($ww,$wordSeps))
-						$wordSeps[$ww]++;
-					else	
-						$wordSeps[$ww]=1;
-				}
-			}
-		}
-		$sentNumber += 1;
-	} 
-	$r .= "</ol><h4>Word List <span class=\"red2\">(red = already saved)</span></h4><ul>";
-	ksort($wordList); 
-	$anz = 0;
-	foreach ($wordList as $key => $value) {
-		$trans = get_first_value("select WoTranslation as value from " . $tbpref . "words where WoLgID = " . $lid . " and WoTextLC = " . convert_string_to_sqlsyntax($key));
-		if (! isset($trans)) $trans="";
-		if ($trans == "*") $trans="";
-		if ($trans != "") 
-			$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . "><span class=\"red2\">[" . tohtml($key) . "] — " . $value[0] . " - " . tohtml(repl_tab_nl($trans)) . "</span></li>";
-		else
-			$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . ">[" . tohtml($key) . "] — " . $value[0] . "</li>";	
-		$anz++;
-	} 
-	$r .= "</ul><p>TOTAL: " . $anz . "</p><h4>Non-Word List</h4><ul>";
-	if(array_key_exists('',$wordSeps)) unset($wordSeps['']);
-	ksort($wordSeps); 
-	$anz = 0;
-	foreach ($wordSeps as $key => $value) { 
-		$r .= "<li>[" . str_replace(" ", "<span class=\"backgray\">&nbsp;</span>", tohtml($key)) . "] — " . $value . "</li>";
-		$anz++;
-	} 
-	$r .=  "</ul><p>TOTAL: " . $anz . "</p></div>"; 
-
-	return $r;
-}
-
-// -------------------------------------------------------------
-
-function splitText($text, $lid, $id) {
-	global $tbpref;
-	$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
-	$record = mysql_fetch_assoc($res);
-	if ($record == FALSE) die("No results: $sql");
-	$removeSpaces = $record['LgRemoveSpaces'];
-	$splitEachChar = $record['LgSplitEachChar'];
-	$splitSentence = $record['LgRegexpSplitSentences'];
-	$noSentenceEnd = $record['LgExceptionsSplitSentences'];
-	$termchar = $record['LgRegexpWordCharacters'];
-	$replace = explode("|",$record['LgCharacterSubstitutions']);
 	mysql_free_result($res);
 	$s = str_replace("\r\n", "\n", $text);
 	$s = str_replace("\n", " ¶ ", $s);
@@ -2503,7 +2358,8 @@ function splitText($text, $lid, $id) {
 		$s = preg_replace('/([^\s])/u', "$1 ", $s);
 	}
 	$s = preg_replace('/\s{2,}/u', ' ', $s);
-	
+	if ($id == -1) $r .= "<div style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
+
 	$s = str_replace('{', '[', $s);	// because of sent. spc. char
 	$s = str_replace('}', ']', $s);	
 	foreach ($replace as $value) {
@@ -2549,6 +2405,69 @@ function splitText($text, $lid, $id) {
 	$wordList = array();
 	$wordIndex = array();
 	$wordSeps = array();
+	
+	if ($id == -1) {
+	
+		////////////////////////////////////
+		// Check: 
+		
+		$r .= "<h4>Sentences</h4><ol>";
+		$sentNumber = 0;
+		foreach ($textLines as $value) { 
+			$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . tohtml(remove_spaces($value, $removeSpaces)) . "</li>";
+			$lineWords[$sentNumber] = preg_split('/([^' . $termchar . ']{1,})/u', $value, -1, PREG_SPLIT_DELIM_CAPTURE );
+			$l = count($lineWords[$sentNumber]);
+			for ($i=0; $i<$l; $i++) {
+				$term = mb_strtolower($lineWords[$sentNumber][$i], 'UTF-8');
+				if ($term != '') {
+					if ($i % 2 == 0) {
+						if(array_key_exists($term,$wordList)) {
+							$wordList[$term][0]++;
+							$wordList[$term][1][] = $sentNumber;
+						}
+						else {
+							$wordList[$term] = array(1, array($sentNumber));
+							$wordIndex[] = $term;
+						}
+					} else {
+						$ww = remove_spaces($term, $removeSpaces);
+						if(array_key_exists($ww,$wordSeps))
+							$wordSeps[$ww]++;
+						else	
+							$wordSeps[$ww]=1;
+					}
+				}
+			}
+			$sentNumber += 1;
+		} 
+		$r .= "</ol><h4>Word List <span class=\"red2\">(red = already saved)</span></h4><ul>";
+		ksort($wordList); 
+		$anz = 0;
+		foreach ($wordList as $key => $value) {
+			$trans = get_first_value("select WoTranslation as value from " . $tbpref . "words where WoLgID = " . $lid . " and WoTextLC = " . convert_string_to_sqlsyntax($key));
+			if (! isset($trans)) $trans="";
+			if ($trans == "*") $trans="";
+			if ($trans != "") 
+				$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . "><span class=\"red2\">[" . tohtml($key) . "] — " . $value[0] . " - " . tohtml(repl_tab_nl($trans)) . "</span></li>";
+			else
+				$r .= "<li " .  ($rtlScript ? 'dir="rtl"' : '') . ">[" . tohtml($key) . "] — " . $value[0] . "</li>";	
+			$anz++;
+		} 
+		$r .= "</ul><p>TOTAL: " . $anz . "</p><h4>Non-Word List</h4><ul>";
+		if(array_key_exists('',$wordSeps)) unset($wordSeps['']);
+		ksort($wordSeps); 
+		$anz = 0;
+		foreach ($wordSeps as $key => $value) { 
+			$r .= "<li>[" . str_replace(" ", "<span class=\"backgray\">&nbsp;</span>", tohtml($key)) . "] — " . $value . "</li>";
+			$anz++;
+		} 
+		$r .=  "</ul><p>TOTAL: " . $anz . "</p></div>"; 
+		return $r;
+	}
+	
+	////////////////////////////////////
+	// Split:
+	
 	$sentNumber = 0;
 	$lfdnr =0;
 

@@ -44,7 +44,7 @@ if (isset($_REQUEST['refresh'])) {
 	while ($record = mysql_fetch_assoc($res)) {
 		$txtid = $record["TxID"];
 		$txttxt = $record["TxText"];
-		splitText($txttxt, $id, $txtid );
+		splitCheckText($txttxt, $id, $txtid );
 	}
 	mysql_free_result($res);
 	$message = $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from ' . $tbpref . 'sentences where SeLgID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from ' . $tbpref . 'textitems where TiLgID = ' . $id);
@@ -157,7 +157,7 @@ elseif (isset($_REQUEST['op'])) {
 			while ($record = mysql_fetch_assoc($res)) {
 				$txtid = $record["TxID"];
 				$txttxt = $record["TxText"];
-				splitText($txttxt, $id, $txtid );
+				splitCheckText($txttxt, $id, $txtid );
 				$cntrp++;
 			}
 			mysql_free_result($res);

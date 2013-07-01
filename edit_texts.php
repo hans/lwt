@@ -160,7 +160,7 @@ if (isset($_REQUEST['markaction'])) {
 						$message3 = runsql('delete from ' . $tbpref . 'textitems where TiTxID = ' . $id, "Text items deleted");
 						adjust_autoincr('sentences','SeID');
 						adjust_autoincr('textitems','TiID');
-						splitText(
+						splitCheckText(
 							get_first_value(
 								'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), 
 								$record['TxLgID'], $id );
@@ -230,7 +230,7 @@ elseif (isset($_REQUEST['op'])) {
 		
 		if ($_REQUEST['op'] == 'Check') {
 			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
-			echo checkText($_REQUEST['TxText'], $_REQUEST['TxLgID']);
+			echo splitCheckText($_REQUEST['TxText'], $_REQUEST['TxLgID'], -1);
 			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
 			pageend();
 			exit();
@@ -272,7 +272,7 @@ elseif (isset($_REQUEST['op'])) {
 		adjust_autoincr('sentences','SeID');
 		adjust_autoincr('textitems','TiID');
 	
-		splitText(
+		splitCheckText(
 			get_first_value(
 				'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), 
 			$_REQUEST["TxLgID"], $id );
