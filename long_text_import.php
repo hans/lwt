@@ -26,13 +26,15 @@ $message = '';
 
 if (isset($_REQUEST['op'])) {
 	
-	if ($_REQUEST['op'] == 'Split Text') {
+	if (substr($_REQUEST['op'],0,5) == 'Split') {
 		
 		$langid = $_REQUEST["LgID"];
 		$title = $_REQUEST["TxTitle"];
 		$paragraph_handling = $_REQUEST["paragraph_handling"];
 		$maxsent = $_REQUEST["maxsent"];
 		$source_uri = $_REQUEST["TxSourceURI"];
+		$texttags = json_encode($_REQUEST["TextTags"]);
+		$max_input_vars = ini_get('max_input_vars');
 		
 		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
 			$data = file_get_contents($_FILES["thefile"]["tmp_name"]);
@@ -72,39 +74,93 @@ if (isset($_REQUEST['op'])) {
 					$bytes = $item_len;
 				}
 			}
+			$textcount = count($texts);
+			$plural = ($textcount==1 ? '' : 's');
+			$shorter = ($textcount==1 ? ' ' : ' shorter ');
+			
+			if ($textcount > $max_input_vars-20) {
+				$message = "Error: Too many texts (" . $textcount . " > " . ($max_input_vars-20) . "). You must increase 'Sentences/Text'!";
+				echo error_message_with_hide($message,0);
+			}
+			else {
 
 ?>
 			<form enctype="multipart/form-data"  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+			<input type="hidden" name="LgID" value="<?php echo $langid; ?>" />
+			<input type="hidden" name="TxTitle" value="<?php echo tohtml($title); ?>" />
+			<input type="hidden" name="TxSourceURI" value="<?php echo tohtml($source_uri); ?>" />
+			<input type="hidden" name="TextTags" value="<?php echo tohtml($texttags); ?>" />
+			<input type="hidden" name="TextCount" value="<?php echo $textcount; ?>" />
 			<table class="tab3" cellspacing="0" cellpadding="5">
 			<tr>
 			<td class="td1" colspan="2">
-			<?php echo "This long text will be split into " . count($texts) . " shorter text(s) - as follows:"; ?>
+			<?php echo "This long text will be split into " . $textcount . $shorter . "text" . $plural . " - as follows:"; ?>
 			</td>
 			</tr>
 			<tr>
-			<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='index.php';" /> &nbsp; | &nbsp; <input type="button" value="Go Back" onclick="history.back();" /> &nbsp; | &nbsp; <input type="submit" name="op" value="Create the <?php echo count($texts); ?> Text(s)" />
+			<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='index.php';" /> &nbsp; | &nbsp; <input type="button" value="Go Back" onclick="history.back();" /> &nbsp; | &nbsp; <input type="submit" name="op" value="Create <?php echo $textcount; ?> text<?php echo $plural; ?>" />
 			</td>
 			</tr>
 <?php
-			$textno = 0;
-			foreach ($texts as $item) {
-				$textno++;
-				$textstring = str_replace("¶","\n",implode(" ",$item));
-				$bytes = strlen($textstring);
+				$textno = -1;
+				foreach ($texts as $item) {
+					$textno++;
+					$textstring = str_replace("¶","\n",implode(" ",$item));
+					$bytes = strlen($textstring);
 ?>			
 			<tr>
-			<td class="td1 right"><b>Text <?php echo $textno; ?>:</b><br /><br />L=<?php echo $bytes; ?></td>
+			<td class="td1 right"><b>Text <?php echo $textno+1; ?>:</b><br /><br /><br />Length:<br /><?php echo $bytes; ?><br />Bytes</td>
 			<td class="td1">
-			<textarea <?php echo getScriptDirectionTag($langid); ?> name="text[<?php echo $textno; ?>]" cols="60" rows="20"><?php echo str_replace("¶","\n",implode(" ",$item)); ?></textarea>
+			<textarea readonly="readonly" <?php echo getScriptDirectionTag($langid); ?> name="text[<?php echo $textno; ?>]" cols="60" rows="10"><?php echo str_replace("¶","\n",implode(" ",$item)); ?></textarea>
 			</td>
 			</tr>
 <?php
-			}
+				}
 ?>
 		</table>
 		</form>
 <?php
+			}
 		}
+	}
+	
+	elseif (substr($_REQUEST['op'],0,5) == 'Creat') {
+
+		$langid = $_REQUEST["LgID"] + 0;
+		$title = $_REQUEST["TxTitle"];
+		$source_uri = $_REQUEST["TxSourceURI"];
+		$_REQUEST["TextTags"] = json_decode($_REQUEST["TextTags"], true);
+		$textcount = $_REQUEST["TextCount"] + 0;
+		$texts = $_REQUEST["text"];
+		
+		if ( count($texts) != $textcount ) {
+			$message = "Error: Number of texts wrong: " .  count($texts) . " != " . $textcount;
+		} else {
+			
+			$imported = 0;
+			for ($i = 0; $i < $textcount; $i++) {
+				$counter = makeCounterWithTotal ($textcount, $i+1);
+				$thistitle = $title . ($counter == '' ? '' : (' (' . $counter . ')')); 
+				$imported = $imported + runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
+				$langid . ', ' . 
+				convert_string_to_sqlsyntax($thistitle) . ', ' . 
+				convert_string_to_sqlsyntax($texts[$i]) . ", '', NULL, " .
+				convert_string_to_sqlsyntax($source_uri) . ')', '');
+				$id = get_last_key();
+				saveTextTags($id);	
+				splitCheckText ($texts[$i], $langid, $id);
+			}
+		
+		}
+		
+		$message = $imported . " Text(s) imported!";
+		
+		echo error_message_with_hide($message,0);
+
+?>		
+		<p>&nbsp;<br /><input type="button" value="Show Texts" onclick="location.href='edit_texts.php';" /></p>
+<?php
+		
 	}
 
 } else {

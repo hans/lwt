@@ -835,6 +835,17 @@ function tohtml($s) {
 
 // -------------------------------------------------------------
 
+function makeCounterWithTotal ($max, $num) {
+	if ($max == 1) return '';
+	if ($max < 10) return $num . "/" . $max;
+	return substr(
+		str_repeat("0", strlen($max)) . $num,
+		-strlen($max))  . 
+		"/" . $max;
+}
+
+// -------------------------------------------------------------
+
 function encodeURI($url) {
 	$reserved = array(
 		'%2D'=>'-','%5F'=>'_','%2E'=>'.','%21'=>'!', 
