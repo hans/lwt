@@ -312,7 +312,7 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1"><input type="text" class="notempty" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
-	<td class="td1 right">Text:</td>
+	<td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
 	<td class="td1">
 	<textarea name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 	</td>
@@ -378,7 +378,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1"><input type="text" class="notempty" name="TxTitle" value="<?php echo tohtml($record['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
-		<td class="td1 right">Text:</td>
+		<td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
 		<td class="td1">
 		<textarea <?php echo getScriptDirectionTag($record['TxLgID']); ?> name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td>

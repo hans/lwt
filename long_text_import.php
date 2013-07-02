@@ -46,8 +46,15 @@ if (isset($_REQUEST['op'])) {
 		
 		if((0 + $paragraph_handling) == 2) {
 			$data = preg_replace('/\n\s*?\n/u', '¶', $data);
-			$data = str_replace("\n"," ",$data);
-			$data = str_replace("¶","\n",$data);
+			$data = str_replace("\n",' ',$data);
+			$data = preg_replace('/\s{2,}/u', ' ', $data);
+			$data = str_replace('¶ ','¶',$data);
+			$data = str_replace('¶',"\n",$data);
+		} else {
+			$data = str_replace("\n",'¶',$data);
+			$data = preg_replace('/\s{2,}/u', ' ', $data);
+			$data = str_replace('¶ ','¶',$data);
+			$data = str_replace('¶',"\n",$data);
 		}
 		
 		if ($data == "") {
@@ -111,7 +118,7 @@ if (isset($_REQUEST['op'])) {
 			<tr>
 			<td class="td1 right"><b>Text <?php echo $textno+1; ?>:</b><br /><br /><br />Length:<br /><?php echo $bytes; ?><br />Bytes</td>
 			<td class="td1">
-			<textarea readonly="readonly" <?php echo getScriptDirectionTag($langid); ?> name="text[<?php echo $textno; ?>]" cols="60" rows="10"><?php echo str_replace("¶","\n",implode(" ",$item)); ?></textarea>
+			<textarea readonly="readonly" <?php echo getScriptDirectionTag($langid); ?> name="text[<?php echo $textno; ?>]" cols="60" rows="10"><?php echo str_replace("¶ ","\n",implode(" ",$item)); ?></textarea>
 			</td>
 			</tr>
 <?php
@@ -190,8 +197,15 @@ if (isset($_REQUEST['op'])) {
 	<td class="td1">
 	Either specify a <b>File to upload</b>:<br />
 	<input name="thefile" type="file" /><br /><br />
-	<b>Or</b> type in or paste from clipboard (do <b>NOT</b> specify file):<br />
-	<textarea name="Upload" cols="60" rows="25"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+	<b>Or</b> paste from clipboard (do <b>NOT</b> specify file):<br />
+	<textarea name="Upload" cols="60" rows="15"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+	
+	<p class="smallgray2">&nbsp;<br />IMPORTANT: 
+	If the text is too long, the import may not be possible.<br />
+	Current upload limits (in bytes):<br />
+	<b>post_max_size = <?php echo ini_get('post_max_size'); ?> / 
+	upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
+	If needed, increase in <br />"<?php echo tohtml(php_ini_loaded_file()); ?>" <br />and restart server.</p>
 	</td>
 	</tr>
 	<tr>
