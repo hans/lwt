@@ -24,6 +24,8 @@ pagestart('Long Text Import',true);
 
 $message = '';
 $max_input_vars = ini_get('max_input_vars');
+if ($max_input_vars === FALSE) $max_input_vars = 1000;
+if ($max_input_vars == '') $max_input_vars = 1000;
 
 if (isset($_REQUEST['op'])) {
 	
