@@ -203,7 +203,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.9 (July ?? 2013)</b>.
+          <li>The current version is <b>1.5.9 (July 04 2013)</b>.
           </li>
 
           <li>
@@ -1304,10 +1304,13 @@ Developed by J. P. in 2011, 2012, 2013.
             <b><a name="howtolang" id="howtotext">New/Edit Text (with Check)</a></b>
             <br />
             <br />
-            This is the screen to input, check or edit a text. Try to store not too long texts. If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be slow. An audio URI can also be defined. The best place to store your audios is the "media" subdirectory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files, but be aware that not all browsers and/or operating systems support all media types! If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
+            This is the screen to input, check or edit a single text. Try to store not too long texts (the maximum length is 65,000 Bytes). If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be quite slow. An audio URI and a link to the text source can also be defined. The best place to store your audios is the "media" subdirectory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files, but be aware that not all browsers and/or operating systems support all media types! If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
             <br />
             <br />
             <img class="grayborder" src="img/05.jpg" alt="Image" />
+            <br />
+            <br />
+            You can also import a longer text into LWT with the possibility to the split it up into several smaller texts. Click on "Long Text Import". You must specify the maximum number of sentences per text, and the handling of newlines for paragraph detection. It is not possible to specify audio files or URIs.
             <br />
             <br />
           </li>
@@ -2391,11 +2394,11 @@ with audioplayer", if needed.</li>
 
       <dd>
         <ul>
-        	<li>1.5.9 (July ?? 2013):<br />
+        	<li>1.5.9 (July 04 2013):<br />
         	<b>New Feature:</b> Long Text Import: Importing a long text via file upload or from a text box, with splitting options.<br />
         	Possibility to save the source URI with an active or archived text.<br />
         	Missing code in tag management stylesheet restored.<br />
-        	Documentation updated.<br /><br />
+        	Documentation and some screenshots updated.<br /><br />
         	</li>        	
 
         	<li>1.5.8 (June 27 2013):<br />

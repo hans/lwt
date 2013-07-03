@@ -197,8 +197,8 @@ if (isset($_REQUEST['op'])) {
 	<td class="td1">
 	Either specify a <b>File to upload</b>:<br />
 	<input name="thefile" type="file" /><br /><br />
-	<b>Or</b> paste from clipboard (do <b>NOT</b> specify file):<br />
-	<textarea name="Upload" cols="60" rows="15"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+	<b>Or</b> paste a text from the clipboard (and do <b>NOT</b> specify file):<br />
+	<textarea name="Upload" cols="60" rows="15"></textarea>
 	
 	<p class="smallgray">
 	If the text is too long, the import may not be possible.<br />
