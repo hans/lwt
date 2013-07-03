@@ -344,6 +344,9 @@ if (isset($_REQUEST['new'])) {
 	</table>
 	</form>
 	
+	<p class="smallgray">Import of a <b>long text</b>, without audio, with splitting it up into smaller texts:</p><p><input type="button" value="Long Text Import" onclick="location.href='long_text_import.php';" /> </p>
+
+	
 	<?php
 	
 }
@@ -449,7 +452,8 @@ else {
 ?>
 
 <p>
-<a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Text ...</a>
+<a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Text ...</a> &nbsp; | &nbsp;
+<a href="long_text_import.php"><img src="icn/plus-button.png" title="New" alt="New" /> New long Text (with split-up) ...</a>
 </p>
 
 <form name="form1" action="#" onsubmit="document.form1.querybutton.click(); return false;">

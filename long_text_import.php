@@ -23,10 +23,11 @@ include "utilities.inc.php";
 pagestart('Long Text Import',true);
 
 $message = '';
+$max_input_vars = ini_get('max_input_vars');
 
 if (isset($_REQUEST['op'])) {
 	
-	if (substr($_REQUEST['op'],0,5) == 'Split') {
+	if (substr($_REQUEST['op'],0,5) == 'NEXT ') {
 		
 		$langid = $_REQUEST["LgID"];
 		$title = $_REQUEST["TxTitle"];
@@ -34,7 +35,6 @@ if (isset($_REQUEST['op'])) {
 		$maxsent = $_REQUEST["maxsent"];
 		$source_uri = $_REQUEST["TxSourceURI"];
 		$texttags = json_encode($_REQUEST["TextTags"]);
-		$max_input_vars = ini_get('max_input_vars');
 		
 		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
 			$data = file_get_contents($_FILES["thefile"]["tmp_name"]);
@@ -86,7 +86,7 @@ if (isset($_REQUEST['op'])) {
 			$shorter = ($textcount==1 ? ' ' : ' shorter ');
 			
 			if ($textcount > $max_input_vars-20) {
-				$message = "Error: Too many texts (" . $textcount . " > " . ($max_input_vars-20) . "). You must increase 'Sentences/Text'!";
+				$message = "Error: Too many texts (" . $textcount . " > " . ($max_input_vars-20) . "). You must increase 'Maximum Sentences per Text'!";
 				echo error_message_with_hide($message,0);
 			}
 			else {
@@ -118,7 +118,7 @@ if (isset($_REQUEST['op'])) {
 			<tr>
 			<td class="td1 right"><b>Text <?php echo $textno+1; ?>:</b><br /><br /><br />Length:<br /><?php echo $bytes; ?><br />Bytes</td>
 			<td class="td1">
-			<textarea readonly="readonly" <?php echo getScriptDirectionTag($langid); ?> name="text[<?php echo $textno; ?>]" cols="60" rows="10"><?php echo str_replace("¶ ","\n",implode(" ",$item)); ?></textarea>
+			<textarea readonly="readonly" <?php echo getScriptDirectionTag($langid); ?> name="text[<?php echo $textno; ?>]" cols="60" rows="10"><?php echo str_replace('¶',"\n",str_replace("¶ ","\n",implode(" ",$item))); ?></textarea>
 			</td>
 			</tr>
 <?php
@@ -200,7 +200,7 @@ if (isset($_REQUEST['op'])) {
 	<b>Or</b> paste from clipboard (do <b>NOT</b> specify file):<br />
 	<textarea name="Upload" cols="60" rows="15"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 	
-	<p class="smallgray2">&nbsp;<br />IMPORTANT: 
+	<p class="smallgray">
 	If the text is too long, the import may not be possible.<br />
 	Current upload limits (in bytes):<br />
 	<b>post_max_size = <?php echo ini_get('post_max_size'); ?> / 
@@ -209,18 +209,18 @@ if (isset($_REQUEST['op'])) {
 	</td>
 	</tr>
 	<tr>
-	<td class="td1 right">Paragraphs:</td>
+	<td class="td1 right">NEWLINES and<br />Paragraphs:</td>
 	<td class="td1">
 	<select name="paragraph_handling">
-	<option value="1" selected="selected">ONE Newline = Paragraph ends</option>
-	<option value="2">TWO Newlines = Paragraph ends; single Newline -&gt; SPACE</option>
+	<option value="1" selected="selected">ONE NEWLINE: Paragraph ends</option>
+	<option value="2">TWO NEWLINEs: Paragraph ends. Single NEWLINE converted to SPACE</option>
 	</select>
 	<img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 	</td>
 	</tr>
 	<tr>
-	<td class="td1 right">Sent./Text:</td>
-	<td class="td1"><input type="text" class="notempty posintnumber"  data_info="Sentences per Text" name="maxsent" value="50" maxlength="3" size="3" /> ← Max. Sentences per text, and max. 65,000 bytes per text. <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1 right">Maximum<br />Sentences<br />per Text:</td>
+	<td class="td1"><input type="text" class="notempty posintnumber"  data_info="Maximum Sentences per Text" name="maxsent" value="50" maxlength="3" size="3" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /><br /><span class="smallgray">Values higher than 100 may slow down text display.<br />Very low values (< 5) may result in too many texts.<br />The maximum number of new texts must not exceed <?php echo ($max_input_vars-20); ?>.<br />A single new text will never exceed the length of 65,000 bytes.</span></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Source URI:</td>
@@ -233,11 +233,14 @@ if (isset($_REQUEST['op'])) {
 	</td>
 	</tr>
 	<tr>
-	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='index.php';" /> &nbsp; | &nbsp; <input type="submit" name="op" value="Split Text" />
+	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='index.php';" /> &nbsp; | &nbsp; <input type="submit" name="op" value="NEXT STEP: Check the Texts" />
 	</td>
 	</tr>
 	</table>
 	</form>
+	
+	<p class="smallgray">Import of a <b>single text</b>, max. 65,000 bytes long, with optional audio:</p><p><input type="button" value="Standard Text Import" onclick="location.href='edit_texts.php?new=1';" /> </p>
+
 
 <?php
 

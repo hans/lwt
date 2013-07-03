@@ -57,12 +57,12 @@ else
 <th class="th1 center">Install Demo</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be replaced by the LWT demo database.
+The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be <b>replaced</b> by the LWT demo database.
 
 <?php 
 if ($langcnt > 0 ) { 
 	?>
-	<br /><b>The existent database will be overwritten!</b>
+	<br />The existent database will be <b>overwritten!</b>
 	<?php 
 } 
 ?>
