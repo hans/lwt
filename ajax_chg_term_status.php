@@ -15,9 +15,10 @@ Call: ajax_chg_term_status.php
 Change term status (Table Test)
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $wid = $_REQUEST['id'];
 $up = $_REQUEST['data'];

@@ -39,11 +39,11 @@ if(session_id() == '') {
 	// session isn't started
 	$err = @session_start();
 	if ($err === FALSE) 
-		die('SESSION error (Impossible to start a PHP session)');
+		my_die('SESSION error (Impossible to start a PHP session)');
 	if(session_id() == '')
-		die('SESSION ID empty (Impossible to start a PHP session)');
+		my_die('SESSION ID empty (Impossible to start a PHP session)');
 	if (! isset($_SESSION))
-		die('SESSION array not set (Impossible to start a PHP session)');
+		my_die('SESSION array not set (Impossible to start a PHP session)');
 }
 
 ?>

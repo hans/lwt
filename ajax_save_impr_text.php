@@ -15,9 +15,10 @@ Call: ajax_save_impr_text.php
 Save Improved Annotation
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $textid = $_POST['id'] + 0;
 $elem = $_POST['elem'];

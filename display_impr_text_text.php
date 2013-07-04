@@ -15,9 +15,10 @@ Call: display_impr_text_text.php?text=[textid]
 Display an improved annotated text (text frame)
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $textid = getreq('text')+0;
 $ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
@@ -29,16 +30,14 @@ if(($textid==0) || (! $ann_exists)) {
 }
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysql_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];

@@ -18,9 +18,10 @@ Call: do_test_test.php?&selection=1
 Show test frame with vocab table
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $p = '';
 
@@ -36,7 +37,7 @@ elseif (isset($_REQUEST['text'])) {
 	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $_REQUEST['text'] . ' ';
 }
 
-else die("Called with wrong parameters");
+else my_die("Called with wrong parameters");
 
 pagestart_nobody('','html, body { margin:3px; padding:0; }');
 
@@ -56,8 +57,7 @@ if (! isset($lang)) {
 }
 
 $sql = 'select LgTextSize, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $textsize = round(($record['LgTextSize']-100)/2,0)+100;
 
@@ -176,8 +176,7 @@ $(document).ready( function() {
 
 $sql = 'SELECT DISTINCT WoID, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoTodayScore As Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' order by WoTodayScore, WoRandom*RAND()';
 if ($debug) echo $sql;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 while ($record = mysql_fetch_assoc($res)) {
 	$sent = tohtml(repl_tab_nl($record["WoSentence"]));
 	$sent1 = str_replace("{", ' <b>[', str_replace("}", ']</b> ', 

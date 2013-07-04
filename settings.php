@@ -17,9 +17,10 @@ Call: settings.php?....
 Preferences / Settings 
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 pagestart('Settings/Preferences',true);
 $message = '';

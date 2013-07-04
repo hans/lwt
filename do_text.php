@@ -15,9 +15,10 @@ Call: do_text.php?start=[textid]
 Start Reading a text (frameset)
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php"; 
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' ); 
 
 if (isset($_REQUEST['start'])) {
 	

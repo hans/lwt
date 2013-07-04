@@ -15,19 +15,19 @@ Call: show_word.php?wid=...
 Show term
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 pagestart_nobody('Term');
 
 $wid = getreq('wid');
 
-if ($wid == '') die ('Word not found');
+if ($wid == '') my_die ('Word not found');
 
 $sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 if ($record = mysql_fetch_assoc($res)) {
 
 	$transl = repl_tab_nl($record['WoTranslation']);

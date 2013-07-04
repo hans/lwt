@@ -17,9 +17,10 @@ Call: print_impr_text.php?text=[textid]&...
 Print/Edit an improved annotated text
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $textid = getreq('text')+0;
 $editmode = getreq('edit')+0;
@@ -47,8 +48,7 @@ if ( $delmode ) {  // Delete
 }
 
 $sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
@@ -59,8 +59,7 @@ $audio = trim($audio);
 mysql_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];

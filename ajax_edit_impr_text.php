@@ -16,9 +16,10 @@ Display table for Improved Annotation (Edit Mode),
 Ajax call in print_impr_text.php
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 function make_trans($i, $wid, $trans, $word, $lang) {
 	global $tbpref;	
@@ -61,16 +62,14 @@ $textid = $_POST["id"] + 0;
 $wordlc = stripTheSlashesIfNeeded($_POST['word']);
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysql_free_result($res);
 
 $sql = 'select LgTextSize, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $textsize = $record['LgTextSize'] + 0;
 if ($textsize > 100) $textsize = intval($textsize * 0.8);

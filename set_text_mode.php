@@ -15,9 +15,10 @@ Call: set_text_mode.php?text=[textid]&mode=0/1
 Change the text display mode
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php"; 
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' ); 
 
 $tid = getreq('text') + 0;
 $showAll = getreq('mode') + 0;
@@ -41,8 +42,7 @@ var context = window.parent.frames['l'].document;
 
 $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
 
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $hideuntil = -1;
 $hidetag = "removeClass('hide');";
 

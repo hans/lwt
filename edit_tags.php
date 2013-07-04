@@ -25,9 +25,10 @@ Call: edit_tags.php?....
 Manage tags
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $currentsort = processDBParam("sort",'currenttagsort','1',1);
 
@@ -143,8 +144,7 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'tags where TgID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	if ($record = mysql_fetch_assoc($res)) {
 ?>
 		<h4>Edit Tag</h4>
@@ -265,8 +265,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 
 $sql = 'select TgID, TgText, TgComment from ' . $tbpref . 'tags where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 while ($record = mysql_fetch_assoc($res)) {
 	$c = get_first_value('select count(*) as value from ' . $tbpref . 'wordtags where WtTgID=' . $record['TgID']);
 	echo '<tr>';

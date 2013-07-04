@@ -18,9 +18,10 @@ Call: backup_restore.php?....
 Backup/Restore/Empty LWT Database
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $message = '';
 
@@ -53,10 +54,10 @@ elseif (isset($_REQUEST['backup'])) {
 	$fname = "lwt-backup-" . $pref . date('Y-m-d-H-i-s') . ".sql.gz";
 	$out = "-- " . $fname . "\n";
 	foreach($tables as $table) { // foreach table
-		$result = mysql_query('SELECT * FROM ' . $tbpref . $table);
+		$result = do_mysql_query('SELECT * FROM ' . $tbpref . $table);
 		$num_fields = mysql_num_fields($result);
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
-		$row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE ' . $tbpref . $table));
+		$row2 = mysql_fetch_row(do_mysql_query('SHOW CREATE TABLE ' . $tbpref . $table));
 		$out .= str_replace($tbpref . $table, $table, str_replace("\n"," ",$row2[1])) . ";\n";
 		if ($table !== 'sentences' && $table !== 'textitems') {
 			while ($row = mysql_fetch_row($result)) { // foreach record

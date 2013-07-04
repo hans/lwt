@@ -31,9 +31,10 @@ Call: edit_words.php?....
 Manage terms
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentwordsort','1',1);
@@ -179,8 +180,7 @@ if (isset($_REQUEST['allaction'])) {
 			$sql = 'select distinct WoID from (' . $tbpref . 'words left JOIN ' . $tbpref . 'wordtags ON WoID = WtWoID), ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag;
 		}
 		$cnt=0;
-		$res = mysql_query($sql);
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 		while ($record = mysql_fetch_assoc($res)) {
 			$id = $record['WoID'];
 			$message='0';
@@ -275,8 +275,7 @@ if (isset($_REQUEST['allaction'])) {
 		}
 		$cnt = 0;
 		$list = '(';
-		$res = mysql_query($sql);
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 		while ($record = mysql_fetch_assoc($res)) {
 			$cnt++;
 			$id = $record['WoID'];
@@ -409,8 +408,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'words, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	if ($record = mysql_fetch_assoc($res)) {
 		
 		$wordlc = $record['WoTextLC'];
@@ -613,8 +611,7 @@ if ($currenttext == '') {
 }
 if ($debug) echo $sql;
 flush();
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 while ($record = mysql_fetch_assoc($res)) {
 	$days = $record['Days'];
 	if ( $record['WoStatus'] > 5 ) $days="-";

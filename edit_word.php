@@ -20,9 +20,10 @@ Call: edit_word.php?....
 New/Edit single word
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));
 if ( $translation_raw == '' ) $translation = '*';
@@ -157,14 +158,13 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	if ($wid == '') {	
 		$sql = 'select TiText, TiLgID from ' . $tbpref . 'textitems where TiTxID = ' . $_REQUEST['tid'] . ' and TiWordCount = 1 and TiOrder = ' . $_REQUEST['ord'];
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 		$record = mysql_fetch_assoc($res);
 		if ($record) {
 			$term = $record['TiText'];
 			$lang = $record['TiLgID'];
 		} else {
-			die("Error: No results");
+			my_die("Error: No results");
 		}
 		mysql_free_result($res);
 		
@@ -175,14 +175,13 @@ else {  // if (! isset($_REQUEST['op']))
 	} else {
 
 		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 		$record = mysql_fetch_assoc($res);
 		if ( $record ) {
 			$term = $record['WoText'];
 			$lang = $record['WoLgID'];
 		} else {
-			die("Error: No results");
+			my_die("Error: No results");
 		}
 		mysql_free_result($res);
 		$termlc =	mb_strtolower($term, 'UTF-8');
@@ -257,8 +256,7 @@ else {  // if (! isset($_REQUEST['op']))
 	else {
 		
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 		if ($record = mysql_fetch_assoc($res)) {
 			
 			$status = $record['WoStatus'];

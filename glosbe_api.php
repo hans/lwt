@@ -21,9 +21,10 @@ Call Glosbe Translation API, analyze and present JSON results
 for easily filling the "new word form"
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $from = trim(stripTheSlashesIfNeeded($_REQUEST["from"]));
 $dest = trim(stripTheSlashesIfNeeded($_REQUEST["dest"]));

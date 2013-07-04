@@ -18,9 +18,10 @@ Call: do_test_test.php?type=[testtype]&selection=1
 Show test frame
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $p = '';
 
@@ -36,7 +37,7 @@ elseif (isset($_REQUEST['text'])) {
 	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $_REQUEST['text'] . ' ';
 }
 
-else die("Called with wrong parameters");
+else my_die("Called with wrong parameters");
 
 $testtype = getreq('type') + 0;
 if ($testtype < 1) $testtype=1;
@@ -80,8 +81,7 @@ if ($count <= 0) {
 	$lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
 	
 	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
 	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
@@ -101,8 +101,7 @@ if ($count <= 0) {
 		$pass++;
 		$sql = 'SELECT DISTINCT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, (ifnull(WoSentence,\'\') not like concat(\'%{\',WoText,\'}%\')) as notvalid, WoStatus, DATEDIFF( NOW( ), WoStatusChanged ) AS Days, WoTodayScore AS Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0 ' . ($pass == 1 ? 'AND WoRandom > RAND()' : '') . ' order by WoTodayScore, WoRandom LIMIT 1';
 		if ($debug) echo 'DEBUG TEST-SQL: ' . $sql . '<br />';
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid query: $sql");
+		$res = do_mysql_query($sql);
 		$record = mysql_fetch_assoc($res);
 		if ( $record ) {
 			$num = 1;
@@ -140,8 +139,7 @@ if ($count <= 0) {
 				$pass++;
 				if ($debug) echo "DEBUG search sent: pass: $pass <br />";
 				$sql = 'SELECT DISTINCT SeID FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
-				$res = mysql_query($sql);		
-				if ($res == FALSE) die("Invalid query: $sql");
+				$res = do_mysql_query($sql);
 				$record = mysql_fetch_assoc($res);
 				if ( $record ) {  // random sent found
 					$num = 1;

@@ -15,13 +15,13 @@ Call: do_text_text.php?text=[textid]
 Show text header frame
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text'];
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
@@ -30,8 +30,7 @@ mysql_free_result($res);
 pagestart_nobody(tohtml($title));
 
 $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
@@ -78,8 +77,7 @@ $titext = array('','','','','','','','','','','');
 $hideuntil = -1;
 $hidetag = '';
 
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 
 while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
 

@@ -21,9 +21,10 @@ Call: edit_languages.php?....
 Manage languages
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 pagestart('My Languages',true);
 $message = '';
@@ -39,8 +40,7 @@ if (isset($_REQUEST['refresh'])) {
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
 	$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	while ($record = mysql_fetch_assoc($res)) {
 		$txtid = $record["TxID"];
 		$txttxt = $record["TxText"];
@@ -99,10 +99,9 @@ elseif (isset($_REQUEST['op'])) {
 	elseif ($_REQUEST['op'] == 'Change') {
 		// Get old values
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $_REQUEST["LgID"];
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 		$record = mysql_fetch_assoc($res);
-		if ($record == FALSE) die("No results: $sql");
+		if ($record == FALSE) my_die("No results: $sql");
 		$oldCharacterSubstitutions = $record['LgCharacterSubstitutions'];
 		$oldRegexpSplitSentences = $record['LgRegexpSplitSentences'];
 		$oldExceptionsSplitSentences = $record['LgExceptionsSplitSentences'];
@@ -151,8 +150,7 @@ elseif (isset($_REQUEST['op'])) {
 			adjust_autoincr('sentences','SeID');
 			adjust_autoincr('textitems','TiID');
 			$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
-			$res = mysql_query($sql);		
-			if ($res == FALSE) die("Invalid Query: $sql");
+			$res = do_mysql_query($sql);
 			$cntrp = 0;
 			while ($record = mysql_fetch_assoc($res)) {
 				$txtid = $record["TxID"];
@@ -247,8 +245,7 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'languages where LgID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	if ($record = mysql_fetch_assoc($res)) {
 	
 		?>
@@ -364,8 +361,7 @@ if ($recno==0) {
 
 $sql = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages order by LgName';
 if ($debug) echo $sql;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 while ($record = mysql_fetch_assoc($res)) {
 	$textcount = get_first_value('select count(TxID) as value from ' . $tbpref . 'texts where TxLgID=' . $record['LgID']);
 	$archtextcount = get_first_value('select count(AtID) as value from ' . $tbpref . 'archivedtexts where AtLgID=' . $record['LgID']);

@@ -17,9 +17,10 @@ Call: print_text.php?text=[textid]&...
 Print a text
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 function output_text($saveterm,$saverom,$savetrans,$savetags,
 	$show_rom,$show_trans,$show_tags,$annplcmnt) {
@@ -98,8 +99,7 @@ if($annplcmnt == '') $annplcmnt = getSetting('currentprintannotationplacement');
 if($annplcmnt == '') $annplcmnt = 0;
 
 $sql = 'select TxLgID, TxTitle, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
@@ -107,8 +107,7 @@ $langid = $record['TxLgID'];
 mysql_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
@@ -167,8 +166,7 @@ $saverom = '';
 $savetags = '';
 $until = 0;
 
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 
 while ($record = mysql_fetch_assoc($res)) {
 

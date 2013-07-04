@@ -16,24 +16,24 @@ Call: set_word_status.php?...
 Change status of term while reading
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
 $status = $_REQUEST['status'];
 
 $sql = 'SELECT WoText, WoTranslation, WoRomanization FROM ' . $tbpref . 'words where WoID = ' . $wid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 if ($record) {
 	$word = $record['WoText'];
 	$trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid,' ',1,0);
 	$roman = $record['WoRomanization'];
 } else {
-	die("Error: No results"); 
+	my_die("Error: No results"); 
 }
 mysql_free_result($res);
 

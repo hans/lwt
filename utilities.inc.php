@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.9 (July 03 2013)'  . 
+	return '1.5.10 (July ?? 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -29,11 +29,23 @@ function get_version_number() {
 	$r = 'v';
 	$v = get_version();
 	$pos = strpos($v,' ',0);
-	if ($pos === false) die ('wrong version:'. $v);
+	if ($pos === false) my_die ('Wrong version:'. $v);
 	$vn = preg_split ("/[.]/", substr($v,0,$pos));
-	if (count($vn) < 3) die ('wrong version:'. $v);
+	if (count($vn) < 3) my_die ('Wrong version:'. $v);
 	for ($i=0; $i<3; $i++) $r .= substr('000' . $vn[$i],-3);
 	return $r;  // 'vxxxyyyzzz' wenn version = x.y.z
+}
+
+// -------------------------------------------------------------
+
+function my_die($text) {
+	echo '<div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
+		'<p><b>Fatal Error:</b> ' . 
+		tohtml($text) . 
+		"</p></div><hr /><pre>Backtrace:\n\n";
+	debug_print_backtrace ();
+	echo '</pre><hr />';
+	die('</body></html>');
 }
 
 // -------------------------------------------------------------
@@ -94,8 +106,7 @@ function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add) {
 		$sql = 'select TxID from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID = TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1];
 
 	$list = array(0);
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);		
 	while ($record = mysql_fetch_assoc($res)) {
 		array_push($list, ($record['TxID']+0));
 	}
@@ -133,8 +144,7 @@ function get_tags($refresh = 0) {
 	}
 	$tags = array();
 	$sql = 'select TgText from ' . $tbpref . 'tags order by TgText';
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);		
 	while ($record = mysql_fetch_assoc($res)) {
 		$tags[] = $record["TgText"];
 	}
@@ -154,8 +164,7 @@ function get_texttags($refresh = 0) {
 	}
 	$tags = array();
 	$sql = 'select T2Text from ' . $tbpref . 'tags2 order by T2Text';
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);		
 	while ($record = mysql_fetch_assoc($res)) {
 		$tags[] = $record["T2Text"];
 	}
@@ -184,8 +193,7 @@ function get_tag_selectoptions($v,$l) {
 		$sql = "select TgID, TgText from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText";
 	else
 		$sql = "select TgID, TgText from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $l . " group by TgID order by TgText";
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);		
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["TgText"];
@@ -211,8 +219,7 @@ function get_texttag_selectoptions($v,$l) {
 		$sql = "select T2ID, T2Text from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by T2Text";
 	else
 		$sql = "select T2ID, T2Text from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $l . " group by T2ID order by T2Text";
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);		
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["T2Text"];
@@ -238,8 +245,7 @@ function get_archivedtexttag_selectoptions($v,$l) {
 		$sql = "select T2ID, T2Text from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID group by T2ID order by T2Text";
 	else
 		$sql = "select T2ID, T2Text from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $l . " group by T2ID order by T2Text";
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);		
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["T2Text"];
@@ -342,8 +348,7 @@ function getWordTags($wid) {
 	$r = '<ul id="termtags">';
 	if ($wid > 0) {
 		$sql = 'select TgText from ' . $tbpref . 'wordtags, ' . $tbpref . 'tags where TgID = WtTgID and WtWoID = ' . $wid . ' order by TgText';
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid query: $sql");
+		$res = do_mysql_query($sql);		
 		while ($record = mysql_fetch_assoc($res)) {
 			$r .= '<li>' . tohtml($record["TgText"]) . '</li>';
 		}
@@ -360,8 +365,7 @@ function getTextTags($tid) {
 	$r = '<ul id="texttags">';
 	if ($tid > 0) {
 		$sql = 'select T2Text from ' . $tbpref . 'texttags, ' . $tbpref . 'tags2 where T2ID = TtT2ID and TtTxID = ' . $tid . ' order by T2Text';
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid query: $sql");
+		$res = do_mysql_query($sql);		
 		while ($record = mysql_fetch_assoc($res)) {
 			$r .= '<li>' . tohtml($record["T2Text"]) . '</li>';
 		}
@@ -378,8 +382,7 @@ function getArchivedTextTags($tid) {
 	$r = '<ul id="texttags">';
 	if ($tid > 0) {
 		$sql = 'select T2Text from ' . $tbpref . 'archtexttags, ' . $tbpref . 'tags2 where T2ID = AgT2ID and AgAtID = ' . $tid . ' order by T2Text';
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid query: $sql");
+		$res = do_mysql_query($sql);
 		while ($record = mysql_fetch_assoc($res)) {
 			$r .= '<li>' . tohtml($record["T2Text"]) . '</li>';
 		}
@@ -399,8 +402,7 @@ function addtaglist ($item, $list) {
 		$tagid = get_first_value('select TgID as value from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item));
 	}
 	$sql = 'select WoID from ' . $tbpref . 'words where WoID in ' . $list;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$cnt++;
@@ -420,8 +422,7 @@ function addarchtexttaglist ($item, $list) {
 		$tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
 	}
 	$sql = 'select AtID from ' . $tbpref . 'archivedtexts where AtID in ' . $list;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$cnt++;
@@ -441,8 +442,7 @@ function addtexttaglist ($item, $list) {
 		$tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
 	}
 	$sql = 'select TxID from ' . $tbpref . 'texts where TxID in ' . $list;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$cnt++;
@@ -459,8 +459,7 @@ function removetaglist ($item, $list) {
 	$tagid = get_first_value('select TgID as value from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item));
 	if (! isset($tagid)) return "Tag " . $item . " not found";
 	$sql = 'select WoID from ' . $tbpref . 'words where WoID in ' . $list;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$cnt++;
@@ -477,8 +476,7 @@ function removearchtexttaglist ($item, $list) {
 	$tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
 	if (! isset($tagid)) return "Tag " . $item . " not found";
 	$sql = 'select AtID from ' . $tbpref . 'archivedtexts where AtID in ' . $list;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$cnt++;
@@ -495,8 +493,7 @@ function removetexttaglist ($item, $list) {
 	$tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
 	if (! isset($tagid)) return "Tag " . $item . " not found";
 	$sql = 'select TxID from ' . $tbpref . 'texts where TxID in ' . $list;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
 		$cnt++;
@@ -653,8 +650,7 @@ function get_execution_time()
 
 function getprefixes() {
 	$prefix = array();
-	$res = mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings')));
-	if ($res == FALSE) die("Unable to check existent tables");
+	$res = do_mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings')));
 	while ($row = mysql_fetch_row($res)) 
 		$prefix[] = substr($row[0], 0, -9);
 	mysql_free_result($res);
@@ -767,20 +763,6 @@ function errorbutton($msg) {
 
 // -------------------------------------------------------------
 
-function runsql($sql, $m, $sqlerrdie = TRUE) {
-	$res = mysql_query($sql);		
-	if ($res == FALSE) {
-		if ($sqlerrdie) die("Invalid Query: $sql"); 
-		$message = "Error: " . mysql_error();
-	} else {
-		$num = mysql_affected_rows();
-		$message = (($m == '') ? $num : ($m . ": " . $num));
-	}
-	return $message;
-}
-
-// -------------------------------------------------------------
-
 function optimizedb() {
 	global $tbpref;
 	adjust_autoincr('archivedtexts','AtID');
@@ -808,8 +790,7 @@ function adjust_autoincr($table,$key) {
 	$val = get_first_value('select max(' . $key .')+1 as value from ' . $tbpref .  $table);
 	if (! isset($val)) $val = 1;
 	$sql = 'alter table ' . $tbpref . $table . ' AUTO_INCREMENT = ' . $val;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 }
 
 // -------------------------------------------------------------
@@ -1153,20 +1134,6 @@ function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1) {
 
 // -------------------------------------------------------------
 
-function get_first_value($sql) {
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
-	$record = mysql_fetch_assoc($res);
-	if ($record) 
-		$d = $record["value"];
-	else
-		$d = NULL;
-	mysql_free_result($res);
-	return $d;
-}
-
-// -------------------------------------------------------------
-
 function get_last_key() {
 	return get_first_value('SELECT LAST_INSERT_ID() as value');		
 }
@@ -1211,8 +1178,7 @@ function make_status_controls_test_table($score, $status, $wordid) {
 function get_languages_selectoptions($v,$dt) {
 	global $tbpref;
 	$sql = "select LgID, LgName from " . $tbpref . "languages order by LgName";
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	if ( ! isset($v) || trim($v) == '' ) {
 		$r = "<option value=\"\" selected=\"selected\">" . $dt . "</option>";
 	} else {
@@ -1554,8 +1520,7 @@ function get_texts_selectoptions($lang,$v) {
 	$r = "<option value=\"\"" . get_selected($v,'');
 	$r .= ">[Filter off]</option>";
 	$sql = "select TxID, TxTitle, LgName from " . $tbpref . "languages, " . $tbpref . "texts where LgID = TxLgID " . $l . " order by LgName, TxTitle";
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid query: $sql");
+	$res = do_mysql_query($sql);
 	while ($record = mysql_fetch_assoc($res)) {
 		$d = $record["TxTitle"];
 		if ( mb_strlen($d, 'UTF-8') > 30 ) $d = mb_substr($d,0,30, 'UTF-8') . "...";
@@ -1682,8 +1647,7 @@ function createTheDictLink($u,$t) {
 function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst) {
 	global $tbpref;
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
 	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
@@ -1755,8 +1719,7 @@ function makeOpenDictStrDynSent($url, $sentctljs, $txt) {
 function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs) {
 	global $tbpref;
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
 	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 	if(substr($wb1,0,1) == '*') $wb1 = substr($wb1,1);
@@ -1780,8 +1743,7 @@ function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs) {
 function makeDictLinks($lang,$wordctljs) {
 	global $tbpref;
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
 	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 	if(substr($wb1,0,1) == '*') $wb1 = substr($wb1,1);
@@ -1805,8 +1767,7 @@ function makeDictLinks($lang,$wordctljs) {
 function createDictLinksInEditWin3($lang,$sentctljs,$wordctljs) {
 	global $tbpref;
 	$sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
 	
 	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
@@ -1894,9 +1855,8 @@ function strToClassName($string)
 
 function anki_export($sql) {
 	// WoID, LgRightToLeft, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, taglist
-	$res = mysql_query($sql);
-	$x = '';		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
+	$x = '';
 	while ($record = mysql_fetch_assoc($res)) {
 		$rtlScript = $record['LgRightToLeft'];
 		$span1 = ($rtlScript ? '<span dir="rtl">' : '');
@@ -1929,9 +1889,8 @@ function anki_export($sql) {
 
 function tsv_export($sql) {
 	// WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, taglist
-	$res = mysql_query($sql);
-	$x = '';		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
+	$x = '';
 	while ($record = mysql_fetch_assoc($res)) {
 		$x .= repl_tab_nl($record["WoText"]) . "\t" . 
 		repl_tab_nl($record["WoTranslation"]) . "\t" . 
@@ -1953,9 +1912,8 @@ function tsv_export($sql) {
 
 function flexible_export($sql) {
 	// WoID, LgName, LgExportTemplate, LgRightToLeft, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, WoStatus, taglist
-	$res = mysql_query($sql);
-	$x = '';		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
+	$x = '';
 	while ($record = mysql_fetch_assoc($res)) {
 		if (isset($record['LgExportTemplate'])) {
 			$woid = $record['WoID'] + 0;
@@ -2124,8 +2082,7 @@ function getSentence($seid, $wordlc,$mode) {
 		}
 	}
 	$sql2 = 'SELECT TiText, TiTextLC, TiWordCount, TiIsNotWord FROM ' . $tbpref . 'textitems WHERE TiSeID in (' . $seidlist . ') and TiTxID=' . $txtid . ' order by TiOrder asc, TiWordCount desc';
-	$res2 = mysql_query($sql2);		
-	if ($res2 == FALSE) die("Invalid query: $sql2");
+	$res2 = do_mysql_query($sql2);
 	$sejs=''; 
 	$se='';
 	$notfound = 1;
@@ -2176,8 +2133,7 @@ function get20Sentences($lang, $wordlc, $jsctlname, $mode) {
 	global $tbpref;
 	$r = '<p><b>Sentences in active texts with <i>' . tohtml($wordlc) . '</i></b></p><p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy sentence into above term)</p>';
 	$sql = 'SELECT DISTINCT SeID, SeText FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	$r .= '<p>';
 	$last = '';
 	while ($record = mysql_fetch_assoc($res)) {
@@ -2295,8 +2251,7 @@ function reparse_all_texts() {
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
 	$sql = "select TxID, TxLgID from " . $tbpref . "texts";
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	while ($record = mysql_fetch_assoc($res)) {
 		$id = $record['TxID'];
 		splitCheckText(
@@ -2350,10 +2305,9 @@ function splitCheckText($text, $lid, $id) {
 	global $tbpref;
 	$r = '';
 	$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
-	if ($record == FALSE) die("No results: $sql");
+	if ($record == FALSE) my_die("No results: $sql");
 	$removeSpaces = $record['LgRemoveSpaces'];
 	$splitEachChar = $record['LgSplitEachChar'];
 	$splitSentence = $record['LgRegexpSplitSentences'];
@@ -2666,8 +2620,7 @@ function create_ann($textid) {
 	$savetrans = '';
 	$savewordid = '';
 	$until = 0;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	while ($record = mysql_fetch_assoc($res)) {
 		$actcode = $record['Code'] + 0;
 		$order = $record['TiOrder'] + 0;
@@ -2703,9 +2656,9 @@ function create_ann($textid) {
 // -------------------------------------------------------------
 
 function LWTTableCheck () {
-	if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) {
+	if (mysql_num_rows(do_mysql_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) {
 		runsql("CREATE TABLE IF NOT EXISTS _lwtgeneral ( LWTKey varchar(40) NOT NULL, LWTValue varchar(40) DEFAULT NULL, PRIMARY KEY (LWTKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
-		if (mysql_num_rows(mysql_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) die("Unable to create table '_lwtgeneral'!");
+		if (mysql_num_rows(do_mysql_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) my_die("Unable to create table '_lwtgeneral'!");
 	}
 }
 
@@ -2964,8 +2917,7 @@ function refreshText($word,$tid) {
 	$wordlc = trim(mb_strtolower($word, 'UTF-8'));
 	if ( $wordlc == '') return '';
 	$sql = 'SELECT distinct TiSeID FROM ' . $tbpref . 'textitems WHERE TiIsNotWord = 0 and TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' and TiTxID = ' . $tid . ' order by TiSeID';
-	$res = mysql_query($sql);		
-	if ($res == FALSE) return '';
+	$res = do_mysql_query($sql);
 	$inlist = '(';
 	while ($record = mysql_fetch_assoc($res)) { 
 		if ($inlist == '(') 
@@ -2980,8 +2932,7 @@ function refreshText($word,$tid) {
 		$inlist =  ' where TiSeID in ' . $inlist . ') ';
 	$sql = 'select TiWordCount as Code, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) ' . $inlist . ' order by TiOrder asc, TiWordCount desc';
 
-	$res = mysql_query($sql);		
-	if ($res == FALSE) return '';
+	$res = do_mysql_query($sql);		
 
 	$hideuntil = -1;
 	$hidetag = "removeClass('hide');";
@@ -3032,8 +2983,7 @@ function check_update_db() {
 	global $debug, $tbpref;
 	$tables = array();
 	
-	$res = mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull($tbpref . '%')));
-	if ($res == FALSE) die("Unable to check existent tables");
+	$res = do_mysql_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull($tbpref . '%')));
   while ($row = mysql_fetch_row($res)) 
   	$tables[] = $row[0];
 	mysql_free_result($res);
@@ -3115,7 +3065,7 @@ function check_update_db() {
 	$currversion = get_version_number();
 	
 	$res = mysql_query("select StValue as value from " . $tbpref . "settings where StKey = 'dbversion'");
-	if (mysql_errno() != 0) die('There is something wrong with your database ' . $dbname . '. Please reinstall.');
+	if (mysql_errno() != 0) my_die('There is something wrong with your database ' . $dbname . '. Please reinstall.');
 	$record = mysql_fetch_assoc($res);	
 	if ($record) {
 		$dbversion = $record["value"];
@@ -3172,7 +3122,7 @@ if ($dspltime) get_execution_time();
 // Connection, @ suppresses messages from function
 
 $err = @mysql_connect($server,$userid,$passwd); 
-if ($err == FALSE) die('DB connect error (MySQL not running or connection parameters are wrong; start MySQL and/or correct file "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
+if ($err == FALSE) my_die('DB connect error (MySQL not running or connection parameters are wrong; start MySQL and/or correct file "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
 
 @mysql_query("SET NAMES 'utf8'");
 
@@ -3183,7 +3133,7 @@ $err = @mysql_select_db($dbname);
 if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . $dbname . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');
 
 $err = @mysql_select_db($dbname);
-if ($err == FALSE) die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
+if ($err == FALSE) my_die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
 
 // *** GLOBAL VARAIABLES ***
 // $tbpref = Current Table Prefix
@@ -3208,9 +3158,9 @@ else
 
 $len_tbpref = strlen($tbpref); 
 if ($len_tbpref > 0) {
-	if ($len_tbpref > 20) die('Table prefix/set "' . $tbpref . '" longer than 20 digits or characters. Please fix in "connect.inc.php".');
+	if ($len_tbpref > 20) my_die('Table prefix/set "' . $tbpref . '" longer than 20 digits or characters. Please fix in "connect.inc.php".');
 	for ($i=0; $i < $len_tbpref; $i++) 
-		if (strpos("_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", substr($tbpref,$i,1)) === FALSE) die('Table prefix/set "' . $tbpref . '" contains characters or digits other than 0-9, a-z, A-Z or _. Please fix in "connect.inc.php".'); 
+		if (strpos("_0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", substr($tbpref,$i,1)) === FALSE) my_die('Table prefix/set "' . $tbpref . '" contains characters or digits other than 0-9, a-z, A-Z or _. Please fix in "connect.inc.php".'); 
 }
 
 if (! $fixed_tbpref) 

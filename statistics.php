@@ -15,9 +15,10 @@ Call: statistics.php
 Display statistics
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 pagestart('My Statistics',true);
 
@@ -53,8 +54,7 @@ $sum599 = 0;
 $sumall = 0;
 
 $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages ORDER BY LgName';
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 while ($record = mysql_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 	
@@ -173,8 +173,7 @@ $sumkall = 0;
 </tr>
 <?php
 $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages ORDER BY LgName';
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 while ($record = mysql_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 

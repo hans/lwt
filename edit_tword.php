@@ -17,9 +17,10 @@ Call: edit_tword.php?....
 Edit term while testing
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));
 if ( $translation_raw == '' ) $translation = '*';
@@ -78,9 +79,9 @@ if (isset($_REQUEST['op'])) {
 <?php
 
 	$lang = get_first_value('select WoLgID as value from ' . $tbpref . 'words where WoID = ' . $wid);
-	if ( ! isset($lang) ) die('Error: Cannot retrieve language.');
+	if ( ! isset($lang) ) my_die('Error: Cannot retrieve language.');
 	$regexword = get_first_value('select LgRegexpWordCharacters as value from ' . $tbpref . 'languages where LgID = ' . $lang);
-	if ( ! isset($regexword) ) die('Error: Cannot retrieve language data.');
+	if ( ! isset($regexword) ) my_die('Error: Cannot retrieve language data.');
 	$sent = tohtml(repl_tab_nl($_REQUEST["WoSentence"]));
 	$sent1 = str_replace("{", ' <b>[', str_replace("}", ']</b> ', 
 		mask_term_in_sentence($sent,$regexword)));
@@ -121,11 +122,10 @@ else {  // if (! isset($_REQUEST['op']))
 
 	$wid = getreq('wid');
 	
-	if ($wid == '') die("Error: Term ID missing");
+	if ($wid == '') my_die("Error: Term ID missing");
 	
 	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
 	if ( $record ) {
 		$term = $record['WoText'];
@@ -136,7 +136,7 @@ else {  // if (! isset($_REQUEST['op']))
 		$rom = $record['WoRomanization'];
 		$status = $record['WoStatus'];
 	} else {
-		die("Error: No results");
+		my_die("Error: No results");
 	}
 	mysql_free_result($res);
 	

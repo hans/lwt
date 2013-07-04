@@ -24,9 +24,10 @@ Call: edit_archivedtexts.php?....
 Manage archived texts
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentarchivesort','1',1);
@@ -105,8 +106,7 @@ if (isset($_REQUEST['markaction'])) {
 				elseif ($markaction == 'unarch') {
 					$count = 0;
 					$sql = "select AtID, AtLgID from " . $tbpref . "archivedtexts where AtID in " . $list;
-					$res = mysql_query($sql);		
-					if ($res == FALSE) die("Invalid Query: $sql");
+					$res = do_mysql_query($sql);
 					while ($record = mysql_fetch_assoc($res)) {
 						$ida = $record['AtID'];
 						$mess = 0 + runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI from ' . $tbpref . 'archivedtexts where AtID = ' . $ida, "");
@@ -188,8 +188,7 @@ elseif (isset($_REQUEST['op'])) {
 if (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select AtLgID, AtTitle, AtText, AtAudioURI, AtSourceURI, length(AtAnnotatedText) as annotlen from ' . $tbpref . 'archivedtexts where AtID = ' . $_REQUEST['chg'];
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	if ($record = mysql_fetch_assoc($res)) {
 
 		?>
@@ -360,8 +359,7 @@ $sql = 'select AtID, AtTitle, LgName, AtAudioURI, AtSourceURI, length(AtAnnotate
 
 if ($debug) echo $sql;
 
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
+$res = do_mysql_query($sql);
 while ($record = mysql_fetch_assoc($res)) {
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $record['AtID'] . '" ' . checkTest($record['AtID'], 'marked') . ' /></a></td>';

@@ -16,9 +16,10 @@ Call: upload_words.php?....
 Import terms from file or Text area
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 function my_str_getcsv($input) {
   $temp=fopen("php://memory", "rw");

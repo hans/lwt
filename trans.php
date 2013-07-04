@@ -18,9 +18,10 @@ Call 2: trans.php?x=2&t=[text]&i=[dictURI]
 Get a translation from Web Dictionary
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $x = $_REQUEST["x"];
 $i = stripTheSlashesIfNeeded($_REQUEST["i"]);
@@ -28,15 +29,14 @@ $t = stripTheSlashesIfNeeded($_REQUEST["t"]);
 
 if ( $x == 1 ) {
 	$sql = 'select SeText, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'sentences, ' . $tbpref . 'textitems where TiSeID = SeID and TiLgID = LgID and TiTxID = ' . $t . ' and TiOrder = ' . $i;
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
 	if ($record) {
 		$satz = $record['SeText'];
 		$trans = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 		if(substr($trans,0,1) == '*') $trans = substr($trans,1);
 	} else {
-		die("Error: No results: $sql"); 
+		my_die("Error: No results: $sql"); 
 	}
 	mysql_free_result($res);
 	if ($trans != '') {

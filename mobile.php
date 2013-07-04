@@ -20,9 +20,10 @@ Call: mobile.php?...
 LWT Mobile 
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 /**************************************************************/
 
@@ -60,8 +61,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$langname = getLanguage($lang);
 		$sql = 'select TxID, TxTitle from ' . $tbpref . 'texts where TxLgID = ' . $lang . 
 		' order by TxTitle';
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 
 		?>
 
@@ -92,8 +92,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$texttitle = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $text);
 		$textaudio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $text);
 		$sql = 'select SeID, SeText from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' order by SeOrder';
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 
 		?>
 
@@ -148,8 +147,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$senttext = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID = ' . $sent);
 		$nextsent = get_first_value('select SeID as value from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' and trim(SeText) != \'¶\' and SeID > ' . $sent . ' order by SeID limit 1');
 		$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = ' . $sent . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
-		$res = mysql_query($sql);		
-		if ($res == FALSE) die("Invalid Query: $sql");
+		$res = do_mysql_query($sql);
 		
 		if ($action == 4) {
 		?>
@@ -287,8 +285,7 @@ span.status5 {
 	<li class="group">Languages</li>
 <?php
 	$sql = 'select LgID, LgName from ' . $tbpref . 'languages order by LgName';
-	$res = mysql_query($sql);		
-	if ($res == FALSE) die("Invalid Query: $sql");
+	$res = do_mysql_query($sql);
 	while ($record = mysql_fetch_assoc($res)) {
 		echo '<li><a href="mobile.php?action=2&amp;lang=' . $record["LgID"] . '">' .
 			tohtml($record["LgName"]) . '</a></li>';	

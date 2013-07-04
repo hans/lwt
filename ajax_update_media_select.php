@@ -15,9 +15,10 @@ Call: ajax_update_media_select.php
 Updating media select in edit_texts.php
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 echo selectmediapath('TxAudioURI');
 

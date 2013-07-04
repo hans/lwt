@@ -15,9 +15,10 @@ Call: ajax_add_term_transl.php
 Add a translation to term
 ***************************************************************/
 
-include "settings.inc.php";
-include "connect.inc.php";
-include "utilities.inc.php";
+require_once( 'settings.inc.php' );
+require_once( 'connect.inc.php' );
+require_once( 'dbutils.inc.php' );
+require_once( 'utilities.inc.php' );
 
 $wid = $_POST['id'] + 0;
 $data = trim(stripTheSlashesIfNeeded($_POST['data'])); // translation
