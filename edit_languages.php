@@ -101,7 +101,7 @@ elseif (isset($_REQUEST['op'])) {
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $_REQUEST["LgID"];
 		$res = do_mysql_query($sql);
 		$record = mysql_fetch_assoc($res);
-		if ($record == FALSE) my_die("No results: $sql");
+		if ($record == FALSE) my_die("Cannot access language data: $sql");
 		$oldCharacterSubstitutions = $record['LgCharacterSubstitutions'];
 		$oldRegexpSplitSentences = $record['LgRegexpSplitSentences'];
 		$oldExceptionsSplitSentences = $record['LgExceptionsSplitSentences'];

@@ -24,7 +24,7 @@ pagestart_nobody('Term');
 
 $wid = getreq('wid');
 
-if ($wid == '') my_die ('Word not found');
+if ($wid == '') my_die ('Word not found in show_word.php');
 
 $sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 $res = do_mysql_query($sql);

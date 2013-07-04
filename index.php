@@ -15,7 +15,7 @@ Call: index.php
 LWT Start Screen / Main Menu / Home
 ***************************************************************/
 
-if (! file_exists ('connect.inc.php')) my_die ('Fatal Error, cannot find file: "connect.inc.php". Please rename the correct file "connect_[servertype].inc.php" to "connect.inc.php" ([servertype] is the name of your server: xampp, mamp, or easyphp). Please read the documentation: http://lwt.sf.net');
+if (! file_exists ('connect.inc.php')) my_die ('Cannot find file: "connect.inc.php". Please rename the correct file "connect_[servertype].inc.php" to "connect.inc.php" ([servertype] is the name of your server: xampp, mamp, or easyphp). Please read the documentation: http://lwt.sf.net');
 
 require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );

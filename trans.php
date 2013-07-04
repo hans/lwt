@@ -36,7 +36,7 @@ if ( $x == 1 ) {
 		$trans = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 		if(substr($trans,0,1) == '*') $trans = substr($trans,1);
 	} else {
-		my_die("Error: No results: $sql"); 
+		my_die("No results: $sql"); 
 	}
 	mysql_free_result($res);
 	if ($trans != '') {

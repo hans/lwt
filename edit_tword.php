@@ -79,9 +79,9 @@ if (isset($_REQUEST['op'])) {
 <?php
 
 	$lang = get_first_value('select WoLgID as value from ' . $tbpref . 'words where WoID = ' . $wid);
-	if ( ! isset($lang) ) my_die('Error: Cannot retrieve language.');
+	if ( ! isset($lang) ) my_die('Cannot retrieve language in edit_tword.php');
 	$regexword = get_first_value('select LgRegexpWordCharacters as value from ' . $tbpref . 'languages where LgID = ' . $lang);
-	if ( ! isset($regexword) ) my_die('Error: Cannot retrieve language data.');
+	if ( ! isset($regexword) ) my_die('Cannot retrieve language data in edit_tword.php');
 	$sent = tohtml(repl_tab_nl($_REQUEST["WoSentence"]));
 	$sent1 = str_replace("{", ' <b>[', str_replace("}", ']</b> ', 
 		mask_term_in_sentence($sent,$regexword)));
@@ -122,7 +122,7 @@ else {  // if (! isset($_REQUEST['op']))
 
 	$wid = getreq('wid');
 	
-	if ($wid == '') my_die("Error: Term ID missing");
+	if ($wid == '') my_die("Term ID missing in edit_tword.php");
 	
 	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 	$res = do_mysql_query($sql);
@@ -136,7 +136,7 @@ else {  // if (! isset($_REQUEST['op']))
 		$rom = $record['WoRomanization'];
 		$status = $record['WoStatus'];
 	} else {
-		my_die("Error: No results");
+		my_die("Term data not found in edit_tword.php");
 	}
 	mysql_free_result($res);
 	

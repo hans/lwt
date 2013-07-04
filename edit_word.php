@@ -164,7 +164,7 @@ else {  // if (! isset($_REQUEST['op']))
 			$term = $record['TiText'];
 			$lang = $record['TiLgID'];
 		} else {
-			my_die("Error: No results");
+			my_die("Cannot access Term and Language in edit_word.php");
 		}
 		mysql_free_result($res);
 		
@@ -181,7 +181,7 @@ else {  // if (! isset($_REQUEST['op']))
 			$term = $record['WoText'];
 			$lang = $record['WoLgID'];
 		} else {
-			my_die("Error: No results");
+			my_die("Cannot access Term and Language in edit_word.php");
 		}
 		mysql_free_result($res);
 		$termlc =	mb_strtolower($term, 'UTF-8');

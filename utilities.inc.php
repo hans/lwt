@@ -29,9 +29,9 @@ function get_version_number() {
 	$r = 'v';
 	$v = get_version();
 	$pos = strpos($v,' ',0);
-	if ($pos === false) my_die ('Wrong version:'. $v);
+	if ($pos === false) my_die ('Wrong version: '. $v);
 	$vn = preg_split ("/[.]/", substr($v,0,$pos));
-	if (count($vn) < 3) my_die ('Wrong version:'. $v);
+	if (count($vn) < 3) my_die ('Wrong version: '. $v);
 	for ($i=0; $i<3; $i++) $r .= substr('000' . $vn[$i],-3);
 	return $r;  // 'vxxxyyyzzz' wenn version = x.y.z
 }
@@ -2307,7 +2307,7 @@ function splitCheckText($text, $lid, $id) {
 	$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
 	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
-	if ($record == FALSE) my_die("No results: $sql");
+	if ($record == FALSE) my_die("Language data not found: $sql");
 	$removeSpaces = $record['LgRemoveSpaces'];
 	$splitEachChar = $record['LgSplitEachChar'];
 	$splitSentence = $record['LgRegexpSplitSentences'];

@@ -37,7 +37,7 @@ elseif (isset($_REQUEST['text'])) {
 	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $_REQUEST['text'] . ' ';
 }
 
-else my_die("Called with wrong parameters");
+else my_die("do_test_test.php called with wrong parameters");
 
 $testtype = getreq('type') + 0;
 if ($testtype < 1) $testtype=1;

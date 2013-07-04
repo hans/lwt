@@ -33,7 +33,7 @@ if ($record) {
 	$trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid,' ',1,0);
 	$roman = $record['WoRomanization'];
 } else {
-	my_die("Error: No results"); 
+	my_die("Word not found in set_word_status.php"); 
 }
 mysql_free_result($res);
 
