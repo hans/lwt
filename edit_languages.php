@@ -191,7 +191,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">GoogleTranslate URI:</td>
-	<td class="td1"><input type="text" name="LgGoogleTranslateURI" value="http://translate.google.com/?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" /></td>
+	<td class="td1"><input type="text" name="LgGoogleTranslateURI" value="*http://translate.google.com/?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Text Size:</td>
@@ -227,13 +227,14 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Export Template <img class="click" src="icn/question-frame.png" title="Help" alt="Help" onclick="oewin('info_export_template.htm');" /> :</td>
-	<td class="td1"><input type="text" name="LgExportTemplate" value="" maxlength="1000" size="60" /></td>
+	<td class="td1"><input type="text" name="LgExportTemplate" value="$y\t$t\n" maxlength="1000" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
 	<input type="submit" name="op" value="Save" /></td>
 	</tr>
 	</table>
+	<p class="smallgray"><b>Important:</b><br />The placeholders "••" for the from/sl and dest/tl language codes in the URIs must be <b>replaced</b> by the actual source and target language codes!<br /><a href="info.htm#howtolang" target="_blank">Please read the documentation</a>. Languages with a <b>non-Latin alphabet need special attention</b>, <a href="info.htm#langsetup" target="_blank">see also here</a>.</p>	
 	</form>
 	
 	<?php
