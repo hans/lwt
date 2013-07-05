@@ -3133,7 +3133,7 @@ $err = @mysql_select_db($dbname);
 if ($err == FALSE && mysql_errno() == 1049) runsql("CREATE DATABASE `" . $dbname . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');
 
 $err = @mysql_select_db($dbname);
-if ($err == FALSE) my_die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please create database and/or correct file: "connect.inc.php"). Hint: The database can be created by importing the file "dbinstall.sql" within phpMyAdmin. Please read the documentation: http://lwt.sf.net');  
+if ($err == FALSE) my_die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please correct file: "connect.inc.php"). Please read the documentation: http://lwt.sf.net');  
 
 // *** GLOBAL VARAIABLES ***
 // $tbpref = Current Table Prefix
