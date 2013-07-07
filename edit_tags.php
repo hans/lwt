@@ -117,6 +117,7 @@ if (isset($_REQUEST['new'])) {
 	?>
 
 	<h4>New Tag</h4>
+	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form name="newtag" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
@@ -129,7 +130,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2">
-	<input type="button" value="Cancel" onclick="location.href='edit_tags.php';" /> 
+	<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_tags.php';}" /> 
 	<input type="submit" name="op" value="Save" /></td>
 	</tr>
 	</table>
@@ -148,6 +149,7 @@ elseif (isset($_REQUEST['chg'])) {
 	if ($record = mysql_fetch_assoc($res)) {
 ?>
 		<h4>Edit Tag</h4>
+		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 		<form name="edittag" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="TgID" value="<?php echo $record['TgID']; ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
@@ -161,7 +163,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<input type="button" value="Cancel" onclick="location.href='edit_tags.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
+		<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_tags.php#rec<?php echo $_REQUEST['chg']; ?>';}" /> 
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>

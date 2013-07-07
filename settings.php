@@ -101,7 +101,7 @@ if (isset($_REQUEST['op'])) {
 echo error_message_with_hide($message,1);
 
 ?>
-
+<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <table class="tab3" cellspacing="0" cellpadding="5">
 <!-- ******************************************************* -->
@@ -311,8 +311,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-tags-per-page')); ?>" maxlen
 <!-- ******************************************************* -->
 <tr>
 <td class="td1 right" colspan="4"> 
-<input type="button" value="&lt;&lt; Back" onclick="location.href='index.php';" />&nbsp; &nbsp; | &nbsp; &nbsp;
-<input type="button" value="Reset all settings to default" onclick="location.href='settings.php?op=reset';" />&nbsp; &nbsp; | &nbsp; &nbsp;
+<input type="button" value="&lt;&lt; Back" onclick="{resetDirty(); location.href='index.php';}" />&nbsp; &nbsp; | &nbsp; &nbsp;
+<input type="button" value="Reset all settings to default" onclick="{resetDirty(); location.href='settings.php?op=reset';}" />&nbsp; &nbsp; | &nbsp; &nbsp;
 <input type="submit" name="op" value="Save" /></td>
 </tr>
 <!-- ******************************************************* -->

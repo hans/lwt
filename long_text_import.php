@@ -95,7 +95,13 @@ if (isset($_REQUEST['op'])) {
 			else {
 
 ?>
-			<form enctype="multipart/form-data"  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
+		<script type="text/javascript">
+		//<![CDATA[
+		makeDirty();
+		//]]>
+		</script>
+		<form enctype="multipart/form-data"  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			<input type="hidden" name="LgID" value="<?php echo $langid; ?>" />
 			<input type="hidden" name="TxTitle" value="<?php echo tohtml($title); ?>" />
 			<input type="hidden" name="TxSourceURI" value="<?php echo tohtml($source_uri); ?>" />
@@ -108,7 +114,7 @@ if (isset($_REQUEST['op'])) {
 			</td>
 			</tr>
 			<tr>
-			<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='index.php';" /> &nbsp; | &nbsp; <input type="button" value="Go Back" onclick="history.back();" /> &nbsp; | &nbsp; <input type="submit" name="op" value="Create <?php echo $textcount; ?> text<?php echo $plural; ?>" />
+			<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='index.php';}" /> &nbsp; | &nbsp; <input type="button" value="Go Back" onclick="{resetDirty(); history.back();}" /> &nbsp; | &nbsp; <input type="submit" name="op" value="Create <?php echo $textcount; ?> text<?php echo $plural; ?>" />
 			</td>
 			</tr>
 <?php
@@ -177,6 +183,8 @@ if (isset($_REQUEST['op'])) {
 
 ?>
 
+	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>			
+
 	<form enctype="multipart/form-data" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
@@ -236,7 +244,7 @@ if (isset($_REQUEST['op'])) {
 	</td>
 	</tr>
 	<tr>
-	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='index.php';" /> &nbsp; | &nbsp; <input type="submit" name="op" value="NEXT STEP: Check the Texts" />
+	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='index.php';}" /> &nbsp; | &nbsp; <input type="submit" name="op" value="NEXT STEP: Check the Texts" />
 	</td>
 	</tr>
 	</table>

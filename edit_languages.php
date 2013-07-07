@@ -175,6 +175,7 @@ if (isset($_REQUEST['new'])) {
 	?>
 
 	<h4>New Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
@@ -230,7 +231,7 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1"><input type="text" name="LgExportTemplate" value="$y\t$t\n" maxlength="1000" size="60" /></td>
 	</tr>
 	<tr>
-	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
+	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_languages.php';}" /> 
 	<input type="submit" name="op" value="Save" /></td>
 	</tr>
 	</table>
@@ -252,6 +253,7 @@ elseif (isset($_REQUEST['chg'])) {
 		?>
 	
 		<h4>Edit Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="LgID" value="<?php echo $_REQUEST['chg']; ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
@@ -312,7 +314,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1"><input type="text" name="LgExportTemplate" value="<?php echo tohtml($record['LgExportTemplate']); ?>" maxlength="1000" size="60" /></td>
 		</tr>
 		<tr>
-		<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="location.href='edit_languages.php';" /> 
+		<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_languages.php';}" /> 
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>

@@ -354,6 +354,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	?>
 
 	<h4>New Term</h4>
+	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<input type="hidden" name="WoLgID" value="<?php echo $_REQUEST['lang']; ?>" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
@@ -393,7 +394,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<td class="td1 right" colspan="2">  &nbsp;
 		<?php echo createDictLinksInEditWin2($_REQUEST['lang'],'document.forms[\'newword\'].WoSentence','document.forms[\'newword\'].WoText'); ?>
 		&nbsp; &nbsp;
-	<input type="button" value="Cancel" onclick="location.href='edit_words.php';" /> 
+	<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_words.php';}" /> 
 	<input type="submit" name="op" value="Save" /></td>
 	</tr>
 	</table>
@@ -419,6 +420,7 @@ elseif (isset($_REQUEST['chg'])) {
 		?>
 	
 		<h4>Edit Term</h4>
+		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 		<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="WoID" value="<?php echo $record['WoID']; ?>" />
 		<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
@@ -460,7 +462,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1 right" colspan="2">  &nbsp;
 		<?php echo createDictLinksInEditWin2($record['WoLgID'],'document.forms[\'editword\'].WoSentence','document.forms[\'editword\'].WoText'); ?>
 		&nbsp; &nbsp;
-		<input type="button" value="Cancel" onclick="location.href='edit_words.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
+		<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_words.php#rec<?php echo $_REQUEST['chg']; ?>';}" /> 
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>

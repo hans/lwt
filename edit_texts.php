@@ -293,6 +293,7 @@ if (isset($_REQUEST['new'])) {
 	?>
 
 	<h4>New Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
@@ -333,7 +334,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2">
-	<input type="button" value="Cancel" onclick="location.href='edit_texts.php';" /> 
+	<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php';}" /> 
 	<input type="submit" name="op" value="Check" />
 	<input type="submit" name="op" value="Save" />
 	<input type="submit" name="op" value="Save and Open" />
@@ -360,6 +361,7 @@ elseif (isset($_REQUEST['chg'])) {
 		?>
 	
 		<h4>Edit Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
+		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="TxID" value="<?php echo $_REQUEST['chg']; ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
@@ -407,7 +409,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<input type="button" value="Cancel" onclick="location.href='edit_texts.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
+		<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php#rec<?php echo $_REQUEST['chg']; ?>';}" /> 
 		<input type="submit" name="op" value="Check" />
 		<input type="submit" name="op" value="Change" />
 		<input type="submit" name="op" value="Change and Open" />

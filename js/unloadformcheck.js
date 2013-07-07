@@ -16,21 +16,21 @@ var DIRTY = 0;
 
 function askConfirmIfDirty(){  
 	if (DIRTY) { 
-		return '** You have unsaved changes in the "Edit Term" window! **'; 
+		return '** You have unsaved changes! **'; 
 	}
 }
 
+function makeDirty() {
+	DIRTY = 1; 
+}
+
+function resetDirty() {
+	DIRTY = 0; 
+}
+
 function bindForChange(){    
-	$('input,checkbox,textarea,radio,select').bind('change',
-		function(event) { 
-			DIRTY = 1; 
-		}
-	);
-	$(':reset,:submit').bind('click',
-		function(event) {
-			DIRTY = 0; 
-		}
-	);
+	$('input,checkbox,textarea,radio,select').bind('change',makeDirty);
+	$(':reset,:submit').bind('click',resetDirty);
 }
 
 window.onbeforeunload = askConfirmIfDirty;

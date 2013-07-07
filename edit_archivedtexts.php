@@ -194,6 +194,7 @@ if (isset($_REQUEST['chg'])) {
 		?>
 	
 		<h4>Edit Archived Text</h4>
+		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="AtID" value="<?php echo $_REQUEST['chg']; ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
@@ -241,7 +242,7 @@ if (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<input type="button" value="Cancel" onclick="location.href='edit_archivedtexts.php#rec<?php echo $_REQUEST['chg']; ?>';" /> 
+		<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_archivedtexts.php#rec<?php echo $_REQUEST['chg']; ?>';}" /> 
 		<input type="submit" name="op" value="Change" /></td>
 		</tr>
 		</table>
