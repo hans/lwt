@@ -192,6 +192,9 @@ else {  // if (! isset($_REQUEST['op']))
 
 	$titeltext = ($neu ? "New Term" : "Edit Term") . ": " . tohtml($term);
 	pagestart_nobody($titeltext);
+?>
+<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+<?php
 	$scrdir = getScriptDirectionTag($lang);
 
 	// NEW

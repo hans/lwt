@@ -52,14 +52,19 @@ function addTranslation (s) {
 		return;
 	}
 	var oldValue = c.value;
-	if (oldValue.trim() == '') 
+	if (oldValue.trim() == '') {
 		c.value = s;
+		w.makeDirty();
+	}
 	else {
-		if (oldValue.indexOf(s) == -1) 
+		if (oldValue.indexOf(s) == -1) {
 			c.value = oldValue + ' / ' + s;
+			w.makeDirty();
+		}
 		else {
 			if (confirm('"' + s + '" seems already to exist as a translation.\nInsert anyway?')) { 
-					c.value = oldValue + ' / ' + s;
+				c.value = oldValue + ' / ' + s;
+				w.makeDirty();
 			}
 		}
 	}

@@ -146,6 +146,7 @@ else {  // if (! isset($_REQUEST['op']))
 	$scrdir = getScriptDirectionTag($lang);
 
 ?>
+<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 	
 <form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="WoID" value="<?php echo $wid; ?>" />

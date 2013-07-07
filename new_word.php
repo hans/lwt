@@ -103,6 +103,9 @@ else {  // if (! isset($_REQUEST['op']))
 	$lang = getreq('lang') + 0;
 	$text = getreq('text') + 0;
 	pagestart_nobody('');
+?>
+<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+<?php
 	$scrdir = getScriptDirectionTag($lang);
 	
 ?>
