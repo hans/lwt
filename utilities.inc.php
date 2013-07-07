@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.10 (July ?? 2013)'  . 
+	return '1.5.10 (July 07 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -39,7 +39,7 @@ function get_version_number() {
 // -------------------------------------------------------------
 
 function my_die($text) {
-	echo '<div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
+	echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
 		'<p><b>Fatal Error:</b> ' . 
 		tohtml($text) . 
 		"</p></div><hr /><pre>Backtrace:\n\n";

@@ -19,7 +19,7 @@ Database Utility Functions
 function do_mysql_query($sql) {
 	$res = mysql_query($sql);
 	if ($res == FALSE) {
-		echo '<div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
+		echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
 			'<p><b>Fatal Error in SQL Query:</b> ' . 
 			tohtml($sql) . 
 			'</p>' . 
