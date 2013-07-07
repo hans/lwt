@@ -32,7 +32,7 @@ $phrase = mb_strtolower(trim(stripTheSlashesIfNeeded($_REQUEST["phrase"])), 'UTF
 $ok = FALSE;
 
 pagestart_nobody('');
-$titeltext = '<a href="http://glosbe.com/' . $from . '/' . $dest . '/' . $phrase . '" target="_blank">Glosbe Dictionary (' . tohtml($from) . "-" . tohtml($dest) . "):  &nbsp; <span class=\"red2\">" . tohtml($phrase) . "</span></a>";
+$titeltext = '<a href="http://glosbe.com/' . $from . '/' . $dest . '/' . $phrase . '">Glosbe Dictionary (' . tohtml($from) . "-" . tohtml($dest) . "):  &nbsp; <span class=\"red2\">" . tohtml($phrase) . "</span></a>";
 echo '<h3>' . $titeltext . '</h3>';
 echo '<p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy word(s) into above term)<br />&nbsp;</p>';
 
@@ -54,8 +54,15 @@ function addTranslation (s) {
 	var oldValue = c.value;
 	if (oldValue.trim() == '') 
 		c.value = s;
-	else
-		c.value = oldValue + ' / ' + s;
+	else {
+		if (oldValue.indexOf(s) == -1) 
+			c.value = oldValue + ' / ' + s;
+		else {
+			if (confirm('"' + s + '" seems already to exist as a translation.\nInsert anyway?')) { 
+					c.value = oldValue + ' / ' + s;
+			}
+		}
+	}
 }
 //]]>
 </script>
@@ -117,7 +124,7 @@ if ( $ok ) {
 			$ok = FALSE;
 		
 			$dest = "en";
-			$titeltext = '<a href="http://glosbe.com/' . $from . '/' . $dest . '/' . $phrase . '" target="_blank">Glosbe Dictionary (' . tohtml($from) . "-" . tohtml($dest) . "):  &nbsp; <span class=\"red2\">" . tohtml($phrase) . "</span></a>";
+			$titeltext = '<a href="http://glosbe.com/' . $from . '/' . $dest . '/' . $phrase . '">Glosbe Dictionary (' . tohtml($from) . "-" . tohtml($dest) . "):  &nbsp; <span class=\"red2\">" . tohtml($phrase) . "</span></a>";
 			echo '<hr /><p>&nbsp;</p><h3>' . $titeltext . '</h3>';
 
 			$glosbe_data = file_get_contents('http://glosbe.com/gapi/translate?from=' . urlencode($from) . '&dest=' . urlencode($dest) . '&format=json&phrase=' . urlencode($phrase));
