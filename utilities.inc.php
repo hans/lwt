@@ -2655,6 +2655,16 @@ function create_ann($textid) {
 
 // -------------------------------------------------------------
 
+function str_replace_first ($needle, $replace, $haystack) {
+	$pos = strpos($haystack,$needle);
+	if ($pos !== false) {
+    return substr_replace($haystack,$replace,$pos,strlen($needle));
+	}
+	return $haystack;
+}
+
+// -------------------------------------------------------------
+
 function annotation_to_json ($ann) {
 	if ($ann == '') return "{}";
 	$arr = array();

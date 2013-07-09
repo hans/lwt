@@ -49,7 +49,7 @@ if ($record = mysql_fetch_assoc($res)) {
 <tr>
 <td class="td1 right">Translation:</td>
 <td class="td1" style="font-size:120%;"><b><?php echo 
-	str_replace(tohtml($ann),'<span style="color:red">' . tohtml($ann) . 
+	str_replace_first(tohtml($ann), '<span style="color:red">' . tohtml($ann) . 
 	'</span>', tohtml($transl)); ?></b></td>
 </tr>
 <?php if ($tags != '') { ?>
