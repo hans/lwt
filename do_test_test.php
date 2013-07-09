@@ -218,12 +218,12 @@ if ($count <= 0) {
 
 <script type="text/javascript">
 //<![CDATA[
-var WBLINK1 = '<?php echo $wb1; ?>';
-var WBLINK2 = '<?php echo $wb2; ?>';
-var WBLINK3 = '<?php echo $wb3; ?>';
-var SOLUTION = <?php echo prepare_textdata_js ( $testtype==1 ? ( $nosent ? ($trans) : (' [' . $trans . '] ')) : $save ); ?>;
-var OPENED = 0;
-var WID = <?php echo $wid; ?>;
+WBLINK1 = '<?php echo $wb1; ?>';
+WBLINK2 = '<?php echo $wb2; ?>';
+WBLINK3 = '<?php echo $wb3; ?>';
+SOLUTION = <?php echo prepare_textdata_js ( $testtype==1 ? ( $nosent ? ($trans) : (' [' . $trans . '] ')) : $save ); ?>;
+OPENED = 0;
+WID = <?php echo $wid; ?>;
 $(document).ready( function() {
 	$(document).keydown(keydown_event_do_test_test);
 	$('.word').click(word_click_event_do_test_test);
