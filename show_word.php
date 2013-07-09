@@ -11,7 +11,7 @@ Developed by J. P. in 2011, 2012, 2013.
 ***************************************************************/
 
 /**************************************************************
-Call: show_word.php?wid=...
+Call: show_word.php?wid=...&ann=...
 Show term
 ***************************************************************/
 
@@ -23,6 +23,7 @@ require_once( 'utilities.inc.php' );
 pagestart_nobody('Term');
 
 $wid = getreq('wid');
+$ann = stripTheSlashesIfNeeded($_REQUEST["ann"]);
 
 if ($wid == '') my_die ('Word not found in show_word.php');
 
@@ -47,7 +48,9 @@ if ($record = mysql_fetch_assoc($res)) {
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
-<td class="td1" style="font-size:120%;"><b><?php echo tohtml($transl); ?></b></td>
+<td class="td1" style="font-size:120%;"><b><?php echo 
+	str_replace(tohtml($ann),'<span style="color:red">' . tohtml($ann) . 
+	'</span>', tohtml($transl)); ?></b></td>
 </tr>
 <?php if ($tags != '') { ?>
 <tr>

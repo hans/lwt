@@ -215,7 +215,7 @@ function keydown_event_do_test_test(e) {
 	if (e.which == 32 && OPENED == 0) {  // space : show sol.
 		$('.word').click();
 		cClick();
-		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + $('.word').attr('data_wid');
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + $('.word').attr('data_wid') + '&ann=';
 		OPENED = 1;
 		return false;
 	}
@@ -384,7 +384,10 @@ function keydown_event_do_text_text(e) {
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
 		$(window).scrollTo(curr,{axis:'y', offset:-150});
-		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
+		var ann = '';
+		if ((typeof curr.attr('data_ann')) != 'undefined') 
+			ann = curr.attr('data_ann');
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
 		return false;
 	}
 	if (e.which == 35) {  // end : known word navigation -> last
@@ -393,7 +396,10 @@ function keydown_event_do_text_text(e) {
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
 		$(window).scrollTo(curr,{axis:'y', offset:-150});
-		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
+		var ann = '';
+		if ((typeof curr.attr('data_ann')) != 'undefined') 
+			ann = curr.attr('data_ann');
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
 		return false;
 	}
 	if (e.which == 37) {  // left : known word navigation
@@ -403,7 +409,10 @@ function keydown_event_do_text_text(e) {
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
 		$(window).scrollTo(curr,{axis:'y', offset:-150});
-		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
+		var ann = '';
+		if ((typeof curr.attr('data_ann')) != 'undefined') 
+			ann = curr.attr('data_ann');
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
 		return false;
 	}
 	if (e.which == 39 || e.which == 32) {  // space /right : known word navigation
@@ -413,8 +422,10 @@ function keydown_event_do_text_text(e) {
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
 		$(window).scrollTo(curr,{axis:'y', offset:-150});
-		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid');
-;
+		var ann = '';
+		if ((typeof curr.attr('data_ann')) != 'undefined') 
+			ann = curr.attr('data_ann');
+		window.parent.frames['ro'].location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
 		return false;
 	}
 
