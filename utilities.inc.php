@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.10 (July 07 2013)'  . 
+	return '1.5.11 (July ?? 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -2651,6 +2651,21 @@ function create_ann($textid) {
 	mysql_free_result($res);
 	$ann .= process_term($savenonterm, $saveterm, $savetrans, $savewordid, $order);
 	return $ann;
+}
+
+// -------------------------------------------------------------
+
+function annotation_to_json ($ann) {
+	$arr = array();
+	$items = preg_split('/[\n]/u', $ann);
+	foreach ($items as $item) {
+		$vals = preg_split('/[\t]/u', $item);
+		if (count($vals) > 3 && $vals[0] >= 0 && $vals[2] > 0) {
+			$arr[$vals[0]-1] = array($vals[1],$vals[2],$vals[3]);
+		}
+	}
+	$r = json_encode($arr);
+	return $r;
 }
 
 // -------------------------------------------------------------

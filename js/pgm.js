@@ -32,10 +32,10 @@ var ol_closecolor = '#FFFFFF';
 Helper functions for overlib
 ***************************************************************/
 
-function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl)
+function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
 {
 	return overlib(
-		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
+		'<b>' + escape_html_chars_2(hints,ann) + '</b><br /> ' +
 		make_overlib_link_new_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
 		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
@@ -43,10 +43,10 @@ function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid
 		CAPTION, 'Word');
 }
 
-function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl)
+function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
 {
 	return overlib(
-		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
+		'<b>' + escape_html_chars_2(hints,ann) + '</b><br /> ' +
 		make_overlib_link_new_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
 		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
@@ -54,10 +54,10 @@ function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid
 		CAPTION, 'Word');
 }
 
-function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl)
+function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
 {
 	return overlib(
-		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
+		'<b>' + escape_html_chars_2(hints,ann) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid,torder,wid,stat) + ' <br /> ' +
 		make_overlib_link_edit_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
@@ -358,6 +358,13 @@ function make_tooltip(word,trans,roman,status) {
 	title += '▶ ' + getStatusName(status) + ' [' + 
 	getStatusAbbr(status) + ']';
 	return title;
+}
+
+function escape_html_chars_2 (title, ann) {
+	if (ann != '' ) 
+		return escape_html_chars(title).replace(ann,'<span style="color:red">' + ann + '</span>');
+	else
+		return escape_html_chars(title);
 }
 
 function owin(url) {
