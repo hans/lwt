@@ -2656,6 +2656,7 @@ function create_ann($textid) {
 // -------------------------------------------------------------
 
 function annotation_to_json ($ann) {
+	if ($ann == '') return "{}";
 	$arr = array();
 	$items = preg_split('/[\n]/u', $ann);
 	foreach ($items as $item) {
@@ -2664,8 +2665,7 @@ function annotation_to_json ($ann) {
 			$arr[$vals[0]-1] = array($vals[1],$vals[2],$vals[3]);
 		}
 	}
-	$r = json_encode($arr);
-	return $r;
+	return json_encode($arr);
 }
 
 // -------------------------------------------------------------

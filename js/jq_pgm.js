@@ -266,7 +266,7 @@ function word_each_do_text_text(i) {
 	var wid = $(this).attr('data_wid');
 	if (wid != '') {
 		var order = $(this).attr('data_order');
-		if ((typeof ANN_ARRAY[order]) != 'undefined') {
+		if (order in ANN_ARRAY) {
 			if (wid == ANN_ARRAY[order][1]) {
 				$(this).attr('data_ann',ANN_ARRAY[order][2]);
 			}
@@ -275,10 +275,24 @@ function word_each_do_text_text(i) {
 }
 
 function mword_each_do_text_text(i) {
-	if ($(this).attr('data_status') != '') 
+	if ($(this).attr('data_status') != '') {
 		this.title = make_tooltip($(this).attr('data_text'), 
 		$(this).attr('data_trans'), $(this).attr('data_rom'), 
 		$(this).attr('data_status'));
+		var wid = $(this).attr('data_wid');
+		if (wid != '') {
+			var order = parseInt($(this).attr('data_order'));
+			for (var j = 2; j <= 16; j = j+2) {
+				var index = (order+j).toString();
+				if (index in ANN_ARRAY) {
+					if (wid == ANN_ARRAY[index][1]) {
+						$(this).attr('data_ann',ANN_ARRAY[index][2]);
+						break;
+					}
+				}
+			}
+		}
+	}
 }
 
 function word_dblclick_event_do_text_text() {
@@ -328,10 +342,14 @@ function word_click_event_do_text_text() {
 	
 function mword_click_event_do_text_text() {
 	var status = $(this).attr('data_status');
-	if (status != '') 
-		run_overlib_multiword(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),TID,
-		$(this).attr('data_order'),$(this).attr('data_text'),$(this).attr('data_wid'),
-		status,$(this).attr('data_code'));
+	if (status != '') {
+		var ann = '';
+		if ((typeof $(this).attr('data_ann')) != 'undefined') 
+			ann = $(this).attr('data_ann');
+		run_overlib_multiword(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
+		TID, $(this).attr('data_order'),$(this).attr('data_text'),
+		$(this).attr('data_wid'), status,$(this).attr('data_code'), ann);
+	}
 	return false;
 }
 
