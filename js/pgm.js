@@ -61,9 +61,11 @@ function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt
 		make_overlib_link_change_status_all(txid,torder,wid,stat) + ' <br /> ' +
 		make_overlib_link_edit_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
-		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
+		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,
+		mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
-		CAPTION, 'Word');
+		CAPTION, make_overlib_link_edit_word_title(
+		'Word &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',txid,torder,wid));
 }
 
 function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,txt,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl)
@@ -74,7 +76,7 @@ function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,tx
 		make_overlib_link_ignore_word(txid,torder) + 
 		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
-		CAPTION, 'Word');
+		CAPTION, 'New Word');
 }
 
 function run_overlib_multiword(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,wcnt,ann)
@@ -85,7 +87,7 @@ function run_overlib_multiword(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid
 		make_overlib_link_edit_multiword(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_multiword(txid,wid) + ' <br /> ' +
 		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
-		CAPTION, wcnt.trim() + '-Word-Expression');
+		CAPTION, make_overlib_link_edit_multiword_title(wcnt.trim() + '-Word-Expression',txid,torder,wid));
 }
 
 function run_overlib_test(wblink1,wblink2,wblink3,wid,txt,trans,roman,stat,sent,todo,oldstat)
@@ -230,6 +232,12 @@ function make_overlib_link_edit_multiword(txid,torder,wid) {
 		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a> ';
 }
 
+function make_overlib_link_edit_multiword_title(text,txid,torder,wid) {
+	return '<a style=\x22color:yellow\x22 href=\x22edit_mword.php?tid=' + txid + 
+		'&amp;ord=' + torder + 
+		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>' + text + '</a>';
+}
+
 function make_overlib_link_create_edit_multiword(len,txid,torder,txt) {
 	return ' <a href=\x22edit_mword.php?tid=' + txid + 
 		'&amp;ord=' + torder + 
@@ -248,6 +256,12 @@ function make_overlib_link_edit_word(txid,torder,wid) {
 	return ' <a href=\x22edit_word.php?tid=' + txid + 
 		'&amp;ord=' + torder + 
 		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a> ';
+}
+
+function make_overlib_link_edit_word_title(text,txid,torder,wid) {
+	return '<a style=\x22color:yellow\x22 href=\x22edit_word.php?tid=' + 
+		txid + '&amp;ord=' + torder + 
+		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>' + text + '</a>';
 }
 
 function make_overlib_link_delete_word(txid,wid) {
