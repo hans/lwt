@@ -175,9 +175,13 @@ if (isset($_REQUEST['new'])) {
 	?>
 
 	<h4>New Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+
 	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<table class="tab3" cellspacing="0" cellpadding="5">
+	<tr>
+	<td class="td1 center click" colspan="2" onclick="alert('!!');"><img src="icn/wizard.png" title="Language Settings Wizard" alt="Language Settings Wizard" /><br /><b>Language Settings Wizard</b><br />Select your native (L1) and text (L2) languages, and let the wizard insert the best settings!</td>
+	</tr>
 	<tr>
 	<td class="td1 right">Language:</td>
 	<td class="td1"><input type="text" class="notempty setfocus" name="LgName" value="" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
