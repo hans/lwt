@@ -173,21 +173,43 @@ elseif (isset($_REQUEST['op'])) {
 if (isset($_REQUEST['new'])) {
 	
 	?>
+	
+	<script type="text/javascript">
+	//<![CDATA[
+	<?php echo "var LANGUAGES = " . json_encode(get_languages()) . ";\n"; ?>
+	
+	function check_dupl_lang() {
+		var l = $('#LgName').val();
+		if(l in LANGUAGES) {
+			alert ('Language "' + l + '" exists already. Please change the language name!');
+			$('#LgName').focus();
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	//]]>
+	</script>
 
 	<h4>New Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 
 	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
-	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<table class="tab3" cellspacing="0" cellpadding="5">
+	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return check_dupl_lang();">
+
+	<table class="tab1" cellspacing="0" cellpadding="5">
 	<tr>
-	<td class="td1 center click" colspan="2" onclick="alert('!!');"><img src="icn/wizard.png" title="Language Settings Wizard" alt="Language Settings Wizard" /><br /><b>Language Settings Wizard</b><br />Select your native (L1) and text (L2) languages, and let the wizard insert the best settings!</td>
+	<td class="td1 center click backlightyellow" colspan="2" onclick="window.open('select_lang_pair.php', 'wizard', 'width=400, height=400, scrollbars=yes, menubar=no, resizable=yes, status=no');"><img src="icn/wizard.png" title="Language Settings Wizard" alt="Language Settings Wizard" /><br /><b>Language Settings Wizard</b><br /><span class="smallgray2">Select your native (L1) and study (L2) languages, and let the wizard set all language settings marked in yellow!<br />(You can adjust the settings afterwards.)</span></td>
+	</tr>
+	</table>
+	
+	<table class="tab1" cellspacing="0" cellpadding="5">
+	<tr>
+	<td class="td1 right backlightyellow">Study Language "L2":</td>
+	<td class="td1"><input type="text" class="notempty setfocus" name="LgName" id="LgName" value="" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
-	<td class="td1 right">Language:</td>
-	<td class="td1"><input type="text" class="notempty setfocus" name="LgName" value="" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Dictionary 1 URI:</td>
+	<td class="td1 right backlightyellow">Dictionary 1 URI:</td>
 	<td class="td1"><input type="text" class="notempty" name="LgDict1URI" value="glosbe_api.php?from=••&dest=••&phrase=###" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
@@ -195,11 +217,11 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1"><input type="text" name="LgDict2URI" value="" maxlength="200" size="60" /></td>
 	</tr>
 	<tr>
-	<td class="td1 right">GoogleTranslate URI:</td>
+	<td class="td1 right backlightyellow">GoogleTranslate URI:</td>
 	<td class="td1"><input type="text" name="LgGoogleTranslateURI" value="*http://translate.google.com/?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" /></td>
 	</tr>
 	<tr>
-	<td class="td1 right">Text Size:</td>
+	<td class="td1 right backlightyellow">Text Size:</td>
 	<td class="td1"><select name="LgTextSize" class="notempty"><?php echo get_languagessize_selectoptions(150); ?></select></td>
 	</tr>
 	<tr>
@@ -207,7 +229,7 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1"><input type="text" name="LgCharacterSubstitutions" value="´='|`='|’='|‘='|...=…|..=‥" maxlength="500" size="60" /></td>
 	</tr>
 	<tr>
-	<td class="td1 right">RegExp Split Sentences:</td>
+	<td class="td1 right backlightyellow">RegExp Split Sentences:</td>
 	<td class="td1"><input type="text" class="notempty" name="LgRegexpSplitSentences" value=".!?:;" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
@@ -215,19 +237,19 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1"><input type="text" name="LgExceptionsSplitSentences" value="Mr.|Dr.|[A-Z].|Vd.|Vds." maxlength="500" size="60" /></td>
 	</tr>
 	<tr>
-	<td class="td1 right">RegExp Word Characters:</td>
+	<td class="td1 right backlightyellow">RegExp Word Characters:</td>
 	<td class="td1"><input type="text" class="notempty" name="LgRegexpWordCharacters" value="a-zA-ZÀ-ÖØ-öø-ȳ" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
-	<td class="td1 right">Make each character a word:</td>
+	<td class="td1 right backlightyellow">Make each character a word:</td>
 	<td class="td1"><select name="LgSplitEachChar"><?php echo get_yesno_selectoptions(0); ?></select> (e.g. for Chinese, Japanese, etc.)</td>
 	</tr>
 	<tr>
-	<td class="td1 right">Remove spaces:</td>
+	<td class="td1 right backlightyellow">Remove spaces:</td>
 	<td class="td1"><select name="LgRemoveSpaces"><?php echo get_yesno_selectoptions(0); ?></select> (e.g. for Chinese, Japanese, etc.)</td>
 	</tr>
 	<tr>
-	<td class="td1 right">Right-To-Left Script:</td>
+	<td class="td1 right backlightyellow">Right-To-Left Script:</td>
 	<td class="td1"><select name="LgRightToLeft"><?php echo get_yesno_selectoptions(0); ?></select> (e.g. for Arabic, Hebrew, Farsi, Urdu, etc.)</td>
 	</tr>
 	<tr>
@@ -260,18 +282,15 @@ elseif (isset($_REQUEST['chg'])) {
 		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="LgID" value="<?php echo $_REQUEST['chg']; ?>" />
-		<table class="tab3" cellspacing="0" cellpadding="5">
+		<input type="hidden" name="LgName" value="<?php echo tohtml($record['LgName']); ?>" />
+		<table class="tab1" cellspacing="0" cellpadding="5">
 		<tr>
-		<td class="td1 right">ID:</td>
-		<td class="td1"><?php echo $_REQUEST['chg']; ?></td>
-		</tr>
-		<tr>
-		<td class="td1 right">Language:</td>
-		<td class="td1"><input type="text" class="notempty setfocus" name="LgName" maxlength="40" size="40" value="<?php echo tohtml($record['LgName']); ?>" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1 right">Study Language "L2":</td>
+		<td class="td1"><?php echo tohtml($record['LgName']); ?></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Dictionary 1 URI:</td>
-		<td class="td1"><input type="text" class="notempty" name="LgDict1URI" value="<?php echo tohtml($record['LgDict1URI']); ?>"  maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty setfocus" name="LgDict1URI" value="<?php echo tohtml($record['LgDict1URI']); ?>"  maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Dictionary 2 URI:</td>

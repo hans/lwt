@@ -2195,6 +2195,20 @@ function get_statuses() {
 
 // -------------------------------------------------------------
 
+function get_languages() {
+	global $tbpref;
+	$langs = array();
+	$sql = "select LgID, LgName from " . $tbpref . "languages";
+	$res = do_mysql_query($sql);
+	while ($record = mysql_fetch_assoc($res)) {
+		$langs[$record['LgName']] = $record['LgID'];
+	}
+	mysql_free_result($res);
+	return $langs;
+}
+
+// -------------------------------------------------------------
+
 function get_setting_data() {
 	static $setting_data;
 	if (! $setting_data) {

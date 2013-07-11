@@ -216,6 +216,9 @@ img {
 .backgray {
 	background-color: #DDDDDD;
 }
+.backlightyellow {
+	background-color: #FFFACD;
+}
 .smallgray { 
 	color: gray;
 	font-size:60%;
@@ -398,6 +401,9 @@ dt {
 	border-top: 1px solid black;
 	border-bottom: 1px solid black;
 	background-color: #EEEEEE;
+}
+.wizard {
+	margin: 20px 0 5px 0;
 } 
 
 /**************************************************************
