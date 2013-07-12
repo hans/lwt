@@ -47,7 +47,7 @@ if (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax($translation) . ', ' .
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
-make_score_random_insert_update('id') . ')', "Term saved");
+make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 
 		if (substr($message,0,22) == 'Error: Duplicate entry') {
 			$message = 'Error: Duplicate entry for ' . $textlc;

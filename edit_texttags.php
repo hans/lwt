@@ -97,7 +97,7 @@ elseif (isset($_REQUEST['op'])) {
 	
 		$message = runsql('insert into ' . $tbpref . 'tags2 (T2Text, T2Comment) values(' . 
 			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', ' .
-			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ')', "Saved");
+			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ')', "Saved", $sqlerrdie = FALSE);
 
 	}	
 	
@@ -107,7 +107,7 @@ elseif (isset($_REQUEST['op'])) {
 
 		$message = runsql('update ' . $tbpref . 'tags2 set T2Text = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["T2Text"]) . ', T2Comment = ' . 
-			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ' where T2ID = ' . $_REQUEST["T2ID"], "Updated");
+			convert_string_to_sqlsyntax_nonull($_REQUEST["T2Comment"]) . ' where T2ID = ' . $_REQUEST["T2ID"], "Updated", $sqlerrdie = FALSE);
 
 	}
 

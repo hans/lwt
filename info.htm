@@ -203,7 +203,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.11 (July ?? 2013)</b>.
+          <li>The current version is <b>1.5.11 (July 12 2013)</b>.
           </li>
 
           <li>
@@ -1221,6 +1221,12 @@ Developed by J. P. in 2011, 2012, 2013.
             This is the place to define or edit a language you want to study.
             <br />
             <br />
+            <b>If you are new to the system, use the "Language Settings Wizard" first.</b> You only select your native (L1) and study (L2) languages, and let the wizard set all language settings that are marked in yellow. You can always adjust the settings afterwards.
+            <br />
+            <br />
+            <b>Explainations of the input fields</b> - please read also <a href="#langsetup">this section</a>:
+            <br />
+            <br />
 
             <ul>
               <li>The three Uniform Resource Identifiers (<a href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URIs</a>) are URIs to three web dictionaries (the second and third is optional). Use ### as a placeholder for the searchword in the URIs. If ### is missing, the searchword will be appended. If the URI to query "travailler" in WordReference is "http://www.wordreference.com/fren/travailler", you enter: "http://www.wordreference.com/fren/###" or "http://www.wordreference.com/fren/". 
@@ -1744,6 +1750,11 @@ with audioplayer", if needed.</li>
           <li>This section shows some language setups ("RegExp Split Sentences", "RegExp Word Characters", "Make each character a word", "Remove spaces") for different languages. They are only recommendations, and you may change them according to your needs (and texts). See also <a href="#go1">here</a>.
           <br /><br /></li>
           
+          <li>If you are unsure, try the "Language Settings Wizard" first. Later you can adjust the settings.
+            <br />
+            <br />
+          </li>
+
           <li>Please inform yourself about Unicode <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">here (general information)</a> and <a href="http://unicode.coeurlumiere.com/" target="_blank">here (Table of Unicode characters)</a> and about the characters that occur in the language you learn!
           <br /><br />
           
@@ -1936,6 +1947,11 @@ with audioplayer", if needed.</li>
             <br />
           </li>
 
+          <li>"\'" = Apostrophe, and/or "\-" = Dash, may be added to "RegExp Word Characters", then words like "aujourd'hui" or "non-government-owned" are one word, instead of two or more single words. If you omit "\'" and/or "\-" here, you can still create a multi-word expression "aujourd'hui", etc., later.
+            <br />
+            <br />
+          </li>
+          
           <li>":" and ";" may be omitted in "RegExp Split Sentences", but longer example sentences may result from this.
             <br />
             <br />
@@ -2405,10 +2421,11 @@ with audioplayer", if needed.</li>
 
       <dd>
         <ul>
-        	<li>1.5.11 (July ?? 2013):<br />
-					If an improved annotated text exists, highlight the (best) term translation in red in the text window popup and the text display frame (when using the keyboard).<br />
-					<b>New language settings wizard</b>. Check on duplicate language names.<br />
-					Text window popup title is now a link (text color: yellow) to make editing an existent term a little bit easier. <br />
+        	<li>1.5.11 (July 12 2013):<br />
+					If an improved annotated text exists, highlight the selected term translation in red in the text window popup and the text display frame (when using the keyboard).<br />
+					<b>New language settings wizard</b>.<br />Better check on duplicate language names.<br />
+					Text window popup title is now a link (text color: yellow) to make editing an existent term a little easier.<br />
+					Some minor bug fixes.<br />
 					Documentation updated.<br /><br />
         	</li>        	
 

@@ -27,6 +27,31 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
 pagestart('My Languages',true);
+
+?>
+
+<script type="text/javascript">
+//<![CDATA[
+<?php echo "var LANGUAGES = " . json_encode(get_languages()) . ";\n"; ?>
+
+function check_dupl_lang(curr) {
+	// Check if langname exists and its lang# != curr
+	var l = $('#LgName').val();
+	if(l in LANGUAGES) {
+		if (curr != LANGUAGES[l]) {
+			alert ('Language "' + l + '" exists already. Please change the language name!');
+			$('#LgName').focus();
+			return false;
+		}
+	}
+	return true;
+}
+
+//]]>
+</script>
+
+<?php
+
 $message = '';
 
 // REFRESH 
@@ -174,32 +199,14 @@ if (isset($_REQUEST['new'])) {
 	
 	?>
 	
-	<script type="text/javascript">
-	//<![CDATA[
-	<?php echo "var LANGUAGES = " . json_encode(get_languages()) . ";\n"; ?>
-	
-	function check_dupl_lang() {
-		var l = $('#LgName').val();
-		if(l in LANGUAGES) {
-			alert ('Language "' + l + '" exists already. Please change the language name!');
-			$('#LgName').focus();
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	//]]>
-	</script>
-
 	<h4>New Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 
 	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
-	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return check_dupl_lang();">
+	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return check_dupl_lang(0);">
 
 	<table class="tab1" cellspacing="0" cellpadding="5">
 	<tr>
-	<td class="td1 center click backlightyellow" colspan="2" onclick="window.open('select_lang_pair.php', 'wizard', 'width=400, height=400, scrollbars=yes, menubar=no, resizable=yes, status=no');"><img src="icn/wizard.png" title="Language Settings Wizard" alt="Language Settings Wizard" /><br /><b>Language Settings Wizard</b><br /><span class="smallgray2">Select your native (L1) and study (L2) languages, and let the wizard set all language settings marked in yellow!<br />(You can adjust the settings afterwards.)</span></td>
+	<td class="td1 center backlightyellow" colspan="2"><img src="icn/wizard.png" title="Language Settings Wizard" alt="Language Settings Wizard" class="click" onclick="window.open('select_lang_pair.php', 'wizard', 'width=400, height=400, scrollbars=yes, menubar=no, resizable=yes, status=no');" /><br /><span class="click" onclick="window.open('select_lang_pair.php', 'wizard', 'width=400, height=400, scrollbars=yes, menubar=no, resizable=yes, status=no');"><img src="icn/arrow-000-medium.png" title="-&gt;" alt="-&gt;" /> <b>Language Settings Wizard</b> <img src="icn/arrow-180-medium.png" title="&lt;-" alt="&lt;-" /></span><br /><span class="smallgray">Select your native (L1) and study (L2) languages, and let the wizard set all language settings marked in yellow!<br />(You can adjust the settings afterwards.)</span></td>
 	</tr>
 	</table>
 	
@@ -280,13 +287,12 @@ elseif (isset($_REQUEST['chg'])) {
 	
 		<h4>Edit Language <a target="_blank" href="info.htm#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
-		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return check_dupl_lang(<?php echo $_REQUEST['chg']; ?>);">
 		<input type="hidden" name="LgID" value="<?php echo $_REQUEST['chg']; ?>" />
-		<input type="hidden" name="LgName" value="<?php echo tohtml($record['LgName']); ?>" />
 		<table class="tab1" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Study Language "L2":</td>
-		<td class="td1"><?php echo tohtml($record['LgName']); ?></td>
+		<td class="td1"><input type="text" class="notempty setfocus" name="LgName" id="LgName" value="<?php echo tohtml($record['LgName']); ?>" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Dictionary 1 URI:</td>

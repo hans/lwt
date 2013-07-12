@@ -22,17 +22,19 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 require_once( 'langdefs.inc.php' );
 
-function get_wizard_selectoptions() {
+function get_wizard_selectoptions($v) {
 	global $langDefs;
-	$r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
+	$r = "<option value=\"\"" . get_selected($v,"") . ">[Choose...]</option>";
 	$keys = array_keys($langDefs);
 	foreach ($keys as $item) {
-		$r .= "<option value=\"" . $item . "\">" . $item . "</option>";
+		$r .= "<option value=\"" . $item . "\"" . get_selected($v,$item) . ">" . $item . "</option>";
 	}
 	return $r;
 }
 
 pagestart_nobody('Language Settings Wizard','body {background-color: #FFFACD;}');
+
+$currentnativelanguage = getSetting('currentnativelanguage');
 
 ?>
 
@@ -101,8 +103,8 @@ Language Settings Wizard
 <b>My Native language is:</b>
 <br />
 L1: 
-<select name="l1" id="l1">
-<?php echo get_wizard_selectoptions(); ?>
+<select name="l1" id="l1" onchange= "{do_ajax_save_setting('currentnativelanguage',($('#l1').val()));}">
+<?php echo get_wizard_selectoptions($currentnativelanguage); ?>
 </select>
 </p>
 
@@ -111,12 +113,12 @@ L1:
 <br />
 L2: 
 <select name="l2" id="l2">
-<?php echo get_wizard_selectoptions(); ?>
+<?php echo get_wizard_selectoptions(''); ?>
 </select>
 </p>
 
 <p class="wizard">
-<input type="button" value="Set Language Settings" onclick="wizard_go();" />
+<input type="button" style="font-size:1.1em;" value="Set Language Settings" onclick="wizard_go();" />
 </p>
 
 <p class="wizard">

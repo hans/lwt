@@ -319,7 +319,7 @@ elseif (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax($translation) . ', ' .
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
-make_score_random_insert_update('id') . ')', "Saved");
+make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 		$wid = get_last_key();
 	}	
 	
@@ -338,7 +338,7 @@ make_score_random_insert_update('id') . ')', "Saved");
 			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"],
-			"Updated");
+			"Updated", $sqlerrdie = FALSE);
 	}
 	
 	saveWordTags($wid);

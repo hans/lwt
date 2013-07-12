@@ -118,6 +118,12 @@ $langDefs = array(
 	".!?:;", 
 	false, false, false),
 
+"Greek (Modern)" => 
+	array("el", "el", false,
+	"\x{0370}-\x{03FF}\x{1F00}-\x{1FFF}", 
+	".!?:;", 
+	false, false, false),
+
 "Hebrew" => 
 	array("he", "iw", true, 
 	"\\x{0590}-\\x{05FF}", 
@@ -148,6 +154,12 @@ $langDefs = array(
 	"\\x{4E00}-\\x{9FFF}\\x{F900}-\\x{FAFF}\\x{1100}-\\x{11FF}" .
 	"\\x{3130}-\\x{318F}\\x{AC00}-\\x{D7A0}", 
 	".!?:;。！？：；", 
+	false, false, false),
+
+"Latin" => 
+	array("la", "la", false,
+	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	".!?:;", 
 	false, false, false),
 
 "Latvian" => 
