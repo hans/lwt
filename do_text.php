@@ -61,7 +61,7 @@ if (isset($_REQUEST['start'])) {
 	<script type="text/javascript">
 //<![CDATA[
 	function rsizeIframes() {
-		var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> + 10;
+		var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> + 5;
 		var lr_perc = <?php echo getSettingWithDefault('set-text-l-framewidth-percent'); ?>;
 		var r_perc = <?php echo getSettingWithDefault('set-text-r-frameheight-percent'); ?>;
 		var w = $(window).width();
@@ -96,7 +96,7 @@ if (isset($_REQUEST['start'])) {
 <iframe id="frame-ro-2" src="empty.htm" scrolling="yes" name="ro" style="display:inline-block;"></iframe>
 </div>
 <div id="frame-l" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
-	<iframe  id="frame-l-2" src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l" style="display:inline-block; overflow:scroll;"></iframe>
+	<iframe  id="frame-l-2" src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l" style="display:inline-block;"></iframe>
 </div>
 <div id="frame-ru" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
 	<iframe id="frame-ru-2" src="empty.htm" scrolling="yes" name="ru" style="display:inline-block;"></iframe>

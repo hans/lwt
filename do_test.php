@@ -104,7 +104,7 @@ if ($p != '') {
 <iframe id="frame-ro-2" src="empty.htm" scrolling="yes" name="ro" style="display:inline-block;"></iframe>
 </div>
 <div id="frame-l" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
-	<iframe  id="frame-l-2" src="empty.htm" scrolling="yes" name="l" style="display:inline-block; overflow:scroll;"></iframe>
+	<iframe  id="frame-l-2" src="empty.htm" scrolling="yes" name="l" style="display:inline-block;"></iframe>
 </div>
 <div id="frame-ru" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
 	<iframe id="frame-ru-2" src="empty.htm" scrolling="yes" name="ru" style="display:inline-block;"></iframe>
