@@ -19,7 +19,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.11 (July 12 2013)'  . 
+	return '1.5.12 (July ?? 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1317,6 +1317,8 @@ function get_wordssort_selectoptions($v) {
 	$r .= ">Status</option>";
 	$r .= "<option value=\"5\"" . get_selected($v,5);
 	$r .= ">Score Value (%)</option>";
+	$r .= "<option value=\"6\"" . get_selected($v,6);
+	$r .= ">Word Count Active Texts</option>";
 	return $r;
 }
 
