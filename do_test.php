@@ -21,6 +21,8 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'php-mobile-detect/Mobile_Detect.php' );
+$detect = new Mobile_Detect;
 
 $p = '';
 if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) 
@@ -33,8 +35,87 @@ if (isset($_REQUEST['text']))
 if ($p != '') {
 
 	framesetheader('Test');
+	
+	$tabletMode = getSettingWithDefault('set-text-test-tablet-mode')+0;
+	
+	if ( $detect->isMobile() ) {
 
 ?>
+
+	<style type="text/css"> 
+	body {
+		background-color: #888888;
+		margin: 0;
+		overflow: hidden;
+	}
+	#frame-h {
+		position:absolute; 
+		border: 1px solid #000000;	
+	}
+	#frame-l {
+		position:absolute; 
+		border: 1px solid #000000;	
+	}
+	#frame-ro {
+		position:absolute; 
+		border: 1px solid #000000;	
+	}
+	#frame-ru {
+		position:absolute; 
+		border: 1px solid #000000;	
+	}
+	</style> 
+	<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+	<script type="text/javascript">
+//<![CDATA[
+	function rsizeIframes() {
+		var h_height = <?php echo getSettingWithDefault('set-test-h-frameheight'); ?> + 10;
+		var lr_perc = <?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>;
+		var r_perc = <?php echo getSettingWithDefault('set-test-r-frameheight-percent'); ?>;
+		var w = $(window).width();
+		var h = $(window).height();
+		var l_width = w*lr_perc/100;
+		var r_width = w - l_width;
+		var l_height = h - h_height;
+		var ro_height = h*r_perc/100;
+		var ru_height = h - ro_height;
+		$('#frame-h').width(l_width-5).height(h_height-5).css('top',0).css('left',0);
+			$('#frame-h-2').width('100%').height('100%').css('top',0).css('left',0);
+		$('#frame-l').width((l_width-5)).height(l_height-5).css('top',h_height).css('left',0);
+			$('#frame-l-2').width('100%').height('100%').css('top',0).css('left',0);
+		$('#frame-ro').width(r_width-5).height(ro_height-5).css('top',0).css('left',l_width);
+			$('#frame-ro-2').width('100%').height('100%').css('top',0).css('left',0);
+		$('#frame-ru').width(r_width-5).height(ru_height-5).css('top',ro_height).css('left',l_width);
+			$('#frame-ru-2').width('100%').height('100%').css('top',0).css('left',0);
+	}
+
+	function init() {
+		rsizeIframes();
+		$(window).resize(rsizeIframes);
+	}
+	
+	$(document).ready(init);
+//]]>
+</script> 
+<div id="frame-h" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
+	<iframe id="frame-h-2" src="do_test_header.php?<?php echo $p; ?>" scrolling="yes" name="h" style="display:inline-block;"></iframe>
+</div>
+<div id="frame-ro" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
+<iframe id="frame-ro-2" src="empty.htm" scrolling="yes" name="ro" style="display:inline-block;"></iframe>
+</div>
+<div id="frame-l" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
+	<iframe  id="frame-l-2" src="empty.htm" scrolling="yes" name="l" style="display:inline-block; overflow:scroll;"></iframe>
+</div>
+<div id="frame-ru" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
+	<iframe id="frame-ru-2" src="empty.htm" scrolling="yes" name="ru" style="display:inline-block;"></iframe>
+</div>
+
+<?php 
+
+	} else {
+	
+?>
+
 <frameset cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
 	<frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
 		<frame src="do_test_header.php?<?php echo $p; ?>" scrolling="auto" name="h" />			
@@ -48,6 +129,8 @@ if ($p != '') {
 </frameset>
 </html>
 <?php
+
+	}
 
 }
 
