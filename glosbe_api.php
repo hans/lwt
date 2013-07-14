@@ -111,11 +111,6 @@ if ( $ok ) {
 			}
 		}
 		echo "</p>";
-		/*
-		echo "\n<hr />\n<pre>\n";
-		print_r($data['tuc']);
-		echo "</pre>\n";
-		*/
 		if ($i) {
 		echo '<p>&nbsp;<br/>' . $i . ' translation' . ($i==1 ? '' : 's') . ' retrieved via <a href="http://glosbe.com/a-api" target="_blank">Glosbe API</a>.</p>';
 		}
@@ -178,7 +173,7 @@ if ( $ok ) {
 	
 			} else {
 
-				echo '<p>&nbsp;<br/>Retrieval error (' . tohtml($from) . '-' . tohtml($dest) . ').</p>';
+				echo '<p>&nbsp;<br/>Retrieval error (' . tohtml($from) . '-' . tohtml($dest) . '). Possible reason: There is a limit of Glosbe API calls that may be done from one IP address in a fixed period of time, to prevent from abuse.</p>';
 
 			}
 		}
@@ -187,7 +182,7 @@ if ( $ok ) {
 	
 } else {
 
-	echo '<p>Retrieval error (' . tohtml($from) . '-' . tohtml($dest) . ').</p>';
+	echo '<p>Retrieval error (' . tohtml($from) . '-' . tohtml($dest) . '). Possible reason: There is a limit of Glosbe API calls that may be done from one IP address in a fixed period of time, to prevent from abuse.</p>';
 
 }
 
