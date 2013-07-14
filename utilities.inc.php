@@ -975,6 +975,19 @@ function get_audioplayer_selectoptions($v) {
 
 // -------------------------------------------------------------
 
+function get_mobile_display_mode_selectoptions($v) {
+	if ( ! isset($v) ) $v = "0";
+	$r  = "<option value=\"0\"" . get_selected($v,"0");
+	$r .= ">Auto</option>";
+	$r .= "<option value=\"1\"" . get_selected($v,"1");
+	$r .= ">Force Non-Mobile</option>";
+	$r .= "<option value=\"2\"" . get_selected($v,"2");
+	$r .= ">Force Mobile</option>";
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function get_sentence_count_selectoptions($v) {
 	if ( ! isset($v) ) $v = 1;
 	$r  = "<option value=\"1\"" . get_selected($v,1);
@@ -2252,7 +2265,9 @@ function get_setting_data() {
 		'set-text-visit-statuses-via-key' => 
 		array("dft" => '', "num" => 0),
 		'set-term-translation-delimiters' => 
-		array("dft" => '/;|', "num" => 0)
+		array("dft" => '/;|', "num" => 0),
+		'set-mobile-display-mode' => 
+		array("dft" => '0', "num" => 0)
 		);
 	}
 	return $setting_data;

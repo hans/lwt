@@ -183,8 +183,7 @@ while ($record = mysql_fetch_assoc($res)) {
 		mask_term_in_sentence($sent,$regexword)));
 ?>
 <tr>
-<td class="td1 center" nowrap="nowrap"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" class="click" onclick="window.parent.frames['ro'].location.href = 
-			'edit_tword.php?wid=<?php echo $record['WoID']; ?>';" /></td>
+<td class="td1 center" nowrap="nowrap"><a href="edit_tword.php?wid=<?php echo $record['WoID']; ?>" target="ro"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></a></td>
 <td class="td1 center" nowrap="nowrap"><span id="STAT<?php echo $record['WoID']; ?>"><?php echo make_status_controls_test_table($record['Score'], $record['WoStatus'], $record['WoID']); ?></span></td>
 <td class="td1 center" style="font-size:<?php echo $textsize; ?>%;"><?php echo $span1; ?><span id="TERM<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoText']); ?></span><?php echo $span2; ?></td>
 <td class="td1 center"><span id="TRAN<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoTranslation']); ?></span></td>

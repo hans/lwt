@@ -20,7 +20,10 @@ require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' ); 
 require_once( 'php-mobile-detect/Mobile_Detect.php' );
+
 $detect = new Mobile_Detect;
+$mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
+$mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
 
 if (isset($_REQUEST['start'])) {
 	
@@ -28,9 +31,7 @@ if (isset($_REQUEST['start'])) {
 	
 	framesetheader('Read');
 	
-	$tabletMode = getSettingWithDefault('set-text-test-tablet-mode')+0;
-	
-	if ( $detect->isMobile() ) {
+	if ( $mobile ) {
 
 ?>
 
@@ -61,7 +62,7 @@ if (isset($_REQUEST['start'])) {
 	<script type="text/javascript">
 //<![CDATA[
 	function rsizeIframes() {
-		var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> + 5;
+		var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> + 10;
 		var lr_perc = <?php echo getSettingWithDefault('set-text-l-framewidth-percent'); ?>;
 		var r_perc = <?php echo getSettingWithDefault('set-text-r-frameheight-percent'); ?>;
 		var w = $(window).width();
@@ -73,7 +74,7 @@ if (isset($_REQUEST['start'])) {
 		var ru_height = h - ro_height;
 		$('#frame-h').width(l_width-5).height(h_height-5).css('top',0).css('left',0);
 			$('#frame-h-2').width('100%').height('100%').css('top',0).css('left',0);
-		$('#frame-l').width((l_width-5)).height(l_height-5).css('top',h_height).css('left',0);
+		$('#frame-l').width(l_width-5).height(l_height-5).css('top',h_height).css('left',0);
 			$('#frame-l-2').width('100%').height('100%').css('top',0).css('left',0);
 		$('#frame-ro').width(r_width-5).height(ro_height-5).css('top',0).css('left',l_width);
 			$('#frame-ro-2').width('100%').height('100%').css('top',0).css('left',0);

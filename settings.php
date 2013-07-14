@@ -85,6 +85,10 @@ if (isset($_REQUEST['op'])) {
 	
 		saveSetting('set-term-translation-delimiters',
 		$_REQUEST['set-term-translation-delimiters']);
+		
+		saveSetting('set-mobile-display-mode',
+		$_REQUEST['set-mobile-display-mode']);
+
 	
 		$message = 'Settings saved';
 	
@@ -208,6 +212,20 @@ value="<?php echo tohtml(getSettingWithDefault('set-test-edit-frame-waiting-time
 </tr>
 <!-- ******************************************************* -->
 <tr>
+<th class="th1 center">Frame Set<br />Display Mode</th>
+<td class="td1 center">Select how frame sets are<br />displayed on different devices</td>
+<td class="td1 center">
+<select name="set-mobile-display-mode">
+<?php
+echo get_mobile_display_mode_selectoptions(
+getSettingWithDefault('set-mobile-display-mode'), true, true, true);
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
 <th class="th1 center">Reading</th>
 <td class="td1 center">Visit only saved terms with status(es)...<br />(via keystrokes RIGHT, SPACE, LEFT, etc.)</td>
 <td class="td1 center">
@@ -218,7 +236,7 @@ getSettingWithDefault('set-text-visit-statuses-via-key'), true, true, true);
 ?>
 </select>
 </td>
-<td class="td1 center">&nbsp;</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->
 <tr>

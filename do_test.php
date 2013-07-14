@@ -22,7 +22,10 @@ require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 require_once( 'php-mobile-detect/Mobile_Detect.php' );
+
 $detect = new Mobile_Detect;
+$mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
+$mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
 
 $p = '';
 if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) 
@@ -36,9 +39,7 @@ if ($p != '') {
 
 	framesetheader('Test');
 	
-	$tabletMode = getSettingWithDefault('set-text-test-tablet-mode')+0;
-	
-	if ( $detect->isMobile() ) {
+	if ( $mobile ) {
 
 ?>
 
@@ -81,7 +82,7 @@ if ($p != '') {
 		var ru_height = h - ro_height;
 		$('#frame-h').width(l_width-5).height(h_height-5).css('top',0).css('left',0);
 			$('#frame-h-2').width('100%').height('100%').css('top',0).css('left',0);
-		$('#frame-l').width((l_width-5)).height(l_height-5).css('top',h_height).css('left',0);
+		$('#frame-l').width(l_width-5).height(l_height-5).css('top',h_height).css('left',0);
 			$('#frame-l-2').width('100%').height('100%').css('top',0).css('left',0);
 		$('#frame-ro').width(r_width-5).height(ro_height-5).css('top',0).css('left',l_width);
 			$('#frame-ro-2').width('100%').height('100%').css('top',0).css('left',0);
