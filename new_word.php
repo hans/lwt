@@ -50,7 +50,7 @@ if (isset($_REQUEST['op'])) {
 make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 
 		if (substr($message,0,22) == 'Error: Duplicate entry') {
-			$message = 'Error: Duplicate entry for ' . $textlc;
+			$message = 'Error: <b>Duplicate entry for <i>' . $textlc . '</i></b><br /><br /><input type="button" value="&lt;&lt; Back" onclick="history.back();" />';
 		}
 		
 		$wid = get_last_key();
@@ -62,7 +62,7 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 		$showAll = getSettingZeroOrOne('showallwords',1);
 ?>
 
-<p><?php echo tohtml($message); ?></p>
+<p><?php echo $message; ?></p>
 
 <?php
 		if (substr($message,0,5) != 'Error') {
