@@ -65,7 +65,7 @@
             //
             // The easiest way to use singleField is to just instantiate tag-it
             // on an INPUT element, in which case singleField is automatically
-            // set to true, and singleFieldNode is set to that element. This
+            // set to true, and singleFieldNode is set to that element. This 
             // way, you don't need to fiddle with these options.
             singleField: false,
 
@@ -149,10 +149,7 @@
                         // (Case insensitive.)
                         return (element.toLowerCase().indexOf(filter) === 0);
                     });
-                    if (!this.options.allowDuplicates) {
-                        choices = this._subtractArray(choices, this.assignedTags());
-                    }
-                    showChoices(choices);
+                    showChoices(this._subtractArray(choices, this.assignedTags()));
                 };
             }
 
@@ -243,7 +240,7 @@
 
                     // Comma/Space/Enter are all valid delimiters for new tags,
                     // except when there is an open quote or if setting allowSpaces = true.
-                    // Tab will also create a tag, unless the tag input is empty,
+                    // Tab will also create a tag, unless the tag input is empty, 
                     // in which case it isn't caught.
                     if (
                         event.which === $.ui.keyCode.COMMA ||
@@ -270,10 +267,11 @@
                             event.preventDefault();
                         }
 
-                        // Autocomplete will create its own tag from a selection and close automatically.
-                        if (!that.tagInput.data('autocomplete-open')) {
-                            that.createTag(that._cleanedInput());
-                        }
+                        that.createTag(that._cleanedInput());
+
+                        // The autocomplete doesn't close automatically when TAB is pressed.
+                        // So let's ensure that it closes.
+                        that.tagInput.autocomplete('close');
                     }
                 }).blur(function(e){
                     // Create a tag when the element loses focus.
@@ -396,10 +394,6 @@
 
             value = $.trim(value);
 
-            if(this.options.preprocessTag) {
-                value = this.options.preprocessTag(value);
-            }
-
             if (value === '') {
                 return false;
             }
@@ -417,7 +411,7 @@
                 return false;
             }
 
-            if (this.options.tagLimit && this._tags().length >= this.options.tagLimit) {
+            if (this.options.tagLimit && this.options.tagLimit >= this._tags().length) {
                 this._trigger('onTagLimitExceeded', null, {duringInitialization: duringInitialization});
                 return false;
             }
@@ -511,18 +505,16 @@
                 tag.addClass('removed'); // Excludes this tag from _tags.
                 var hide_args = this._effectExists('blind') ? ['blind', {direction: 'horizontal'}, 'fast'] : ['fast'];
 
-                var thisTag = this;
                 hide_args.push(function() {
                     tag.remove();
-                    thisTag._trigger('afterTagRemoved', null, {tag: tag, tagLabel: thisTag.tagLabel(tag)});
                 });
 
                 tag.fadeOut('fast').hide.apply(tag, hide_args).dequeue();
             } else {
                 tag.remove();
-                this._trigger('afterTagRemoved', null, {tag: tag, tagLabel: this.tagLabel(tag)});
             }
 
+            this._trigger('afterTagRemoved', null, {tag: tag, tagLabel: this.tagLabel(tag)});
         },
 
         removeTagByLabel: function(tagLabel, animate) {
