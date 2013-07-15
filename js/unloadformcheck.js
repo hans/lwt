@@ -33,5 +33,16 @@ function bindForChange(){
 	$(':reset,:submit').bind('click',resetDirty);
 }
 
+function tagChanged(event, ui) {
+	if (! ui.duringInitialization) makeDirty();
+	return true;
+}
+
 window.onbeforeunload = askConfirmIfDirty;
 window.onload = bindForChange;
+
+$(document).ready( function() {
+	$('#termtags').tagit({afterTagAdded: tagChanged, afterTagRemoved: tagChanged});
+	$('#texttags').tagit({afterTagAdded: tagChanged, afterTagRemoved: tagChanged}); 
+} ); 
+

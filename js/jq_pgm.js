@@ -563,8 +563,8 @@ $(document).ready( function() {
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
-	$('#termtags').tagit({tagSource: TAGS, itemName: 'TermTags', fieldName: 'TagList'});
-	$('#texttags').tagit({tagSource: TEXTTAGS, itemName: 'TextTags', fieldName: 'TagList'});
+	$('#termtags').tagit({availableTags : TAGS, fieldName : 'TermTags[TagList][]'});
+	$('#texttags').tagit({availableTags : TEXTTAGS, fieldName : 'TextTags[TagList][]'}); 
 	markClick();
 	setTheFocus();
 	window.setTimeout(noShowAfter3Secs,3000);

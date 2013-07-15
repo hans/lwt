@@ -18,10 +18,12 @@ ul.tagit li.tagit-choice {
 	/* background-color: #DEE7F8; */
 	background-color: #E8E8E8;
 		font-size: 0.9em;
-    color: #555;
     font-weight: normal;
 }
-ul.tagit li.tagit-choice a.close {
+ul.tagit li.tagit-choice .tagit-label:not(a) {
+    color: #555;
+}
+ul.tagit li.tagit-choice a.tagit-close {
     text-decoration: none;
 }
 ul.tagit li.tagit-choice .close {
@@ -31,11 +33,11 @@ ul.tagit li.tagit-choice .close {
 ul.tagit li.tagit-choice .ui-icon {
     display: none;
 }
-ul.tagit li.tagit-choice .close .text-icon {
+ul.tagit li.tagit-choice .tagit-close .text-icon {
     display: inline;
     font-family: arial, sans-serif;
-    font-size:  14px;
-    line-height: 14px;
+    font-size:  16px;
+    line-height: 16px;
     /* color: #777; */ color: #C00000;
 }
 ul.tagit li.tagit-choice:hover, ul.tagit li.tagit-choice.remove {
@@ -45,10 +47,14 @@ ul.tagit li.tagit-choice:hover, ul.tagit li.tagit-choice.remove {
     border-color: #BBBBBB;
 }
 ul.tagit li.tagit-choice a.tagLabel:hover,
-ul.tagit li.tagit-choice a.close .text-icon:hover {
+ul.tagit li.tagit-choice a.tagit-close .text-icon:hover {
     color: #222;
 }
 ul.tagit input[type="text"] {
 	  color: #333333;
     background: none;
 }
+.ui-widget {
+    font-size: 0.9em;
+}
+
