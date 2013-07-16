@@ -37,70 +37,73 @@ if (isset($_REQUEST['start'])) {
 
 	<style type="text/css"> 
 	body {
-		background-color: #888888;
+		background-color: #cccccc;
 		margin: 0;
 		overflow: hidden;
 	}
-	#frame-h {
+	#frame-h, #frame-l, #frame-ro, #frame-ru {
 		position:absolute; 
-		border: 1px solid #000000;	
+		overflow:scroll; 
+		-webkit-overflow-scrolling: touch;
 	}
-	#frame-l {
-		position:absolute; 
-		border: 1px solid #000000;	
+	#frame-h-2, #frame-l-2, #frame-ro-2, #frame-ru-2 {
+		display:inline-block;	
 	}
-	#frame-ro {
-		position:absolute; 
-		border: 1px solid #000000;	
-	}
-	#frame-ru {
-		position:absolute; 
-		border: 1px solid #000000;	
-	}
-	</style> 
+	</style>
+	 
 	<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+
 	<script type="text/javascript">
 //<![CDATA[
-	function rsizeIframes() {
-		var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> + 10;
-		var lr_perc = <?php echo getSettingWithDefault('set-text-l-framewidth-percent'); ?>;
-		var r_perc = <?php echo getSettingWithDefault('set-text-r-frameheight-percent'); ?>;
-		var w = $(window).width();
-		var h = $(window).height();
-		var l_width = w*lr_perc/100;
-		var r_width = w - l_width;
-		var l_height = h - h_height;
-		var ro_height = h*r_perc/100;
-		var ru_height = h - ro_height;
-		$('#frame-h').width(l_width-5).height(h_height-5).css('top',0).css('left',0);
-			$('#frame-h-2').width('100%').height('100%').css('top',0).css('left',0);
-		$('#frame-l').width(l_width-5).height(l_height-5).css('top',h_height).css('left',0);
-			$('#frame-l-2').width('100%').height('100%').css('top',0).css('left',0);
-		$('#frame-ro').width(r_width-5).height(ro_height-5).css('top',0).css('left',l_width);
-			$('#frame-ro-2').width('100%').height('100%').css('top',0).css('left',0);
-		$('#frame-ru').width(r_width-5).height(ru_height-5).css('top',ro_height).css('left',l_width);
-			$('#frame-ru-2').width('100%').height('100%').css('top',0).css('left',0);
-	}
+function rsizeIframes() {
+	var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> + 10;
+	var lr_perc = <?php echo getSettingWithDefault('set-text-l-framewidth-percent'); ?>;
+	var r_perc = <?php echo getSettingWithDefault('set-text-r-frameheight-percent'); ?>;
+	var w = $(window).width();
+	var h = $(window).height();
+	var l_width = w*lr_perc/100;
+	var r_width = w - l_width;
+	var l_height = h - h_height;
+	var ro_height = h*r_perc/100;
+	var ru_height = h - ro_height;
+	$('#frame-h').width(l_width-5).height(h_height-5).
+		css('top',0).css('left',0);
+	$('#frame-h-2').width('100%').height('100%').
+		css('top',0).css('left',0);
+	$('#frame-l').width(l_width-5).height(l_height-5).
+		css('top',h_height).css('left',0);
+	$('#frame-l-2').width('100%').height('100%').
+		css('top',0).css('left',0);
+	$('#frame-ro').width(r_width-5).height(ro_height-5).
+		css('top',0).css('left',l_width);
+	$('#frame-ro-2').width('100%').height('100%').
+		css('top',0).css('left',0);
+	$('#frame-ru').width(r_width-5).height(ru_height-5).
+		css('top',ro_height).css('left',l_width);
+	$('#frame-ru-2').width('100%').height('100%').
+		css('top',0).css('left',0);
+}
 
-	function init() {
-		rsizeIframes();
-		$(window).resize(rsizeIframes);
-	}
-	
-	$(document).ready(init);
+function init() {
+	rsizeIframes();
+	$(window).resize(rsizeIframes);
+}
+
+$(document).ready(init);
 //]]>
-</script> 
-<div id="frame-h" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
-	<iframe id="frame-h-2" src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="h" style="display:inline-block;"></iframe>
+</script>
+ 
+<div id="frame-h">
+	<iframe id="frame-h-2" src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="h"></iframe>
 </div>
-<div id="frame-ro" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
-<iframe id="frame-ro-2" src="empty.htm" scrolling="yes" name="ro" style="display:inline-block;"></iframe>
+<div id="frame-ro">
+<iframe id="frame-ro-2" src="empty.htm" scrolling="yes" name="ro"></iframe>
 </div>
-<div id="frame-l" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
-	<iframe  id="frame-l-2" src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l" style="display:inline-block;"></iframe>
+<div id="frame-l">
+	<iframe id="frame-l-2" src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l"></iframe>
 </div>
-<div id="frame-ru" style="overflow:scroll; -webkit-overflow-scrolling: touch;">
-	<iframe id="frame-ru-2" src="empty.htm" scrolling="yes" name="ru" style="display:inline-block;"></iframe>
+<div id="frame-ru">
+	<iframe id="frame-ru-2" src="empty.htm" scrolling="yes" name="ru"></iframe>
 </div>
 
 <?php 
