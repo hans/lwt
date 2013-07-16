@@ -37,7 +37,7 @@ if (isset($_REQUEST['text'])) {
 
 	<style type="text/css"> 
 	body {
-		background-color: #888888;
+		background-color: #cccccc;
 		margin: 0;
 		overflow: hidden;
 	}
