@@ -96,6 +96,8 @@ elseif (isset($_REQUEST['empty'])) {
 	$dummy = runsql('TRUNCATE ' . $tbpref . 'wordtags', '');
 	$dummy = runsql('DELETE FROM ' . $tbpref . 'settings where StKey = \'currenttext\'', '');
 	optimizedb();
+	get_tags($refresh = 1);
+	get_texttags($refresh = 1);
 	$message = "Database content has been deleted (but settings have been kept)";
 }
 	

@@ -139,7 +139,11 @@ function get_tags($refresh = 0) {
 	global $tbpref;
 	if (isset($_SESSION['TAGS'])) {
 		if (is_array($_SESSION['TAGS'])) {
-			if ($refresh == 0) return $_SESSION['TAGS'];
+			if (isset($_SESSION['TBPREF_TAGS'])) {
+				if($_SESSION['TBPREF_TAGS'] == $tbpref) {
+					if ($refresh == 0) return $_SESSION['TAGS'];
+				}
+			}
 		}
 	}
 	$tags = array();
@@ -150,6 +154,7 @@ function get_tags($refresh = 0) {
 	}
 	mysql_free_result($res);
 	$_SESSION['TAGS'] = $tags;
+	$_SESSION['TBPREF_TAGS'] = $tbpref;
 	return $_SESSION['TAGS'];
 }
 
@@ -159,7 +164,11 @@ function get_texttags($refresh = 0) {
 	global $tbpref;
 	if (isset($_SESSION['TEXTTAGS'])) {
 		if (is_array($_SESSION['TEXTTAGS'])) {
-			if ($refresh == 0) return $_SESSION['TEXTTAGS'];
+			if (isset($_SESSION['TBPREF_TEXTTAGS'])) {
+				if($_SESSION['TBPREF_TEXTTAGS'] == $tbpref) {
+					if ($refresh == 0) return $_SESSION['TEXTTAGS'];
+				}
+			}
 		}
 	}
 	$tags = array();
@@ -170,6 +179,7 @@ function get_texttags($refresh = 0) {
 	}
 	mysql_free_result($res);
 	$_SESSION['TEXTTAGS'] = $tags;
+	$_SESSION['TBPREF_TEXTTAGS'] = $tbpref;
 	return $_SESSION['TEXTTAGS'];
 }
 
@@ -2590,6 +2600,8 @@ function restore_file($handle, $title) {
 	if ($errors == 0) {
 		reparse_all_texts();
 		optimizedb();
+		get_tags($refresh = 1);
+		get_texttags($refresh = 1);
 		$message = "Success: " . $title . " restored - " .
 		$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
 	} else {
