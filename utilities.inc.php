@@ -565,7 +565,6 @@ Developed by J. P. in 2011, 2012, 2013.
 	
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery.tagit.css">
-	<link rel="stylesheet" type="text/css" href="css/tagit.ui-zendesk.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<style type="text/css">
 	<?php echo $addcss . "\n"; ?>

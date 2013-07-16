@@ -26,7 +26,7 @@
 *
 * Changed for LWT: 
 *   <input type="text" />
-*   INSERTED: maxlength="20" size="26"
+*   INSERTED: maxlength="20" size="20"
 *	
 */
 (function($) {
@@ -129,7 +129,7 @@
                 this.tagList = this.element.find('ul, ol').andSelf().last();
             }
 
-            this.tagInput = $('<input type="text" maxlength="20" size="26" />').addClass('ui-widget-content');
+            this.tagInput = $('<input type="text" maxlength="20" size="20" />').addClass('ui-widget-content');
 
             if (this.options.readOnly) this.tagInput.attr('disabled', 'disabled');
 
