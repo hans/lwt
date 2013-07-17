@@ -109,6 +109,8 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-mobile-display-mode',
 		$_REQUEST['set-mobile-display-mode']);
 
+		saveSetting('set-new-edit-term-autosave-mode',
+		$_REQUEST['set-new-edit-term-autosave-mode']);
 	
 		$message = 'Settings saved';
 	
@@ -228,6 +230,20 @@ value="<?php echo tohtml(getSettingWithDefault('set-test-main-frame-waiting-time
 <input class="notempty right" type="text" 
 name="set-test-edit-frame-waiting-time" 
 value="<?php echo tohtml(getSettingWithDefault('set-test-edit-frame-waiting-time')); ?>" maxlength="8" size="8" /><br />Milliseconds </td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<th class="th1 center">Term<br />Autosave</th>
+<td class="td1 center">Automatic Saving of Terms after<br />Changes (Read Text &amp; Test Screens)</td>
+<td class="td1 center">
+<select name="set-new-edit-term-autosave-mode" class="notempty">
+<?php
+echo get_yesno_selectoptions(
+getSettingWithDefault('set-new-edit-term-autosave-mode'));
+?>
+</select>
+</td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->
