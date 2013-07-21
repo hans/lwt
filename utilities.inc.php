@@ -2222,7 +2222,7 @@ function get20Sentences($lang, $wordlc, $jsctlname, $mode) {
 	while ($record = mysql_fetch_assoc($res)) {
 		if ($last != $record['SeText']) {
 			$sent = getSentence($record['SeID'], $wordlc,$mode);
-			$r .= '<span class="click" onclick="' . $jsctlname . '.value=' . prepare_textdata_js($sent[1]) . ';"><img src="icn/tick-button.png" title="Choose" alt="Choose" /></span> &nbsp;' . $sent[0] . '<br />';
+			$r .= '<span class="click" onclick="{' . $jsctlname . '.value=' . prepare_textdata_js($sent[1]) . '; makeDirty();}"><img src="icn/tick-button.png" title="Choose" alt="Choose" /></span> &nbsp;' . $sent[0] . '<br />';
 		}
 		$last = $record['SeText'];
 	}

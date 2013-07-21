@@ -123,8 +123,12 @@ pagestart_nobody('');
 <script type="text/javascript">
 //<![CDATA[
 
+function makeDirty() {
+	autoSave();
+}
+
 function autoSave() {
-	$('#status').text('> Changed <');
+	$('#status').text('Updating ...');
 	var arr = {
 	'WoText': $('#WoText').val(),
 	'WoTranslation': $('#WoTranslation').val(),
@@ -142,8 +146,11 @@ function autoSave() {
 		}, 
 		function(data) { 
 			var res = eval('(' + data + ')');
-			if (res[0] == 1) $('#status').text('> Saved <');
-			else $('#status').text('> Save Error! <');
+			if (res[0] == 1) $('#status').text('Updated!');
+			else {
+				$('#status').text('UPDATE ERROR!');
+				alert('UPDATE ERROR!\nPlease refresh this word/expression and restart.');
+			}
 			// alert('RESULT: ' + res[0] + ' / ' + res[1] + ' / ' + res[2]);
 		} 
 	);
@@ -196,7 +203,7 @@ $(document).ready( function() {
 </td>
 </tr>
 <tr>
-<td class="td1 right" colspan="2"><b><span id="status" class="red2"></span></b> &nbsp; &nbsp; &nbsp; &nbsp;  
+<td class="td1 right" colspan="2"><b><span id="status" class="red"></span></b> &nbsp; &nbsp; &nbsp; &nbsp;  
 <?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',1); ?>
 </td>
 </tr>
