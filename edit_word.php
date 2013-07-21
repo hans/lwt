@@ -50,7 +50,9 @@ $fromAnn = getreq("fromAnn"); // from-recno or empty
 
 if ($autoSaveMode == 0 || $fromAnn != '')
 	require_once( 'edit_word.inc.php' );
-else
-	die("Autosave not yet implemented");
+else {
+	$source = 'edit_word';
+	require_once( 'edit_word_autosave.inc.php' );
+}
 
 ?>

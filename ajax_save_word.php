@@ -49,7 +49,7 @@ $message = 0;
 $wordid = $_POST['wordid'] + 0; // Word#, 0 = insert, >0 = update 
 $langid = $_POST['langid'] + 0; // Language#
 $worddataraw = stripTheSlashesIfNeeded($_POST['worddata']);
-$worddata = json_decode ($worddataraw);
+$worddata = json_decode ($worddataraw, TRUE);
 
 $text = trim(prepare_textdata($worddata["WoText"]));
 $textlc = mb_strtolower($text, 'UTF-8');
@@ -85,8 +85,7 @@ else {
 	if (isset($oldstatus)) {
 		$oldstatus = 0 + $oldstatus;
 		$statuschanged = '';
-		if ($oldstatus != $status) 
-			$statuschanged = 'WoStatus = ' .	$newstatus . 
+		if ($oldstatus != $status) $statuschanged = 'WoStatus = ' .	$status . 
 			', WoStatusChanged = NOW(), ';
 		$oldwordlc = get_first_value('SELECT WoTextLC as value FROM ' . $tbpref . 'words where WoID = ' . $wordid);
 		if (! isset($oldwordlc)) $oldwordlc = '';
@@ -103,7 +102,29 @@ else {
 	}
 }
 
-$msgarray = array('message' => $message, 'wordid' => $wordid)
-echo $msgarray;  // 1 = success, 0 = fail
+if ($message == 1 && $wordid > 0) {
+	runsql("DELETE from " . $tbpref . "wordtags WHERE WtWoID =" . $wordid,'');
+	if (isset($worddata["WoTags"])) {
+		if (is_array($worddata["WoTags"])) {
+			$cnt = count($worddata["WoTags"]);
+			if ($cnt > 0 ) {
+				for ($i=0; $i<$cnt; $i++) {
+					$tag = $worddata["WoTags"][$i];
+					if(! in_array($tag, $_SESSION['TAGS'])) {
+						runsql('insert into ' . $tbpref . 'tags (TgText) values(' . 
+						convert_string_to_sqlsyntax($tag) . ')', "");
+					}
+					runsql('insert into ' . $tbpref . 'wordtags (WtWoID, WtTgID) select ' . $wordid . ', TgID from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($tag), "");
+				}
+				get_tags(1);  // refresh tags cache
+			}
+		}
+	}
+}
+
+$msgarray = array($message, $wordid, $worddataraw);
+echo json_encode($msgarray); 
+usleep(500000);
+ 
 
 ?>

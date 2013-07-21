@@ -48,7 +48,9 @@ $autoSaveMode = getSettingWithDefault('set-new-edit-term-autosave-mode') + 0;
 
 if ($autoSaveMode == 0)
 	require_once( 'edit_mword.inc.php' );
-else
-	die("Autosave not yet implemented");
+else {
+	$source = 'edit_mword';
+	require_once( 'edit_word_autosave.inc.php' );
+}
 
 ?>

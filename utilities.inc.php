@@ -543,6 +543,8 @@ function framesetheader($title) {
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 <!-- ***********************************************************
 "Learning with Texts" (LWT) is free and unencumbered software 
@@ -574,8 +576,6 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ************************************************************ -->
 
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>LWT :: <?php echo tohtml($title); ?></title>
 </head>
 <?php
@@ -592,7 +592,9 @@ function pagestart_nobody($titeltext, $addcss='') {
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
 <!-- ***********************************************************
 "Learning with Texts" (LWT) is free and unencumbered software 
 released into the PUBLIC DOMAIN.
@@ -623,9 +625,6 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ************************************************************ -->
 
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	
 	<meta name="viewport" content="width=900" />
 	<link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png" />
 	<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
