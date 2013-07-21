@@ -583,7 +583,7 @@ For more information, please refer to [http://unlicense.org/].
 
 // -------------------------------------------------------------
 
-function pagestart_nobody($titeltext, $addcss='') {
+function pagestart_nobody($titletext, $addcss='') {
 	global $debug;
 	@header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 	@header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
@@ -657,7 +657,7 @@ For more information, please refer to [http://unlicense.org/].
 	<script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
 	
-	<title>LWT :: <?php echo $titeltext; ?></title>
+	<title>LWT :: <?php echo $titletext; ?></title>
 </head>
 <body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
@@ -667,9 +667,9 @@ For more information, please refer to [http://unlicense.org/].
 
 // -------------------------------------------------------------
 
-function pagestart($titeltext,$close) {
+function pagestart($titletext,$close) {
 	global $debug;
-	pagestart_nobody($titeltext);
+	pagestart_nobody($titletext);
 	echo '<h4>';
 	if ($close) echo '<a href="index.php" target="_top">';
 	echo_lwt_logo();
@@ -678,7 +678,7 @@ function pagestart($titeltext,$close) {
 		echo '</a>&nbsp; | &nbsp;';
 		quickMenu();
 	}
-	echo '</h4><h3>' . $titeltext . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
+	echo '</h4><h3>' . $titletext . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
 	echo "<p>&nbsp;</p>";
 } 
 

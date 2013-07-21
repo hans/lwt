@@ -61,9 +61,9 @@ if (isset($_REQUEST['op'])) {
 		
 		if ($_REQUEST['op'] == 'Save') {
 	
-			$titeltext = "New Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
-			pagestart_nobody($titeltext);
-			echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';
+			$titletext = "New Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
+			pagestart_nobody($titletext);
+			echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
 					
 			$message = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
 				'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
@@ -86,9 +86,9 @@ make_score_random_insert_update('id') . ')', "Term saved");
 		
 		else {  // $_REQUEST['op'] != 'Save'
 			
-			$titeltext = "Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
-			pagestart_nobody($titeltext);
-			echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';
+			$titletext = "Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
+			pagestart_nobody($titletext);
+			echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
 			
 			$oldstatus = $_REQUEST["WoOldStatus"];
 			$newstatus = $_REQUEST["WoStatus"];
@@ -111,9 +111,9 @@ make_score_random_insert_update('id') . ')', "Term saved");
 	
 	else { // (mb_strtolower($text, 'UTF-8') != $textlc)
 
-		$titeltext = "New/Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
-		pagestart_nobody($titeltext);
-		echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';		
+		$titletext = "New/Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
+		pagestart_nobody($titletext);
+		echo '<h4><span class="bigger">' . $titletext . '</span></h4>';		
 		$message = 'Error: Term in lowercase must be exactly = "' . $textlc . '", please go back and correct this!'; 
 		echo error_message_with_hide($message,0);
 		pageend();
@@ -191,10 +191,10 @@ else {  // if (! isset($_REQUEST['op']))
 		
 	}
 	
-	$neu = (isset($wid) == FALSE);
+	$new = (isset($wid) == FALSE);
 
-	$titeltext = ($neu ? "New Term" : "Edit Term") . ": " . $term;
-	pagestart_nobody($titeltext);
+	$titletext = ($new ? "New Term" : "Edit Term") . ": " . $term;
+	pagestart_nobody($titletext);
 ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <?php
@@ -202,7 +202,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	// NEW
 	
-	if ($neu) {
+	if ($new) {
 		
 		$seid = get_first_value("select TiSeID as value from " . $tbpref . "textitems where TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);
 		$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));

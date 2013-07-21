@@ -54,9 +54,9 @@ if (isset($_REQUEST['op'])) {
 		if ( $translation_raw == '' ) $translation = '*';
 		else $translation = $translation_raw;
 	
-		$titeltext = "New Term: " . tohtml($textlc);
-		pagestart_nobody($titeltext);
-		echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';
+		$titletext = "New Term: " . tohtml($textlc);
+		pagestart_nobody($titletext);
+		echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
 	
 		$message = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
 			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 

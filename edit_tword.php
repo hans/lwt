@@ -59,9 +59,9 @@ if (isset($_REQUEST['op'])) {
 		
 		if ($_REQUEST['op'] == 'Change') {
 			
-			$titeltext = "Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
-			pagestart_nobody($titeltext);
-			echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';
+			$titletext = "Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
+			pagestart_nobody($titletext);
+			echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
 			
 			$oldstatus = $_REQUEST["WoOldStatus"];
 			$newstatus = $_REQUEST["WoStatus"];
@@ -82,9 +82,9 @@ if (isset($_REQUEST['op'])) {
 	
 	else { // (mb_strtolower($text, 'UTF-8') != $textlc)
 	
-		$titeltext = "New/Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
-		pagestart_nobody($titeltext);
-		echo '<h4><span class="bigger">' . $titeltext . '</span></h4>';		
+		$titletext = "New/Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
+		pagestart_nobody($titletext);
+		echo '<h4><span class="bigger">' . $titletext . '</span></h4>';		
 		$message = 'Error: Term in lowercase must be exactly = "' . $textlc . '", please go back and correct this!'; 
 		echo error_message_with_hide($message,0);
 		pageend();
@@ -161,8 +161,8 @@ else {  // if (! isset($_REQUEST['op']))
 	mysql_free_result($res);
 	
 	$termlc =	mb_strtolower($term, 'UTF-8');
-	$titeltext = "Edit Term: " . tohtml($term);
-	pagestart_nobody($titeltext);
+	$titletext = "Edit Term: " . tohtml($term);
+	pagestart_nobody($titletext);
 	$scrdir = getScriptDirectionTag($lang);
 
 ?>
