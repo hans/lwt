@@ -159,7 +159,7 @@ if (isset($_COOKIE['LWT-WP-User'])) {
 </ul>
 
 <p class="smallgray graydotted">&nbsp;</p>
-<table><tr><td class="width50px"><a target="_blank" href="http://unlicense.org/"><img alt="Public Domain" src="img/public_domain.png" /></a></td><td><p class="smallgray"><a href="http://lwt.sourceforge.net/" target="_blank">"Learning with Texts" (LWT)</a> is free and unencumbered software released<br />into the <b>PUBLIC DOMAIN</b>. <a href="http://unlicense.org/" target="_blank">More information and detailed Unlicense...</a><br />
+<table><tr><td class="width50px"><a target="_blank" href="http://unlicense.org/"><img alt="Public Domain" title="Public Domain" src="img/public_domain.png" /></a></td><td><p class="smallgray"><a href="http://lwt.sourceforge.net/" target="_blank">"Learning with Texts" (LWT)</a> is free and unencumbered software released<br />into the <b>PUBLIC DOMAIN</b>. <a href="http://unlicense.org/" target="_blank">More information and detailed Unlicense ...</a><br />
 
 <?php
 
