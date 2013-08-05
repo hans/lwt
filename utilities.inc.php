@@ -39,7 +39,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.13 (July 22 2013)'  . 
+	return '1.5.14 (August 05 2013)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1652,19 +1652,37 @@ Page
 
 // -------------------------------------------------------------
 
-function makeStatusCondition($fieldname, $status) {
-	if ($status >= 12 && $status <= 15) {
-		return '(' . $fieldname . ' between 1 and ' . ($status % 10) . ')';
-	} elseif ($status >= 23 && $status <= 25) {
-		return '(' . $fieldname . ' between 2 and ' . ($status % 10) . ')';
-	} elseif ($status >= 34 && $status <= 35) {
-		return '(' . $fieldname . ' between 3 and ' . ($status % 10) . ')';
-	} elseif ($status == 45) {
+function makeStatusCondition($fieldname, $statusrange) {
+	if ($statusrange >= 12 && $statusrange <= 15) {
+		return '(' . $fieldname . ' between 1 and ' . ($statusrange % 10) . ')';
+	} elseif ($statusrange >= 23 && $statusrange <= 25) {
+		return '(' . $fieldname . ' between 2 and ' . ($statusrange % 10) . ')';
+	} elseif ($statusrange >= 34 && $statusrange <= 35) {
+		return '(' . $fieldname . ' between 3 and ' . ($statusrange % 10) . ')';
+	} elseif ($statusrange == 45) {
 		return '(' . $fieldname . ' between 4 and 5)';
-	} elseif ($status == 599) {
+	} elseif ($statusrange == 599) {
 		return $fieldname . ' in (5,99)';
 	} else {
-		return $fieldname . ' = ' . $status;
+		return $fieldname . ' = ' . $statusrange;
+	}
+}
+
+// -------------------------------------------------------------
+
+function checkStatusRange($currstatus, $statusrange) {
+	if ($statusrange >= 12 && $statusrange <= 15) {
+		return ($currstatus >= 1 && $currstatus <= ($statusrange % 10));
+	} elseif ($statusrange >= 23 && $statusrange <= 25) {
+		return ($currstatus >= 2 && $currstatus <= ($statusrange % 10));
+	} elseif ($statusrange >= 34 && $statusrange <= 35) {
+		return ($currstatus >= 3 && $currstatus <= ($statusrange % 10));
+	} elseif ($statusrange == 45) {
+		return ($currstatus == 4 || $currstatus == 5);
+	} elseif ($statusrange == 599) {
+		return ($currstatus == 5 || $currstatus == 99);
+	} else {
+		return ($currstatus == $statusrange);
 	}
 }
 

@@ -105,7 +105,7 @@ $(document).ready(function(){
 
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 
-echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">';
+echo '<p style="font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">';
 
 $items = preg_split('/[\n]/u', $ann);
 
@@ -126,7 +126,7 @@ foreach ($items as $item) {
 	} else {
 		echo str_replace(
 		"¶",
-		'</p><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
+		'</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
 		" " . tohtml($vals[1]));
 	}
 }

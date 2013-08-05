@@ -109,10 +109,9 @@ $show_rom = $ann & 2;
 $show_trans = $ann & 1; 
 $show_tags = $ann & 4; 
 
-$status = getreq('status');
-if($status == '') $status = getSetting('currentprintstatus');
-if($status == '') $status = 14;
-$whstatus = ' and (' . makeStatusCondition('WoStatus', $status) . ') ';
+$statusrange = getreq('status');
+if($statusrange == '') $statusrange = getSetting('currentprintstatus');
+if($statusrange == '') $statusrange = 14;
 
 $annplcmnt = getreq('annplcmnt');
 if($annplcmnt == '') $annplcmnt = getSetting('currentprintannotationplacement');
@@ -136,7 +135,7 @@ mysql_free_result($res);
 
 saveSetting('currenttext',$textid);
 saveSetting('currentprintannotation',$ann);
-saveSetting('currentprintstatus',$status);
+saveSetting('currentprintstatus',$statusrange);
 saveSetting('currentprintannotationplacement',$annplcmnt);
 
 pagestart_nobody('Print');
@@ -154,7 +153,7 @@ echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><
 echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="icn/chain.png" title="Text Source" alt="Text Source" /></a>' : '') . '</h3>';
 
 echo "<p id=\"printoptions\">Terms with <b>status(es)</b> <select id=\"status\" onchange=\"{val=document.getElementById('status').options[document.getElementById('status').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;status=' + val;}\">";
-echo get_wordstatus_selectoptions($status, true, true, false); 
+echo get_wordstatus_selectoptions($statusrange, true, true, false); 
 echo "</select> ...<br />will be <b>annotated</b> with "; 
 echo "<select id=\"ann\" onchange=\"{val=document.getElementById('ann').options[document.getElementById('ann').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;ann=' + val;}\">";
 echo "<option value=\"0\"" . get_selected(0,$ann) . ">Nothing</option>";
@@ -176,9 +175,9 @@ if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref .
 }
 echo "</p></div> <!-- noprint -->";
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
-echo '<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
+echo '<p style="font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
-$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID) ' . $whstatus . ') where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $textid . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
 
 $saveterm = '';
 $savetrans = '';
@@ -208,7 +207,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	if ($record['TiIsNotWord'] != 0) {
 		echo str_replace(
 			"¶",
-			'</p><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 'font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
+			'</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
 			tohtml($record['TiText']));
 	}
 	else {
@@ -216,13 +215,15 @@ while ($record = mysql_fetch_assoc($res)) {
 		$saveterm = $record['TiText'];
 		$savetrans = '';
 		$savetags = '';
+		$saverom = '';
 		if(isset($record['WoID'])) {
-			$savetrans = $record['WoTranslation'];
-			$savetags = getWordTagList($record['WoID'],'',1,0);
-			if ($savetrans == '*') $savetrans = '';
+			if (checkStatusRange($record['WoStatus']+0, $statusrange)) {
+				$savetrans = $record['WoTranslation'];
+				$savetags = getWordTagList($record['WoID'],'',1,0);
+				if ($savetrans == '*') $savetrans = '';
+				$saverom = trim($record['WoRomanization']);
+			}
 		}
-		$saverom = trim(isset($record['WoRomanization']) ?
-			$record['WoRomanization'] : "");
 	}
 } // while
 mysql_free_result($res);

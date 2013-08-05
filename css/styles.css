@@ -319,37 +319,31 @@ dt {
 	color: #999999;
 	font-size: 60%;
 	font-style: italic;
-	word-break: normal;
 }
 .annromruby {
 	color: #000000;
 	font-size: 100%;
 	font-style: italic;
-	word-break: normal;
 }
 .annromrubysolo {
 	color: #000000;
 	font-size: 100%;
 	font-style: normal;
-	word-break: normal;
 }
 .anntrans {
 	color: #0099CC;
 	font-size: 60%;
 	font-style: normal;
-	word-break: normal;
 }
 .anntransruby {
 	color: #0099CC;
 	font-size: 100%;
 	font-style: normal;
-	word-break: normal;
 }
 .anntransruby2 {
 	color: #006699;
 	font-size: 125%;
 	font-style: normal;
-	word-break: normal;
 }
 #footer {
 	bottom: 0;
