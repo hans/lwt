@@ -223,7 +223,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.14 (August 05 2013)</b>.
+          <li>The current version is <b>1.5.14 (August 05 2013)</b>, this documentation has been updated Oct 30 2013.
           </li>
 
           <li>
@@ -324,8 +324,7 @@ $(document).ready( function() {
 								<a href="http://mikotoneko.wordpress.com/2012/04/17/lwt-daniels-guide-for-japanese-useage/" target="_blank">Mikoto's Adventures in Japanese: LWT - Daniel’s Guide for Japanese Usage</a>
 							</li> 
 							<li>
-								<a href="http://www.fluentin3months.com/learning-with-texts/" target="_blank">Fluent In 3 Months: Introducing LWT: The free, open-source foreign language reading tool</a><br />
-								(Benny's <a href="http://fi3m.com/lwt" target="_blank">implementation of LWT</a> is a bit outdated and buggy, and runs on a slow server. I don't recommend it.)
+								<a href="http://www.fluentin3months.com/learning-with-texts/" target="_blank">Fluent In 3 Months: Introducing LWT</a>, with <a target="_blank" href="http://lwtfi3m.co/">Benny's own (free) version of LWT</a>.<br />
 							</li> 
 						</ul>
             <br />
@@ -543,8 +542,7 @@ $(document).ready( function() {
             <br /><br />
           	<iframe width="640" height="360" src="http://www.youtube.com/embed/QnGG-_urLKk" frameborder="0" allowfullscreen></iframe>
           	<br /><br />
-          	<a target="_blank" href="http://www.fluentin3months.com/">Benny's website (fluentin3months.com)</a><br />
-          	(Benny's <a href="http://fi3m.com/lwt" target="_blank">implementation of LWT</a> is a bit outdated and buggy, and runs on a slow server. I don't recommend it.)
+          	<a href="http://www.fluentin3months.com/learning-with-texts/" target="_blank">Fluent In 3 Months: Introducing LWT</a>, with <a target="_blank" href="http://lwtfi3m.co/">Benny's own (free) version of LWT</a>.<br />
           </li>
         </ul>
       </dd>
@@ -1672,6 +1670,9 @@ $(document).ready( function() {
             <b><a name="mue"></a>Multiple LWT table sets</b>
             <br />
             <br />
+            <b>WARNING:</b> The use of the "Multiple LWT table sets" feature on an external web server may cause a <b>monstrous database size</b> if some users import many or large texts. Without further improvements (e. g. user quotas, etc.), LWT with activated "Multiple LWT table sets" is in its current version <b>not suitable</b> to be run in a public environment on an external web server! 
+            <br />
+            <br />
             When you start using LWT, you store all your data in the "Default Table Set" within the database you have defined in the file "connect.inc.php" during the LWT installation. 
             <br />
             <br />
@@ -2112,7 +2113,9 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-        	<li>The following instructions are for users who have installed WordPress, and want to install LWT for multiple WordPress users in conjunction with WordPress authentication. Every WordPress user will have his/her own LWT table set. 
+        	<li><b>IMPORTANT: Please read this <a href="#mue">THIS WARNING</a> first! </b><br />I CANNOT give any support for this feature, NOR can I help you with any WordPress problems!<br /><b>USE AT YOUR OWN RISK! </b><br /><br />
+          </li>
+        	<li>The following instructions are for users who have installed WordPress, and want to install LWT for multiple WordPress users in conjunction with WordPress authentication. Every WordPress user will have his/her own LWT table set.<br /><br /> 
           </li>
         </ul>
         <ol>
@@ -2138,10 +2141,6 @@ $(document).ready( function() {
           <li>If you delete a user, you must find out its user number (table "wp_users"). After deleting the user in WordPress, you can delete all LWT tables with table names beginning with the user number plus an underscore "_". You can do this in phpMyAdmin. 
 					</li>
 				</ol>
-        <ul>
-        	<li><b>One last remark: I CANNOT give any support for this feature, NOR can I help you with any WordPress problems! USE AT YOUR OWN RISK! </b>
-          </li>
-        </ul>
       </dd>
       
       <dt>
@@ -2463,8 +2462,9 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-        	<li>1.5.14 (August 05 2013):</br />
+        	<li>1.5.14 (August 05 2013, this document updated Oct 30 2013):</br />
         	Wrong text display in Print Screen corrected. Special handling of word breaks (if "Remove spaces" = Yes) removed.<br />
+        	Documentation updated on October 30 2013.<br />
         	</br />
         	</li>
         
