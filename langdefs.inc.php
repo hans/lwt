@@ -127,7 +127,7 @@ $langDefs = array(
 	false, false, false),
 
 "French" => 
-	array("fi", "fi", false,
+	array("fr", "fr", false,
 	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
