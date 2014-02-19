@@ -337,7 +337,7 @@ Tag #2:
 <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
 </th>
 <th class="th1" colspan="2" nowrap="nowrap">
-<?php makePager ($currentpage, $pages, 'edit_archivedtexts.php', 'form1'); ?>
+<?php makePager ($currentpage, $pages, 'edit_archivedtexts.php', 'form1', 1); ?>
 </th>
 <th class="th1" nowrap="nowrap">
 Sort Order:
@@ -397,13 +397,15 @@ mysql_free_result($res);
 </form>
 
 <?php if( $pages > 1) { ?>
+<form name="form3" action="#">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1" nowrap="nowrap">
 <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" nowrap="nowrap">
-<?php makePager ($currentpage, $pages, 'edit_archivedtexts.php', 'form1'); ?>
+<?php makePager ($currentpage, $pages, 'edit_archivedtexts.php', 'form3', 2); ?>
 </th></tr></table>
+</form>
 <?php } ?>
 
 <?php

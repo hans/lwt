@@ -39,7 +39,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.15 (December 17 2013)'  . 
+	return '1.5.16 (February 19 2014)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1615,7 +1615,7 @@ function get_texts_selectoptions($lang,$v) {
 
 // -------------------------------------------------------------
 
-function makePager ($currentpage, $pages, $script, $formname) {
+function makePager ($currentpage, $pages, $script, $formname, $inst) {
 	if ($currentpage > 1) { 
 ?>
 &nbsp; &nbsp;<a href="<?php echo $script; ?>?page=1"><img src="icn/control-stop-180.png" title="First Page" alt="First Page" /></a>&nbsp;
@@ -1633,7 +1633,7 @@ Page
 	if ($pages==1) echo '1';
 	else {
 ?>
-<select name="page" onchange="{val=document.<?php echo $formname; ?>.page.options[document.<?php echo $formname; ?>.page.selectedIndex].value; location.href='<?php echo $script; ?>?page=' + val;}"><?php echo get_paging_selectoptions($currentpage, $pages); ?></select>
+<select name="page<?php echo $inst; ?>" onchange="{val=document.<?php echo $formname; ?>.page<?php echo $inst; ?>.options[document.<?php echo $formname; ?>.page<?php echo $inst; ?>.selectedIndex].value; location.href='<?php echo $script; ?>?page=' + val;}"><?php echo get_paging_selectoptions($currentpage, $pages); ?></select>
 <?php
 	}
 	echo ' of ' . $pages . '&nbsp; ';

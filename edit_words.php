@@ -578,7 +578,7 @@ Tag #2:
 <th class="th1" nowrap="nowrap">
 <?php echo $recno; ?> Term<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" colspan="2" nowrap="nowrap">
-<?php makePager ($currentpage, $pages, 'edit_words.php', 'form1'); ?>
+<?php makePager ($currentpage, $pages, 'edit_words.php', 'form1', 1); ?>
 </th><th class="th1" nowrap="nowrap">
 Sort Order:
 <select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='edit_words.php?page=1&amp;sort=' + val;}"><?php echo get_wordssort_selectoptions($currentsort); ?></select>
@@ -686,14 +686,15 @@ $('#waitinfo').addClass('hide');
 </script>
 
 <?php if( $pages > 1) { ?>
+<form name="form3" action="#">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1" nowrap="nowrap">
 <?php echo $recno; ?> Term<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" nowrap="nowrap">
-<?php makePager ($currentpage, $pages, 'edit_words.php', 'form1'); ?>
+<?php makePager ($currentpage, $pages, 'edit_words.php', 'form3', 2); ?>
 </th></tr></table>
-
+</form>
 <?php } ?>
 
 <?php
