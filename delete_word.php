@@ -46,7 +46,7 @@ $term = get_first_value("select WoText as value from " . $tbpref . "words where 
 pagestart("Term: " . $term, false);
 $m1 = runsql('delete from ' . $tbpref . 'words where WoID = ' . $wid, '');
 adjust_autoincr('words','WoID');
-
+runsql("UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = 0 WHERE Ti2WordCount=1 AND Ti2WoID  = " .$wid, '');
 echo "<p>OK, term deleted, now unknown (" . $m1 . ").</p>";
 
 ?>

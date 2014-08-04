@@ -46,22 +46,26 @@ LWT Information / Help
     <meta name="description" content="Learning with Texts (LWT) is a tool for Language Learning, inspired by Stephen Krashen's principles in Second Language Acquisition, Steve Kaufmann's LingQ System and ideas (e. g. Massive-Context Cloze Deletion Cards = MCDs) from Khatzumoto, published at AJATT - All Japanese All The Time. It is an Alternative to LingQ, 100 % free, Open Source, and in the Public Domain." />
     <meta name="revisit-after" content="2 days" />
 		<meta name="viewport" content="width=900" />
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 		<link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png" />
 		<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
 		<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png" />
-		<link rel="apple-touch-startup-image" href="img/apple-touch-startup.png">
+		<link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
 		<style type="text/css">
-  		@import url(css/styles.css);
+  		
 		</style>
 		<script type="text/javascript" src="js/jquery.js"></script>  
-		<script type="text/javascript" src="js/floating.js"></script>  
+		<script type="text/javascript" src="js/floating.js"></script>
+ <script type="text/javascript">
+$.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/styles.css' }, success:function (data) {$('style').text( "@import url(" + data + ");" );
+}}); 
+</script>
     <title>
       Learning with Texts :: Help/Information
     </title>
   </head>
   <body>
-
-	<div id="floatdiv" style="position:absolute; width:auto; height:auto; top:10px; right:10px; padding:5px; background:#DDDDDD; border:1px solid #888888; z-index:100;  font-size: 10pt; text-align:center;">
+	<div id="floatdiv" style="position:absolute; width:auto; height:auto; top:10px; right:10px; padding:5px;  z-index:100;  font-size: 10pt; text-align:center;">
 		<a href="#">↑ TOP ↑</a><br /><br />
 		<a href="#preface">Preface</a><br />
 		<a href="#current">Curr.Version </a><br />
@@ -103,15 +107,20 @@ $(document).ready( function() {
 		<div style="margin-right:100px;">
 
     <h4>
-      <a href="index.php" target="_top"><img src="img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
+      <a href="index.php" target="_top"><img class="lwtlogoright" alt="" />Learning with Texts</a>
       <br />
       <br />
       <span class="bigger">Help/Information</span>
     </h4>
 
+<script type="text/javascript">
+$.ajax({type: 'POST',url:'ajax_get_theme.php', data: { file:'img/lwt_icon_big.png' }, success:function (data) {
+$('.lwtlogoright').attr( "src", data );}});
+</script>
+
     <p class="inline">
       Jump to topic:
-      <select id="topicjump" onchange="{var qm = document.getElementById('topicjump'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { location.href = '#' + val;}}">
+      <span class="wrap_select"><select id="topicjump" onchange="{var qm = document.getElementById('topicjump'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { location.href = '#' + val;}}">
         <option value="" selected="selected">
           [Select...]
         </option>
@@ -184,7 +193,7 @@ $(document).ready( function() {
         <option value="history">
           Changelog
         </option>
-      </select>
+      </select></span>
     </p>
 
     <dl>
@@ -223,7 +232,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.16 (February 19 2014)</b>.
+          <li>The current version is <b>1.6.0 (August 04 2014)</b>.
           </li>
 
           <li>
@@ -492,6 +501,9 @@ $(document).ready( function() {
           <li><b>New since Version 1.5.0:</b> Create and edit an improved annotated text version (a <a target="_blank" href="http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations">hyperliteral translation</a> as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>.
           </li>
           
+         <li><b>New since Version 1.5.17:</b> Import texts from newsfeeds 
+         </li>
+         
           <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
           </li>
           
@@ -624,6 +636,10 @@ $(document).ready( function() {
 
             <li>
             iUI - Copyright © 2007-2011, <a href="http://www.iui-js.org/" target="_blank">http://www.iui-js.org/</a> (iui)
+            </li>
+
+            <li>
+            Query.Xpath - Copyright © 2012-2013 Sergey Ilinsky, <a href="https://github.com/ilinsky/jquery-xpath" target="_blank">https://github.com/ilinsky/jquery-xpath</a> (js/jquery.xpath.js)
             </li>
             </ul>
             <br />
@@ -1380,6 +1396,146 @@ $(document).ready( function() {
             <br />
           </li>
 
+			 <li>
+				<b id="feed_imp">Newsfeed Import</b>
+				<br />
+				<br />
+				Here you can download the articles of your newsfeeds (HowTo add a new newsfeed see <a href="#new_feed">here</a>). If you've set up multiple newsfeeds for your selected language, the link "update multiple feeds" will appear. By clicking that link you can update one or more feeds at once. If you've selected a newsfeed, a blue circle-arrow will appear as well as the date of your last update. A click on the circle-arrow will update your selected newsfeed. All downloaded articles will be marked by a bookmark-icon instead of the checkbox, so you can access them immediately. If a downloaded article is archived, a red mark will appear. An error may occur, when you try to download an article and the link or the text-section of the article is not found. Then a yellow warning sign appears, which can be removed temporarily by clicking on it or permanently in <a href="#man_feed">Manage Feeds</a>. If you hover over an article title, a description of the article will be shown. You can open the article and, if available, the audio in a new window.
+				<br />
+				<br />
+				<img class="grayborder" src="img/37.jpg" alt="Image" />
+				<br />
+				<br />
+			 </li>
+			 <li>
+			 <b id="man_feed">Manage Feeds</b>
+			 <br />
+			 <br />
+				Multi Actions for marked newsfeeds: You can update feeds, unset unloadable articles (see <a href="#feed_imp">my newsfeeds</a>), delete all articles or delete feeds.
+				<br />
+				Actions: You can edit, update, delete a feed or follow the link to the newsfeed.
+			 <br />
+			 <br />
+			 <img class="grayborder" src="img/38.jpg" alt="Image" />
+			 <br />
+			 <br />
+			 </li>
+			 <li>
+			 <b id="new_feed">New/Edit Feeds</b>
+			 <br />
+			 <br />
+			 <b>Explainations of the input fields:</b>
+			 <br />
+			 <br />
+				<ul>
+					<li>
+					Language: select your language, it can be changed later.
+					</li>
+					<li>
+					Name: the name is limited to 40 characters, this field must not be empty.
+					</li>
+					<li>
+					Newsfeed url: URL of your RSS/Atom-Feed, this field must not be empty.
+					</li>
+					<li>
+					Article Section: <a href="http://www.w3.org/TR/xpath20/" target="_blank">xpath expression</a> (i.e.: //div[@id="content-to-read"]/p), the <a href="#feed_wizard">feed wizard</a> can be used to get the right sections, this field must not be empty.
+					</li>
+					<li>
+					Filter Tags: <a href="http://www.w3.org/TR/xpath20/" target="_blank">xpath expression</a>, the <a href="#feed_wizard">feed wizard</a> can be used to get the right sections.
+					</li>
+					<li>
+					Options:
+					<ul>
+						<li>
+						Edit Text: if this is checked, you can edit your articles before saving.
+						</li>
+						<li>
+						Auto Update Interval: your feed will be updated automatically, when you enter MY FEEDS from the main menu.
+						</li>
+						<li>
+						Max. Links: number of shown in MY FEEDS, if this is empty, the value in the settings will be used.
+						</li>
+						<li>
+						Charset: this should be empty, charset sould be detected automatically.
+						</li>
+						<li>
+						Max. Texts: max. number of active texts, if this is empty, the value in the settings will be used. Older texts will be moved into ARCHIVE.
+						</li>
+						<li>
+						Tag: you can give the texts a tag, if this is empty, the first 20 characters of the feed name will be used. The tag will be used to move the older texts into ARCHIVE. Each feed should have its own tag.
+						</li>
+						<li>
+						Article Source: some feeds have its texts integrated in the description. The articles can be cached in the database, which results in a faster download and a bigger database. Feeds with cached articles should have less Max. Links. The feed wizard can be used to detect the Article Source. If this is unchecked, each article will be downloaded from the internet.
+						</li>
+					</ul></li>
+				</ul>
+			 <br />
+			 <br />
+			 <img class="grayborder" src="img/41.jpg" alt="Image" />
+			 <br />
+			 <br />
+			 </li>
+			 <li>
+			 <b id="feed_wizard">Feed Wizard</b>
+			 <br />
+			 <br />
+			 Here you can edit or set up a new newsfeed in 4 steps.
+			 <br />
+			 <br />
+			<ul>
+				<li><b>Step 1</b>
+				<br />
+				<br />
+				Insert your newsfeed url. This step is skipped, when you edit a newsfeed.
+				</li>
+				<br />
+				<br />
+
+			 <li><b>Step 2</b>
+			 <br />
+			 <br />
+				<ul><li>Name: the name is limited to 40 characters, this can be changed later in step 4 and must not be empty.</li>
+				<li>Newsfeed url: URL of your RSS/Atom-Feed, this can only be changed in step 1 and must not be empty.</li>
+				<li>Article Source: Webpage Link means, that the article will downloaded from the link, all other values mean, that the texts are cached in the database, when you update your feed. 
+				You must set the value, before you set the article section. This can only be changed here.</li>
+				</ul>
+				<br />
+				<b>How to select the article section:</b><br /><br />
+				When you click on the text, it will be marked yellow and a value in the right selectbox will appear. You can change the marked section by selecting a value. 
+				If you click on the yellow marked text, the text will be unmarked. To select a text click the "get"-button. The xpath expression of the selected text will then appear on the top and the text will be marked green. 
+				You can unselect the selected text by clicking on the red cross. If you click on the xpath expression or on the selected text, a border around the selected text will appear. 
+				This can be used to verify the connection between text and xpath exp. in the articles. In order to change an article/webpage use the selectbox on the left. 
+				All visited articles start with an arrow "▶". Articles from different hosts probably contain different article sections. Therefore a selectbox can be used to mark the hosts, that are "done", with a star. 
+				By clicking on the setting icon, you can choose between three selection modes. "Smart Selection" looks for ids and classes in the element node and parent node.
+				"Get All Attributes" will compare all attributes of the element node/parent node with the text. This mode is not recommended. "Advanced Selection" lets you customize the <a href="http://www.w3.org/TR/xpath20/" target="_blank">xpath expression</a>.		
+				
+				<br />
+				<br />
+
+			 <img class="grayborder" src="img/39.jpg" alt="Image" />
+			 <br />
+			 <br /></li>
+			 <li><b>Step 3</b>
+			 <br />
+			 <br />
+			 This works like step 2. Only the selected sections from step 2 are clickable. Marked text will appear grey, filtered texts will have a red font.
+				<br />
+				<br />
+
+			 <img class="grayborder" src="img/40.jpg" alt="Image" />
+			 <br />
+			 <br />
+			 </li>
+			 <li>
+			 <b>Step 4</b>
+			 <br />
+			 <br />
+			 The settings are explained in <a href="#new_feed">New/Edit Feeds</a>.
+			 <br />
+			 <br />
+			 </li>
+			 </ul>
+			 </li>			 
           <li>
             <b>Read a Text</b>
             <br />
@@ -1658,7 +1814,7 @@ $(document).ready( function() {
             <b>Settings/Preferences</b>
             <br />
             <br />
-            In this screen you can adjust the program according to your needs. The geometric properties of the <i>Read Text</i> and <i>Test</i> screens can be changed. This is important because different browsers and font sizes may result in an unpleasant viewing experience. The waiting time to display the next test and to hide the old message after a test assessment can also be changed. The number of sentences displayed during testing and generated during term creation can be set to 1 (default), 2 or 3; if set to 2 or 3 you are able to do "MCD" (Massive-Context Cloze Deletion) testing, proposed by Khatzumoto @ AJATT. The number of items per page on different screens can be set, and you can decide whether you want to see the word counts on the textpage immediately (page may load slow) or later (faster initial loading).
+            In this screen you can adjust the program according to your needs. The geometric properties of the Read Text and Test screens can be changed. This is important because different browsers and font sizes may result in an unpleasant viewing experience. The waiting time to display the next test and to hide the old message after a test assessment can also be changed. The number of sentences displayed during testing and generated during term creation can be set to 1 (default), 2 or 3; if set to 2 or 3 you are able to do "MCD" (Massive-Context Cloze Deletion) testing, proposed by Khatzumoto @ AJATT. If you set "Enable Daily Auto Score Calculation" to "No", the <a href="#termscores">term scores</a> are only calculated when you enter the testing screen (without a calculated score the score values in the term screen are not accurate). The query mode can be set to Regular Expressions (more info about regexp <a href="http://en.wikipedia.org/wiki/Regular_expression" target="_blank">here</a>). The number of items per page on different screens can be set, and you can decide whether you want to see the word counts on the textpage immediately (page may load slow) or later (faster initial loading). The values in the newsfeed section are only applied, if the corresponding values are not set in the newsfeed.
             <br />
             <br />
             <img class="grayborder" src="img/19.jpg" alt="Image" />
@@ -2150,7 +2306,7 @@ $(document).ready( function() {
       <dd>
         <ul>
         	<li>
-        		The following twelve tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
+        		The following fourteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
         		<br />
         		<br />
         		Additional table sets have its "table set name" plus an underscore "_" as a table name prefix: "setname_settings", "setname_languages", etc.
@@ -2177,7 +2333,7 @@ $(document).ready( function() {
           <li>
             <b>Table "languages" (Defined languages):</b>
             <br />
-            LgID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            LgID tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
             <br />
             LgName varchar(40) NOT NULL,
             <br />
@@ -2189,7 +2345,7 @@ $(document).ready( function() {
             <br />
             LgExportTemplate varchar(1000) DEFAULT NULL,
             <br />
-            LgTextSize int(5) unsigned NOT NULL DEFAULT '100',
+            LgTextSize smallint(5) unsigned NOT NULL DEFAULT '100',
             <br />
             LgCharacterSubstitutions varchar(500) NOT NULL,
             <br />
@@ -2199,11 +2355,11 @@ $(document).ready( function() {
             <br />
             LgRegexpWordCharacters varchar(500) NOT NULL,
             <br />
-            LgRemoveSpaces int(1) unsigned NOT NULL DEFAULT '0',
+            LgRemoveSpaces tinyint(1) unsigned NOT NULL DEFAULT '0',
             <br />
-            LgSplitEachChar int(1) unsigned NOT NULL DEFAULT '0',
+            LgSplitEachChar tinyint(1) unsigned NOT NULL DEFAULT '0',
             <br />
-            LgRightToLeft INT(1) UNSIGNED NOT NULL DEFAULT '0',
+            LgRightToLeft tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
             <br />
             PRIMARY KEY (LgID),
             <br />
@@ -2215,9 +2371,9 @@ $(document).ready( function() {
           <li>
             <b>Table "texts" (Active texts, parsed and cached in sentences and textitems):</b>
             <br />
-            TxID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            TxID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            TxLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
+            TxLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
             TxTitle varchar(200) NOT NULL,
             <br />
@@ -2229,6 +2385,10 @@ $(document).ready( function() {
             <br />
             TxSourceURI varchar(1000) DEFAULT NULL,
             <br />
+            TxPosition int(6) NOT NULL DEFAULT '0',
+            <br />
+            TxAudioPosition float NOT NULL DEFAULT '0',
+            <br />
             PRIMARY KEY (TxID),
             <br />
             KEY TxLgID (TxLgID)
@@ -2239,9 +2399,9 @@ $(document).ready( function() {
           <li>
             <b>Table "archivedtexts" (Text Archive, not parsed and cached):</b>
             <br />
-            AtID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            AtID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            AtLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
+            AtLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
             AtTitle varchar(200) NOT NULL,
             <br />
@@ -2263,7 +2423,7 @@ $(document).ready( function() {
           <li>
           	<b>Table "tags2" (Text tags and comments):</b>
             <br />
-  					T2ID int(11) unsigned NOT NULL AUTO_INCREMENT,
+  					T2ID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
             <br />
   					T2Text varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
             <br />
@@ -2279,9 +2439,9 @@ $(document).ready( function() {
           <li>
             <b>Table "texttags" (Text tags relations):</b>
             <br />
-						TtTxID int(11) unsigned NOT NULL, -- TEXT FOREIGN KEY --
+						TtTxID smallint(5) unsigned NOT NULL, -- TEXT FOREIGN KEY --
             <br />
-						TtT2ID int(11) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
+						TtT2ID smallint(5) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
             <br />
 						PRIMARY KEY (TtTxID,TtT2ID),
             <br />
@@ -2295,9 +2455,9 @@ $(document).ready( function() {
           <li>
             <b>Table "archtexttags" (Archived text tags relations):</b>
             <br />
-						AgAtID int(11) unsigned NOT NULL, -- ARCHIVED TEXT FOREIGN KEY --
+						AgAtID smallint(5) unsigned NOT NULL, -- ARCHIVED TEXT FOREIGN KEY --
             <br />
-						AgT2ID int(11) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
+						AgT2ID smallint(5) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
             <br />
 						PRIMARY KEY (AgAtID,AgT2ID),
             <br />
@@ -2313,7 +2473,7 @@ $(document).ready( function() {
             <br />
             WoID int(11) unsigned NOT NULL AUTO_INCREMENT,
             <br />
-            WoLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
+            WoLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
             WoText varchar(250) NOT NULL,
             <br />
@@ -2326,6 +2486,8 @@ $(document).ready( function() {
             WoRomanization varchar(100) DEFAULT NULL,
             <br />
             WoSentence varchar(1000) DEFAULT NULL,
+            <br />
+            WoWordCount tinyint(3) unsigned NOT NULL DEFAULT '0',
             <br />
             WoCreated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             <br />
@@ -2365,7 +2527,7 @@ $(document).ready( function() {
           <li>
             <b>Table "tags" (Term tags and comments):</b>
             <br />
-            TgID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            TgID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   					<br />
 						TgText varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   					<br />
@@ -2383,7 +2545,7 @@ $(document).ready( function() {
             <br />
 						WtWoID int(11) unsigned NOT NULL, -- TERM FOREIGN KEY --
             <br />
-  					WtTgID int(11) unsigned NOT NULL, -- TERM TAG FOREIGN KEY --
+  					WtTgID smallint(5) unsigned NOT NULL, -- TERM TAG FOREIGN KEY --
             <br />
   					PRIMARY KEY (WtWoID,WtTgID),
             <br />
@@ -2394,65 +2556,127 @@ $(document).ready( function() {
   					<br />
           </li>
 
-          <li>
-            <b>Table "sentences" (Sentences cache, no backup needed):</b>
+>          <li>
+            <b>Table "textitems2" (Text items cache, no backup needed):</b>
             <br />
-            SeID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            Ti2WoID mediumint(8) unsigned NOT NULL,
             <br />
-            SeLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
+            Ti2LgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
-            SeTxID int(11) unsigned NOT NULL, -- TEXT FOREIGN KEY --
+            Ti2TxID smallint(5) unsigned NOT NULL, -- TEXT FOREIGN KEY --
             <br />
-            SeOrder int(11) unsigned NOT NULL,
+            Ti2SeID mediumint(8) unsigned NOT NULL, -- SENTENCE FOREIGN KEY --
             <br />
-            SeText text,
+            Ti2Order smallint(5) unsigned NOT NULL,
             <br />
-            PRIMARY KEY (SeID),
+            Ti2WordCount tinyint(3) unsigned NOT NULL,
             <br />
-            KEY SeLgID (SeLgID),
+            Ti2Text varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
             <br />
-            KEY SeTxID (SeTxID),
+            PRIMARY KEY (Ti2TxID,Ti2Order,Ti2WordCount),
             <br />
-            KEY SeOrder (SeOrder)
+            KEY Ti2WoID (Ti2WoID)
             <br />
             <br />
           </li>
 
           <li>
-            <b>Table "textitems" (Text items cache, no backup needed):</b>
+            <b>Table "temptextitems" (memory table only used when creating texts, otherwise empty):</b>
             <br />
-            TiID int(11) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            TiLgID int(11) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
-            <br />
-            TiTxID int(11) unsigned NOT NULL, -- TEXT FOREIGN KEY --
-            <br />
-            TiSeID int(11) unsigned NOT NULL, -- SENTENCE FOREIGN KEY --
-            <br />
-            TiOrder int(11) unsigned NOT NULL,
-            <br />
-            TiWordCount int(1) unsigned NOT NULL,
-            <br />
-            TiText varchar(250) NOT NULL,
-            <br />
-            TiTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-            <br />
-            TiIsNotWord tinyint(1) NOT NULL,
-            <br />
-            PRIMARY KEY (TiID),
-            <br />
-            KEY TiLgID (TiLgID),
-            <br />
-            KEY TiTxID (TiTxID),
-            <br />
-            KEY TiSeID (TiSeID),
-            <br />
-            KEY TiOrder (TiOrder),
-            <br />
-            KEY TiTextLC (TiTextLC),
-            <br />
-            KEY TiIsNotWord (TiIsNotWord)
+				  TiLgID tinyint(3) unsigned NOT NULL,
+				<br />
+				  TiTxID smallint(5) unsigned NOT NULL,
+				<br />
+				  TiSeID mediumint(8) unsigned NOT NULL,
+				<br />
+				  TiOrder smallint(5) unsigned NOT NULL,
+				<br />
+				  TiWordCount tinyint(3) unsigned NOT NULL,
+				<br />
+				  TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+				<br />
+				  TiTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+  					<br />
+  					<br />
           </li>
+
+          <li>
+            <b>Table "tempwords" (memory table only used when importing words, otherwise empty):</b>
+            <br />
+            WoText varchar(250) DEFAULT NULL,
+				<br />
+				  WoTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+				<br />
+				  WoTranslation varchar(500) NOT NULL DEFAULT '*',
+				<br />
+				  WoRomanization varchar(100) DEFAULT NULL,
+				<br />
+				  WoSentence varchar(1000) DEFAULT NULL,
+				<br />
+				  WoTaglist varchar(255) DEFAULT NULL,
+  					<br />
+  					PRIMARY KEY (WoTextLC)
+  					<br />
+  					<br />
+          </li>
+
+          
+          <li>
+				<b>Table "feedlinks" (Newsfeed articles):</b>
+            <br />
+            FlID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            FlTitle varchar(200) NOT NULL,
+            <br />
+				FlLink varchar(400) NOT NULL,
+            <br />
+				FlDescription text NOT NULL,
+            <br />
+            FlDate datetime NOT NULL,
+            <br />
+            FlAudio varchar(200) NOT NULL,
+            <br />
+            FlText longtext NOT NULL,
+            <br />
+            FlNfID tinyint(3) unsigned NOT NULL,
+            <br />
+            PRIMARY KEY (FlID),
+            <br />
+            UNIQUE KEY FlTitle (FlTitle),
+            <br />
+            KEY FlLink (FlLink),
+            <br />
+            KEY FlDate (FlDate),
+            <br />
+            KEY FlNfID (FlNfID)
+            <br />
+            <br />
+          </li>
+          <li>
+				<b>Table "newsfeeds" (Newsfeed settings):</b>
+				<br />
+				NfID tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+				<br />
+				NfLgID tinyint(3) unsigned NOT NULL,
+				<br />
+				NfName varchar(40) NOT NULL,
+				<br />
+				NfSourceURI varchar(200) NOT NULL,
+				<br />
+				NfArticleSectionTags text NOT NULL,
+				<br />
+				NfFilterTags text NOT NULL,
+				<br />
+				NfUpdate int(12) unsigned NOT NULL,
+				<br />
+				NfOptions varchar(200) NOT NULL,
+				<br />
+				PRIMARY KEY (NfID),
+             <br />
+            KEY NfLgID (NfLgID),
+            <br />
+            KEY NfUpdate (NfUpdate)
+         </li>
         </ul>
       </dd>
 
@@ -2462,30 +2686,47 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-        	<li>1.5.16 (February 19 2014):</br />
-        	Paging (via page select, and only at the bottom of a page) did not work correctly in all cases, has been corrected.<br />
+			<li>1.5.17 (June 08 2014):<br />
+			New Feature: Selecting terms according to a text tag<br />
+			New Feature: Start a document where you left off (only "Read Text Screen")<br />
+			New Feature: Improved Search/Query for Words/Texts<br />
+			New Feature: Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)<br />
+			JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated<br />
+			Database table optimization: first check, only optimize if (Overhead >10% of table and > 100KB) or (Overhead > 1,0MB)<br />
+			Database table optimization: data types changed.<br />
+			New Setting: Button(s) for "words to do" "IGNORE ALL"/"I KNOW ALL" <br />
+			New Setting: Theme<br />
+			New Setting: term/word query with standard/regexp/regexp CS<br />
+			New Sort option "Oldest First"<br />
+			New option "Set Active Term(1-5) Sentences" in My Texts<br />
+			Bugfix: importing multiple words with the same tag causes an error<br />
+			Bugfix: can't select media in Archived Texts<br />
+			Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)<br />
+			Bugfix: bottom page select doesn't work in firefox (edit_texts.php, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php)<br />
+			Bugfix: setting a tag where tag already exists causes an error<br />
+			Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)<br />
         	Documentation updated.<br />
-        	</br />
-        	</li>
-        
-        	<li>1.5.15 (December 17 2013):</br />
+			<br />
+			</li>
+
+        	<li>1.5.15 (December 17 2013):<br />
         	Corrected wrong language code (French) within the language wizard definitions.<br />
         	Documentation updated.<br />
-        	</br />
+        	<br />
         	</li>
         
-        	<li>1.5.14 (August 05 2013, this document updated Oct 30 2013):</br />
+        	<li>1.5.14 (August 05 2013, this document updated Oct 30 2013):<br />
         	Wrong text display in Print Screen corrected. Special handling of word breaks (if "Remove spaces" = Yes) removed.<br />
         	Documentation updated on October 30 2013.<br />
-        	</br />
+        	<br />
         	</li>
         
-        	<li>1.5.13 (July 22 2013):</br />
+        	<li>1.5.13 (July 22 2013):<br />
         	Removed an erroneous extra space in "wp_logincheck.inc.php". Thanks to a poster in the help forum for pointing this out!<br />
 					Minor bug fixes.<br />
         	License texts updated according to text on <a href="http://unlicense.org/" target="_blank">unlicense.org</a>.<br />
         	Documentation updated.<br />
-        	</br />
+        	<br />
         	</li>
         
         	<li>1.5.12 (July 16 2013):<br />

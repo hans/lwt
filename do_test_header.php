@@ -70,7 +70,7 @@ if (isset($_REQUEST['text'])) {
 	$p = "text=" . $textid; 
 	$title = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $textid);
 	saveSetting('currenttext',$_REQUEST['text']);
-	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $textid . ' ';
+	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID = ' . $textid . ' ';
 }
 
 if ($p == '') my_die("do_test_header.php called with wrong parameters");
@@ -111,7 +111,6 @@ else {  // OK
 <input type="button" value="[L1]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm';   parent.frames['l'].location.href='do_test_test.php?type=5&amp;<?php echo $p; ?>';}" /> &nbsp; | &nbsp; 
 <input type="button" value="Table" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_table.php?<?php echo $p; ?>';}" />
 </p></td></tr></table>
-
 <?php
 
 }

@@ -80,7 +80,7 @@ if (isset($_REQUEST['op'])) {
 				convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Term saved");
 			$wid = get_last_key();
-			
+			mysql_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
 			$hex = strToClassName(prepare_textdata($_REQUEST["WoTextLC"]));
 	
 			
@@ -177,12 +177,12 @@ else {  // if (! isset($_REQUEST['op']))
 	$wid = getreq('wid');
 	
 	if ($wid == '') {	
-		$sql = 'select TiText, TiLgID from ' . $tbpref . 'textitems where TiTxID = ' . $_REQUEST['tid'] . ' and TiWordCount = 1 and TiOrder = ' . $_REQUEST['ord'];
+		$sql = 'select Ti2Text, Ti2LgID from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['tid'] . ' and Ti2WordCount = 1 and Ti2Order = ' . $_REQUEST['ord'];
 		$res = do_mysql_query($sql);
 		$record = mysql_fetch_assoc($res);
 		if ($record) {
-			$term = $record['TiText'];
-			$lang = $record['TiLgID'];
+			$term = $record['Ti2Text'];
+			$lang = $record['Ti2LgID'];
 		} else {
 			my_die("Cannot access Term and Language in edit_word.php");
 		}
@@ -220,8 +220,8 @@ else {  // if (! isset($_REQUEST['op']))
 	// NEW
 	
 	if ($new) {
-		
-		$seid = get_first_value("select TiSeID as value from " . $tbpref . "textitems where TiTxID = " . $_REQUEST['tid'] . " and TiWordCount = 1 and TiOrder = " . $_REQUEST['ord']);
+	 	
+		$seid = get_first_value("select Ti2SeID as value from " . $tbpref . "textitems2 where Ti2TxID = " . $_REQUEST['tid'] . " and Ti2WordCount = 1 and Ti2Order = " . $_REQUEST['ord']);
 		$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
 			
 ?>
@@ -235,7 +235,7 @@ else {  // if (! isset($_REQUEST['op']))
 		<table class="tab2" cellspacing="0" cellpadding="5">
 		<tr title="Only change uppercase/lowercase!">
 		<td class="td1 right"><b>New Term:</b></td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
@@ -269,7 +269,7 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		</table>
 		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 		<?php
 		
 	}
@@ -288,7 +288,7 @@ else {  // if (! isset($_REQUEST['op']))
 			}
 			$sentence = repl_tab_nl($record['WoSentence']);
 			if ($sentence == '' && isset($_REQUEST['tid']) && isset($_REQUEST['ord'])) {
-				$seid = get_first_value("select TiSeID as value from " . $tbpref . "textitems where TiTxID = " . $_REQUEST['tid'] . " and TiWordCount = 1 and TiOrder = " . $_REQUEST['ord']);
+				$seid = get_first_value("select Ti2SeID as value from " . $tbpref . "textitems2 where Ti2TxID = " . $_REQUEST['tid'] . " and Ti2WordCount = 1 and Ti2Order = " . $_REQUEST['ord']);
 				$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
 				$sentence = repl_tab_nl($sent[1]);
 			}
@@ -306,7 +306,7 @@ else {  // if (! isset($_REQUEST['op']))
 			<table class="tab2" cellspacing="0" cellpadding="5">
 			<tr title="Only change uppercase/lowercase!">
 			<td class="td1 right"><b>Edit Term:</b></td>
-			<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+			<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 			</tr>
 			<tr>
 			<td class="td1 right">Translation:</td>
@@ -343,7 +343,7 @@ else {  // if (! isset($_REQUEST['op']))
 			</tr>
 			</table>
 			</form>
-			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 			<?php
 		}
 		mysql_free_result($res);

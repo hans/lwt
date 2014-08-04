@@ -166,7 +166,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$sent = $_REQUEST["sent"];
 		$senttext = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID = ' . $sent);
 		$nextsent = get_first_value('select SeID as value from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' and trim(SeText) != \'¶\' and SeID > ' . $sent . ' order by SeID limit 1');
-		$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = ' . $sent . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+		$sql = 'select CASE WHEN Ti2WordCount>0 THEN Ti2WordCount ELSE 1 END as Code, CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN Ti2Text ELSE WoText END as TiText, Ti2Order, CASE WHEN Ti2WordCount > 0 THEN 0 ELSE 1 END as TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2SeID = ' . $sent . ' order by Ti2Order asc, Ti2WordCount desc';
 		$res = do_mysql_query($sql);
 		
 		if ($action == 4) {
@@ -193,7 +193,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$until = 0;
 		while ($record = mysql_fetch_assoc($res)) {
 			$actcode = $record['Code'] + 0;
-			$order = $record['TiOrder'] + 0;
+			$order = $record['Ti2Order'] + 0;
 			
 			if ( $order <= $until ) {
 				continue;
@@ -304,7 +304,7 @@ span.status5 {
 <ul id="home" title="Mobile LWT" selected="true">
 	<li class="group">Languages</li>
 <?php
-	$sql = 'select LgID, LgName from ' . $tbpref . 'languages order by LgName';
+	$sql = 'select LgID, LgName from ' . $tbpref . 'languages where LgName<>"" order by LgName';
 	$res = do_mysql_query($sql);
 	while ($record = mysql_fetch_assoc($res)) {
 		echo '<li><a href="mobile.php?action=2&amp;lang=' . $record["LgID"] . '">' .

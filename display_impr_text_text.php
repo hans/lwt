@@ -72,10 +72,9 @@ pagestart_nobody('Display');
 <script type="text/javascript">
 //<![CDATA[
 
-function click_ann() {
-	if($(this).css('color') == 'rgb(200, 220, 240)') {
-		$(this).css('color','#006699');
-		$(this).css('background-color','white');
+function click_ann() {var attr = $(this).attr('style');
+	if(typeof attr !== 'undefined' && attr !== false && attr !== '') {
+		$(this).removeAttr( 'style' );
 	}
 	else {
 		$(this).css('color','#C8DCF0');
@@ -83,10 +82,10 @@ function click_ann() {
 	}
 }
 
-function click_text() {
-	if($(this).css('color') == 'rgb(229, 228, 226)') {
-		$(this).css('color','black');
-		$(this).css('background-color','white');
+function click_text() {bc=$('body').css('color');
+	if($(this).css('color') != bc) {
+		$(this).css('color','inherit');
+		$(this).css('background-color','');
 	}
 	else {
 		$(this).css('color','#E5E4E2');
@@ -122,7 +121,7 @@ foreach ($items as $item) {
 		}
 		if ($c > 3) $trans = $vals[3];
 		if ($trans == '*') $trans = $vals[1];
-		echo ' <ruby><rb><span class="click anntermruby" style="color:black;"' . ($rom == '' ? '' : (' title="' . tohtml($rom) . '"')) . '>' . tohtml($vals[1]) . '</span></rb><rt><span class="click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
+		echo ' <ruby><rb><span class="click anntermruby" style="color:inherit;"' . ($rom == '' ? '' : (' title="' . tohtml($rom) . '"')) . '>' . tohtml($vals[1]) . '</span></rb><rt><span class="click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
 	} else {
 		echo str_replace(
 		"¶",

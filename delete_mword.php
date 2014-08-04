@@ -48,6 +48,7 @@ $word = get_first_value("select WoText as value from " . $tbpref . "words where 
 pagestart("Term: " . $word, false);
 $m1 = runsql('delete from ' . $tbpref . 'words where WoID = ' . $wid, '');
 adjust_autoincr('words','WoID');
+runsql('delete from ' . $tbpref . 'textitems2 where Ti2WordCount>1 AND Ti2WoID = ' . $wid, '');
 
 echo "<p>OK, term deleted (" . $m1 . ").</p>";
 
@@ -56,11 +57,24 @@ echo "<p>OK, term deleted (" . $m1 . ").</p>";
 //<![CDATA[
 var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
-$('.word<?php echo $wid; ?>', context).removeClass('status1 status2 status3 status4 status5 status98 status99 word<?php echo $wid; ?>').addClass('hide').attr('data_status','').attr('data_trans','').attr('data_rom','').attr('data_wid','').attr('title','');
-$('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
+$('.word<?php echo $wid; ?>', context).each(function(){
+sid = $(this).attr('data_sid');
+$(this).remove();
 <?php 
-if (! $showAll) echo refreshText($word,$tid);
+if (! $showAll) { ?>
+$('.wsty[data_sid="' + sid + '"]',context).removeClass('hide');
+$('.mword[data_sid="' + sid + '"]',context).each(function(){
+	if($(this).not('.hide').length){
+		u= parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;
+		$(this).nextUntil('[id^="ID-' + u + '-"]',context).addClass('hide');
+	}
+});
+<?php
+}
 ?>
+
+});
+$('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>

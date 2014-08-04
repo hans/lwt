@@ -46,77 +46,38 @@ saveSetting('showallwords',$showAll);
 
 pagestart("Text Display Mode changed", false);
 
-echo '<p><span id="waiting"><img src="icn/waiting.gif" alt="Please wait" title="Please wait" />&nbsp;&nbsp;Please wait ...</span>';
+echo '<p><span id="waiting"><img src="'.get_file_path('icn/waiting.gif').'" alt="Please wait" title="Please wait" />&nbsp;&nbsp;Please wait ...</span>';
 flush();
 ?>
 
 <script type="text/javascript">
 //<![CDATA[
-var method = 1;  // 0 (jquery, deactivated, too slow) or 1 (reload) 
+var method = 0;  // 0 (jquery) or 1 (reload) 
 if (method) window.parent.frames['l'].location.reload();
 else {
 var context = window.parent.frames['l'].document;
 <?php
-/**************************************************************
-(jquery, deact.)
-
-$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
-
-$res = do_mysql_query($sql);
-$hideuntil = -1;
-$hidetag = "removeClass('hide');";
-
-while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
-	$actcode = $record['Code'] + 0;
-	$t = $record['TiText'];
-	$order = $record['TiOrder'] + 0;
-	$notword = $record['TiIsNotWord'] + 0;
-	$termex = isset($record['WoID']);
-	$spanid = 'ID-' . $order . '-' . $actcode;
-
-	if ( $hideuntil > 0 ) {
-		if ( $order <= $hideuntil )
-			$hidetag = "addClass('hide');";
-		else {
-			$hideuntil = -1;
-			$hidetag = "removeClass('hide');";
-		}
+if($showAll == 1){
+?>
+$('.mword',context).removeClass('wsty').addClass('mwsty').each(function(){
+	var c = '&nbsp;' + $(this).attr('data_code') + '&nbsp;';
+	$(this).html(c);
+});
+$('span',context).not('#totalcharcount').removeClass('hide');
+<?php
+}
+else{
+?>
+$('.mword',context).removeClass('mwsty').addClass('wsty').each(function(){
+	var c = $(this).attr('data_text');
+	$(this).text(c);
+	if($(this).not('.hide').length){
+		u= parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;
+		$(this).nextUntil('[id^="ID-' + u + '-"]',context).addClass('hide');
 	}
-	
-	if ($notword != 0) {  // NOT A TERM
-		echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
-	}  
-	
-	else {   // A TERM
-		if ($actcode > 1) {   // A MULTIWORD FOUND
-			if ($termex) {  // MULTIWORD FOUND - DISPLAY
-				if (! $showAll) {
-					if ($hideuntil == -1) {
-						$hideuntil = $order + ($actcode - 1) * 2;
-					}
-				}
-				echo "$('#" . $spanid . "',context)." .
-					($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
-					".removeClass('mwsty wsty').addClass('" .
-					($showAll ? 'mwsty' : 'wsty') . "')." . 
-					$hidetag . "\n";
-			}
-			else {  // MULTIWORD PLACEHOLDER - NO DISPLAY 
-				echo "$('#" . $spanid . "',context)." .
-					($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
-					".removeClass('mwsty wsty').addClass('" .
-					($showAll ? 'mwsty' : 'wsty') . " hide');\n";
-			}  
-		} // ($actcode > 1) -- A MULTIWORD FOUND
-		else {  // ($actcode == 1)  -- A WORD FOUND
-			echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
-		}  // ($actcode == 1)  -- A WORD FOUND
-	} // $record['TiIsNotWord'] == 0  -- A TERM
-} // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
-mysql_free_result($res);
-
-(jquery, deact.) 
-***************************************************************/
+});
+<?php
+}
 ?>
 }
 $('#waiting').html('<b>OK -- </b>');

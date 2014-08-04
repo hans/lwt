@@ -1,13 +1,15 @@
 /* Script by: www.jtricks.com
- * Version: 1.7 (20110408)
+ * Version: 1.12 (20120823)
  * Latest version: www.jtricks.com/javascript/navigation/floating.html
+ *
+ * License:
+ * GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
  */
 var floatingMenu =
 {
     hasInner: typeof(window.innerWidth) == 'number',
     hasElement: typeof(document.documentElement) == 'object'
-        && typeof(document.documentElement.clientWidth) == 'number'
-};
+        && typeof(document.documentElement.clientWidth) == 'number'};
 
 var floatingArray =
 [
@@ -35,7 +37,8 @@ floatingMenu.add = function(obj, options)
                 targetTop: 0,
 
                 distance: .07,
-                snap: true
+                snap: true,
+                updateParentHeight: false
             });
     }
     else
@@ -59,9 +62,27 @@ floatingMenu.add = function(obj, options)
                 distance: options.distance != undefined ? options.distance : .07,
                 snap: options.snap,
                 ignoreParentDimensions: options.ignoreParentDimensions,
+                updateParentHeight:
+                    options.updateParentHeight == undefined
+                    ? false
+                    : options.updateParentHeight,
 
                 scrollContainer: options.scrollContainer,
-                scrollContainerId: options.scrollContainerId
+                scrollContainerId: options.scrollContainerId,
+
+                confinementArea: options.confinementArea,
+
+                confinementAreaId:
+                    options.confinementArea != undefined
+                    && options.confinementArea.substring(0, 1) == '#'
+                    ? options.confinementArea.substring(1)
+                    : undefined,
+
+                confinementAreaClassRegexp:
+                    options.confinementArea != undefined
+                    && options.confinementArea.substring(0, 1) == '.'
+                    ? new RegExp("(^|\\s)" + options.confinementArea.substring(1) + "(\\s|$)")
+                    : undefined
             });
     }
 };
@@ -96,11 +117,7 @@ floatingMenu.scrollLeft = function(item)
     if (item.scrollContainer)
         return item.scrollContainer.scrollLeft;
 
-    var w = window;
-
-    // Find top window scroll parameters if we're IFRAMEd
-    while (w != w.parent)
-        w = w.parent;
+    var w = window.top;
 
     return this.hasInner
         ? w.pageXOffset  
@@ -115,11 +132,7 @@ floatingMenu.scrollTop = function(item)
     if (item.scrollContainer)
         return item.scrollContainer.scrollTop;
 
-    var w = window;
-
-    // Find top window scroll parameters if we're IFRAMEd
-    while (w != w.parent)
-        w = w.parent;
+    var w = window.top;
 
     return this.hasInner
         ? w.pageYOffset
@@ -192,11 +205,13 @@ floatingMenu.calculateCornerX = function(item)
 {
     var offsetWidth = item.menu.offsetWidth;
 
-    if (item.centerX)
-        return this.scrollLeft(item) + (this.windowWidth() - offsetWidth)/2;
-
     var result = this.scrollLeft(item) - item.parentLeft;
-    if (item.targetLeft == undefined)
+
+    if (item.centerX)
+    {
+        result += (this.windowWidth() - offsetWidth)/2;
+    }
+    else if (item.targetLeft == undefined)
     {
         result += this.windowWidth() - item.targetRight - offsetWidth;
     }
@@ -221,11 +236,13 @@ floatingMenu.calculateCornerY = function(item)
 {
     var offsetHeight = item.menu.offsetHeight;
 
-    if (item.centerY)
-        return this.scrollTop(item) + (this.windowHeight() - offsetHeight)/2;
-
     var result = this.scrollTop(item) - item.parentTop;
-    if (item.targetTop === undefined)
+
+    if (item.centerY)
+    {
+        result += (this.windowHeight() - offsetHeight)/2;
+    }
+    else if (item.targetTop === undefined)
     {
         result += this.windowHeight() - item.targetBottom - offsetHeight;
     }
@@ -244,6 +261,15 @@ floatingMenu.calculateCornerY = function(item)
         result = 0;
         
     return result;
+};
+
+floatingMenu.isConfinementArea = function(item, area)
+{
+    return item.confinementAreaId != undefined
+        && area.id == item.confinementAreaId
+        || item.confinementAreaClassRegexp != undefined
+        && area.className
+        && item.confinementAreaClassRegexp.test(area.className);
 };
 
 floatingMenu.computeParent = function(item)
@@ -270,11 +296,28 @@ floatingMenu.computeParent = function(item)
     // and try to find whats left of its height for us.
     var obj = parentNode;
     var objOffsets = this.offsets(obj, item);
-    while (obj.clientHeight + objOffsets.top
-           < item.menu.offsetHeight + parentOffsets.top)
+
+    if (item.confinementArea == undefined)
     {
-        obj = obj.parentNode;
-        objOffsets = this.offsets(obj, item);
+        while (obj.clientHeight + objOffsets.top
+                   < item.menu.scrollHeight + parentOffsets.top
+               || item.menu.parentNode == obj
+               && item.updateParentHeight
+               && obj.clientHeight + objOffsets.top
+                   == item.menu.scrollHeight + parentOffsets.top)
+        {
+            obj = obj.parentNode;
+            objOffsets = this.offsets(obj, item);
+        }
+    }
+    else
+    {
+        while (obj.parentNode != undefined
+               && !this.isConfinementArea(item, obj))
+        {
+            obj = obj.parentNode;
+            objOffsets = this.offsets(obj, item);
+        }
     }
 
     item.confinedHeightReserve = obj.clientHeight
@@ -299,11 +342,11 @@ floatingMenu.offsets = function(obj, item)
         obj = obj.offsetParent;
     }  
 
-    if (window == window.parent)
+    if (window == window.top)
         return result;
 
     // we're IFRAMEd
-    var iframes = window.parent.document.body.getElementsByTagName("IFRAME");
+    var iframes = window.top.document.body.getElementsByTagName("IFRAME");
     for (var i = 0; i < iframes.length; i++)
     {
         if (iframes[i].contentWindow != window)
@@ -325,6 +368,12 @@ floatingMenu.doFloatSingle = function(item)
 {
     this.findSingle(item);
 
+    if (item.updateParentHeight)
+    {
+        item.menu.parentNode.style.minHeight = 
+            item.menu.scrollHeight + 'px';
+    }
+
     var stepX, stepY;
 
     this.computeParent(item);
@@ -333,7 +382,7 @@ floatingMenu.doFloatSingle = function(item)
 
     var stepX = (cornerX - item.nextX) * item.distance;
     if (Math.abs(stepX) < .5 && item.snap
-        || Math.abs(cornerX - item.nextX) == 1)
+        || Math.abs(cornerX - item.nextX) <= 1)
     {
         stepX = cornerX - item.nextX;
     }
@@ -342,7 +391,7 @@ floatingMenu.doFloatSingle = function(item)
 
     var stepY = (cornerY - item.nextY) * item.distance;
     if (Math.abs(stepY) < .5 && item.snap
-        || Math.abs(cornerY - item.nextY) == 1)
+        || Math.abs(cornerY - item.nextY) <= 1)
     {
         stepY = cornerY - item.nextY;
     }

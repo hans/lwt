@@ -137,6 +137,7 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 	<br /><br /></li>
 <li><a href="check_text.php">Check a Text</a></li>
 <li><a href="long_text_import.php">Long Text Import</a></li>
+<li><a href="do_feeds.php?check_autoupdate=1">Newsfeed Import</a></li>
 <li><a href="upload_words.php">Import Terms</a></li>
 <li><a href="backup_restore.php">Backup/Restore/Empty Database</a>
 	<br /><br /></li>
@@ -164,18 +165,19 @@ if (isset($_COOKIE['LWT-WP-User'])) {
 <?php
 
 flush();
-// optimizedb();
 
 $p = convert_string_to_sqlsyntax_nonull($tbpref);
 $mb = get_first_value("SELECT round(sum(data_length+index_length)/1024/1024,1) as value FROM information_schema.TABLES where table_schema = " . convert_string_to_sqlsyntax($dbname) . " and table_name in (" .
 	"CONCAT(" . $p . ",'archivedtexts')," .
 	"CONCAT(" . $p . ",'archtexttags')," .
+	"CONCAT(" . $p . ",'feedlinks')," .
 	"CONCAT(" . $p . ",'languages')," .
+	"CONCAT(" . $p . ",'newsfeeds')," .
 	"CONCAT(" . $p . ",'sentences')," .
 	"CONCAT(" . $p . ",'settings')," .
 	"CONCAT(" . $p . ",'tags')," .
 	"CONCAT(" . $p . ",'tags2')," .
-	"CONCAT(" . $p . ",'textitems')," .
+	"CONCAT(" . $p . ",'textitems2')," .
 	"CONCAT(" . $p . ",'texts')," .
 	"CONCAT(" . $p . ",'texttags')," .
 	"CONCAT(" . $p . ",'words')," .

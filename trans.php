@@ -48,7 +48,7 @@ $i = stripTheSlashesIfNeeded($_REQUEST["i"]);
 $t = stripTheSlashesIfNeeded($_REQUEST["t"]);
 
 if ( $x == 1 ) {
-	$sql = 'select SeText, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'sentences, ' . $tbpref . 'textitems where TiSeID = SeID and TiLgID = LgID and TiTxID = ' . $t . ' and TiOrder = ' . $i;
+	$sql = 'select SeText, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 where Ti2SeID = SeID and Ti2LgID = LgID and Ti2TxID = ' . $t . ' and Ti2Order = ' . $i;
 	$res = do_mysql_query($sql);
 	$record = mysql_fetch_assoc($res);
 	if ($record) {
@@ -65,6 +65,9 @@ if ( $x == 1 ) {
 		echo "{" . $t . "}<br />";
 		echo "{" . createTheDictLink($trans,$satz) . "}<br />";
 		*/
+		if (substr($trans,0,7) == 'ggl.php') {
+			$trans = str_replace ('?','?sent=1&',$trans);
+		}
 		header("Location: " . createTheDictLink($trans,$satz));
 	}	
 	exit();

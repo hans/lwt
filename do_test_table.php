@@ -54,7 +54,7 @@ elseif (isset($_REQUEST['lang'])) {
 }
 
 elseif (isset($_REQUEST['text'])) {
-	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $_REQUEST['text'] . ' ';
+	$testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID = ' . $_REQUEST['text'] . ' ';
 }
 
 else my_die("do_test_table.php called with wrong parameters");
@@ -106,6 +106,9 @@ $(document).ready( function() {
 			$('td:nth-child(1),th:nth-child(1)').hide();
 			do_ajax_save_setting('currenttabletestsetting1','0');
 		}
+		$('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
+		$('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
+		$('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');					
 	});
 	
 	$('#cbStatus').change(function() {
@@ -116,6 +119,9 @@ $(document).ready( function() {
 			$('td:nth-child(2),th:nth-child(2)').hide();
 			do_ajax_save_setting('currenttabletestsetting2','0');
 		}
+		$('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
+		$('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
+		$('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');					
 	});
 	
 	$('#cbTerm').change(function() {
@@ -146,6 +152,9 @@ $(document).ready( function() {
 			$('td:nth-child(5),th:nth-child(5)').hide();
 			do_ajax_save_setting('currenttabletestsetting5','0');
 		}
+		$('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
+		$('th:visible:last').css('border-top-right-radius','inherit');
+		$('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');					
 	});
 	
 	$('#cbSentence').change(function() {
@@ -156,6 +165,9 @@ $(document).ready( function() {
 			$('td:nth-child(6),th:nth-child(6)').hide();
 			do_ajax_save_setting('currenttabletestsetting6','0');
 		}
+		$('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
+		$('th:visible:last').css('border-top-right-radius','inherit');
+		$('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');					
 	});
 	
 	$('td').click(function() {
@@ -208,7 +220,7 @@ while ($record = mysql_fetch_assoc($res)) {
 <td class="td1 center" style="font-size:<?php echo $textsize; ?>%;"><?php echo $span1; ?><span id="TERM<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoText']); ?></span><?php echo $span2; ?></td>
 <td class="td1 center"><span id="TRAN<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoTranslation']); ?></span></td>
 <td class="td1 center"><span id="ROMA<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoRomanization']); ?></span></td>
-<td class="td1 center"><?php echo $span1; ?><span id="SENT<?php echo $record['WoID']; ?>"><?php echo $sent1; ?></span><?php echo $span2; ?></td>
+<td class="td1 center" style="color:#000;"><?php echo $span1; ?><span id="SENT<?php echo $record['WoID']; ?>"><?php echo $sent1; ?></span><?php echo $span2; ?></td>
 </tr>
 <?php
 }

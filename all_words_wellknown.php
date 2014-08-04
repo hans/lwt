@@ -40,31 +40,43 @@ require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
+$status=$_REQUEST['stat'];
 $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['text']);
 
-pagestart("Setting all blue words to Well-known",false);
+if($status==98)
+	pagestart("Setting all blue words to Ignore",false);
+if($status==99)
+	pagestart("Setting all blue words to Well-known",false);
 
-$sql = 'select distinct TiText, TiTextLC from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiIsNotWord = 0 and WoID is null and TiWordCount = 1 and TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder';
+$sql = 'select distinct Ti2Text, lower(Ti2Text) as  WoTextLC from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2WoID = 0 and Ti2WordCount = 1 and Ti2TxID = ' . $_REQUEST['text'] . ' order by Ti2Order';
 $res = do_mysql_query($sql);
 $count = 0;
 $javascript = "var title='';";
+$sqlarr = array();
 while ($record = mysql_fetch_assoc($res)) {
-	$term = $record['TiText'];	
-	$termlc = $record['TiTextLC'];	
-	$count1 = 0 + runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+	$term = $record['Ti2Text'];	
+	$termlc = $record['WoTextLC'];
+	$count1 = 0 + runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoWordCount, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 	$langid . ', ' . 
 	convert_string_to_sqlsyntax($term) . ', ' . 
-	convert_string_to_sqlsyntax($termlc) . ', 99 , NOW(), ' .  
+	convert_string_to_sqlsyntax($termlc) . ', 1, '.$status.' , NOW(), ' .  
 make_score_random_insert_update('id') . ')',''); 
-	$wid = get_last_key(); 
+	$wid = get_last_key();
+	$sqlarr[]= ' WHEN ' . convert_string_to_sqlsyntax_notrim_nonull($termlc) . ' THEN ' . $wid;
 	if ($count1 > 0 ) 
-		$javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'*','','99');";
-		$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status99 word" . $wid . "').attr('data_status','99').attr('data_wid','" . $wid . "').attr('title',title);";
+		$javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'*','','".$status."');";
+		$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status".$status." word" . $wid . "').attr('data_status','".$status."').attr('data_wid','" . $wid . "').attr('title',title);";
 	$count += $count1;
 }
 mysql_free_result($res);
+$sqltext = "UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = CASE lower(Ti2Text)";
+$sqltext .= implode(' ', $sqlarr) . ' END where Ti2WordCount=1 and Ti2WoID  = 0 and Ti2LgID=' . $langid;
+mysql_query ($sqltext);
 
-echo "<p>OK, you know all " . $count . " word(s) well!</p>";
+if($status==98)
+	echo "<p>OK, you ignore all " . $count . " word(s)!</p>";
+if($status==99)
+	echo "<p>OK, you know all " . $count . " word(s) well!</p>";
 
 ?>
 <script type="text/javascript">

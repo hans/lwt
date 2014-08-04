@@ -43,6 +43,7 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 require_once( 'php-mobile-detect/Mobile_Detect.php' );
 
+
 $detect = new Mobile_Detect;
 $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
 $mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));

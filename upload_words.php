@@ -60,7 +60,10 @@ function limit20(&$item, $key) {
 
 function savetag($item, $key, $wid) {
 	global $tbpref;
-	runsql('insert into ' . $tbpref . 'tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
+	if(!in_array($item,$_SESSION['TAGS'])){
+		runsql('insert into ' . $tbpref . 'tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
+		get_tags(1);
+	}
 	runsql('insert into ' . $tbpref . 'wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item), "");
 }
 
@@ -74,103 +77,177 @@ if (isset($_REQUEST['op'])) {
 	// INSERT
 	
 	if ($_REQUEST['op'] == 'Import') {
-		
-		$col[0] = $_REQUEST["Col1"];
-		$col[1] = $_REQUEST["Col2"];
-		$col[2] = $_REQUEST["Col3"];
-		$col[3] = $_REQUEST["Col4"];
-		$col[4] = $_REQUEST["Col5"];
 		$overwrite = ($_REQUEST["Over"] == '1');
 		$tabs = $_REQUEST["Tab"];
-		
-		$sqlct = 0;
 		$lang = $_REQUEST["LgID"];
 		$status = $_REQUEST["WoStatus"];
-		
-		$protokoll = '<h4>Import Report (Language: ' . getLanguage($lang) . ', Status: ' . $status . ')</h4><table class="tab1" cellspacing="0" cellpadding="5"><tr><th class="th1">Line</th><th class="th1">Term</th><th class="th1">Translation</th><th class="th1">Romanization</th><th class="th1">Sentence</th><th class="th1">Tag List</th><th class="th1">Message</th></tr>';
-		
-		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
-			$lines = file($_FILES["thefile"]["tmp_name"], FILE_IGNORE_NEW_LINES);
-		} 
-		else {
-			$lines = explode("\n",prepare_textdata($_REQUEST["Upload"]));
+		$sql = "select * from " . $tbpref . "languages where LgID=" . $lang;
+		$res = do_mysql_query($sql);
+		$record = mysql_fetch_assoc($res);
+		$termchar = $record['LgRegexpWordCharacters'];
+		$splitEachChar = $record['LgSplitEachChar'];
+		$rtl = $record['LgRightToLeft'];
+		$last_update = get_first_value("select max(WoCreated) as value from " . $tbpref . "words");
+
+		$col[1] = $_REQUEST["Col1"];
+		$col[2] = $_REQUEST["Col2"];
+		$col[3] = $_REQUEST["Col3"];
+		$col[4] = $_REQUEST["Col4"];
+		$col[5] = $_REQUEST["Col5"];
+		$col=array_unique($col);
+
+		$text_field=0;
+		$tag_list=0;
+		$file_upl= isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0;
+
+		$max = max(array_keys($col));
+		for ($j=1; $j<=$max; $j++) {
+			if(!isset($col[$j]))$col[$j]='@dummy';
+			else{
+				switch ($col[$j]){
+					case 'w':
+						$col[$j]='WoText';
+						$text_field=$j;
+						break;
+					case 't':
+						$col[$j]='WoTranslation';
+						break;
+					case 'r':
+						$col[$j]='WoRomanization';
+						break;
+					case 's':
+						$col[$j]='WoSentence';
+						break;
+					case 'g':
+						$col[$j]='@taglist';
+						$tag_list=$j;
+						break;
+					case 'x':
+						if($j==$max)unset($col[$j]);
+						else $col[$j]='@dummy';
+						break;
+				}
+			}
 		}
-		$l = count($lines);
-		for ($i=0; $i<$l; $i++) {
-  		if ($tabs == 'h')
-  			$lines[$i] = explode("#",trim(str_replace("\t", " ",$lines[$i])));
-  		elseif ($tabs == 'c') 
-  			$lines[$i] = my_str_getcsv(trim(str_replace("\t", " ",$lines[$i])));
+		if ($text_field>0){
+			$columns='(' . rtrim(implode(',', $col),',') . ')';
+			if ($tabs == 'h')
+				$tabs = ' FIELDS TERMINATED BY \'#\' ENCLOSED BY \'"\' LINES TERMINATED BY \'\\n\' ';
+	  		elseif ($tabs == 'c') 
+	 			$tabs = ' FIELDS TERMINATED BY \',\' ENCLOSED BY \'"\' LINES TERMINATED BY \'\\n\' ';
 			else
-  			$lines[$i] = explode("\t",trim($lines[$i]));
-  		$k = count($lines[$i]);
-  		unset($w,$t,$r,$s,$g);
-  		for ($j=0; $j<5; $j++) {
-  			if ($k > $j) eval('if (! isset($' . $col[$j] . ')) { $' . $col[$j] . ' = trim($lines[$i][' . $j . ']); }');
-  		}
-			if (! isset($w)) $w='';
-			if (! isset($t)) $t='';
-			if (! isset($r)) $r='';
-			if (! isset($s)) $s='';
-			if (! isset($g)) $g='';
-			$w = limitlength($w,250);
-			$wl = limitlength(mb_strtolower($w, 'UTF-8'),250);
-			$t = limitlength($t,500);
-			$r = limitlength($r,100);
-			$s = limitlength($s,1000);
-			$g = explode(",",trim(str_replace(" ", ",",$g)));
-			$g = array_filter($g, "notempty");
- 			array_walk($g, 'limit20');
-  		$protokoll .= '<tr><td class="td1 right">' . ($i+1) . '</td><td class="td1">' . tohtml($w) . '</td><td class="td1">' . tohtml($t) . '</td><td class="td1">' . tohtml($r) . '</td><td class="td1">' . tohtml($s) . '</td><td class="td1">' . implode(", ", $g) . '</td>';
- 			if ( $w != '' ) {
- 				if ($t == '') $t = '*';
- 				$excnt = get_first_value('select count(*) as value from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl));
- 				if ($excnt > 0 ) { // exists
- 					if ($overwrite) { // update
-	 					$msg1 = runsql('delete from ' . $tbpref . 'words where WoLgID = ' . $lang . ' and WoTextLC=' . convert_string_to_sqlsyntax($wl), "Exists, deleted");
-	 					runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
-	 					$msg2 = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
-						convert_string_to_sqlsyntax($wl) . ', ' .
-						convert_string_to_sqlsyntax($w) . ', ' .
-						$status . ', ' .
-						convert_string_to_sqlsyntax($t) . ', ' .
-						convert_string_to_sqlsyntax($r) . ', ' .
-						convert_string_to_sqlsyntax($s) . ', NOW(), ' .  
-make_score_random_insert_update('id') . ')',"Imported");
-						$wid = get_last_key();
-						array_walk($g,'savetag',$wid);
- 						$sqlct++;
- 						$protokoll .= '<td class="td1">' . tohtml($msg1 . ' / ' . $msg2) . ' (' . $sqlct . ')</td></tr>';
- 					}
- 					else { // no overwrite
- 						$protokoll .= '<td class="td1"><span class="red2">EXISTS, NOT IMPORTED</span></td></tr>';
- 					} // no overwrite
- 				} // exists
- 				else { // exists not
- 					$msg1 = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, WoRomanization, WoSentence, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ( ' . $lang . ', ' .
-					convert_string_to_sqlsyntax($wl) . ', ' .
-					convert_string_to_sqlsyntax($w) . ', ' .
-					$status . ', ' .
-					convert_string_to_sqlsyntax($t) . ', ' .
-					convert_string_to_sqlsyntax($r) . ', ' .
-					convert_string_to_sqlsyntax($s) . ', NOW(), ' .  
-make_score_random_insert_update('id') . ')',"Imported");
-					$wid = get_last_key();
-					array_walk($g,'savetag',$wid);
- 					$sqlct++;
- 					$protokoll .= '<td class="td1">' . tohtml($msg1) . ' (' . $sqlct . ')' . '</td></tr>';
- 				}
- 			} // $w != '' && $t != ''
- 			else {
-  			$protokoll .= '<td class="td1"><span class="red2">NOT IMPORTED (term and/or translation missing)</span></td></tr>';
- 			}
-		} // for ($i=0; $i<$l; $i++)
-		
-		echo '<p class="red">*** Imported terms: ' . $sqlct . ' of ' . $l . ' *** ' . errorbutton('Error') . '</p>';
-  	$protokoll .= '</table>';
-		echo $protokoll;
-		
-		
+				$tabs = ' FIELDS TERMINATED BY \'\\t\' ENCLOSED BY \'"\' LINES TERMINATED BY \'\\n\' ';
+			if ($_REQUEST["IgnFirstLine"] == '1')$tabs.='IGNORE 1 LINES ';
+			if ( $file_upl )$file_name= $_FILES["thefile"]["tmp_name"];
+			else{
+				$file_name = tempnam(sys_get_temp_dir(), "LWT");
+				$temp = fopen($file_name, "w");
+				fwrite($temp, prepare_textdata($_REQUEST["Upload"]));
+				fseek($temp, 0);
+				fclose($temp);
+			}
+			$sql= 'LOAD DATA LOCAL INFILE \''. $file_name .'\'';
+			$sql.= ($overwrite)?' REPLACE':(' IGNORE') ;
+			if($tag_list==0){
+				$sql.= ' INTO TABLE ' . $tbpref . 'words ' . $tabs . $columns ;
+				$sql.= ' SET WoLgID =  ' . $lang . ', WoTextLC = LOWER(WoText), WoWordCount = CASE WHEN WoText REGEXP \'^[' . $termchar . ']+$\' THEN 1 ELSE 0 END, WoStatus = ' . $status . ', WoStatusChanged = NOW(), ' . make_score_random_insert_update('u');
+				runsql($sql ,'');
+			}
+			else{
+				runsql('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2','');
+				$sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = LOWER(WoText), WoTaglist = REPLACE(@taglist," ",",")';
+				runsql($sql ,'');
+				$sql=($overwrite)?'REPLACE ':('INSERT IGNORE ');
+				$sql.= ' INTO ' . $tbpref . 'words (WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoStatusChanged, WoLgID, WoWordCount,' .  make_score_random_insert_update('iv')  .') ';
+$sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termchar . ']+$\' THEN 1 ELSE 0 END as WordCount, ' . make_score_random_insert_update('id') . ' from (select WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, ' . $status . ' as WoStatus, NOW() as WoStatusChanged from ' . $tbpref . 'tempwords) as tw';
+				runsql($sql ,'');
+				runsql('insert ignore into ' . $tbpref . 'tags (TgText) select name from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', numbers.n), \',\', -1) name FROM numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=numbers.n-1 ORDER BY WoTextLC, n) A','');
+				runsql('INSERT IGNORE INTO ' . $tbpref . 'wordtags select WoID,TgID from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', numbers.n), \',\', -1) name FROM numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=numbers.n-1 ORDER BY WoTextLC, n) A,' . $tbpref . 'tags,' . $tbpref . 'words where name=TgText and A.WoTextLC=' . $tbpref . 'words.WoTextLC and WoLgID=' . $lang,'');
+
+				runsql("truncate " . $tbpref . "tempwords" ,'');
+				get_tags(1);
+			}
+			if ( !$file_upl ) {unlink($file_name);}
+			$mwords = get_first_value("select count(*) as value from " . $tbpref . "words where WoWordCount = 0 and WoLgID=" . $lang);
+			if($mwords > 40){
+				runsql('delete from ' . $tbpref . 'sentences where SeLgID = ' . $lang, 
+						"Sentences deleted");
+				runsql('delete from ' . $tbpref . 'textitems2 where Ti2LgID = ' . $lang, 
+						"Text items deleted");
+				adjust_autoincr('sentences','SeID');
+				$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $lang . " order by TxID";
+				$res = do_mysql_query($sql);
+				$cntrp = 0;
+				while ($record = mysql_fetch_assoc($res)) {
+					$txtid = $record["TxID"];
+					$txttxt = $record["TxText"];
+					splitCheckText($txttxt, $lang, $txtid );
+					$cntrp++;
+				}
+				mysql_free_result($res);
+				//$message .= " / Reparsed texts: " . $cntrp;
+			}
+			elseif($mwords!=0){
+				$sqlarr=array();
+				$wocountarr=array();
+				$res = do_mysql_query("select WoID, WoTextLC from " . $tbpref . "words where WoWordCount = 0 and WoLgID=" . $lang);
+				while ($record = mysql_fetch_assoc($res)) {
+					$wid = $record['WoID'];
+					$textlc = $record['WoTextLC'];
+					$wis = $textlc;
+					if ($splitEachChar) {
+						$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
+					}
+					$len=preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
+					$wocountarr[]= ' WHEN ' . $wid . ' THEN ' . $len;
+					$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+					$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lang . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+					$result = do_mysql_query($sql);
+					while($record2 = mysql_fetch_assoc($result)){
+						$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record2['SeText']):$record2['SeText']) . ' ';
+						$txtid =$record2['SeTxID'];
+						$sentid =$record2['SeID'];
+						$last_pos = strripos ( $string , $textlc );
+						while($last_pos!==false){
+							$matches=array();
+							if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+								$string = substr ( $string, 0, $last_pos );
+								$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
+								$pos=2*$cnt+$record2['SeFirstPos'];
+								$txt='';
+								if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
+								$sqlarr[] = '(' . $wid . ',' . $lang . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
+								$last_pos = strripos ( $string , $textlc );
+							}
+							else{
+								$string = substr ( $string, 0, $last_pos );
+								$last_pos = strripos ( $string , $textlc );
+							}
+						}
+					}			
+				}
+				mysql_free_result($result);
+				mysql_free_result($res);	
+				$sqltext = 'INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
+				$sqltext .= rtrim(implode(',', $sqlarr),',');
+				mysql_query ($sqltext);
+				$sqltext = "UPDATE  " . $tbpref . "words SET WoWordCount  = CASE WoID";
+				$sqltext .= implode(' ', $wocountarr) . ' END where WoWordCount=0 and WoLgID = ' . $lang;
+				mysql_query ($sqltext);
+			}
+			runsql('update ' . $tbpref . 'textitems2 join ' . $tbpref . 'words on Ti2Text=WoTextLC and Ti2LgID=WoLgID and Ti2WoID=0 set Ti2WoID=WoID','');
+			$recno = get_first_value('select count(*) as value from ' . $tbpref . 'words where WoCreated > ' . convert_string_to_sqlsyntax($last_update));
+?>
+<form name="form1" action="#" onsubmit="$('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':document.form1.page.options[document.form1.page.selectedIndex].value}); return false;"><div id="res_data"><table class="tab1"  cellspacing="0" cellpadding="2">
+<?php
+echo "</table></div></form>";
+?>
+<script type="text/javascript">
+$('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':'<?php echo $recno; ?>','page':'1'});
+</script>
+<?php
+
+		}
 	} // $_REQUEST['op'] == 'Import'
 	
 	else {
@@ -182,11 +259,11 @@ make_score_random_insert_update('id') . ')',"Imported");
 
 ?>
 
-	<form enctype="multipart/form-data" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="{return confirm ('Did you double-check everything?\nAre you sure?');}">
+	<form enctype="multipart/form-data" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" >
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 center"><b>Language:</b></td>
-	<td class="td1">
+	<td class="td1" style="border-top-right-radius:inherit;">
 	<select name="LgID" class="notempty setfocus">
 	<?php
 	echo get_languages_selectoptions(getSetting('currentlanguage'),'[Choose...]');
@@ -203,6 +280,12 @@ make_score_random_insert_update('id') . ')',"Imported");
 	<option value="c" selected="selected">Comma "," [CSV File, LingQ]</option>
 	<option value="t">TAB (ASCII 9) [TSV File]</option>
 	<option value="h">Hash "#" [Direct Input]</option>
+	</select>
+	<br />
+	<br /><b>Ignore first line</b>: 
+	<select name="IgnFirstLine">
+	<option value="0" selected="selected">No</option>
+	<option value="1">Yes</option>
 	</select>
 	<br />
 	<br />
@@ -261,7 +344,7 @@ make_score_random_insert_update('id') . ')',"Imported");
 	Either specify a <b>File to upload</b>:<br />
 	<input name="thefile" type="file" /><br /><br />
 	<b>Or</b> type in or paste from clipboard (do <b>NOT</b> specify file):<br />
-	<textarea name="Upload" cols="60" rows="25"></textarea>
+	<textarea name="Upload" cols="60" rows="30"></textarea>
 	</td>
 	</tr>
 	<tr>

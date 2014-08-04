@@ -50,10 +50,14 @@ if (isset($_REQUEST['delpref'])) {
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_sentences','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags2','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_textitems','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_temptextitems','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tempwords','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_textitems2','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texts','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texttags','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_words','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_newsfeeds','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_feedlinks','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_wordtags', '');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_settings', '');
 		$message = 'Table Set "' . $_REQUEST['delpref'] . '" deleted';
@@ -112,7 +116,7 @@ $prefix = getprefixes();
 
 <tr>
 <th class="th1 center">Select</th>
-<td class="td1">
+<td class="td1" style="border-top-right-radius:inherit;">
 <form name="f1" class="inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <p>Table Set: <select name="prefix">
 <option value="-" selected="selected">[Choose...]</option>

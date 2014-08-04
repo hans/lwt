@@ -40,7 +40,7 @@ require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
-$word = get_first_value("select TiText as value from " . $tbpref . "textitems where TiWordCount = 1 and TiTxID = " . $_REQUEST['tid'] . " and TiOrder = " . $_REQUEST['ord']);
+$word = get_first_value("select Ti2Text as value from " . $tbpref . "textitems2 where Ti2WordCount = 1 and Ti2TxID = " . $_REQUEST['tid'] . " and Ti2Order = " . $_REQUEST['ord']);
 
 $wordlc =	mb_strtolower($word, 'UTF-8');
 
@@ -54,7 +54,7 @@ convert_string_to_sqlsyntax($word) . ', ' .
 convert_string_to_sqlsyntax($wordlc) . ', 98, NOW(), ' .  
 make_score_random_insert_update('id') . ')','Term added');
 $wid = get_last_key();
-
+mysql_query ("UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = " . $wid . " where Ti2LgID = " . $langid . " and lower(Ti2Text) = " . convert_string_to_sqlsyntax($wordlc));
 echo "<p>OK, this term will be ignored!</p>";
 
 $hex = strToClassName($wordlc);

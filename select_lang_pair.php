@@ -52,7 +52,7 @@ function get_wizard_selectoptions($v) {
 	return $r;
 }
 
-pagestart_nobody('Language Settings Wizard','body {background-color: #FFFACD;}');
+pagestart_nobody('Language Settings Wizard','html{background-color: rgba(0, 0, 0, 0);}');
 
 $currentnativelanguage = getSetting('currentnativelanguage');
 
@@ -107,6 +107,12 @@ function wizard_exit() {
 }
 
 //]]>
+$(function(){
+$('.center').addClass('backlightyellow');
+bg=$('.center').css('background-color');
+$('body').css('background-color',bg);
+$('.center').removeClass('backlightyellow');
+});
 </script>
 
 <div class="center">

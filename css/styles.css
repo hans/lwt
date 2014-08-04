@@ -38,6 +38,7 @@ body {
 	font: 100%/1.25 "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
 	margin: 20px;
 	padding: 0px;
+	cursor: default;
 }
 input[type=text] {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
@@ -96,6 +97,7 @@ span.mwsty {
 	font-weight: bold;
 	color: #000000;
 	vertical-align: top; 
+	white-space: nowrap;
 }
 span.wsty {
 	margin-right: 2px;
@@ -114,10 +116,31 @@ span.status5stat {
 	background-color: #BBFFBB;
 	color: #000000;
 }
+.tword.lword,.tword.sword{
+	background-color: #D57;
+}
+.tword{
+	background-color: #C9B;
+	box-shadow: 0 0 0px 1px #FFF;
+}
+.nword{
+	background-color: #FFF;
+}
+#thetext span{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 textarea {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
 	border: 1px solid #C6C6C6;
 	padding: 3px;
+}
+.bgdis {
+	background-color: #EAEAE5 ! important;
 }
 table.tab1 {
 	background-color: #f8f8f8;
@@ -274,6 +297,10 @@ img.lwtlogoright {
 	margin-left: 30px;
 	float: right;
 }
+div#floatdiv {
+	background:#DDDDDD;
+	border:1px solid #888888;
+}
 .inline {
 	display: inline;
 }
@@ -344,6 +371,9 @@ dt {
 	color: #006699;
 	font-size: 125%;
 	font-style: normal;
+}
+span[class^='tts_'],div[class*=' tts_']{
+       cursor:pointer; 
 }
 #footer {
 	bottom: 0;

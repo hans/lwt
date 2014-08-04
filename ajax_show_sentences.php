@@ -45,8 +45,9 @@ require_once( 'utilities.inc.php' );
 
 $lang = $_POST['lang'] + 0;
 $word = stripTheSlashesIfNeeded($_POST['word']);
+$wid = stripTheSlashesIfNeeded($_POST['woid']);
 $ctl = stripTheSlashesIfNeeded($_POST['ctl']);
 
-echo get20Sentences($lang,$word,$ctl, (int) getSettingWithDefault('set-term-sentence-count'));
+echo get20Sentences($lang,$word,$wid,$ctl, (int) getSettingWithDefault('set-term-sentence-count'));
 
 ?>

@@ -41,7 +41,17 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+if (isset($_REQUEST['op'])) {
 
+	if ($_REQUEST['op'] == 'Save') {
+
+		saveSetting('set-theme-dir',
+		$_REQUEST['set-theme-dir']);
+	}
+	else {	
+		$dummy = runsql("delete from " . $tbpref . "settings where StKey like 'set-%'",'');
+	}
+}
 pagestart('Settings/Preferences',true);
 $message = '';
 
@@ -73,6 +83,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-player-skin-name',
 		$_REQUEST['set-player-skin-name']);
 	
+		saveSetting('set-words-to-do-buttons',
+		$_REQUEST['set-words-to-do-buttons']);
+	
 		saveSetting('set-test-main-frame-waiting-time',
 		$_REQUEST['set-test-main-frame-waiting-time']);
 	
@@ -85,6 +98,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-term-sentence-count',
 		$_REQUEST['set-term-sentence-count']);
 	
+		saveSetting('set-tts',
+		$_REQUEST['set-tts']);
+	
 		saveSetting('set-archivedtexts-per-page',
 		$_REQUEST['set-archivedtexts-per-page']);
 	
@@ -94,8 +110,26 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-terms-per-page',
 		$_REQUEST['set-terms-per-page']);
 	
+		saveSetting('set-regex-mode',
+		$_REQUEST['set-regex-mode']);
+	
 		saveSetting('set-tags-per-page',
 		$_REQUEST['set-tags-per-page']);
+	
+		saveSetting('set-articles-per-page',
+		$_REQUEST['set-articles-per-page']);
+	
+		saveSetting('set-feeds-per-page',
+		$_REQUEST['set-feeds-per-page']);
+	
+		saveSetting('set-max-articles-with-text',
+		$_REQUEST['set-max-articles-with-text']);
+	
+		saveSetting('set-max-articles-without-text',
+		$_REQUEST['set-max-articles-without-text']);
+	
+		saveSetting('set-max-texts-per-feed',
+		$_REQUEST['set-max-texts-per-feed']);
 	
 		saveSetting('set-show-text-word-counts',
 		$_REQUEST['set-show-text-word-counts']);
@@ -113,9 +147,7 @@ if (isset($_REQUEST['op'])) {
 		$message = 'Settings saved';
 	
 	} else {
-	
-		$dummy = runsql("delete from " . $tbpref . "settings where StKey like 'set-%'",''); 
-	
+		
 		$message = 'All Settings reset to default values';
 	
 	}
@@ -136,7 +168,21 @@ echo error_message_with_hide($message,1);
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="5">Read Text<br />Screen</th>
+<th class="th1 center" rowspan="1">Appearance</th>
+<td class="td1 center">Theme</td>
+<td class="td1 center">
+<select name="set-theme-dir" class="notempty">
+<?php
+echo get_themes_selectoptions(
+getSettingWithDefault('set-theme-dir'));
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<th class="th1 center" rowspan="6">Read Text<br />Screen</th>
 <td class="td1 center">Height of left top frame<br /><b>without</b> audioplayer</td>
 <td class="td1 center">
 <input class="notempty right setfocus" type="text" 
@@ -179,6 +225,19 @@ value="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')
 <?php
 echo get_audioplayer_selectoptions(
 getSettingWithDefault('set-player-skin-name'));
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Button(s) for "words to do"</td>
+<td class="td1 center">
+<select name="set-words-to-do-buttons" class="notempty">
+<?php 
+echo get_words_to_do_buttons_selectoptions(
+getSettingWithDefault('set-words-to-do-buttons'));
 ?>
 </select>
 </td>
@@ -298,7 +357,21 @@ value="<?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters'
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="5">Text, Term &amp;<br />Tag Tables</th>
+<th class="th1 center">Text to Speech</th>
+<td class="td1 center">Save Audio Files to Disk</td>
+<td class="td1 center">
+<select name="set-tts" class="notempty">
+<?php
+echo get_yesno_selectoptions(
+getSettingWithDefault('set-tts'));
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<th class="th1 center" rowspan="8">Text, Term,<br />Newsfeed &amp;<br />Tag Tables</th>
 <td class="td1 center">Texts per Page</td>
 <td class="td1 center">
 <input class="notempty right" type="text" 
@@ -348,7 +421,65 @@ value="<?php echo tohtml(getSettingWithDefault('set-tags-per-page')); ?>" maxlen
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<td class="td1 right" colspan="4"> 
+<td class="td1 center">Feed Articles per Page</td>
+<td class="td1 center">
+<input class="notempty right" type="text" 
+name="set-articles-per-page" 
+value="<?php echo tohtml(getSettingWithDefault('set-articles-per-page')); ?>" maxlength="4" size="4" /></td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Feeds per Page</td>
+<td class="td1 center">
+<input class="notempty right" type="text" 
+name="set-feeds-per-page" 
+value="<?php echo tohtml(getSettingWithDefault('set-feeds-per-page')); ?>" maxlength="4" size="4" /></td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Query Mode</td>
+<td class="td1 center">
+<select name="set-regex-mode">
+<?php
+echo get_regex_selectoptions(
+getSettingWithDefault('set-regex-mode'));
+?>
+</select></td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<th class="th1 center" rowspan="3">Newsfeeds</th>
+<td class="td1 center">Max Articles per Feed <b>with</b> cached text</td>
+<td class="td1 center">
+<input class="notempty right" type="text" 
+name="set-max-articles-with-text" 
+value="<?php echo tohtml(getSettingWithDefault('set-max-articles-with-text')); ?>" maxlength="4" size="4" /></td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Max Articles per Feed <b>without</b> cached text</td>
+<td class="td1 center">
+<input class="notempty right" type="text" 
+name="set-max-articles-without-text" 
+value="<?php echo tohtml(getSettingWithDefault('set-max-articles-without-text')); ?>" maxlength="4" size="4" /></td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Max Texts per Feed<br />(older Texts are moved into "Text Archive")</td>
+<td class="td1 center">
+<input class="notempty right" type="text" 
+name="set-max-texts-per-feed" 
+value="<?php echo tohtml(getSettingWithDefault('set-max-texts-per-feed')); ?>" maxlength="4" size="4" /></td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 right" colspan="4">
 <input type="button" value="&lt;&lt; Back" onclick="{resetDirty(); location.href='index.php';}" />&nbsp; &nbsp; | &nbsp; &nbsp;
 <input type="button" value="Reset all settings to default" onclick="{resetDirty(); location.href='settings.php?op=reset';}" />&nbsp; &nbsp; | &nbsp; &nbsp;
 <input type="submit" name="op" value="Save" /></td>

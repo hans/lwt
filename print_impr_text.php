@@ -78,17 +78,25 @@ if(! isset($audio)) $audio='';
 $audio = trim($audio);
 mysql_free_result($res);
 
-$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
+$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
+if(!empty($record['LgGoogleTranslateURI'])){
+$ttsLg=preg_replace('/.*&sl=([a-zA-Z\-]*)&.*/','$1',$record['LgGoogleTranslateURI']);
+	if($record['LgGoogleTranslateURI']==$ttsLg){
+		$ttsClass='';
+	}
+	else $ttsClass = 'tts_'.$ttsLg.' ';
+}
+else $ttsClass='';
 mysql_free_result($res);
 
 saveSetting('currenttext',$textid);
 
-pagestart_nobody('Annotated Text');
+pagestart_nobody('Annotated Text','input[type="radio"]{display:inline;}');
 
 echo '<div class="noprint">';
 
@@ -100,7 +108,7 @@ echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo getPreviousAndNextTextLinks($textid, 'print_impr_text.php?text=', TRUE, '&nbsp; | &nbsp;');
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
-echo '</h4><h3>ANN.TEXT&nbsp;▶ ' . tohtml($title) . (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="icn/chain.png" title="Text Source" alt="Text Source" /></a>' : '') . '</h3>';
+echo '</h4><h3>ANN.TEXT&nbsp;▶ ' . tohtml($title) . (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '') . '</h3>';
 
 echo "<p id=\"printoptions\"><b>Improved Annotated Text";
 
@@ -162,7 +170,7 @@ else {  // Print Mode
 			$trans = '';
 			if (count($vals) > 3) $trans = $vals[3];
 			if ($trans == '*') $trans = $vals[1];
-			echo ' <ruby><rb><span class="anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class="anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
+			echo ' <ruby><rb><span class="'.$ttsClass.'anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class="anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
 		} else {
 			echo str_replace(
 			"¶",

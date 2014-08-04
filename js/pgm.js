@@ -52,57 +52,71 @@ var ol_closecolor = '#FFFFFF';
 Helper functions for overlib
 ***************************************************************/
 
-function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
+function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,rtl,ann)
 {
+	var ttslg = '';
+	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	if(ttslg == wblink3)ttslg = '';
 	return overlib(
-		'<b>' + escape_html_chars_2(hints,ann) + '</b><br /> ' +
+		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
 		make_overlib_link_new_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
-		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
+		make_overlib_link_new_multiword(txid,torder,rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder), 
 		CAPTION, 'Word');
 }
 
-function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
+function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,rtl,ann)
 {
+	var ttslg = '';
+	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	if(ttslg == wblink3)ttslg = '';
 	return overlib(
-		'<b>' + escape_html_chars_2(hints,ann) + '</b><br /> ' +
+		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
 		make_overlib_link_new_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
-		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
+		make_overlib_link_new_multiword(txid,torder,rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder), 
 		CAPTION, 'Word');
 }
 
-function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
+function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,rtl,ann)
 {
+	var ttslg = '';
+	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	if(ttslg == wblink3)ttslg = '';
 	return overlib(
-		'<b>' + escape_html_chars_2(hints,ann) + '</b><br /> ' +
+		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid,torder,wid,stat) + ' <br /> ' +
 		make_overlib_link_edit_word(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_word(txid,wid) + 
-		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,
-		mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
+		make_overlib_link_new_multiword(txid,torder,rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
 		CAPTION, make_overlib_link_edit_word_title(
 		'Word &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',txid,torder,wid));
 }
 
-function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,txt,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl)
+function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,txt,rtl)
 {
+	var ttslg = '';
+	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	if(ttslg == wblink3)ttslg = '';
 	return overlib(
-		'<b>' + escape_html_chars(hints) + '</b><br /> ' +
+		'<b>' + escape_html_chars_with_tts(hints,ttslg) + '</b><br /> ' +
 		make_overlib_link_wellknown_word(txid,torder) + ' <br /> ' +  
 		make_overlib_link_ignore_word(txid,torder) + 
-		make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) + ' <br /> ' +
+		make_overlib_link_new_multiword(txid,torder,rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
 		CAPTION, 'New Word');
 }
 
 function run_overlib_multiword(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,wcnt,ann)
 {
+	var ttslg = '';
+	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	if(ttslg == wblink3)ttslg = '';
 	return overlib(
-		'<b>' + escape_html_chars_2(hints,ann) + '</b><br /> ' +
+		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid,torder,wid,stat) + ' <br /> ' +
 		make_overlib_link_edit_multiword(txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_multiword(txid,wid) + ' <br /> ' +
@@ -131,7 +145,7 @@ function run_overlib_test(wblink1,wblink2,wblink3,wid,txt,trans,roman,stat,sent,
 		make_overlib_link_change_status_alltest(wid,stat) +
 		'</b></center><hr noshade size=1 />' : 
 		'') +
-	'<b>' + escape_html_chars(make_tooltip(txt,trans,roman,stat)) +	
+	'<b>' + escape_html_chars_with_tts(make_tooltip(txt,trans,roman,stat),wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1')) +	
 	'</b><br />' +
 	' <a href=\x22edit_tword.php?wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a><br />' +
 	createTheDictLink(wblink1,txt,'Dict1','Lookup Term: ') +
@@ -141,26 +155,8 @@ function run_overlib_test(wblink1,wblink2,wblink3,wid,txt,trans,roman,stat,sent,
 	CAPTION, 'Got it?');
 }
 
-function make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) {
-	if (mw2=='' && mw3=='' && mw4=='' && mw5=='' && mw6 =='' && mw7 =='' && mw8 =='' && mw9 =='') return '';
-	if (rtl) return ' <br />Expr: ' +
-	(mw9 != '' ? make_overlib_link_create_edit_multiword_rtl(9,txid,torder,mw9) + ' ' : '') + 
-	(mw8 != '' ? make_overlib_link_create_edit_multiword_rtl(8,txid,torder,mw8) + ' ' : '') + 
-	(mw7 != '' ? make_overlib_link_create_edit_multiword_rtl(7,txid,torder,mw7) + ' ' : '') + 
-	(mw6 != '' ? make_overlib_link_create_edit_multiword_rtl(6,txid,torder,mw6) + ' ' : '') + 
-	(mw5 != '' ? make_overlib_link_create_edit_multiword_rtl(5,txid,torder,mw5) + ' ' : '') + 
-	(mw4 != '' ? make_overlib_link_create_edit_multiword_rtl(4,txid,torder,mw4) + ' ' : '') + 
-	(mw3 != '' ? make_overlib_link_create_edit_multiword_rtl(3,txid,torder,mw3) + ' ' : '') + 
-	(mw2 != '' ? make_overlib_link_create_edit_multiword_rtl(2,txid,torder,mw2) : '') + ' ';
-	else return ' <br />Expr: ' +
-	(mw2 != '' ? make_overlib_link_create_edit_multiword(2,txid,torder,mw2) + ' ' : '') + 
-	(mw3 != '' ? make_overlib_link_create_edit_multiword(3,txid,torder,mw3) + ' ' : '') + 
-	(mw4 != '' ? make_overlib_link_create_edit_multiword(4,txid,torder,mw4) + ' ' : '') + 
-	(mw5 != '' ? make_overlib_link_create_edit_multiword(5,txid,torder,mw5) + ' ' : '') + 
-	(mw6 != '' ? make_overlib_link_create_edit_multiword(6,txid,torder,mw6) + ' ' : '') + 
-	(mw7 != '' ? make_overlib_link_create_edit_multiword(7,txid,torder,mw7) + ' ' : '') + 
-	(mw8 != '' ? make_overlib_link_create_edit_multiword(8,txid,torder,mw8) + ' ' : '') + 
-	(mw9 != '' ? make_overlib_link_create_edit_multiword(9,txid,torder,mw9) : '') + ' ';
+function make_overlib_link_new_multiword(txid,torder,rtl) {
+	return ' <br />Expr: ' + make_overlib_link_create_edit_multiword_new(txid,torder,rtl);
 }
 
 function make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder) {
@@ -271,6 +267,68 @@ function make_overlib_link_create_edit_multiword_rtl(len,txid,torder,txt) {
 		'&amp;txt=' + txt +
 		'\x22 target=\x22ro\x22>' + len + '..' + escape_html_chars(txt.substr(-2).trim()) + '</a> ';
 }
+
+function make_overlib_link_create_edit_multiword_new(txid,torder,rtl) {
+	var sid = $('#ID-' + torder + '-1').attr('data_sid');
+	var text = $('#ID-' + torder + '-1').text();
+	var len=2;
+	var html='<span';
+	if(rtl)html+=' dir="rtl"';
+	html+='>';
+	var charcnt = parseInt($('#ID-' + torder + '-1').attr('data_pos')) + 250;
+	$('#ID-' + torder + '-1').nextAll('[id$="-1"]').each(function() {
+		text += $(this).text();
+		if(1){
+			if($(this).attr('data_sid')==sid){
+				if($(this).attr('data_pos')<charcnt){
+					h= ' <a href=\x22edit_mword.php?tid='
+					+ txid + '&amp;ord=' + torder + '&amp;txt=' + text
+					+ '\x22 target=\x22ro\x22 title=\x22' + text
+					+ '\x22>' + len + '..' + escape_html_chars(text.substr(-2).trim()) +  '</a> ';
+						
+							html = html + h;
+						
+					len += 1;
+				}
+			}
+		}
+	});
+	return html + '</span>';
+}
+
+function refresh_text(element, sentenceid){
+	var h=0;
+	var s=0;
+sid = parseInt(sentenceid) + 1;
+sid = '[data_sid="' + sid + '"]';
+	element.nextUntil($(sid ,window.parent.frames['l'].document)).addBack().each(function(){
+
+		var len = parseInt($(this).attr('id').replace(/ID-[0-9]+-/, ''));
+		var pos = parseInt($(this).attr('id').replace(/ID-([0-9]+)-[0-9]+/, '$1'));
+		var woid = parseInt($(this).attr( "data_wid" ));
+		if(pos > s && s > 0)return false;
+		if (woid > 0) {
+			var c= pos  + len*2 -1;
+			if(c>s){
+				s=c;
+			}
+			if(pos > h){
+				h=c-1;
+			$(this).removeClass('hide');
+			}
+			else{
+				$(this).addClass('hide');
+			}
+		}
+		else
+			if (pos <= h) {$(this).addClass('hide');}
+	
+		if(pos > h && len ==1){
+			$(this).removeClass('hide');
+		}
+	});
+}
+
 
 function make_overlib_link_edit_word(txid,torder,wid) {
 	return ' <a href=\x22edit_word.php?tid=' + txid + 
@@ -394,14 +452,24 @@ function make_tooltip(word,trans,roman,status) {
 	return title;
 }
 
-function escape_html_chars_2 (title, ann) {
-	if (ann != '' ) {
-		var ann2 = escape_html_chars(ann);
-		return escape_html_chars(title).replace(ann2,
-			'<span style="color:red">' + ann2 + '</span>');
+function escape_html_chars_2 (title, lg, ann) {
+	if (lg != '' ) {
+		if (ann != '' ) {
+			return escape_html_chars_with_tts(title,lg).replace('id="textToSpeak" style="cursor:pointer"',
+				'id="textToSpeak" style="cursor:pointer;color:red"');
+		}
+		else
+			return escape_html_chars_with_tts(title,lg);
 	}
-	else
-		return escape_html_chars(title);
+	else {
+		if (ann != '' ) {
+			var ann2 = escape_html_chars(ann);
+			return escape_html_chars(title).replace(ann2,
+				'<span style="color:red">' + ann2 + '</span>');
+		}
+		else
+			return escape_html_chars(title);
+	}
 }
 
 function owin(url) {
@@ -456,9 +524,17 @@ function createSentLookupLink(torder,txid,url,txt) {
 		} 
 		else if (url.substr(0,7) == 'http://') {
 			r = ' <a href=\x22trans.php?x=1&i=' + torder + '&t=' + txid + '\x22 target=\x22ru\x22>' + txt + '</a> ';
-		} 
+		}
+		else if (url.substr(0,7) == 'ggl.php') {
+			r = ' <a href=\x22trans.php?x=1&i=' + torder + '&t=' + txid + '\x22 target=\x22ru\x22>' + txt + '</a> ';
+		}
 	}
 	return r;
+}
+
+function escape_html_chars_with_tts(s,lg)
+{
+	return '<span id="textToSpeak" style="cursor:pointer" title="Click on expression for pronunciation" onclick="var txt = $(\'#textToSpeak\').text();var audio = new Audio();audio.src =\'tts.php?tl=' + lg + '&q=\' + txt;audio.play();">' + s.replace(/&/g,'%AMP%').replace(/</g,'&#060;').replace(/>/g,'&#062;').replace(/"/g,'&#034;').replace(/'/g,'&#039;').replace(/%AMP%/g,'&#038;').replace(/\x0d/g,'<br />').replace(/<br/,'</span><br');
 }
 
 function escape_html_chars(s)
@@ -634,9 +710,13 @@ function deleteCookie( name, path, domain ) {
 function iknowall(t) {
 	var answer = confirm ('Are you sure?'); 
 	if (answer) 
-		top.frames['ro'].location.href='all_words_wellknown.php?text=' + t;
+		top.frames['ro'].location.href='all_words_wellknown.php?text=' +t +'\&stat=99';
 }
-
+function ignoreall(t) {
+	var answer = confirm ('Are you sure?'); 
+	if (answer) 
+		top.frames['ro'].location.href="all_words_wellknown.php?stat=98"+'\&'+"text=" + t;
+}
 function check_table_prefix(p) {
 	var r = false;
 	var re = /^[_a-zA-Z0-9]*$/;

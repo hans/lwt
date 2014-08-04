@@ -41,7 +41,7 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
 $textid = getreq('text');
-$sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = do_mysql_query($sql);
 $record = mysql_fetch_assoc($res);
 
@@ -52,6 +52,7 @@ $audio=trim($audio);
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
 $langid = $record['TxLgID'];
+$pos = $record['TxAudioPosition'];
 mysql_free_result($res); 
 
 saveSetting('currenttext',$textid);
@@ -65,7 +66,7 @@ echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo getPreviousAndNextTextLinks($textid, 'do_text.php?start=', FALSE, '&nbsp; | &nbsp;');
 echo '&nbsp; | &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" />' . get_annotation_link($textid) . ' &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>&nbsp; | &nbsp;<a href="new_word.php?text=' . $textid . '&amp;lang=' . $langid . '" target="ro"><img src="icn/sticky-note--plus.png" title="New Term" alt="New Term" /></a>';
-echo '</h4><table><tr><td><h3>READ&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="icn/chain.png" title="Text Source" alt="Text Source" /></a>' : '') . '</h3></td></tr></table>';
+echo '</h4><table><tr><td><h3>READ&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '') . '</h3></td></tr></table>';
 
 $showAll = getSettingZeroOrOne('showallwords', 1);
 
@@ -75,12 +76,19 @@ $showAll = getSettingZeroOrOne('showallwords', 1);
 
 <?php
 
-makeAudioPlayer($audio);
+makeAudioPlayer($audio,$pos);
 
 ?>
 </table>
+<script type="text/javascript">
+<?php if ($audio != '') { ?>
+$(window).on('beforeunload',function() {
+	var pos=$("#jquery_jplayer_1").data("jPlayer").status.currentTime;
+	$.ajax({type: "POST",url:'ajax_save_text_position.php', data: { id: '<?php echo $_REQUEST['text']; ?>', audioposition: pos }, async:false});
+});
+<?php } ?>
+</script>
 <?php
-
 pageend();
 
 ?>

@@ -124,13 +124,7 @@ function changeTableTestStatus(wordid,up) {
  
 function check() {
 	var count = 0;
-	$('input.notempty').each( function(n) {
-		if($(this).attr('value').trim()=='') count++; 
-	} );
-	$('textarea.notempty').each( function(n) {
-		if($(this).val().trim()=='') count++; 
-	} );
-	$('select.notempty').each( function(n) {
+	$('.notempty').each( function(n) {
 		if($(this).val().trim()=='') count++; 
 	} );
 	if (count > 0) {
@@ -142,6 +136,16 @@ function check() {
 		if($(this).val().trim().length > 0) {
 			if(($(this).val().trim().indexOf('http://') != 0) &&   ($(this).val().trim().indexOf('https://') != 0)) {
 				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must start with "http://" or "https://" if not empty.');
+				count++;
+			}
+		}
+	} );
+//to enable limits of custom feed texts/articl. change the following «input[class*="max_int_"]» into «input[class*="maxint_"]»
+	$('input[class*="max_int_"]').each( function(n) {
+		var maxvalue = parseInt($(this).attr("class").replace(/.*maxint_([0-9]+).*/, '$1'));
+		if ($(this).val().trim().length > 0) {
+			if ($(this).val() > maxvalue) {
+				alert('ERROR\n\n Max Value of Field "' + $(this).attr('data_info') + '" is ' + maxvalue);
 				count++;
 			}
 		}
@@ -332,31 +336,19 @@ function word_click_event_do_text_text() {
 		
 	if ( status < 1 ) {
 		run_overlib_status_unknown(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_mw2'),
-			$(this).attr('data_mw3'),$(this).attr('data_mw4'),$(this).attr('data_mw5'),
-			$(this).attr('data_mw6'),$(this).attr('data_mw7'),$(this).attr('data_mw8'),
-			$(this).attr('data_mw9'),RTL);
+			TID,$(this).attr('data_order'),$(this).text(),RTL);
 		top.frames['ro'].location.href='edit_word.php?tid=' + TID + '&ord=' + 
 			$(this).attr('data_order') + '&wid=';
 	}
 	else if ( status == 99 )
 		run_overlib_status_99(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
-			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL,ann);
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),RTL,ann);
 	else if ( status == 98 )
 		run_overlib_status_98(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),
-			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL,ann);
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),RTL,ann);
 	else
 		run_overlib_status_1_to_5(WBLINK1,WBLINK2,WBLINK3,$(this).attr('title'),
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,
-			$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL,ann);
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,RTL,ann);
 	return false;
 }
 	
@@ -371,6 +363,84 @@ function mword_click_event_do_text_text() {
 		$(this).attr('data_wid'), status,$(this).attr('data_code'), ann);
 	}
 	return false;
+}
+
+function mword_drag_n_drop_select() {
+	e=$(this);
+	sid=parseInt(e.attr('data_sid'));
+	e.one('mouseup',function(){
+	clearTimeout(to);
+	});
+	to=setTimeout(function(){
+		$('span').removeClass('nword sword tword lword');
+		$('.wsty[data_sid="' + sid + '"]').not('.hide,.word').each(function(){
+			ff=parseInt($(this).attr('data_code'))*2 + parseInt($(this).attr('data_order')) - 1;
+			h='';
+			$(this).nextUntil($('[id^="ID-'+ ff +'-"]'),'[id$="-1"]').each(function(){
+				l=$(this).attr('data_order');
+				if(typeof l != 'undefined'){
+					h+='<span class="tword" data_order="' + l + '">' + $(this).text() + '</span>';
+				}else h+='<span class="nword">' + $(this).text() + '</span>';
+			});
+			$(this).html(h);
+		});
+		$('.word[data_sid="' + sid + '"]').not('.hide').each(function(){
+			$(this).html('<span class="tword" data_order="' + $(this).attr('data_order') + '">' + $(this).text() + '</span>')
+		});
+		$('#thetext').one('mouseover','.tword',function(){
+			$('html').one('mouseup',function(){
+				if(!$(this).hasClass('tword')){
+					$('span').removeClass('nword sword tword lword');
+					$('#thetext').off('mouseover','.tword');
+				}
+			});
+			pos=parseInt($(this).attr('data_order'));
+			$('.sword').removeClass('sword');
+			$(this).addClass('sword');
+			$('.lword').removeClass('lword');
+			$('#thetext').on('mouseleave','.lword',function(){
+				$('.lword').removeClass('lword');
+			});
+			$('#thetext').on('mouseenter','.tword',function(){
+				lpos=parseInt($(this).attr('data_order'));
+				$(this).addClass('lword');
+				if(lpos>pos){
+					for(i=pos;i<lpos;i++){
+						$('.tword[data_order="' + i + '"]').addClass('lword');
+					}
+				}
+				else{
+					for(i=pos;i>lpos;i--){
+						$('.tword[data_order="' + i + '"]').addClass('lword');
+					}
+				}
+				$('#thetext').one('mouseup','.tword',function(ev){
+					if(ev.handled !== true){
+						f=$('.sword').attr('data_order');
+						g=$(this).attr('data_order');
+						if(parseInt(g)<parseInt(f)){
+							g=f;
+							f=$(this).attr('data_order');
+						}
+						if(parseInt(g)!=parseInt(f)){
+							ord=$('#ID-'+ g +'-1');
+							text = $('#ID-'+ f +'-1').nextUntil(ord,'[id$="-1"]').addBack().map(function() {return $( this ).text();}).get().join( "" ) + ord.text();
+							if(text.length >250){
+								alert('selected text is too long!!!');
+							}else{
+								top.frames['ro'].location.href='edit_mword.php?tid=' + TID + '&ord=' + g + '&txt=' + text;
+							}
+						}
+						else{
+							top.frames['ro'].location.href='edit_mword.php?tid=' + TID + '&ord=' + g + '&txt=' + $('#ID-'+ f +'-1').text();
+						}
+						$('span').removeClass('sword tword nword');
+						ev.handled = true;
+					}
+				});
+			});
+		});
+	}, 300);
 }
 
 function keydown_event_do_text_text(e) {
@@ -509,9 +579,9 @@ function do_ajax_update_media_select() {
 	);
 }
 
-function do_ajax_show_sentences(lang,word,ctl) {
+function do_ajax_show_sentences(lang,word,ctl,woid) {
 	$('#exsent').html('<img src="icn/waiting2.gif" />');
-	$.post('ajax_show_sentences.php', { lang: lang, word: word, ctl: ctl }, 
+	$.post('ajax_show_sentences.php', { lang: lang, word: word, ctl: ctl, woid: woid  }, 
 		function(data) { $('#exsent').html(data); } 
 	);
 }
@@ -537,7 +607,7 @@ function do_ajax_word_counts() {
 function do_ajax_edit_impr_text(pagepos, word) {
 	if (word=='') $('#editimprtextdata').html('<img src="icn/waiting2.gif" />');
 	var textid = $('#editimprtextdata').attr('data_id');
-	$.post('ajax_edit_impr_text.php', { id: textid, word: word }, 
+	$.post('ajax_edit_impr_text.php', { id: textid, word: word },
 		function(data) {
 			// alert(data);
 			eval(data);
@@ -565,6 +635,16 @@ $.fn.serializeObject = function()
     return o;
 };
 
+$( window ).load(function(){
+	$(":input,.wrap_checkbox span,.wrap_radio span,a:not([name^=rec]),select,#mediaselect span.click,#forwbutt,#backbutt").each(function (i) { $(this).attr('tabindex', i + 1); });
+	$(".wrap_radio span").bind("keydown", function(e){
+		if(e.keyCode==32){
+		$(this).parent().parent().find('input[type=radio]').trigger( "click" );
+		return false;
+		}
+	});
+});
+
 $(document).ready( function() {
 	$('.edit_area').editable('inline_edit.php', 
 		{ 
@@ -577,6 +657,39 @@ $(document).ready( function() {
 			cols      : 35
 		}
 	);
+	$( "select" ).wrap( "<label class='wrap_select'></label>" );
+	$( 'input[type="file"]' ).before('<button class="button-file" style="display:none">Choose File</button>');
+	$( 'input[type="checkbox"]' ).each(function(z){
+		if(typeof z == 'undefined')z=1;
+		if(typeof $(this).attr('id') == 'undefined'){
+			$(this).attr('id','cb_'+z++);
+		}
+		$(this).after('<label class="wrap_checkbox" for="'+$(this).attr('id')+'"><span></span></label>');
+	});
+	$('span[class*="tts_"]').click( function() {
+		var lg = $(this).attr("class").replace(/.*tts_([a-zA-Z-]+).*/, '$1');
+		var txt = $(this).text();
+		var audio = new Audio();
+		audio.src ='tts.php?tl=' + lg + '&q=' + txt;
+		audio.play();
+	});
+	$(document).mouseup(function(){
+		$("button,input[type=button],.wrap_radio span,.wrap_checkbox span").blur();
+	});
+	$(".wrap_checkbox span").bind("keydown", function(e){
+		if(e.keyCode==32){
+		$(this).parent().parent().find('input[type=checkbox]').trigger( "click" );
+		return false;
+		}
+	});
+	$( 'input[type="radio"]' ).each(function(z){
+		if(typeof z == 'undefined')z=1;
+		if(typeof $(this).attr('id') == 'undefined'){
+			$(this).attr('id','rb_'+z++);
+		}
+		$(this).after('<label class="wrap_radio" for="'+$(this).attr('id')+'"><span></span></label>');
+	});
+	$('.button-file').click(function(){$(this).next('input[type="file"]').click();return false;});
 	$('input.impr-ann-text').change(changeImprAnnText);
 	$('input.impr-ann-radio').change(changeImprAnnRadio);
 	$('form.validate').submit(check);

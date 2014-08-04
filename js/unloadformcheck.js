@@ -34,18 +34,18 @@ Check for unsaved changes when unloading window
 
 var DIRTY = 0;
 
-function askConfirmIfDirty(){  
-	if (DIRTY) { 
-		return '** You have unsaved changes! **'; 
+function askConfirmIfDirty(){
+	if (DIRTY) {
+		return '** You have unsaved changes! **';
 	}
 }
 
 function makeDirty() {
-	DIRTY = 1; 
+	DIRTY = 1;
 }
 
 function resetDirty() {
-	DIRTY = 0; 
+	DIRTY = 0;
 }
 
 function tagChanged(event, ui) {
@@ -56,7 +56,7 @@ function tagChanged(event, ui) {
 $(document).ready( function() {
 	$('#termtags').tagit({afterTagAdded: tagChanged, afterTagRemoved: tagChanged});
 	$('#texttags').tagit({afterTagAdded: tagChanged, afterTagRemoved: tagChanged}); 
-	$('input,checkbox,textarea,radio,select').bind('change',makeDirty);
+	$('input,checkbox,textarea,radio,select').not('#quickmenu').bind('change',makeDirty);
 	$(':reset,:submit').bind('click',resetDirty);
 	$(window).bind('beforeunload', askConfirmIfDirty);
 } ); 

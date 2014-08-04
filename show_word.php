@@ -64,13 +64,18 @@ if ($record = mysql_fetch_assoc($res)) {
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr>
 <td class="td1 right" style="width:30px;">Term:</td>
-<td class="td1" style="font-size:120%;" <?php echo $scrdir; ?>><b><?php echo tohtml($record['WoText']); ?></b></td>
+<td class="td1" style="font-size:120%; border-top-right-radius:inherit;" <?php echo $scrdir; ?>><b><?php echo tohtml($record['WoText']); ?></b></td>
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
-<td class="td1" style="font-size:120%;"><b><?php echo 
-	str_replace_first(tohtml($ann), '<span style="color:red">' . tohtml($ann) . 
-	'</span>', tohtml($transl)); ?></b></td>
+<td class="td1" style="font-size:120%;"><b><?php
+	if(!empty($ann)){
+		echo 
+		str_replace_first(tohtml($ann), '<span style="color:red">' . tohtml($ann) . 
+		'</span>', tohtml($transl));
+	}
+	else echo tohtml($transl);
+?></b></td>
 </tr>
 <?php if ($tags != '') { ?>
 <tr>
