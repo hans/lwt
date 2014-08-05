@@ -179,7 +179,7 @@ if (isset($_REQUEST['markaction'])) {
 				
 				elseif ($markaction == 'setsent') {
 					$count = 0;
-					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoTextLC and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
+					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
 
 					$res = do_mysql_query($sql);
 					while ($record = mysql_fetch_assoc($res)) {
@@ -192,7 +192,7 @@ if (isset($_REQUEST['markaction'])) {
 				
 				elseif ($markaction == 'setactsent') {
 					$count = 0;
-					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and WoStatus != 98 and WoStatus != 99 and Ti2WoID = WoTextLC and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
+					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and WoStatus != 98 and WoStatus != 99 and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
 
 					$res = do_mysql_query($sql);
 					while ($record = mysql_fetch_assoc($res)) {
