@@ -48,7 +48,7 @@ if($status==98)
 if($status==99)
 	pagestart("Setting all blue words to Well-known",false);
 
-$sql = 'select distinct Ti2Text, lower(Ti2Text) as  WoTextLC from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2WoID = 0 and Ti2WordCount = 1 and Ti2TxID = ' . $_REQUEST['text'] . ' order by Ti2Order';
+$sql = 'select Ti2Text, lower(Ti2Text) as  WoTextLC from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2WoID = 0 and Ti2WordCount = 1 and Ti2TxID = ' . $_REQUEST['text'] . ' group by lower(MrText) order by Ti2Order';
 $res = do_mysql_query($sql);
 $count = 0;
 $javascript = "var title='';";
@@ -60,7 +60,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	$langid . ', ' . 
 	convert_string_to_sqlsyntax($term) . ', ' . 
 	convert_string_to_sqlsyntax($termlc) . ', 1, '.$status.' , NOW(), ' .  
-make_score_random_insert_update('id') . ')',''); 
+make_score_random_insert_update('id') . ')','');
 	$wid = get_last_key();
 	$sqlarr[]= ' WHEN ' . convert_string_to_sqlsyntax_notrim_nonull($termlc) . ' THEN ' . $wid;
 	if ($count1 > 0 ) 

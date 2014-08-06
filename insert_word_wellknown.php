@@ -48,10 +48,10 @@ $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts wher
 
 pagestart("Term: " . $word,false);
 
-$m1 = runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+$m1 = runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoStatus, WoWordCount, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 $langid . ', ' . 
 convert_string_to_sqlsyntax($word) . ', ' . 
-convert_string_to_sqlsyntax($wordlc) . ', 99, NOW(), ' .  
+convert_string_to_sqlsyntax($wordlc) . ', 99, 1, NOW(), ' .  
 make_score_random_insert_update('id') . ')','Term added');
 $wid = get_last_key();
 mysql_query ("UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = " . $wid . " where Ti2LgID = " . $langid . " and lower(Ti2Text) = " . convert_string_to_sqlsyntax($wordlc));
