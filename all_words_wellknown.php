@@ -48,7 +48,7 @@ if($status==98)
 if($status==99)
 	pagestart("Setting all blue words to Well-known",false);
 
-$sql = 'select Ti2Text, lower(Ti2Text) as  WoTextLC from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2WoID = 0 and Ti2WordCount = 1 and Ti2TxID = ' . $_REQUEST['text'] . ' group by lower(MrText) order by Ti2Order';
+$sql = 'select Ti2Text, lower(Ti2Text) as  WoTextLC from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2WoID = 0 and Ti2WordCount = 1 and Ti2TxID = ' . $_REQUEST['text'] . ' group by lower(Ti2Text) order by Ti2Order';
 $res = do_mysql_query($sql);
 $count = 0;
 $javascript = "var title='';";

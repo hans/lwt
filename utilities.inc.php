@@ -1368,22 +1368,6 @@ function errorbutton($msg) {
 } 
 
 // -------------------------------------------------------------
-/*
-function optimizedb() {
-	global $tbpref;
-	adjust_autoincr('archivedtexts','AtID');
-	adjust_autoincr('languages','LgID');
-	adjust_autoincr('sentences','SeID');
-	adjust_autoincr('textitems','TiID');
-	adjust_autoincr('texts','TxID');
-	adjust_autoincr('words','WoID');
-	adjust_autoincr('tags','TgID');
-	adjust_autoincr('tags2','T2ID');
-	adjust_autoincr('newsfeeds','NfID');
-	adjust_autoincr('feedlinks','FlID');
-	$dummy = runsql('OPTIMIZE TABLE ' . $tbpref . 'archivedtexts,' . $tbpref . 'languages,' . $tbpref . 'sentences,' . $tbpref . 'textitems,' . $tbpref . 'texts,' . $tbpref . 'words,' . $tbpref . 'settings,' . $tbpref . 'tags,' . $tbpref . 'wordtags,' . $tbpref . 'tags2,' . $tbpref . 'texttags,' . $tbpref . 'newsfeeds,' . $tbpref . 'feedlinks,' . $tbpref . 'archtexttags, _lwtgeneral', '');
-}
-*/
 
 function optimizedb() {
 	global $tbpref;
@@ -2234,24 +2218,6 @@ function get_file_path($filename){
 	}
 }
 
-/*
-function get_file_path($filename){
-	$theme_dir=getSettingWithDefault('set-theme-dir');
-	if($theme_dir=='themes/Default/')return $filename;
-	if($theme_dir=='themes/White_Night/'){
-		$f=array('arrow-norepeat.png', 'funnel.png', 'lwt_icon.png', 'styles.css', 'chain.png', 'indicator.gif', 'placeholder.png', 'waiting2.gif', 'jquery.tagit.css', 'speaker-volume-none.png', 'waiting.gif', 'feed_wizard.css', 'jquery-ui.css', 'speaker-volume.png','test_notyet.png','test_wrong.png','test_correct.png');
-	}
-	elseif($theme_dir=='themes/Night_Mode/'){
-		$f=array('arrow-norepeat.png', 'funnel.png', 'lwt_icon.png', 'styles.css', 'chain.png', 'indicator.gif', 'placeholder.png', 'waiting2.gif', 'jquery.tagit.css', 'speaker-volume-none.png', 'waiting.gif', 'feed_wizard.css', 'jquery-ui.css', 'speaker-volume.png','test_notyet.png','test_wrong.png','test_correct.png');
-	}
-	elseif($theme_dir=='themes/Default_Mod/'){
-		$f[0]='styles.css';
-	}
-	$file=preg_replace('/.*\//','',$filename);
-	if(in_array ($file,$f))$filename=$theme_dir.$file;
-	return $filename;
-}
-*/
 // -------------------------------------------------------------
 
 function makePager ($currentpage, $pages, $script, $formname) {
@@ -3764,77 +3730,6 @@ function make_score_random_insert_update($type) {  // $type='iv'/'id'/'u'
 
 // -------------------------------------------------------------
 
-function refreshText($word,$tid) {
-	global $tbpref;
-	// $word : only sentences with $word
-	// $tid : textid
-	// only to be used when $showAll = 0 !
-	$out = '';
-	$wordlc = trim(mb_strtolower($word, 'UTF-8'));
-	if ( $wordlc == '') return '';
-	$sql = 'SELECT distinct TiSeID FROM ' . $tbpref . 'textitems WHERE TiIsNotWord = 0 and TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' and TiTxID = ' . $tid . ' order by TiSeID';
-	$res = do_mysql_query($sql);
-	$inlist = '(';
-	while ($record = mysql_fetch_assoc($res)) { 
-		if ($inlist == '(') 
-			$inlist .= $record['TiSeID'];
-		else
-			$inlist .= ',' . $record['TiSeID'];
-	}
-	mysql_free_result($res);
-	if ($inlist == '(') 
-		return '';
-	else
-		$inlist =  ' where TiSeID in ' . $inlist . ') ';
-	$sql = 'select TiWordCount as Code, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) ' . $inlist . ' order by TiOrder asc, TiWordCount desc';
-
-	$res = do_mysql_query($sql);		
-
-	$hideuntil = -1;
-	$hidetag = "removeClass('hide');";
-
-	while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
-		$actcode = $record['Code'] + 0;
-		$order = $record['TiOrder'] + 0;
-		$notword = $record['TiIsNotWord'] + 0;
-		$termex = isset($record['WoID']);
-		$spanid = 'ID-' . $order . '-' . $actcode;
-
-		if ( $hideuntil > 0 ) {
-			if ( $order <= $hideuntil )
-				$hidetag = "addClass('hide');";
-			else {
-				$hideuntil = -1;
-				$hidetag = "removeClass('hide');";
-			}
-		}
-
-		if ($notword != 0) {  // NOT A TERM
-			$out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
-		}  
-
-		else {   // A TERM
-			if ($actcode > 1) {   // A MULTIWORD FOUND
-				if ($termex) {  // MULTIWORD FOUND - DISPLAY 
-					if ($hideuntil == -1) $hideuntil = $order + ($actcode - 1) * 2;
-					$out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
-				}
-				else {  // MULTIWORD PLACEHOLDER - NO DISPLAY 
-					$out .= "$('#" . $spanid . "',context).addClass('hide');\n";
-				}  
-			} // ($actcode > 1) -- A MULTIWORD FOUND
-
-			else {  // ($actcode == 1)  -- A WORD FOUND
-				$out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
-			}  
-		}
-	} //  MAIN LOOP
-	mysql_free_result($res);
-	return $out;
-}
-
-// -------------------------------------------------------------
-
 function check_update_db() {
 	global $debug, $tbpref;
 	$tables = array();
@@ -3890,13 +3785,6 @@ function check_update_db() {
 		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "tempwords (WoText varchar(250) DEFAULT NULL, WoTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, WoTranslation varchar(500) NOT NULL DEFAULT '*', WoRomanization varchar(100) DEFAULT NULL, WoSentence varchar(1000) DEFAULT NULL, WoTaglist varchar(255) DEFAULT NULL, PRIMARY KEY(WoTextLC) ) ENGINE=MEMORY DEFAULT CHARSET=utf8",'');
 	}
 
-
-/*	if (in_array($tbpref . 'textitems', $tables) == FALSE) {
-		if ($debug) echo '<p>DEBUG: rebuilding textitems</p>';
-		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "textitems ( TiID int(11) unsigned NOT NULL AUTO_INCREMENT, TiLgID tinyint(3) unsigned NOT NULL, TiTxID smallint(5) unsigned NOT NULL, TiSeID mediumint(8) unsigned NOT NULL, TiOrder smallint(5) unsigned NOT NULL, TiWordCount tinyint(1) unsigned NOT NULL, TiText varchar(250) NOT NULL, TiTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, TiIsNotWord tinyint(1) NOT NULL, PRIMARY KEY (TiID), KEY TiLgID (TiLgID), KEY TiTxID (TiTxID), KEY TiSeID (TiSeID), KEY TiOrder (TiOrder), KEY TiTextLC (TiTextLC), KEY TiIsNotWord (TiIsNotWord) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
-		$count++;
-	}*/
-	
 	if (in_array($tbpref . 'texts', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding texts</p>';
 		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "texts ( TxID smallint(5) unsigned NOT NULL AUTO_INCREMENT, TxLgID tinyint(3) unsigned NOT NULL, TxTitle varchar(200) NOT NULL, TxText text NOT NULL, TxAnnotatedText longtext NOT NULL, TxAudioURI varchar(200) DEFAULT NULL, TxSourceURI varchar(1000) DEFAULT NULL, TxPosition int(6) DEFAULT 0, TxAudioPosition float DEFAULT 0, PRIMARY KEY (TxID), KEY TxLgID (TxLgID), KEY TxLgIDSourceURI (TxSourceURI(20),TxLgID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
@@ -3983,7 +3871,6 @@ function check_update_db() {
 			runsql('ALTER TABLE `' . $tbpref . 'archivedtexts` MODIFY COLUMN `AtLgID` tinyint(3) unsigned NOT NULL, MODIFY COLUMN `AtID` smallint(5) unsigned NOT NULL, ADD INDEX AtLgIDSourceURI (AtSourceURI(20),AtLgID)','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'languages` MODIFY COLUMN `LgID` tinyint(3) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `LgRemoveSpaces` tinyint(1) unsigned NOT NULL, MODIFY COLUMN `LgSplitEachChar` tinyint(1) unsigned NOT NULL, MODIFY COLUMN `LgRightToLeft` tinyint(1) unsigned NOT NULL','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'sentences`  ADD SeFirstPos smallint(5) NOT NULL, MODIFY COLUMN `SeID` mediumint(8) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `SeLgID` tinyint(3) unsigned NOT NULL, MODIFY COLUMN `SeTxID` smallint(5) unsigned NOT NULL, MODIFY COLUMN `SeOrder` smallint(5) unsigned NOT NULL','', $sqlerrdie = FALSE);
-//			runsql('ALTER TABLE `' . $tbpref . 'textitems` MODIFY COLUMN `TiLgID` tinyint(3) unsigned NOT NULL, MODIFY COLUMN `TiTxID` smallint(5) unsigned NOT NULL, MODIFY COLUMN `TiSeID` mediumint(8) unsigned NOT NULL, MODIFY COLUMN `TiOrder` smallint(5) unsigned NOT NULL, MODIFY COLUMN `TiWordCount` tinyint(1) unsigned NOT NULL, MODIFY COLUMN `TiIsNotWord` tinyint(1) unsigned NOT NULL','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'texts` MODIFY COLUMN `TxID` smallint(5) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `TxLgID` tinyint(3) unsigned NOT NULL, ADD INDEX TxLgIDSourceURI (TxSourceURI(20),TxLgID)','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'words` MODIFY COLUMN `WoID` int(11) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `WoLgID` tinyint(3) unsigned NOT NULL, MODIFY COLUMN `WoStatus` tinyint(4) NOT NULL','', $sqlerrdie = FALSE);		
 			runsql('ALTER TABLE `' . $tbpref . 'archtexttags` MODIFY COLUMN `AgAtID` smallint(5) unsigned NOT NULL, MODIFY COLUMN `AgT2ID` smallint(5) unsigned NOT NULL','', $sqlerrdie = FALSE);
