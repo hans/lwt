@@ -223,7 +223,7 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.16 (February 19 2014)</b>.
+          <li>The current version is <b>1.5.17 (August ?? 2014)</b>.
           </li>
 
           <li>
@@ -436,7 +436,7 @@ $(document).ready( function() {
 
           <li><b><u>MOST IMPORTANT:</u><br /><br /> To run LWT, you'll need: </b><br /><br />
           <b>(1) A modern web browser.</b><ul><li>Windows: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a>. - MS Internet Explorer is not recommended.</li><li>OS X: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a> (Adobe Flash must be installed and enabled for MP3 playback in Firefox). - Safari does not display frame sets properly and is not recommended. </li><li>Linux: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a> (Adobe Flash must be installed and enabled for MP3 playback in Firefox). - Other browsers are not recommended.</li></ul><b>Remark:</b> Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/" target="_blank">HTML Ruby Add-On</a> to display ruby markup properly.<br /><br />
-          <b>(2) A local web server.</b><br />An easy way to install a local web server are preconfigured packages like<ul><li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Windows), </li><li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac OS X), or</li><li><a href="http://www.apachefriends.org/en/xampp.html" target="_blank">XAMPP</a> (Windows, Mac OS X, Linux).</li><li><a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">tasksel</a> &amp; <a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">lamp-server</a> (Ubuntu, etc.).</li></ul><br />
+          <b>(2) A local web server.</b><br />An easy way to install a local web server are preconfigured packages like<ul><li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Windows), or </li><li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac OS X), or</li><li><a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">tasksel</a> &amp; <a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">lamp-server</a> (Ubuntu, etc.).</li></ul><br />
           <b>(3) The LWT Application.</b><br />The ZIP Archive can be downloaded <a href="http://sourceforge.net/projects/lwt/files/" target="_blank">here</a>.<br />The installation is explained<ul><li><a href="#installwin">here (Windows)</a>,</li><li><a href="#installmac">here (Mac OS X)</a> and</li><li><a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">here (Ubuntu, etc.)</a>.</li></ul>
           <br />
           </li>
@@ -495,7 +495,7 @@ $(document).ready( function() {
           <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
           </li>
           
-          <li>Prerequisites: a local webserver (Apache, PHP, mySQL), e.g. XAMPP, easyPHP, or MAMP.
+          <li>Prerequisites: a local webserver (Apache, PHP, mySQL), e.g. EasyPHP (Windows) or MAMP (OS X).
           </li>
           
           <li>Enjoy your language learning!
@@ -688,80 +688,13 @@ $(document).ready( function() {
             <br />
           </li>
 
-          <li>
-            <b>METHOD 1 (with XAMPP for Windows):</b>
-            <br />
-            <br />
+          <li>Step 1: Go to <a href="http://www.easyphp.org/easyphp-devserver.php" target="_blank">http://www.easyphp.org/easyphp-devserver.php</a>.
           </li>
 
-          <li>Step 1: Go to <a href="http://www.apachefriends.org/en/xampp-windows.html" target="_blank">http://www.apachefriends.org/en/xampp-windows.html</a>.
+          <li>Step 2: Scroll down and download the "EasyPHP DevServer for Windows XP to Windows 8" (currently EasyPHP 14.1 VC9).
           </li>
 
-          <li>Step 2: Download the XAMPP Windows zip archive (currently XAMPP Windows 1.8.1 ZIP 184 MB).
-          </li>
-
-          <li>Step 3: Open the downloaded <i>xampp-win32-1.8.1-VC9.zip</i> and extract everything to <i>C:\</i>. -- Result: <i>C:\xampp</i> will be created. (Important: Do not install into <i>C:\Program Files</i>!)
-          </li>
-
-          <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
-          </li>
-
-          <li>Step 5: Copy the downloaded zip archive <i>lwt_v_x_y.zip</i> into the directory <i>htdocs</i> below the XAMPP directory, i.e. <i>C:\xampp\htdocs</i>.
-          </li>
-
-          <li>Step 6: Double-click on the zip archive to open it, and unzip everything into a new folder <i>C:\xampp\htdocs\lwt</i>.
-          </li>
-
-          <li>Step 7: The zip archive <i>lwt_v_x_y.zip</i> may be deleted.
-          </li>
-
-          <li>Step 8: Go to <i>C:\xampp\htdocs\lwt</i>. Rename the file <i>connect_xampp.inc.php</i> to <i>connect.inc.php</i>.
-          </li>
-
-          <li>Step 9: Run <i>C:\xampp\setup_xampp.bat</i> to initialize XAMPP on your system.
-          </li>
-
-          <li>Step 10: Run <i>C:\xampp\xampp-control.exe</i>. Start Apache and MySQL by clicking the start buttons. If the firewall asks whether to block, click "Do not block".
-          </li>
-
-          <li>Step 11: LWT can now be started in your web browser, go to: <a href="http://localhost/lwt" target="_blank">http://localhost/lwt</a>. 
-          </li>
-
-          <li>Step 12: You may install the LWT demo database, or define the first language you want to learn.
-            <br />
-            <br />
-          </li>
-
-          <li>If you want to use LWT again, just do step 10 and 11.
-          </li>
-
-          <li>The local webserver will be stopped by clicking on "Stop" in <i>xampp-control.exe</i> (still running). You can now exit this program.
-            <br />
-            <br />
-          </li>
-
-
-          <li>Uninstall: Just delete the folder: <i>C:\xampp</i>.
-          </li>
-
-          <li>You have questions about XAMPP for Windows: Try <a href="http://www.apachefriends.org/en/faq-xampp-windows.html" target="_blank">»FAQ - XAMPP for Windows«</a> or the <a href="http://www.apachefriends.org/f/" target="_blank">»Apache Friends Support Forum«</a>.
-            <br />
-            <br />
-          </li>
-
-          <li>
-            <b>METHOD 2 (with EasyPHP):</b>
-            <br />
-            <br />
-          </li>
-
-          <li>Step 1: Go to <a href="http://www.easyphp.org/download.php" target="_blank">http://www.easyphp.org/download.php</a>.
-          </li>
-
-          <li>Step 2: Download the "EASYPHP DEVSERVER for Windows XP to Windows 8" (currently EasyPHP 13.1 VC9).
-          </li>
-
-          <li>Step 3: Install the downloaded <i>EasyPHP-...-setup.exe</i> into <i>C:\Program Files (x86)\EasyPHP-...</i>.
+          <li>Step 3: Install the downloaded <i>EasyPHP-DevServer-14.1VC9-install.exe</i> into <i>C:\Program Files (x86)\EasyPHP-...</i>.
           </li>
 
           <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
@@ -814,38 +747,6 @@ $(document).ready( function() {
       <dd>
         <ul>
         
-          <li>
-            <b>UPGRADE METHOD 1 (if you are using LWT via XAMPP for Windows):</b>
-            <br />
-            <br />
-          </li>
-        
-          <li>Step 1: Backup (Copy or ZIP) the directory <i>C:\xampp\htdocs\lwt</i>. Backup your database (within LWT).
-          </li>
-
-          <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
-          </li>
-
-          <li>Step 3: Copy everything (incl. sub-directories) you unpacked to <i>C:\xampp\htdocs\lwt</i>.
-            <br />
-            You must keep (those are <b>not</b> included in the distributed package):
-            <ul>
-							<li>the database connection parameters <i>C:\xampp\htdocs\lwt\connect.inc.php</i> (you created this by renaming, see installation) and</li>
-							<li>the whole media sub-directory <i>C:\xampp\htdocs\lwt\media</i> (contains your MP3 audio files).</li>
-            </ul>
-          </li>
-
-          <li>Step 4: Clear the web browser cache and start XAMPP and LWT as usual.
-            <br />
-            <br />
-          </li>
-
-          <li>
-            <b>UPGRADE METHOD 2 (if you are using LWT via EasyPHP):</b>
-            <br />
-            <br />
-          </li>
-        
           <li>Step 1: Backup (Copy or ZIP) the directory <i>C:\Program Files (x86)\EasyPHP-...\www\lwt</i>. Backup your database (within LWT).
           </li>
 
@@ -878,19 +779,13 @@ $(document).ready( function() {
             <br />
           </li>
 
-          <li>
-            <b>METHOD 1 (with MAMP):</b>
-            <br />
-            <br />
+          <li>Step 1: Go to <a href="http://www.mamp.info/en/downloads/" target="_blank">http://www.mamp.info/en/downloads/</a>.
           </li>
 
-          <li>Step 1: Go to <a href="http://mamp.info/en/index.html" target="_blank">http://mamp.info/en/index.html</a>.
+          <li>Step 2: Download "MAMP & MAMP PRO" (currently MAMP_MAMP_PRO_3.0.5.pkg).
           </li>
 
-          <li>Step 2: Download the zipped DMG Image (currently MAMP_MAMP_PRO_2.1.4.zip, 146 MB).
-          </li>
-
-          <li>Step 3: Unzip the zipped DMG Image, choose the 32 or 64 bit architecture (modern Macs: 64 bit) folder, and install MAMP.pkg, accept the license, on the Installation Type panel click on "Customize", deselect "MAMP PRO", then click Install.
+          <li>Step 3: Double-click on the downloaded installation package MAMP_MAMP_PRO_3.0.5.pkg, accept the license, click on "Install for all users..." and on "Continue", on the next panel titled "Standard Install on Macintosh HD" click on "Customize", deselect "MAMP PRO", and click Install. You must enter your password. After this step MAMP is installed within a folder named "MAMP" in the Applications folder.
           </li>
 
           <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
@@ -927,80 +822,11 @@ $(document).ready( function() {
           <li>Uninstall: Just delete the folder <i>/Applications/MAMP</i>.
           </li>
 
-          <li>You have questions about MAMP: Try the <a href="http://documentation.mamp.info/en" target="_blank">MAMP Documentation</a> or the <a href="http://forum.mamp.info/" target="_blank">MAMP Forum</a>.
+          <li>You have questions about MAMP: Try the <a href="http://www.mamp.info/en/documentation/" target="_blank">MAMP Help &amp; Documentation</a>.
             <br />
             <br />
           </li>
 
-          <li>
-            <b>METHOD 2 (with XAMPP for Mac):</b>
-            <br />
-            <br />
-          </li>
-
-          <li>Step 1: Got to <a href="http://www.apachefriends.org/en/xampp-macosx.html" target="_blank">http://www.apachefriends.org/en/xampp-macosx.html</a>.
-          </li>
-
-          <li>Step 2: Download the Universal Binary DMG Image (currently XAMPP Mac OS X 1.7.3 Universal Binary 86 MB).
-          </li>
-
-          <li>Step 3: Open the DMG Image and drag &amp; drop the XAMPP folder into your Applications folder: about 12000 objects will be copied.
-          </li>
-
-          <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
-          </li>
-
-          <li>Step 5: Open a terminal window <i>Terminal.app</i> in <i>/Applications/Utilities</i>, and execute the following command:
-            <ul>
-              <li>whoami
-              </li>
-            </ul>
-          Your username is being displayed. Important: Please use this name in the following instructions replacing the placeholder <i>[username]</i>!
-          </li>
-
-          <li>Step 6: Copy the downloaded zip archive <i>lwt_v_x_y.zip</i> into the directory <i>Sites</i> below your home directory, i.e. to <i>/Users/[username]/Sites</i>. This directory name <i>Sites</i> is sometimes renamed (localized) in the Finder to the current language you are using, e.g. in German it's called <i>Websites</i> (but only in the Finder!). Example: If your username is "john", then copy the downloaded zip archive <i>lwt_v_x_y.zip</i> into the directory <i>/Users/john/Sites</i>.
-          </li>
-
-          <li>Step 7: Doubleclick on the zip archive to unzip; a new folder <i>lwt_v_x_y</i> will be created in <i>/Users/[username]/Sites</i>.
-          </li>
-
-          <li>Step 8: Rename the new folder <i>lwt_v_x_y</i> to <i>lwt</i>. The zip archive <i>lwt_v_x_y.zip</i> may be deleted.
-          </li>
-
-          <li>Step 9: Go to <i>/Users/[username]/Sites/lwt</i>. Rename the file <i>connect_xampp.inc.php</i> to <i>connect.inc.php</i>.
-          </li>
-
-          <li>Step 10: Important step! Open a terminal window <i>Terminal.app</i> in <i>/Applications/Utilities</i>, and execute the following commands (do not change "Sites" here):
-            <ul>
-              <li>cd /Users/[username]/Sites
-              </li>
-
-              <li>chmod -R a+rx lwt
-              </li>
-            </ul>
-          </li>
-
-          <li>Step 11: Please ensure that "Web Sharing" is switched off - see "System Preferences" - "Sharing" - "Web Sharing". Open <i>XAMPP Control.app</i> in <i>/Applications/XAMPP</i>. Accept the warning. Click on Apache "Start" and MySQL "Start" (your password must be entered).
-          </li>
-
-          <li>Step 12: LWT can now be started: http://localhome/~[username]/lwt. If your username is "john", then the Uniform Resource Identifier (URI) is http://localhost/~john/lwt/. (If you don't know how to enter ~, just copy it from here and paste it.)
-            <br />
-            <br />
-          </li>
-
-          <li>If you want to use LWT again, just do step 11 and 12.
-          </li>
-          <li>The local webserver will be stopped by clicking on "Stop" in <i>XAMPP Control.app</i> (still running, look into your dock). You can now quit the program.
-            <br />
-            <br />
-          </li>
-
-
-          <li>Uninstall: Just delete the folders <i>/Applications/XAMPP</i> and <i>/Users/[username]/Sites/lwt</i>.
-          </li>
-
-          <li>You have questions about XAMPP for Mac OS X: Try the <a href="http://www.apachefriends.org/f/" target="_blank">»Apache Friends Support Forum«</a>.
-          </li>
         </ul>
       </dd>
 
@@ -1010,12 +836,6 @@ $(document).ready( function() {
 
       <dd>
         <ul>
-
-          <li>
-            <b>UPGRADE METHOD 1 (if you are using LWT via MAMP):</b>
-            <br />
-            <br />
-          </li>
 
           <li>Step 1: Backup (Copy or ZIP) the directory <i>/Applications/MAMP/htdocs/lwt</i>. Backup your database (within LWT).
           </li>
@@ -1037,39 +857,6 @@ $(document).ready( function() {
             <br />
           </li>
 
-          <li>
-            <b>UPGRADE METHOD 2 (if you are using LWT via XAMPP for Mac):</b>
-            <br />
-            <br />
-          </li>
-
-          <li>Step 1: Backup (Copy or ZIP) the directory <i>/Users/[username]/Sites/lwt</i>. Backup your database (within LWT).
-          </li>
-
-          <li>Step 2: Unpack the downloaded ZIP archive <i>lwt_v_x_y.zip</i> in a directory of your choice.
-          </li>
-
-          <li>Step 3: Copy everything (incl. sub-directories) you unpacked to <i>/Users/[username]/Sites/lwt</i>.
-            <br />
-            You must keep (those are <b>not</b> included in the distributed package):
-            <ul>
-							<li>the database connection parameters <i>/Users/[username]/Sites/lwt/connect.inc.php</i> (you created this by renaming, see installation) and</li>
-							<li>the whole media sub-directory <i>/Users/[username]/Sites/lwt/media</i> (contains your MP3 audio files).</li>
-            </ul>
-          </li>
-
-          <li>Step 4: Important step! Open a terminal window <i>Terminal.app</i> in <i>/Applications/Utilities</i>, and execute the following commands:
-            <ul>
-              <li>cd /Users/[username]/Sites
-              </li>
-
-              <li>chmod -R a+rx lwt
-              </li>
-            </ul>
-          </li>
-
-          <li>Step 5: Clear the web browser cache and start XAMPP and LWT as usual.
-          </li>
         </ul>
       </dd>
 
@@ -1720,7 +1507,7 @@ $(document).ready( function() {
             <img class="grayborder" src="img/prob1.png" alt="Image" />
             <br />
             <br />
-            Answer: Your local webserver (Apache) is not running. Please start it via XAMPP Control / MAMP.app.
+            Answer: Your local webserver (Apache) is not running. Please start it via EasyPHP or MAMP control program/panel.
             <br />
             <br />
           </li>
@@ -1742,7 +1529,7 @@ $(document).ready( function() {
             <img class="grayborder" src="img/prob3.png" alt="Image" />
             <br />
             <br />
-            Answer: Either the database (MySQL) is not running, or the database connection parameters in <i>../htdocs/lwt/connect.inc.php</i> are wrong. Please check/correct the database connection parameters and/or start MySQL via the XAMPP, MAMP or EasyPHP control program/panel.
+            Answer: Either the database (MySQL) is not running, or the database connection parameters in <i>../htdocs/lwt/connect.inc.php</i> are wrong. Please check/correct the database connection parameters and/or start MySQL via the MAMP or EasyPHP control program/panel.
             <br />
             <br />
           </li>
@@ -2462,9 +2249,16 @@ $(document).ready( function() {
 
       <dd>
         <ul>
+        	<li>1.5.17 (August ?? 2014):</br />
+        	Minor bug in Utilities fixed.<br />
+        	Documentation updated. Broken links corrected or deleted. From now on, only the installation via EasyPHP (Windows) and MAMP (OS X) will be explained in detail and are recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).<br />
+        	</br />
+        	</li>
+        
         	<li>1.5.16 (February 19 2014):</br />
         	Paging (via page select, and only at the bottom of a page) did not work correctly in all cases, has been corrected.<br />
         	Documentation updated.<br />
+        	Documentation (installation sections) updated on August 14 2014. From now on, only the installation via EasyPHP (Windows) and MAMP (OS X) will be explained in detail and are recommended. Other local web server packages like XAMPP, etc. are still possible, but it's beyond the scope of this document to explain all the details for every package. It will also confuse not so experienced LWT users.<br />
         	</br />
         	</li>
         
