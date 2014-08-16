@@ -3450,8 +3450,9 @@ function create_ann($textid) {
 }
 
 // -------------------------------------------------------------
-
 function str_replace_first ($needle, $replace, $haystack) {
+	if ($needle === '')
+		return $haystack;
 	$pos = strpos($haystack,$needle);
 	if ($pos !== false) {
     return substr_replace($haystack,$replace,$pos,strlen($needle));

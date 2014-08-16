@@ -213,6 +213,8 @@ elseif (isset($_REQUEST['op'])) {
 			runsql('delete from ' . $tbpref . 'textitems2 where Ti2LgID = ' . $id, 
 				"Text items deleted");
 			adjust_autoincr('sentences','SeID');
+			runsql("UPDATE  " . $tbpref . "words SET WoWordCount  = 0 where WoLgID = " . $id,'');
+			set_word_count ();
 			$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
 			$res = do_mysql_query($sql);
 			$cntrp = 0;
@@ -402,7 +404,7 @@ else {
 	
 	$current = (int) getSetting('currentlanguage');
 	
-	$recno = get_first_value('select count(*) as value from ' . $tbpref . 'languages'); 
+	$recno = get_first_value('select count(*) as value from ' . $tbpref . 'languages where LgName<>""'); 
 	
 ?>
 
