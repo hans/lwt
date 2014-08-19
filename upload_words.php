@@ -155,15 +155,17 @@ if (isset($_REQUEST['op'])) {
 			}
 			else{
 				runsql('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2','');
+				runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL)','');
+				runsql('INSERT IGNORE INTO ' . $tbpref . 'numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')','');
 				$sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = LOWER(WoText), WoTaglist = REPLACE(@taglist," ",",")';
 				runsql($sql ,'');
 				$sql=($overwrite)?'REPLACE ':('INSERT IGNORE ');
 				$sql.= ' INTO ' . $tbpref . 'words (WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoStatusChanged, WoLgID, WoWordCount,' .  make_score_random_insert_update('iv')  .') ';
 $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termchar . ']+$\' THEN 1 ELSE 0 END as WordCount, ' . make_score_random_insert_update('id') . ' from (select WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, ' . $status . ' as WoStatus, NOW() as WoStatusChanged from ' . $tbpref . 'tempwords) as tw';
 				runsql($sql ,'');
-				runsql('insert ignore into ' . $tbpref . 'tags (TgText) select name from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', numbers.n), \',\', -1) name FROM numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=numbers.n-1 ORDER BY WoTextLC, n) A','');
-				runsql('INSERT IGNORE INTO ' . $tbpref . 'wordtags select WoID,TgID from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', numbers.n), \',\', -1) name FROM numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=numbers.n-1 ORDER BY WoTextLC, n) A,' . $tbpref . 'tags,' . $tbpref . 'words where name=TgText and A.WoTextLC=' . $tbpref . 'words.WoTextLC and WoLgID=' . $lang,'');
-
+				runsql('insert ignore into ' . $tbpref . 'tags (TgText) select name from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', ' . $tbpref . 'numbers.n), \',\', -1) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY WoTextLC, n) A','');
+				runsql('INSERT IGNORE INTO ' . $tbpref . 'wordtags select WoID,TgID from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', ' . $tbpref . 'numbers.n), \',\', -1) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY WoTextLC, n) A,' . $tbpref . 'tags,' . $tbpref . 'words where name=TgText and A.WoTextLC=' . $tbpref . 'words.WoTextLC and WoLgID=' . $lang,'');
+				runsql('DROP TABLE ' . $tbpref . 'numbers','');
 				runsql("truncate " . $tbpref . "tempwords" ,'');
 				get_tags(1);
 			}

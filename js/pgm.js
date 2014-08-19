@@ -454,22 +454,24 @@ function make_tooltip(word,trans,roman,status) {
 
 function escape_html_chars_2 (title, lg, ann) {
 	if (lg != '' ) {
-		if (ann != '' ) {
-			return escape_html_chars_with_tts(title,lg).replace('id="textToSpeak" style="cursor:pointer"',
-				'id="textToSpeak" style="cursor:pointer;color:red"');
-		}
-		else
-			return escape_html_chars_with_tts(title,lg);
+		title=escape_html_chars_with_tts(title,lg);
 	}
-	else {
-		if (ann != '' ) {
-			var ann2 = escape_html_chars(ann);
-			return escape_html_chars(title).replace(ann2,
-				'<span style="color:red">' + ann2 + '</span>');
-		}
-		else
-			return escape_html_chars(title);
+	else{
+		title=escape_html_chars(title);
 	}
+	if (ann != '' && ann != '*') {
+		var ann2 = escape_html_chars(ann);
+		var re = new RegExp("(<br />▶[^<]*/|<br />▶)( " + ann2.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")(<| /| \\[)([^<]*[<]*br />▶ [^<]*)$","");
+		if(!re.test(title)){
+			var re = new RegExp("(<br />▶)([^▶]*<br />▶ [^<]*)$","");
+			ann2 = '<span style="color:limegreen">' + ann2 + '</span>';
+			return title.replace(re,' $1 ' + ann2 + ' / $2')
+			.replace(ann2 + ' / *', ann2);
+		}
+		return title.replace(re,'$1<span style="color:red">$2</span>$3$4');
+	}
+	else
+		return title;
 }
 
 function owin(url) {
