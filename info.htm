@@ -58,7 +58,8 @@ LWT Information / Help
 		<script type="text/javascript" src="js/floating.js"></script>
  <script type="text/javascript">
 $.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/styles.css' }, success:function (data) {$('style').text( "@import url(" + data + ");" );
-}}); 
+}});
+if(!$.trim($('style').text().length)){$('style').text('@import url(css/styles.css);');}
 </script>
     <title>
       Learning with Texts :: Help/Information
@@ -116,6 +117,7 @@ $(document).ready( function() {
 <script type="text/javascript">
 $.ajax({type: 'POST',url:'ajax_get_theme.php', data: { file:'img/lwt_icon_big.png' }, success:function (data) {
 $('.lwtlogoright').attr( "src", data );}});
+if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/lwt_icon_big.png' );}
 </script>
 
     <p class="inline">
@@ -748,11 +750,18 @@ $('.lwtlogoright').attr( "src", data );}});
             <br />
           </li>
 
+         <li>Watch the video: <a href="http://www.youtube.com/watch?v=9RveJXGPSJU" target="_blank"> Installation of "Learning With Texts" on MS Windows</a>
+            <br />
+            <iframe width="640" height="360" src="http://www.youtube.com/embed/9RveJXGPSJU" frameborder="0" allowfullscreen></iframe>
+            <br /><br />
+          </li>
+
           <li>Uninstall: Just run the EasyPHP Uninstaller, afterwards delete the EasyPHP directory below <i>C:\Program Files (x86)</i>.
           </li>
 
           <li>You have questions about EasyPHP: Try the <a href="http://www.easyphp.org/introduction.php" target="_blank">»EasyPHP Introduction«</a>, or the <a href="http://www.easyphp.org/faq.php" target="_blank">»EasyPHP FAQ«</a>, or the <a href="http://www.easyphp.org/forums/" target="_blank">»EasyPHP Forum«</a>.
           </li>
+
         </ul>
       </dd>
 
@@ -837,6 +846,11 @@ $('.lwtlogoright').attr( "src", data );}});
            <br />
           </li>
 
+          <li>Watch the video: <a href="http://www.youtube.com/watch?v=uIwCEAQWyVY" target="_blank"> Installation of "Learning With Texts" on Mac OS X</a>
+            <br />
+            <iframe width="640" height="360" src="http://www.youtube.com/embed/uIwCEAQWyVY" frameborder="0" allowfullscreen></iframe>
+            <br /><br />
+          </li>
 
           <li>Uninstall: Just delete the folder <i>/Applications/MAMP</i>.
           </li>

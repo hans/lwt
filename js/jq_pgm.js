@@ -285,24 +285,27 @@ function keydown_event_do_test_test(e) {
 }
 
 function word_each_do_text_text(i) {
-	this.title = make_tooltip($(this).text(), $(this).attr('data_trans'), 
-		$(this).attr('data_rom'), $(this).attr('data_status'));
 	var wid = $(this).attr('data_wid');
 	if (wid != '') {
 		var order = $(this).attr('data_order');
 		if (order in ANN_ARRAY) {
 			if (wid == ANN_ARRAY[order][1]) {
-				$(this).attr('data_ann',ANN_ARRAY[order][2]);
+				var ann = ANN_ARRAY[order][2];
+				var re = new RegExp("([/,;|][ ]{0,1}|^)(" + ann.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")($|[ ]{0,1}[/,;|])","");
+				if(!re.test($(this).attr('data_trans').replace( / \[.*$/, ''))){
+					var trans = ann + ' / ' + $(this).attr('data_trans');
+					$(this).attr('data_trans', trans.replace( ' / *', ''));
+				}
+				$(this).attr('data_ann',ann);
 			}
 		}
 	}
+	this.title = make_tooltip($(this).text(), $(this).attr('data_trans'), 
+		$(this).attr('data_rom'), $(this).attr('data_status'));
 }
 
 function mword_each_do_text_text(i) {
 	if ($(this).attr('data_status') != '') {
-		this.title = make_tooltip($(this).attr('data_text'), 
-		$(this).attr('data_trans'), $(this).attr('data_rom'), 
-		$(this).attr('data_status'));
 		var wid = $(this).attr('data_wid');
 		if (wid != '') {
 			var order = parseInt($(this).attr('data_order'));
@@ -310,12 +313,21 @@ function mword_each_do_text_text(i) {
 				var index = (order+j).toString();
 				if (index in ANN_ARRAY) {
 					if (wid == ANN_ARRAY[index][1]) {
-						$(this).attr('data_ann',ANN_ARRAY[index][2]);
+						var ann = ANN_ARRAY[index][2];
+						var re = new RegExp("([/,;|][ ]{0,1}|^)(" + ann.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")($|[ ]{0,1}[/,;|])","");
+						if(!re.test($(this).attr('data_trans').replace( / \[.*$/, ''))){
+							var trans = ann + ' / ' + $(this).attr('data_trans');
+							$(this).attr('data_trans', trans.replace( ' / *', ''));
+						}
+						$(this).attr('data_ann',ann);
 						break;
 					}
 				}
 			}
 		}
+		this.title = make_tooltip($(this).attr('data_text'), 
+		$(this).attr('data_trans'), $(this).attr('data_rom'), 
+		$(this).attr('data_status'));
 	}
 }
 

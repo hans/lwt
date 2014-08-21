@@ -26,7 +26,7 @@ $gglink = makeOpenDictStr(createTheDictLink('*http://translate.google.com/#' . $
 
 pagestart_nobody('');
 if (!isset($_GET['sent'])){
-echo '<h3>Google Translate:  &nbsp; <span class="red2" id="textToSpeak" style="cursor:pointer" title="Click on expression for pronounciation" onclick="var txt = $(\'#textToSpeak\').text();var audio = new Audio();audio.src =\'tts.php?tl=' . $_GET["sl"] . '&q=\' + txt;audio.play();">' . tohtml($_GET["text"]) . '</span></h3>';
+echo '<h3>Google Translate:  &nbsp; <span class="red2" id="textToSpeak" style="cursor:pointer" title="Click on expression for pronunciation" onclick="var txt = $(\'#textToSpeak\').text();var audio = new Audio();audio.src =\'tts.php?tl=' . $_GET["sl"] . '&q=\' + txt;audio.play();">' . tohtml($_GET["text"]) . '</span></h3>';
 echo '<p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy word(s) into above term)<br />&nbsp;</p>';
 ?>
 <script type="text/javascript">
