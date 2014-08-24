@@ -936,9 +936,9 @@ $(document).ready( function() {
            <br />
           </li>
 
-          <li>Watch the video: <a href="http://www.youtube.com/watch?v=uIwCEAQWyVY" target="_blank"> Installation of "Learning With Texts" on LinuxMint</a>
+          <li>Watch the video: <a href="http://www.youtube.com/watch?v=SiGXpWJ9dmY" target="_blank"> Installation of "Learning With Texts" on LinuxMint</a>
             <br />
-            <iframe width="640" height="360" src="http://www.youtube.com/embed/uIwCEAQWyVY" frameborder="0" allowfullscreen></iframe>
+            <iframe width="640" height="360" src="http://www.youtube.com/embed/SiGXpWJ9dmY" frameborder="0" allowfullscreen></iframe>
             <br /><br />
           </li>
 
@@ -965,10 +965,11 @@ $(document).ready( function() {
           	<ul>
           	<li>sudo cp -R /home/[your userid]/Downloads/lwt_v_x_y/* /var/www/html/lwt</li>
           	<li>sudo chmod -R 755 /var/www/html/lwt</li>
+          	<li>sudo /etc/init.d/apache2 restart</li>
           	</ul>
-            You will keep (as those are <b>not</b> included in the distributed package):
+            You will keep (those are <b>not</b> included in the distributed package):
             <ul>
-							<li>the database connection parameters <i>/var/www/html/lwt/connect.inc.php</i> (you created this by renaming, see installation) and</li>
+							<li>the database connection parameters <i>/var/www/html/lwt/connect.inc.php</i> (you created this by renaming <i>connect_xampp.inc.php</i>, see installation) and</li>
 							<li>the whole media sub-directory <i>/var/www/html/lwt/media</i> (contains your MP3 audio files).</li>
             </ul>
           </li>
