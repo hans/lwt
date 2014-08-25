@@ -45,7 +45,7 @@ LWT Information / Help
 		<meta name="keywords" content="Language Learning Texts LWT Software Freeware LingQ Alternative AJATT Khatzumoto MCD MCDs Massive Context Cloze Deletion Cards Tool Stephen Krashen Second Language Acquisition Steve Kaufmann" />
     <meta name="description" content="Learning with Texts (LWT) is a tool for Language Learning, inspired by Stephen Krashen's principles in Second Language Acquisition, Steve Kaufmann's LingQ System and ideas (e. g. Massive-Context Cloze Deletion Cards = MCDs) from Khatzumoto, published at AJATT - All Japanese All The Time. It is an Alternative to LingQ, 100 % free, Open Source, and in the Public Domain." />
     <meta name="revisit-after" content="2 days" />
-		<meta name="viewport" content="width=900" />
+		<meta name="viewport" content="width=1280, user-scalable=yes" />
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 		<link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png" />
 		<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
@@ -80,6 +80,8 @@ if(!$.trim($('style').text().length)){$('style').text('@import url(css/styles.cs
 		<a href="#upgradewin">Upgrade Win</a><br />
 		<a href="#installmac">Install. Mac</a><br />
 		<a href="#upgrademac">Upgrade Mac</a><br />
+		<a href="#installlnx">Install. Linux</a><br />
+		<a href="#upgradelnx">Upgrade Linux</a><br />
 		<a href="#installhoster">Webhoster</a><br /><br />
 		<a href="#learn">How to learn</a><br /><br />
 		<a href="#howto">How to use</a><br /><br />
@@ -161,6 +163,12 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
         </option>
         <option value="upgrademac">
           Upgrade Mac OS X
+        </option>
+        <option value="installlnx">
+          Installation Linux
+        </option>
+        <option value="upgradelnx">
+          Upgrade Linux
         </option>
         <option value="installhoster">
           Installation @ Webhoster
@@ -396,14 +404,6 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 									</li>
 								</ul>
 							</li>
-							<li>
-								Installing LWT on other operating systems 
-								<ul>
-									<li>
-										<a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">Installing Learning With Texts on <b>Ubuntu</b></a>
-									</li>
-								</ul>
-							</li>
 						</ul>
           </li>
         </ul>
@@ -443,10 +443,10 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
           </li>
 
           <li><b><u>MOST IMPORTANT:</u><br /><br /> To run LWT, you'll need: </b><br /><br />
-          <b>(1) A modern web browser.</b><ul><li>Windows: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a>. - MS Internet Explorer is not recommended.</li><li>OS X: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a> (Adobe Flash must be installed and enabled for MP3 playback in Firefox). - Safari does not display frame sets properly and is not recommended. </li><li>Linux: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a> (Adobe Flash must be installed and enabled for MP3 playback in Firefox). - Other browsers are not recommended.</li></ul><b>Remark:</b> Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/" target="_blank">HTML Ruby Add-On</a> to display ruby markup properly.<br /><br />
-          <b>(2) A local web server.</b><br />An easy way to install a local web server are preconfigured packages like<ul><li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Windows), or </li><li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac OS X), or</li><li><a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">tasksel</a> &amp; <a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">lamp-server</a> (Ubuntu, etc.).</li></ul><br />
-          <b>(3) The LWT Application.</b><br />The ZIP Archive can be downloaded <a href="http://sourceforge.net/projects/lwt/files/" target="_blank">here</a>.<br />The installation is explained<ul><li><a href="#installwin">here (Windows)</a>,</li><li><a href="#installmac">here (Mac OS X)</a> and</li><li><a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">here (Ubuntu, etc.)</a>.</li></ul>
-          <br />
+           <b>(1) A modern web browser.</b><ul><li>Windows: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a>. - MS Internet Explorer is not recommended.</li><li>Mac OS X: Use Safari, <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a> (Adobe Flash must be installed and enabled for MP3 playback in Firefox). </li><li>Linux: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a> (Adobe Flash must be installed and enabled for MP3 playback in Firefox). - Other browsers are not recommended.</li></ul><b>Remark:</b> Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/" target="_blank">HTML Ruby Add-On</a> to display ruby markup properly.<br /><br />
+           <b>(2) A local web server.</b><br />An easy way to install a local web server are preconfigured packages like<ul><li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Windows), or </li><li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac OS X), or</li><li>a <a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29" target="_blank">LAMP (Linux-Apache-MySQL-PHP) server</a> (Linux).</li></ul><br />
+           <b>(3) The LWT Application.</b><br />The ZIP Archive can be downloaded <a href="http://sourceforge.net/projects/lwt/files/" target="_blank">here</a>.<br />The installation is explained<ul><li><a href="#installwin">here (Windows)</a>,</li><li><a href="#installmac">here (Mac OS X)</a> and</li><li><a href="#installlnx">here (Ubuntu, LinuxMint, etc.)</a>.</li></ul>
+           <br />
           </li>
           
         </ul>
@@ -506,7 +506,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
           <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
           </li>
           
-          <li>Prerequisites: a local webserver (Apache, PHP, mySQL), e.g. EasyPHP (Windows) or MAMP (OS X).
+          <li>Prerequisites: a local webserver (Apache, PHP, mySQL), e.g. EasyPHP (Windows) or MAMP (OS X), or a LAMP server (Linux).
           </li>
           
           <li>Enjoy your language learning!
@@ -693,12 +693,12 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
       </dd>
 
       <dt>
-        ▶ <b><a name="installwin" id="installwin">Installation Windows</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="installwin" id="installwin">Installation on MS Windows</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
         <ul>
-          <li>Are you upgrading? See section <a href="#upgradewin">"Upgrade Windows"</a>!
+          <li>Are you upgrading? See section <a href="#upgradewin">"Upgrade on MS Windows"</a>!
             <br />
             <br />
           </li>
@@ -766,7 +766,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
       </dd>
 
       <dt>
-        ▶ <b><a name="upgradewin" id="upgradewin">Upgrade Windows</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="upgradewin" id="upgradewin">Upgrade on MS Windows</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
@@ -794,12 +794,12 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
       </dd>
 
       <dt>
-        ▶ <b><a name="installmac" id="installmac">Installation Mac OS X</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="installmac" id="installmac">Installation on Mac OS X</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
         <ul>
-          <li>Are you upgrading? See section <a href="#upgrademac">"Upgrade Mac OS X"</a>!
+          <li>Are you upgrading? See section <a href="#upgrademac">"Upgrade on Mac OS X"</a>!
             <br />
             <br />
           </li>
@@ -864,7 +864,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
       </dd>
 
       <dt>
-        ▶ <b><a name="upgrademac" id="upgrademac">Upgrade Mac OS X</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="upgrademac" id="upgrademac">Upgrade on Mac OS X</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
@@ -892,6 +892,114 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 
         </ul>
       </dd>
+
+      <dt>
+        ▶ <b><a name="installlnx" id="installlnx">Installation on Linux (Ubuntu, LinuxMint, etc.)</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>Are you upgrading? See section <a href="#upgradelnx">"Upgrade on Linux (Ubuntu, LinuxMint, etc.)"</a>!
+            <br />
+            <br />
+          </li>
+
+          <li><a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29" target="_blank"><img src="img/lamp.png" /></a></li>
+          <li>The following installation procedure of LAMP "Linux-Apache-MySQL-PHP" and LWT is for newer Ubuntu, LinuxMint, and similar Linux systems. </li>
+          <li><b>For other Linux systems, see the external links <a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29#External_links" target="_blank">here</a></b>.
+          	<br /><br />
+          </li>
+          
+          <li>Step 1: Open a Terminal and type and execute the following commands:
+          	<ul>
+          		<li>sudo apt-get update</li>
+          		<li>sudo apt-get install lamp-server^</li>
+          	</ul>
+          	After the first command you must enter your password.<br/>
+          	Mind the caret (^) at the end of the second command.<br/>
+          	During the second command you must confirm once with Y. You are also asked several times for a MySQL password for user "root". Just press [Return] in all these cases.
+          </li>
+
+          <li>Step 2: Open a browser and go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>. It will be normally placed in <i>/home/[your userid]/Downloads</i>.
+          </li>
+
+          <li>Step 3: Open a file explorer, go to <i>/home/[your userid]/Downloads</i> and extract the LWT zip archive. 
+          </li>
+
+          <li>Step 4: Rename the new directory <i>lwt_v_x_y</i> to <i>lwt</i>. The zip archive <i>lwt_v_x_y.zip</i> may be deleted.
+          </li>
+
+          <li>Step 5: Rename the file <i>connect_xampp.inc.php</i> in <i>/home/[your userid]/Downloads/lwt</i> to <i>connect.inc.php</i>.
+          </li>
+          
+          <li>Step 6: Open a Terminal window, type and execute the following commands:
+          	<ul>
+          		<li>sudo mv /home/[your userid]/Downloads/lwt /var/www/html</li>
+          		<li>sudo chmod -R 755 /var/www/html/lwt</li>
+          		<li>sudo rm /var/www/html/index.html</li>
+          		<li>sudo /etc/init.d/apache2 restart</li>
+          	</ul>
+          </li>
+
+          <li>Step 7: LWT can now be started in your web browser, go to: <a href="http://localhost/lwt" target="_blank">http://localhost/lwt</a>.
+          </li>
+
+          <li>Step 8: You may install the LWT demo database, or define the first language you want to learn. 
+            <br />
+            <br />
+          </li>
+
+          <li>If you want to use LWT again, just do step 7.
+           <br />
+           <br />
+          </li>
+
+          <li>Watch the video: <a href="http://www.youtube.com/watch?v=SiGXpWJ9dmY" target="_blank"> Installation of "Learning With Texts" on LinuxMint</a>
+            <br />
+            <iframe width="640" height="360" src="http://www.youtube.com/embed/SiGXpWJ9dmY" frameborder="0" allowfullscreen></iframe>
+            <br /><br />
+          </li>
+
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="upgradelnx" id="upgradelnx">Upgrade on Linux (Ubuntu, LinuxMint, etc.)</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+
+          <li>Step 1: Backup (Copy or ZIP) the directory <i>/var/www/html/lwt</i>. Backup your database (within LWT).
+          </li>
+
+          <li>Step 2: Open a browser and go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>. It will be normally placed in <i>/home/[your userid]/Downloads</i>.
+          </li>
+
+          <li>Step 3: Open a file explorer, go to <i>/home/[your userid]/Downloads</i> and extract the LWT zip archive into the new directory <i>lwt_v_x_y</i>. 
+          </li>
+
+          <li>Step 4: Open a Terminal window, type and execute the following commands::
+          	<ul>
+          	<li>sudo cp -R /home/[your userid]/Downloads/lwt_v_x_y/* /var/www/html/lwt</li>
+          	<li>sudo chmod -R 755 /var/www/html/lwt</li>
+          	<li>sudo /etc/init.d/apache2 restart</li>
+          	</ul>
+            You will keep (those are <b>not</b> included in the distributed package):
+            <ul>
+							<li>the database connection parameters <i>/var/www/html/lwt/connect.inc.php</i> (you created this by renaming <i>connect_xampp.inc.php</i>, see installation) and</li>
+							<li>the whole media sub-directory <i>/var/www/html/lwt/media</i> (contains your MP3 audio files).</li>
+            </ul>
+          </li>
+
+          <li>Step 5: Clear the web browser cache and open LWT as usual. 
+            <br />
+            <br />
+          </li>
+
+        </ul>
+      </dd>
+
 
       <dt>
         ▶ <b><a name="installhoster" id="installhoster">How to install LWT at a (free) Webhoster</a></b> - <a href="#">[↑]</a>
@@ -1718,10 +1826,10 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
             <br />
           </li>
 
-          <li>I have installed or updated LWT on Mac OS X or Linux/Unix, but the application does not run as expected:
+          <li>I have installed or updated LWT on OS X or Linux, but the application does not run as expected:
             <br />
             <br />
-            Answer: The Webserver does seem to have full access to all files (insufficient rights). Open a terminal window, go to the directory where the directory "lwt" has been created with all LWT files, e. g. <br /><b>cd /var/www/</b><br />Now execute:<br /><b>sudo chmod -R 775 lwt</b><br />and everything should now work as expected.
+            Answer: The Webserver does seem to have full access to all files (insufficient rights). Open a terminal window, go to the directory where the directory "lwt" has been created with all LWT files, e. g. <br /><b>cd /var/www/html</b><br />Now execute:<br /><b>sudo chmod -R 775 lwt</b><br />and everything should now work as expected.
             <br />
             <br />
           </li>
