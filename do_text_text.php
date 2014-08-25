@@ -69,6 +69,7 @@ $showAll = getSettingZeroOrOne('showallwords',1);
 <script type="text/javascript">
 //<![CDATA[
 ANN_ARRAY = <?php echo annotation_to_json($ann); ?>;
+DELIMITER = '<?php echo tohtml(str_replace (array('\\',']','-','^'),array('\\\\','\\]','\\-','\\^'),getSettingWithDefault('set-term-translation-delimiters'))); ?>';
 TEXTPOS = -1;
 OPENED = 0;
 WBLINK1 = '<?php echo $wb1; ?>';

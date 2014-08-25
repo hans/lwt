@@ -461,7 +461,7 @@ function escape_html_chars_2 (title, lg, ann) {
 	}
 	if (ann != '' && ann != '*') {
 		var ann2 = escape_html_chars(ann);
-		var re = new RegExp("(<br />▶[^<]*[/,;|][ ]{0,1}|<br />▶ )(" + ann2.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")(<|[ ]{0,1}[/,;|]| \\[)([^<]*[<]*br />▶ [^<]*)$","");
+		var re = new RegExp("(<br />▶[^<]*[" + DELIMITER + "][ ]{0,1}|<br />▶ )(" + ann2.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")(<|[ ]{0,1}[" + DELIMITER + "]| \\[)([^<]*[<]*br />▶ [^<]*)$","");
 		return title.replace(re,'$1<span style="color:red">$2</span>$3$4');
 	}
 	else

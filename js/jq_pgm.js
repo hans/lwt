@@ -43,6 +43,7 @@ var SOLUTION = '';
 var ADDFILTER = '';
 var RTL = 0;
 var ANN_ARRAY = {};
+var DELIMITER = '';
  
 /**************************************************************
 LWT jQuery functions
@@ -291,7 +292,7 @@ function word_each_do_text_text(i) {
 		if (order in ANN_ARRAY) {
 			if (wid == ANN_ARRAY[order][1]) {
 				var ann = ANN_ARRAY[order][2];
-				var re = new RegExp("([/,;|][ ]{0,1}|^)(" + ann.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")($|[ ]{0,1}[/,;|])","");
+				var re = new RegExp("([" + DELIMITER + "][ ]{0,1}|^)(" + ann.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")($|[ ]{0,1}[" + DELIMITER + "])","");
 				if(!re.test($(this).attr('data_trans').replace( / \[.*$/, ''))){
 					var trans = ann + ' / ' + $(this).attr('data_trans');
 					$(this).attr('data_trans', trans.replace( ' / *', ''));
@@ -314,7 +315,7 @@ function mword_each_do_text_text(i) {
 				if (index in ANN_ARRAY) {
 					if (wid == ANN_ARRAY[index][1]) {
 						var ann = ANN_ARRAY[index][2];
-						var re = new RegExp("([/,;|][ ]{0,1}|^)(" + ann.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")($|[ ]{0,1}[/,;|])","");
+						var re = new RegExp("([" + DELIMITER + "][ ]{0,1}|^)(" + ann.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")($|[ ]{0,1}[" + DELIMITER + "])","");
 						if(!re.test($(this).attr('data_trans').replace( / \[.*$/, ''))){
 							var trans = ann + ' / ' + $(this).attr('data_trans');
 							$(this).attr('data_trans', trans.replace( ' / *', ''));
