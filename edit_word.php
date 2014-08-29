@@ -44,6 +44,7 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'simterms.inc.php' );
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));
 if ( $translation_raw == '' ) $translation = '*';
@@ -235,8 +236,10 @@ else {  // if (! isset($_REQUEST['op']))
 		<table class="tab2" cellspacing="0" cellpadding="5">
 		<tr title="Only change uppercase/lowercase!">
 		<td class="td1 right"><b>New Term:</b></td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-		</tr>
+		<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<br />
+		<?php echo print_similar_terms(get_similar_terms($lang, $term, 5, .4)); ?>
+		</td></tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
 		<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea></td>
@@ -306,8 +309,10 @@ else {  // if (! isset($_REQUEST['op']))
 			<table class="tab2" cellspacing="0" cellpadding="5">
 			<tr title="Only change uppercase/lowercase!">
 			<td class="td1 right"><b>Edit Term:</b></td>
-			<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-			</tr>
+			<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+			<br />
+			<?php echo print_similar_terms(get_similar_terms($lang, $term, 5, .4)); ?>
+			</td></tr>
 			<tr>
 			<td class="td1 right">Translation:</td>
 			<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>

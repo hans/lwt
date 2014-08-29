@@ -55,6 +55,7 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'simterms.inc.php' );
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentwordsort','1',1);
@@ -451,7 +452,10 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr title="Normally only change uppercase/lowercase here!">
 		<td class="td1 right">Term:</td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<br />
+		<?php echo print_similar_terms(get_similar_terms($record['WoLgID'], $wordlc, 5, .4)); ?>
+		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
