@@ -453,10 +453,8 @@ elseif (isset($_REQUEST['chg'])) {
 		<tr title="Normally only change uppercase/lowercase here!">
 		<td class="td1 right">Term:</td>
 		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-		<br />
+		</td></tr>
 		<?php echo print_similar_terms(get_similar_terms($record['WoLgID'], $wordlc, 5, .4)); ?>
-		</td>
-		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
 		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>

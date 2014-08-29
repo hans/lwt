@@ -105,15 +105,18 @@ function print_similar_terms($termarr) {
 	global $tbpref;
 	$rarr = array();
 	foreach ($termarr as $termid) {
-		$sql = "select WoText, WoTranslation from " . $tbpref . "words where WoID = " . $termid;
+		$sql = "select WoText, WoTranslation, WoRomanization from " . $tbpref . "words where WoID = " . $termid;
 		$res = do_mysql_query($sql);
 		if ($record = mysql_fetch_assoc($res)) {
-    	$rarr[] = tohtml($record["WoText"] . " = " . $record["WoTranslation"]) . "<br />";
+			if (trim($record["WoRomanization"]) !== '')
+				$rarr[] = tohtml($record["WoText"] . " [" . $record["WoRomanization"] . "] / " . $record["WoTranslation"]) . "<br />";
+			else
+    		$rarr[] = tohtml($record["WoText"] . " / " . $record["WoTranslation"]) . "<br />";
 		}
 		mysql_free_result($res);
 	}
 	//sort($rarr);
-	return '<span class="smaller">' . implode($rarr) . "</span>";
+	return '<tr><td class="td1 right">Similar:</td><td class="td1 smaller">' . implode($rarr) . "</span></td></tr>";
 }
 
 // -------------------------------------------------------------
