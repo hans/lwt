@@ -377,7 +377,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<h4>New Term</h4>
 	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<input type="hidden" name="WoLgID" value="<?php echo $_REQUEST['lang']; ?>" />
+	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $_REQUEST['lang']; ?>" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
@@ -385,8 +385,12 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Term:</td>
-	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus refreshsimwords" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
+  <tr>
+  <td class="td1 right">Similar<br />Terms:</td>
+  <td class="td1"><span id="simwords" class="smaller">&nbsp;</span></td>
+  </tr>
 	<tr>
 	<td class="td1 right">Translation:</td>
 	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
@@ -454,7 +458,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1 right">Term:</td>
 		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td></tr>
-		<?php echo print_similar_terms(get_similar_terms($record['WoLgID'], $wordlc, 5, .4)); ?>
+		<?php echo print_similar_terms(get_similar_terms($record['WoLgID'], $wordlc, 5, .4), false); ?>
 		<tr>
 		<td class="td1 right">Translation:</td>
 		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>

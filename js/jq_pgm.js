@@ -516,6 +516,13 @@ function do_ajax_show_sentences(lang,word,ctl) {
 	);
 }
 
+function do_ajax_show_similar_terms() {
+	$('#simwords').html('<img src="icn/waiting2.gif" />');
+	$.post('ajax_show_similar_terms.php', { lang: $('#langfield').val(), word: $('#wordfield').val() }, 
+		function(data) { $('#simwords').html(data); } 
+	);
+}
+
 function do_ajax_word_counts() {
 	$("span[id^='saved-']").each(
 		function(i) {
@@ -583,6 +590,7 @@ $(document).ready( function() {
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
+	$('input.refreshsimwords').focusout(do_ajax_show_similar_terms);
 	$('#termtags').tagit(
 		{ 
 			availableTags : TAGS, 

@@ -99,7 +99,7 @@ function get_similar_terms($lang_id, $compared_term, $max_count,
 
 // -------------------------------------------------------------
 
-function print_similar_terms($termarr) {
+function print_similar_terms($termarr, $onlyspan) {
 	// Get Term and translation of terms in termid array (calculated 
 	// in function get_similar_terms(...)) as string for echo
 	global $tbpref;
@@ -108,15 +108,23 @@ function print_similar_terms($termarr) {
 		$sql = "select WoText, WoTranslation, WoRomanization from " . $tbpref . "words where WoID = " . $termid;
 		$res = do_mysql_query($sql);
 		if ($record = mysql_fetch_assoc($res)) {
+			$tra = $record["WoTranslation"];
+			if ($tra == "*") $tra = "???";
 			if (trim($record["WoRomanization"]) !== '')
-				$rarr[] = tohtml($record["WoText"] . " [" . $record["WoRomanization"] . "] / " . $record["WoTranslation"]) . "<br />";
+				$rarr[] = tohtml($record["WoText"] . " [" . $record["WoRomanization"] . "] — " . $tra) . "<br />";
 			else
-    		$rarr[] = tohtml($record["WoText"] . " / " . $record["WoTranslation"]) . "<br />";
+    		$rarr[] = tohtml($record["WoText"] . " — " . $tra) . "<br />";
 		}
 		mysql_free_result($res);
 	}
-	//sort($rarr);
-	return '<tr><td class="td1 right">Similar:</td><td class="td1 smaller">' . implode($rarr) . "</span></td></tr>";
+	if(count($rarr) == 0)
+		$r = "—";
+	else
+		$r = implode($rarr);
+	if ($onlyspan)
+		return $r;
+	else
+		return '<tr><td class="td1 right">Similar<br />Terms:</td><td class="td1"><span class="smaller">' . $r . "</span></td></tr>";
 }
 
 // -------------------------------------------------------------
