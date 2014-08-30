@@ -124,7 +124,7 @@ function print_similar_terms($termarr, $onlyspan) {
 	if ($onlyspan)
 		return $r;
 	else
-		return '<tr><td class="td1 right">Similar<br />Terms:</td><td class="td1"><span class="smaller">' . $r . "</span></td></tr>";
+		return '<tr><td class="td1 right">Similar<br />Terms:</td><td class="td1"><span id="simwords" class="smaller">' . $r . "</span></td></tr>";
 }
 
 // -------------------------------------------------------------

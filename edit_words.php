@@ -448,6 +448,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 		<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="WoID" value="<?php echo $record['WoID']; ?>" />
+		<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $record['WoLgID']; ?>" />
 		<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
@@ -456,7 +457,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr title="Normally only change uppercase/lowercase here!">
 		<td class="td1 right">Term:</td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td></tr>
 		<?php echo print_similar_terms(get_similar_terms($record['WoLgID'], $wordlc, 5, .4), false); ?>
 		<tr>
