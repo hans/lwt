@@ -146,6 +146,14 @@ function check() {
 			}
 		}
 	} );
+	$('input.checkdicturl').each( function(n) {
+		if($(this).val().trim().length > 0) {
+			if(($(this).val().trim().indexOf('http://') != 0) &&   ($(this).val().trim().indexOf('https://') != 0) &&   ($(this).val().trim().indexOf('*http://') != 0) &&   ($(this).val().trim().indexOf('*https://') != 0) &&   ($(this).val().trim().indexOf('glosbe_api.php') != 0)) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must start with "http://" or "https://" or "*http://" or "*https://" or "glosbe_api.php" if not empty.');
+				count++;
+			}
+		}
+	} );
 	$('input.posintnumber').each( function(n) {
 		if ($(this).val().trim().length > 0) {
 			if (! (isInt($(this).val().trim()) && (($(this).val().trim()+0) != 0))) {

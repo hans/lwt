@@ -137,7 +137,7 @@ if ( $ok ) {
 		
 	} else {
 		
-		echo '<p>No translations found (' . tohtml($from) . '-' . tohtml($dest) . ').<br />&nbsp;</p>';
+		echo '<p>No translations found (' . tohtml($from) . '-' . tohtml($dest) . ').</p>';
 		
 		if ($dest != "en" && $from != "en") {
 		
@@ -205,6 +205,13 @@ if ( $ok ) {
 	echo '<p>Retrieval error (' . tohtml($from) . '-' . tohtml($dest) . '). Possible reason: There is a limit of Glosbe API calls that may be done from one IP address in a fixed period of time, to prevent from abuse.</p>';
 
 }
+
+echo '&nbsp;<hr />&nbsp;<form action="glosbe_api.php" method="get">Unhappy?<br/>Change term: 
+<input type="text" name="phrase" maxlength="250" size="15" value="' . tohtml($phrase) . '">
+<input type="hidden" name="from" value="' . tohtml($from) . '">
+<input type="hidden" name="dest" value="' . tohtml($dest) . '">
+<input type="submit" value="Translate via Glosbe">
+</form>';
 
 pageend();
 

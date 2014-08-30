@@ -451,10 +451,10 @@ function createSentLookupLink(torder,txid,url,txt) {
 	var txt = txt.trim();
 	var r = '';
 	if (url != '' && txt != '') {
-		if(url.substr(0,8) == '*http://') {
-			r = 	' <span class=\x22click\x22 onclick=\x22owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');\x22>' + txt + '</span> ';
+		if((url.substr(0,8) == '*http://') || (url.substr(0,9) == '*https://')) {
+			r = ' <span class=\x22click\x22 onclick=\x22owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');\x22>' + txt + '</span> ';
 		} 
-		else if (url.substr(0,7) == 'http://') {
+		else if ((url.substr(0,7) == 'http://') || (url.substr(0,8) == 'https://')) {
 			r = ' <a href=\x22trans.php?x=1&i=' + torder + '&t=' + txid + '\x22 target=\x22ru\x22>' + txt + '</a> ';
 		} 
 	}
