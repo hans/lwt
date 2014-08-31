@@ -53,6 +53,7 @@ function setTransRoman(tra, rom) {
 		$('textarea[name="WoTranslation"]').val(tra);
 	if($('input[name="WoRomanization"]').length == 1)
 		$('input[name="WoRomanization"]').val(rom);
+	makeDirty();
 }
 
 function getUTF8Length(string) {
