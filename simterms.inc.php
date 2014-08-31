@@ -114,10 +114,15 @@ function print_similar_terms($lang_id, $compared_term, $onlyspan) {
 		if ($record = mysql_fetch_assoc($res)) {
 			$tra = $record["WoTranslation"];
 			if ($tra == "*") $tra = "???";
-			if (trim($record["WoRomanization"]) !== '')
-				$rarr[] = tohtml($record["WoText"] . " [" . $record["WoRomanization"] . "] — " . $tra) . "<br />";
-			else
-    		$rarr[] = tohtml($record["WoText"] . " — " . $tra) . "<br />";
+			if (trim($record["WoRomanization"]) !== '') {
+				$term = $record["WoText"] . " [" . $record["WoRomanization"] . "]";
+				$rom = $record["WoRomanization"];
+			}
+			else {
+    		$term = $record["WoText"];
+    		$rom = "";
+    	}
+    	$rarr[] = '<img class="clickedit" src="icn/tick-button-small.png" title="Copy → Translation &amp; Romanization Field(s)" onclick="setTransRoman(' . prepare_textdata_js($tra) . ',' . prepare_textdata_js($rom) . ');" /> ' . tohtml($term) . ' — ' . tohtml($tra) . '<br />';
 		}
 		mysql_free_result($res);
 	}

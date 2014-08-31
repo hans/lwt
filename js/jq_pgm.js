@@ -48,6 +48,13 @@ var ANN_ARRAY = {};
 LWT jQuery functions
 ***************************************************************/
 
+function setTransRoman(tra, rom) {
+	if($('textarea[name="WoTranslation"]').length == 1)
+		$('textarea[name="WoTranslation"]').val(tra);
+	if($('input[name="WoRomanization"]').length == 1)
+		$('input[name="WoRomanization"]').val(rom);
+}
+
 function getUTF8Length(string) {
 	var utf8length = 0;
 	for (var n = 0; n < string.length; n++) {
