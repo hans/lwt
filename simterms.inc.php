@@ -64,6 +64,7 @@ function getSimilarityRanking($str1, $str2) {
 	$pairs1 = wordLetterPairs($str1);
 	$pairs2 = wordLetterPairs($str2);
 	$union = count($pairs1) + count($pairs2);
+	if ($union == 0) return 0;
 	$intersection = count(array_intersect($pairs1, $pairs2));
 	return (2.0 * $intersection) / $union;
 }
@@ -99,10 +100,13 @@ function get_similar_terms($lang_id, $compared_term, $max_count,
 
 // -------------------------------------------------------------
 
-function print_similar_terms($termarr, $onlyspan) {
+function print_similar_terms($lang_id, $compared_term, $onlyspan) {
 	// Get Term and translation of terms in termid array (calculated 
 	// in function get_similar_terms(...)) as string for echo
 	global $tbpref;
+	$max_count = (int)getSettingWithDefault("set-similar-terms-count");
+	if ($max_count <= 0) return '';
+	$termarr = get_similar_terms($lang_id, $compared_term, $max_count, 0.33);
 	$rarr = array();
 	foreach ($termarr as $termid) {
 		$sql = "select WoText, WoTranslation, WoRomanization from " . $tbpref . "words where WoID = " . $termid;

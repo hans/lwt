@@ -136,15 +136,21 @@ else {  // if (! isset($_REQUEST['op']))
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right"><b>New Term:</b></td>
-	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus refreshsimwords" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus refreshsimwords" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
+<?php
+if ((int)getSettingWithDefault("set-similar-terms-count") > 0) {
+?>
   <tr>
   <td class="td1 right">Similar<br />Terms:</td>
   <td class="td1"><span id="simwords" class="smaller">&nbsp;</span></td>
   </tr>
+<?php 
+} 
+?>
   <tr>
 	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="35" rows="3"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Tags:</td>
@@ -154,11 +160,11 @@ else {  // if (! isset($_REQUEST['op']))
 	</tr>
 	<tr>
 	<td class="td1 right">Romaniz.:</td>
-	<td class="td1"><input type="text" name="WoRomanization" value="" maxlength="100" size="40" /></td>
+	<td class="td1"><input type="text" name="WoRomanization" value="" maxlength="100" size="35" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Sentence<br />Term in {...}:</td>
-	<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" cols="40" rows="3" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence"></textarea></td>
+	<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" cols="35" rows="3" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Status:</td>

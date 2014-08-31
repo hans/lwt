@@ -49,6 +49,6 @@ $term = stripTheSlashesIfNeeded($_POST['word']);
 if (trim($term) == '') 
 	echo '&nbsp;'; 
 else
-	echo print_similar_terms(get_similar_terms($lang, $term, 5, .4), true);
+	echo print_similar_terms($lang, $term, true);
 
 ?>
