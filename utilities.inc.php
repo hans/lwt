@@ -2353,7 +2353,9 @@ function get_setting_data() {
 		'set-term-translation-delimiters' => 
 		array("dft" => '/;|', "num" => 0),
 		'set-mobile-display-mode' => 
-		array("dft" => '0', "num" => 0)
+		array("dft" => '0', "num" => 0),
+		'set-similar-terms-count' => 
+		array("dft" => '0', "num" => 1, "min" => 0, "max" => 9)
 		);
 	}
 	return $setting_data;

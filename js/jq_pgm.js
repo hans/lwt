@@ -156,8 +156,16 @@ function check() {
 	} );
 	$('input.posintnumber').each( function(n) {
 		if ($(this).val().trim().length > 0) {
-			if (! (isInt($(this).val().trim()) && (($(this).val().trim()+0) != 0))) {
-				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" is not a positive integer number.');
+			if (! (isInt($(this).val().trim()) && (($(this).val().trim() + 0) > 0))) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number > 0.');
+				count++;
+			}
+		}
+	} );
+	$('input.zeroposintnumber').each( function(n) {
+		if ($(this).val().trim().length > 0) {
+			if (! (isInt($(this).val().trim()) && (($(this).val().trim() + 0) >= 0))) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number >= 0.');
 				count++;
 			}
 		}
@@ -598,7 +606,9 @@ $(document).ready( function() {
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
-	$('input.refreshsimwords').focusout(do_ajax_show_similar_terms);
+	if ($('#simwords').length > 0) {
+  	$('input.refreshsimwords').focusout(do_ajax_show_similar_terms);
+	}
 	$('#termtags').tagit(
 		{ 
 			availableTags : TAGS, 
