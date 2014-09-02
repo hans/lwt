@@ -387,16 +387,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<td class="td1 right">Term:</td>
 	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus refreshsimwords" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
-<?php 
-if ((int)getSettingWithDefault("set-similar-terms-count") > 0) {
-?>
-  <tr>
-  <td class="td1 right">Similar<br />Terms:</td>
-  <td class="td1"><span id="simwords" class="smaller">&nbsp;</span></td>
-  </tr>
-<?php 
-} 
-?>
+	<?php print_similar_terms_tabrow(); ?>	
 	<tr>
 	<td class="td1 right">Translation:</td>
 	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
@@ -465,7 +456,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<td class="td1 right">Term:</td>
 		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td></tr>
-		<?php echo print_similar_terms($record['WoLgID'], $wordlc, false); ?>
+		<?php print_similar_terms_tabrow(); ?>
 		<tr>
 		<td class="td1 right">Translation:</td>
 		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>

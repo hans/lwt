@@ -614,8 +614,9 @@ $(document).ready( function() {
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
-	if ($('#simwords').length > 0) {
+	if ($('#simwords').length == 1 && $('#langfield').length == 1 && $('#wordfield').length == 1) {
   	$('input.refreshsimwords').focusout(do_ajax_show_similar_terms);
+  	do_ajax_show_similar_terms();
 	}
 	$('#termtags').tagit(
 		{ 

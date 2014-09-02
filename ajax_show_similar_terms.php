@@ -34,7 +34,7 @@ For more information, please refer to [http://unlicense.org/].
 Call: ajax_show_similar_terms?...
       ... lang=[langid] ... language
       ... word=[word] ... word
-Show similar terms in new_word.php, edit_words.php
+Show similar terms
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -43,12 +43,6 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 require_once( 'simterms.inc.php' );
 
-$lang = $_POST['lang'] + 0;
-$term = stripTheSlashesIfNeeded($_POST['word']);
-
-if (trim($term) == '') 
-	echo '&nbsp;'; 
-else
-	echo print_similar_terms($lang, $term, true);
+echo print_similar_terms($_POST['lang'] + 0, stripTheSlashesIfNeeded($_POST['word']));
 
 ?>

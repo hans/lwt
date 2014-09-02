@@ -75,7 +75,7 @@ function get_similar_terms($lang_id, $compared_term, $max_count,
 	$min_ranking) {
 	// For a language $lang_id and a term $compared_term (UTF-8), 
 	// return an array with $max_count wordids with a similarity ranking 
-	// >= $min_ranking, sorted decending. 
+	// > $min_ranking, sorted decending. 
 	// If string is already in database, it will be excluded in results.
 	global $tbpref;
 	$compared_term_lc = mb_strtolower($compared_term, 'UTF-8');
@@ -100,12 +100,13 @@ function get_similar_terms($lang_id, $compared_term, $max_count,
 
 // -------------------------------------------------------------
 
-function print_similar_terms($lang_id, $compared_term, $onlyspan) {
+function print_similar_terms($lang_id, $compared_term) {
 	// Get Term and translation of terms in termid array (calculated 
 	// in function get_similar_terms(...)) as string for echo
 	global $tbpref;
 	$max_count = (int)getSettingWithDefault("set-similar-terms-count");
 	if ($max_count <= 0) return '';
+	if (trim($compared_term) == '') return '&nbsp;'; 
 	$termarr = get_similar_terms($lang_id, $compared_term, $max_count, 0.33);
 	$rarr = array();
 	foreach ($termarr as $termid) {
@@ -127,14 +128,17 @@ function print_similar_terms($lang_id, $compared_term, $onlyspan) {
 		mysql_free_result($res);
 	}
 	if(count($rarr) == 0)
-		$r = "—";
+		return "—";
 	else
-		$r = implode($rarr);
-	if ($onlyspan)
-		return $r;
-	else
-		return '<tr><td class="td1 right">Similar<br />Terms:</td><td class="td1"><span id="simwords" class="smaller">' . $r . "</span></td></tr>";
+		return implode($rarr);
 }
+
+// -------------------------------------------------------------
+
+function print_similar_terms_tabrow() {
+	if ((int)getSettingWithDefault("set-similar-terms-count") > 0) 
+		echo '<tr><td class="td1 right">Similar<br />Terms:</td><td class="td1"><span id="simwords" class="smaller">&nbsp;</span></td></tr>';
+} 
 
 // -------------------------------------------------------------
 
