@@ -541,6 +541,7 @@ function do_ajax_show_sentences(lang,word,ctl) {
 }
 
 function do_ajax_show_similar_terms() {
+	console.log('RUN do_ajax_show_similar_terms\n');
 	$('#simwords').html('<img src="icn/waiting2.gif" />');
 	$.post('ajax_show_similar_terms.php', { lang: $('#langfield').val(), word: $('#wordfield').val() }, 
 		function(data) { $('#simwords').html(data); } 
@@ -614,10 +615,6 @@ $(document).ready( function() {
 	$('input.markcheck').click(markClick);
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
-	if ($('#simwords').length == 1 && $('#langfield').length == 1 && $('#wordfield').length == 1) {
-  	$('input.refreshsimwords').focusout(do_ajax_show_similar_terms);
-  	do_ajax_show_similar_terms();
-	}
 	$('#termtags').tagit(
 		{ 
 			availableTags : TAGS, 
@@ -632,5 +629,10 @@ $(document).ready( function() {
 	); 
 	markClick();
 	setTheFocus();
+	if ($('#simwords').length > 0 && $('#langfield').length > 0 && $('#wordfield').length > 0) {
+		console.log('INIT do_ajax_show_similar_terms\n');
+  	$('#wordfield').blur(do_ajax_show_similar_terms);
+  	do_ajax_show_similar_terms();
+	}
 	window.setTimeout(noShowAfter3Secs,3000);
 } ); 

@@ -128,7 +128,7 @@ function print_similar_terms($lang_id, $compared_term) {
 		mysql_free_result($res);
 	}
 	if(count($rarr) == 0)
-		return "—";
+		return "(none)";
 	else
 		return implode($rarr);
 }
