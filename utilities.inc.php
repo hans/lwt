@@ -1032,12 +1032,12 @@ function getSettingWithDefault($key) {
 
 function get_audioplayer_selectoptions($v) {
 	if ( ! isset($v) ) $v = "jplayer.blue.monday.modified";
+	if ($v != "jplayer.blue.monday" ) 
+		$v = "jplayer.blue.monday.modified";
 	$r  = "<option value=\"jplayer.blue.monday.modified\"" . get_selected($v,"jplayer.blue.monday.modified");
 	$r .= ">Blue Monday Small</option>";
 	$r .= "<option value=\"jplayer.blue.monday\"" . get_selected($v,"jplayer.blue.monday");
 	$r .= ">Blue Monday</option>";
-	$r .= "<option value=\"jplayer-black-and-yellow\"" . get_selected($v,"jplayer-black-and-yellow");
-	$r .= ">Black &amp; Yellow</option>";
 	return $r;
 }
 
@@ -2892,6 +2892,8 @@ function trim_value(&$value)
 function makeAudioPlayer($audio) {
 	if ($audio != '') {
 		$playerskin = getSettingWithDefault('set-player-skin-name');
+		if ($playerskin != "jplayer.blue.monday" ) 
+			$playerskin = "jplayer.blue.monday.modified";
 		$repeatMode = getSettingZeroOrOne('currentplayerrepeatmode',0);
 ?>
 <link type="text/css" href="css/jplayer_skin/<?php echo $playerskin; ?>.css" rel="stylesheet" />
@@ -2906,44 +2908,28 @@ function makeAudioPlayer($audio) {
 <td class="bordermiddle">
 <div id="jquery_jplayer_1" class="jp-jplayer">
 </div>
-<div class="jp-audio-container">
-	<div class="jp-audio">
-		<div class="jp-type-single">
-			<div id="jp_interface_1" class="jp-interface">
-				<ul class="jp-controls">
-					<li><a href="#" class="jp-play" tabindex="1">play</a></li>
-					<li><a href="#" class="jp-pause" tabindex="1">pause</a></li>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
-					<li><a href="#" class="jp-stop" tabindex="1">stop</a></li>
-<?php } ?>
-					<li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
-					<li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
-				</ul>
-				<div class="jp-progress-container">
-					<div class="jp-progress">
-						<div class="jp-seek-bar">
-							<div class="jp-play-bar">
-							</div>
-						</div>
-					</div>
+<div id="jp_container_1" class="jp-audio">
+	<div class="jp-type-single">
+		<div class="jp-gui jp-interface">
+			<ul class="jp-controls">
+				<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+				<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+				<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+				<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+				<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+			</ul>
+			<div class="jp-progress">
+				<div class="jp-seek-bar">
+					<div class="jp-play-bar"></div>
 				</div>
-				<div class="jp-volume-bar-container">
-					<div class="jp-volume-bar">
-						<div class="jp-volume-bar-value">
-						</div>
-					</div>
-				</div>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
-				<div class="jp-current-time">
-				</div>
-				<div class="jp-duration">
-				</div>
-<?php } ?>
 			</div>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
-			<div id="jp_playlist_1" class="jp-playlist">
+			<div class="jp-volume-bar">
+				<div class="jp-volume-bar-value"></div>
 			</div>
-<?php } ?>
+			<div class="jp-time-holder">
+				<div class="jp-current-time"></div>
+				<div class="jp-duration"></div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -3003,22 +2989,18 @@ function click_forw() {
 $(document).ready(function(){
   $("#jquery_jplayer_1").jPlayer({
     ready: function () {
-      $(this).jPlayer("setMedia", { 
-<?php 
+      $(this).jPlayer("setMedia", { <?php 
 	$audio = trim($audio);
 	if (strcasecmp(substr($audio,-4), '.mp3') == 0) { 
   	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
   } elseif (strcasecmp(substr($audio,-4), '.ogg') == 0) { 
-  	echo 'oga: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" . 
-  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  	echo 'oga: ' . prepare_textdata_js(encodeURI($audio)); 
   } elseif (strcasecmp(substr($audio,-4), '.wav') == 0) {
-  	echo 'wav: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" . 
-  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  	echo 'wav: ' . prepare_textdata_js(encodeURI($audio)); 
   } else {
-  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
+  	echo strtolower(substr($audio,-4)) . ': ' . prepare_textdata_js(encodeURI($audio)); 
   }
-?>
-      });
+?> });
     },
     swfPath: "js",
   });
