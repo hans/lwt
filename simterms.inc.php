@@ -118,7 +118,7 @@ function print_similar_terms($lang_id, $compared_term) {
 			if (stripos($compare, $term) !== FALSE)
 				$term = '<span class="red3">' . $term . '</span>';
 			else
-				$term = str_ireplace($compare, '<span class="red3">' . $compare . '</span>', $term);
+				$term = str_ireplace($compare, '<span class="red3"><u>' . $compare . '</u></span>', $term);
 			$tra = $record["WoTranslation"];
 			if ($tra == "*") $tra = "???";
 			if (trim($record["WoRomanization"]) !== '') {
