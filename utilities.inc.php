@@ -2994,11 +2994,13 @@ $(document).ready(function(){
 	if (strcasecmp(substr($audio,-4), '.mp3') == 0) { 
   	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
   } elseif (strcasecmp(substr($audio,-4), '.ogg') == 0) { 
-  	echo 'oga: ' . prepare_textdata_js(encodeURI($audio)); 
+  	echo 'oga: ' . prepare_textdata_js(encodeURI($audio))  . ", " . 
+  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
   } elseif (strcasecmp(substr($audio,-4), '.wav') == 0) {
-  	echo 'wav: ' . prepare_textdata_js(encodeURI($audio)); 
+  	echo 'wav: ' . prepare_textdata_js(encodeURI($audio))  . ", " . 
+  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
   } else {
-  	echo strtolower(substr($audio,-4)) . ': ' . prepare_textdata_js(encodeURI($audio)); 
+  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
   }
 ?> });
     },
