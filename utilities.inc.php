@@ -814,7 +814,7 @@ function error_message_with_hide($msg,$noback) {
 		return '<p class="red">*** ' . tohtml($msg) . ' ***' . 
 			($noback ? 
 			'' : 
-			' <input type="button" value="&lt;&lt; Back" onclick="history.back();" />' ) . 
+			'<br /><input type="button" value="&lt;&lt; Go back and correct &lt;&lt;" onclick="history.back();" />' ) . 
 			'</p>';
 	else
 		return '<p id="hide3" class="msgblue">+++ ' . tohtml($msg) . ' +++</p>';

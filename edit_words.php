@@ -501,6 +501,13 @@ elseif (isset($_REQUEST['chg'])) {
 
 else {
 	
+	if (substr($message,0,24) == "Error: Duplicate entry '" && 
+		substr($message,-24) == "' for key 'WoLgIDTextLC'") {
+		$lgID = $_REQUEST["WoLgID"] . "-";
+		$message = substr($message,24+strlen($lgID));	
+		$message = substr($message,0,strlen($message)-24);
+		$message = "Error: Term '" . $message . "' already exists. Please go back and correct this!";
+	} 	
 	echo error_message_with_hide($message,0);
 
 	if ($currenttext == '') {
