@@ -48,6 +48,7 @@ require_once( 'utilities.inc.php' );
 
 $from = trim(stripTheSlashesIfNeeded($_REQUEST["from"]));
 $dest = trim(stripTheSlashesIfNeeded($_REQUEST["dest"]));
+$destorig = $dest;
 $phrase = mb_strtolower(trim(stripTheSlashesIfNeeded($_REQUEST["phrase"])), 'UTF-8');
 $ok = FALSE;
 
@@ -209,7 +210,7 @@ if ( $ok ) {
 echo '&nbsp;<hr />&nbsp;<form action="glosbe_api.php" method="get">Unhappy?<br/>Change term: 
 <input type="text" name="phrase" maxlength="250" size="15" value="' . tohtml($phrase) . '">
 <input type="hidden" name="from" value="' . tohtml($from) . '">
-<input type="hidden" name="dest" value="' . tohtml($dest) . '">
+<input type="hidden" name="dest" value="' . tohtml($destorig) . '">
 <input type="submit" value="Translate via Glosbe">
 </form>';
 
