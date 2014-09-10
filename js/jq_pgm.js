@@ -133,7 +133,7 @@ function changeTableTestStatus(wordid,up) {
 function check() {
 	var count = 0;
 	$('input.notempty').each( function(n) {
-		if($(this).attr('value').trim()=='') count++; 
+		if($(this).val().trim()=='') count++; 
 	} );
 	$('textarea.notempty').each( function(n) {
 		if($(this).val().trim()=='') count++; 
