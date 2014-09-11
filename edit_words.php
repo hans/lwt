@@ -164,6 +164,7 @@ if (isset($_REQUEST['markaction'])) {
 				$list .= ")";
 				if ($markaction == 'del') {
 					$message = runsql('delete from ' . $tbpref . 'words where WoID in ' . $list, "Deleted");
+					mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID in ' . $list);
 					mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID in ' . $list);
 					adjust_autoincr('words','WoID');
 					runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
@@ -244,7 +245,8 @@ if (isset($_REQUEST['allaction'])) {
 			$message='0';
 			if ($allaction == 'delall' ) {
 				$message = runsql('delete from ' . $tbpref . 'words where WoID = ' . $id, "");
-				mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID = ' . $id);
+				mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $id);
+				mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $id);
 			}
 			elseif ($allaction == 'addtagall' ) {
 				addtaglist($actiondata,'(' . $id . ')');
@@ -354,7 +356,8 @@ if (isset($_REQUEST['allaction'])) {
 elseif (isset($_REQUEST['del'])) {
 	$message = runsql('delete from ' . $tbpref . 'words where WoID = ' . $_REQUEST['del'], "Deleted");
 	adjust_autoincr('words','WoID');
-	mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID = ' . $_REQUEST['del']);
+	mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $_REQUEST['del']);
+	mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $_REQUEST['del']);
 	runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
 }
 
@@ -381,6 +384,51 @@ elseif (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 		$wid = get_last_key();
+		set_word_count();
+		$wis = mb_strtolower($_REQUEST["WoText"], 'UTF-8');
+		$lid=$_REQUEST["WoLgID"];
+		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
+		$res = do_mysql_query($sql);
+		$record = mysql_fetch_assoc($res);
+		$termchar = $record['LgRegexpWordCharacters'];
+		$splitEachChar = $record['LgSplitEachChar'];
+		$rtlScript = $record['LgRightToLeft'];
+		mysql_free_result($res);
+		$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
+		$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
+
+			$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+			$res=do_mysql_query ($sql);
+			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+			while($record = mysql_fetch_assoc($res)){
+				$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+				$txtid =$record['SeTxID'];
+				$sentid =$record['SeID'];
+				$last_pos = strripos ( $string , $textlc );
+				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
+				while($last_pos!==false){
+					$matches=array();
+					if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+						$string = substr ( $string, 0, $last_pos );
+						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
+						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
+						$txt='';
+						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
+						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
+						$last_pos = strripos ( $string , $textlc );
+					}
+					else{
+						$string = substr ( $string, 0, $last_pos );
+						$last_pos = strripos ( $string , $textlc );
+					}
+				}
+			}
+		mysql_free_result($res);
+		if(isset($sqlarr)){	
+			$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
+			$sqltext .= rtrim(implode(',', $sqlarr),',');
+			mysql_query ($sqltext);
+		}
 	}	
 	
 	// UPDATE
