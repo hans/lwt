@@ -65,6 +65,12 @@ $langDefs = array(
 	".!?:;", 
 	false, false, false),
 
+"Catalan" => 
+	array("ca", "ca", false,
+	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	".!?:;", 
+	false, false, false),
+
 "Chinese (Simplified)" => 
 	array("zh", "zh-CN", true,
 	"\\x{4E00}-\\x{9FFF}\\x{F900}-\\x{FAFF}", 

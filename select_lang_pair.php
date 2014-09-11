@@ -31,9 +31,8 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: upload_words.php?....
-      ... op=Import ... do the import 
-Import terms from file or Text area
+Call: select_lang_pair.php
+Display Language Pair Selection Window for Wizard
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
