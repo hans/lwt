@@ -114,7 +114,7 @@ span.status99 {
 	color: #FFF;
 	border-radius: 3px;
 }
-span.status99:hover {
+span.status99:hover, table .status99 {
   border-bottom: 2px solid #222;
 }
 span.status98 {
@@ -123,7 +123,7 @@ span.status98 {
 	color: #FFF;
 	border-radius: 3px;
 }
-span.status98:hover {
+span.status98:hover, table .status98 {
 	border-bottom: dashed 2px #222;
 }
 span.mwsty {
