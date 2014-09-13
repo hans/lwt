@@ -156,7 +156,7 @@ if (isset($_REQUEST['op'])) {
 			else{
 				runsql('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2','');
 				runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL)','');
-				runsql('INSERT IGNORE INTO ' . $tbpref . 'numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')','');
+				runsql("INSERT IGNORE INTO " . $tbpref . "numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')",'');
 				$sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = LOWER(WoText), WoTaglist = REPLACE(@taglist," ",",")';
 				runsql($sql ,'');
 				$sql=($overwrite)?'REPLACE ':('INSERT IGNORE ');
