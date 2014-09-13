@@ -435,8 +435,7 @@ function addtaglist ($item, $list) {
 	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
-		$cnt++;
-		runsql('insert into ' . $tbpref . 'wordtags (WtWoID, WtTgID) values(' . $record['WoID'] . ', ' . $tagid . ')', "");
+		$cnt += runsql('insert ignore into ' . $tbpref . 'wordtags (WtWoID, WtTgID) values(' . $record['WoID'] . ', ' . $tagid . ')', "");
 	}
 	mysql_free_result($res);
 	return "Tag added in $cnt Terms";
@@ -455,8 +454,7 @@ function addarchtexttaglist ($item, $list) {
 	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
-		$cnt++;
-		runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) values(' . $record['AtID'] . ', ' . $tagid . ')', "");
+		$cnt += runsql('insert ignore into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) values(' . $record['AtID'] . ', ' . $tagid . ')', "");
 	}
 	mysql_free_result($res);
 	return "Tag added in $cnt Texts";
@@ -475,8 +473,7 @@ function addtexttaglist ($item, $list) {
 	$res = do_mysql_query($sql);
 	$cnt = 0;
 	while ($record = mysql_fetch_assoc($res)) {
-		$cnt++;
-		runsql('insert into ' . $tbpref . 'texttags (TtTxID, TtT2ID) values(' . $record['TxID'] . ', ' . $tagid . ')', "");
+		$cnt += runsql('insert ignore into ' . $tbpref . 'texttags (TtTxID, TtT2ID) values(' . $record['TxID'] . ', ' . $tagid . ')', "");
 	}
 	mysql_free_result($res);
 	return "Tag added in $cnt Texts";

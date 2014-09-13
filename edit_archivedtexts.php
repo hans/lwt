@@ -257,7 +257,7 @@ if (isset($_REQUEST['chg'])) {
 		<tr>
 		<td class="td1 right">Audio-URI:</td>
 		<td class="td1"><input type="text" name="AtAudioURI" value="<?php echo tohtml($record['AtAudioURI']); ?>" maxlength="200" size="60" />
-		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
+		<span id="mediaselect"><?php echo selectmediapath('AtAudioURI'); ?></span>		
 		</td>
 		</tr>
 		<tr>
