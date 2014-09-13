@@ -86,14 +86,9 @@ $(document).ready( function() {
 	$('#thetext').on('click','.mword',mword_click_event_do_text_text);
 	$('.word').dblclick(word_dblclick_event_do_text_text);
 	$('#thetext').on('dblclick','.mword',word_dblclick_event_do_text_text);
-	$('#thetext')
-	 .on("mouseenter",".wsty,.mwsty", function() {
-	    var v = $(this).attr("class").replace(/.*(TERM[^ ]*)( .*)*/, '$1');
-	    $( "." + v ).addClass("hword");
-	 })
-	 .on("mouseleave",".hword", function() {
-	    $( ".hword" ).removeClass("hword");
-	 });
+//	$('#thetext')
+//	 .on("mouseenter",".wsty,.mwsty", function() { var v = $(this).attr("class").replace(/.*(TERM[^ ]*)( .*)*/, '$1');$( "." + v ).addClass("hword"); })
+//	 .on("mouseleave",".hword", function() { $( ".hword" ).removeClass("hword");});
 	$(document).keydown(keydown_event_do_text_text);
 });
 //]]>
