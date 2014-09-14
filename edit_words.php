@@ -526,7 +526,7 @@ else {
 	if ($currentpage > $pages) $currentpage = $pages;
 	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
 
-	$sorts = array('WoTextLC','lower(WoTranslation)','WoID desc','WoStatus, WoTextLC','WoTodayScore','textswordcount desc, WoTextLC asc');
+	$sorts = array('WoTextLC','lower(WoTranslation)','WoID desc','WoStatus, WoTextLC','WoTodayScore','textswordcount desc, WoTextLC asc','WoID');
 	$lsorts = count($sorts);
 	if ($currentsort < 1) $currentsort = 1;
 	if ($currentsort > $lsorts) $currentsort = $lsorts;

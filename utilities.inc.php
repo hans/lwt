@@ -115,7 +115,7 @@ function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add) {
 	}
 
 	$currentsort = processDBParam("sort",'currenttextsort','1',1);
-	$sorts = array('TxTitle','TxID desc');
+	$sorts = array('TxTitle','TxID desc','TxID');
 	$lsorts = count($sorts);
 	if ($currentsort < 1) $currentsort = 1;
 	if ($currentsort > $lsorts) $currentsort = $lsorts;
@@ -1391,6 +1391,8 @@ function get_wordssort_selectoptions($v) {
 	$r .= ">Translation A-Z</option>";
 	$r .= "<option value=\"3\"" . get_selected($v,3);
 	$r .= ">Newest first</option>";
+	$r .= "<option value=\"7\"" . get_selected($v,7);
+	$r .= ">Oldest first</option>";
 	$r .= "<option value=\"4\"" . get_selected($v,4);
 	$r .= ">Status</option>";
 	$r .= "<option value=\"5\"" . get_selected($v,5);
@@ -1410,6 +1412,8 @@ function get_tagsort_selectoptions($v) {
 	$r .= ">Tag Comment A-Z</option>";
 	$r .= "<option value=\"3\"" . get_selected($v,3);
 	$r .= ">Newest first</option>";
+	$r .= "<option value=\"4\"" . get_selected($v,4);
+	$r .= ">Oldest first</option>";
 	return $r;
 }
 
@@ -1421,6 +1425,8 @@ function get_textssort_selectoptions($v) {
 	$r .= ">Title A-Z</option>";
 	$r .= "<option value=\"2\"" . get_selected($v,2);
 	$r .= ">Newest first</option>"; 
+	$r .= "<option value=\"3\"" . get_selected($v,3);
+	$r .= ">Oldest first</option>"; 
 	return $r;
 }
 

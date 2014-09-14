@@ -222,7 +222,7 @@ else {
 	if ($currentpage > $pages) $currentpage = $pages;
 	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
 
-	$sorts = array('T2Text','T2Comment','T2ID desc');
+	$sorts = array('T2Text','T2Comment','T2ID desc','T2ID');
 	$lsorts = count($sorts);
 	if ($currentsort < 1) $currentsort = 1;
 	if ($currentsort > $lsorts) $currentsort = $lsorts;
