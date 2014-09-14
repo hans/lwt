@@ -70,9 +70,6 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-test-r-frameheight-percent',
 		$_REQUEST['set-test-r-frameheight-percent']);
 	
-		saveSetting('set-player-skin-name',
-		$_REQUEST['set-player-skin-name']);
-	
 		saveSetting('set-test-main-frame-waiting-time',
 		$_REQUEST['set-test-main-frame-waiting-time']);
 	
@@ -138,7 +135,7 @@ echo error_message_with_hide($message,1);
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="5">Read Text<br />Screen</th>
+<th class="th1 center" rowspan="4">Read Text<br />Screen</th>
 <td class="td1 center">Height of left top frame<br /><b>without</b> audioplayer</td>
 <td class="td1 center">
 <input class="notempty posintnumber right setfocus" type="text" 
@@ -170,19 +167,6 @@ value="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent'))
 <input class="notempty posintnumber right" type="text" 
 name="set-text-r-frameheight-percent"  data_info="Height of right top frame" 
 value="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')); ?>" maxlength="2" size="2" /><br />Percent </td>
-<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-</tr>
-<!-- ******************************************************* -->
-<tr>
-<td class="td1 center">Audioplayer Skin</td>
-<td class="td1 center">
-<select name="set-player-skin-name" class="notempty">
-<?php
-echo get_audioplayer_selectoptions(
-getSettingWithDefault('set-player-skin-name'));
-?>
-</select>
-</td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->

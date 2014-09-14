@@ -1027,19 +1027,6 @@ function getSettingWithDefault($key) {
 
 // -------------------------------------------------------------
 
-function get_audioplayer_selectoptions($v) {
-	if ( ! isset($v) ) $v = "jplayer.blue.monday.modified";
-	if ($v != "jplayer.blue.monday" ) 
-		$v = "jplayer.blue.monday.modified";
-	$r  = "<option value=\"jplayer.blue.monday.modified\"" . get_selected($v,"jplayer.blue.monday.modified");
-	$r .= ">Blue Monday Small</option>";
-	$r .= "<option value=\"jplayer.blue.monday\"" . get_selected($v,"jplayer.blue.monday");
-	$r .= ">Blue Monday</option>";
-	return $r;
-}
-
-// -------------------------------------------------------------
-
 function get_mobile_display_mode_selectoptions($v) {
 	if ( ! isset($v) ) $v = "0";
 	$r  = "<option value=\"0\"" . get_selected($v,"0");
@@ -2331,8 +2318,6 @@ function get_setting_data() {
 		array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
 		'set-test-r-frameheight-percent' => 
 		array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
-		'set-player-skin-name' => 
-		array("dft" => 'jplayer.blue.monday.modified', "num" => 0),
 		'set-test-main-frame-waiting-time' => 
 		array("dft" => '0', "num" => 1, "min" => 0, "max" => 9999),
 		'set-test-edit-frame-waiting-time' => 
@@ -2894,13 +2879,11 @@ function trim_value(&$value)
 
 function makeAudioPlayer($audio) {
 	if ($audio != '') {
-		$playerskin = getSettingWithDefault('set-player-skin-name');
-		if ($playerskin != "jplayer.blue.monday" ) 
-			$playerskin = "jplayer.blue.monday.modified";
+		$playerskin = "jplayer.blue.monday.modified";
 		$repeatMode = getSettingZeroOrOne('currentplayerrepeatmode',0);
 ?>
 <link type="text/css" href="css/jplayer_skin/<?php echo $playerskin; ?>.css" rel="stylesheet" />
-<script type="text/javascript" src="js/jquery.jplayer.min.js"><!-- jPlayer © Happyworm ** http://www.jplayer.org/about/ --></script>
+<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 <table class="width99pc" cellspacing="0" cellpadding="3">
 <tr>
 <td class="width45pc">&nbsp;</td>
