@@ -39,7 +39,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.18 (September 14 2014)'  . 
+	return '1.5.19 (September 15 2014)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -160,7 +160,7 @@ function get_tags($refresh = 0) {
 	if (isset($_SESSION['TAGS'])) {
 		if (is_array($_SESSION['TAGS'])) {
 			if (isset($_SESSION['TBPREF_TAGS'])) {
-				if($_SESSION['TBPREF_TAGS'] == $tbpref) {
+				if($_SESSION['TBPREF_TAGS'] == $tbpref . url_base()) {
 					if ($refresh == 0) return $_SESSION['TAGS'];
 				}
 			}
@@ -174,7 +174,7 @@ function get_tags($refresh = 0) {
 	}
 	mysql_free_result($res);
 	$_SESSION['TAGS'] = $tags;
-	$_SESSION['TBPREF_TAGS'] = $tbpref;
+	$_SESSION['TBPREF_TAGS'] = $tbpref . url_base();
 	return $_SESSION['TAGS'];
 }
 
@@ -185,7 +185,7 @@ function get_texttags($refresh = 0) {
 	if (isset($_SESSION['TEXTTAGS'])) {
 		if (is_array($_SESSION['TEXTTAGS'])) {
 			if (isset($_SESSION['TBPREF_TEXTTAGS'])) {
-				if($_SESSION['TBPREF_TEXTTAGS'] == $tbpref) {
+				if($_SESSION['TBPREF_TEXTTAGS'] == $tbpref . url_base()) {
 					if ($refresh == 0) return $_SESSION['TEXTTAGS'];
 				}
 			}
@@ -199,7 +199,7 @@ function get_texttags($refresh = 0) {
 	}
 	mysql_free_result($res);
 	$_SESSION['TEXTTAGS'] = $tags;
-	$_SESSION['TBPREF_TEXTTAGS'] = $tbpref;
+	$_SESSION['TBPREF_TEXTTAGS'] = $tbpref . url_base();
 	return $_SESSION['TEXTTAGS'];
 }
 
@@ -309,7 +309,7 @@ function saveWordTags($wid) {
 							}
 							runsql('insert into ' . $tbpref . 'wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($tag), "");
 						}
-						get_tags(1);  // refresh tags cache
+						get_tags($refresh = 1);  // refresh tags cache
 					}
 				}
 			}
@@ -336,7 +336,7 @@ function saveTextTags($tid) {
 							}
 							runsql('insert into ' . $tbpref . 'texttags (TtTxID, TtT2ID) select ' . $tid . ', T2ID from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($tag), "");
 						}
-						get_texttags(1);  // refresh tags cache
+						get_texttags($refresh = 1);  // refresh tags cache
 					}
 				}
 			}
@@ -363,7 +363,7 @@ function saveArchivedTextTags($tid) {
 							}
 							runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $tid . ', T2ID from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($tag), "");
 						}
-						get_texttags(1);  // refresh tags cache
+						get_texttags($refresh = 1);  // refresh tags cache
 					}
 				}
 			}
@@ -438,6 +438,7 @@ function addtaglist ($item, $list) {
 		$cnt += runsql('insert ignore into ' . $tbpref . 'wordtags (WtWoID, WtTgID) values(' . $record['WoID'] . ', ' . $tagid . ')', "");
 	}
 	mysql_free_result($res);
+	get_tags($refresh = 1);
 	return "Tag added in $cnt Terms";
 }
 
@@ -457,6 +458,7 @@ function addarchtexttaglist ($item, $list) {
 		$cnt += runsql('insert ignore into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) values(' . $record['AtID'] . ', ' . $tagid . ')', "");
 	}
 	mysql_free_result($res);
+	get_texttags($refresh = 1);
 	return "Tag added in $cnt Texts";
 }
 
@@ -476,6 +478,7 @@ function addtexttaglist ($item, $list) {
 		$cnt += runsql('insert ignore into ' . $tbpref . 'texttags (TtTxID, TtT2ID) values(' . $record['TxID'] . ', ' . $tagid . ')', "");
 	}
 	mysql_free_result($res);
+	get_texttags($refresh = 1);
 	return "Tag added in $cnt Texts";
 }
 
@@ -582,6 +585,7 @@ For more information, please refer to [http://unlicense.org/].
 
 function pagestart_nobody($titletext, $addcss='') {
 	global $debug;
+	global $tbpref;
 	@header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 	@header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 	@header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
@@ -644,6 +648,8 @@ For more information, please refer to [http://unlicense.org/].
 	<script type="text/javascript" src="js/sorttable/sorttable.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
+	<!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
+	<!-- TBPREF  : "<?php echo tohtml($tbpref); ?>" -->
 	<script type="text/javascript">
 	//<![CDATA[
 	<?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
@@ -678,6 +684,23 @@ function pagestart($titletext,$close) {
 	echo '</h4><h3>' . $titletext . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
 	echo "<p>&nbsp;</p>";
 } 
+
+// -------------------------------------------------------------
+
+function url_base() {
+	$url = parse_url("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+	$r = $url["scheme"] . "://" . $url["host"];
+	if(isset($url["port"])) $r .= ":" . $url["port"];
+	if(isset($url["path"])) {
+		$b = basename($url["path"]);
+		if (substr($b,-4) == ".php" || substr($b,-4) == ".htm" || substr($b,-5) == ".html") 
+			$r .= dirname($url["path"]);
+		else
+			$r .= $url["path"];
+	}
+	if(substr($r,-1) !== "/") $r .= "/";
+	return $r;
+}
 
 // -------------------------------------------------------------
 

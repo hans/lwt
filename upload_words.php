@@ -62,7 +62,7 @@ function savetag($item, $key, $wid) {
 	global $tbpref;
 	if(! in_array($item,$_SESSION['TAGS'])) {
 		runsql('insert into ' . $tbpref . 'tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
-		get_tags(1);
+		get_tags($refresh = 1);
 	}
 	runsql('insert ignore into ' . $tbpref . 'wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item), "");
 }
