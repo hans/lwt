@@ -255,7 +255,7 @@ while ($record = mysql_fetch_assoc($res)) {
 		foreach($term_created[$record['LgID']] as $created => $val){
 			switch ($created){
 				case ($created>364):
-					if($active==0)$cw+=$val;
+					if($created==0)$cw+=$val;
 					else $call+=$val;
 					break;
 				case ($created>29):
@@ -306,7 +306,7 @@ while ($record = mysql_fetch_assoc($res)) {
 		foreach($term_known[$record['LgID']] as $known=>$val){
 			switch ($known){
 				case ($known>364):
-					if($active==0)$kw+=$val;
+					if($known==0)$kw+=$val;
 					else $kall+=$val;
 					break;
 				case ($known>29):
