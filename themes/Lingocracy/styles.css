@@ -100,7 +100,7 @@ span.status99 {
 	color: #000000;
 	border-radius: 3px;
 }
-span.status99:hover, table .status99 {
+span.hword.status99, table .status99 {
   border-bottom: 2px solid #cccccc;
 }
 span.status98 {
@@ -109,7 +109,7 @@ span.status98 {
 	color: #000000;
 	border-radius: 3px;
 }
-span.status98:hover, table .status98 {
+span.hword.status98, table .status98 {
 	border-bottom: dashed 2px #DDD;
 }
 span.mwsty {
@@ -283,6 +283,9 @@ img {
 .red2 {
 	color: #FF0000;
 	font-weight: bold;
+}
+.red3 {
+	color: #FF0000;
 }
 .scorered {
 	font-weight: bold;

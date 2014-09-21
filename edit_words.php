@@ -55,6 +55,7 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'simterms.inc.php' );
 
 $currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
 $currentsort = processDBParam("sort",'currentwordsort','1',1);
@@ -464,7 +465,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<h4>New Term</h4>
 	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<input type="hidden" name="WoLgID" value="<?php echo $_REQUEST['lang']; ?>" />
+	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $_REQUEST['lang']; ?>" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
@@ -472,8 +473,9 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Term:</td>
-	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
+	<?php print_similar_terms_tabrow(); ?>	
 	<tr>
 	<td class="td1 right">Translation:</td>
 	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
@@ -531,6 +533,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 		<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
 		<input type="hidden" name="WoID" value="<?php echo $record['WoID']; ?>" />
+		<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $record['WoLgID']; ?>" />
 		<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
@@ -539,8 +542,9 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr title="Normally only change uppercase/lowercase here!">
 		<td class="td1 right">Term:</td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-		</tr>
+		<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($record['WoText']); ?>" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		</td></tr>
+		<?php print_similar_terms_tabrow(); ?>
 		<tr>
 		<td class="td1 right">Translation:</td>
 		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>
@@ -575,7 +579,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		</table>
 		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $_REQUEST['chg']; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 <?php
 	}
 	mysql_free_result($res);
@@ -585,6 +589,13 @@ elseif (isset($_REQUEST['chg'])) {
 
 else {
 	
+	if (substr($message,0,24) == "Error: Duplicate entry '" && 
+		substr($message,-24) == "' for key 'WoLgIDTextLC'") {
+		$lgID = $_REQUEST["WoLgID"] . "-";
+		$message = substr($message,24+strlen($lgID));	
+		$message = substr($message,0,strlen($message)-24);
+		$message = "Error: Term '" . $message . "' already exists. Please go back and correct this!";
+	} 	
 	echo error_message_with_hide($message,0);
 
 	if ($currenttext == '') {

@@ -44,6 +44,7 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'simterms.inc.php' );
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));
 if ( $translation_raw == '' ) $translation = '*';
@@ -228,7 +229,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 		<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="fromAnn" value="<?php echo $fromAnn; ?>" />
-		<input type="hidden" name="WoLgID" value="<?php echo $lang; ?>" />
+		<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 		<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
 		<input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
 		<input type="hidden" name="ord" value="<?php echo $_REQUEST['ord']; ?>" />
@@ -253,8 +254,9 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		<tr>
 		<td class="td1 right">Sentence<br />Term in {...}:</td>
-		<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml(repl_tab_nl($sent[1])); ?></textarea></td>
-		</tr>
+		<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		</td></tr>
+		<?php print_similar_terms_tabrow(); ?>
 		<tr>
 		<td class="td1 right">Status:</td>
 		<td class="td1">
@@ -297,6 +299,7 @@ else {  // if (! isset($_REQUEST['op']))
 			?>
 		
 			<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+			<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 			<input type="hidden" name="fromAnn" value="<?php echo $fromAnn; ?>" />
 			<input type="hidden" name="WoID" value="<?php echo $wid; ?>" />
 			<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
@@ -306,8 +309,9 @@ else {  // if (! isset($_REQUEST['op']))
 			<table class="tab2" cellspacing="0" cellpadding="5">
 			<tr title="Only change uppercase/lowercase!">
 			<td class="td1 right"><b>Edit Term:</b></td>
-			<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-			</tr>
+			<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+			</td></tr>
+			<?php print_similar_terms_tabrow(); ?>
 			<tr>
 			<td class="td1 right">Translation:</td>
 			<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>

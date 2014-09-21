@@ -49,6 +49,14 @@ var DELIMITER = '';
 LWT jQuery functions
 ***************************************************************/
 
+function setTransRoman(tra, rom) {
+	if($('textarea[name="WoTranslation"]').length == 1)
+		$('textarea[name="WoTranslation"]').val(tra);
+	if($('input[name="WoRomanization"]').length == 1)
+		$('input[name="WoRomanization"]').val(rom);
+	makeDirty();
+}
+
 function getUTF8Length(string) {
 	var utf8length = 0;
 	for (var n = 0; n < string.length; n++) {
@@ -151,10 +159,26 @@ function check() {
 			}
 		}
 	} );
+	$('input.checkdicturl').each( function(n) {
+		if($(this).val().trim().length > 0) {
+			if(($(this).val().trim().indexOf('http://') != 0) &&   ($(this).val().trim().indexOf('https://') != 0) &&   ($(this).val().trim().indexOf('*http://') != 0) &&   ($(this).val().trim().indexOf('*https://') != 0) &&   ($(this).val().trim().indexOf('glosbe_api.php') != 0)) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must start with "http://" or "https://" or "*http://" or "*https://" or "glosbe_api.php" if not empty.');
+				count++;
+			}
+		}
+	} );
 	$('input.posintnumber').each( function(n) {
 		if ($(this).val().trim().length > 0) {
-			if (! (isInt($(this).val().trim()) && (($(this).val().trim()+0) != 0))) {
-				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" is not a positive integer number.');
+			if (! (isInt($(this).val().trim()) && (($(this).val().trim() + 0) > 0))) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number > 0.');
+				count++;
+			}
+		}
+	} );
+	$('input.zeroposintnumber').each( function(n) {
+		if ($(this).val().trim().length > 0) {
+			if (! (isInt($(this).val().trim()) && (($(this).val().trim() + 0) >= 0))) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number >= 0.');
 				count++;
 			}
 		}
@@ -456,6 +480,71 @@ function mword_drag_n_drop_select() {
 	}, 300);
 }
 
+function word_hover_over () {
+	if (!$(".tword")[0]){
+		var v = $(this).attr("class").replace(/.*(TERM[^ ]*)( .*)*/, '$1');
+		$( "." + v ).addClass("hword");
+		if (!$(".kwordmarked .uwordmarked")[0]){
+			var p = $(this);
+			$(document).on('keyup',function(e) {
+				var wid = p.attr('data_wid');
+				var ord = p.attr('data_order');
+				var stat = p.attr('data_status');
+				if(p.hasClass( "mwsty" ))var txt = p.attr('data_text');
+				else var txt = p.text();
+				for (var i=1; i<=5; i++) {
+					if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
+						if(stat=='0'){
+							if(i==1){
+								var sl = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+								var tl = WBLINK3.replace(/.*&tl=([a-zA-Z\-]*)&.*/,'$1');
+								if(sl && tl)i=i+'&sl='+sl+'&tl='+tl;
+							}
+						window.parent.frames['ro'].location.href = 
+						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status='+i;}
+					else {
+						window.parent.frames['ro'].location.href = 
+							'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i;
+						return false;
+						}
+					}
+				}
+				if (e.which == 73) {  // I : status=98
+					if(stat=='0'){window.parent.frames['ro'].location.href = 
+						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=98';}
+					else {
+						window.parent.frames['ro'].location.href = 
+						'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=98';
+					return false;
+					}
+				}
+				if (e.which == 87) {  // W : status=99
+					if(stat=='0'){window.parent.frames['ro'].location.href = 
+						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=99';}
+					else {
+						window.parent.frames['ro'].location.href = 
+						'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99';
+					}
+					return false;
+				}
+				if (e.which == 80) {
+					if(p.hasClass( "mwsty" ))var txt = p.attr('data_text');
+					else var txt = p.text();
+					var lg = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+					var audio = new Audio();
+					audio.src ='tts.php?tl=' + lg + '&q=' + txt;
+					audio.play();
+				}
+			});
+		}
+	}
+}
+
+function word_hover_out () {
+	$( ".hword" ).removeClass("hword");
+	$(document).off('keyup');
+}
+
 function keydown_event_do_text_text(e) {
 
 	if (e.which == 27) {  // esc = reset all
@@ -599,6 +688,13 @@ function do_ajax_show_sentences(lang,word,ctl,woid) {
 	);
 }
 
+function do_ajax_show_similar_terms() {
+	$('#simwords').html('<img src="icn/waiting2.gif" />');
+	$.post('ajax_show_similar_terms.php', { lang: $('#langfield').val(), word: $('#wordfield').val() }, 
+		function(data) { $('#simwords').html(data); } 
+	);
+}
+
 function do_ajax_word_counts() {
 	$("span[id^='saved-']").each(
 		function(i) {
@@ -723,5 +819,9 @@ $(document).ready( function() {
 	); 
 	markClick();
 	setTheFocus();
+	if ($('#simwords').length > 0 && $('#langfield').length > 0 && $('#wordfield').length > 0) {
+  	$('#wordfield').blur(do_ajax_show_similar_terms);
+  	do_ajax_show_similar_terms();
+	}
 	window.setTimeout(noShowAfter3Secs,3000);
 } ); 

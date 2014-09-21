@@ -78,11 +78,17 @@ span.status0 {
 	color: #FFF;
 	border-radius: 3px;
 }
+.hword.status0 {
+	background-color: #AAE;
+}
 span.status1 {
 	border-bottom: 2px solid #C51525;
 	text-decoration: none;
 	color: #FFF;
 	border-radius: 3px;
+}
+.hword.status1 {
+	background-color: #E44;
 }
 span.status2 {
 	border-bottom: 2px solid #ED9D7B;
@@ -90,11 +96,17 @@ span.status2 {
 	color: #FFF;
 	border-radius: 3px;
 }
+.hword.status2 {
+	background-color: #FB9;
+}
 span.status3 {
 	border-bottom: 2px solid #F7CF66;
 	text-decoration: none;
 	color: #FFF;
 	border-radius: 3px;
+}
+.hword.status3 {
+	background-color: #FE9;
 }
 span.status4 {
 	border-bottom: 2px solid #F5F388;
@@ -102,29 +114,41 @@ span.status4 {
 	color: #FFF;
 	border-radius: 3px;
 }
+.hword.status4 {
+	background-color: #FF5;
+}
 span.status5 {
 	border-bottom: 2px solid #77E077;
 	text-decoration: none;
 	color: #FFF;
 	border-radius: 3px;
 }
+.hword.status5 {
+	background-color: #9F9;
+}
 span.status99 {
-  border-bottom: 2px solid transparent;
-  text-decoration: none;
+	border-bottom: 2px solid transparent;
+	text-decoration: none;
 	color: #FFF;
 	border-radius: 3px;
 }
-span.status99:hover, table .status99 {
-  border-bottom: 2px solid #222;
+.hword.status99, table .status99 {
+	border-bottom: 2px solid #444;
 }
 span.status98 {
-  border-bottom: 2px dashed transparent;
-  text-decoration: none;
+	border-bottom: 2px dashed transparent;
+	text-decoration: none;
 	color: #FFF;
 	border-radius: 3px;
 }
-span.status98:hover, table .status98 {
-	border-bottom: dashed 2px #222;
+.hword.status98, table .status98 {
+	border-bottom: dashed 2px #444;
+}
+.hword.status99, .hword.status98 {
+	background-color: #777;
+}
+.hword {
+	color: rgba(0,0,0,.4) !important;
 }
 span.mwsty {
 	margin: 0px 1px;
@@ -177,13 +201,13 @@ span.status5stat {
 	box-shadow: 0 0 0px 1px #000;
 	border-bottom: 2px solid #BB88AA;
 	text-decoration: none;
+	color: #FFF !important;
+	background-color: #000;
 }
 .nword{
+	color: #FFF !important;
 	background-color: #000;
 	border-bottom: 2px solid #000 !important;
-}
-.hword{
-	background-color: #444;
 }
 textarea {
     font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
@@ -500,6 +524,9 @@ img {
 .red2 {
     color: #FF0000;
     font-weight: bold;
+}
+.red3 {
+	color: #FF0000;
 }
 .scorered {
     font-weight: bold;

@@ -41,6 +41,7 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'simterms.inc.php' );
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));
 if ( $translation_raw == '' ) $translation = '*';
@@ -169,6 +170,7 @@ else {  // if (! isset($_REQUEST['op']))
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 	
 <form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 <input type="hidden" name="WoID" value="<?php echo $wid; ?>" />
 <input type="hidden" name="WoOldStatus" value="<?php echo $status; ?>" />
 <input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
@@ -193,8 +195,9 @@ else {  // if (! isset($_REQUEST['op']))
 </tr>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
-<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea></td>
-</tr>
+<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+</td></tr>
+<?php print_similar_terms_tabrow(); ?>
 <tr>
 <td class="td1 right">Status:</td>
 <td class="td1">
