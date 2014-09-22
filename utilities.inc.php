@@ -39,7 +39,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.19 (September 15 2014)'  . 
+	return '1.5.20 (September 22 2014)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -3014,6 +3014,7 @@ $(document).ready(function(){
 ?> });
     },
     swfPath: "js",
+    noVolume: {ipad: /yesyes/, iphone: /yesyes/, ipod: /yesyes/, android_pad: /yesyes/, android_phone: /yesyes/, blackberry: /blackberry/, windows_ce: /windows ce/, iemobile: /yesyes/, webos: /webos/, playbook: /playbook/}
   });
   
   $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
