@@ -3014,7 +3014,7 @@ $(document).ready(function(){
 ?> });
     },
     swfPath: "js",
-    noVolume: {ipad: /yesyes/, iphone: /yesyes/, ipod: /yesyes/, android_pad: /yesyes/, android_phone: /yesyes/, blackberry: /blackberry/, windows_ce: /windows ce/, iemobile: /yesyes/, webos: /webos/, playbook: /playbook/}
+    noVolume: {ipad: /^no$/, iphone: /^no$/, ipod: /^no$/, android_pad: /^no$/, android_phone: /^no$/, blackberry: /^no$/, windows_ce: /^no$/, iemobile: /^no$/, webos: /^no$/, playbook: /^no$/}
   });
   
   $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
