@@ -156,7 +156,7 @@ $('.word' + woid, context).removeClass('status<?php echo $_REQUEST['WoOldStatus'
 <?php
 	}
 ?>
-$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 <?php

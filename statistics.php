@@ -273,8 +273,8 @@ while ($record = mysql_fetch_assoc($res)) {
 		}
 	}
 
-	$ct=$term_created[$record['LgID']][0]+0;
-	$cy=$term_created[$record['LgID']][1]+0;
+	$ct=isset($term_created[$record['LgID']][0])?$term_created[$record['LgID']][0]:0;
+	$cy=isset($term_created[$record['LgID']][1])?$term_created[$record['LgID']][1]:0;
 	$cm+=$cw;
 	$ca+=$cm;
 	$call+=$ca;
@@ -300,8 +300,8 @@ while ($record = mysql_fetch_assoc($res)) {
 		}
 	}
 
-	$at=$term_active[$record['LgID']][0]+0;
-	$ay=$term_active[$record['LgID']][1]+0;
+	$at=isset($term_active[$record['LgID']][0])?$term_active[$record['LgID']][0]:0;
+	$ay=isset($term_active[$record['LgID']][1])?$term_active[$record['LgID']][1]:0;
 	$am+=$aw;
 	$aa+=$am;
 	$aall+=$aa;
@@ -328,8 +328,8 @@ while ($record = mysql_fetch_assoc($res)) {
 		}
 	}
 
-	$kt=$term_known[$record['LgID']][0]+0;
-	$ky=$term_known[$record['LgID']][1]+0;
+	$kt=isset($term_known[$record['LgID']][0])?$term_known[$record['LgID']][0]:0;
+	$ky=isset($term_known[$record['LgID']][1])?$term_known[$record['LgID']][1]:0;
 	$km+=$kw;
 	$ka+=$km;
 	$kall+=$ka;

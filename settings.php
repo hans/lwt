@@ -86,6 +86,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-words-to-do-buttons',
 		$_REQUEST['set-words-to-do-buttons']);
 	
+		saveSetting('set-ggl-translation-per-page',
+		$_REQUEST['set-ggl-translation-per-page']);
+	
 		saveSetting('set-test-main-frame-waiting-time',
 		$_REQUEST['set-test-main-frame-waiting-time']);
 	
@@ -137,6 +140,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-text-visit-statuses-via-key',
 		$_REQUEST['set-text-visit-statuses-via-key']);
 	
+		saveSetting('set-display-text-frame-term-translation',
+		$_REQUEST['set-display-text-frame-term-translation']);
+
 		saveSetting('set-term-translation-delimiters',
 		$_REQUEST['set-term-translation-delimiters']);
 		
@@ -184,7 +190,7 @@ getSettingWithDefault('set-theme-dir'));
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="6">Read Text<br />Screen</th>
+<th class="th1 center" rowspan="7">Read Text<br />Screen</th>
 <td class="td1 center">Height of left top frame<br /><b>without</b> audioplayer</td>
 <td class="td1 center">
 <input class="notempty posintnumber right setfocus" type="text" 
@@ -242,6 +248,15 @@ getSettingWithDefault('set-words-to-do-buttons'));
 ?>
 </select>
 </td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">New Term Translations per Page</td>
+<td class="td1 center">
+<input class="notempty posintnumber right" type="text" 
+name="set-ggl-translation-per-page"  data_info="New Term Translations per Page" 
+value="<?php echo tohtml(getSettingWithDefault('set-ggl-translation-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->
@@ -306,13 +321,26 @@ getSettingWithDefault('set-mobile-display-mode'), true, true, true);
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center">Reading</th>
+<th class="th1 center" rowspan="2">Reading</th>
 <td class="td1 center">Visit only saved terms with status(es)...<br />(via keystrokes RIGHT, SPACE, LEFT, etc.)</td>
 <td class="td1 center">
 <select name="set-text-visit-statuses-via-key">
 <?php
 echo get_wordstatus_selectoptions(
 getSettingWithDefault('set-text-visit-statuses-via-key'), true, true, true);
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Display translations of terms with status(es)</td>
+<td class="td1 center">
+<select name="set-display-text-frame-term-translation">
+<?php
+echo get_wordstatus_selectoptions(
+getSettingWithDefault('set-display-text-frame-term-translation'), true, true, true);
 ?>
 </select>
 </td>
@@ -434,7 +462,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-tags-per-page')); ?>" maxlen
 <tr>
 <td class="td1 center">Feed Articles per Page</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
+<input class="notempty posintnumber right" type="text" 
 name="set-articles-per-page" 
 value="<?php echo tohtml(getSettingWithDefault('set-articles-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
@@ -443,7 +471,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-articles-per-page')); ?>" ma
 <tr>
 <td class="td1 center">Feeds per Page</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
+<input class="notempty posintnumber right" type="text" 
 name="set-feeds-per-page" 
 value="<?php echo tohtml(getSettingWithDefault('set-feeds-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
@@ -465,7 +493,7 @@ getSettingWithDefault('set-regex-mode'));
 <th class="th1 center" rowspan="3">Newsfeeds</th>
 <td class="td1 center">Max Articles per Feed <b>with</b> cached text</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
+<input class="notempty posintnumber right" type="text" 
 name="set-max-articles-with-text" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-articles-with-text')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
@@ -474,7 +502,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-max-articles-with-text')); ?
 <tr>
 <td class="td1 center">Max Articles per Feed <b>without</b> cached text</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
+<input class="notempty posintnumber right" type="text" 
 name="set-max-articles-without-text" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-articles-without-text')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
@@ -483,7 +511,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-max-articles-without-text'))
 <tr>
 <td class="td1 center">Max Texts per Feed<br />(older Texts are moved into "Text Archive")</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
+<input class="notempty posintnumber right" type="text" 
 name="set-max-texts-per-feed" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-texts-per-feed')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>

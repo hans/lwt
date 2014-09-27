@@ -192,7 +192,7 @@ refresh_text(el,sid[ key ]);
 <?php } ?>
 }
 <?php if(!empty($sid) && $len==1){ ?>
-	$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
+	$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
 <?php } ?>
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);

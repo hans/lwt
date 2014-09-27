@@ -56,7 +56,7 @@ var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 var title = make_tooltip(<?php echo prepare_textdata_js($term); ?>,'','','');
 $('.word<?php echo $wid; ?>', context).removeClass('status99 status98 status1 status2 status3 status4 status5 word<?php echo $wid; ?>').addClass('status0').attr('data_status','0').attr('data_trans','').attr('data_rom','').attr('data_wid','').attr('title',title);
-$('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>

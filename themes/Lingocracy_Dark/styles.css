@@ -115,7 +115,7 @@ span.status4 {
 	border-radius: 3px;
 }
 .hword.status4 {
-	background-color: #FF5;
+	background-color: #FFFD77;
 }
 span.status5 {
 	border-bottom: 2px solid #77E077;
@@ -149,6 +149,12 @@ span.status98 {
 }
 .hword {
 	color: rgba(0,0,0,.4) !important;
+}
+.wsty:after{
+	opacity:.5
+}
+.wsty.hword:after{
+	opacity:1
 }
 span.mwsty {
 	margin: 0px 1px;
@@ -191,15 +197,13 @@ span.status5stat {
 	border-radius: 3px;
 }
 .tword.lword,.tword.sword{
-	border-top: 2px solid #AA2244;
-	border-bottom: 2px solid #AA2244;
-	text-decoration: none;
-	background-color: #300;
+	color: rgba(0,0,0,.4) !important;
+	background-color: #B8A;
 }
 .tword{
 	border-radius: 3px;
 	box-shadow: 0 0 0px 1px #000;
-	border-bottom: 2px solid #BB88AA;
+	border-bottom: 2px solid #A69;
 	text-decoration: none;
 	color: #FFF !important;
 	background-color: #000;
@@ -215,6 +219,19 @@ textarea {
     background-color: #111111;
     color: #EEEEEE;
 	padding: 3px;border-radius: 4px;box-shadow:inset 0 0 8px #333333, 0 1px 1px #000;
+}
+.goog-te-gadget-simple,.goog-te-gadget-simple .goog-te-menu-value {
+	background: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(34,34,34)), color-stop(1, rgb(58,59,60)) ) !important;
+	background: -moz-linear-gradient( center bottom, rgb(34,34,34) 0%, rgb(58,59,60) 100% ) !important;
+	background-color: rgb(34,34,34) !important;
+	color: #F3F3F3 !important;
+	border:none !important;
+}
+.goog-te-gadget-simple{
+	box-shadow: 0 1px 1px #000;
+	margin:2px;
+	border-radius: 4px;
+
 }
 select{
  	background: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(34,34,34)), color-stop(1, rgb(58,59,60)) );

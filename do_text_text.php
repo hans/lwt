@@ -116,7 +116,17 @@ $(window).on('beforeunload',function() {
 });
 </script>
 <?php
-
+$data_trans=$ann_exists?'data_ann':'data_trans';
+$displaystattrans=getSettingWithDefault('set-display-text-frame-term-translation');
+echo '<style>';
+if(checkStatusRange(1, $displaystattrans))echo '.wsty.status1:after{content: " " attr(' . $data_trans . ');}';
+if(checkStatusRange(2, $displaystattrans))echo '.wsty.status2:after{content: " " attr(' . $data_trans . ');}';
+if(checkStatusRange(3, $displaystattrans))echo '.wsty.status3:after{content: " " attr(' . $data_trans . ');}';
+if(checkStatusRange(4, $displaystattrans))echo '.wsty.status4:after{content: " " attr(' . $data_trans . ');}';
+if(checkStatusRange(5, $displaystattrans))echo '.wsty.status5:after{content: " " attr(' . $data_trans . ');}';
+if(checkStatusRange(98, $displaystattrans))echo '.wsty.status98:after{content: " " attr(' . $data_trans . ');}';
+if(checkStatusRange(99, $displaystattrans))echo '.wsty.status99:after{content: " " attr(' . $data_trans . ');}';
+echo '.wsty:after{font-size:50%;}</style>';
 echo '<div id="thetext" ' .  ($rtlScript ? 'dir="rtl"' : '') . '><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
 'font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 10px;">';
 

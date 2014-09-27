@@ -2791,7 +2791,11 @@ function texttodocount2($text) {
 	$c = get_first_value('SELECT count(DISTINCT LOWER(Ti2Text)) as value FROM ' . $tbpref . 'textitems2 WHERE Ti2WordCount=1 and Ti2WoID=0 and Ti2TxID=' . $text);
 	if ($c > 0 ){ 
 		$show_buttons=getSettingWithDefault('set-words-to-do-buttons');
-		$res = '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>&nbsp;&nbsp;&nbsp;';
+		$dict = get_first_value('select LgGoogleTranslateURI as value from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $text);
+		$tl=preg_replace('/.*&tl=([a-zA-Z\-]*)&.*/','$1',$dict);
+		$sl=preg_replace('/.*&sl=([a-zA-Z\-]*)&.*/','$1',$dict);
+		$res = '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>&nbsp;';
+		if($sl!=$dict and $tl!=$dict)$res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=' . $text . '&lastpos=0&sl=' . $sl . '&tl=' . $tl . '\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;';
 		if($show_buttons!=2)$res .='<input type="button" onclick="iknowall(' . $text . ');" value=" I KNOW ALL " />';
 		if($show_buttons!=1)$res.='<input type="button" onclick="ignoreall(' . $text . ');" value=" IGNORE ALL " />';
 		return $res	;}
@@ -2965,6 +2969,8 @@ function get_setting_data() {
 		array("dft" => 'jplayer.blue.monday.modified', "num" => 0),
 		'set-words-to-do-buttons' => 
 		array("dft" => '1', "num" => 0),
+		'set-display-text-frame-term-translation' => 
+		array("dft" => '', "num" => 0),
 		'set-test-main-frame-waiting-time' => 
 		array("dft" => '0', "num" => 1, "min" => 0, "max" => 9999),
 		'set-test-edit-frame-waiting-time' => 
@@ -2993,6 +2999,8 @@ function get_setting_data() {
 		array("dft" => '250', "num" => 1, "min" => 1, "max" => 9999),
 		'set-max-texts-per-feed' => 
 		array("dft" => '20', "num" => 1, "min" => 1, "max" => 9999),
+		'set-ggl-translation-per-page' => 
+		array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
 		'set-regex-mode' => 
 		array("dft" => '', "num" => 0),
 		'set-theme_dir' => 
@@ -3715,16 +3723,16 @@ $(document).ready(function(){
     },
     swfPath: "js",
   });
-  
+
   $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
   	$("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
 	});
-  
+
   $("#backbutt").click(click_back);
   $("#forwbutt").click(click_forw);
   $("#do-single").click(click_single);
   $("#do-repeat").click(click_repeat);
-  
+
   <?php echo ($repeatMode ? "click_repeat();\n" : ''); ?>
 });
 //]]>

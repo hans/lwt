@@ -84,7 +84,7 @@ if($status==99)
 var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 <?php echo $javascript; ?> 
-$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['text']); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['text'])); ?>');
 window.parent.frames['l'].setTimeout('cClick()', 1000);
 //]]>
 </script>

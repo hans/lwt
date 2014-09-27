@@ -222,6 +222,12 @@ span.wsty {
     /*color: #000000;*/
     /*color: #FFFFFF;*/
 }
+.wsty:after{
+	opacity:.7
+}
+.wsty.hword:after{
+	opacity:1
+}
 .tword.lword,.tword.sword{
 	background-image: -ms-radial-gradient(center, ellipse farthest-corner, #AA2244 50%, #CE3557 100%);
 	background-image: -moz-radial-gradient(center, ellipse farthest-corner, #AA2244 50%, #CE3557 100%);
@@ -330,14 +336,27 @@ background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #22CC
 /* W3C Markup, IE10 Release Preview */ 
 background-image: radial-gradient(ellipse farthest-corner at center, #22CC33 50%, #88FF88 100%);
     /*color: #000000;*/
-    color: #FFF;text-shadow: 0 -1px #888, 1px 0 #888, 0 1px #888, -1px 0 #888;
+	color: #FFF;text-shadow: 0 -1px #888, 1px 0 #888, 0 1px #888, -1px 0 #888;
 }
 textarea {
-    font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
-    border: 1px solid #404040;
-    background-color: #111111;
-    color: #EEEEEE;
+	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
+	border: 1px solid #404040;
+	background-color: #111111;
+	color: #EEEEEE;
 	padding: 3px;border-radius: 4px;box-shadow:inset 0 0 8px #333333, 0 1px 1px #000;
+}
+.goog-te-gadget-simple,.goog-te-gadget-simple .goog-te-menu-value {
+	background: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(34,34,34)), color-stop(1, rgb(58,59,60)) ) !important;
+	background: -moz-linear-gradient( center bottom, rgb(34,34,34) 0%, rgb(58,59,60) 100% ) !important;
+	background-color: rgb(34,34,34) !important;
+	color: #F3F3F3 !important;
+	border:none !important;
+}
+.goog-te-gadget-simple{
+	box-shadow: 0 1px 1px #000;
+	margin:2px;
+	border-radius: 4px;
+
 }
 select{
  	background: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(34,34,34)), color-stop(1, rgb(58,59,60)) );

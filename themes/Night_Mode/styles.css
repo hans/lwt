@@ -137,6 +137,14 @@ span.wsty {
 	/*color: #FFFFFF;*/
 }
 
+.wsty:after{
+	opacity:.6
+}
+
+.wsty.hword:after{
+	opacity:1
+}
+
 span.todosty {border-radius: 3px;padding: 1px 2px;
     background-color: #fbdb89;
     color: #000;
@@ -189,6 +197,21 @@ textarea {
     background-color: #111111;
     color: #EEEEEE;
 	padding: 3px;border-radius: 4px;box-shadow:inset 0 0 8px #333333, 0 1px 1px #000;
+}
+
+.goog-te-gadget-simple,.goog-te-gadget-simple .goog-te-menu-value {
+	background: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(34,34,34)), color-stop(1, rgb(58,59,60)) ) !important;
+	background: -moz-linear-gradient( center bottom, rgb(34,34,34) 0%, rgb(58,59,60) 100% ) !important;
+	background-color: rgb(34,34,34) !important;
+	color: #F3F3F3 !important;
+	border:none !important;
+}
+
+.goog-te-gadget-simple{
+	box-shadow: 0 1px 1px #000;
+	margin:2px;
+	border-radius: 4px;
+
 }
 
 select {

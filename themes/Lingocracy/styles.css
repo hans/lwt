@@ -171,6 +171,12 @@ span.status5stat {
 .hword{
 	background-color: #FF9;
 }
+.wsty:after{
+	opacity:.5
+}
+.wsty.hword:after{
+	opacity:1
+}
 #thetext span{
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;

@@ -229,7 +229,7 @@ var title = make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>
 	} else {
 		?>
 		$('.word' + woid, context).attr('data_trans',trans).attr('data_rom',roman).attr('title',title).removeClass('status<?php echo $_REQUEST['WoOldStatus']; ?>').addClass('status' + status).attr('data_status',status);
-		$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
+		$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
 		<?php
 	}
 ?>

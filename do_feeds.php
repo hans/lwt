@@ -181,7 +181,7 @@ $(document).ready( function() {
 	$(document).scrollTo($('table').eq(0));
 });
 $('input[type="checkbox"]').change(function(){
-var feed = '[name^=feed\\['+ $(this).val() +'\\]' 
+var feed = '[name^=feed\\['+ $(this).val() +'\\]';
 if(this.checked){
 $(feed+']').prop('disabled', false);
 $(feed+'\\[TxTitle\\]],'+feed+'\\[TxText\\]]').addClass("notempty");

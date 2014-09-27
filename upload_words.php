@@ -396,7 +396,7 @@ $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $l
 	<option value="g">Tag List</option>
 	<option value="x" selected="selected">Don't import</option>
 	</select><br />
-	<br /><b>Import Modus</b>:<br />
+	<br /><b>Import Mode</b>:<br />
 	<select name="Over">
 	<option value="0" title="- don't overwrite existent terms&#x000A;- import new terms" selected="selected">Import only new terms</option>
 	<option value="1" title="- overwrite existent terms&#x000A;- import new terms">Replace all fields</option>

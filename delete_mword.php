@@ -74,7 +74,7 @@ $('.mword[data_sid="' + sid + '"]',context).each(function(){
 ?>
 
 });
-$('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
