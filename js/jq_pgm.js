@@ -484,7 +484,7 @@ function word_hover_over () {
 	if (!$(".tword")[0]){
 		var v = $(this).attr("class").replace(/.*(TERM[^ ]*)( .*)*/, '$1');
 		$( "." + v ).addClass("hword");
-		if (!$(".kwordmarked .uwordmarked")[0]){
+		if (!$(".kwordmarked, .uwordmarked")[0]){
 			var p = $(this);
 			$(document).on('keyup',function(e) {
 				var wid = p.attr('data_wid');
@@ -527,7 +527,7 @@ function word_hover_over () {
 					}
 					return false;
 				}
-				if (e.which == 80) {
+				if (e.which == 80) { // P : PRONOUNCE
 					if(p.hasClass( "mwsty" ))var txt = p.attr('data_text');
 					else var txt = p.text();
 					var lg = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
@@ -535,6 +535,20 @@ function word_hover_over () {
 					audio.src ='tts.php?tl=' + lg + '&q=' + txt;
 					audio.play();
 				}
+				if (e.which == 69) { //  E : EDIT
+					if(p.hasClass('mword'))
+						window.parent.frames['ro'].location.href = 
+							'edit_mword.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
+					else if(p.hasClass('status0'))
+						window.parent.frames['ro'].location.href = 
+							'edit_word.php?wid=&tid=' + TID + '&ord=' + ord;
+					else {
+						window.parent.frames['ro'].location.href = 
+							'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
+					}
+					return false;
+				}
+
 			});
 		}
 	}

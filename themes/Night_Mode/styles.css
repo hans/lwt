@@ -141,10 +141,6 @@ span.wsty {
 	opacity:.6
 }
 
-.wsty.hword:after{
-	opacity:1
-}
-
 span.todosty {border-radius: 3px;padding: 1px 2px;
     background-color: #fbdb89;
     color: #000;

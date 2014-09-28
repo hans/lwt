@@ -119,7 +119,7 @@ $(document).ready( function() {
 <script type="text/javascript">
 $.ajax({type: 'POST',url:'ajax_get_theme.php', data: { file:'img/lwt_icon_big.png' }, success:function (data) {
 $('.lwtlogoright').attr( "src", data );}});
-if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/lwt_icon_big.png' );}
+if(!$('.lwtlogoright[src]').length){$('.lwtlogoright').attr( "src", 'img/lwt_icon_big.png' );}
 </script>
 
     <p class="inline">
@@ -213,6 +213,10 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 
       <dd>
         <ul>
+			 <li><b><strong>THIS IS A THIRD PARTY VERSION - 
+IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
+			 </li>
+ 
           <li>I started this software application in 2010 as a hobby project for my personal learning (reading &amp; listening to foreign texts, saving &amp; reviewing new words and expressions). 
           </li>
 
@@ -242,7 +246,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 
       <dd>
         <ul>
-          <li>The current version is <b>1.6.1 (September 18 2014)</b>.
+          <li>The current version is <b>1.6.1 (September 28 2014)</b>.
           </li>
 
           <li>
@@ -2217,7 +2221,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
       <dd>
         <ul>
         	<li>
-        		The following sixteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
+        		The following fifteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
         		<br />
         		<br />
         		Additional table sets have its "table set name" plus an underscore "_" as a table name prefix: "setname_settings", "setname_languages", etc.
@@ -2382,7 +2386,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
           <li>
             <b>Table "words" (the words and expressions you have saved):</b>
             <br />
-            WoID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            WoID mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
             <br />
             WoLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
@@ -2597,6 +2601,32 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 
       <dd>
         <ul>
+      	<li>1.6.1 (September 28 2014):<br />
+        	New Feature: translations of terms can now be display in the reading frame<br />
+        	New Feature: key bindings when hovering over words in the reading frame<br />
+        	New Feature: bulk translate new words in the reading frame<br />
+        	Changes from official LWT version 1.5.20 imported:<br />
+         	<ul><li><b>New Feature:</b> Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense.</br /></li>
+        	<li>"https://" dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved. </li>
+        	<li>The Glosbe dictionary page has been improved with a simple form to change the term and do a requery if you are unhappy with the query results.</br /></li>        
+ 		 	<li>The jQuery and jPlayer libraries have been updated to v1.11.1 and v2.7.0, respectively. The jQuery.ScrollTo package has been updated to v1.4.13. The Floating Menu package has been updated to v1.12.<br /></li>
+       	<li>Broken links corrected or deleted. From now on, only the installation with EasyPHP for Windows and MAMP for Mac OS X will be explained in detail and is recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).</li>
+       	<li>"Mobile_Detect.php" updated to v2.8.3.</li>
+       	</ul>
+       	Documentation updated.<br />
+        	<br />
+        	</li>
+        
+ 		 	<li>1.6.0 (September 12 2014):<br />
+        	Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added<br />
+        	New Feature: Longer (>9) expressions can now be saved<br />
+        	New Feature: TextToSpeech support for words added<br />
+        	New Feature: experimental google api (use 'ggl.php' instead of '*http://translate.google.com' for google translate)<br />
+        	New Feature: new word select mode in read texts (hold down mouse button)<br />
+        	statistics.php, upload_words.php rewritten<br />
+        	<br />
+        	</li>
+        
 			<li>1.5.17 (June 08 2014):<br />
 			New Feature: Selecting terms according to a text tag<br />
 			New Feature: Start a document where you left off (only "Read Text Screen")<br />

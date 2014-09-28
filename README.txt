@@ -1,8 +1,11 @@
 Learning with Texts (LWT) is a tool for Language Learning.
 
+THIS IS A THIRD PARTY VERSION
+IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
+
 PLEASE READ MORE ... 
 Either open ... info.htm (within the distribution)
-or     open ... http://lwt.sf.net
+or     open ... http://lwt.sf.net(official LWT)
 
 "Learning with Texts" (LWT) is free and unencumbered software 
 released into the PUBLIC DOMAIN.

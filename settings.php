@@ -463,7 +463,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-tags-per-page')); ?>" maxlen
 <td class="td1 center">Feed Articles per Page</td>
 <td class="td1 center">
 <input class="notempty posintnumber right" type="text" 
-name="set-articles-per-page" 
+name="set-articles-per-page" data_info="Feed Articles per Page" 
 value="<?php echo tohtml(getSettingWithDefault('set-articles-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
@@ -472,7 +472,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-articles-per-page')); ?>" ma
 <td class="td1 center">Feeds per Page</td>
 <td class="td1 center">
 <input class="notempty posintnumber right" type="text" 
-name="set-feeds-per-page" 
+name="set-feeds-per-page" data_info="Feeds per Page" 
 value="<?php echo tohtml(getSettingWithDefault('set-feeds-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
@@ -494,7 +494,7 @@ getSettingWithDefault('set-regex-mode'));
 <td class="td1 center">Max Articles per Feed <b>with</b> cached text</td>
 <td class="td1 center">
 <input class="notempty posintnumber right" type="text" 
-name="set-max-articles-with-text" 
+name="set-max-articles-with-text" data_info="Max Articles per Feed with cached text" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-articles-with-text')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
@@ -503,7 +503,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-max-articles-with-text')); ?
 <td class="td1 center">Max Articles per Feed <b>without</b> cached text</td>
 <td class="td1 center">
 <input class="notempty posintnumber right" type="text" 
-name="set-max-articles-without-text" 
+name="set-max-articles-without-text" data_info="Max Articles per Feed without cached text" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-articles-without-text')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
@@ -512,7 +512,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-max-articles-without-text'))
 <td class="td1 center">Max Texts per Feed<br />(older Texts are moved into "Text Archive")</td>
 <td class="td1 center">
 <input class="notempty posintnumber right" type="text" 
-name="set-max-texts-per-feed" 
+name="set-max-texts-per-feed" data_info="Max Texts per Feed" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-texts-per-feed')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
