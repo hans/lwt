@@ -254,8 +254,8 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		<tr>
 		<td class="td1 right">Sentence<br />Term in {...}:</td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-		</td></tr>
+		<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml(repl_tab_nl($sent[1])); ?></textarea></td>
+		</tr>
 		<?php print_similar_terms_tabrow(); ?>
 		<tr>
 		<td class="td1 right">Status:</td>

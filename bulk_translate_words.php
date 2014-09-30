@@ -20,7 +20,7 @@ if (isset($_REQUEST['term'])) {
 	$max = get_first_value('select max(WoID) as value from ' . $tbpref . 'words');
 	runsql($sqltext,'');
 	pagestart($cnt . ' New Word' . ($cnt!=1?'s':'') . ' Saved',false);
-	echo '<p id="displ_message">Updating Texts</p>';
+	echo '<p id="displ_message"><img src="icn/waiting2.gif" /> Updating Texts</p>';
 	flush();
 	$res = do_mysql_query('select WoID, WoTextLC, WoStatus, WoTranslation from ' . $tbpref . 'words where WoID > ' . $max);
 	echo '<script type="text/javascript">var context = window.parent.frames[\'l\'].document;';
@@ -32,7 +32,11 @@ if (isset($_REQUEST['term'])) {
 	echo "</script>";
 	flush();
 	do_mysql_query('UPDATE ' . $tbpref . 'textitems2 join ' . $tbpref . 'words on lower(Ti2Text)=WoTextLC AND Ti2WordCount =1 and Ti2LgID=WoLgID and WoID > ' . $max . ' set Ti2WoID = WoID');
-	echo "<script type=\"text/javascript\">$('#learnstatus', window.parent.frames['h'].document).html('",addslashes(texttodocount2($tid)),"');$('#displ_message').remove();</script>";
+	echo "<script type=\"text/javascript\">$('#learnstatus', window.parent.frames['h'].document).html('",addslashes(texttodocount2($tid)),"');$('#displ_message').remove();";
+	if(!isset($pos)){
+		echo "window.parent.frames['l'].focus();window.parent.frames['l'].setTimeout('cClick()', 100);";
+	}
+	echo "</script>";
 	flush();
 }
 else {
