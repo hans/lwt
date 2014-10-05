@@ -278,6 +278,11 @@ else {  // if (! isset($_REQUEST['op']))
 	pagestart_nobody($titletext);
 ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+<script type="text/javascript">
+	$(window).on('beforeunload',function() {
+		window.parent.frames['ru'].location.href = 'empty.htm';
+	});
+</script>
 <?php
 	$scrdir = getScriptDirectionTag($lang);
 	

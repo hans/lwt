@@ -781,7 +781,22 @@ $(document).ready( function() {
 		}
 	);
 	$( "select" ).wrap( "<label class='wrap_select'></label>" );
-	$( 'input[type="file"]' ).before('<button class="button-file" style="display:none">Choose File</button>');
+	$( 'input[type="file"]' ).each(function(){
+		if(!$(this).is(":visible")){
+			$(this).before('<button class="button-file">Choose File</button>')
+			 .after('<span style="position:relative" class="fakefile"></span>')
+			 .on('change',function () {
+				txt=this.value.replace('C:\\fakepath\\','');
+				if(txt.length > 85)txt=txt.replace(/.*(.{80})$/, ' ... $1');
+				$(this).next().text(txt);
+			 })
+			 .on('onmouseout',function () {
+				txt=this.value.replace('C:\\fakepath\\','');
+				if(txt.length > 85)txt=txt.replace(/.*(.{80})$/, ' ... $1');
+				$(this).next().text(txt);
+			 });
+		}
+	});
 	$( 'input[type="checkbox"]' ).each(function(z){
 		if(typeof z == 'undefined')z=1;
 		if(typeof $(this).attr('id') == 'undefined'){

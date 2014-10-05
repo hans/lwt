@@ -52,14 +52,13 @@ LWT Information / Help
 		<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png" />
 		<link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
 		<style type="text/css">
-  		
+		@import url(css/styles.css);
 		</style>
 		<script type="text/javascript" src="js/jquery.js"></script>  
 		<script type="text/javascript" src="js/floating.js"></script>
  <script type="text/javascript">
 $.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/styles.css' }, success:function (data) {$('style').text( "@import url(" + data + ");" );
 }});
-if(!$.trim($('style').text().length)){$('style').text('@import url(css/styles.css);');}
 </script>
     <title>
       Learning with Texts :: Help/Information
@@ -266,15 +265,23 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
           </li>
 
           <li>
-            <a href="http://sourceforge.net/projects/lwt/files/" target="_blank"><b>Download Page</b> @ Sourceforge</a>
+            <a href="https://github.com/andreask7/lwt/releases/latest" target="_blank"><b>Download Page (THIS VERSION)</b> @ Sourceforge</a>
           </li>
 
           <li>
-            <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497" target="_blank"><b>Help Forum</b> @ Sourceforge</a>
+            <a href="http://sourceforge.net/projects/lwt/files/" target="_blank"><b>Download Page (OFFICIAL LWT)</b> @ Sourceforge</a>
           </li>
 
           <li>
-            <a href="https://github.com/lwt-project/lwt" target="_blank"><b>Source Code</b> @ GitHub</a>
+            <a href="http://sourceforge.net/p/lwt/discussion/1813497" target="_blank"><b>Help Forum</b> @ Sourceforge</a>
+          </li>
+
+          <li>
+            <a href="https://github.com/andreask7/lwt" target="_blank"><b>Source Code (THIS VERSION)</b> @ GitHub</a>
+          </li>
+
+          <li>
+            <a href="https://github.com/lwt-project/lwt" target="_blank"><b>Source Code (OFFICIAL LWT)</b> @ GitHub</a>
           </li>
 
           <li>
@@ -303,9 +310,11 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
 								<li>Only one LWT table set is available - the multiple table set feature has been deactivated.</li>
 								<li>You may "reset" the demo by going to "Backup/Restore", and by clicking on "Install LWT Demo Database".</li>
 							</ul>
-							<li><a href="http://lwt.allalla.com" target="_blank"><b>START ONLINE DEMO #1</b></a> (at 1freehosting.com, quite fast, User ID = <b>lwt</b>, Password = <b>pw4lwt</b>)
+							<li><a href="http://lwtexp.allalla.com" target="_blank"><b>START ONLINE DEMO #1 (THIS VERSION)</b></a> (at 1freehosting.com, User ID = <b>lwt</b>, Password = <b>pw4lwt</b>)
 							</li>
-							<li><a href="http://lwt.sourceforge.net/testdb/" target="_blank"><b>START ONLINE DEMO #2</b></a> (at sourceforge.net, quite slow sometimes, User ID = <b>lwt</b>, Password = <b>lwt</b>)
+							<li><a href="http://lwt.allalla.com" target="_blank"><b>START ONLINE DEMO #2 (OFFICIAL LWT)</b></a> (at 1freehosting.com, quite fast, User ID = <b>lwt</b>, Password = <b>pw4lwt</b>)
+							</li>
+							<li><a href="http://lwt.sourceforge.net/testdb/" target="_blank"><b>START ONLINE DEMO #3 (OFFICIAL LWT)</b></a> (at sourceforge.net, quite slow sometimes, User ID = <b>lwt</b>, Password = <b>lwt</b>)
 							</li>
 						</ul>
             <br />
@@ -2221,7 +2230,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
       <dd>
         <ul>
         	<li>
-        		The following fifteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
+			The following sixteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
         		<br />
         		<br />
         		Additional table sets have its "table set name" plus an underscore "_" as a table name prefix: "setname_settings", "setname_languages", etc.
@@ -2471,7 +2480,33 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
   					<br />
           </li>
 
->          <li>
+          <li>
+            <b>Table "sentences" (Sentences cache, no backup needed):</b>
+            <br />
+            SeID mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            SeLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
+            <br />
+            SeTxID smallint(5) unsigned NOT NULL, -- TEXT FOREIGN KEY --
+            <br />
+            SeOrder smallint(5) unsigned NOT NULL,
+            <br />
+            SeText text,
+            <br />
+            SeFirstPos smallint(5) unsigned NOT NULL,
+            <br />
+            PRIMARY KEY (SeID),
+            <br />
+            KEY SeLgID (SeLgID),
+            <br />
+            KEY SeTxID (SeTxID),
+            <br />
+            KEY SeOrder (SeOrder)
+            <br />
+            <br />
+          </li>
+
+          <li>
             <b>Table "textitems2" (Text items cache, no backup needed):</b>
             <br />
             Ti2WoID mediumint(8) unsigned NOT NULL,

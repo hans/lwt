@@ -102,6 +102,9 @@ $(document).ready( function() {
 	else echo '0;';
 ?>
 	$(document).scrollTo(pos);	
+	window.focus();
+	window.setTimeout('overlib()', 10);
+	window.setTimeout('cClick()', 100);
 });
 $(window).on('beforeunload',function() {
 	var pos=0;

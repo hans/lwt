@@ -21,6 +21,8 @@ switch($currentquerymode){
 		$wh_query=' and (FlTitle ' . $wh_query . ')';
 		break;
 }
+pagestart('My ' . getLanguage($currentlang) . ' Feeds',true);
+
 if($currentquery!==''){
 	if($currentregexmode!==''){
 		if(@mysql_query('select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
@@ -32,12 +34,6 @@ if($currentquery!==''){
 	}
 }
 else $wh_query = '';
-
-//$no_pagestart = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'),-8) == 'and Open');
-$no_pagestart = '';
-if (! $no_pagestart) {
-	pagestart('My ' . getLanguage($currentlang) . ' Feeds',true);
-}
 
 $message = '';
 $edit_text=0;
