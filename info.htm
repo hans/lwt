@@ -72,6 +72,7 @@ $.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/st
 		<a href="#links">Links</a><br />
 		<a href="#abstract">Abstract</a><br />
 		<a href="#features">Features</a><br />
+		<a href="#new_features">New Features</a><br />
 		<a href="#screencasts">Screencasts</a><br />
 		<a href="#license">(Un-) License</a><br />
 		<a href="#disclaimer">Disclaimer</a><br /><br />
@@ -141,6 +142,9 @@ if(!$('.lwtlogoright[src]').length){$('.lwtlogoright').attr( "src", 'img/lwt_ico
         </option>
         <option value="features">
           Features
+        </option>
+        <option value="new_features">
+          New  in this Version
         </option>
         <option value="screencasts">
           Screencasts
@@ -213,7 +217,7 @@ if(!$('.lwtlogoright[src]').length){$('.lwtlogoright').attr( "src", 'img/lwt_ico
       <dd>
         <ul>
 			 <li><b><strong>THIS IS A THIRD PARTY VERSION - 
-IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
+IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_features">here</a>)</strong></b>
 			 </li>
  
           <li>I started this software application in 2010 as a hobby project for my personal learning (reading &amp; listening to foreign texts, saving &amp; reviewing new words and expressions). 
@@ -245,7 +249,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
 
       <dd>
         <ul>
-          <li>The current version is <b>1.6.1 (September 28 2014)</b>.
+          <li>The current version is <b>1.6.2 (October 06 2014)</b>.
           </li>
 
           <li>
@@ -513,9 +517,6 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
           <li><b>New since Version 1.5.0:</b> Create and edit an improved annotated text version (a <a target="_blank" href="http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations">hyperliteral translation</a> as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>.
           </li>
           
-         <li><b>New since Version 1.5.17:</b> Import texts from newsfeeds 
-         </li>
-         
           <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
           </li>
           
@@ -523,6 +524,49 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
           </li>
           
           <li>Enjoy your language learning!
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="new_features" id="new_features">New in this Version (not available in the OFFICIAL LWT)</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+       <ul>
+          <li>Database improvements (db size is much smaller now)
+          </li>
+          <li>Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)
+          </li>
+          <li>Support for different themes
+          </li>
+          <li>Longer (>9) expressions can now be saved (up to 250 characters)
+          </li>
+          <li>Display translations of terms with status(es) in the reading frame
+          </li>
+          <li>Save text/audio position in the reading frame
+          </li>
+          <li>Multiwords selection (click and hold on a word -> move to another word -> release mouse button)
+          </li>
+          <li>Key bindings work when you hover over a word
+          </li>
+          <li>Bulk translate new words in the reading frame
+          </li>
+          <li>Google api (use 'ggl.php' instead of '*http://translate.google.com' for google translate)
+          </li>
+          <li>Text to speech support (only words / doesn't seem to work for web hosting)
+          </li>
+          <li>Translations of terms can now be display in the reading frame
+          </li>
+          <li>Optional "ignore all" button in read texts
+          </li>
+          <li>Improved Search/Query for Words/Texts
+          </li>
+          <li>Selecting terms according to a text tag
+          </li>
+          <li>Term import with more options
+          </li>
+          <li>Database backups (new or old structure)
           </li>
         </ul>
       </dd>
@@ -653,6 +697,11 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</strong></b>
             <li>
             Query.Xpath - Copyright © Sergey Ilinsky, <a href="https://github.com/ilinsky/jquery-xpath" target="_blank">https://github.com/ilinsky/jquery-xpath</a> (js/jquery.xpath.js)
             </li>
+
+            <li>
+            hoverIntent - Copyright © Brian Cherne, <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html" target="_blank">http://cherne.net/brian/resources/jquery.hoverIntent.html</a> (js/jquery.hoverIntent.js)
+            </li>
+
             </ul>
             <br />
           </li>
