@@ -115,7 +115,7 @@ elseif (isset($_REQUEST['orig_backup'])) {
 				$num_fields = 13;
 		}
 		elseif ($table == 'languages') {
-				$result = do_mysql_query('SELECT * FROM ' . $tbpref . 'languages where LgName<>""');
+				$result = do_mysql_query('SELECT LgID, LgName, LgDict1URI, LgDict2URI, REPLACE(LgGoogleTranslateURI,"ggl.php","*http://translate.google.com") as LgGoogleTranslateURI, LgExportTemplate, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft FROM ' . $tbpref . 'languages where LgName<>""');
 				$num_fields = mysql_num_fields($result);
 		}
 		elseif ($table !== 'sentences' && $table !== 'textitems' && $table !== 'settings') {
@@ -224,7 +224,7 @@ else
 <th class="th1 center">Backup</th>
 <td class="td1" style="border-top-right-radius:inherit;">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be exported to a gzipped SQL file.<br />Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
+The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be exported to a gzipped SQL file.<br />Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br /> The OFFICIAL LWT Backup doesn't include newsfeeds, saved text positions and settings.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
 <p class="right">&nbsp;<br /><input type="submit" name="orig_backup" value="Download OFFICIAL LWT Backup" /><input type="submit" name="backup" value="Download LWT Backup" /></p>
 </td>
 </tr>

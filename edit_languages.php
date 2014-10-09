@@ -266,7 +266,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">GoogleTranslate URI:</td>
-	<td class="td1"><input type="text" class="checkdicturl" name="LgGoogleTranslateURI" value="*http://translate.google.com/?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" data_info="GoogleTranslate URI" /></td>
+	<td class="td1"><input type="text" class="checkdicturl" name="LgGoogleTranslateURI" value="ggl.php?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" data_info="GoogleTranslate URI" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">Text Size:</td>

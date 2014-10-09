@@ -269,7 +269,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
           </li>
 
           <li>
-            <a href="https://github.com/andreask7/lwt/releases/latest" target="_blank"><b>Download Page (THIS VERSION)</b> @ Sourceforge</a>
+            <a href="https://github.com/andreask7/lwt/releases/latest" target="_blank"><b>Download Page (THIS VERSION)</b> @ GitHub</a>
           </li>
 
           <li>
@@ -554,11 +554,11 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
           </li>
           <li>Google api (use 'ggl.php' instead of '*http://translate.google.com' for google translate)
           </li>
-          <li>Text to speech support (only words / doesn't seem to work for web hosting)
-          </li>
-          <li>Translations of terms can now be display in the reading frame
+          <li>Text to speech support (only words)
           </li>
           <li>Optional "ignore all" button in read texts
+          </li>
+          <li>New key bindings in the reading frame: T (translate sentence), P (pronounce term)
           </li>
           <li>Improved Search/Query for Words/Texts
           </li>
@@ -2208,6 +2208,10 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 					<td class="td1">Edit marked term</td></tr>
 					<tr class="tr1"><td class="td1">A</td>
 					<td class="td1">Set audio position according to position of marked term.</td></tr>
+					<tr class="tr1"><td class="td1">T</td>
+					<td class="td1">Translate sentence</td></tr>
+					<tr class="tr1"><td class="td1">P</td>
+					<td class="td1">Pronounce term</td></tr>
 					<tr class="tr1"><td class="td1">ESC</td>
 					<td class="td1">Reset marked term(s)</td></tr>
 					</table>
@@ -2488,12 +2492,14 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
             <br />
             KEY WoStatusChanged (WoStatusChanged),
             <br />
-  					KEY WoTodayScore (WoTodayScore),
+	    KEY WoWordCount (WoWordCount),
             <br />
-  					KEY WoTomorrowScore (WoTomorrowScore),
+	    KEY WoTodayScore (WoTodayScore),
             <br />
-  					KEY WoRandom (WoRandom)
-  					<br />
+  	    KEY WoTomorrowScore (WoTomorrowScore),
+            <br />
+  	    KEY WoRandom (WoRandom)
+  	    <br />
             <br />
           </li>
 

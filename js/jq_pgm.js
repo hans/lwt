@@ -484,79 +484,11 @@ function word_hover_over () {
 	if (!$(".tword")[0]){
 		var v = $(this).attr("class").replace(/.*(TERM[^ ]*)( .*)*/, '$1');
 		$( "." + v ).addClass("hword");
-		if (!$(".kwordmarked, .uwordmarked")[0]){
-			var p = $(this);
-			$(document).on('keyup',function(e) {
-				var wid = p.attr('data_wid');
-				var ord = p.attr('data_order');
-				var stat = p.attr('data_status');
-				if(p.hasClass( "mwsty" ))var txt = p.attr('data_text');
-				else var txt = p.text();
-				for (var i=1; i<=5; i++) {
-					if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
-						if(stat=='0'){
-							if(i==1){
-								var sl = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
-								var tl = WBLINK3.replace(/.*&tl=([a-zA-Z\-]*)&.*/,'$1');
-								if(sl && tl)i=i+'&sl='+sl+'&tl='+tl;
-							}
-						window.parent.frames['ro'].location.href = 
-						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status='+i;}
-					else {
-						window.parent.frames['ro'].location.href = 
-							'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i;
-						return false;
-						}
-					}
-				}
-				if (e.which == 73) {  // I : status=98
-					if(stat=='0'){window.parent.frames['ro'].location.href = 
-						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=98';}
-					else {
-						window.parent.frames['ro'].location.href = 
-						'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=98';
-					return false;
-					}
-				}
-				if (e.which == 87) {  // W : status=99
-					if(stat=='0'){window.parent.frames['ro'].location.href = 
-						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=99';}
-					else {
-						window.parent.frames['ro'].location.href = 
-						'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99';
-					}
-					return false;
-				}
-				if (e.which == 80) { // P : PRONOUNCE
-					if(p.hasClass( "mwsty" ))var txt = p.attr('data_text');
-					else var txt = p.text();
-					var lg = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
-					var audio = new Audio();
-					audio.src ='tts.php?tl=' + lg + '&q=' + txt;
-					audio.play();
-				}
-				if (e.which == 69) { //  E : EDIT
-					if(p.hasClass('mword'))
-						window.parent.frames['ro'].location.href = 
-							'edit_mword.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
-					else if(p.hasClass('status0'))
-						window.parent.frames['ro'].location.href = 
-							'edit_word.php?wid=&tid=' + TID + '&ord=' + ord;
-					else {
-						window.parent.frames['ro'].location.href = 
-							'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
-					}
-					return false;
-				}
-
-			});
-		}
 	}
 }
 
 function word_hover_out () {
 	$( ".hword" ).removeClass("hword");
-	$(document).off('keyup');
 }
 
 function keydown_event_do_text_text(e) {
@@ -635,27 +567,70 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 
-	if (TEXTPOS < 0 || TEXTPOS >= l_knownwordlist) return true;
-	var curr = knownwordlist.eq(TEXTPOS);
+	if ((!$(".kwordmarked, .uwordmarked")[0]) && $(".hword:hover")[0]){
+		var curr = $(".hword:hover");
+	}
+	else{
+		if (TEXTPOS < 0 || TEXTPOS >= l_knownwordlist) return true;
+		var curr = knownwordlist.eq(TEXTPOS);
+	}
 	var wid = curr.attr('data_wid');
 	var ord = curr.attr('data_order');
+	var stat = curr.attr('data_status');
+	if(curr.hasClass( "mwsty" ))var txt = curr.attr('data_text');
+	else var txt = curr.text();
 	
-	// the following only with valid pos.
 	for (var i=1; i<=5; i++) {
 		if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
+			if(stat=='0'){
+				if(i==1){
+					var sl = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+					var tl = WBLINK3.replace(/.*&tl=([a-zA-Z\-]*)&.*/,'$1');
+					if(sl!=WBLINK3 && tl!=WBLINK3)i=i+'&sl='+sl+'&tl='+tl;
+				}
 			window.parent.frames['ro'].location.href = 
-				'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i;
-			return false;
+			'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status='+i;
+			}
+			else {
+				window.parent.frames['ro'].location.href = 
+					'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i;
+				return false;
+			}
 		}
 	}
 	if (e.which == 73) {  // I : status=98
-		window.parent.frames['ro'].location.href = 
+		if(stat=='0'){window.parent.frames['ro'].location.href = 
+			'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=98';}
+		else {
+			window.parent.frames['ro'].location.href = 
 			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=98';
 		return false;
+		}
 	}
 	if (e.which == 87) {  // W : status=99
-		window.parent.frames['ro'].location.href = 
+		if(stat=='0'){window.parent.frames['ro'].location.href = 
+			'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=99';}
+		else {
+			window.parent.frames['ro'].location.href = 
 			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99';
+		}
+		return false;
+	}
+	if (e.which == 80) { // P : pronounce term
+		var lg = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+		var audio = new Audio();
+		audio.src ='tts.php?tl=' + lg + '&q=' + txt;
+		audio.play();
+		return false;
+	}
+	if (e.which == 84) {  // T : translate sentence
+		if((WBLINK3.substr(0,8) == '*http://') || (WBLINK3.substr(0,9) == '*https://')){
+			owin('trans.php?x=1&i=' + ord + '&t=' + TID);
+		}
+		else  if ((WBLINK3.substr(0,7) == 'http://') || (WBLINK3.substr(0,8) == 'https://') || (WBLINK3.substr(0,7) == 'ggl.php')) {
+			window.parent.frames['ru'].location.href = 
+			'trans.php?x=1&i=' + ord + '&t=' + TID;
+		}
 		return false;
 	}
 	if (e.which == 65) {  // A : set audio pos.
@@ -670,17 +645,19 @@ function keydown_event_do_text_text(e) {
 			return true;
 		return false;
 	}
-	if (e.which == 69) { //  E : EDIT
-		if(curr.has('.mword'))
+	if (e.which == 69) { //  E : edit term
+		if(curr.hasClass('mword'))
 			window.parent.frames['ro'].location.href = 
 				'edit_mword.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
+		else if(stat=='0')
+			window.parent.frames['ro'].location.href = 
+				'edit_word.php?wid=&tid=' + TID + '&ord=' + ord;
 		else {
 			window.parent.frames['ro'].location.href = 
 				'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
 		}
 		return false;
 	}
-
 	return true;
 }
 
@@ -732,7 +709,6 @@ function do_ajax_edit_impr_text(pagepos, word) {
 	var textid = $('#editimprtextdata').attr('data_id');
 	$.post('ajax_edit_impr_text.php', { id: textid, word: word },
 		function(data) {
-			// alert(data);
 			eval(data);
 			$.scrollTo(pagepos); 
 			$('input.impr-ann-text').change(changeImprAnnText);

@@ -159,7 +159,6 @@ if (isset($_REQUEST['marked_items'])) {
 				$message1 += runsql('delete from ' . $tbpref . 'texts where TxID = ' . $text_ID, "");
 				adjust_autoincr('texts','TxID');
 				adjust_autoincr('sentences','SeID');
-				//adjust_autoincr('textitems','TiID');
 				runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');		
 			}
 		}
@@ -350,7 +349,7 @@ Marked Texts:&nbsp;
 <th class="th1 clickable" style="min-width:90px;">Date</th>
 </tr>	
 <?php
-			$result = do_mysql_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on FlLink=TxSourceURI left join " . $tbpref . "archivedtexts on FlLink=AtSourceURI WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);//
+			$result = do_mysql_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on FlLink=TxSourceURI left join " . $tbpref . "archivedtexts on FlLink=AtSourceURI WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);
 			while($row = mysql_fetch_assoc($result)){
 				echo  '<tr>';
 				if ($row['TxID'])

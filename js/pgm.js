@@ -237,13 +237,13 @@ function make_overlib_link_change_status_test(wid,plusminus,text) {
 }
 
 function make_overlib_link_new_word(txid,torder,wid) {
-	return ' <a href=\x22edit_word.php?tid=' + txid + 
+	return ' <a class=\x22edit\x22 href=\x22edit_word.php?tid=' + txid + 
 		'&amp;ord=' + torder + 
 		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Learn term</a> ';
 }
 
 function make_overlib_link_edit_multiword(txid,torder,wid) {
-	return ' <a href=\x22edit_mword.php?tid=' + txid + 
+	return ' <a class=\x22edit\x22 href=\x22edit_mword.php?tid=' + txid + 
 		'&amp;ord=' + torder + 
 		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a> ';
 }
@@ -331,7 +331,7 @@ sid = '[data_sid="' + sid + '"]';
 
 
 function make_overlib_link_edit_word(txid,torder,wid) {
-	return ' <a href=\x22edit_word.php?tid=' + txid + 
+	return ' <a class=\x22edit\x22 href=\x22edit_word.php?tid=' + txid + 
 		'&amp;ord=' + torder + 
 		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a> ';
 }
@@ -500,11 +500,11 @@ function createTheDictLink(u,w,t,b) {
 	if (url != '' && txt != '') {
 		if(url.substr(0,1) == '*') {
 			r = ' ' + txtbefore + 
-			' <span class=\x22click\x22 onclick=\x22owin(\'' + createTheDictUrl(url.substring(1),escape_apostrophes(trm)) + '\');\x22>' + txt + '</span> ';
+			' <span class=\x22click\x22 onclick=\x22owin(\'' + createTheDictUrl(url.substring(1),escape_apostrophes(trm)) + '\');if($(\'a.edit\')[0]){window.parent.frames[\'ro\'].location.href =$(\'a.edit\').eq(0).attr(\'href\');}\x22>' + txt + '</span> ';
 		} 
 		else {
 			r = ' ' + txtbefore + 
-			' <a href=\x22' + createTheDictUrl(url,trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
+			' <a onclick=\x22{if($(\'a.edit\')[0]){window.parent.frames[\'ro\'].location.href =$(\'a.edit\').eq(0).attr(\'href\');}}\x22 href=\x22' + createTheDictUrl(url,trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
 		} 
 	}
 	return r;
