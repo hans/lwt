@@ -270,7 +270,7 @@ $(window).on('beforeunload',function() {
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',1); ?>
+		<?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',isset($_GET['nodict'])?0:1); ?>
 		&nbsp; &nbsp; &nbsp; 
 		<input type="submit" name="op" value="Save" /></td>
 		</tr>
@@ -346,7 +346,7 @@ $(window).on('beforeunload',function() {
 			<td class="td1 right" colspan="2">  
 			<?php echo (($fromAnn !== '') ? 
 				createDictLinksInEditWin2($lang,'document.forms[0].WoSentence','document.forms[0].WoText') : 
-				createDictLinksInEditWin ($lang,$term,'document.forms[0].WoSentence',1)); ?>
+				createDictLinksInEditWin ($lang,$term,'document.forms[0].WoSentence',isset($_GET['nodict'])?0:1)); ?>
 			&nbsp; &nbsp; &nbsp; 
 			<input type="submit" name="op" value="Change" /></td>
 			</tr>

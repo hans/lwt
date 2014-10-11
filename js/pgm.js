@@ -504,7 +504,7 @@ function createTheDictLink(u,w,t,b) {
 		} 
 		else {
 			r = ' ' + txtbefore + 
-			' <a onclick=\x22{if($(\'a.edit\')[0]){window.parent.frames[\'ro\'].location.href =$(\'a.edit\').eq(0).attr(\'href\');}}\x22 href=\x22' + createTheDictUrl(url,trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
+			' <a onclick=\x22{if($(\'a.edit\')[0]){window.parent.frames[\'ro\'].location.href =$(\'a.edit\').eq(0).attr(\'href\') + \'&nodict\';}}\x22 href=\x22' + createTheDictUrl(url,trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
 		} 
 	}
 	return r;
