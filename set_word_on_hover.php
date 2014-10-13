@@ -31,8 +31,7 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: insert_word_ignore.php?tid=[textid]&ord=[textpos]
-Ignore single word (new term with status 98)
+
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -42,28 +41,33 @@ require_once( 'utilities.inc.php' );
 
 $translation = '*'; 
 if($_REQUEST['status']==1){
-	$qs = http_build_query(array("ie" => "utf-8","sl" => $_GET["sl"],"tl" => $_GET["tl"], "text" => $_GET["text"]));
-	$ctx = stream_context_create(array("http"=>array("method"=>"GET","header"=>"Referer: \r\n")));
-	$file = file_get_contents("http://translate.google.com/?".$qs, false, $ctx);
+	$tl=$_GET["tl"];
+	$sl=$_GET["sl"];
+	$text=$_GET["text"];
+	$qs = http_build_query(array("sl" => $_GET["sl"],"tl" => $_GET["tl"], "text" => $_GET["text"]));
+	$url = "http://translate.google.com/translate_a/t?client=t&" . $qs . "&hl=en&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
+	if(is_callable('curl_init')){
+		$cookie = tempnam(sys_get_temp_dir(), "CURLCOOKIE");
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_COOKIEJAR, $cookie);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		$file = curl_exec($curl);
+		unset($curl);
+		unlink($cookie);
+	}
+	else{
+		$ctx = stream_context_create(array("http"=>array("method"=>"GET","header"=>"Referer: \r\n")));
+		$file = file_get_contents($url, false, $ctx);
+	}
+	$result = preg_replace('!([[,])(?=[],])!', '$1[]$2', $file);
+	$resultArray = json_decode($result, true);
+	$translation=isset($resultArray[0][0][0])?$resultArray[0][0][0]:'*';
 
 	header('Pragma: no-cache');
 	header('Expires: 0');
-	$cs1 = strpos ($file,'content="text/html; charset=');
-	$cs1 = strpos ($file,'=',$cs1+10)+1;
-	$cs2 = strpos ($file,'"',$cs1)-$cs1;
-	$charset = substr($file,$cs1,$cs2);
-	$pos = strpos ($file,'result_box');
-	$pos = strpos ($file,'span title="',$pos);
-	$pos2 = strpos ($file,'>',$pos);
-	$pos3 = strpos ($file,'<',$pos2);
-	$len = $pos3 - $pos2 -1;
-	$file = substr($file,$pos2+1,$len);
-	if(!empty($charset))$file = mb_convert_encoding ($file,"UTF-8",$charset);
-	if ($file != '') {
-		$translation = trim(strip_tags($file));
-		if($translation == $_GET["text"])$translation = '*';
-	}
+	if($translation == $_GET["text"])$translation = '*';
 }
+
 $word = convert_string_to_sqlsyntax($_REQUEST['text']);
 $wordlc = convert_string_to_sqlsyntax(mb_strtolower($_REQUEST['text'], 'UTF-8'));
 

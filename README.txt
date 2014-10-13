@@ -3,9 +3,31 @@ Learning with Texts (LWT) is a tool for Language Learning.
 THIS IS A THIRD PARTY VERSION
 IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
 
+New in this Version (not available in the OFFICIAL LWT) :
+
+Database improvements (db size is much smaller now)
+Automatically import texts from RSS feeds
+Support for different themes
+Longer (>9) expressions can now be saved (up to 250 characters)
+Display translations of terms with status(es) in the reading frame
+Save text/audio position in the reading frame
+Multiwords selection (click and hold on a word -> move to another word -> release mouse button)
+Key bindings work when you hover over a word
+Bulk translate new words in the reading frame
+Google api (use 'ggl.php' instead of '*http://translate.google.com' for google translate)
+Text to speech support (only words)
+Optional "ignore all" button in read texts
+New key bindings in the reading frame: T (translate sentence), P (pronounce term)
+Improved Search/Query for Words/Texts
+Selecting terms according to a text tag
+Term import with more options
+Database backups (new or old structure)
+
+
+
 PLEASE READ MORE ... 
 Either open ... info.htm (within the distribution)
-or     open ... http://lwt.sf.net(official LWT)
+or     open ... http://lwt.sf.net (official LWT)
 
 "Learning with Texts" (LWT) is free and unencumbered software 
 released into the PUBLIC DOMAIN.
