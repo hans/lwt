@@ -6,6 +6,11 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
 $tid=$_REQUEST['tid'];
+if(isset($_REQUEST["sl"])){
+	$sl=$_REQUEST["sl"];
+	$tl=$_REQUEST["tl"];
+	setcookie("googtrans", '/'.$sl.'/'.$tl, time() + 60, "/");
+}
 if(isset ($_REQUEST["offset"]))$pos = $_REQUEST["offset"];
 if (isset($_REQUEST['term'])) {
 	$cnt=0;
@@ -46,8 +51,6 @@ else {
 	pagestart_nobody('Translate New Words');
 }
 if(isset($pos)){
-$sl=$_REQUEST["sl"];
-$tl=$_REQUEST["tl"];
 $cnt = 0;
 $offset = '';
 $limit = getSettingWithDefault('set-ggl-translation-per-page') + 1;

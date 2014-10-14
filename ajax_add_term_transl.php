@@ -59,7 +59,11 @@ if ($wid == 0) {
 		convert_string_to_sqlsyntax('') . ', ' .
 		convert_string_to_sqlsyntax('') . ', NOW(), ' .  
 		make_score_random_insert_update('id') . ')', "");
-	if ($dummy == 1) $success = $textlc;	
+	if ($dummy == 1){
+		$wid = get_last_key();
+		mysql_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $lang . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
+		$success = $textlc;
+	}
 }
 
 else if(get_first_value("select count(WoID) as value from " . $tbpref . "words where WoID = " . $wid) == 1) {
