@@ -62,7 +62,7 @@ sid = $(this).attr('data_sid');
 $(this).remove();
 <?php 
 if (! $showAll) { ?>
-$('.wsty[data_sid="' + sid + '"]',context).removeClass('hide');
+$('[data_sid="' + sid + '"]',context).removeClass('hide');
 $('.mword[data_sid="' + sid + '"]',context).each(function(){
 	if($(this).not('.hide').length){
 		u= parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;

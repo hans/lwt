@@ -140,7 +140,6 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 	mysql_free_result($res);	
 	$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 	$sqltext .= rtrim(implode(',', $sqlarr),',');
-	mysql_query ($sqltext);
 
 ?>
 	
@@ -200,6 +199,8 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 </script>
 	
 <?php
+			flush();
+			if(isset($sqltext))mysql_query ($sqltext);
 		} // (substr($message,0,5) != 'Error')
 
 	} // $_REQUEST['op'] == 'Save'

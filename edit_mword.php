@@ -174,13 +174,10 @@ make_score_random_insert_update('id') . ')', "Term saved");
 	mysql_free_result($res);	
 	$sqltext = 'INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 	$sqltext .= rtrim(implode(',', $sqlarr),',');
-	mysql_query ($sqltext);
 	}
 
 	?>
-	
-	<p>OK: <?php echo tohtml($message); ?></p>
-	
+
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;
@@ -240,6 +237,11 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 	
 <?php
 
+	if(isset($sqltext)){
+		flush();
+		mysql_query ($sqltext);
+		echo '<p>OK: ',tohtml($message),'</p>';
+	}
 } // if (isset($_REQUEST['op']))
 
 else {  // if (! isset($_REQUEST['op']))
@@ -251,7 +253,7 @@ else {  // if (! isset($_REQUEST['op']))
 	if ($wid == '') {	
 		$lang = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['tid']);
 		$term = prepare_textdata(getreq('txt'));
-		$termlc =	mb_strtolower($term, 'UTF-8');
+		$termlc = mb_strtolower($term, 'UTF-8');
 		
 		$wid = get_first_value("select WoID as value from " . $tbpref . "words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc)); 
 		if (isset($wid)) $term = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid); 
