@@ -2792,8 +2792,8 @@ function texttodocount2($text) {
 	if ($c > 0 ){ 
 		$show_buttons=getSettingWithDefault('set-words-to-do-buttons');
 		$dict = get_first_value('select LgGoogleTranslateURI as value from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $text);
-		$tl=preg_replace('/.*&tl=([a-zA-Z\-]*)&.*/','$1',$dict);
-		$sl=preg_replace('/.*&sl=([a-zA-Z\-]*)&.*/','$1',$dict);
+		$tl=preg_replace('/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/','$1',$dict);
+		$sl=preg_replace('/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/','$1',$dict);
 		$res = '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>&nbsp;';
 		if($sl!=$dict and $tl!=$dict)$res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=' . $text . '&offset=0&sl=' . $sl . '&tl=' . $tl . '\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;';
 		if($show_buttons!=2)$res .='<input type="button" onclick="iknowall(' . $text . ');" value=" I KNOW ALL " />';

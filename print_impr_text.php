@@ -85,7 +85,7 @@ $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
 if(!empty($record['LgGoogleTranslateURI'])){
-$ttsLg=preg_replace('/.*&sl=([a-zA-Z\-]*)&.*/','$1',$record['LgGoogleTranslateURI']);
+$ttsLg=preg_replace('/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/','$1',$record['LgGoogleTranslateURI']);
 	if($record['LgGoogleTranslateURI']==$ttsLg){
 		$ttsClass='';
 	}

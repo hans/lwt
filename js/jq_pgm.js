@@ -584,8 +584,8 @@ function keydown_event_do_text_text(e) {
 		if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
 			if(stat=='0'){
 				if(i==1){
-					var sl = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
-					var tl = WBLINK3.replace(/.*&tl=([a-zA-Z\-]*)&.*/,'$1');
+					var sl = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1');
+					var tl = WBLINK3.replace(/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/,'$1');
 					if(sl!=WBLINK3 && tl!=WBLINK3)i=i+'&sl='+sl+'&tl='+tl;
 				}
 			window.parent.frames['ro'].location.href = 
@@ -617,7 +617,7 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 	if (e.which == 80) { // P : pronounce term
-		var lg = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+		var lg = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1');
 		var audio = new Audio();
 		audio.src ='tts.php?tl=' + lg + '&q=' + txt;
 		audio.play();
@@ -645,16 +645,21 @@ function keydown_event_do_text_text(e) {
 			return true;
 		return false;
 	}
-	if (e.which == 69) { //  E : edit term
+	if (e.which == 71) { //  G : edit term and open GTr
+		dict = '&nodict';
+		setTimeout(function(){window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK3,txt);}, 10);
+	}
+	else nodict='';
+	if (e.which == 69 || e.which == 71) { //  E / G : edit term
 		if(curr.hasClass('mword'))
 			window.parent.frames['ro'].location.href = 
-				'edit_mword.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
+				'edit_mword.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + dict;
 		else if(stat=='0')
 			window.parent.frames['ro'].location.href = 
-				'edit_word.php?wid=&tid=' + TID + '&ord=' + ord;
+				'edit_word.php?wid=&tid=' + TID + '&ord=' + ord + dict;
 		else {
 			window.parent.frames['ro'].location.href = 
-				'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord;
+				'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + dict;
 		}
 		return false;
 	}

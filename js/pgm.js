@@ -55,7 +55,7 @@ Helper functions for overlib
 function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,rtl,ann)
 {
 	var ttslg = '';
-	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	ttslg = wblink3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1');
 	if(ttslg == wblink3)ttslg = '';
 	return overlib(
 		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
@@ -69,7 +69,7 @@ function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid
 function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,rtl,ann)
 {
 	var ttslg = '';
-	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	ttslg = wblink3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1');
 	if(ttslg == wblink3)ttslg = '';
 	return overlib(
 		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
@@ -83,7 +83,7 @@ function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid
 function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,rtl,ann)
 {
 	var ttslg = '';
-	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	ttslg = wblink3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1');
 	if(ttslg == wblink3)ttslg = '';
 	return overlib(
 		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
@@ -99,7 +99,7 @@ function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt
 function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,txt,rtl)
 {
 	var ttslg = '';
-	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	ttslg = wblink3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1');
 	if(ttslg == wblink3)ttslg = '';
 	return overlib(
 		'<b>' + escape_html_chars_with_tts(hints,ttslg) + '</b><br /> ' +
@@ -113,7 +113,7 @@ function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,tx
 function run_overlib_multiword(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,wcnt,ann)
 {
 	var ttslg = '';
-	ttslg = wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+	ttslg = wblink3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1');
 	if(ttslg == wblink3)ttslg = '';
 	return overlib(
 		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
@@ -145,7 +145,7 @@ function run_overlib_test(wblink1,wblink2,wblink3,wid,txt,trans,roman,stat,sent,
 		make_overlib_link_change_status_alltest(wid,stat) +
 		'</b></center><hr noshade size=1 />' : 
 		'') +
-	'<b>' + escape_html_chars_with_tts(make_tooltip(txt,trans,roman,stat),wblink3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1')) +	
+	'<b>' + escape_html_chars_with_tts(make_tooltip(txt,trans,roman,stat),wblink3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1')) +	
 	'</b><br />' +
 	' <a href=\x22edit_tword.php?wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a><br />' +
 	createTheDictLink(wblink1,txt,'Dict1','Lookup Term: ') +
