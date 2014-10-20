@@ -130,7 +130,10 @@ make_score_random_insert_update('id') . ')', "Term saved");
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
 		$rtlScript = $record['LgRightToLeft'];
-		mysql_free_result($res);$appendtext=array();
+		mysql_free_result($res);
+		$appendtext=array();
+		$sid=array();
+		$sqlarr=array();
 		if ($splitEachChar) {
 			$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
 		}
@@ -144,12 +147,12 @@ make_score_random_insert_update('id') . ')', "Term saved");
 				$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
 				$txtid =$record['SeTxID'];
 				$sentid =$record['SeID'];
-				$last_pos = strripos ( $string , $textlc );
+				$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8');
 				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
 				while($last_pos!==false){
 					$matches=array();
 					if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
-						$string = substr ( $string, 0, $last_pos );
+						$string = mb_substr ( $string, 0, $last_pos, 'UTF-8' );
 						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
 						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
 						$txt='';
@@ -162,11 +165,11 @@ make_score_random_insert_update('id') . ')', "Term saved");
 							}
 							else $appendtext[$pos]=$splitEachChar?$wis:$matches[1];
 						}
-						$last_pos = strripos ( $string , $textlc );
+						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 					}
 					else{
-						$string = substr ( $string, 0, $last_pos );
-						$last_pos = strripos ( $string , $textlc );
+						$string = mb_substr ( $string, 0, $last_pos, 'UTF-8' );
+						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 					}
 				}
 			}
@@ -304,7 +307,7 @@ else {  // if (! isset($_REQUEST['op']))
 		<table class="tab2" cellspacing="0" cellpadding="5">
 		<tr title="Only change uppercase/lowercase!">
 		<td class="td1 right"><b>New Term:</b></td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td></tr>
 		<?php print_similar_terms_tabrow(); ?>
 		<tr>

@@ -405,22 +405,22 @@ make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 				$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
 				$txtid =$record['SeTxID'];
 				$sentid =$record['SeID'];
-				$last_pos = strripos ( $string , $textlc );
+				$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
 				while($last_pos!==false){
 					$matches=array();
 					if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
-						$string = substr ( $string, 0, $last_pos );
+						$string = mb_substr ( $string, 0, $last_pos , 'UTF-8');
 						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
 						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
 						$txt='';
 						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
 						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
-						$last_pos = strripos ( $string , $textlc );
+						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 					}
 					else{
-						$string = substr ( $string, 0, $last_pos );
-						$last_pos = strripos ( $string , $textlc );
+						$string = mb_substr ( $string, 0, $last_pos, 'UTF-8' );
+						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 					}
 				}
 			}
