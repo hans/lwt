@@ -296,11 +296,13 @@ if (isset($_REQUEST['allaction'])) {
 		}
 		if ($allaction == 'addtagall') {
 			$message = "Tag added in $cnt Terms";
-		} else if ($allaction == 'delall') {
+		}
+		else if ($allaction == 'delall') {
 			$message = "Deleted: $cnt Terms";
 			adjust_autoincr('words','WoID');
 			runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
-		}	else {
+		}
+		else {
 			$message = "$cnt Terms changed";
 		}
 	}
@@ -384,19 +386,20 @@ elseif (isset($_REQUEST['op'])) {
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
-		$wid = get_last_key();
-		set_word_count();
-		$wis = mb_strtolower($_REQUEST["WoText"], 'UTF-8');
-		$lid=$_REQUEST["WoLgID"];
-		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
-		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
-		$termchar = $record['LgRegexpWordCharacters'];
-		$splitEachChar = $record['LgSplitEachChar'];
-		$rtlScript = $record['LgRightToLeft'];
-		mysql_free_result($res);
-		$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
-		$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
+
+			$wid = get_last_key();
+			set_word_count();
+			$wis = mb_strtolower($_REQUEST["WoText"], 'UTF-8');
+			$lid=$_REQUEST["WoLgID"];
+			$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
+			$res = do_mysql_query($sql);
+			$record = mysql_fetch_assoc($res);
+			$termchar = $record['LgRegexpWordCharacters'];
+			$splitEachChar = $record['LgSplitEachChar'];
+			$rtlScript = $record['LgRightToLeft'];
+			mysql_free_result($res);
+			$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
+			$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
 
 			$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
 			$res=do_mysql_query ($sql);

@@ -174,9 +174,12 @@ make_score_random_insert_update('id') . ')', "Term saved");
 				}
 			}
 		}
-	mysql_free_result($res);	
-	$sqltext = 'INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
-	$sqltext .= rtrim(implode(',', $sqlarr),',');
+		mysql_free_result($res);
+		if(!empty($sqlarr)){
+			$sqltext = 'INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
+			$sqltext .= rtrim(implode(',', $sqlarr),',');
+			unset($sqlarr);
+		}
 	}
 
 	?>
