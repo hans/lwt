@@ -426,7 +426,7 @@ if ($recno==0) {
 <th class="th1 clickable">Language</th>
 <th class="th1 sorttable_numeric clickable">Texts,<br />Reparse</th>
 <th class="th1 sorttable_numeric clickable">Arch.<br />Texts</th>
-<th class="th1 sorttable_numeric clickable">Newsfeeds</th>
+<th class="th1 sorttable_numeric clickable">Newsfeeds<br />(Articles)</th>
 <th class="th1 sorttable_numeric clickable">Terms</th>
 <th class="th1 sorttable_nosort">Export<br />Template?</th>
 </tr>
@@ -446,6 +446,10 @@ while ($record = mysql_fetch_assoc($res)) {
 $res = do_mysql_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds group by NfLgID');
 while ($record = mysql_fetch_assoc($res)) {
 	$newsfeedcount[$record['NfLgID']]=$record['value'];
+}
+$res = do_mysql_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds,' . $tbpref . 'feedlinks WHERE NfID=FlNfID group by NfLgID');
+while ($record = mysql_fetch_assoc($res)) {
+	$feedarticlescount[$record['NfLgID']]=$record['value'];
 }
 $res = do_mysql_query('select WoLgID,count(*) as value from ' . $tbpref . 'words group by WoLgID');
 while ($record = mysql_fetch_assoc($res)) {
@@ -481,7 +485,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	}
 	echo '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($archtextcount[$record['LgID']] > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $archtextcount[$record['LgID']] . '</a>' : '0' ) . '</' . $tdth . '>';
-	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($newsfeedcount[$record['LgID']] > 0 ? '<a href="edit_feeds.php?manage_feeds=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $newsfeedcount[$record['LgID']] . '</a>' : '0' ) . '</' . $tdth . '>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($newsfeedcount[$record['LgID']] > 0 ? '<a href="do_feeds.php?query=&amp;selected_feed=&amp;check_autoupdate=1&amp;filterlang=' . $record['LgID'] . '">' . $newsfeedcount[$record['LgID']] . ' (' . (empty($feedarticlescount[$record['LgID']])?0:$feedarticlescount[$record['LgID']]) . ')</a>' : '0' ) . '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($wordcount[$record['LgID']] > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=' . $record['LgID'] . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=">' . $wordcount[$record['LgID']] . '</a>' : '0' ) . '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center" style="border-top-right-radius:0;">' . (isset($record['LgExportTemplate']) ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />' ) . '</' . $tdth . '>';
 	echo '</tr>';
