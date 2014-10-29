@@ -260,7 +260,7 @@ elseif($_REQUEST['step']==2){
 		$_SESSION['wizard']['article_tags']='';
 		foreach($article_tags as $tag){
 			if(substr_compare(trim($tag), "redirect", 0, 8)==0){
-				$_SESSION['wizard']['redirect']=trim($tag).'!?!';
+				$_SESSION['wizard']['redirect']=trim($tag).' | ';
 			}
 			else $_SESSION['wizard']['article_tags'].='<li style="text-align: left"><img class="delete_selection" src="icn/cross.png" title="Delete Selection" alt="-" />'.$tag.'</li>';
 		}

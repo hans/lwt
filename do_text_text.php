@@ -124,9 +124,9 @@ $displaystattrans=getSettingWithDefault('set-display-text-frame-term-translation
 echo "<style>\n";
 $stat_arr = array(1,2,3,4,5,98,99);
 foreach ($stat_arr as $value) {
-	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':after{content: "\00A0" attr(',$data_trans,');}',"\n";
+	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':after{content: attr(',$data_trans,');}',"\n";
 }
-echo '.wsty:after{font-size:50%;}</style>';
+echo '.wsty:after{font-size:50%;margin-left: 0.2em;',($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:15em;display:inline-block;vertical-align:-25%;'),'}</style>';
 echo '<div id="thetext" ' .  ($rtlScript ? 'dir="rtl"' : '') . '><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
 'font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 10px;">';
 
