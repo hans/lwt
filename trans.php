@@ -69,9 +69,9 @@ if ( $x == 1 ) {
 			$trans = str_replace ('?','?sent=1&',$trans);
 		}
 		header("Location: " . createTheDictLink($trans,$satz));
-	}	
+	}
 	exit();
-}	
+}
 
 if ( $x == 2 ) {
 	/*

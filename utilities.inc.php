@@ -1198,6 +1198,7 @@ For more information, please refer to [http://unlicense.org/].
 <body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <?php
+	flush();
 	if ($debug) showRequest();
 } 
 
@@ -2460,7 +2461,7 @@ function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs) {
 	if ($wb2 != "") 
 		$r .= '<span class="click" onclick="translateWord2(' . prepare_textdata_js($wb2) . ',' . $wordctljs . ');">Dict2</span> ';
 	if ($wb3 != "") 
-		$r .= '<span class="click" onclick="translateWord2(' . prepare_textdata_js($wb3) . ',' . $wordctljs . ');">GTr</span> | Sent.: <span class="click" onclick="translateSentence2(' . prepare_textdata_js($wb3) . ',' . $sentctljs . ');">GTr</span>'; 
+		$r .= '<span class="click" onclick="translateWord2(' . prepare_textdata_js($wb3) . ',' . $wordctljs . ');">GTr</span> | Sent.: <span class="click" onclick="translateSentence2(' . prepare_textdata_js((substr($wb3,0,7) == 'ggl.php')?str_replace ('?','?sent=1&',$wb3):$wb3) . ',' . $sentctljs . ');">GTr</span>';
 	return $r;
 }
 
@@ -2514,7 +2515,7 @@ function createDictLinksInEditWin3($lang,$sentctljs,$wordctljs) {
 		$f4 = 'translateSentence2(' . prepare_textdata_js(substr($wb3,1));
 	} else {
 		$f3 = 'translateWord(' . prepare_textdata_js($wb3);
-		$f4 = 'translateSentence(' . prepare_textdata_js($wb3);
+		$f4 = 'translateSentence(' . prepare_textdata_js((substr($wb3,0,7) == 'ggl.php')?str_replace ('?','?sent=1&',$wb3):$wb3);
 	}
 
 	mysql_free_result($res);

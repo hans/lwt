@@ -83,7 +83,6 @@ $res = do_mysql_query($sql);
 while ($record = mysql_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 	
-	flush();
 	$s1 = isset($term_stat[$record['LgID']][1])?($term_stat[$record['LgID']][1]):0;
 	$s2 = isset($term_stat[$record['LgID']][2])?($term_stat[$record['LgID']][2]):0;
 	$s3 = isset($term_stat[$record['LgID']][3])?($term_stat[$record['LgID']][3]):0;
