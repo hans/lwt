@@ -148,7 +148,7 @@ if (isset($_REQUEST['op'])) {
 				fseek($temp, 0);
 				fclose($temp);
 			}
-			$sql= 'LOAD DATA LOCAL INFILE \''. $file_name .'\'';
+			$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name);
 			//$sql.= ($overwrite)?' REPLACE':(' IGNORE') ;
 			if($fields["tl"]==0 and $overwrite==0){
 				$sql.= ' IGNORE INTO TABLE ' . $tbpref . 'words ' . $tabs . $columns ;
@@ -304,7 +304,7 @@ $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $l
 				fseek($temp, 0);
 				fclose($temp);
 			}
-			$sql= 'LOAD DATA LOCAL INFILE \''. $file_name .'\' IGNORE INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = REPLACE(@taglist," ",",")';
+			$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name) .' IGNORE INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = REPLACE(@taglist," ",",")';
 			runsql($sql ,'');
 			runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL)','');
 			runsql("INSERT IGNORE INTO " . $tbpref . "numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')",'');
