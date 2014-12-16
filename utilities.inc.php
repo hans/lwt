@@ -530,7 +530,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.5 (December 01 2014)'  . 
+	return '1.6.6 (December 16 2014)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -3602,7 +3602,7 @@ function makeAudioPlayer($audio,$offset=0) {
 <tr>
 <td class="width45pc">&nbsp;</td>
 <td class="center borderleft" style="padding-left:10px;">
-<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>"><img src="icn/arrow-repeat.png" alt="Toggle Repeat (Now ON)" title="Toggle Repeat (Now ON)" style="width:24px;height:24px;" /></span><span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>"><img src="<?php print_file_path('icn/arrow-norepeat.png'); ?>" alt="Toggle Repeat (Now OFF)" title="Toggle Repeat (Now OFF)" style="width:24px;height:24px;" /></span>
+<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>"><img src="icn/arrow-repeat.png" alt="Toggle Repeat (Now ON)" title="Toggle Repeat (Now ON)" style="width:24px;height:24px;" /></span><span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>"><img src="<?php print_file_path('icn/arrow-norepeat.png'); ?>" alt="Toggle Repeat (Now OFF)" title="Toggle Repeat (Now OFF)" style="width:24px;height:24px;" /></span><div id="playbackrateContainer" style="font-size: 80%;position:relative;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"></div>
 </td>
 <td class="center bordermiddle">&nbsp;</td>
 <td class="bordermiddle">
@@ -3659,6 +3659,7 @@ if($currentplayerseconds == '') $currentplayerseconds = 5;
 <select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
 <span id="backbutt" class="click"><img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" /></span>&nbsp;&nbsp;<span id="forwbutt" class="click"><img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" /></span>
 <span id="playTime" class="hide"></span>
+
 </td>
 <td class="width45pc">&nbsp;</td>
 </tr>
@@ -3702,6 +3703,22 @@ function click_forw() {
 	$("#jquery_jplayer_1").jPlayer("play", nt);
 }
 
+function click_slower() {
+	val=parseFloat($("#pbvalue").text()) - 0.1;
+	if(val>=0.5){
+		$("#pbvalue").text(val.toFixed(1));
+		$("#jquery_jplayer_1").jPlayer("playbackRate",val);
+	}
+}
+
+function click_faster() {
+	val=parseFloat($("#pbvalue").text()) + 0.1;
+	if(val<=4.0){
+		$("#pbvalue").text(val.toFixed(1));
+		$("#jquery_jplayer_1").jPlayer("playbackRate",val);
+	}
+}
+
 $(document).ready(function(){
   $("#jquery_jplayer_1").jPlayer({
     ready: function () {
@@ -3721,6 +3738,7 @@ $(document).ready(function(){
   }
 ?> });
       $(this).jPlayer("pause",<?php echo $offset; ?>);
+      if($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled)$("#playbackrateContainer").html('<span style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" onclick="click_slower();">&nbsp;</span><span style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" onclick="click_faster();">&nbsp;</span><button><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></button>');
     },
     swfPath: "js",
   });

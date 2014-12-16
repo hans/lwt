@@ -23,7 +23,7 @@ if (!file_exists($filename)) {
 		$txt=rawurlencode($txt);
 		$tl=$_GET["tl"];
 		header("Content-type: audio/mpeg");
-		$url="http://translate.google.com/translate_tts?q=$txt&tl=$tl";
+		$url="http://translate.google.com/translate_tts?ie=utf-8&q=$txt&tl=$tl";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

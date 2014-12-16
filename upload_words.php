@@ -162,13 +162,53 @@ if (isset($_REQUEST['op'])) {
 				$sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = LOWER(WoText)';
 				if($fields["tl"]!=0) $sql.= ', WoTaglist = REPLACE(@taglist," ",",")';
 				runsql($sql ,'');
-				if($overwrite!=3){
+//*//
+if($overwrite>3){
+	runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'merge_words(MID mediumint(8) unsigned NOT NULL AUTO_INCREMENT, MText  varchar(250) NOT NULL,  MTranslation  varchar(250) NOT NULL, PRIMARY KEY (MID), UNIQUE KEY (MText, MTranslation) ) DEFAULT CHARSET=utf8','');
+
+	$wosep = getSettingWithDefault('set-term-translation-delimiters');
+	if(empty($wosep)){
+		if ($tabs == 'h')$wosep[0]="#";
+		elseif ($tabs == 'c')$wosep[0]=",";
+		else $wosep[0]="\t";
+	}
+	$seplen = mb_strlen ($wosep,'UTF-8');
+	$WoTrRepl = $tbpref . 'words.WoTranslation';
+	for($i=1;$i<$seplen;$i++){
+		$WoTrRepl = 'REPLACE(' . $WoTrRepl . ', ' . convert_string_to_sqlsyntax($wosep[$i]) . ', ' . convert_string_to_sqlsyntax($wosep[0]) . ')';
+	}
+
+	runsql('insert ignore into ' . $tbpref . 'merge_words(MText,MTranslation) SELECT b.WoTextLC, trim(SUBSTRING_INDEX(SUBSTRING_INDEX(b.WoTranslation, ' . convert_string_to_sqlsyntax($wosep[0]) . ', numbers.n), ' . convert_string_to_sqlsyntax($wosep[0]) . ', -1)) name FROM ' . $tbpref . 'numbers INNER JOIN (select ' . $tbpref . 'words.WoTextLC as WoTextLC, ' . $WoTrRepl . ' as WoTranslation from ' . $tbpref . 'tempwords left join ' . $tbpref . 'words ON ' . $tbpref . 'words.WoTextLC = ' . $tbpref . 'tempwords.WoTextLC and ' . $tbpref . 'words.WoTranslation != \'*\' and ' . $tbpref . 'words.WoLgID = ' . $lang . ') b on CHAR_LENGTH(b.WoTranslation)-CHAR_LENGTH(REPLACE(b.WoTranslation, ' . convert_string_to_sqlsyntax($wosep[0]) . ', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY b.WoTextLC, n','');
+
+	$tesep = $_REQUEST["transl_delim"];
+	if(empty($tesep)){
+		if ($tabs == 'h')$tesep[0]="#";
+		elseif ($tabs == 'c')$tesep[0]=",";
+		else $tesep[0]="\t";
+	}
+
+	$seplen = mb_strlen ($tesep,'UTF-8');
+	$WoTrRepl = $tbpref . 'tempwords.WoTranslation';
+	for($i=1;$i<$seplen;$i++){
+		$WoTrRepl = 'REPLACE(' . $WoTrRepl . ', ' . convert_string_to_sqlsyntax($tesep[$i]) . ', ' . convert_string_to_sqlsyntax($tesep[0]) . ')';
+	}
+
+	runsql('insert ignore into ' . $tbpref . 'merge_words(MText,MTranslation) SELECT ' . $tbpref . 'tempwords.WoTextLC, trim(SUBSTRING_INDEX(SUBSTRING_INDEX(' . $WoTrRepl . ',' . convert_string_to_sqlsyntax($tesep[0]) . ' , ' . $tbpref . 'numbers.n), ' . convert_string_to_sqlsyntax($tesep[0]) . ', -1)) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords on CHAR_LENGTH(' . $tbpref . 'tempwords.WoTranslation)-CHAR_LENGTH(REPLACE(' . $WoTrRepl . ', ' . convert_string_to_sqlsyntax($tesep[0]) . ', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY ' . $tbpref . 'tempwords.WoTextLC, n','');
+	if($wosep[0]==',' or $wosep[0]==';')$wosep = $wosep[0] . ' ';
+	else $wosep= ' ' . $wosep[0] . ' ';
+	runsql('update ' . $tbpref . 'tempwords left join (SELECT MText, GROUP_CONCAT(trim(MTranslation) order by MID separator ' . convert_string_to_sqlsyntax_notrim_nonull($wosep) . ') AS Translation from ' . $tbpref . 'merge_words group by MText ) A on MText=WoTextLC set WoTranslation = Translation','');
+	runsql('DROP TABLE ' . $tbpref . 'merge_words','');
+}
+// */
+				if($overwrite!=3 and $overwrite!=5){
 					$sql=($overwrite!=0)?'INSERT ':('INSERT IGNORE ');
 					$sql.= ' INTO ' . $tbpref . 'words (WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoStatusChanged, WoLgID, WoWordCount,' .  make_score_random_insert_update('iv')  .') ';
 $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termchar . ']+$\' THEN 1 ELSE 0 END as WordCount, ' . make_score_random_insert_update('id') . ' from (select WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, ' . $status . ' as WoStatus, NOW() as WoStatusChanged from ' . $tbpref . 'tempwords) as tw';
 					//if($overwrite==1)$sql.= ' ON DUPLICATE KEY UPDATE ' . $tbpref . 'words.WoTranslation = tw.WoTranslation, ' . $tbpref . 'words.WoRomanization = tw.WoRomanization, ' . $tbpref . 'words.WoSentence = tw.WoSentence, ' . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged';
-					if($overwrite==1)$sql.= ' ON DUPLICATE KEY UPDATE ' . ($fields["tr"]?$tbpref . 'words.WoTranslation = tw.WoTranslation, ':'') . ($fields["ro"]?$tbpref . 'words.WoRomanization = tw.WoRomanization, ':'') . ($fields["se"]?$tbpref . 'words.WoSentence = tw.WoSentence, ':'') . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged';
+					if($overwrite==1 or $overwrite==4)$sql.= ' ON DUPLICATE KEY UPDATE ' . ($fields["tr"]?$tbpref . 'words.WoTranslation = tw.WoTranslation, ':'') . ($fields["ro"]?$tbpref . 'words.WoRomanization = tw.WoRomanization, ':'') . ($fields["se"]?$tbpref . 'words.WoSentence = tw.WoSentence, ':'') . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged';
 					if($overwrite==2)$sql.= ' ON DUPLICATE KEY UPDATE ' . $tbpref . 'words.WoTranslation = case when ' . $tbpref . 'words.WoTranslation = "*" then tw.WoTranslation else ' . $tbpref . 'words.WoTranslation end, ' . $tbpref . 'words.WoRomanization = case when ' . $tbpref . 'words.WoRomanization IS NULL then tw.WoRomanization else ' . $tbpref . 'words.WoRomanization end, ' . $tbpref . 'words.WoSentence = case when ' . $tbpref . 'words.WoSentence IS NULL then tw.WoSentence else ' . $tbpref . 'words.WoSentence end, ' . $tbpref . 'words.WoStatusChanged = case when ' . $tbpref . 'words.WoSentence IS NULL or ' . $tbpref . 'words.WoRomanization IS NULL or ' . $tbpref . 'words.WoTranslation = "*" then tw.WoStatusChanged else ' . $tbpref . 'words.WoStatusChanged end';
+
+
 				}
 				else{
 					$sql = 'UPDATE ' . $tbpref . 'words AS a JOIN ' . $tbpref . 'tempwords AS b ON a.WoTextLC = b.WoTextLC SET a.WoTranslation = CASE WHEN b.WoTranslation = "" or b.WoTranslation = "*" THEN a.WoTranslation ELSE b.WoTranslation END, a.WoRomanization = CASE WHEN b.WoRomanization IS NULL or b.WoRomanization = "" THEN a.WoRomanization ELSE b.WoRomanization END, a.WoSentence = CASE WHEN b.WoSentence IS NULL or b.WoSentence = "" THEN a.WoSentence ELSE b.WoSentence END, a.WoStatusChanged = CASE WHEN (b.WoTranslation = "" or b.WoTranslation = "*") and (b.WoRomanization IS NULL or b.WoRomanization = "") and (b.WoSentence IS NULL or b.WoSentence = "") THEN a.WoStatusChanged ELSE NOW() END';
@@ -397,13 +437,16 @@ $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $l
 	<option value="x" selected="selected">Don't import</option>
 	</select><br />
 	<br /><b>Import Mode</b>:<br />
-	<select name="Over">
+	<select name="Over" onchange="if(parseInt(this.value)>3){$('#imp_transl_delim').removeClass('hide');$('#imp_transl_delim input').addClass('notempty');}else{ $('#imp_transl_delim input').removeClass('notempty');$('#imp_transl_delim').addClass('hide');}">
 	<option value="0" title="- don't overwrite existent terms&#x000A;- import new terms" selected="selected">Import only new terms</option>
 	<option value="1" title="- overwrite existent terms&#x000A;- import new terms">Replace all fields</option>
 	<option value="2" title="- update only empty fields&#x000A;- import new terms">Update empty fields</option>
 	<option value="3" title="- overwrite existing terms with new not empty values&#x000A;- don't import new terms">No new terms</option>
+	<option value="4" title="- add new translations to existing ones&#x000A;- import new terms">Merge translation fields</option>
+	<option value="5" title="- add new translations to existing ones&#x000A;- don't import new terms">Update existing translations</option>
 	</select>
-	<br /><br />
+	<br /><div class="hide" id="imp_transl_delim">Import Translation Delimiter:<br />
+	<input class="notempty" type="text" name="transl_delim" style="width:4em;" value="<?php echo getSettingWithDefault('set-term-translation-delimiters'); ?>" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></div><br />
 	<b>Important:</b><br />
 	You must specify the term.<br />
 	Translation, romanization, <br />sentence and tag list<br />are optional. The tag list <br />must be separated either<br />by spaces or commas.
