@@ -55,11 +55,11 @@ $(".hide_message").delay(2500).slideUp(1000);
 
 if(isset($_REQUEST['update_feed'])){
 	$currentfeed = $_REQUEST['NfID'];
-	runsql('UPDATE ' . $tbpref . 'newsfeeds SET NfLgID=' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',NfName=' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',NfSourceURI=' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',NfArticleSectionTags=' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',NfFilterTags=' . convert_string_to_sqlsyntax($_REQUEST['NfFilterTags']) .',NfOptions=' . convert_string_to_sqlsyntax(rtrim($_REQUEST['NfOptions'],',')) .' where NfID='.$_REQUEST['NfID']);
+	runsql('UPDATE ' . $tbpref . 'newsfeeds SET NfLgID=' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',NfName=' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',NfSourceURI=' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',NfArticleSectionTags=' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',NfFilterTags=' . convert_string_to_sqlsyntax_nonull($_REQUEST['NfFilterTags']) .',NfOptions=' . convert_string_to_sqlsyntax_nonull(rtrim($_REQUEST['NfOptions'],',')) .' where NfID='.$_REQUEST['NfID']);
 }
 
 if(isset($_REQUEST['save_feed'])){
-	runsql('insert into ' . $tbpref . 'newsfeeds (NfLgID,NfName,NfSourceURI,NfArticleSectionTags,NfFilterTags,NfOptions) VALUES (' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfFilterTags']) .',' . convert_string_to_sqlsyntax(rtrim($_REQUEST['NfOptions'],',')) .')');
+	runsql('insert into ' . $tbpref . 'newsfeeds (NfLgID,NfName,NfSourceURI,NfArticleSectionTags,NfFilterTags,NfOptions) VALUES (' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',' . convert_string_to_sqlsyntax_nonull($_REQUEST['NfFilterTags']) .',' . convert_string_to_sqlsyntax_nonull(rtrim($_REQUEST['NfOptions'],',')) .')');
 	$message='newsfeed saved';
 }
 if(isset($_REQUEST['load_feed']) || isset($_REQUEST['check_autoupdate']) || (isset($_REQUEST['markaction']) && $_REQUEST['markaction']=='update')){
