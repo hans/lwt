@@ -145,8 +145,16 @@ function addTranslation (s) {
 	if (!empty($file)) {
 		echo '<br />' . $gglink . "\n";
 	}
+
+echo '&nbsp;<hr />&nbsp;<form action="ggl.php" method="get">Unhappy?<br/>Change term: 
+<input type="text" name="text" maxlength="250" size="15" value="' . tohtml($text) . '">
+<input type="hidden" name="sl" value="' . tohtml($sl) . '">
+<input type="hidden" name="tl" value="' . tohtml($tl) . '">
+<input type="submit" value="Translate via Google Translate">
+</form>';
 }
 else echo '<h3>Sentence:</h3><span class="red2">' . tohtml($text) . '</span><br><br><h3>Google Translate:</h3>' . $gglink . '<br><table class="tab2" cellspacing="0" cellpadding="0"><tr><td class="td1bot center" style="border-top-right-radius:inherit;" colspan="1">'. $file[0] . '</td></tr></table>';
+
 pageend();
 
 ?>

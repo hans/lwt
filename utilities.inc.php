@@ -530,7 +530,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.7 (December 18 2014)'  . 
+	return '1.6.8 (December 19 2014)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 

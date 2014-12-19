@@ -54,21 +54,56 @@ if(isset($pos)){
 $cnt = 0;
 $offset = '';
 $limit = getSettingWithDefault('set-ggl-translation-per-page') + 1;
+$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $tid;
+$res = do_mysql_query($sql);
+$record = mysql_fetch_assoc($res);
+$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
+$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
+$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 ?>
 <style>
 body {top:0px ! important;}
 td.td1{vertical-align:middle ! important;}
+span.dict1,span.dict2,span.dict3 {opacity:0.1;cursor: pointer;}
+span.dict1.hover,span.dict2.hover,span.dict3.hover {opacity:1;color:red;background-color:#666;border-radius:2px;}
+input[name="WoTranslation"]{border: 1px solid red;}
 </style>
-
+<script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
 <script type="text/javascript">
+WBLINK1 = '<?php echo $wb1; ?>';
+WBLINK2 = '<?php echo $wb2; ?>';
+WBLINK3 = '<?php echo $wb3; ?>';
 $('h3,h4,title').addClass('notranslate');
 $(window).load(function() {
+$('[name="form1"]').submit(function() {
+	$('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
+	return true;
+});
+$('td').hoverIntent({over: function() {$( this ).addClass('hover');}, out: function() {$( this ).removeClass('hover');}, interval: 150,selector:"span.dict1, span.dict2, span.dict3"});
+
+$('td').on('click','span.dict1, span.dict2, span.dict3',function(){
+	if($(this).hasClass( "dict1" ))WBLINK=WBLINK1;
+	if($(this).hasClass( "dict2" ))WBLINK=WBLINK2;
+	if($(this).hasClass( "dict3" ))WBLINK=WBLINK3;
+	window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK,$(this).parent().prev().text());
+	$('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
+	el=$(this).parent().parent().next().children();
+	el.attr('data_name',el.attr('name'));
+	el.attr('name','WoTranslation');
+});
 	var myVar = setInterval(function(){
 		if( $( ".trans>font" ).length == $( ".trans" ).length){
 			$('.trans').each(function() {
 				var txt=$(this).text();
 				var cnt= $(this).attr('id').replace('Trans_', '');
 				$(this).addClass('notranslate').html('<input type="text" name="term[' + cnt + '][trans]"  value="' + txt + '" maxlength="100" size="35"></input>');
+			});
+			$('.term').each(function(){
+				txt=$(this).text();
+				$(this).parent().css('position','relative');
+				$(this).after('<span class="dict" style="position:absolute;z-index:10;right:0"><?php if(!empty($wb1)){ echo '<span class="dict1">D1</span>'; }
+if(!empty($wb2)){ echo '<span class="dict2">D2</span>'; }
+if(!empty($wb1)){ echo '<span class="dict3">GTr</span>'; } ?></span>');
 			});
 			$('iframe,#google_translate_element').remove();
 			selectToggle(true,'form1');
@@ -78,6 +113,7 @@ $(window).load(function() {
 	}, 300);
 });
 $(document).ready( function() {
+	window.parent.frames['ru'].location.href = 'empty.htm';
 	$('input[type="checkbox"]').change(function(){
 		var v = parseInt($(this).val());
 		var e = '[name=term\\[' + v + '\\]\\[text\\]],[name=term\\[' + v + '\\]\\[lg\\]],[name=term\\[' + v + '\\]\\[status\\]],[name=term\\[' + v + '\\]\\[trans\\]]';
@@ -106,7 +142,7 @@ $res = do_mysql_query ('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from
 while($record = mysql_fetch_assoc($res)){
 	if(++$cnt<$limit){
 		$value=tohtml($record['word']);
-		echo '<tr><td class="td1 center notranslate"><input name="marked[', $cnt ,']" type="checkbox" class="markcheck" checked="checked" value="', $cnt , '" /></td><td id="Term_', $cnt ,'" class="td1 left notranslate">',$value,'</td><td class="td1 right trans" id="Trans_', $cnt ,'">',mb_strtolower($value, 'UTF-8'),'</td><td class="td1 center notranslate"><select id="Stat_', $cnt ,'" name="term[', $cnt ,'][status]"><option value="1" selected="selected">[1]</option><option value="2">[2]</option><option value="3">[3]</option><option value="4">[4]</option><option value="5">[5]</option><option value="99">[WKn]</option><option value="98">[Ign]</option></select><input type="hidden" id="Text_', $cnt ,'" name="term[', $cnt ,'][text]" value="',$value,'" /><input type="hidden" name="term[', $cnt ,'][lg]" value="',tohtml($record['Ti2LgID']),'" /></td></tr>',"\n";
+		echo '<tr><td class="td1 center notranslate"><input name="marked[', $cnt ,']" type="checkbox" class="markcheck" checked="checked" value="', $cnt , '" /></td><td id="Term_', $cnt ,'" class="td1 left notranslate"><span class="term">',$value,'</span></td><td class="td1 right trans" id="Trans_', $cnt ,'">',mb_strtolower($value, 'UTF-8'),'</td><td class="td1 center notranslate"><select id="Stat_', $cnt ,'" name="term[', $cnt ,'][status]"><option value="1" selected="selected">[1]</option><option value="2">[2]</option><option value="3">[3]</option><option value="4">[4]</option><option value="5">[5]</option><option value="99">[WKn]</option><option value="98">[Ign]</option></select><input type="hidden" id="Text_', $cnt ,'" name="term[', $cnt ,'][text]" value="',$value,'" /><input type="hidden" name="term[', $cnt ,'][lg]" value="',tohtml($record['Ti2LgID']),'" /></td></tr>',"\n";
 	}
 	else $offset='<input type="hidden" name="offset" value="' . ($pos + $limit - 1) . '" /><input type="hidden" name="sl" value="' . $sl . '" /><input type="hidden" name="tl" value="' . $tl . '" />';
 }

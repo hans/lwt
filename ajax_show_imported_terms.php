@@ -86,4 +86,19 @@ while ($record = mysql_fetch_assoc($res)) {
 }
 mysql_free_result($res);
 echo "</table>";
+echo '<script type="text/javascript">';
+echo "$(document).ready( function() {
+	$('.edit_area').editable('inline_edit.php', 
+		{ 
+			type      : 'textarea',
+			indicator : '<img src=\"icn/indicator.gif\">',
+			tooltip   : 'Click to edit...',
+			submit    : 'Save',
+			cancel    : 'Cancel',
+			rows      : 3,
+			cols      : 35
+		}
+	);
+});";
+echo '</script>';
 }
