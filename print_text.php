@@ -150,7 +150,7 @@ echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo getPreviousAndNextTextLinks($textid, 'print_text.php?text=', FALSE, '&nbsp; | &nbsp;');
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>' . get_annotation_link($textid) . ' &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
-echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '') . '</h3>';
+echo '</h4><h3>PRINT&nbsp;▶ ' . tohtml($title) . (isset($sourceURI) && substr(trim($sourceURI),0,1)!='#' ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '') . '</h3>';
 
 echo "<p id=\"printoptions\">Terms with <b>status(es)</b> <select id=\"status\" onchange=\"{val=document.getElementById('status').options[document.getElementById('status').selectedIndex].value;location.href='print_text.php?text=" . $textid . "&amp;status=' + val;}\">";
 echo get_wordstatus_selectoptions($statusrange, true, true, false); 

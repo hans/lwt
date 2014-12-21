@@ -108,7 +108,7 @@ echo '</a>&nbsp; | &nbsp;';
 quickMenu();
 echo getPreviousAndNextTextLinks($textid, 'print_impr_text.php?text=', TRUE, '&nbsp; | &nbsp;');
 echo '&nbsp; | &nbsp;<a href="do_text.php?start=' . $textid . '" target="_top"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a> &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a>';
-echo '</h4><h3>ANN.TEXT&nbsp;▶ ' . tohtml($title) . (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '') . '</h3>';
+echo '</h4><h3>ANN.TEXT&nbsp;▶ ' . tohtml($title) . (isset($sourceURI) && substr(trim($sourceURI),0,1)!='#' ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '') . '</h3>';
 
 echo "<p id=\"printoptions\"><b>Improved Annotated Text";
 

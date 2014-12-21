@@ -358,10 +358,15 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
 			}
 		}
 		if(isset($feed_data[$key]['text'])){
-			$data[$key]['TxSourceURI'] = $feed_data[$key]['link'];
+			$link = trim($feed_data[$key]['link']);
+			if(substr($link,0,1)=='#'){
+				runsql('UPDATE ' . $tbpref . 'feedlinks SET FlLink=' . convert_string_to_sqlsyntax($link) . ' where FlID = ' .substr($link,1) , "");
+			}
+			$data[$key]['TxSourceURI'] = $link;
 			$HTMLString=str_replace (array('>','<'),array('> ',' <'),$feed_data[$key]['text']);//$HTMLString=str_replace (array('>','<'),array('> ',' <'),$HTMLString);
 		}
 		else{
+			$data[$key]['TxSourceURI'] = $feed_data[$key]['link'];
 			$HTMLString = file_get_contents(trim($data[$key]['TxSourceURI']));
 			if(!empty($HTMLString)){
 				$encod  = '';

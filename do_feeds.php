@@ -50,7 +50,7 @@ if (isset($_REQUEST['marked_items'])) {
 				$edit_text=1;
 			}
 		}
-		$doc[0]=array('link' => $row['FlLink'],
+		$doc[0]=array('link' => empty($row['FlLink'])?('#'.$row['FlID']):$row['FlLink'],
 		'title' => $row['FlTitle'],
 		'audio' => $row['FlAudio'],
 		'text' => $row['FlText']);
@@ -368,7 +368,7 @@ Marked Texts:&nbsp;
 				}
 				echo '</td>';
 				echo '<td class="td1 center" style="vertical-align: middle">';
-				if(!empty($row['FlLink'])) echo '<a href="' . trim($row['FlLink']) . '"  title="' . trim($row['FlLink']) . '" onclick="window.open(\'' . $row['FlLink'] . '\');return false;"><img src="icn/external.png" alt="-" /></a>';
+				if(!empty($row['FlLink']) && substr(trim($row['FlLink']),0,1)!='#') echo '<a href="' . trim($row['FlLink']) . '"  title="' . trim($row['FlLink']) . '" onclick="window.open(\'' . $row['FlLink'] . '\');return false;"><img src="icn/external.png" alt="-" /></a>';
 				echo  '</td><td class="td1 center">' . $row['FlDate'] . '</td>';
 				echo '</tr>';
 			}

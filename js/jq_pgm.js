@@ -143,7 +143,7 @@ function check() {
 	count = 0;
 	$('input.checkurl').each( function(n) {
 		if($(this).val().trim().length > 0) {
-			if(($(this).val().trim().indexOf('http://') != 0) &&   ($(this).val().trim().indexOf('https://') != 0)) {
+			if(($(this).val().trim().indexOf('http://') != 0) &&   ($(this).val().trim().indexOf('https://') != 0) && ($(this).val().trim().indexOf('#') != 0)) {
 				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must start with "http://" or "https://" if not empty.');
 				count++;
 			}
