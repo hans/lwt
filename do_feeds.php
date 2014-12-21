@@ -356,7 +356,7 @@ Marked Texts:&nbsp;
 					echo '<td class="td1 center"><a href="do_text.php?start=' . $row['TxID'] . '" ><img src="icn/book-open-bookmark.png" title="Read" alt="-" /></a>';
 				elseif ($row['AtID'])
 					echo '<td class="td1 center"><span title="archived"><img src="icn/status-busy.png" alt="-" /></span>';
-				elseif($row['FlLink'][0]==' ')
+				elseif(!empty($row['FlLink']) && $row['FlLink'][0]==' ')
 					echo '<td class="td1 center"><img class="not_found" name="' . $row['FlID'] . '" title="download error" src="icn/exclamation-button.png" alt="-" />';
 				else
 					echo '<td class="td1 center"><input type="checkbox" class="markcheck" name="marked_items[]" value="' . $row['FlID'] . '" />';
@@ -367,8 +367,9 @@ Marked Texts:&nbsp;
 					echo '<a href="' . $row['FlAudio'] . '" onclick="window.open(this.href, \'child\', \'scrollbars,width=650,height=600\'); return false;">  <img src="'; print_file_path('icn/speaker-volume.png'); echo '" alt="-" /></a>';
 				}
 				echo '</td>';
-				echo '<td class="td1 center" style="vertical-align: middle"><a href="' . trim($row['FlLink']) . '"  title="' . trim($row['FlLink']) . '" onclick="window.open(\'' . $row['FlLink'] . '\');return false;"><img src="icn/external.png" alt="-" /></a></td>';
-				echo  '<td class="td1 center">' . $row['FlDate'] . '</td>';
+				echo '<td class="td1 center" style="vertical-align: middle">';
+				if(!empty($row['FlLink'])) echo '<a href="' . trim($row['FlLink']) . '"  title="' . trim($row['FlLink']) . '" onclick="window.open(\'' . $row['FlLink'] . '\');return false;"><img src="icn/external.png" alt="-" /></a>';
+				echo  '</td><td class="td1 center">' . $row['FlDate'] . '</td>';
 				echo '</tr>';
 			}
 			echo '</table>';

@@ -316,7 +316,7 @@ function get_links_from_rss($NfSourceURI,$NfArticleSection){
 			$type=$enc->getAttribute('type');
 			if($type=="audio/mpeg")$item['audio']=$enc->getAttribute($feed_tags['url']);
 		}
-		if($item['title']!="" && $item['link']!="")array_push($rss_data, $item);
+		if($item['title']!="" && ($item['link']!="" || ($NfArticleSection!="" && !empty($item['text']))))array_push($rss_data, $item);
 	}
 	return $rss_data;
 }
@@ -349,7 +349,6 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
 			unset($HTMLString);
 			unset($xPath);
 		}
-		$data[$key]['TxSourceURI'] = $feed_data[$key]['link'];
 		$data[$key]['TxTitle'] = $feed_data[$key]['title'];
 		$data[$key]['TxAudioURI'] = isset($feed_data[$key]['audio'])?$feed_data[$key]['audio']:(NULL);
 		$data[$key]['TxText'] = "";
@@ -359,6 +358,7 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
 			}
 		}
 		if(isset($feed_data[$key]['text'])){
+			$data[$key]['TxSourceURI'] = $feed_data[$key]['link'];
 			$HTMLString=str_replace (array('>','<'),array('> ',' <'),$feed_data[$key]['text']);//$HTMLString=str_replace (array('>','<'),array('> ',' <'),$HTMLString);
 		}
 		else{
@@ -530,7 +530,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.8 (December 19 2014)'  . 
+	return '1.6.9 (December 21 2014)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -3868,7 +3868,7 @@ function check_update_db() {
 	
 	if (in_array($tbpref . 'feedlinks', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding feedlinks</p>';
-		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "feedlinks (FlID mediumint(8) unsigned NOT NULL AUTO_INCREMENT,FlTitle varchar(200) NOT NULL,FlLink varchar(400) NOT NULL,FlDescription text NOT NULL,FlDate datetime NOT NULL,FlAudio varchar(200) NOT NULL,FlText longtext NOT NULL,FlNfID tinyint(3) unsigned NOT NULL,PRIMARY KEY (FlID), KEY FlLink (FlLink), KEY FlDate (FlDate), KEY FlNfID (FlNfID),UNIQUE KEY FlTitle (FlTitle)) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
+		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "feedlinks (FlID mediumint(8) unsigned NOT NULL AUTO_INCREMENT,FlTitle varchar(200) NOT NULL,FlLink varchar(400) NOT NULL,FlDescription text NOT NULL,FlDate datetime NOT NULL,FlAudio varchar(200) NOT NULL,FlText longtext NOT NULL,FlNfID tinyint(3) unsigned NOT NULL,PRIMARY KEY (FlID), KEY FlLink (FlLink), KEY FlDate (FlDate), UNIQUE KEY FlTitle (FlNfID,FlTitle)) ENGINE=MyISAM  DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array($tbpref . 'archtexttags', $tables) == FALSE) {
