@@ -66,7 +66,7 @@ max-height:150px;
 	#lwt_header select{
 		-moz-appearance: none;
 		margin: 0px;
-		padding-right:4px
+		padding-right: 1.2em;
 		}
 	#lwt_header .wrap_select {
 		position:relative;

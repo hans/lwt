@@ -63,11 +63,11 @@ max-height:150px;
 }
 @-moz-document url-prefix() {
 
-	#lwt_header select{
+	#lwt_header select {
 		-moz-appearance: none;
 		margin: 0px;
-		padding-right:4px
-		}
+		padding-right: 1.2em
+	}
 	#lwt_header .wrap_select {
 		position:relative;
 		display: inline-block;

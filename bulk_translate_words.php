@@ -65,8 +65,13 @@ $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] 
 body {top:0px ! important;}
 td.td1{vertical-align:middle ! important;}
 span.dict1,span.dict2,span.dict3 {opacity:0.1;cursor: pointer;}
+.dict{position:absolute;z-index:10;right:0;top:0px;}
 span.dict1.hover,span.dict2.hover,span.dict3.hover {opacity:1;color:red;background-color:#666;border-radius:2px;}
 input[name="WoTranslation"]{border: 1px solid red;}
+.del_trans{position:absolute;top:0px;right:0px;cursor:pointer;}
+.del_trans:after{content:url(icn/broom.png);opacity:0.2;}
+.del_trans:hover:after{opacity:1;}
+.trans{position:relative;}
 </style>
 <script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
 <script type="text/javascript">
@@ -90,20 +95,21 @@ $('td').on('click','span.dict1, span.dict2, span.dict3',function(){
 	el=$(this).parent().parent().next().children();
 	el.attr('data_name',el.attr('name'));
 	el.attr('name','WoTranslation');
-});
+})
+.on('click','.del_trans',function(){$(this).prev().val('').focus();});
 	var myVar = setInterval(function(){
 		if( $( ".trans>font" ).length == $( ".trans" ).length){
 			$('.trans').each(function() {
 				var txt=$(this).text();
 				var cnt= $(this).attr('id').replace('Trans_', '');
-				$(this).addClass('notranslate').html('<input type="text" name="term[' + cnt + '][trans]"  value="' + txt + '" maxlength="100" size="35"></input>');
+				$(this).addClass('notranslate').html('<input type="text" name="term[' + cnt + '][trans]"  value="' + txt + '" maxlength="100" size="35"></input><div class="del_trans"></div>');
 			});
 			$('.term').each(function(){
 				txt=$(this).text();
 				$(this).parent().css('position','relative');
-				$(this).after('<span class="dict" style="position:absolute;z-index:10;right:0"><?php if(!empty($wb1)){ echo '<span class="dict1">D1</span>'; }
+				$(this).after('<div class="dict"><?php if(!empty($wb1)){ echo '<span class="dict1">D1</span>'; }
 if(!empty($wb2)){ echo '<span class="dict2">D2</span>'; }
-if(!empty($wb1)){ echo '<span class="dict3">GTr</span>'; } ?></span>');
+if(!empty($wb1)){ echo '<span class="dict3">GTr</span>'; } ?></div>');
 			});
 			$('iframe,#google_translate_element').remove();
 			selectToggle(true,'form1');
@@ -116,13 +122,14 @@ $(document).ready( function() {
 	window.parent.frames['ru'].location.href = 'empty.htm';
 	$('input[type="checkbox"]').change(function(){
 		var v = parseInt($(this).val());
-		var e = '[name=term\\[' + v + '\\]\\[text\\]],[name=term\\[' + v + '\\]\\[lg\\]],[name=term\\[' + v + '\\]\\[status\\]],[name=term\\[' + v + '\\]\\[trans\\]]';
+		var e = '[name=term\\[' + v + '\\]\\[text\\]],[name=term\\[' + v + '\\]\\[lg\\]],[name=term\\[' + v + '\\]\\[status\\]]';
 		if(this.checked){
 			$(e).prop('disabled', false);
+			$('#Trans_'+v+' input').prop('disabled', false);
 			if($('input[type="checkbox"]:checked').length){$('input[type="submit"]').val('Save');}
 		}
 		else{
-			$(e).prop('disabled', true);
+			$(e).prop('disabled', true);$('#Trans_'+v+' input').prop('disabled', true);
 			if(!$('input[type="checkbox"]:checked').length){if(!$('input[name="offset"]').length)v='End';else v='Next';$('input[type="submit"]').val(v);}
 		}
 	});
@@ -135,7 +142,7 @@ function googleTranslateElementInit() {
 	echo '<form name="form1" action="', $_SERVER['PHP_SELF'], '" method="post"><span class="notranslate"><div id="google_translate_element"></div><table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1 center" colspan="3"><input type="button" value="Mark All" onclick="$(\'input[type^=submit]\').val(\'Save\');selectToggle(true,\'form1\');$(\'[name^=term]\').prop(\'disabled\', false);" />
 <input type="button" value="Mark None" onclick="if(!$(\'input[name^=offset]\').length)v=\'End\';else v=\'Next\';$(\'input[type^=submit]\').val(v);selectToggle(false,\'form1\');$(\'[name^=term]\').prop(\'disabled\', true);" /><br /></th></tr><tr class="notranslate"><td class="td1">
 Marked Terms: </td><td class="td1">
-<select onchange="v=$(this).val();if(v==6){$(\'.markcheck:checked\').each(function(){e=$(\'#Term_\' + $(this).val());e.text(e.text().toLowerCase());$(\'#Text_\' + $(this).val()).val(e.text().toLowerCase());});$(this).prop(\'selectedIndex\',0);return false;}if(v==7){$(\'.markcheck:checked\').each(function(){$(\'#Trans_\' + $(this).val() + \' input\').val(\'*\');});$(this).prop(\'selectedIndex\',0);return false;}$(\'.markcheck:checked\').each(function(){$(\'#Stat_\' + $(this).val()).val(v);});$(this).prop(\'selectedIndex\',0);return false;"><option value="0" selected="selected">[Choose...]</option><option value="1">Set Status To [1]</option><option value="2">Set Status To [2]</option><option value="3">Set Status To [3]</option><option value="4">Set Status To [4]</option><option value="5">Set Status To [5]</option><option value="99">Set Status To [WKn]</option><option value="98">Set Status To [Ign]</option><option value="6">Set To Lowercase</option><option value="7">Delete Translation</option></select></td><td class="td1" style="min-width: 45px;"><input  type="submit" value="Save" /></td></tr></table></span>
+<select onchange="v=$(this).val();if(v==6){$(\'.markcheck:checked\').each(function(){e=$(\'#Term_\' + $(this).val()).children(\'.term\');e.text(e.text().toLowerCase());$(\'#Text_\' + $(this).val()).val(e.text().toLowerCase());});$(this).prop(\'selectedIndex\',0);return false;}if(v==7){$(\'.markcheck:checked\').each(function(){$(\'#Trans_\' + $(this).val() + \' input\').val(\'*\');});$(this).prop(\'selectedIndex\',0);return false;}$(\'.markcheck:checked\').each(function(){$(\'#Stat_\' + $(this).val()).val(v);});$(this).prop(\'selectedIndex\',0);return false;"><option value="0" selected="selected">[Choose...]</option><option value="1">Set Status To [1]</option><option value="2">Set Status To [2]</option><option value="3">Set Status To [3]</option><option value="4">Set Status To [4]</option><option value="5">Set Status To [5]</option><option value="99">Set Status To [WKn]</option><option value="98">Set Status To [Ign]</option><option value="6">Set To Lowercase</option><option value="7">Delete Translation</option></select></td><td class="td1" style="min-width: 45px;"><input  type="submit" value="Save" /></td></tr></table></span>
 <table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1">Mark</th><th class="th1" style="min-width:5em;">Term</th><th class="th1">Translation</th><th class="th1">Status</th></tr>';
 
 $res = do_mysql_query ('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from ' . $tbpref . 'textitems2 where Ti2WoID = 0 and Ti2TxID = ' . $tid . ' AND Ti2WordCount =1 group by LOWER(Ti2Text) order by pos limit ' . $pos . ',' . $limit);
