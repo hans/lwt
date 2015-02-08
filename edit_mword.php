@@ -254,6 +254,8 @@ else {  // if (! isset($_REQUEST['op']))
 
 	// edit_mword.php?tid=..&ord=..&wid=..  ODER  edit_mword.php?tid=..&ord=..&txt=..
 	
+	$new = (isset($wid) == FALSE);
+	
 	$wid = getreq('wid');
 	
 	if ($wid == '') {	
@@ -279,8 +281,6 @@ else {  // if (! isset($_REQUEST['op']))
 		$termlc =	mb_strtolower($term, 'UTF-8');
 		
 	}
-	
-	$new = (isset($wid) == FALSE);
 
 	$titletext = ($new ? "New Term" : "Edit Term") . ": " . $term;
 	pagestart_nobody($titletext);
@@ -346,7 +346,7 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		</table>
 		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', -1'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 		<?php
 	}
 	

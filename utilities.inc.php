@@ -324,6 +324,7 @@ function get_links_from_rss($NfSourceURI,$NfArticleSection){
 // -------------------------------------------------------------
 
 function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCharset=NULL){
+	global $tbpref;
 	foreach ($feed_data as $key =>$val){
 		if(strncmp($NfArticleSection, 'redirect:', 9)==0){	
 			$dom = new DOMDocument;
@@ -535,7 +536,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.10 (January 25 2015)'  . 
+	return '1.6.11 (February 08 2015)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1517,7 +1518,7 @@ function convert_string_to_sqlsyntax_notrim_nonull($data) {
 
 function remove_spaces($s,$remove) {
 	if ($remove) 
-		return preg_replace('/\s{1,}/u', '', $s);  // '' enthält &#x200B;
+		return preg_replace('/\s{1,}/u', '​', $s);  // '' enthält &#x200B;
 	else
 		return $s;
 }
@@ -2813,59 +2814,27 @@ function texttodocount2($text) {
 
 function getSentence($seid, $wordlc,$mode) {
 	global $tbpref;
-	$txtid = get_first_value('select SeTxID as value from ' . $tbpref . 'sentences where SeID = ' . $seid);
-	$seidlist = $seid;
+	$res = do_mysql_query('select SeTxID,SeText,LgRegexpWordCharacters,LgRemoveSpaces from ' . $tbpref . 'sentences, ' . $tbpref . 'languages where SeLgID = LgID and SeID = ' . $seid);
+	$record = mysql_fetch_assoc($res);
+	$txtid = $record["SeTxID"];
+	$pattern = '/(?<![' . $record["LgRegexpWordCharacters"] . '])(' . $wordlc . ')(?![' . $record["LgRegexpWordCharacters"] . '])/ui';
+	$se = preg_replace ($pattern,'<b>\1</b>',$record["SeText"]);
+	$sejs = preg_replace ($pattern,'{\1}',$record["SeText"]);
 	if ($mode > 1) {
-		$prevseid = get_first_value('select SeID as value from ' . $tbpref . 'sentences where SeID < ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID desc");
-		if (isset($prevseid)) $seidlist .= ',' . $prevseid;
-		if ($mode > 2) {
-			$nextseid = get_first_value('select SeID as value from ' . $tbpref . 'sentences where SeID > ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID asc");
-			if (isset($nextseid)) $seidlist .= ',' . $nextseid;
+		$prevseSent = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID < ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID desc");
+		if (isset($prevseSent)){
+			$se = preg_replace ($pattern,'<b>\1</b>',$prevseSent) . $se;
+			$sejs = preg_replace ($pattern,'{\1}',$prevseSent) . $sejs;
 		}
-	}
-	$sql2 = 'SELECT Ti2Text, WoTextLC, Ti2WordCount FROM ' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on Ti2WoID = WoID and Ti2SeID in (' . $seidlist . ') and Ti2TxID=' . $txtid . '  WHERE Ti2SeID in (' . $seidlist . ') and Ti2TxID=' . $txtid . ' order by Ti2Order asc, Ti2WordCount desc';
-	$res2 = do_mysql_query($sql2);
-	$sejs=''; 
-	$se='';
-	$notfound = 1;
-	$jump=0;
-	while ($record2 = mysql_fetch_assoc($res2)) {
-		if ($record2['Ti2WordCount'] == 0) {
-			$jump--;
-			if ($jump < 0) {
-				$sejs .= $record2['Ti2Text']; 
-				$se .= tohtml($record2['Ti2Text']);
-			} 
-		}	else {
-			if (($jump-1) < 0) {
-				if ($notfound) {
-					if ($record2['WoTextLC'] == $wordlc) {
- 						$txt = $record2['Ti2Text']==''?$record2['WoTextLC']:$record2['Ti2Text'];
-						$sejs.='{'; 
-						$se.='<b>'; 
-						$sejs .= $txt; 
-						$se .= tohtml($txt); 
-						$sejs.='}'; 
-						$se.='</b>';
-						$notfound = 0;
-						$jump=($record2['Ti2WordCount']-1)*2; 
-					}
-				}
-				if ($record2['Ti2WordCount'] == 1) {
-					if ($notfound) {
-						$sejs .= $record2['Ti2Text']; 
-						$se .= tohtml($record2['Ti2Text']);
-						$jump=0;  
-					}	else {
-						$notfound = 1;
-					}
-				}
-			} else {
-				if ($record2['Ti2WordCount'] == 1) $jump--; 
+		if ($mode > 2) {
+			$nextSent = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID > ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID asc");
+			if (isset($nextSent)){
+				$se .= preg_replace ($pattern,'<b>\1</b>',$nextSent);
+				$sejs .= preg_replace ($pattern,'{\1}',$nextSent);
 			}
 		}
 	}
-	mysql_free_result($res2);
+	mysql_free_result($res);
 	return array($se,$sejs); // [0]=html, word in bold
 	                         // [1]=text, word in {} 
 }
@@ -2875,14 +2844,27 @@ function getSentence($seid, $wordlc,$mode) {
 function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) {
 	global $tbpref;
 	$r = '<p><b>Sentences in active texts with <i>' . tohtml($wordlc) . '</i></b></p><p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy sentence into above term)</p>';
-	$sql = 'SELECT DISTINCT SeID, SeText FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 WHERE Ti2WoID = ' . $wid . ' AND SeID = Ti2SeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
+	if(empty($wid)){
+		$sql = 'SELECT DISTINCT SeID, SeText FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 WHERE lower(Ti2Text) = ' . convert_string_to_sqlsyntax($wordlc) . ' AND Ti2WoID = 0 AND SeID = Ti2SeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
+	}
+	else if($wid==-1){
+		$res = do_mysql_query('select LgRegexpWordCharacters,LgRemoveSpaces from ' . $tbpref . 'languages where LgID = ' . $lang);
+		$record = mysql_fetch_assoc($res);
+		$pattern = convert_string_to_sqlsyntax('(^|[^' . $record["LgRegexpWordCharacters"] . '])' . $wordlc . '([^' . $record["LgRegexpWordCharacters"] . ']|$)');
+		$sql = 'SELECT DISTINCT SeID, SeText FROM ' . $tbpref . 'sentences WHERE SeText rlike ' . $pattern . ' AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
+	}
+	else{
+		$sql = 'SELECT DISTINCT SeID, SeText FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 WHERE Ti2WoID = ' . $wid . ' AND SeID = Ti2SeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
+	}
 	$res = do_mysql_query($sql);
 	$r .= '<p>';
 	$last = '';
 	while ($record = mysql_fetch_assoc($res)) {
 		if ($last != $record['SeText']) {
 			$sent = getSentence($record['SeID'], $wordlc,$mode);
-			$r .= '<span class="click" onclick="{' . $jsctlname . '.value=' . prepare_textdata_js($sent[1]) . '; makeDirty();}"><img src="icn/tick-button.png" title="Choose" alt="Choose" /></span> &nbsp;' . $sent[0] . '<br />';
+			if(mb_strstr ($sent[1],'}', 'UTF-8')){
+				$r .= '<span class="click" onclick="{' . $jsctlname . '.value=' . prepare_textdata_js($sent[1]) . '; makeDirty();}"><img src="icn/tick-button.png" title="Choose" alt="Choose" /></span> &nbsp;' . $sent[0] . '<br />';
+			}
 		}
 		$last = $record['SeText'];
 	}
