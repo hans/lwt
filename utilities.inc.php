@@ -536,7 +536,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.11 (February 08 2015)'  . 
+	return '1.6.11 (February 09 2015)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -791,7 +791,7 @@ function get_txtag_selectoptions($l,$v){
 	$res = do_mysql_query($sql);
 	while ($record = mysql_fetch_assoc($res)) {
 		if($record['TagName']==1){
-			$u ="​<option disabled=\"disabled\">--------</option><option value=\"" . $record['TextID'] . "&amp;texttag=-1\"" . get_selected($v,"-1") . ">UNTAGGED</option>";
+			$u ="<option disabled=\"disabled\">--------</option><option value=\"" . $record['TextID'] . "&amp;texttag=-1\"" . get_selected($v,"-1") . ">UNTAGGED</option>";
 		}
 		else {
 			$r .= "<option value=\"" .$record['TextID']."&amp;texttag=". $record['TagID'] . "\"" . get_selected($v,$record['TagID']) . ">" . $record['TagName'] . "</option>";
@@ -1518,7 +1518,7 @@ function convert_string_to_sqlsyntax_notrim_nonull($data) {
 
 function remove_spaces($s,$remove) {
 	if ($remove) 
-		return preg_replace('/\s{1,}/u', '​', $s);  // '' enthält &#x200B;
+		return preg_replace('/\s{1,}/u', '', $s);  // '' enthält &#x200B;
 	else
 		return $s;
 }
@@ -2814,27 +2814,54 @@ function texttodocount2($text) {
 
 function getSentence($seid, $wordlc,$mode) {
 	global $tbpref;
-	$res = do_mysql_query('select SeTxID,SeText,LgRegexpWordCharacters,LgRemoveSpaces from ' . $tbpref . 'sentences, ' . $tbpref . 'languages where SeLgID = LgID and SeID = ' . $seid);
+	$res = do_mysql_query('select group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\') as SeText, Ti2TxID as SeTxID, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar from ' . $tbpref . 'textitems2, ' . $tbpref . 'languages where Ti2LgID = LgID and Ti2WordCount<2 and Ti2SeID= ' . $seid);
 	$record = mysql_fetch_assoc($res);
+	$removeSpaces = $record["LgRemoveSpaces"];
+	$splitEachChar = $record['LgSplitEachChar'];
 	$txtid = $record["SeTxID"];
-	$pattern = '/(?<![' . $record["LgRegexpWordCharacters"] . '])(' . $wordlc . ')(?![' . $record["LgRegexpWordCharacters"] . '])/ui';
-	$se = preg_replace ($pattern,'<b>\1</b>',$record["SeText"]);
-	$sejs = preg_replace ($pattern,'{\1}',$record["SeText"]);
+	if($removeSpaces==1 && $splitEachChar==0){
+		$text = '​' . $record["SeText"] . '​';
+		$wordlc = '[​]*' . preg_replace('/(.)/u', "$1[​]*", $wordlc);
+		$pattern = '/(?<=[​])(' . $wordlc . ')(?=[​])/ui';
+	}
+	else{
+		$text = str_replace('​','',$record["SeText"]);
+		if($splitEachChar==0){
+			$pattern = '/(?<![' . $record["LgRegexpWordCharacters"] . '])(' . remove_spaces($wordlc, $removeSpaces) . ')(?![' . $record["LgRegexpWordCharacters"] . '])/ui';
+		}
+		else $pattern ='/(' .  $wordlc . ')/ui';
+	}
+	$se = str_replace('​','',preg_replace ($pattern,'<b>$0</b>',$text));
+	$sejs = str_replace('​','',preg_replace ($pattern,'{$0}',$text));
 	if ($mode > 1) {
-		$prevseSent = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID < ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID desc");
+		if($removeSpaces==1 && $splitEachChar==0){
+			$prevseSent = '​' . get_first_value('select group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\') as value from ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 where Ti2SeID = SeID and SeID < ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') group by SeID order by SeID desc") . '​';
+		}
+		else{
+			$prevseSent = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID < ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID desc");
+		}
 		if (isset($prevseSent)){
-			$se = preg_replace ($pattern,'<b>\1</b>',$prevseSent) . $se;
-			$sejs = preg_replace ($pattern,'{\1}',$prevseSent) . $sejs;
+			$se = preg_replace ($pattern,'<b>$0</b>',$prevseSent) . $se;
+			$sejs = preg_replace ($pattern,'{$0}',$prevseSent) . $sejs;
 		}
 		if ($mode > 2) {
-			$nextSent = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID > ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID asc");
+			if($removeSpaces==1 && $splitEachChar==0){
+				$nextSent = '​' . get_first_value('select group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\') as  value from ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 where Ti2SeID = SeID and SeID > ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') group by SeID order by SeID asc") . '​';
+			}
+			else{
+				$nextSent = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID > ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID asc");
+			}
 			if (isset($nextSent)){
-				$se .= preg_replace ($pattern,'<b>\1</b>',$nextSent);
-				$sejs .= preg_replace ($pattern,'{\1}',$nextSent);
+				$se .= preg_replace ($pattern,'<b>$0</b>',$nextSent);
+				$sejs .= preg_replace ($pattern,'{$0}',$nextSent);
 			}
 		}
 	}
 	mysql_free_result($res);
+	if($removeSpaces==1){
+		$se = str_replace('​', '', $se);
+		$sejs = str_replace('​', '', $sejs);
+	}
 	return array($se,$sejs); // [0]=html, word in bold
 	                         // [1]=text, word in {} 
 }
@@ -2850,7 +2877,13 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) {
 	else if($wid==-1){
 		$res = do_mysql_query('select LgRegexpWordCharacters,LgRemoveSpaces from ' . $tbpref . 'languages where LgID = ' . $lang);
 		$record = mysql_fetch_assoc($res);
-		$pattern = convert_string_to_sqlsyntax('(^|[^' . $record["LgRegexpWordCharacters"] . '])' . $wordlc . '([^' . $record["LgRegexpWordCharacters"] . ']|$)');
+		$removeSpaces = $record["LgRemoveSpaces"];
+		if(!($removeSpaces==1)){
+			$pattern = convert_string_to_sqlsyntax('(^|[^' . $record["LgRegexpWordCharacters"] . '])' . remove_spaces($wordlc, $removeSpaces) . '([^' . $record["LgRegexpWordCharacters"] . ']|$)');
+		}
+		else{
+			$pattern = convert_string_to_sqlsyntax($wordlc);
+		}
 		$sql = 'SELECT DISTINCT SeID, SeText FROM ' . $tbpref . 'sentences WHERE SeText rlike ' . $pattern . ' AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
 	}
 	else{
