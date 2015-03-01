@@ -116,7 +116,7 @@ $prefix = getprefixes();
 
 <tr>
 <th class="th1 center">Select</th>
-<td class="td1" style="border-top-right-radius:inherit;">
+<td class="td1">
 <form name="f1" class="inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <p>Table Set: <select name="prefix">
 <option value="-" selected="selected">[Choose...]</option>

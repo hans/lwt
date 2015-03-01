@@ -152,11 +152,12 @@ span.status5stat {
 	color: #000000;
 	border-radius: 3px;
 }
-.tword.lword,.tword.sword{
+.tword.lword,.nword.lword{
 	border-top: 2px solid #D57;
-	border-bottom: 2px solid #D57;
+	border-bottom: 2px solid #D57 !important;
 	text-decoration: none;
 	background-color: #FEE;
+	box-shadow: 1px 0 0 0 #FEE, -1px 0 0 0 #FEE;
 }
 .tword{
 	border-radius: 3px;
@@ -534,7 +535,7 @@ table tr:first-child>th:first-child {
 	border-top-left-radius: 8px;
 }
 
-table tr:first-child>th:last-child {
+table tr:first-child>th:last-child,table>tr:first-child>td:last-child,table>tbody>tr:first-child>td:last-child {
 	border-top-right-radius: 8px;
 }
 

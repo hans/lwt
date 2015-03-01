@@ -156,7 +156,9 @@ function run_overlib_test(wblink1,wblink2,wblink3,wid,txt,trans,roman,stat,sent,
 }
 
 function make_overlib_link_new_multiword(txid,torder,rtl) {
-	return ' <br />Expr: ' + make_overlib_link_create_edit_multiword_new(txid,torder,rtl);
+	mwords = make_overlib_link_create_edit_multiword_new(txid,torder,rtl);
+	if(mwords != '<span></span>') mwords =' <br />Expr: ' + mwords;
+	return mwords;
 }
 
 function make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder) {
@@ -258,6 +260,7 @@ function make_overlib_link_create_edit_multiword(len,txid,torder,txt) {
 	return ' <a href=\x22edit_mword.php?tid=' + txid + 
 		'&amp;ord=' + torder + 
 		'&amp;txt=' + txt +
+		'&amp;len=' + len +
 		'\x22 target=\x22ro\x22>' + len + '..' + escape_html_chars(txt.substr(-2).trim()) + '</a> ';
 }
 
@@ -265,11 +268,11 @@ function make_overlib_link_create_edit_multiword_rtl(len,txid,torder,txt) {
 	return ' <a dir=\x22rtl\x22 href=\x22edit_mword.php?tid=' + txid + 
 		'&amp;ord=' + torder + 
 		'&amp;txt=' + txt +
+		'&amp;len=' + len +
 		'\x22 target=\x22ro\x22>' + len + '..' + escape_html_chars(txt.substr(-2).trim()) + '</a> ';
 }
 
 function make_overlib_link_create_edit_multiword_new(txid,torder,rtl) {
-	var sid = $('#ID-' + torder + '-1').attr('data_sid');
 	var text = $('#ID-' + torder + '-1').text();
 	var len=2;
 	var html='<span';
@@ -278,19 +281,13 @@ function make_overlib_link_create_edit_multiword_new(txid,torder,rtl) {
 	var charcnt = parseInt($('#ID-' + torder + '-1').attr('data_pos')) + 250;
 	$('#ID-' + torder + '-1').nextAll('[id$="-1"]').each(function() {
 		text += $(this).text();
-		if(1){
-			if($(this).attr('data_sid')==sid){
-				if($(this).attr('data_pos')<charcnt){
-					h= ' <a href=\x22edit_mword.php?tid='
-					+ txid + '&amp;ord=' + torder + '&amp;txt=' + text
-					+ '\x22 target=\x22ro\x22 title=\x22' + text
-					+ '\x22>' + len + '..' + escape_html_chars(text.substr(-2).trim()) +  '</a> ';
-						
-							html = html + h;
-						
-					len += 1;
-				}
-			}
+		if($(this).attr('data_pos')<charcnt){
+			h = ' <a href=\x22edit_mword.php?tid='
+			+ txid + '&amp;ord=' + torder + '&amp;txt=' + text
+			+ '\x22 target=\x22ro\x22 title=\x22' + text
+			+ '\x22>' + len + '..' + escape_html_chars(text.substr(-2).trim()) +  '</a> ';
+			html = html + h;
+			len += 1;
 		}
 	});
 	return html + '</span>';
@@ -299,12 +296,12 @@ function make_overlib_link_create_edit_multiword_new(txid,torder,rtl) {
 function refresh_text(element, sentenceid){
 	var h=0;
 	var s=0;
-sid = parseInt(sentenceid) + 1;
-sid = '[data_sid="' + sid + '"]';
-	element.nextUntil($(sid ,window.parent.frames['l'].document)).addBack().each(function(){
-
-		var len = parseInt($(this).attr('id').replace(/ID-[0-9]+-/, ''));
-		var pos = parseInt($(this).attr('id').replace(/ID-([0-9]+)-[0-9]+/, '$1'));
+//sid = parseInt(sentenceid) + 1;
+//sid = '#sent_' + sentenceid;
+	element.nextAll().addBack().each(function(){
+		var split = $(this).attr('id').split('-');
+		var len = parseInt(split[2]);
+		var pos = parseInt(split[1]);
 		var woid = parseInt($(this).attr( "data_wid" ));
 		if(pos > s && s > 0)return false;
 		if (woid > 0) {
@@ -368,11 +365,11 @@ String extensions
 
 String.prototype.rtrim = function () {
   return this.replace (/\s+$/, '');
-}
+};
 
 String.prototype.ltrim = function () {
   return this.replace (/^\s+/, '');
-}
+};
 
 String.prototype.trim = function (clist) {
   return this.ltrim().rtrim();
@@ -487,7 +484,7 @@ function oewin(url) {
 function createTheDictUrl(u,w) {
 	var url = u.trim();
 	var trm = w.trim();
-	var r = 'trans.php?x=2&i=' + escape(u) + '&t=' + w;
+	var r = 'trans.php?x=2&i=' + escape(url) + '&t=' + trm;
 	return r;
 }
 

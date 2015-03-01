@@ -52,83 +52,85 @@ else $translation = $translation_raw;
 // INS/UPD
 
 if (isset($_REQUEST['op'])) {
-	
+
 	$textlc = trim(prepare_textdata($_REQUEST["WoTextLC"]));
 	$text = trim(prepare_textdata($_REQUEST["WoText"]));
 	$wis = $textlc;
-	
+
 	if (mb_strtolower($text, 'UTF-8') == $textlc) {
-	
+
 		// INSERT
-		
+
 		if ($_REQUEST['op'] == 'Save') {
-	
+
 			$titletext = "New Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
 			pagestart_nobody($titletext);
 			echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
-					
+
 			$message = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
-				'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+				'WoStatus, WoTranslation, WoSentence, WoRomanization, WoWordCount, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 				$_REQUEST["WoLgID"] . ', ' .
 				convert_string_to_sqlsyntax($_REQUEST["WoTextLC"]) . ', ' .
 				convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
 				$_REQUEST["WoStatus"] . ', ' .
 				convert_string_to_sqlsyntax($translation) . ', ' .
 				convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
-				convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
+				convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', ' . convert_string_to_sqlsyntax($_REQUEST["len"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Term saved");
 			$wid = get_last_key();
 			set_word_count();
 			$hex = strToClassName(prepare_textdata($_REQUEST["WoTextLC"]));
-	
-			
+
+
 		} // $_REQUEST['op'] == 'Save'
-		
+
 		// UPDATE
-		
+
 		else {  // $_REQUEST['op'] != 'Save'
-			
+
 			$titletext = "Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
 			pagestart_nobody($titletext);
 			echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
-			
+
 			$oldstatus = $_REQUEST["WoOldStatus"];
 			$newstatus = $_REQUEST["WoStatus"];
 			$xx = '';
 			if ($oldstatus != $newstatus) $xx = ', WoStatus = ' .	$newstatus . ', WoStatusChanged = NOW()';
-		
+
 			$message = runsql('update ' . $tbpref . 'words set WoText = ' . 
 			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' . 
 			convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
 			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
 			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"], "Updated");
-			
+
 			$wid = $_REQUEST["WoID"];
-			
+
 		} // $_REQUEST['op'] != 'Save'
-		
+
 		saveWordTags($wid);
-		
+
 	} // (mb_strtolower($text, 'UTF-8') == $textlc)
-	
+
 	else { // (mb_strtolower($text, 'UTF-8') != $textlc)
 
 		$titletext = "New/Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
 		pagestart_nobody($titletext);
-		echo '<h4><span class="bigger">' . $titletext . '</span></h4>';		
-		$message = 'Error: Term in lowercase must be exactly = "' . $textlc . '", please go back and correct this!'; 
+		echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
+		$message = 'Error: Term in lowercase must be exactly = "' . $textlc . '", please go back and correct this!';
 		echo error_message_with_hide($message,0);
 		pageend();
 		exit();
 
 	}
 	if ($_REQUEST['op'] == 'Save') {
-		$lid=$_REQUEST["WoLgID"];
+		$lid = $_REQUEST["WoLgID"];
+		$len = $_REQUEST["len"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
 		$res = do_mysql_query($sql);
 		$record = mysql_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
+		$removeSpaces = $record["LgRemoveSpaces"];
 		$rtlScript = $record['LgRightToLeft'];
 		mysql_free_result($res);
 		$appendtext=array();
@@ -137,33 +139,50 @@ make_score_random_insert_update('id') . ')', "Term saved");
 		if ($splitEachChar) {
 			$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
 		}
-		$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
+		if($removeSpaces==1 && $splitEachChar==0){
+			$rSflag = '';
+		}
+		//if(empty($len)) $len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
 		if($len>1){
 			$ti=array();
-			$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+			if($removeSpaces==1 && $splitEachChar==0){
+				$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%' and Ti2WordCount < 2 group by SeID";
+			}
+			else {
+				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+			}
 			$res=do_mysql_query ($sql);
 			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
 			while($record = mysql_fetch_assoc($res)){
-				$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+				$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+				if($removeSpaces==1 && $splitEachChar==0){
+					if(empty($rSflag)){
+						$rSflag = preg_match ( '/(?<=[ ])(' . preg_replace('/(.)/ui', "$1[ ]*", $textlc) . ')(?=[ ])/ui', $string, $ma);
+						if(!empty($ma[1])){
+							$textlc = trim($ma[1]);
+							$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+						}
+					}
+				}
 				$txtid =$record['SeTxID'];
 				$sentid =$record['SeID'];
 				$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8');
 				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
 				while($last_pos!==false){
 					$matches=array();
-					if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+					if($splitEachChar || $removeSpaces || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
 						$string = mb_substr ( $string, 0, $last_pos, 'UTF-8' );
 						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
 						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
 						$txt='';
-						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
+						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar || $removeSpaces?$wis:$matches[1];
 						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
 						if($txtid==$_REQUEST["tid"]){
 							$sid[$pos]=$record['SeID'];
 							if(getSettingZeroOrOne('showallwords', 1)){
 								$appendtext[$pos]='&nbsp;' . $len . '&nbsp';
 							}
-							else $appendtext[$pos]=$splitEachChar?$wis:$matches[1];
+							else $appendtext[$pos]=$splitEachChar || $removeSpaces?$wis:$matches[1];
 						}
 						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 					}
@@ -221,7 +240,7 @@ var title = make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>
 			el.addClass(ord_class).attr('data_order',key);
 			var txt = el.nextUntil($('#ID-' + (parseInt(key) + <?php echo $len * 2 -1; ?>) + '-1', context),'[id$="-1"]').map(function() {return $( this ).text();}).get().join( "" );
 			var pos = $('#ID-' + key + '-1', context).attr('data_pos');
-			el.attr('data_text',txt).attr('data_pos',pos).attr('data_sid',sid[ key ]);
+			el.attr('data_text',txt).attr('data_pos',pos);
 		<?php if(!getSettingZeroOrOne('showallwords', 1)){ ?>
 		if(text_refresh == 1){
 			refresh_text(el,sid[ key ]);
@@ -240,7 +259,7 @@ window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
 </script>
-	
+
 <?php
 
 	if(isset($sqltext)){
@@ -253,19 +272,16 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 else {  // if (! isset($_REQUEST['op']))
 
 	// edit_mword.php?tid=..&ord=..&wid=..  ODER  edit_mword.php?tid=..&ord=..&txt=..
-	
-	$new = (isset($wid) == FALSE);
-	
+
 	$wid = getreq('wid');
-	
-	if ($wid == '') {	
+
+	if ($wid == '') {
 		$lang = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['tid']);
 		$term = prepare_textdata(getreq('txt'));
 		$termlc = mb_strtolower($term, 'UTF-8');
-		
-		$wid = get_first_value("select WoID as value from " . $tbpref . "words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc)); 
-		if (isset($wid)) $term = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid); 
-		
+
+		$wid = get_first_value("select WoID as value from " . $tbpref . "words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc));
+		if (isset($wid)) $term = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid);
 	} else {
 
 		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
@@ -279,8 +295,10 @@ else {  // if (! isset($_REQUEST['op']))
 		}
 		mysql_free_result($res);
 		$termlc =	mb_strtolower($term, 'UTF-8');
-		
+
 	}
+
+	$new = empty($wid);
 
 	$titletext = ($new ? "New Term" : "Edit Term") . ": " . $term;
 	pagestart_nobody($titletext);
@@ -293,24 +311,25 @@ else {  // if (! isset($_REQUEST['op']))
 </script>
 <?php
 	$scrdir = getScriptDirectionTag($lang);
-	
+
 	// NEW
-	
+
 	if ($new) {
 		$seid = get_first_value("select Ti2SeID as value from " . $tbpref . "textitems2 where Ti2TxID = " . $_REQUEST['tid'] . " and Ti2Order = " . $_REQUEST['ord']);
 		$sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
-			
+
 		?>
-	
+
 		<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 		<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
 		<input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
 		<input type="hidden" name="ord" value="<?php echo $_REQUEST['ord']; ?>" />
+		<input type="hidden" name="len" value="<?php echo $_REQUEST['len']; ?>" />
 		<table class="tab2" cellspacing="0" cellpadding="5">
 		<tr title="Only change uppercase/lowercase!">
 		<td class="td1 right"><b>New Term:</b></td>
-		<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td></tr>
 		<?php print_similar_terms_tabrow(); ?>
 		<tr>
@@ -346,18 +365,18 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		</table>
 		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', -1'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', -1'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>
 		<?php
 	}
-	
+
 	// CHG
-	
+
 	else {
-		
+
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 		$res = do_mysql_query($sql);
 		if ($record = mysql_fetch_assoc($res)) {
-		
+
 			$status = $record['WoStatus'];
 			if ($status >= 98) $status = 1;
 			$sentence = repl_tab_nl($record['WoSentence']);
@@ -369,7 +388,7 @@ else {  // if (! isset($_REQUEST['op']))
 			$transl = repl_tab_nl($record['WoTranslation']);
 			if($transl == '*') $transl='';
 			?>
-		
+
 			<form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 			<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 			<input type="hidden" name="WoID" value="<?php echo $wid; ?>" />
@@ -381,7 +400,7 @@ else {  // if (! isset($_REQUEST['op']))
 			<table class="tab2" cellspacing="0" cellpadding="5">
 			<tr title="Only change uppercase/lowercase!">
 			<td class="td1 right"><b>Edit Term:</b></td>
-			<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+			<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 			</td></tr>
 			<?php print_similar_terms_tabrow(); ?>
 			<tr>
@@ -417,7 +436,7 @@ else {  // if (! isset($_REQUEST['op']))
 			</tr>
 			</table>
 			</form>
-			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>
 			<?php
 		}
 		mysql_free_result($res);

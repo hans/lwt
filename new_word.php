@@ -89,45 +89,65 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 <?php
 		if (substr($message,0,5) != 'Error') {
 
-		$lid=$_REQUEST["WoLgID"];
+		$lid = $_REQUEST["WoLgID"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
 		$res = do_mysql_query($sql);
 		$record = mysql_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
+		$removeSpaces = $record["LgRemoveSpaces"];
 		$rtlScript = $record['LgRightToLeft'];
 		mysql_free_result($res);
 		$appendtext=array();
 		if ($splitEachChar) {
 			$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
 		}
-		$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
+		if($removeSpaces==1 && $splitEachChar==0){
+			$rSflag = '';
+			$len = 0;
+		}
+		else $len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
 
 			$ti=array();
-			$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+			if($removeSpaces==1 && $splitEachChar==0){
+				$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%' and Ti2WordCount < 2 group by SeID";
+			}
+			else {
+				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+			}
 			$res=do_mysql_query ($sql);
 			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
 			while($record = mysql_fetch_assoc($res)){
-				$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+				$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+				if($removeSpaces==1 && $splitEachChar==0){
+					if(empty($rSflag)){
+						$rSflag = preg_match ( '/(?<=[ ])(' . preg_replace('/(.)/ui', "$1[ ]*", $textlc) . ')(?=[ ])/ui', $string, $ma);
+						if(!empty($ma[1])){
+							$textlc = trim($ma[1]);
+							$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+						}
+						$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$match);
+					}
+				}
 				$txtid =$record['SeTxID'];
 				$sentid =$record['SeID'];
 				$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
 				while($last_pos!==false){
 					$matches=array();
-					if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+					if($splitEachChar || $removeSpaces || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
 						$string = mb_substr ( $string, 0, $last_pos, 'UTF-8' );
 						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
 						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
 						$txt='';
-						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
+						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar || $removeSpaces?$wis:$matches[1];
 						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
 						if($txtid==$_REQUEST["tid"]){
 							$sid[$pos]=$record['SeID'];
 							if(getSettingZeroOrOne('showallwords', 1)){
 								$appendtext[$pos]='&nbsp;' . $len . '&nbsp';
 							}
-							else $appendtext[$pos]=$splitEachChar?$wis:$matches[1];
+							else $appendtext[$pos]=$splitEachChar || $removeSpaces?$wis:$matches[1];
 						}
 						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 					}
@@ -138,6 +158,7 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 				}
 			}
 			mysql_free_result($res);
+			if($len > 0)runsql('update ' . $tbpref . 'words set WoWordCount = ' . $len . ' where WoID = ' . $wid,'');
 			if(!empty($sqlarr)){
 				$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 				$sqltext .= rtrim(implode(',', $sqlarr),',');
@@ -186,7 +207,7 @@ for( key in obj ) {
 	el.addClass(ord_class).attr('data_order',key);
 	var txt = el.nextUntil($('#ID-' + (parseInt(key) + <?php echo $len * 2 -1; ?>) + '-1', context),'[id$="-1"]').map(function() {return $( this ).text();}).get().join( "" );
 	var pos = $('#ID-' + key + '-1', context).attr('data_pos');
-	el.attr('data_text',txt).attr('data_pos',pos).attr('data_sid',sid[ key ]);
+	el.attr('data_text',txt).attr('data_pos',pos);
 <?php if(!$showAll){ ?>
 		if(text_refresh == 1){
 refresh_text(el,sid[ key ]);
@@ -237,7 +258,7 @@ else {  // if (! isset($_REQUEST['op']))
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right"><b>New Term:</b></td>
-	<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<?php print_similar_terms_tabrow(); ?>
 	<tr>

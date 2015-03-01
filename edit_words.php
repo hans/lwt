@@ -390,34 +390,56 @@ make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 			$wid = get_last_key();
 			set_word_count();
 			$wis = mb_strtolower($_REQUEST["WoText"], 'UTF-8');
-			$lid=$_REQUEST["WoLgID"];
+			$lid = $_REQUEST["WoLgID"];
 			$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
 			$res = do_mysql_query($sql);
 			$record = mysql_fetch_assoc($res);
 			$termchar = $record['LgRegexpWordCharacters'];
 			$splitEachChar = $record['LgSplitEachChar'];
+			$removeSpaces = $record["LgRemoveSpaces"];
 			$rtlScript = $record['LgRightToLeft'];
 			mysql_free_result($res);
-			$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
+			if ($splitEachChar) {
+				$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
+			}
+			if($removeSpaces==1 && $splitEachChar==0){
+				$rSflag = '';
+			}
+			//$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
 			$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
 
-			$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+			if($removeSpaces==1 && $splitEachChar==0){
+				$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%' and Ti2WordCount < 2 group by SeID";
+			}
+			else {
+				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+			}
 			$res=do_mysql_query ($sql);
 			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
 			while($record = mysql_fetch_assoc($res)){
-				$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+				$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+				if($removeSpaces==1 && $splitEachChar==0){
+					if(empty($rSflag)){
+						$rSflag = preg_match ( '/(?<=[ ])(' . preg_replace('/(.)/ui', "$1[ ]*", $textlc) . ')(?=[ ])/ui', $string, $ma);
+						if(!empty($ma[1])){
+							$textlc = trim($ma[1]);
+							$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+						}
+						$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$match);
+					}
+				}
 				$txtid =$record['SeTxID'];
 				$sentid =$record['SeID'];
 				$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
 				while($last_pos!==false){
 					$matches=array();
-					if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+					if($splitEachChar || $removeSpaces || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
 						$string = mb_substr ( $string, 0, $last_pos , 'UTF-8');
 						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
 						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
 						$txt='';
-						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
+						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar || $removeSpaces?$wis:$matches[1];
 						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
 						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 					}
@@ -428,6 +450,7 @@ make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 				}
 			}
 		mysql_free_result($res);
+		if($len > 0)runsql('update ' . $tbpref . 'words set WoWordCount = ' . $len . ' where WoID = ' . $wid,'');
 		if(isset($sqlarr)){	
 			$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 			$sqltext .= rtrim(implode(',', $sqlarr),',');
@@ -472,7 +495,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
-	<td class="td1" style="border-top-right-radius:inherit;"><?php echo tohtml(getLanguage($_REQUEST['lang'])); ?></td>
+	<td class="td1"><?php echo tohtml(getLanguage($_REQUEST['lang'])); ?></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Term:</td>
@@ -541,7 +564,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Language:</td>
-		<td class="td1" style="border-top-right-radius:inherit;"><?php echo tohtml($record['LgName']); ?></td>
+		<td class="td1"><?php echo tohtml($record['LgName']); ?></td>
 		</tr>
 		<tr title="Normally only change uppercase/lowercase here!">
 		<td class="td1 right">Term:</td>

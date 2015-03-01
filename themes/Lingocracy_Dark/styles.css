@@ -196,9 +196,14 @@ span.status5stat {
 	color: #FFF;
 	border-radius: 3px;
 }
-.tword.lword,.tword.sword{
+.tword.lword,.nword.lword{
 	color: rgba(0,0,0,.4) !important;
 	background-color: #B8A;
+	box-shadow: 1px 0 0 0 #B8A, -2px 0 0 0 #B8A;
+}
+.nword.lword{
+	border-bottom: 2px solid #A69 !important;
+	box-shadow: 1px 0 0 0 #B8A, -1px 0 0 0 #B8A;
 }
 .tword{
 	border-radius: 3px;
@@ -804,7 +809,7 @@ table tr:first-child>th:first-child {
 	border-top-left-radius:8px;
 }
 
-table tr:first-child>th:last-child {
+table tr:first-child>th:last-child,table>tr:first-child>td:last-child,table>tbody>tr:first-child>td:last-child {
     border-top-right-radius:8px;
 }
 table tr:first-child{

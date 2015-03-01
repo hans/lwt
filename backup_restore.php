@@ -222,7 +222,7 @@ else
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1 center">Backup</th>
-<td class="td1" style="border-top-right-radius:inherit;">
+<td class="td1">
 <p class="smallgray2">
 The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be exported to a gzipped SQL file.<br />Please keep this file in a safe place.<br />If necessary, you can recreate the database via the Restore function below.<br /> The OFFICIAL LWT Backup doesn't include newsfeeds, saved text positions and settings.<br />Important: If the backup file is too large, the restore may not be possible (see limits below).</p>
 <p class="right">&nbsp;<br /><input type="submit" name="orig_backup" value="Download OFFICIAL LWT Backup" /><input type="submit" name="backup" value="Download LWT Backup" /></p>

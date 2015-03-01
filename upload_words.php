@@ -86,6 +86,7 @@ if (isset($_REQUEST['op'])) {
 		$record = mysql_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
+		$removeSpaces = $record["LgRemoveSpaces"];
 		$rtl = $record['LgRightToLeft'];
 		$last_update = get_first_value("select max(WoStatusChanged) as value from " . $tbpref . "words");
 
@@ -105,7 +106,7 @@ if (isset($_REQUEST['op'])) {
 			else{
 				switch ($col[$j]){
 					case 'w':
-						$col[$j]='WoText';
+						$col[$j]=$removeSpaces?'@wotext':'WoText';
 						$fields["txt"]=$j;
 						break;
 					case 't':
@@ -152,14 +153,14 @@ if (isset($_REQUEST['op'])) {
 			//$sql.= ($overwrite)?' REPLACE':(' IGNORE') ;
 			if($fields["tl"]==0 and $overwrite==0){
 				$sql.= ' IGNORE INTO TABLE ' . $tbpref . 'words ' . $tabs . $columns ;
-				$sql.= ' SET WoLgID =  ' . $lang . ', WoTextLC = LOWER(WoText), WoWordCount = CASE WHEN WoText REGEXP \'^[' . $termchar . ']+$\' THEN 1 ELSE 0 END, WoStatus = ' . $status . ', WoStatusChanged = NOW(), ' . make_score_random_insert_update('u');
+				$sql.= ' SET WoLgID =  ' . $lang . ', ' . ($removeSpaces?'WoTextLC = LOWER(REPLACE(@wotext," ","")),WoText = REPLACE(@wotext," ","")':'WoTextLC = LOWER(WoText)') . ', WoWordCount = CASE WHEN WoText REGEXP \'^[' . $termchar . ']+$\' THEN 1 ELSE 0 END, WoStatus = ' . $status . ', WoStatusChanged = NOW(), ' . make_score_random_insert_update('u');
 				runsql($sql ,'');
 			}
 			else{
 				runsql('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2','');
 				runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL)','');
 				runsql("INSERT IGNORE INTO " . $tbpref . "numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')",'');
-				$sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = LOWER(WoText)';
+				$sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET ' . ($removeSpaces?'WoTextLC = LOWER(REPLACE(@wotext," ","")), WoText = REPLACE(@wotext," ","")':'WoTextLC = LOWER(WoText)');
 				if($fields["tl"]!=0) $sql.= ', WoTaglist = REPLACE(@taglist," ",",")';
 				runsql($sql ,'');
 //*//
@@ -254,29 +255,54 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 					if ($splitEachChar) {
 						$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
 					}
-					$len=preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
-					if($len > 1){
-						$wocountarr[]= ' WHEN ' . $wid . ' THEN ' . $len;
+					if($removeSpaces==1 && $splitEachChar==0){
+						$rSflag = '';
+						$textlc = preg_replace('/([^\s])/ui', "$1[ ]*", str_replace(' ', '', $textlc));
 					}
-
+					else {
+						$len=preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
+						if($len > 1){
+							$wocountarr[]= ' WHEN ' . $wid . ' THEN ' . $len;
+						}
+					}
 						$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
-						$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lang . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+						if($removeSpaces==1 && $splitEachChar==0){
+							$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lang . " and Ti2LgID = " . $lang . " and SeText rlike '" . mysql_real_escape_string($textlc) . "' and Ti2WordCount < 2 group by SeID";
+						}
+						else {
+							$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lang . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+						}
 						$result = do_mysql_query($sql);
 						while($record2 = mysql_fetch_assoc($result)){
-							$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record2['SeText']):$record2['SeText']) . ' ';
+							$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record2['SeText']):$record2['SeText']) . ' ';
+							if($removeSpaces==1 && $splitEachChar==0){
+								if(empty($rSflag)){
+									$rSflag = preg_match ( '/(?<=[ ])(' .  $textlc . ')(?=[ ])/ui', $string, $ma);
+									if(!empty($ma[1])){
+										$textlc = trim($ma[1]);
+										$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+										$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$match);
+									}
+								}
+								if(!empty($rSflag)){
+										if($len > 1){
+											$wocountarr[]= ' WHEN ' . $wid . ' THEN ' . $len;
+										}
+								}
+							}
 							$txtid =$record2['SeTxID'];
 							$sentid =$record2['SeID'];
 							$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
 							$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
 							while($last_pos!==false){
 								$matches=array();
-								if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+								if($splitEachChar || $removeSpaces || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
 									$string = mb_substr ( $string, 0, $last_pos , 'UTF-8' );
 									$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
 									$pos=2*$cnt+$record2['SeFirstPos'] + $sentoffset;
 								if($len!=1){
 									$txt='';
-									if(!($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
+									if(!($matches[1]==$textlc))$txt=$splitEachChar || $removeSpaces?$wis:$matches[1];
 									$sqlarr[] = '(' . $wid . ',' . $lang . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
 								}
 								else{
@@ -369,7 +395,7 @@ $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $l
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 center"><b>Language:</b></td>
-	<td class="td1" style="border-top-right-radius:inherit;">
+	<td class="td1">
 	<select name="LgID" class="notempty setfocus">
 	<?php
 	echo get_languages_selectoptions(getSetting('currentlanguage'),'[Choose...]');

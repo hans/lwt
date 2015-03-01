@@ -403,79 +403,86 @@ function mword_click_event_do_text_text() {
 }
 
 function mword_drag_n_drop_select() {
-	e=$(this);
-	sid=parseInt(e.attr('data_sid'));
-	e.one('mouseup',function(){
-	clearTimeout(to);
+	context = $(this).parent();
+	context.one('mouseup mouseout',$(this),function(){
+		clearTimeout(to);
+		$('.nword').removeClass('nword');
+		$('.tword').removeClass('tword');
+		$('.lword').removeClass('lword');
 	});
+	
 	to=setTimeout(function(){
-		$('span').removeClass('nword sword tword lword');
-		$('.wsty[data_sid="' + sid + '"]').not('.hide,.word').each(function(){
+		context.off('mouseout');
+		$('.wsty',context).not('.hide,.word').each(function(){
 			ff=parseInt($(this).attr('data_code'))*2 + parseInt($(this).attr('data_order')) - 1;
 			h='';
-			$(this).nextUntil($('[id^="ID-'+ ff +'-"]'),'[id$="-1"]').each(function(){
+			$(this).nextUntil($('[id^="ID-'+ ff +'-"]',context),'[id$="-1"]').each(function(){
 				l=$(this).attr('data_order');
 				if(typeof l != 'undefined'){
 					h+='<span class="tword" data_order="' + l + '">' + $(this).text() + '</span>';
-				}else h+='<span class="nword">' + $(this).text() + '</span>';
+				}else {
+					h+='<span class="nword" data_order="' + $(this).attr('id').split('-')[1] + '">' + $(this).text() + '</span>';
+				}
 			});
 			$(this).html(h);
 		});
-		$('.word[data_sid="' + sid + '"]').not('.hide').each(function(){
-			$(this).html('<span class="tword" data_order="' + $(this).attr('data_order') + '">' + $(this).text() + '</span>')
+		$('[id$="-1"]',context).not('.hide,.wsty').addClass('nword').each(function(){
+			$(this).attr('data_order',$(this).attr('id').split('-')[1]);
 		});
-		$('#thetext').one('mouseover','.tword',function(){
+		$('.word',context).not('.hide').each(function(){
+			$(this).html('<span class="tword" data_order="' + $(this).attr('data_order') + '">' + $(this).text() + '</span>');
+		});
+		$('.wsty',context).not('.hide').each(function(){$(this).children('.tword').last().attr('data_ann',$(this).attr('data_ann')).attr('data_trans',$(this).attr('data_trans')).addClass('content' + $(this).removeClass('status1 status2 status3 status4 status5 status98 status99').attr('data_status'));});
+		$(context).one('mouseover','.tword',function(){
 			$('html').one('mouseup',function(){
+				$('.wsty',context).each(function(){$(this).addClass('status' + $(this).attr('data_status'));});
 				if(!$(this).hasClass('tword')){
-					$('span').removeClass('nword sword tword lword');
-					$('#thetext').off('mouseover','.tword');
+					$('span',context).removeClass('nword tword lword');
 				}
 			});
 			pos=parseInt($(this).attr('data_order'));
-			$('.sword').removeClass('sword');
-			$(this).addClass('sword');
-			$('.lword').removeClass('lword');
-			$('#thetext').on('mouseleave','.lword',function(){
-				$('.lword').removeClass('lword');
+			$('.lword',context).removeClass('lword');
+			$(this).addClass('lword');
+			$(context).on('mouseleave',function(){
+				$('.lword',context).removeClass('lword');
 			});
-			$('#thetext').on('mouseenter','.tword',function(){
+			$(context).one('mouseup','.nword,.tword',function(ev){
+				if(ev.handled !== true){
+					len = $('.lword.tword',context).length;
+					if(len>0){
+						g=$('.lword',context).first().attr('data_order');
+						if(len>1){
+							text = $('.lword',context).map(function() {return $( this ).text();}).get().join( "" );
+							if(text.length >250){
+								alert('selected text is too long!!!');
+							}else{
+								top.frames['ro'].location.href='edit_mword.php?tid=' + TID + '&len=' + len + '&ord=' + g + '&txt=' + text;
+							}
+						}
+						else{
+							top.frames['ro'].location.href='edit_word.php?tid=' + TID + '&ord=' + g + '&txt=' + $('#ID-'+ g +'-1').text();
+						}
+					}
+					$('span',context).removeClass('tword nword');
+					ev.handled = true;
+					$(context).off();
+				}
+			});
+			$(context).hoverIntent({over:function(){
+				$('.lword',context).removeClass('lword');
 				lpos=parseInt($(this).attr('data_order'));
 				$(this).addClass('lword');
 				if(lpos>pos){
-					for(i=pos;i<lpos;i++){
-						$('.tword[data_order="' + i + '"]').addClass('lword');
+					for(var i=pos;i<lpos;i++){
+						$('.tword[data_order="' + i + '"],.nword[data_order="' + i + '"]',context).addClass('lword');
 					}
 				}
 				else{
 					for(i=pos;i>lpos;i--){
-						$('.tword[data_order="' + i + '"]').addClass('lword');
+						$('.tword[data_order="' + i + '"],.nword[data_order="' + i + '"]',context).addClass('lword');
 					}
 				}
-				$('#thetext').one('mouseup','.tword',function(ev){
-					if(ev.handled !== true){
-						f=$('.sword').attr('data_order');
-						g=$(this).attr('data_order');
-						if(parseInt(g)<parseInt(f)){
-							g=f;
-							f=$(this).attr('data_order');
-						}
-						if(parseInt(g)!=parseInt(f)){
-							ord=$('#ID-'+ g +'-1');
-							text = $('#ID-'+ f +'-1').nextUntil(ord,'[id$="-1"]').addBack().map(function() {return $( this ).text();}).get().join( "" ) + ord.text();
-							if(text.length >250){
-								alert('selected text is too long!!!');
-							}else{
-								top.frames['ro'].location.href='edit_mword.php?tid=' + TID + '&ord=' + g + '&txt=' + text;
-							}
-						}
-						else{
-							top.frames['ro'].location.href='edit_mword.php?tid=' + TID + '&ord=' + g + '&txt=' + $('#ID-'+ f +'-1').text();
-						}
-						$('span').removeClass('sword tword nword');
-						ev.handled = true;
-					}
-				});
-			});
+			},out:function(){}, sensitivity: 12, selector:".tword"});
 		});
 	}, 300);
 }
@@ -649,7 +656,7 @@ function keydown_event_do_text_text(e) {
 		dict = '&nodict';
 		setTimeout(function(){window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK3,txt);}, 10);
 	}
-	else nodict='';
+	else dict='';
 	if (e.which == 69 || e.which == 71) { //  E / G : edit term
 		if(curr.hasClass('mword'))
 			window.parent.frames['ro'].location.href = 

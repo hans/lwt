@@ -10,7 +10,7 @@ if($_REQUEST['step']==4){
 	if(isset($_REQUEST['filter_tags']))$_SESSION['wizard']['filter_tags']=$_REQUEST['filter_tags'];
 	?><form class="validate" action="edit_feeds.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
-<tr><td class="td1">Language: </td><td class="td1" style="border-top-right-radius:inherit;"><select name="NfLgID" class="notempty"><option value="">[Select...]</option>
+<tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID" class="notempty"><option value="">[Select...]</option>
 <?php	
 		
 	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
@@ -484,7 +484,7 @@ else{
 <form class="validate" action="feed_wizard.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr><td class="td1">Feed URI: </td>
-<td class="td1" style="border-top-right-radius:inherit;"><input class="notempty" style="width:90%" type="text" name="rss_url" <?php if(isset($_SESSION['wizard']['rss_url']))echo 'value="' . $_SESSION['wizard']['rss_url'] .'" ';?>/> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+<td class="td1"><input class="notempty" style="width:90%" type="text" name="rss_url" <?php if(isset($_SESSION['wizard']['rss_url']))echo 'value="' . $_SESSION['wizard']['rss_url'] .'" ';?>/> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 </td></tr></table>
 <input type="hidden" name="step" value="2" />
 <input type="hidden" name="selected_feed" value="0" />

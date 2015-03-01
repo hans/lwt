@@ -163,8 +163,10 @@ span.status5stat {
 	color: #000000;
 }
 
-.tword.lword,.tword.sword{
+.tword.lword,.nword.lword{
 	background-color:  #a24;
+	box-shadow: 2px 0 0 0 #A24, -1px 0 0 0 #A24;
+    color: #000;
 }
 
 .tword{
@@ -815,7 +817,7 @@ table tr:first-child>th:first-child {
 	border-top-left-radius: 8px;
 }
 
-table tr:first-child>th:last-child {
+table tr:first-child>th:last-child,table>tr:first-child>td:last-child,table>tbody>tr:first-child>td:last-child {
 	border-top-right-radius: 8px;
 }
 

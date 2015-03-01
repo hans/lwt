@@ -78,7 +78,7 @@ if (isset($_REQUEST['marked_items'])) {
 <table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right"><input class="markcheck" type="checkbox" name="Nf_count[<?php echo $count; ?>]" value="<?php echo $count; ?>" checked="checked" />&nbsp; &nbsp; &nbsp; Title:</td>
-	<td class="td1" style="border-top-right-radius:inherit;"><input type="text" class="notempty" name="feed[<?php echo $count; ?>][TxTitle]" value="<?php echo tohtml($text['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="notempty" name="feed[<?php echo $count; ?>][TxTitle]" value="<?php echo tohtml($text['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 		<tr>
 		<td class="td1 right">Language:</td>

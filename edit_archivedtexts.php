@@ -243,7 +243,7 @@ if (isset($_REQUEST['chg'])) {
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Language:</td>
-		<td class="td1" style="border-top-right-radius:inherit;">
+		<td class="td1">
 		<select name="AtLgID" class="notempty setfocus">
 		<?php
 		echo get_languages_selectoptions($record['AtLgID'],"[Choose...]");

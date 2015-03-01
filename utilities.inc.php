@@ -536,7 +536,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.11 (February 09 2015)'  . 
+	return '1.6.12 (March 01 2015)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -2814,13 +2814,13 @@ function texttodocount2($text) {
 
 function getSentence($seid, $wordlc,$mode) {
 	global $tbpref;
-	$res = do_mysql_query('select group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\') as SeText, Ti2TxID as SeTxID, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar from ' . $tbpref . 'textitems2, ' . $tbpref . 'languages where Ti2LgID = LgID and Ti2WordCount<2 and Ti2SeID= ' . $seid);
+	$res = do_mysql_query('select concat(\'​\',group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\'),\'​\') as SeText, Ti2TxID as SeTxID, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar from ' . $tbpref . 'textitems2, ' . $tbpref . 'languages where Ti2LgID = LgID and Ti2WordCount<2 and Ti2SeID= ' . $seid);
 	$record = mysql_fetch_assoc($res);
 	$removeSpaces = $record["LgRemoveSpaces"];
 	$splitEachChar = $record['LgSplitEachChar'];
 	$txtid = $record["SeTxID"];
 	if($removeSpaces==1 && $splitEachChar==0){
-		$text = '​' . $record["SeText"] . '​';
+		$text = $record["SeText"];
 		$wordlc = '[​]*' . preg_replace('/(.)/u', "$1[​]*", $wordlc);
 		$pattern = '/(?<=[​])(' . $wordlc . ')(?=[​])/ui';
 	}
@@ -2835,7 +2835,7 @@ function getSentence($seid, $wordlc,$mode) {
 	$sejs = str_replace('​','',preg_replace ($pattern,'{$0}',$text));
 	if ($mode > 1) {
 		if($removeSpaces==1 && $splitEachChar==0){
-			$prevseSent = '​' . get_first_value('select group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\') as value from ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 where Ti2SeID = SeID and SeID < ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') group by SeID order by SeID desc") . '​';
+			$prevseSent = get_first_value('select concat(\'​\',group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\'),\'​\') as value from ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 where Ti2SeID = SeID and SeID < ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') group by SeID order by SeID desc");
 		}
 		else{
 			$prevseSent = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID < ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID desc");
@@ -2846,7 +2846,7 @@ function getSentence($seid, $wordlc,$mode) {
 		}
 		if ($mode > 2) {
 			if($removeSpaces==1 && $splitEachChar==0){
-				$nextSent = '​' . get_first_value('select group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\') as  value from ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 where Ti2SeID = SeID and SeID > ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') group by SeID order by SeID asc") . '​';
+				$nextSent = get_first_value('select concat(\'​\',group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\'),\'​\') as  value from ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 where Ti2SeID = SeID and SeID > ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') group by SeID order by SeID asc");
 			}
 			else{
 				$nextSent = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID > ' . $seid . ' and SeTxID = ' . $txtid . " and trim(SeText) not in ('¶','') order by SeID asc");

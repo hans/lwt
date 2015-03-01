@@ -129,7 +129,7 @@ if (isset($_REQUEST['op'])) {
 			<input type="hidden" name="TextCount" value="<?php echo $textcount; ?>" />
 			<table class="tab3" cellspacing="0" cellpadding="5">
 			<tr>
-			<td class="td1" colspan="2" style="border-top-right-radius:inherit;">
+			<td class="td1" colspan="2">
 			<?php echo "This long text will be split into " . $textcount . $shorter . "text" . $plural . " - as follows:"; ?>
 			</td>
 			</tr>
@@ -209,7 +209,7 @@ if (isset($_REQUEST['op'])) {
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
-	<td class="td1" style="border-top-right-radius:inherit;">
+	<td class="td1">
 	<select name="LgID" class="notempty setfocus">
 	<?php
 	echo get_languages_selectoptions(getSetting('currentlanguage'),'[Choose...]');

@@ -139,8 +139,9 @@ span.status5stat {
 	color: #000000;
 	border-radius: 3px;
 }
-.tword.lword,.tword.sword{
+.tword.lword,.nword.lword{
 	background-color: #D57;
+	box-shadow: 2px 0 0 0 #D57, -1px 0 0 0 #D57;
 }
 .tword{
 	border-radius: 3px;
@@ -507,7 +508,7 @@ table tr:first-child>th:first-child {
 	border-top-left-radius: 8px;
 }
 
-table tr:first-child>th:last-child {
+table tr:first-child>th:last-child,table>tr:first-child>td:last-child,table>tbody>tr:first-child>td:last-child {
 	border-top-right-radius: 8px;
 }
 

@@ -74,7 +74,7 @@ elseif(isset($_REQUEST['new_feed'])){
 <br></br>
 <form class="validate" action="edit_feeds.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
-<tr><td class="td1">Language: </td><td class="td1" style="border-top-right-radius:inherit;"><select name="NfLgID">
+<tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID">
 <?php
 	while($row_l = mysql_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
@@ -139,7 +139,7 @@ elseif(isset($_REQUEST['edit_feed'])){
 <a href="feed_wizard.php?step=2&amp;edit_feed=<?php echo $currentfeed;?>"><img src="icn/wizard.png" title="feed_wizard" alt="feed_wizard" /> Feed Wizard</a>
 <form class="validate" action="edit_feeds.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
-<tr><td class="td1">Language: </td><td class="td1" style="border-top-right-radius:inherit;"><select name="NfLgID">
+<tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID">
 <?php	
 	while($row_l = mysql_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';

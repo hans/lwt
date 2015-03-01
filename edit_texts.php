@@ -349,7 +349,7 @@ if (isset($_REQUEST['new'])) {
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
-	<td class="td1" style="border-top-right-radius:inherit;">
+	<td class="td1">
 	<select name="TxLgID" class="notempty setfocus">
 	<?php
 	echo get_languages_selectoptions($currentlang,'[Choose...]');
@@ -418,7 +418,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Language:</td>
-		<td class="td1" style="border-top-right-radius:inherit;">
+		<td class="td1">
 		<select name="TxLgID" class="notempty setfocus">
 		<?php
 		echo get_languages_selectoptions($record['TxLgID'],"[Choose...]");
