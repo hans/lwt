@@ -114,14 +114,15 @@ function run_overlib_multiword(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid
 {
 	var ttslg = '';
 	ttslg = wblink3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/,'$1');
+	var len = wcnt.trim();
 	if(ttslg == wblink3)ttslg = '';
 	return overlib(
 		'<b>' + escape_html_chars_2(hints,ttslg,ann) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid,torder,wid,stat) + ' <br /> ' +
-		make_overlib_link_edit_multiword(txid,torder,wid) + ' | ' +
+		make_overlib_link_edit_multiword(len,txid,torder,wid) + ' | ' +
 		make_overlib_link_delete_multiword(txid,wid) + ' <br /> ' +
 		make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),
-		CAPTION, make_overlib_link_edit_multiword_title(wcnt.trim() + '-Word-Expression',txid,torder,wid));
+		CAPTION, make_overlib_link_edit_multiword_title(len,wcnt.trim() + '-Word-Expression',txid,torder,wid));
 }
 
 function run_overlib_test(wblink1,wblink2,wblink3,wid,txt,trans,roman,stat,sent,todo,oldstat)
@@ -244,15 +245,15 @@ function make_overlib_link_new_word(txid,torder,wid) {
 		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Learn term</a> ';
 }
 
-function make_overlib_link_edit_multiword(txid,torder,wid) {
+function make_overlib_link_edit_multiword(len,txid,torder,wid) {
 	return ' <a class=\x22edit\x22 href=\x22edit_mword.php?tid=' + txid + 
-		'&amp;ord=' + torder + 
+		'&amp;len=' + len + '&amp;ord=' + torder + 
 		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a> ';
 }
 
-function make_overlib_link_edit_multiword_title(text,txid,torder,wid) {
+function make_overlib_link_edit_multiword_title(len,text,txid,torder,wid) {
 	return '<a style=\x22color:yellow\x22 href=\x22edit_mword.php?tid=' + txid + 
-		'&amp;ord=' + torder + 
+		'&amp;len=' + len + '&amp;ord=' + torder + 
 		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>' + text + '</a>';
 }
 
@@ -283,7 +284,7 @@ function make_overlib_link_create_edit_multiword_new(txid,torder,rtl) {
 		text += $(this).text();
 		if($(this).attr('data_pos')<charcnt){
 			h = ' <a href=\x22edit_mword.php?tid='
-			+ txid + '&amp;ord=' + torder + '&amp;txt=' + text
+			+ txid + '&amp;len=' + len + '&amp;ord=' + torder + '&amp;txt=' + text
 			+ '\x22 target=\x22ro\x22 title=\x22' + text
 			+ '\x22>' + len + '..' + escape_html_chars(text.substr(-2).trim()) +  '</a> ';
 			html = html + h;

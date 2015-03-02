@@ -660,7 +660,7 @@ function keydown_event_do_text_text(e) {
 	if (e.which == 69 || e.which == 71) { //  E / G : edit term
 		if(curr.hasClass('mword'))
 			window.parent.frames['ro'].location.href = 
-				'edit_mword.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + dict;
+				'edit_mword.php?wid=' + wid + '&len=' + curr.attr('data_code') + '&tid=' + TID + '&ord=' + ord + dict;
 		else if(stat=='0')
 			window.parent.frames['ro'].location.href = 
 				'edit_word.php?wid=&tid=' + TID + '&ord=' + ord + dict;
