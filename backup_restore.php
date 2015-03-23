@@ -70,8 +70,8 @@ if (isset($_REQUEST['restore'])) {
 // BACKUP
 
 elseif (isset($_REQUEST['backup'])) {
-	$tables = array('archivedtexts', 'archtexttags', 'feedlinks', 'languages', 'textitems2', 'newsfeeds', 'sentences', 'settings', 'tags', 'tags2', 'textitems', 'texts', 'texttags', 'words', 'wordtags');
-	$fname = "lwt-exp_version-backup-" . $pref . date('Y-m-d-H-i-s') . ".sql.gz";
+	$tables = array('archivedtexts', 'archtexttags', 'feedlinks', 'languages', 'textitems2', 'newsfeeds', 'sentences', 'settings', 'tags', 'tags2', 'texts', 'texttags', 'words', 'wordtags');
+	$fname = "lwt-backup-exp_version-" . $pref . date('Y-m-d-H-i-s') . ".sql.gz";
 	$out = "-- " . $fname . "\n";
 	foreach($tables as $table) { // foreach table
 		$result = do_mysql_query('SELECT * FROM ' . $tbpref . $table);
@@ -79,7 +79,7 @@ elseif (isset($_REQUEST['backup'])) {
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
 		$row2 = mysql_fetch_row(do_mysql_query('SHOW CREATE TABLE ' . $tbpref . $table));
 		$out .= str_replace($tbpref . $table, $table, str_replace("\n"," ",$row2[1])) . ";\n";
-		if ($table !== 'sentences' && $table !== 'textitems' && $table !== 'textitems2') {
+		if ($table !== 'sentences' && $table !== 'textitems2') {
 			while ($row = mysql_fetch_row($result)) { // foreach record
 				$return = 'INSERT INTO ' . $table . ' VALUES(';
 				for ($j=0; $j < $num_fields; $j++) { // foreach field
@@ -201,10 +201,23 @@ elseif (isset($_REQUEST['empty'])) {
 	$dummy = runsql('TRUNCATE ' . $tbpref . 'texttags','');
 	$dummy = runsql('TRUNCATE ' . $tbpref . 'words','');
 	$dummy = runsql('TRUNCATE ' . $tbpref . 'wordtags', '');
+	$dummy = runsql('TRUNCATE ' . $tbpref . 'images','');
 	$dummy = runsql('DELETE FROM ' . $tbpref . 'settings where StKey = \'currenttext\'', '');
 	optimizedb();
 	get_tags($refresh = 1);
 	get_texttags($refresh = 1);
+	$dir = './thumbnails/' . $tbpref . 'thumbs';
+	$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+	$files = new RecursiveIteratorIterator($it,
+	             RecursiveIteratorIterator::CHILD_FIRST);
+	foreach($files as $file) {
+	    if ($file->isDir()){
+	        rmdir($file->getRealPath());
+	    } else {
+	        unlink($file->getRealPath());
+	    }
+	}
+	rmdir($dir);
 	$message = "Database content has been deleted (but settings have been kept)";
 }
 

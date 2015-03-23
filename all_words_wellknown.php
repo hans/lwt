@@ -50,6 +50,7 @@ if($status==99)
 
 $sql = 'select Ti2Text, lower(Ti2Text) as  WoTextLC from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2WoID = 0 and Ti2WordCount = 1 and Ti2TxID = ' . $_REQUEST['text'] . ' group by lower(Ti2Text) order by Ti2Order';
 $res = do_mysql_query($sql);
+$tooltip_mode = getSettingWithDefault('set-tooltip-mode');
 $count = 0;
 $javascript = "var title='';";
 $sqlarr = array();
@@ -63,9 +64,10 @@ while ($record = mysql_fetch_assoc($res)) {
 make_score_random_insert_update('id') . ')','');
 	$wid = get_last_key();
 	$sqlarr[]= ' WHEN ' . convert_string_to_sqlsyntax_notrim_nonull($termlc) . ' THEN ' . $wid;
-	if ($count1 > 0 ) 
-		$javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'*','','".$status."');";
-		$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status".$status." word" . $wid . "').attr('data_status','".$status."').attr('data_wid','" . $wid . "').attr('title',title);";
+	if($tooltip_mode == 1)
+		if ($count1 > 0 ) 
+			$javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'*','','".$status."');";
+	$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status".$status." word" . $wid . "').attr('data_status','".$status."').attr('data_wid','" . $wid . "').attr('title',title);";
 	$count += $count1;
 }
 mysql_free_result($res);

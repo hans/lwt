@@ -144,7 +144,7 @@ var woid = <?php echo prepare_textdata_js($wid); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
 var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-var title = make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
+var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 <?php
 	if ($_REQUEST['op'] == 'Save') {
 ?>
@@ -160,6 +160,11 @@ $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 <?php
+	if(!empty($_REQUEST["WoImage"])){
+		echo '$.ajax({type: "POST",url:"ajax_save_thumbnail.php", data: { url: "',$_REQUEST['WoImage'],'", woid: ',$wid ,' }, async:false, success: function(data) {img=jQuery.parseJSON(data);';
+		if($_REQUEST['WoImage']=='DEL') echo '$( ".word" + img.ImWoID,window.parent.frames["l"].document ).removeAttr("data_img");}});';
+		else echo '$( ".word" + img.ImWoID,window.parent.frames["l"].document ).attr( "data_img", img.ImID );}});';
+	}
 }  // $fromAnn !== ''
 ?>
 //]]>
@@ -217,7 +222,7 @@ else {  // if (! isset($_REQUEST['op']))
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <script type="text/javascript">
 $(window).on('beforeunload',function() {
-	window.parent.frames['ru'].location.href = 'empty.htm';
+	setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
 });
 </script>
 <?php
@@ -238,6 +243,7 @@ $(window).on('beforeunload',function() {
 		<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
 		<input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
 		<input type="hidden" name="ord" value="<?php echo $_REQUEST['ord']; ?>" />
+		<input type="hidden" name="WoImage" value="" />
 		<table class="tab2" cellspacing="0" cellpadding="5">
 		<tr title="Only change uppercase/lowercase!">
 		<td class="td1 right"><b>New Term:</b></td>
@@ -245,7 +251,9 @@ $(window).on('beforeunload',function() {
 		</tr>
 		<tr>
 		<td class="td1 right">Translation:</td>
-		<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea></td>
+		<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea>
+		<div id="thumbnail_container"><div id="thumbnail" onclick="window.parent.frames['ru'].location.href = 'ggl_img.php?q=<?php echo tohtml($term); ?>'"></div></div>
+		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Tags:</td>
@@ -285,7 +293,7 @@ $(window).on('beforeunload',function() {
 	
 	else {
 		
-		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
+		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus, ImID from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID where WoID = ' . $wid;
 		$res = do_mysql_query($sql);
 		if ($record = mysql_fetch_assoc($res)) {
 			
@@ -311,6 +319,7 @@ $(window).on('beforeunload',function() {
 			<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
 			<input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
 			<input type="hidden" name="ord" value="<?php echo $_REQUEST['ord']; ?>" />
+			<input type="hidden" name="WoImage" value="" />
 			<table class="tab2" cellspacing="0" cellpadding="5">
 			<tr title="Only change uppercase/lowercase!">
 			<td class="td1 right"><b>Edit Term:</b></td>
@@ -319,7 +328,7 @@ $(window).on('beforeunload',function() {
 			<?php print_similar_terms_tabrow(); ?>
 			<tr>
 			<td class="td1 right">Translation:</td>
-			<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
+			<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea><div id="thumbnail_container"><div id="thumbnail" <?php if(isset($record['ImID']) ) {$filename='./thumbnails/' . $tbpref . 'thumbs' . '/' . $record['ImID'] . '.jpg'; if(file_exists($filename)) echo  'style="background-image: url(\'' ,$filename,'\');" ';}?>onclick="window.parent.frames['ru'].location.href = 'ggl_img.php?q=<?php echo tohtml($term); ?>'"></div></div></td>
 			</tr>
 			<tr>
 			<td class="td1 right">Tags:</td>

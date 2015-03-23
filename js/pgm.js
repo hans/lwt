@@ -294,11 +294,9 @@ function make_overlib_link_create_edit_multiword_new(txid,torder,rtl) {
 	return html + '</span>';
 }
 
-function refresh_text(element, sentenceid){
+function refresh_text(element){
 	var h=0;
 	var s=0;
-//sid = parseInt(sentenceid) + 1;
-//sid = '#sent_' + sentenceid;
 	element.nextAll().addBack().each(function(){
 		var split = $(this).attr('id').split('-');
 		var len = parseInt(split[2]);

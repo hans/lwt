@@ -175,9 +175,8 @@ var woid = <?php echo prepare_textdata_js($wid); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
 var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-var title = make_tooltip(<?php echo prepare_textdata_js($text); ?>,trans,roman,status);
+var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 var obj = <?php echo json_encode($appendtext); ?>;
-var sid = <?php echo json_encode($sid); ?>;
 var attrs = ' class="click <?php echo $len>1?'m':''; ?>word <?php echo (getSettingZeroOrOne('showallwords', 1) && $len>1)?'m':''; ?>wsty TERM<?php echo $hex; ?> word' + woid + ' status' + status + '" data_trans="' + trans + '" data_rom="' + roman + '" data_code="<?php echo $len; ?>" data_status="' + status + '" data_wid="' + woid + '" title="' + title + '"';
 
 for( key in obj ) {
@@ -210,13 +209,17 @@ for( key in obj ) {
 	el.attr('data_text',txt).attr('data_pos',pos);
 <?php if(!$showAll){ ?>
 		if(text_refresh == 1){
-refresh_text(el,sid[ key ]);
+refresh_text(el);
 		}else el.addClass('hide');
 <?php } ?>
 }
 <?php if(!empty($sid) && $len==1){ ?>
 	$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
-<?php } ?>
+<?php }
+	if(!empty($_REQUEST["WoImage"]) and $_REQUEST['WoImage']!='DEL'){
+		echo '$.ajax({type: "POST",url:"ajax_save_thumbnail.php", data: { url: "',$_REQUEST['WoImage'],'", woid: ',$wid ,' }, async:false, success: function(data) {img=jQuery.parseJSON(data);$( ".word" + img.ImWoID,window.parent.frames["l"].document ).attr( "data_img", img.ImID );}});';
+	}
+?>
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
@@ -248,13 +251,14 @@ else {  // if (! isset($_REQUEST['op']))
 ?>
 	<script type="text/javascript">
 	$(window).on('beforeunload',function() {
-		window.parent.frames['ru'].location.href = 'empty.htm';
+		setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
 	});
 	</script>
 	
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 	<input type="hidden" name="tid" value="<?php echo $text; ?>" />
+	<input type="hidden" name="WoImage" value="" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right"><b>New Term:</b></td>
@@ -263,7 +267,7 @@ else {  // if (! isset($_REQUEST['op']))
 	<?php print_similar_terms_tabrow(); ?>
 	<tr>
 	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="35" rows="3"></textarea></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="35" rows="3"></textarea><div id="thumbnail_container"><div id="thumbnail" onclick="if(document.forms['newword'].WoText.value.length)window.parent.frames['ru'].location.href = 'ggl_img.php?q=' + document.forms['newword'].WoText.value"></div></div></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Tags:</td>

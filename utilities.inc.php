@@ -536,7 +536,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.12 (March 01 2015)'  . 
+	return '1.6.13 (March 23 2015)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1661,6 +1661,19 @@ function get_regex_selectoptions($v) {
 	$r .= ">RegEx CaseSensitive</option>";
 	return $r;
 }
+
+// -------------------------------------------------------------
+
+function get_tooltip_selectoptions($v) {
+	if ( ! isset($v) ) $v = 1;
+	$r  = "<option value=\"1\"" . get_selected($v,1);
+	$r .= ">Native</option>";
+	$r .= "<option value=\"2\"" . get_selected($v,2);
+	$r .= ">JqueryUI</option>";
+	return $r;
+}
+
+// -------------------------------------------------------------
 
 function get_themes_selectoptions($v){
 	$themes=glob ('themes/*',GLOB_ONLYDIR);
@@ -2990,6 +3003,8 @@ function get_setting_data() {
 		array("dft" => 'jplayer.blue.monday.modified', "num" => 0),
 		'set-words-to-do-buttons' => 
 		array("dft" => '1', "num" => 0),
+		'set-tooltip-mode' => 
+		array("dft" => '1', "num" => 0),
 		'set-display-text-frame-term-translation' => 
 		array("dft" => '', "num" => 0),
 		'set-test-main-frame-waiting-time' => 
@@ -3337,7 +3352,7 @@ function restore_file($handle, $title) {
 			gzgets($handle, 99999))));
 		if ($sql_line != "") {
 			if($start) {
-				if (strpos($sql_line,"-- lwt-backup-") === false ) {
+				if (strpos($sql_line,"-- lwt-backup-") === false and strpos($sql_line,"-- lwt-exp_version-backup-") === false) {
 					$message = "Error: Invalid " . $title . " Restore file (possibly not created by LWT backup)";
 					$errors = 1;
 					break;
@@ -3756,8 +3771,7 @@ $(document).ready(function(){
   } else {
   	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
   }
-?> });
-      $(this).jPlayer("pause",<?php echo $offset; ?>);
+?> }).jPlayer("pause",<?php echo $offset; ?>);
       if($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled)$("#playbackrateContainer").html('<span style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" onclick="click_slower();">&nbsp;</span><span style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" onclick="click_faster();">&nbsp;</span><button><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></button>');
     },
     swfPath: "js",
@@ -3894,6 +3908,11 @@ function check_update_db() {
 	if (in_array($tbpref . 'archtexttags', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding archtexttags</p>';
 		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "archtexttags ( AgAtID smallint(5) unsigned NOT NULL, AgT2ID smallint(5) unsigned NOT NULL, PRIMARY KEY (AgAtID,AgT2ID), KEY AgAtID (AgAtID), KEY AgT2ID (AgT2ID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+	}
+	
+	if (in_array($tbpref . 'images', $tables) == FALSE) {
+		if ($debug) echo '<p>DEBUG: rebuilding images</p>';
+		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "images ( ImID smallint(5) NOT NULL AUTO_INCREMENT, ImWoID mediumint(8) NOT NULL, PRIMARY KEY (ImID),  UNIQUE KEY ImWoID (ImWoID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 	
 	if ($count > 0) {		

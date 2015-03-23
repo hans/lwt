@@ -54,11 +54,12 @@ echo "<p>OK, term deleted, now unknown (" . $m1 . ").</p>";
 //<![CDATA[
 var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
-var title = make_tooltip(<?php echo prepare_textdata_js($term); ?>,'','','');
-$('.word<?php echo $wid; ?>', context).removeClass('status99 status98 status1 status2 status3 status4 status5 word<?php echo $wid; ?>').addClass('status0').attr('data_status','0').attr('data_trans','').attr('data_rom','').attr('data_wid','').attr('title',title);
+var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
+$('.word<?php echo $wid; ?>', context).removeClass('status99 status98 status1 status2 status3 status4 status5 word<?php echo $wid; ?>').addClass('status0').attr('data_status','0').attr('data_trans','').attr('data_rom','').attr('data_wid','').attr('title',title).removeAttr("data_img");
 $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
+$.ajax({type: "POST",url:"ajax_save_thumbnail.php", data: { url: "DEL", woid: <?php echo $wid; ?> }, async:false });
 //]]>
 </script>
 <?php

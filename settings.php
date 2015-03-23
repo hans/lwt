@@ -86,6 +86,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-words-to-do-buttons',
 		$_REQUEST['set-words-to-do-buttons']);
 	
+		saveSetting('set-tooltip-mode',
+		$_REQUEST['set-tooltip-mode']);
+	
 		saveSetting('set-ggl-translation-per-page',
 		$_REQUEST['set-ggl-translation-per-page']);
 	
@@ -190,7 +193,7 @@ getSettingWithDefault('set-theme-dir'));
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="7">Read Text<br />Screen</th>
+<th class="th1 center" rowspan="8">Read Text<br />Screen</th>
 <td class="td1 center">Height of left top frame<br /><b>without</b> audioplayer</td>
 <td class="td1 center">
 <input class="notempty posintnumber right setfocus" type="text" 
@@ -245,6 +248,19 @@ getSettingWithDefault('set-player-skin-name'));
 <?php 
 echo get_words_to_do_buttons_selectoptions(
 getSettingWithDefault('set-words-to-do-buttons'));
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Tooltips</td>
+<td class="td1 center">
+<select name="set-tooltip-mode" class="notempty">
+<?php
+echo get_tooltip_selectoptions(
+getSettingWithDefault('set-tooltip-mode'));
 ?>
 </select>
 </td>

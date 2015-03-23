@@ -1,5 +1,3 @@
-<?php
-
 /**************************************************************
 "Learning with Texts" (LWT) is free and unencumbered software 
 released into the PUBLIC DOMAIN.
@@ -31,21 +29,75 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: ajax_save_text_position.php
-Save text and/or audio position (Read Text Screen)
+Stylesheet for google image search
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
-
-$textid = $_REQUEST['id'];
-$position = (isset($_REQUEST['position']))?$_REQUEST['position']:NULL;
-$audioposition = (isset($_REQUEST['audioposition']))?$_REQUEST['audioposition']:NULL;
-
-if(isset($_REQUEST['position']))
-$dummy = runsql('update ' . $tbpref . 'texts set TxPosition = ' . $position . ' where TxID = ' . $textid, "");
-else if(isset($_REQUEST['audioposition']))
-$dummy = runsql('update ' . $tbpref . 'texts set TxAudioPosition = ' . $audioposition . ' where TxID = ' . $textid, "");
-?>
+#gallery{
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	list-style: none;
+	z-index: 1;
+	left: 0px;
+}
+.widget{
+	visibility: visible;
+	overflow: hidden;
+	position: relative;
+	z-index: 2;
+	left: 0px;
+}
+#gallery>li>div{
+	display:inline-block;
+	text-align:center;
+	width:inherit;
+}.shadow {
+    position: absolute;
+    width: inherit;
+    box-shadow: inset 0 0 8px 6px #444;
+    top: 0;
+    left: inherit;border-radius:4px;
+    cursor:pointer;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+	background-color: #333;
+}
+.shadow:hover{
+	box-shadow: inset 0 0 8px 6px #666;
+}
+.shadowred{
+	box-shadow: inset 0 0 8px 6px #B23 !important;
+}
+#gallery>li{
+	overflow:hidden;
+	float: left;
+	height: 122px;
+}
+div.prev, div.next {
+	position: absolute;
+	z-index: 6;
+	color: #EEE;
+    cursor:pointer;
+    line-height: 0px;
+	text-shadow: 0px 0px 1px #000,0px 0px 1px #000, 0px 0px 2px #000,0px 0px 3px #000;
+}
+div.arrowoverlay{
+	line-height: normal;
+	width: 24px;
+	top: 0px;
+	background-color: rgba(255, 255, 255, 0.1);
+}
+div.arrowoverlay.next{
+	right:0px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+div.arrowoverlay.prev{
+	left:0px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+#img_sel{
+	max-width: 300px;
+}

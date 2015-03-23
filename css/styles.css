@@ -379,6 +379,24 @@ dt {
 span[class^='tts_'],div[class*=' tts_']{
        cursor:pointer; 
 }
+#thumbnail{
+	width: inherit;
+	height: 30px;
+	top: 0;
+	border-radius:2px;
+	cursor:pointer;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	background-image: url('../icn/photo-album.png');
+}
+#thumbnail_container{
+	margin: 3px;
+	overflow: hidden;
+	width: 45px;
+	height: 30px;
+	display:inline-block;
+}
 #footer {
 	bottom: 0;
 	position: absolute;

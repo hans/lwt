@@ -169,6 +169,15 @@ if (isset($_REQUEST['markaction'])) {
 					mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID in ' . $list);
 					adjust_autoincr('words','WoID');
 					runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
+					$res = do_mysql_query('select ImID from ' . $tbpref . 'images where ImWoID in ' . $list);
+					while ($record = mysql_fetch_assoc($res)) {
+						$filename = './thumbnails/' . $tbpref . 'thumbs/' . $record['ImID'] . '.jpg';
+						if(file_exists($filename)){
+							unlink($filename);
+						}
+					}
+					mysql_free_result($res);
+					mysql_query('delete from ' . $tbpref . 'images where ImWoID in ' . $list);
 				}
 				elseif ($markaction == 'addtag' ) {
 					$message = addtaglist($actiondata,$list);
@@ -248,6 +257,14 @@ if (isset($_REQUEST['allaction'])) {
 				$message = runsql('delete from ' . $tbpref . 'words where WoID = ' . $id, "");
 				mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $id);
 				mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $id);
+				$i = get_first_value('select ImID as value from ' . $tbpref . 'images where ImWoID = ' . $id);
+				if(isset($i)){
+					$filename = './thumbnails/' . $tbpref . 'thumbs/' . $i . '.jpg';
+					if(file_exists($filename)){
+						unlink($filename);
+					}
+					mysql_query('delete from ' . $tbpref . 'images where ImID = ' . $i);
+				}
 			}
 			elseif ($allaction == 'addtagall' ) {
 				addtaglist($actiondata,'(' . $id . ')');
@@ -362,6 +379,14 @@ elseif (isset($_REQUEST['del'])) {
 	mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $_REQUEST['del']);
 	mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $_REQUEST['del']);
 	runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
+	$i = get_first_value('select ImID as value from ' . $tbpref . 'images where ImWoID = ' . $_REQUEST['del']);
+	if(isset($i)){
+		$filename = './thumbnails/' . $tbpref . 'thumbs/' . $i . '.jpg';
+		if(file_exists($filename)){
+			unlink($filename);
+		}
+		mysql_query('delete from ' . $tbpref . 'images where ImID = ' . $i);
+	}
 }
 
 // INS/UPD
@@ -399,62 +424,65 @@ make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 			$removeSpaces = $record["LgRemoveSpaces"];
 			$rtlScript = $record['LgRightToLeft'];
 			mysql_free_result($res);
-			if ($splitEachChar) {
-				$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
-			}
-			if($removeSpaces==1 && $splitEachChar==0){
-				$rSflag = '';
-			}
-			//$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
+			$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
 			$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
-
-			if($removeSpaces==1 && $splitEachChar==0){
-				$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%' and Ti2WordCount < 2 group by SeID";
-			}
-			else {
-				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
-			}
-			$res=do_mysql_query ($sql);
-			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
-			while($record = mysql_fetch_assoc($res)){
-				$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+			if(($removeSpaces==1 && $splitEachChar==0) or $len > 1){
 				if($removeSpaces==1 && $splitEachChar==0){
-					if(empty($rSflag)){
-						$rSflag = preg_match ( '/(?<=[ ])(' . preg_replace('/(.)/ui', "$1[ ]*", $textlc) . ')(?=[ ])/ui', $string, $ma);
-						if(!empty($ma[1])){
-							$textlc = trim($ma[1]);
-							$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+					$rSflag = '';
+				}
+
+				if($removeSpaces==1 && $splitEachChar==0){
+					$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%' and Ti2WordCount < 2 group by SeID";
+				}
+				else {
+					$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+				}
+				$res=do_mysql_query ($sql);
+				$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+				while($record = mysql_fetch_assoc($res)){
+					$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
+					if($removeSpaces==1 && $splitEachChar==0){
+						if(empty($rSflag)){
+							$rSflag = preg_match ( '/(?<=[ ])(' . preg_replace('/(.)/ui', "$1[ ]*", $textlc) . ')(?=[ ])/ui', $string, $ma);
+							if(!empty($ma[1])){
+								$textlc = trim($ma[1]);
+								$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
+							}
+							$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$match);
 						}
-						$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$match);
+					}
+					$txtid =$record['SeTxID'];
+					$sentid =$record['SeID'];
+					$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
+					$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
+					while($last_pos!==false){
+						$matches=array();
+						if($splitEachChar || $removeSpaces || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+							$string = mb_substr ( $string, 0, $last_pos , 'UTF-8');
+							$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
+							$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
+							$txt='';
+							if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar || $removeSpaces?$wis:$matches[1];
+							$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
+							$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
+						}
+						else{
+							$string = mb_substr ( $string, 0, $last_pos, 'UTF-8' );
+							$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
+						}
 					}
 				}
-				$txtid =$record['SeTxID'];
-				$sentid =$record['SeID'];
-				$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
-				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
-				while($last_pos!==false){
-					$matches=array();
-					if($splitEachChar || $removeSpaces || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
-						$string = mb_substr ( $string, 0, $last_pos , 'UTF-8');
-						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
-						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
-						$txt='';
-						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar || $removeSpaces?$wis:$matches[1];
-						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
-						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
-					}
-					else{
-						$string = mb_substr ( $string, 0, $last_pos, 'UTF-8' );
-						$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
-					}
-				}
+			mysql_free_result($res);
+			if($len > 0)runsql('update ' . $tbpref . 'words set WoWordCount = ' . $len . ' where WoID = ' . $wid,'');
+			if(isset($sqlarr)){
+				$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
+				$sqltext .= rtrim(implode(',', $sqlarr),',');
+				mysql_query ($sqltext);
 			}
-		mysql_free_result($res);
-		if($len > 0)runsql('update ' . $tbpref . 'words set WoWordCount = ' . $len . ' where WoID = ' . $wid,'');
-		if(isset($sqlarr)){	
-			$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
-			$sqltext .= rtrim(implode(',', $sqlarr),',');
-			mysql_query ($sqltext);
+		}
+		else {
+			runsql('update ' . $tbpref . 'words set WoWordCount = 1 where WoID = ' . $wid,'');
+			runsql('update ' . $tbpref . 'textitems2 set Ti2WoID = ' . $wid . ' where lower(Ti2Text) = ' . convert_string_to_sqlsyntax($wis),'');
 		}
 	}	
 	
@@ -492,6 +520,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $_REQUEST['lang']; ?>" />
+	<input type="hidden" name="WoImage" value="" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
@@ -504,7 +533,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<?php print_similar_terms_tabrow(); ?>	
 	<tr>
 	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea><div id="thumbnail_container"><div id="thumbnail" onclick="if(document.forms['newword'].WoText.value.length)owin('ggl_img.php?q=' + document.forms['newword'].WoText.value);"></div></div></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Tags:</td>
@@ -544,7 +573,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 	
-	$sql = 'select * from ' . $tbpref . 'words, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
+	$sql = 'select * from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
 	$res = do_mysql_query($sql);
 	if ($record = mysql_fetch_assoc($res)) {
 		
@@ -561,6 +590,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<input type="hidden" name="WoID" value="<?php echo $record['WoID']; ?>" />
 		<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $record['WoLgID']; ?>" />
 		<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
+		<input type="hidden" name="WoImage" value="" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Language:</td>
@@ -573,7 +603,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<?php print_similar_terms_tabrow(); ?>
 		<tr>
 		<td class="td1 right">Translation:</td>
-		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>
+		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea><div id="thumbnail_container"><div id="thumbnail" <?php if(isset($record['ImID']) ) {$filename='./thumbnails/' . $tbpref . 'thumbs' . '/' . $record['ImID'] . '.jpg'; if(file_exists($filename)) echo  'style="background-image: url(\'' ,$filename,'\');" ';}?>onclick="owin('ggl_img.php?q=<?php echo tohtml($record['WoText']); ?>');"></div></div></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Tags:</td>
@@ -825,6 +855,11 @@ mysql_free_result($res);
 <script type="text/javascript">
 //<![CDATA[
 $('#waitinfo').addClass('hide');
+<?php 
+if(!empty($_REQUEST["WoImage"])){
+	echo '$.ajax({type: "POST",url:"ajax_save_thumbnail.php", data: { url: "',$_REQUEST['WoImage'],'", woid: ',$wid ,' }, async:false});';
+}
+?>
 //]]>
 </script>
 

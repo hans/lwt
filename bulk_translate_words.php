@@ -32,9 +32,13 @@ if (isset($_REQUEST['term'])) {
 	flush();
 	$res = do_mysql_query('select WoID, WoTextLC, WoStatus, WoTranslation from ' . $tbpref . 'words where WoID > ' . $max);
 	echo '<script type="text/javascript">var context = window.parent.frames[\'l\'].document;';
+	$tooltip_mode = getSettingWithDefault('set-tooltip-mode');
 	while($record = mysql_fetch_assoc($res)){
 		$hex = strToClassName(prepare_textdata($record["WoTextLC"]));
-		echo '$(".TERM',$hex,'",context).removeClass("status0").addClass("status',$record["WoStatus"],'").attr("data_wid","',$record["WoID"],'").attr("data_status","',$record["WoStatus"],'").attr("data_trans",',prepare_textdata_js($record["WoTranslation"]),').each(function(){this.title = make_tooltip($(this).text(), $(this).attr(\'data_trans\'), $(this).attr(\'data_rom\'), $(this).attr(\'data_status\'));});',"\n";
+		echo '$(".TERM',$hex,'",context).removeClass("status0").addClass("status',$record["WoStatus"],'").attr("data_wid","',$record["WoID"],'").attr("data_status","',$record["WoStatus"],'").attr("data_trans",',prepare_textdata_js($record["WoTranslation"]),')',"\n";
+		if($tooltip_mode == 1) echo '.each(function(){this.title = make_tooltip($(this).text(), $(this).attr(\'data_trans\'), $(this).attr(\'data_rom\'), $(this).attr(\'data_status\'));})';
+		else echo ".attr('title','')";
+		echo ";\n";
 	}
 	mysql_free_result($res);
 	echo "</script>";

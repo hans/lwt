@@ -79,6 +79,23 @@ WBLINK3 = '<?php echo $wb3; ?>';
 RTL = <?php echo $rtlScript; ?>;
 TID = '<?php echo $_REQUEST['text']; ?>';
 ADDFILTER = '<?php echo makeStatusClassFilter(getSettingWithDefault('set-text-visit-statuses-via-key')); ?>';
+<?php if(getSettingWithDefault('set-tooltip-mode') == 2) { ?>
+JQ_TOOLTIP = 1;
+IMGPATH = '<?php echo './thumbnails/' . $tbpref . 'thumbs' . '/'; ?>';
+<?php $sql = 'select ImID,Ti2WoID  from ' . $tbpref . 'textitems2,' . $tbpref . 'images where Ti2WoID = ImWoID and Ti2TxID = ' .  $_REQUEST['text'] . ' group by ImID order by Ti2WoID';
+	$res = do_mysql_query($sql);
+	while ($record = mysql_fetch_assoc($res)) {
+		$images[$record["Ti2WoID"]] = $record["ImID"];
+	}
+	if(!empty($images))echo "var IMAGES = jQuery.parseJSON('" . json_encode($images) . "');\n";
+	mysql_free_result($res); ?>
+	$(function() {
+		$( '#overDiv' ).tooltip();
+		$( "#thetext" ).tooltip_wsty_init();
+		$( "#thetext" ).on('mouseleave','.mwsty,.wsty',function() {$( "#thetext" ).tooltip( "disable" );});
+	});
+<?php }
+else echo 'JQ_TOOLTIP = 0;'; ?>
 $(document).ready( function() {
 	$('.word').each(word_each_do_text_text);
 	$('.mword').each(mword_each_do_text_text);
@@ -90,7 +107,6 @@ $(document).ready( function() {
 	$(document).keydown(keydown_event_do_text_text);
 	$('#thetext').hoverIntent({over: word_hover_over, out: word_hover_out, interval: 150,selector:".wsty,.mwsty"});
 });
-//]]>
 $(document).ready( function() {
 	var pos = <?php
 	if($pos>0){
@@ -109,7 +125,7 @@ $(document).ready( function() {
 $(window).on('beforeunload',function() {
 	var pos=0;
 	var top=$(window).scrollTop()-$('.wsty').not('.hide').eq(0).height();
-	$('.wsty').not('.hide').each(function() {		
+	$('.wsty').not('.hide').each(function() {
 		if ($(this).offset().top>=top){
 			pos=$(this).attr('data_pos');
 			return false;
@@ -117,6 +133,12 @@ $(window).on('beforeunload',function() {
 	});
 	$.ajax({type: "POST",url:'ajax_save_text_position.php', data: { id: '<?php echo $_REQUEST['text']; ?>', position: pos }, async:false});
 });
+$(window).load(function() {
+	$.each(IMAGES, function (key, data) {
+		$('.word' + key).attr('data_img',data);
+	});
+});
+//]]>
 </script>
 <?php
 $data_trans=$ann_exists?'data_ann':'data_trans';

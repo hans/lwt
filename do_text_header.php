@@ -53,7 +53,7 @@ $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
 $langid = $record['TxLgID'];
 $pos = $record['TxAudioPosition'];
-mysql_free_result($res); 
+mysql_free_result($res);
 
 saveSetting('currenttext',$textid);
 

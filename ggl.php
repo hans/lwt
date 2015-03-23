@@ -108,11 +108,15 @@ if (!isset($_GET['sent'])){
 //<![CDATA[
 $(document).ready( function() {
 	var w = window.parent.frames['ro'];
+	if (typeof w == 'undefined') w = window.opener;
 	if (typeof w == 'undefined')$('#del_translation').remove();
 });
 
 function deleteTranslation (){
-	$('[name="WoTranslation"]',window.parent.frames['ro'].document).val('');
+	var w = window.parent.frames['ro'];
+	if (typeof w == 'undefined') w = window.opener;
+	$('[name="WoTranslation"]',w.document).val('');
+	w.makeDirty();
 }
 
 function addTranslation (s) {
