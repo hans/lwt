@@ -536,7 +536,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.13 (March 23 2015)'  . 
+	return '1.6.14 (March 28 2015)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -3867,7 +3867,7 @@ function check_update_db() {
 
 	if (in_array($tbpref . 'texts', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding texts</p>';
-		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "texts ( TxID smallint(5) unsigned NOT NULL AUTO_INCREMENT, TxLgID tinyint(3) unsigned NOT NULL, TxTitle varchar(200) NOT NULL, TxText text NOT NULL, TxAnnotatedText longtext NOT NULL, TxAudioURI varchar(200) DEFAULT NULL, TxSourceURI varchar(1000) DEFAULT NULL, TxPosition int(6) DEFAULT 0, TxAudioPosition float DEFAULT 0, PRIMARY KEY (TxID), KEY TxLgID (TxLgID), KEY TxLgIDSourceURI (TxSourceURI(20),TxLgID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
+		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "texts ( TxID smallint(5) unsigned NOT NULL AUTO_INCREMENT, TxLgID tinyint(3) unsigned NOT NULL, TxTitle varchar(200) NOT NULL, TxText text NOT NULL, TxAnnotatedText longtext NOT NULL, TxAudioURI varchar(200) DEFAULT NULL, TxSourceURI varchar(1000) DEFAULT NULL, TxPosition smallint(5) DEFAULT 0, TxAudioPosition float DEFAULT 0, PRIMARY KEY (TxID), KEY TxLgID (TxLgID), KEY TxLgIDSourceURI (TxSourceURI(20),TxLgID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 	
 	if (in_array($tbpref . 'words', $tables) == FALSE) {

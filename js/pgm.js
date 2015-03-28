@@ -410,7 +410,7 @@ function translateSentence2(url,sentctl) {
 function translateWord(url,wordctl) {
 	if ((typeof wordctl != 'undefined') && (url != '')) {
 		text = wordctl.value;
-		if (typeof text == 'string') {
+		if (typeof text == 'string' && text.length) {
 			window.parent.frames['ru'].location.href = 
 				createTheDictUrl(url, text);
 		}
@@ -420,7 +420,7 @@ function translateWord(url,wordctl) {
 function translateWord2(url,wordctl) {
 	if ((typeof wordctl != 'undefined') && (url != '')) {
 		text = wordctl.value;
-		if (typeof text == 'string') {
+		if (typeof text == 'string' && text.length) {
 			owin ( createTheDictUrl(url, text) );
 		}
 	}

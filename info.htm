@@ -249,7 +249,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
-          <li>The current version is <b>1.6.13 (March 23 2015)</b>.
+          <li>The current version is <b>1.6.14 (March 28 2015)</b>.
           </li>
 
           <li>
@@ -558,10 +558,13 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
           </li>
           <li>Optional "ignore all" button in read texts
           </li>
+          <li>Possibility to add images to terms
+          </li>
           <li>New key bindings in the reading frame:
 		<ul><li>T (translate sentence),</li>
 		  <li>P (pronounce term),</li>
-		  <li> G (edit term with Google Translate)
+		  <li>G (edit term with Google Translate),</li>
+		  <li>J (edit term with Google Image Search)
 		</li></ul>
           </li>
           <li>Ability to change audio playback speed (doesn't work when using the flash plugin)
@@ -2293,7 +2296,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
       <dd>
         <ul>
         	<li>
-			The following sixteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
+			The following seventeen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
         		<br />
         		<br />
         		Additional table sets have its "table set name" plus an underscore "_" as a table name prefix: "setname_settings", "setname_languages", etc.
@@ -2372,7 +2375,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
             <br />
             TxSourceURI varchar(1000) DEFAULT NULL,
             <br />
-            TxPosition int(6) NOT NULL DEFAULT '0',
+            TxPosition smallint(5) NOT NULL DEFAULT '0',
             <br />
             TxAudioPosition float NOT NULL DEFAULT '0',
             <br />
@@ -2691,7 +2694,20 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
             KEY NfLgID (NfLgID),
             <br />
             KEY NfUpdate (NfUpdate)
+            <br />
+            <br />
          </li>
+         <li>
+            <b>Table "images" (Term image relations, no backup possible):</b>
+            <br />
+					ImID smallint(5) NOT NULL AUTO_INCREMENT,
+            <br />
+  					ImWoID mediumint(8) NOT NULL,
+            <br />
+  					PRIMARY KEY (ImID),
+            <br />
+  					UNIQUE KEY ImWoID (ImWoID)
+          </li>
         </ul>
       </dd>
 
@@ -2701,6 +2717,12 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
+        <li>1.6.14 (March 28 2015):<br />
+		Glosbe API now uses javascript(browser based) instead of php(server based) to prevent possible retrieval errors when LWT is installed on a webhoster for multiple users.<br />
+		<br />
+		</li>
+
+		
 		<li>1.6.13 (March 23 2015):<br />
 		Bugfix: 'error when making backup' fixed<br />
 		New Setting: Tooltips (JQueryUI will show images in Tooltips in the Read Text Screen)<br />
