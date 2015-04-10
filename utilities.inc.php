@@ -536,7 +536,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.14 (March 28 2015)'  . 
+	return '1.6.15 (April 10 2015)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -3772,7 +3772,7 @@ $(document).ready(function(){
   	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
   }
 ?> }).jPlayer("pause",<?php echo $offset; ?>);
-      if($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled)$("#playbackrateContainer").html('<span style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" onclick="click_slower();">&nbsp;</span><span style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" onclick="click_faster();">&nbsp;</span><button><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></button>');
+      if($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled)$("#playbackrateContainer").html('<span style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" title="Slower" onclick="click_slower();">&nbsp;</span><span style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" title="Faster" onclick="click_faster();">&nbsp;</span><button><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></button>').css("cursor","pointer");
     },
     swfPath: "js",
   });

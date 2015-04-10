@@ -86,6 +86,7 @@ $('h3,h4,title').addClass('notranslate');
 $(window).load(function() {
 $('[name="form1"]').submit(function() {
 	$('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
+	window.parent.frames['ru'].location.href = 'empty.htm';
 	return true;
 });
 $('td').hoverIntent({over: function() {$( this ).addClass('hover');}, out: function() {$( this ).removeClass('hover');}, interval: 150,selector:"span.dict1, span.dict2, span.dict3"});

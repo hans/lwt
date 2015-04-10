@@ -44,8 +44,8 @@ if($_REQUEST['status']==1){
 	$tl=$_GET["tl"];
 	$sl=$_GET["sl"];
 	$text=$_GET["text"];
-	$qs = http_build_query(array("sl" => $_GET["sl"],"tl" => $_GET["tl"], "text" => $_GET["text"]));
-	$url = "http://translate.google.com/translate_a/t?client=t&" . $qs . "&hl=en&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
+	$qs = http_build_query(array("sl" => $_GET["sl"],"tl" => $_GET["tl"], "q" => $_GET["text"]));
+	$url = "http://translate.google.com/translate_a/single?client=t&" . $qs . "&hl=en&dt=bd&dt=t&ie=UTF-8&oe=UTF-8&oc=1&otf=2&ssel=0&tsel=3";
 	if(is_callable('curl_init')){
 		$cookie = tempnam(sys_get_temp_dir(), "CURLCOOKIE");
 		$curl = curl_init($url);

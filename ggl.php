@@ -20,7 +20,7 @@ class GoogleTranslate {
 	public $lastResult = "";
 	private $langFrom;
 	private $langTo;
-	private static $urlFormat = "http://translate.google.com/translate_a/t?client=t&text=%s&hl=en&sl=%s&tl=%s&ie=UTF-8&oe=UTF-8&multires=1&otf=1&pc=1&trs=1&ssel=3&tsel=6&sc=1";
+	private static $urlFormat = "http://translate.google.com/translate_a/single?client=t&q=%s&hl=en&sl=%s&tl=%s&dt=bd&dt=t&dt=at&ie=UTF-8&oe=UTF-8&oc=1&otf=2&ssel=0&tsel=3";
 	public function setLangFrom($lang) {
 		$this->langFrom = $lang;
 		return $this;

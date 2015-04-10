@@ -64,7 +64,11 @@ h4 {
     margin: 5px 0 10px 0;
     padding: 0;
 }
-#thetext span{
+.click {
+    cursor: pointer;
+    color: #C00000;
+}
+#thetext {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -72,7 +76,7 @@ h4 {
 	-ms-user-select: none;
 	user-select: none;
 }
-span.status0 {
+.status0 {
 	border-bottom: 2px solid #7D8FEA;
 	text-decoration: none;
 	color: #FFF;
@@ -81,7 +85,7 @@ span.status0 {
 .hword.status0 {
 	background-color: #AAE;
 }
-span.status1 {
+.status1 {
 	border-bottom: 2px solid #C51525;
 	text-decoration: none;
 	color: #FFF;
@@ -90,7 +94,7 @@ span.status1 {
 .hword.status1 {
 	background-color: #E44;
 }
-span.status2 {
+.status2 {
 	border-bottom: 2px solid #ED9D7B;
 	text-decoration: none;
 	color: #FFF;
@@ -99,7 +103,7 @@ span.status2 {
 .hword.status2 {
 	background-color: #FB9;
 }
-span.status3 {
+.status3 {
 	border-bottom: 2px solid #F7CF66;
 	text-decoration: none;
 	color: #FFF;
@@ -108,7 +112,7 @@ span.status3 {
 .hword.status3 {
 	background-color: #FE9;
 }
-span.status4 {
+.status4 {
 	border-bottom: 2px solid #F5F388;
 	text-decoration: none;
 	color: #FFF;
@@ -117,7 +121,7 @@ span.status4 {
 .hword.status4 {
 	background-color: #FFFD77;
 }
-span.status5 {
+.status5 {
 	border-bottom: 2px solid #77E077;
 	text-decoration: none;
 	color: #FFF;
@@ -126,7 +130,7 @@ span.status5 {
 .hword.status5 {
 	background-color: #9F9;
 }
-span.status99 {
+.status99 {
 	border-bottom: 2px solid transparent;
 	text-decoration: none;
 	color: #FFF;
@@ -135,7 +139,7 @@ span.status99 {
 .hword.status99, table .status99 {
 	border-bottom: 2px solid #444;
 }
-span.status98 {
+.status98 {
 	border-bottom: 2px dashed transparent;
 	text-decoration: none;
 	color: #FFF;
@@ -156,7 +160,7 @@ span.status98 {
 .wsty.hword:after{
 	opacity:1
 }
-span.mwsty {
+.mwsty {
 	margin: 0px 1px;
 	font-size: 60%;
 	font-weight: bold;
@@ -165,32 +169,32 @@ span.mwsty {
 	border-radius: 3px;
 	white-space: nowrap;
 }
-span.wsty {
+.wsty {
 	margin:0px;
 	padding:0px 1px;
 	box-shadow: 0 0 0px 1px #000;
 	color: #FFF;
 	border-radius: 3px;
 }
-span.todosty {
+.todosty {
 	border-bottom: 2px solid #fbdb89;
 	text-decoration: none;
 	padding: 1px 2px;
 	border-radius: 3px;
 }
-span.doneoksty {
+.doneoksty {
 	border-bottom: 2px solid #64e56a;
 	text-decoration: none;
 	padding: 1px 2px;
 	border-radius: 3px;
 }
-span.donewrongsty {
+.donewrongsty {
 	border-bottom: 2px solid #F5B8A9;
 	text-decoration: none;
 	padding: 1px 2px;
 	border-radius: 3px;
 }
-span.status5stat {
+.status5stat {
 	border-bottom: 2px solid #44DD55;
 	text-decoration: none;
 	color: #FFF;
@@ -495,10 +499,6 @@ th.th1 {
 th.clickable {
     cursor: pointer;
 }
-.click {
-    cursor: pointer;
-    color: #C00000;
-}
 .clickedit {
     cursor: pointer;
 }
@@ -614,15 +614,15 @@ img {
     border: 1px solid #FFFFFF;
     text-align: center;
 }
-img.lwtlogo {
+.lwtlogo {
     margin-right: 15px;
     float: left;
 }
-img.lwtlogoright {
+.lwtlogoright {
     margin-left: 30px;
     float: right;
 }
-div#floatdiv {
+#floatdiv {
 	background:#333333;
 	border:1px solid #222222;
 	border-radius: 4px;
