@@ -42,26 +42,26 @@ require_once( 'utilities.inc.php' );
 
 $sql = 'select TxLgID, TxTitle, TxAnnotatedText, TxPosition from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text'];
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 $ann = $record['TxAnnotatedText'];
 $ann_exists = (strlen($ann) > 0);
 $pos = $record['TxPosition'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 pagestart_nobody(tohtml($title));
 
 $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 $showAll = getSettingZeroOrOne('showallwords',1);
 
@@ -84,11 +84,11 @@ JQ_TOOLTIP = 1;
 IMGPATH = '<?php echo './thumbnails/' . $tbpref . 'thumbs' . '/'; ?>';
 <?php $sql = 'select ImID,Ti2WoID  from ' . $tbpref . 'textitems2,' . $tbpref . 'images where Ti2WoID = ImWoID and Ti2TxID = ' .  $_REQUEST['text'] . ' group by ImID order by Ti2WoID';
 	$res = do_mysql_query($sql);
-	while ($record = mysql_fetch_assoc($res)) {
+	while ($record = mysqli_fetch_assoc($res)) {
 		$images[$record["Ti2WoID"]] = $record["ImID"];
 	}
 	if(!empty($images))echo "var IMAGES = jQuery.parseJSON('" . json_encode($images) . "');\n";
-	mysql_free_result($res); ?>
+	mysqli_free_result($res); ?>
 	$(function() {
 		$( '#overDiv' ).tooltip();
 		$( "#thetext" ).tooltip_wsty_init();
@@ -148,7 +148,7 @@ $stat_arr = array(1,2,3,4,5,98,99);
 foreach ($stat_arr as $value) {
 	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':after,.tword.content',$value,':after{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':after{color:rgba(0,0,0,0)}',"\n";
 }
-echo '.tword:after,.wsty:after{font-size:50%;margin-left: 0.2em;',($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:15em;display:inline-block;vertical-align:-25%;'),'}</style>';
+echo '.tword:after,.wsty:after{font-size:' . round(64/sqrt($textsize/100)) . '%;margin-left: 0.2em;',($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:15em;display:inline-block;vertical-align:-25%;'),'}</style>';
 echo '<div id="thetext" ' .  ($rtlScript ? 'dir="rtl"' : '') . '><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
 'font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 10px;">';
 
@@ -163,7 +163,7 @@ $sid = 0;
 
 $res = do_mysql_query($sql);
 
-while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
+while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 	if($sid != $record['TiSeID']){
 		if($sid != 0){
 			echo '</span>';
@@ -247,7 +247,7 @@ while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
 	
 } // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
 
-mysql_free_result($res);
+mysqli_free_result($res);
 echo '</span><span id="totalcharcount" class="hide">' . $currcharcount . '</span></p><p style="font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 300px;">&nbsp;</p></div>';
 
 pageend();

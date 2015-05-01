@@ -83,18 +83,18 @@ $wordlc = stripTheSlashesIfNeeded($_POST['word']);
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 $sql = 'select LgTextSize, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $textsize = $record['LgTextSize'] + 0;
 if ($textsize > 100) $textsize = intval($textsize * 0.8);
 $rtlScript = $record['LgRightToLeft'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 $ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);

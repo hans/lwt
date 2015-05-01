@@ -150,7 +150,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus, ImID from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID where WoID = ' . $wid;
 	$res = do_mysql_query($sql);
-	$record = mysql_fetch_assoc($res);
+	$record = mysqli_fetch_assoc($res);
 	if ( $record ) {
 		$term = $record['WoText'];
 		$lang = $record['WoLgID'];
@@ -163,7 +163,7 @@ else {  // if (! isset($_REQUEST['op']))
 	} else {
 		my_die("Term data not found in edit_tword.php");
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	
 	$termlc =	mb_strtolower($term, 'UTF-8');
 	$titletext = "Edit Term: " . tohtml($term);

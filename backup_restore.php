@@ -75,19 +75,15 @@ elseif (isset($_REQUEST['backup'])) {
 	$out = "-- " . $fname . "\n";
 	foreach($tables as $table) { // foreach table
 		$result = do_mysql_query('SELECT * FROM ' . $tbpref . $table);
-		$num_fields = mysql_num_fields($result);
+		$num_fields = mysqli_num_fields($result);
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
-		$row2 = mysql_fetch_row(do_mysql_query('SHOW CREATE TABLE ' . $tbpref . $table));
+		$row2 = mysqli_fetch_row(do_mysql_query('SHOW CREATE TABLE ' . $tbpref . $table));
 		$out .= str_replace($tbpref . $table, $table, str_replace("\n"," ",$row2[1])) . ";\n";
 		if ($table !== 'sentences' && $table !== 'textitems2') {
 			while ($row = mysql_fetch_row($result)) { // foreach record
 				$return = 'INSERT INTO ' . $table . ' VALUES(';
 				for ($j=0; $j < $num_fields; $j++) { // foreach field
-					if (isset($row[$j])) { 
-						$return .= "'" . mysql_real_escape_string($row[$j]) . "'";
-					} else { 
-						$return .= 'NULL';
-					}
+					$return .= convert_string_to_sqlsyntax($row[$j]);
 					if ($j < ($num_fields-1)) $return .= ',';
 				} // foreach field
 				$out .= $return . ");\n";
@@ -116,11 +112,11 @@ elseif (isset($_REQUEST['orig_backup'])) {
 		}
 		elseif ($table == 'languages') {
 				$result = do_mysql_query('SELECT LgID, LgName, LgDict1URI, LgDict2URI, REPLACE(LgGoogleTranslateURI,"ggl.php","*http://translate.google.com") as LgGoogleTranslateURI, LgExportTemplate, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft FROM ' . $tbpref . 'languages where LgName<>""');
-				$num_fields = mysql_num_fields($result);
+				$num_fields = mysqli_num_fields($result);
 		}
 		elseif ($table !== 'sentences' && $table !== 'textitems' && $table !== 'settings') {
 				$result = do_mysql_query('SELECT * FROM ' . $tbpref . $table);
-				$num_fields = mysql_num_fields($result);
+				$num_fields = mysqli_num_fields($result);
 		}
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
 
@@ -164,14 +160,10 @@ elseif (isset($_REQUEST['orig_backup'])) {
 		}
 
 		if ($table !== 'sentences' && $table !== 'textitems' && $table !== 'settings') {
-			while ($row = mysql_fetch_row($result)) { // foreach record
+			while ($row = mysqli_fetch_row($result)) { // foreach record
 				$return = 'INSERT INTO ' . $table . ' VALUES(';
 				for ($j=0; $j < $num_fields; $j++) { // foreach field
-					if (isset($row[$j])) {
-						$return .= "'" . mysql_real_escape_string($row[$j]) . "'";
-					} else {
-						$return .= 'NULL';
-					}
+					$return .= convert_string_to_sqlsyntax($row[$j]);
 					if ($j < ($num_fields-1)) $return .= ',';
 				} // foreach field
 				$out .= $return . ");\n";

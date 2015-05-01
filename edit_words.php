@@ -100,7 +100,7 @@ switch($currentquerymode){
 }
 if($currentquery!==''){
 	if($currentregexmode!==''){
-		if(@mysql_query('select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
+		if(@mysqli_query($GLOBALS["___mysqli_ston"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
 			$currentquery='';
 			$wh_query = '';
 			unset($_SESSION['currentwordquery']);
@@ -165,19 +165,19 @@ if (isset($_REQUEST['markaction'])) {
 				$list .= ")";
 				if ($markaction == 'del') {
 					$message = runsql('delete from ' . $tbpref . 'words where WoID in ' . $list, "Deleted");
-					mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID in ' . $list);
-					mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID in ' . $list);
+					do_mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID in ' . $list);
+					do_mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID in ' . $list);
 					adjust_autoincr('words','WoID');
 					runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
 					$res = do_mysql_query('select ImID from ' . $tbpref . 'images where ImWoID in ' . $list);
-					while ($record = mysql_fetch_assoc($res)) {
+					while ($record = mysqli_fetch_assoc($res)) {
 						$filename = './thumbnails/' . $tbpref . 'thumbs/' . $record['ImID'] . '.jpg';
 						if(file_exists($filename)){
 							unlink($filename);
 						}
 					}
-					mysql_free_result($res);
-					mysql_query('delete from ' . $tbpref . 'images where ImWoID in ' . $list);
+					mysqli_free_result($res);
+					do_mysql_query('delete from ' . $tbpref . 'images where ImWoID in ' . $list);
 				}
 				elseif ($markaction == 'addtag' ) {
 					$message = addtaglist($actiondata,$list);
@@ -250,20 +250,20 @@ if (isset($_REQUEST['allaction'])) {
 		}
 		$cnt=0;
 		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			$id = $record['WoID'];
 			$message='0';
 			if ($allaction == 'delall' ) {
 				$message = runsql('delete from ' . $tbpref . 'words where WoID = ' . $id, "");
-				mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $id);
-				mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $id);
+				do_mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $id);
+				do_mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $id);
 				$i = get_first_value('select ImID as value from ' . $tbpref . 'images where ImWoID = ' . $id);
 				if(isset($i)){
 					$filename = './thumbnails/' . $tbpref . 'thumbs/' . $i . '.jpg';
 					if(file_exists($filename)){
 						unlink($filename);
 					}
-					mysql_query('delete from ' . $tbpref . 'images where ImID = ' . $i);
+					do_mysql_query('delete from ' . $tbpref . 'images where ImID = ' . $i);
 				}
 			}
 			elseif ($allaction == 'addtagall' ) {
@@ -306,7 +306,7 @@ if (isset($_REQUEST['allaction'])) {
 			}
 			$cnt += (int)$message;
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		if ($allaction == 'deltagall') {
 			header("Location: edit_words.php");
 			exit();
@@ -357,13 +357,13 @@ if (isset($_REQUEST['allaction'])) {
 		$cnt = 0;
 		$list = '(';
 		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			$cnt++;
 			$id = $record['WoID'];
 			$list .= ($cnt==1 ? '' : ',') . $id;
 		}	
 		$list .= ")";
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$_SESSION['testsql'] = ' ' . $tbpref . 'words where WoID in ' . $list . ' ';
 		header("Location: do_test.php?selection=1");
 		exit();
@@ -376,8 +376,8 @@ if (isset($_REQUEST['allaction'])) {
 elseif (isset($_REQUEST['del'])) {
 	$message = runsql('delete from ' . $tbpref . 'words where WoID = ' . $_REQUEST['del'], "Deleted");
 	adjust_autoincr('words','WoID');
-	mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $_REQUEST['del']);
-	mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $_REQUEST['del']);
+	do_mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $_REQUEST['del']);
+	do_mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $_REQUEST['del']);
 	runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
 	$i = get_first_value('select ImID as value from ' . $tbpref . 'images where ImWoID = ' . $_REQUEST['del']);
 	if(isset($i)){
@@ -385,7 +385,7 @@ elseif (isset($_REQUEST['del'])) {
 		if(file_exists($filename)){
 			unlink($filename);
 		}
-		mysql_query('delete from ' . $tbpref . 'images where ImID = ' . $i);
+		do_mysql_query('delete from ' . $tbpref . 'images where ImID = ' . $i);
 	}
 }
 
@@ -418,12 +418,12 @@ make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 			$lid = $_REQUEST["WoLgID"];
 			$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
 			$res = do_mysql_query($sql);
-			$record = mysql_fetch_assoc($res);
+			$record = mysqli_fetch_assoc($res);
 			$termchar = $record['LgRegexpWordCharacters'];
 			$splitEachChar = $record['LgSplitEachChar'];
 			$removeSpaces = $record["LgRemoveSpaces"];
 			$rtlScript = $record['LgRightToLeft'];
-			mysql_free_result($res);
+			mysqli_free_result($res);
 			$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
 			$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
 			if(($removeSpaces==1 && $splitEachChar==0) or $len > 1){
@@ -432,14 +432,14 @@ make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 				}
 
 				if($removeSpaces==1 && $splitEachChar==0){
-					$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%' and Ti2WordCount < 2 group by SeID";
+					$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%") . " and Ti2WordCount < 2 group by SeID";
 				}
 				else {
-					$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+					$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%");
 				}
 				$res=do_mysql_query ($sql);
 				$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
-				while($record = mysql_fetch_assoc($res)){
+				while($record = mysqli_fetch_assoc($res)){
 					$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
 					if($removeSpaces==1 && $splitEachChar==0){
 						if(empty($rSflag)){
@@ -472,12 +472,12 @@ make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
 						}
 					}
 				}
-			mysql_free_result($res);
+			mysqli_free_result($res);
 			if($len > 0)runsql('update ' . $tbpref . 'words set WoWordCount = ' . $len . ' where WoID = ' . $wid,'');
 			if(isset($sqlarr)){
 				$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 				$sqltext .= rtrim(implode(',', $sqlarr),',');
-				mysql_query ($sqltext);
+				do_mysql_query ($sqltext);
 			}
 		}
 		else {
@@ -575,7 +575,7 @@ elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
 	$res = do_mysql_query($sql);
-	if ($record = mysql_fetch_assoc($res)) {
+	if ($record = mysqli_fetch_assoc($res)) {
 		
 		$wordlc = $record['WoTextLC'];
 		$transl = repl_tab_nl($record['WoTranslation']);
@@ -638,7 +638,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $_REQUEST['chg']; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 <?php
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 }
 
 // DISPLAY
@@ -824,7 +824,7 @@ $sql = 'select WoID, WoText, WoTranslation, WoRomanization, WoSentence,  SentOK,
 if ($debug) echo $sql;
 flush();
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$days = $record['Days'];
 	if ( $record['WoStatus'] > 5 ) $days="-";
 	$score = $record['Score'];
@@ -846,7 +846,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	}
 	echo "</tr>\n";
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 </table>

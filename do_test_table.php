@@ -78,12 +78,12 @@ if (! isset($lang)) {
 
 $sql = 'select LgTextSize, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $textsize = round(($record['LgTextSize']-100)/2,0)+100;
 
 $regexword = $record['LgRegexpWordCharacters'];
 $rtlScript = $record['LgRightToLeft'];
-mysql_free_result($res);
+mysqli_free_result($res);
 $span1 = ($rtlScript ? '<span dir="rtl">' : '');
 $span2 = ($rtlScript ? '</span>' : '');
 
@@ -209,7 +209,7 @@ $(document).ready( function() {
 $sql = 'SELECT DISTINCT WoID, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoTodayScore As Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' order by WoTodayScore, WoRandom*RAND()';
 if ($debug) echo $sql;
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$sent = tohtml(repl_tab_nl($record["WoSentence"]));
 	$sent1 = str_replace("{", ' <b>[', str_replace("}", ']</b> ', 
 		mask_term_in_sentence($sent,$regexword)));
@@ -224,7 +224,7 @@ while ($record = mysql_fetch_assoc($res)) {
 </tr>
 <?php
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 </table>

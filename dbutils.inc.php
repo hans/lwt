@@ -37,16 +37,16 @@ Database Utility Functions
 // -------------------------------------------------------------
 
 function do_mysql_query($sql) {
-	$res = mysql_query($sql);
+	$res = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 	if ($res == FALSE) {
 		echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
 			'<p><b>Fatal Error in SQL Query:</b> ' . 
 			tohtml($sql) . 
 			'</p>' . 
 			'<p><b>Error Code &amp; Message:</b> [' . 
-			mysql_errno() . 
+			((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) . 
 			'] ' . 
-			tohtml(mysql_error()) . 
+			tohtml(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))) . 
 			"</p></div><hr /><pre>Backtrace:\n\n";
 		debug_print_backtrace ();
 		echo '</pre><hr />';
@@ -62,11 +62,11 @@ function runsql($sql, $m, $sqlerrdie = TRUE) {
 	if ($sqlerrdie)
 		$res = do_mysql_query($sql);
 	else
-		$res = mysql_query($sql);		
+		$res = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
 	if ($res == FALSE) {
-		$message = "Error: " . mysql_error();
+		$message = "Error: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
 	} else {
-		$num = mysql_affected_rows();
+		$num = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
 		$message = (($m == '') ? $num : ($m . ": " . $num));
 	}
 	return $message;
@@ -76,12 +76,12 @@ function runsql($sql, $m, $sqlerrdie = TRUE) {
 
 function get_first_value($sql) {
 	$res = do_mysql_query($sql);		
-	$record = mysql_fetch_assoc($res);
+	$record = mysqli_fetch_assoc($res);
 	if ($record) 
 		$d = $record["value"];
 	else
 		$d = NULL;
-	mysql_free_result($res);
+	((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
 	return $d;
 }
 

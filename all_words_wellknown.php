@@ -54,7 +54,7 @@ $tooltip_mode = getSettingWithDefault('set-tooltip-mode');
 $count = 0;
 $javascript = "var title='';";
 $sqlarr = array();
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$term = $record['Ti2Text'];	
 	$termlc = $record['WoTextLC'];
 	$count1 = 0 + runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoWordCount, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
@@ -70,10 +70,10 @@ make_score_random_insert_update('id') . ')','');
 	$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status".$status." word" . $wid . "').attr('data_status','".$status."').attr('data_wid','" . $wid . "').attr('title',title);";
 	$count += $count1;
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 $sqltext = "UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = CASE lower(Ti2Text)";
 $sqltext .= implode(' ', $sqlarr) . ' END where Ti2WordCount=1 and Ti2WoID  = 0 and Ti2LgID=' . $langid;
-mysql_query ($sqltext);
+do_mysql_query( $sqltext);
 
 if($status==98)
 	echo "<p>OK, you ignore all " . $count . " word(s)!</p>";

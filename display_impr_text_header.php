@@ -43,7 +43,7 @@ require_once( 'utilities.inc.php' );
 $textid = getreq('text');
 $sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 
 $audio = $record['TxAudioURI'];
 if(!isset($audio)) $audio='';
@@ -52,7 +52,7 @@ $audio=trim($audio);
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
 $langid = $record['TxLgID'];
-mysql_free_result($res); 
+mysqli_free_result($res);
 
 saveSetting('currenttext',$textid);
 

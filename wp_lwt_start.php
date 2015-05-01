@@ -53,12 +53,20 @@ if (is_user_logged_in()){
 	get_currentuserinfo();
 	$wpuser = $current_user->ID;
 
-	setcookie('LWT-WP-User', $wpuser, 0, '/');
-	header("Location: ./index.php");
+	$err = @session_start();
+	if ($err === FALSE) 
+		my_die('SESSION error (Impossible to start a PHP session)');
+	if(session_id() == '')
+		my_die('SESSION ID empty (Impossible to start a PHP session)');
+	if (! isset($_SESSION))
+		my_die('SESSION array not set (Impossible to start a PHP session)');
+
+		$_SESSION['LWT-WP-User']=$wpuser;
+	$url = (!empty($_REQUEST["rd"]) && file_exists(preg_replace('/^([^?]+).*/','./$1',$_REQUEST["rd"])))?$_REQUEST["rd"]:'index.php';
+	header("Location: ./" . $url);
 	exit;
 }
 else { 
-	setcookie('LWT-WP-User', $wpuser, time() - 1000, '/');
 	header("Location: ../wp-login.php?redirect_to=./lwt/wp_lwt_start.php");
 	exit;
 }

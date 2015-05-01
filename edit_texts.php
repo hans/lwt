@@ -82,7 +82,7 @@ switch($currentquerymode){
 }
 if($currentquery!==''){
 	if($currentregexmode!==''){
-		if(@mysql_query('select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
+		if(@mysqli_query($GLOBALS["___mysqli_ston"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
 			$currentquery='';
 			$wh_query = '';
 			unset($_SESSION['currentwordquery']);
@@ -153,13 +153,13 @@ if (isset($_REQUEST['markaction'])) {
 					$count = 0;
 					$sql = "select TxID from " . $tbpref . "texts where TxID in " . $list;
 					$res = do_mysql_query($sql);
-					while ($record = mysql_fetch_assoc($res)) {
+					while ($record = mysqli_fetch_assoc($res)) {
 						$id = $record['TxID'];
 						$count += (0 + runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $id, ""));
 						$aid = get_last_key();
 						runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $id, "");	
 					}
-					mysql_free_result($res);
+					mysqli_free_result($res);
 					$message = 'Text(s) archived: ' . $count;
 					runsql('delete from ' . $tbpref . 'texts where TxID in ' . $list, "");
 					runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
@@ -182,11 +182,11 @@ if (isset($_REQUEST['markaction'])) {
 					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
 
 					$res = do_mysql_query($sql);
-					while ($record = mysql_fetch_assoc($res)) {
+					while ($record = mysqli_fetch_assoc($res)) {
 						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
 						$count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
 					}
-					mysql_free_result($res);
+					mysqli_free_result($res);
 					$message = 'Term Sentences set from Text(s): ' . $count;
 				} 
 				
@@ -195,11 +195,11 @@ if (isset($_REQUEST['markaction'])) {
 					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and WoStatus != 98 and WoStatus != 99 and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
 
 					$res = do_mysql_query($sql);
-					while ($record = mysql_fetch_assoc($res)) {
+					while ($record = mysqli_fetch_assoc($res)) {
 						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
 						$count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
 					}
-					mysql_free_result($res);
+					mysqli_free_result($res);
 					$message = 'Term Sentences set from Text(s): ' . $count;
 				} 
 				
@@ -207,7 +207,7 @@ if (isset($_REQUEST['markaction'])) {
 					$count = 0;
 					$sql = "select TxID, TxLgID from " . $tbpref . "texts where TxID in " . $list;
 					$res = do_mysql_query($sql);
-					while ($record = mysql_fetch_assoc($res)) {
+					while ($record = mysqli_fetch_assoc($res)) {
 						$id = $record['TxID'];
 						$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
 						$message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id, "Text items deleted");
@@ -218,7 +218,7 @@ if (isset($_REQUEST['markaction'])) {
 								$record['TxLgID'], $id );
 						$count++;
 					}
-					mysql_free_result($res);
+					mysqli_free_result($res);
 					$message = 'Text(s) reparsed: ' . $count;
 				}
 				
@@ -407,7 +407,7 @@ elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
 	$res = do_mysql_query($sql);
-	if ($record = mysql_fetch_assoc($res)) {
+	if ($record = mysqli_fetch_assoc($res)) {
 
 		?>
 	
@@ -472,7 +472,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<?php
 
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 
 }
 
@@ -597,7 +597,7 @@ Marked Texts:&nbsp;
 	if ($showCounts) {
 		$sql = 'select count(distinct lower(Ti2Text)) as total,Ti2TxID from ' . $tbpref . 'textitems2 where Ti2WordCount=1 group by Ti2TxID';
 		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			$total[$record['Ti2TxID']]=$record['total'];
 			$ukn[$record['Ti2TxID']]=0;
 			$expr[$record['Ti2TxID']]=0;
@@ -605,20 +605,20 @@ Marked Texts:&nbsp;
 		}
 		$sql = 'select count(distinct lower(Ti2Text)) as ukn,Ti2TxID from ' . $tbpref . 'textitems2 where Ti2WordCount=1 AND Ti2WoID=0 group by Ti2TxID';
 		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			$ukn[$record['Ti2TxID']]=$record['ukn'];
 			$wo[$record['Ti2TxID']]=$total[$record['Ti2TxID']]-$ukn[$record['Ti2TxID']];
 		}
 		$sql = 'select count(distinct lower(Ti2WoID)) as expr,Ti2TxID from ' . $tbpref . 'textitems2 where Ti2WordCount>1 group by Ti2TxID';
 		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			$expr[$record['Ti2TxID']]=$record['expr'];
 		}
 	}
 $sql = 'select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	if ($showCounts) {
 
 		$txttotalwords = $total[$record['TxID']];
@@ -654,7 +654,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	}
 	echo '</tr>';
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 </table>

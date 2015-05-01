@@ -33,14 +33,14 @@ if (isset($_REQUEST['term'])) {
 	$res = do_mysql_query('select WoID, WoTextLC, WoStatus, WoTranslation from ' . $tbpref . 'words where WoID > ' . $max);
 	echo '<script type="text/javascript">var context = window.parent.frames[\'l\'].document;';
 	$tooltip_mode = getSettingWithDefault('set-tooltip-mode');
-	while($record = mysql_fetch_assoc($res)){
+	while($record = mysqli_fetch_assoc($res)){
 		$hex = strToClassName(prepare_textdata($record["WoTextLC"]));
 		echo '$(".TERM',$hex,'",context).removeClass("status0").addClass("status',$record["WoStatus"],'").attr("data_wid","',$record["WoID"],'").attr("data_status","',$record["WoStatus"],'").attr("data_trans",',prepare_textdata_js($record["WoTranslation"]),')',"\n";
 		if($tooltip_mode == 1) echo '.each(function(){this.title = make_tooltip($(this).text(), $(this).attr(\'data_trans\'), $(this).attr(\'data_rom\'), $(this).attr(\'data_status\'));})';
 		else echo ".attr('title','')";
 		echo ";\n";
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	echo "</script>";
 	flush();
 	do_mysql_query('UPDATE ' . $tbpref . 'textitems2 join ' . $tbpref . 'words on lower(Ti2Text)=WoTextLC AND Ti2WordCount =1 and Ti2LgID=WoLgID and WoID > ' . $max . ' set Ti2WoID = WoID');
@@ -60,7 +60,7 @@ $offset = '';
 $limit = getSettingWithDefault('set-ggl-translation-per-page') + 1;
 $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $tid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
@@ -151,14 +151,14 @@ Marked Terms: </td><td class="td1">
 <table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1">Mark</th><th class="th1" style="min-width:5em;">Term</th><th class="th1">Translation</th><th class="th1">Status</th></tr>';
 
 $res = do_mysql_query ('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from ' . $tbpref . 'textitems2 where Ti2WoID = 0 and Ti2TxID = ' . $tid . ' AND Ti2WordCount =1 group by LOWER(Ti2Text) order by pos limit ' . $pos . ',' . $limit);
-while($record = mysql_fetch_assoc($res)){
+while($record = mysqli_fetch_assoc($res)){
 	if(++$cnt<$limit){
 		$value=tohtml($record['word']);
 		echo '<tr><td class="td1 center notranslate"><input name="marked[', $cnt ,']" type="checkbox" class="markcheck" checked="checked" value="', $cnt , '" /></td><td id="Term_', $cnt ,'" class="td1 left notranslate"><span class="term">',$value,'</span></td><td class="td1 right trans" id="Trans_', $cnt ,'">',mb_strtolower($value, 'UTF-8'),'</td><td class="td1 center notranslate"><select id="Stat_', $cnt ,'" name="term[', $cnt ,'][status]"><option value="1" selected="selected">[1]</option><option value="2">[2]</option><option value="3">[3]</option><option value="4">[4]</option><option value="5">[5]</option><option value="99">[WKn]</option><option value="98">[Ign]</option></select><input type="hidden" id="Text_', $cnt ,'" name="term[', $cnt ,'][text]" value="',$value,'" /><input type="hidden" name="term[', $cnt ,'][lg]" value="',tohtml($record['Ti2LgID']),'" /></td></tr>',"\n";
 	}
 	else $offset='<input type="hidden" name="offset" value="' . ($pos + $limit - 1) . '" /><input type="hidden" name="sl" value="' . $sl . '" /><input type="hidden" name="tl" value="' . $tl . '" />';
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 echo '</table><input type="hidden" name="tid" value="',$tid,'" />', $offset ,'</form>';
 }
 pageend();

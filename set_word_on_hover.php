@@ -82,7 +82,7 @@ $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts wher
 				convert_string_to_sqlsyntax($translation) . ', "", "", NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Term saved");
 			$wid = get_last_key();
-			mysql_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $langid . ' AND LOWER(Ti2Text) =' . $wordlc);
+			do_mysql_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $langid . ' AND LOWER(Ti2Text) =' . $wordlc);
 			$hex = strToClassName(prepare_textdata(mb_strtolower($_REQUEST['text'], 'UTF-8')));
 
 

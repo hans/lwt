@@ -9,7 +9,7 @@ $q = convert_string_to_sqlsyntax($_GET["q"]);
 $tl = convert_string_to_sqlsyntax($_GET["tl"]);
 $tts_save = getSettingWithDefault("set-tts");
 if($tts_save==1){
-	mysql_query('INSERT IGNORE INTO tts (TtsTxt,TtsLc) VALUES ('.$q.','.$tl.')');
+	do_mysql_query('INSERT IGNORE INTO tts (TtsTxt,TtsLc) VALUES ('.$q.','.$tl.')');
 }
 $ttsid = strval(get_first_value("SELECT TtsID AS value FROM tts where TtsTxt=$q and TtsLc=$tl"));
 if(empty($ttsid)){

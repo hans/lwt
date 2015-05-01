@@ -54,7 +54,7 @@ convert_string_to_sqlsyntax($word) . ', ' .
 convert_string_to_sqlsyntax($wordlc) . ', 98, 1, NOW(), ' .  
 make_score_random_insert_update('id') . ')','Term added');
 $wid = get_last_key();
-mysql_query ("UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = " . $wid . " where Ti2LgID = " . $langid . " and lower(Ti2Text) = " . convert_string_to_sqlsyntax($wordlc));
+do_mysql_query ("UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = " . $wid . " where Ti2LgID = " . $langid . " and lower(Ti2Text) = " . convert_string_to_sqlsyntax($wordlc));
 echo "<p>OK, this term will be ignored!</p>";
 
 $hex = strToClassName($wordlc);

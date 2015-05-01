@@ -57,8 +57,8 @@ else{
 		$valuesArr[] = "($d_title,$d_link,$d_text,$d_desc,$d_date,$d_audio,$d_feed)";
 	}
 	$sql .= implode(',', $valuesArr);
-	mysql_query($sql);
-	$imported_feed=mysql_affected_rows();
+	do_mysql_query( $sql);
+	$imported_feed=mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
 	$nif=count($valuesArr)-$imported_feed;
 	unset($valuesArr);
 	do_mysql_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID='.$_POST['NfID']);
@@ -76,8 +76,8 @@ else{
 	$msg.= " imported";
 	if($nif>1)$msg.= ", $nif articles are dublicates";
 	if($nif==1)$msg.= ", $nif dublicated article";
-	$result=mysql_query("SELECT COUNT(*) AS total FROM " . $tbpref . "feedlinks WHERE FlNfID in (".$_POST['NfID'].")");
-	$row = mysql_fetch_assoc($result);
+	$result=do_mysql_query( "SELECT COUNT(*) AS total FROM " . $tbpref . "feedlinks WHERE FlNfID in (".$_POST['NfID'].")");
+	$row = mysqli_fetch_assoc($result);
 	$to=($row['total']-$nf_max_links);
 	if($to>0){
 		do_mysql_query("DELETE FROM " . $tbpref . "feedlinks WHERE FlNfID in (".$_POST['NfID'].") ORDER BY FlDate LIMIT $to");

@@ -83,7 +83,7 @@ if (isset($_REQUEST['op'])) {
 		$status = $_REQUEST["WoStatus"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lang;
 		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$record = mysqli_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
 		$removeSpaces = $record["LgRemoveSpaces"];
@@ -234,13 +234,13 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 				$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $lang . " order by TxID";
 				$res = do_mysql_query($sql);
 				$cntrp = 0;
-				while ($record = mysql_fetch_assoc($res)) {
+				while ($record = mysqli_fetch_assoc($res)) {
 					$txtid = $record["TxID"];
 					$txttxt = $record["TxText"];
 					splitCheckText($txttxt, $lang, $txtid );
 					$cntrp++;
 				}
-				mysql_free_result($res);
+				mysqli_free_result($res);
 				//$message .= " / Reparsed texts: " . $cntrp;
 			}
 			elseif($mwords!=0){
@@ -248,7 +248,7 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 				$twidarr=array();
 				$wocountarr=array();
 				$res = do_mysql_query("select WoID, WoTextLC from " . $tbpref . "words where WoCreated > " . convert_string_to_sqlsyntax($last_update));
-				while ($record = mysql_fetch_assoc($res)) {
+				while ($record = mysqli_fetch_assoc($res)) {
 					$wid = $record['WoID'];
 					$textlc = $record['WoTextLC'];
 					$wis = $textlc;
@@ -267,13 +267,13 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 					}
 						$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
 						if($removeSpaces==1 && $splitEachChar==0){
-							$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lang . " and Ti2LgID = " . $lang . " and SeText rlike '" . mysql_real_escape_string($textlc) . "' and Ti2WordCount < 2 group by SeID";
+							$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lang . " and Ti2LgID = " . $lang . " and SeText rlike " . convert_string_to_sqlsyntax_notrim_nonull($textlc) . " and Ti2WordCount < 2 group by SeID";
 						}
 						else {
-							$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lang . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+							$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lang . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%");
 						}
 						$result = do_mysql_query($sql);
-						while($record2 = mysql_fetch_assoc($result)){
+						while($record2 = mysqli_fetch_assoc($result)){
 							$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record2['SeText']):$record2['SeText']) . ' ';
 							if($removeSpaces==1 && $splitEachChar==0){
 								if(empty($rSflag)){
@@ -318,22 +318,22 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 						}
 
 				}
-				mysql_free_result($result);
-				mysql_free_result($res);
+				mysqli_free_result($result);
+				mysqli_free_result($res);
 				if(!empty($sqlarr)){
 				$sqltext = 'INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 				$sqltext .= rtrim(implode(',', $sqlarr),',');
-				mysql_query ($sqltext);
+				do_mysql_query ($sqltext);
 				}
 				if(!empty($twidarr)){
 				$sqltext = "UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = CASE ";
 				$sqltext .= implode(' ', $twidarr) . ' ELSE 0 END where Ti2WoID=0 and Ti2WordCount = 1 and Ti2LgID = ' . $lang;
-				mysql_query ($sqltext);
+				do_mysql_query ($sqltext);
 				}
 				if(!empty($wocountarr)){
 				$sqltext = "UPDATE  " . $tbpref . "words SET WoWordCount  = CASE WoID";
 				$sqltext .= implode(' ', $wocountarr) . ' END where WoWordCount=0 and WoLgID = ' . $lang;
-				mysql_query ($sqltext);
+				do_mysql_query ($sqltext);
 				}
 			}
 			$recno = get_first_value('select count(*) as value from ' . $tbpref . 'words where WoStatusChanged > ' . convert_string_to_sqlsyntax($last_update));

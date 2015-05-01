@@ -74,7 +74,7 @@ if ($recno==0) {
 $sql = 'select WoID, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, ifnull(concat(\'[\',group_concat(distinct TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'words left JOIN ' . $tbpref . 'wordtags ON WoID = WtWoID) left join ' . $tbpref . 'tags on TgID = WtTgID) where WoStatusChanged > ' . convert_string_to_sqlsyntax($last_update) . ' group by WoID ' . $limit;
 $res = do_mysql_query($sql);
 $cnt=0;
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	echo '<tr>';
 	echo '<td class="td1"><span';
 	echo ($rtl ? ' dir="rtl" ' : '') . '>' . tohtml($record['WoText']) . '</span>' . ($record['WoRomanization'] != '' ? (' / <span id="roman' . $record['WoID'] . '" class="edit_area clickedit">' . tohtml(repl_tab_nl($record['WoRomanization'])) . '</span>') : (' / <span id="roman' . $record['WoID'] . '" class="edit_area clickedit">*</span>')) . '</td>';
@@ -84,7 +84,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center" title="' . tohtml(get_status_name($record['WoStatus'])) . '">' . tohtml(get_status_abbr($record['WoStatus'])) . '</td>';
 	echo "</tr>\n";
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 echo "</table>";
 echo '<script type="text/javascript">';
 echo "$(document).ready( function() {

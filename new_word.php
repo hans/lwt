@@ -92,12 +92,12 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 		$lid = $_REQUEST["WoLgID"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
 		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$record = mysqli_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
 		$removeSpaces = $record["LgRemoveSpaces"];
 		$rtlScript = $record['LgRightToLeft'];
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$appendtext=array();
 		if ($splitEachChar) {
 			$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
@@ -110,14 +110,14 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 
 			$ti=array();
 			if($removeSpaces==1 && $splitEachChar==0){
-				$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%' and Ti2WordCount < 2 group by SeID";
+				$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%") . " and Ti2WordCount < 2 group by SeID";
 			}
 			else {
-				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%");
 			}
 			$res=do_mysql_query ($sql);
 			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
-			while($record = mysql_fetch_assoc($res)){
+			while($record = mysqli_fetch_assoc($res)){
 				$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
 				if($removeSpaces==1 && $splitEachChar==0){
 					if(empty($rSflag)){
@@ -157,7 +157,7 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 					}
 				}
 			}
-			mysql_free_result($res);
+			mysqli_free_result($res);
 			if($len > 0)runsql('update ' . $tbpref . 'words set WoWordCount = ' . $len . ' where WoID = ' . $wid,'');
 			if(!empty($sqlarr)){
 				$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
@@ -227,7 +227,7 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 	
 <?php
 			flush();
-			if(isset($sqltext))mysql_query ($sqltext);
+			if(isset($sqltext))do_mysql_query ($sqltext);
 		} // (substr($message,0,5) != 'Error')
 
 	} // $_REQUEST['op'] == 'Save'

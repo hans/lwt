@@ -76,13 +76,14 @@ elseif(isset($_REQUEST['new_feed'])){
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID">
 <?php
-	while($row_l = mysql_fetch_assoc($result)){
+	while($row_l = mysqli_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
 		if($currentlang===$row_l['LgID']){
 			echo ' selected="selected"';
 		}
 		echo '>' . $row_l['LgName'] . '</option>';
 	}
+	mysqli_free_result($result);
 ?>	</select></td></tr>
 <tr><td class="td1">
 Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text" name="NfName" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
@@ -131,7 +132,7 @@ $('[type="submit"]').click(function(){
 
 elseif(isset($_REQUEST['edit_feed'])){
 	$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=$currentfeed");
-	$row = mysql_fetch_assoc($result);	
+	$row = mysqli_fetch_assoc($result);
 	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
 <h4>Edit Feed <a target="_blank" href="info.htm#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
@@ -141,13 +142,14 @@ elseif(isset($_REQUEST['edit_feed'])){
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID">
 <?php	
-	while($row_l = mysql_fetch_assoc($result)){
+	while($row_l = mysqli_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
 		if($row['NfLgID']===$row_l['LgID']){
 			echo ' selected="selected"';
 		}
 		echo '>' . $row_l['LgName'] . '</option>';
 	}
+	mysqli_free_result($result);
 	$auto_upd_v;
 	$auto_upd_i=get_nf_option($row['NfOptions'],'autoupdate');
 	if($auto_upd_i==NULL)$auto_upd_v=NULL;
@@ -230,7 +232,7 @@ elseif(isset($_REQUEST['multi_load_feed'])){
 </tr>
 <?php
 	$time=time();
-	while($row = mysql_fetch_assoc($result)){
+	while($row = mysqli_fetch_assoc($result)){
 		$diff=$time-$row['NfUpdate'];
 		echo '<tr><td class="td1 center"><input class="markcheck" type="checkbox" name="selected_feed[]" value="' . $row['NfID'] . '" checked="checked" /></td>';
 		echo '<td class="td1 center" colspan="2">'.$row['NfName'].'</td><td class="td1 center" sorttable_customkey="'.$diff.'">';
@@ -239,6 +241,7 @@ elseif(isset($_REQUEST['multi_load_feed'])){
 		}
 		echo '</td></tr>';
 	}
+	mysqli_free_result($result);
 ?>
 </table></td></tr>
 <tr>
@@ -335,7 +338,7 @@ Sort Order:
 </tr>
 <?php
 	$time=time();	
-	while($row = mysql_fetch_assoc($result)){$diff=$time-$row['NfUpdate'];
+	while($row = mysqli_fetch_assoc($result)){$diff=$time-$row['NfUpdate'];
 		echo '<tr><td class="td1 center"><input type="checkbox" name="marked[]" class="markcheck" value="' . $row['NfID'] . '" /></td>';
 		echo '<td style="white-space: nowrap" class="td1 center"><a href="' . $_SERVER['PHP_SELF'] . '?edit_feed=1&amp;selected_feed=' . $row['NfID'] . '"><img src="icn/feed--pencil.png" title="Edit" alt="Edit" /></a>';
 		echo '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?manage_feeds=1&amp;load_feed=1&amp;selected_feed=' . $row['NfID'] . '"><span title="Update Feed"><img src="icn/arrow-circle-135.png" alt="-" /></span></a>';
@@ -348,6 +351,7 @@ Sort Order:
 		}
 		echo '</td></tr>';
 	}
+	mysqli_free_result($result);
 ?>
 </table>
 </form>
@@ -362,7 +366,6 @@ Sort Order:
 
 	}
 }
-if(isset($result))mysql_free_result($result);
 pageend();
 
 ?>

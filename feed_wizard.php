@@ -14,13 +14,14 @@ if($_REQUEST['step']==4){
 <?php	
 		
 	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
-	while($row_l = mysql_fetch_assoc($result)){
+	while($row_l = mysqli_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
 		if($_SESSION['wizard']['lang']===$row_l['LgID']){
 			echo ' selected="selected"';
 		}
 		echo '>' . $row_l['LgName'] . '</option>';
 	}
+	mysqli_free_result($result);
 	$auto_upd_v;
 	$auto_upd_i=get_nf_option($_SESSION['wizard']['options'],'autoupdate');
 	if($auto_upd_i==NULL)$auto_upd_v=NULL;
@@ -254,7 +255,8 @@ elseif($_REQUEST['step']==2){
 	if(isset($_REQUEST['edit_feed']) && !isset($_SESSION['wizard'])){
 		$_SESSION['wizard']['edit_feed']=$_REQUEST['edit_feed'];
 		$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=".$_REQUEST['edit_feed']);
-		$row = mysql_fetch_assoc($result);	
+		$row = mysqli_fetch_assoc($result);
+		mysqli_free_result($result);
 		$_SESSION['wizard']['rss_url']=$row['NfSourceURI'];
 		$article_tags=explode('|',str_replace('!?!','|',$row['NfArticleSectionTags']));
 		$_SESSION['wizard']['article_tags']='';

@@ -75,12 +75,12 @@ $sumall = 0;
 
 $sql = 'SELECT WoLgID,WoStatus,count(*) AS value FROM ' . $tbpref . 'words GROUP BY WoLgID,WoStatus';
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$term_stat[$record['WoLgID']][$record['WoStatus']]=$record['value'];
 }
 $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages where LgName<>"" ORDER BY LgName';
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 	
 	$s1 = isset($term_stat[$record['LgID']][1])?($term_stat[$record['LgID']][1]):0;
@@ -123,7 +123,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '</tr>';
 	
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 echo '<tr>';
 echo '<th class="th1"><b>TOTAL</b></th>';
 echo '<th class="th1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $sumall . '</b></a></th>';
@@ -199,13 +199,13 @@ $sumkall = 0;
 
 $sql = 'select WoLgID,TO_DAYS(curdate())-TO_DAYS(cast(WoCreated as date)) Created,count(WoID) as value from ' . $tbpref . 'words where WoStatus in (1,2,3,4,5,99) GROUP BY WoLgID,Created';
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 		$term_created[$record['WoLgID']][$record['Created']]=$record['value'];
 }
 
 $sql = 'select WoLgID,WoStatus,TO_DAYS(curdate())-TO_DAYS(cast(WoStatusChanged as date)) Changed,count(WoID) as value from ' . $tbpref . 'words GROUP BY WoLgID,WoStatus,WoStatusChanged';
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	if(!empty($record['WoStatus'])){
 		switch($record['WoStatus']){
 			case ($record['WoStatus']==5 || $record['WoStatus']==99):
@@ -229,7 +229,7 @@ while ($record = mysql_fetch_assoc($res)) {
 
 $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages where LgName<>"" ORDER BY LgName';
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 
 	$ct=0;
 	$cy=0;
@@ -381,7 +381,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	
 	echo '</tr>';
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 echo '<tr>';
 echo '<th class="th1"><b>TOTAL</b></th>';
 

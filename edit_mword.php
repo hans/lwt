@@ -127,12 +127,12 @@ make_score_random_insert_update('id') . ')', "Term saved");
 		$len = $_REQUEST["len"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
 		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$record = mysqli_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
 		$removeSpaces = $record["LgRemoveSpaces"];
 		$rtlScript = $record['LgRightToLeft'];
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$appendtext=array();
 		$sid=array();
 		$sqlarr=array();
@@ -146,14 +146,14 @@ make_score_random_insert_update('id') . ')', "Term saved");
 		if($len>1){
 			$ti=array();
 			if($removeSpaces==1 && $splitEachChar==0){
-				$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%' and Ti2WordCount < 2 group by SeID";
+				$sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%") . " and Ti2WordCount < 2 group by SeID";
 			}
 			else {
-				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
+				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%");
 			}
 			$res=do_mysql_query ($sql);
 			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
-			while($record = mysql_fetch_assoc($res)){
+			while($record = mysqli_fetch_assoc($res)){
 				$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
 				if($removeSpaces==1 && $splitEachChar==0){
 					if(empty($rSflag)){
@@ -193,7 +193,7 @@ make_score_random_insert_update('id') . ')', "Term saved");
 				}
 			}
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		if(!empty($sqlarr)){
 			$sqltext = 'INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 			$sqltext .= rtrim(implode(',', $sqlarr),',');
@@ -269,7 +269,7 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 
 	if(isset($sqltext)){
 		flush();
-		mysql_query ($sqltext);
+		do_mysql_query ($sqltext);
 		echo '<p>OK: ',tohtml($message),'</p>';
 	}
 } // if (isset($_REQUEST['op']))
@@ -291,14 +291,14 @@ else {  // if (! isset($_REQUEST['op']))
 
 		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
 		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$record = mysqli_fetch_assoc($res);
 		if ( $record ) {
 			$term = $record['WoText'];
 			$lang = $record['WoLgID'];
 		} else {
 			my_die("Cannot access Term and Language in edit_mword.php");
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$termlc =	mb_strtolower($term, 'UTF-8');
 
 	}
@@ -381,7 +381,7 @@ else {  // if (! isset($_REQUEST['op']))
 
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus, ImID from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID where WoID = ' . $wid;
 		$res = do_mysql_query($sql);
-		if ($record = mysql_fetch_assoc($res)) {
+		if ($record = mysqli_fetch_assoc($res)) {
 
 			$status = $record['WoStatus'];
 			if ($status >= 98) $status = 1;
@@ -446,7 +446,7 @@ else {  // if (! isset($_REQUEST['op']))
 			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>
 			<?php
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	}
 
 }
