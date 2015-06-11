@@ -146,6 +146,9 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-display-text-frame-term-translation',
 		$_REQUEST['set-display-text-frame-term-translation']);
 
+		saveSetting('set-text-frame-annotation-position',
+		$_REQUEST['set-text-frame-annotation-position']);
+		
 		saveSetting('set-term-translation-delimiters',
 		$_REQUEST['set-term-translation-delimiters']);
 		
@@ -337,7 +340,7 @@ getSettingWithDefault('set-mobile-display-mode'), true, true, true);
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="2">Reading</th>
+<th class="th1 center" rowspan="3">Reading</th>
 <td class="td1 center">Visit only saved terms with status(es)...<br />(via keystrokes RIGHT, SPACE, LEFT, etc.)</td>
 <td class="td1 center">
 <select name="set-text-visit-statuses-via-key">
@@ -357,6 +360,19 @@ getSettingWithDefault('set-text-visit-statuses-via-key'), true, true, true);
 <?php
 echo get_wordstatus_selectoptions(
 getSettingWithDefault('set-display-text-frame-term-translation'), true, true, true);
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Position of translations</td>
+<td class="td1 center">
+<select name="set-text-frame-annotation-position" class="notempty">
+<?php
+echo get_annotation_position_selectoptions(
+getSettingWithDefault('set-text-frame-annotation-position'));
 ?>
 </select>
 </td>

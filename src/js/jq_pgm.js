@@ -407,7 +407,7 @@ function mword_click_event_do_text_text() {
 	return false;
 }
 
-function mword_drag_n_drop_select() {
+function mword_drag_n_drop_select(event) {
 	if(JQ_TOOLTIP)if($("#thetext").data("ui-tooltip"))$("#thetext").tooltip('option', {disabled: true}).tooltip('close');
 	var context = $(this).parent();
 	context.one('mouseup mouseout',$(this),function(){
@@ -439,7 +439,8 @@ function mword_drag_n_drop_select() {
 		$('.word',context).not('.hide').each(function(){
 			$(this).html('<span class="tword" data_order="' + $(this).attr('data_order') + '">' + $(this).text() + '</span>');
 		});
-		$('.wsty',context).not('.hide').each(function(){$(this).children('.tword').last().attr('data_ann',$(this).attr('data_ann')).attr('data_trans',$(this).attr('data_trans')).addClass('content' + $(this).removeClass('status1 status2 status3 status4 status5 status98 status99').attr('data_status'));});
+		if(event.data.annotation==1)$('.wsty',context).not('.hide').each(function(){$(this).children('.tword').last().attr('data_ann',$(this).attr('data_ann')).attr('data_trans',$(this).attr('data_trans')).addClass('content' + $(this).removeClass('status1 status2 status3 status4 status5 status98 status99').attr('data_status'));});
+		if(event.data.annotation==3)$('.wsty',context).not('.hide').each(function(){$(this).children('.tword').first().attr('data_ann',$(this).attr('data_ann')).attr('data_trans',$(this).attr('data_trans')).addClass('content' + $(this).removeClass('status1 status2 status3 status4 status5 status98 status99').attr('data_status'));});
 		$(context).one('mouseover','.tword',function(){
 			$('html').one('mouseup',function(){
 				$('.wsty',context).each(function(){$(this).addClass('status' + $(this).attr('data_status'));});

@@ -57,7 +57,7 @@ LWT Information / Help
 		<script type="text/javascript" src="js/jquery.js"></script>  
 		<script type="text/javascript" src="js/floating.js"></script>
  <script type="text/javascript">
-$.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/styles.css' }, success:function (data) {$('style').text( "@import url(" + data + ");" );
+$.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/styles.css' }, success:function (data) {if(data.match(/styles.css$/g))$('style').text( "@import url(" + data + ");" );
 }});
 </script>
     <title>
@@ -118,7 +118,7 @@ $(document).ready( function() {
 
 <script type="text/javascript">
 $.ajax({type: 'POST',url:'ajax_get_theme.php', data: { file:'img/lwt_icon_big.png' }, success:function (data) {
-$('.lwtlogoright').attr( "src", data );}});
+	if(data.match(/ajax_get_theme.php$/g))$('.lwtlogoright').attr( "src", data );}});
 if(!$('.lwtlogoright[src]').length){$('.lwtlogoright').attr( "src", 'img/lwt_icon_big.png' );}
 </script>
 
@@ -249,7 +249,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
-          <li>The current version is <b>1.6.17 (May 09 2015)</b>.
+          <li>The current version is <b>1.6.18 (June 11 2015)</b>.
           </li>
 
           <li>
@@ -2717,6 +2717,16 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
+
+        <li>1.6.18 (June 11 2015):<br />
+		New Setting: Position of translation<br />
+		Translations can now be displayed 'behind', 'in front of', 'above' or 'below' the term in the reading frame.<br />
+		Improved encoding detection in 'newsfeed import'.<br />
+		Bugfix: Words that are created by 'bulk import' are not updated in the reading frame (i.e. when new translations are added afterwards).<br />
+		Bugfix: mysql error 'duplicate entry' in 'newsfeed import'.<br />
+		<br />
+	</li>
+
         <li>1.6.17 (May 09 2015):<br />
 		Bugfix: Newsfeed Import doesn't load new links if WordPress is used for multiple users.<br />
 		<br />

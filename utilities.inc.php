@@ -63,7 +63,7 @@ function load_feeds($currentfeed){
 						$cnt+=1;
 						$feeds[$row['NfID']]=$row['NfName'];
 					}
-				}		
+				}
 			}
 			mysqli_free_result($result);
 		}
@@ -444,16 +444,30 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
 					mb_detect_order("ASCII,UTF-8,ISO-8859-1,windows-1252,iso-8859-15");
 					$encod  = mb_detect_encoding($HTMLString);
 				}
-				$headpos = mb_strpos($HTMLString,'<head>');
-				if(FALSE=== $headpos){
-					$headpos= mb_strpos($HTMLString,'<HEAD>');
+				$chset=$encod;
+				switch($encod){
+					case 'windows-1253':
+						$chset='el_GR.utf8';
+						break;
+					case 'windows-1254':
+						$chset='tr_TR.utf8';
+						break;
+					case 'windows-1255':
+						$chset='he.utf8';
+						break;
+					case 'windows-1256':
+						$chset='ar_AE.utf8';
+						break;
+					case 'windows-1258':
+						$chset='vi_VI.utf8';
+						break;
+					case 'windows-874':
+						$chset='th_TH.utf8';
+						break;
 				}
-				if(FALSE!== $headpos) {
-					$headpos+=6;
-					$HTMLString = mb_substr($HTMLString,0,$headpos) . '<meta http-equiv="Content-Type" content="text/html; charset='.$encod.'">' .mb_substr($HTMLString,$headpos);
-				}
-				$HTMLString=mb_convert_encoding($HTMLString, 'HTML-ENTITIES', $encod);
-
+				$HTMLString = '<meta http-equiv="Content-Type" content="text/html; charset='. $chset .'">' .$HTMLString;
+				if($encod!=$chset)$HTMLString = iconv($encod, 'utf-8', $HTMLString);
+				else $HTMLString=mb_convert_encoding($HTMLString, 'HTML-ENTITIES', $encod);
 			}
 		}
 $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\n","","\n</h","\n</p"),$HTMLString);
@@ -539,7 +553,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.17 (May 09 2015)'  . 
+	return '1.6.18 (June 11 2015)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -2000,6 +2014,21 @@ function get_wordstatus_selectoptions($v, $all, $not9899, $off=true) {
 
 // -------------------------------------------------------------
 
+function get_annotation_position_selectoptions($v){
+	if ( ! isset($v) ) $v = 1;
+	$r = "<option value=\"1\"" . get_selected($v,1);
+	$r .= ">Behind</option>";
+	$r .= "<option value=\"3\"" . get_selected($v,3);
+	$r .= ">In Front Of</option>";
+	$r .= "<option value=\"2\"" . get_selected($v,2);
+	$r .= ">Below</option>";
+	$r .= "<option value=\"4\"" . get_selected($v,4);
+	$r .= ">Above</option>";
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function get_paging_selectoptions($currentpage, $pages) {
 	$r = "";
 	for ($i=1; $i<=$pages; $i++) {
@@ -3013,6 +3042,8 @@ function get_setting_data() {
 		array("dft" => '1', "num" => 0),
 		'set-display-text-frame-term-translation' => 
 		array("dft" => '', "num" => 0),
+		'set-text-frame-annotation-position' => 
+		array("dft" => '1', "num" => 0),
 		'set-test-main-frame-waiting-time' => 
 		array("dft" => '0', "num" => 1, "min" => 0, "max" => 9999),
 		'set-test-edit-frame-waiting-time' => 

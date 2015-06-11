@@ -156,30 +156,30 @@ h4 {
 	color: #000000;
 	border-radius: 3px;
 }
-.tword.lword,.nword.lword{
+.tword.lword,.nword.lword {
 	border-top: 2px solid #D57;
 	border-bottom: 2px solid #D57 !important;
 	text-decoration: none;
 	background-color: #FEE;
 	box-shadow: 1px 0 0 0 #FEE, -1px 0 0 0 #FEE;
 }
-.tword{
+.tword {
 	border-radius: 3px;
 	box-shadow: 0 0 0px 1px #FFF;
 	border-bottom: 2px solid #C9B;
 	text-decoration: none;
 }
-.nword{
+.nword {
 	background-color: #FFF;
 	border-bottom: 2px solid #FFF !important;
 }
-.hword{
+.hword {
 	background-color: #FF9;
 }
-.wsty:after{
+.wsty:after,.wsty:before {
 	opacity:.5
 }
-.wsty.hword:after{
+.wsty.hword:after,.wsty.hword:before{
 	opacity:1
 }
 #thetext {

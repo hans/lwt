@@ -126,7 +126,7 @@ if (isset($_REQUEST['marked_items'])) {
 			}
 		}
 		else{
-			do_mysql_query( 'insert into ' . $tbpref . 'tags2 (T2Text) values("' . $nf_tag_name . '")');
+			do_mysql_query( 'insert ignore into ' . $tbpref . 'tags2 (T2Text) values("' . $nf_tag_name . '")');
 			foreach($texts as $text){
 				echo '<div class="msgblue"><p class="hide_message">+++ "' . $text['TxTitle']. '" added! +++</p></div>';
 				do_mysql_query('INSERT INTO ' . $tbpref . 'texts (TxLgID,TxTitle,TxText,TxAudioURI,TxSourceURI)VALUES ('.$row['NfLgID'].',' . convert_string_to_sqlsyntax($text['TxTitle']) .','. convert_string_to_sqlsyntax($text['TxText']) .','. convert_string_to_sqlsyntax($text['TxAudioURI']) .','.convert_string_to_sqlsyntax($text['TxSourceURI']) .')');

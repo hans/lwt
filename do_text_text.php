@@ -95,12 +95,14 @@ IMGPATH = '<?php echo './thumbnails/' . $tbpref . 'thumbs' . '/'; ?>';
 		$( "#thetext" ).on('mouseleave','.mwsty,.wsty',function() {$( "#thetext" ).tooltip( "disable" );});
 	});
 <?php }
-else echo 'JQ_TOOLTIP = 0;'; ?>
+else echo 'JQ_TOOLTIP = 0;';
+$mode_trans=getSettingWithDefault('set-text-frame-annotation-position');
+ ?>
 $(document).ready( function() {
 	$('.word').each(word_each_do_text_text);
 	$('.mword').each(mword_each_do_text_text);
 	$('.word').click(word_click_event_do_text_text);
-	$('#thetext').on('selectstart','span',false).on('mousedown','.wsty',mword_drag_n_drop_select);
+	$('#thetext').on('selectstart','span',false).on('mousedown','.wsty',{annotation: <?php echo $mode_trans; ?>},mword_drag_n_drop_select);
 	$('#thetext').on('click','.mword',mword_click_event_do_text_text);
 	$('.word').dblclick(word_dblclick_event_do_text_text);
 	$('#thetext').on('dblclick','.mword',word_dblclick_event_do_text_text);
@@ -142,15 +144,20 @@ $(window).load(function() {
 </script>
 <?php
 $data_trans=$ann_exists?'data_ann':'data_trans';
+$pseudo_element=($mode_trans<3)?'after':'before';
+$ruby=($mode_trans==2 || $mode_trans==4)?1:0;
 $displaystattrans=getSettingWithDefault('set-display-text-frame-term-translation');
 echo "<style>\n";
 $stat_arr = array(1,2,3,4,5,98,99);
 foreach ($stat_arr as $value) {
-	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':after,.tword.content',$value,':after{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':after{color:rgba(0,0,0,0)}',"\n";
+	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':',$pseudo_element,',.tword.content',$value,':',$pseudo_element,'{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':',$pseudo_element,'{color:rgba(0,0,0,0)}',"\n";
 }
-echo '.tword:after,.wsty:after{font-size:' . round(64/sqrt($textsize/100)) . '%;margin-left: 0.2em;',($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:15em;display:inline-block;vertical-align:-25%;'),'}</style>';
+if($ruby){echo '.wsty {',($mode_trans==4?'margin-top: 0.2em;':'margin-bottom: 0.2em;'),'text-align: center;display: inline-block;',($mode_trans==2?'vertical-align: top;':''),'}',"\n";}
+if($ruby)echo '.wsty:',$pseudo_element,'{display: block !important;',($mode_trans==2?'margin-top: -0.05em;':'margin-bottom:  -0.15em;'),'}',"\n";
+$ann_textsize=array(100 => 50, 150 => 50,200 => 40, 250 => 25);
+echo '.tword:',$pseudo_element,',.wsty:',$pseudo_element,'{',($ruby?'text-align: center;':''),'font-size:' . $ann_textsize[$textsize] . '%;',($mode_trans==1?'margin-left: 0.2em;':''),($mode_trans==3?'margin-right: 0.2em;':''),($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:15em;display:inline-block;vertical-align:-25%;'),'}',"\n",'.hide{display:none !important;}</style>';
 echo '<div id="thetext" ' .  ($rtlScript ? 'dir="rtl"' : '') . '><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
-'font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 10px;">';
+'font-size:' . $textsize . '%;line-height: ',($ruby?'1':'1.4'),'; margin-bottom: 10px;">';
 
 $currcharcount = 0;
 

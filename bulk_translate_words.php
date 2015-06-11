@@ -35,7 +35,7 @@ if (isset($_REQUEST['term'])) {
 	$tooltip_mode = getSettingWithDefault('set-tooltip-mode');
 	while($record = mysqli_fetch_assoc($res)){
 		$hex = strToClassName(prepare_textdata($record["WoTextLC"]));
-		echo '$(".TERM',$hex,'",context).removeClass("status0").addClass("status',$record["WoStatus"],'").attr("data_wid","',$record["WoID"],'").attr("data_status","',$record["WoStatus"],'").attr("data_trans",',prepare_textdata_js($record["WoTranslation"]),')',"\n";
+		echo '$(".TERM',$hex,'",context).removeClass("status0").addClass("status',$record["WoStatus"],'").addClass("word',$record["WoID"],'").attr("data_wid","',$record["WoID"],'").attr("data_status","',$record["WoStatus"],'").attr("data_trans",',prepare_textdata_js($record["WoTranslation"]),')',"\n";
 		if($tooltip_mode == 1) echo '.each(function(){this.title = make_tooltip($(this).text(), $(this).attr(\'data_trans\'), $(this).attr(\'data_rom\'), $(this).attr(\'data_status\'));})';
 		else echo ".attr('title','')";
 		echo ";\n";

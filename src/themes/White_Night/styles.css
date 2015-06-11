@@ -226,10 +226,10 @@ background-image: radial-gradient(ellipse farthest-corner at center, #66CC66 50%
     /*color: #000000;*/
     /*color: #FFFFFF;*/
 }
-.wsty:after{
+.wsty:after,.wsty:before {
 	opacity:.7
 }
-.wsty.hword:after{
+.wsty.hword:after,.wsty.hword:before{
 	opacity:1
 }
 .tword.lword,.nword.lword{

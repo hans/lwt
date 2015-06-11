@@ -120,7 +120,7 @@ h4 {
 	color: #000000;
 	border-radius: 3px;
 }
-.wsty:after{
+.wsty:after, .wsty:before{
 	opacity:.6
 }
 .todosty {

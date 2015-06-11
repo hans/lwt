@@ -154,10 +154,10 @@ h4 {
 .hword {
 	color: rgba(0,0,0,.4) !important;
 }
-.wsty:after{
+.wsty:after,.wsty:before {
 	opacity:.5
 }
-.wsty.hword:after{
+.wsty.hword:after,.wsty.hword:before{
 	opacity:1
 }
 .mwsty {
