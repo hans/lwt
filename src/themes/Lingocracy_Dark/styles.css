@@ -262,10 +262,10 @@ select:focus:active{
 top: 1px;color:#AAA;*/
 }
 
-/* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
+/* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     select {padding-right:18px}
-}
+}*/
 @-moz-document url-prefix() {
 
 	select{

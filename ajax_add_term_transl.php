@@ -82,7 +82,7 @@ else if(get_first_value("select count(WoID) as value from " . $tbpref . "words w
 		$dummy = runsql('update ' . $tbpref . 'words set ' .
 			'WoTranslation = ' . convert_string_to_sqlsyntax($oldtrans) . ' where WoID = ' . $wid, "");
 	}
-	$success = get_first_value("select WoTextLC as value from " . $tbpref . "words where WoID = " . $wid);;	
+	$success = get_first_value("select WoTextLC as value from " . $tbpref . "words where WoID = " . $wid);
 }
 
 echo $success;

@@ -553,7 +553,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.18 (June 11 2015)'  . 
+	return '1.6.19 (August 29 2015)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1516,7 +1516,7 @@ if (count($_REQUEST)) { echo '$_REQUEST...'; print_r($_REQUEST); }
 function convert_string_to_sqlsyntax($data) {
 	$result = "NULL";
 	$data = trim(prepare_textdata($data));
-	if($data != "") $result = "'" . ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $data) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")) . "'";
+	if($data != "") $result = "'" . mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $data) . "'";
 	return $result;
 }
 
@@ -1524,13 +1524,13 @@ function convert_string_to_sqlsyntax($data) {
 
 function convert_string_to_sqlsyntax_nonull($data) {
 	$data = trim(prepare_textdata($data));
-	return  "'" . ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $data) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")) . "'";
+	return  "'" . mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $data) . "'";
 }
 
 // -------------------------------------------------------------
 
 function convert_string_to_sqlsyntax_notrim_nonull($data) {
-	return "'" . ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], prepare_textdata($data)) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : "")) . "'";
+	return "'" . mysqli_real_escape_string($GLOBALS["___mysqli_ston"], prepare_textdata($data)) . "'";
 }
 
 // -------------------------------------------------------------
@@ -1673,7 +1673,7 @@ function get_words_to_do_buttons_selectoptions($v) {
 function get_regex_selectoptions($v) {
 	if ( ! isset($v) ) $v = "";
 	$r  = "<option value=\"\"" . get_selected($v,"");
-	$r .= ">Standard</option>";
+	$r .= ">Default</option>";
 	$r .= "<option value=\"r\"" . get_selected($v,"r");
 	$r .= ">RegEx</option>";
 	$r .= "<option value=\"COLLATE 'utf8_bin' r\"" . get_selected($v,"COLLATE 'utf8_bin' r");
@@ -2872,7 +2872,7 @@ function getSentence($seid, $wordlc,$mode) {
 		$pattern = '/(?<=[​])(' . $wordlc . ')(?=[​])/ui';
 	}
 	else{
-		$text = str_replace('​','',$record["SeText"]);
+		$text = str_replace(array('​​','​','ÿ'),array('ÿ','','​'),$record["SeText"]);
 		if($splitEachChar==0){
 			$pattern = '/(?<![' . $record["LgRegexpWordCharacters"] . '])(' . remove_spaces($wordlc, $removeSpaces) . ')(?![' . $record["LgRegexpWordCharacters"] . '])/ui';
 		}
@@ -3034,16 +3034,14 @@ function get_setting_data() {
 		array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
 		'set-test-r-frameheight-percent' => 
 		array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
-		'set-player-skin-name' => 
-		array("dft" => 'jplayer.blue.monday.modified', "num" => 0),
 		'set-words-to-do-buttons' => 
 		array("dft" => '1', "num" => 0),
 		'set-tooltip-mode' => 
-		array("dft" => '1', "num" => 0),
+		array("dft" => '2', "num" => 0),
 		'set-display-text-frame-term-translation' => 
 		array("dft" => '', "num" => 0),
 		'set-text-frame-annotation-position' => 
-		array("dft" => '1', "num" => 0),
+		array("dft" => '2', "num" => 0),
 		'set-test-main-frame-waiting-time' => 
 		array("dft" => '0', "num" => 1, "min" => 0, "max" => 9999),
 		'set-test-edit-frame-waiting-time' => 
@@ -3192,7 +3190,7 @@ function splitCheckText($text, $lid, $id) {//todo
 		if(is_numeric ($matches[1])){
 			 if( strlen ($matches[1])<3)return $matches[0];
 		}
-		else if($matches[3] && preg_match('/^[b-df-hj-np-tv-xzñ]+$/i',$matches[1]))return $matches[0];
+		else if($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u',$matches[1]) || preg_match('/^[AEIOUY]$/',$matches[1])))return $matches[0];
 		if(preg_match('/[.:]/',$matches[2])){
 			if(preg_match('/^[a-z]/', $matches[7]))return $matches[0];
 		}
@@ -3674,16 +3672,15 @@ function trim_value(&$value)
 
 function makeAudioPlayer($audio,$offset=0) {
 	if ($audio != '') {
-		$playerskin = getSettingWithDefault('set-player-skin-name');
 		$repeatMode = getSettingZeroOrOne('currentplayerrepeatmode',0);
 ?>
-<link type="text/css" href="css/jplayer_skin/<?php echo $playerskin; ?>.css" rel="stylesheet" />
+<link type="text/css" href="<?php print_file_path('css/jplayer.css');?>" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 <table class="width99pc" cellspacing="0" cellpadding="3">
 <tr>
 <td class="width45pc">&nbsp;</td>
 <td class="center borderleft" style="padding-left:10px;">
-<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>"><img src="icn/arrow-repeat.png" alt="Toggle Repeat (Now ON)" title="Toggle Repeat (Now ON)" style="width:24px;height:24px;" /></span><span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>"><img src="<?php print_file_path('icn/arrow-norepeat.png'); ?>" alt="Toggle Repeat (Now OFF)" title="Toggle Repeat (Now OFF)" style="width:24px;height:24px;" /></span><div id="playbackrateContainer" style="font-size: 80%;position:relative;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"></div>
+<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>" style="color:#09F;font-weight: bold;" title="Toggle Repeat (Now ON)">↻</span><span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>" style="color:grey;font-weight: bold;" title="Toggle Repeat (Now OFF)">↻</span><div id="playbackrateContainer" style="font-size: 80%;position:relative;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"></div>
 </td>
 <td class="center bordermiddle">&nbsp;</td>
 <td class="bordermiddle">
@@ -3696,9 +3693,7 @@ function makeAudioPlayer($audio,$offset=0) {
 				<ul class="jp-controls">
 					<li><a href="#" class="jp-play" tabindex="1">play</a></li>
 					<li><a href="#" class="jp-pause" tabindex="1">pause</a></li>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
 					<li><a href="#" class="jp-stop" tabindex="1">stop</a></li>
-<?php } ?>
 					<li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
 					<li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
 				</ul>
@@ -3716,17 +3711,14 @@ function makeAudioPlayer($audio,$offset=0) {
 						</div>
 					</div>
 				</div>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
 				<div class="jp-current-time">
 				</div>
 				<div class="jp-duration">
 				</div>
-<?php } ?>
+
 			</div>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
 			<div id="jp_playlist_1" class="jp-playlist">
 			</div>
-<?php } ?>
 		</div>
 	</div>
 </div>
@@ -3738,9 +3730,8 @@ $currentplayerseconds = getSetting('currentplayerseconds');
 if($currentplayerseconds == '') $currentplayerseconds = 5;
 ?>
 <select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
-<span id="backbutt" class="click"><img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" /></span>&nbsp;&nbsp;<span id="forwbutt" class="click"><img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" /></span>
+<span id="backbutt" class="click" title="Rewind n seconds">⇤</span>&nbsp;&nbsp;<span id="forwbutt" class="click" title="Forward n seconds">⇥</span>
 <span id="playTime" class="hide"></span>
-
 </td>
 <td class="width45pc">&nbsp;</td>
 </tr>
@@ -3773,21 +3764,25 @@ function click_back() {
 	var t = parseInt($("#playTime").text(),10);
 	var b = parseInt($("#backtime").val(),10);
 	var nt = t - b;
+	var st = 'pause';
 	if (nt < 0) nt = 0;
-	$("#jquery_jplayer_1").jPlayer("play", nt);
+	if(!$('#jquery_jplayer_1').data().jPlayer.status.paused)st = 'play';
+	$("#jquery_jplayer_1").jPlayer(st, nt);
 }
 
 function click_forw() {
 	var t = parseInt($("#playTime").text(),10);
 	var b = parseInt($("#backtime").val(),10);
 	var nt = t + b;
-	$("#jquery_jplayer_1").jPlayer("play", nt);
+	var st = 'pause';
+	if(!$('#jquery_jplayer_1').data().jPlayer.status.paused)st = 'play';
+	$("#jquery_jplayer_1").jPlayer(st, nt);
 }
 
 function click_slower() {
 	val=parseFloat($("#pbvalue").text()) - 0.1;
 	if(val>=0.5){
-		$("#pbvalue").text(val.toFixed(1));
+		$("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
 		$("#jquery_jplayer_1").jPlayer("playbackRate",val);
 	}
 }
@@ -3795,7 +3790,7 @@ function click_slower() {
 function click_faster() {
 	val=parseFloat($("#pbvalue").text()) + 0.1;
 	if(val<=4.0){
-		$("#pbvalue").text(val.toFixed(1));
+		$("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
 		$("#jquery_jplayer_1").jPlayer("playbackRate",val);
 	}
 }
@@ -3818,7 +3813,7 @@ $(document).ready(function(){
   	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
   }
 ?> }).jPlayer("pause",<?php echo $offset; ?>);
-      if($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled)$("#playbackrateContainer").html('<span style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" title="Slower" onclick="click_slower();">&nbsp;</span><span style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" title="Faster" onclick="click_faster();">&nbsp;</span><button><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></button>').css("cursor","pointer");
+      if($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled)$("#playbackrateContainer").css("margin-top",".2em").html('<span id="pbSlower" style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" title="Slower" onclick="click_slower();">&nbsp;</span><span id="pbFaster" style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" title="Faster" onclick="click_faster();">&nbsp;</span><span class="ui-widget ui-state-default ui-corner-all" style="padding-left: 0.2em;padding-right: 0.2em;color:grey"><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></span>').css("cursor","pointer");
     },
     swfPath: "js",
   });
@@ -3827,10 +3822,11 @@ $(document).ready(function(){
   	$("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
 	});
 
-  $("#backbutt").click(click_back);
-  $("#forwbutt").click(click_forw);
-  $("#do-single").click(click_single);
-  $("#do-repeat").click(click_repeat);
+  $("#backbutt").click(click_back).button();
+  $("#forwbutt").click(click_forw).button();
+  $("#do-single").click(click_single).button().css('transform','rotate(270deg)');
+  $("#do-repeat").click(click_repeat).button().css('transform','rotate(270deg)');
+  $(".ui-button-text").css('padding','.2em .4em');
 
   <?php echo ($repeatMode ? "click_repeat();\n" : ''); ?>
 });
@@ -4052,19 +4048,20 @@ if ($err == FALSE) my_die('DB connect error (MySQL not running or connection par
 
 @mysqli_query($GLOBALS["___mysqli_ston"], "SET NAMES 'utf8'");
 
-// @mysql_query("SET SESSION sql_mode = 'STRICT_ALL_TABLES'");
+// @mysqli_query($GLOBALS["___mysqli_ston"], "SET SESSION sql_mode = 'STRICT_ALL_TABLES'");
 @mysqli_query($GLOBALS["___mysqli_ston"], "SET SESSION sql_mode = ''");
 
-$err = @((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE " . $dbname));
-if ($err == FALSE && ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) == 1049) runsql("CREATE DATABASE `" . $dbname . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');
+$err = @mysqli_select_db ($GLOBALS["___mysqli_ston"], $dbname);
+if ($err == FALSE && (mysqli_errno($GLOBALS["___mysqli_ston"]) == 1049)){
+	runsql("CREATE DATABASE `" . $dbname . "` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci",'');
+	$err = @mysqli_select_db ($GLOBALS["___mysqli_ston"], $dbname);
+	if ($err == FALSE) my_die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please correct file: "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
+}
 
-$err = @((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE " . $dbname));
-if ($err == FALSE) my_die('DB select error (Cannot find database: "'. $dbname . '" or connection parameter $dbname is wrong; please correct file: "connect.inc.php"). Please read the documentation: http://lwt.sf.net');
-
-// *** GLOBAL VARAIABLES ***
+// *** GLOBAL VARIABLES ***
 // $tbpref = Current Table Prefix
 // $fixed_tbpref = Table Prefix is fixed, no changes possible
-// *** GLOBAL VARAIABLES ***
+// *** GLOBAL VARIABLES ***
 
 // Is $tbpref set in connect.inc.php? Take it and $fixed_tbpref=1.
 // If not: $fixed_tbpref=0. Is it set in table "_lwtgeneral"? Take it.

@@ -834,6 +834,7 @@ $(document).ready( function() {
 		}
 	);
 	$( "select" ).wrap( "<label class='wrap_select'></label>" );
+	$('form').attr('autocomplete','off');
 	$( 'input[type="file"]' ).each(function(){
 		if(!$(this).is(":visible")){
 			$(this).before('<button class="button-file">Choose File</button>')
