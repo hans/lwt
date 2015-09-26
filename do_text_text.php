@@ -92,7 +92,6 @@ IMGPATH = '<?php echo './thumbnails/' . $tbpref . 'thumbs' . '/'; ?>';
 	$(function() {
 		$( '#overDiv' ).tooltip();
 		$( "#thetext" ).tooltip_wsty_init();
-		$( "#thetext" ).on('mouseleave','.mwsty,.wsty',function() {$( "#thetext" ).tooltip( "disable" );});
 	});
 <?php }
 else echo 'JQ_TOOLTIP = 0;';

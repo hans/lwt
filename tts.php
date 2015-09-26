@@ -23,7 +23,7 @@ if (!file_exists($filename)) {
 		$txt=rawurlencode($txt);
 		$tl=$_GET["tl"];
 		header("Content-type: audio/mpeg");
-		$url="http://translate.google.com/translate_tts?ie=utf-8&q=$txt&tl=$tl";
+		$url="http://translate.google.com/translate_tts?ie=utf-8&q=$txt&tl=$tl&client=tw-ob";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -31,7 +31,7 @@ if (!file_exists($filename)) {
 		$soundfile = curl_exec($ch);
 	}
 	else{
-		$qs = http_build_query(array("ie" => "utf-8","tl" => $_GET["tl"], "q" => $_GET["q"]));
+		$qs = http_build_query(array("ie" => "utf-8","tl" => $_GET["tl"], "q" => $_GET["q"], "client" => "tw-ob"));
 		$ctx = stream_context_create(array("http"=>array("method"=>"GET","header"=>"Referer: \r\n")));
 		$soundfile = file_get_contents("http://translate.google.com/translate_tts?".$qs, false, $ctx);
 	}

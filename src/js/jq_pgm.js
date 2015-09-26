@@ -369,7 +369,6 @@ function word_dblclick_event_do_text_text() {
 }
 
 function word_click_event_do_text_text() {
-	if(JQ_TOOLTIP)if($("#thetext").data("ui-tooltip"))$("#thetext").tooltip('option', {disabled: true}).tooltip('close');
 	var status = $(this).attr('data_status');
 	var ann = '';
 	if ((typeof $(this).attr('data_ann')) != 'undefined') 
@@ -394,7 +393,6 @@ function word_click_event_do_text_text() {
 }
 	
 function mword_click_event_do_text_text() {
-	if(JQ_TOOLTIP)if($("#thetext").data("ui-tooltip"))$("#thetext").tooltip('option', {disabled: true}).tooltip('close');
 	var status = $(this).attr('data_status');
 	if (status != '') {
 		var ann = '';
@@ -408,7 +406,7 @@ function mword_click_event_do_text_text() {
 }
 
 function mword_drag_n_drop_select(event) {
-	if(JQ_TOOLTIP)if($("#thetext").data("ui-tooltip"))$("#thetext").tooltip('option', {disabled: true}).tooltip('close');
+	if(JQ_TOOLTIP)$('.ui-tooltip').remove();
 	var context = $(this).parent();
 	context.one('mouseup mouseout',$(this),function(){
 		clearTimeout(to);
@@ -497,22 +495,17 @@ function mword_drag_n_drop_select(event) {
 
 function word_hover_over () {
 	if (!$(".tword")[0]){
-		if(JQ_TOOLTIP){
-			//if(!$(this).data("ui-tooltip")){$(this).tooltip_wsty_init();}
-			$( "#thetext" ).tooltip( "enable" );
-			$(this).trigger( "mouseover" );
-		}
 		var v = $(this).attr("class").replace(/.*(TERM[^ ]*)( .*)*/, '$1');
 		$( "." + v ).addClass("hword");
+		if(JQ_TOOLTIP){
+			$(this).trigger( "mouseover" );
+		}
 	}
 }
 
 function word_hover_out () {
 	$( ".hword" ).removeClass("hword");
-	if(JQ_TOOLTIP){
-		//$( "span.wsty,span.mwsty" ).tooltip( "option", "disabled" );
-		$('.ui-helper-hidden-accessible>div[style]').remove();
-	}
+	if(JQ_TOOLTIP)$('.ui-helper-hidden-accessible>div[style]').remove();
 }
 
 jQuery.fn.extend({
@@ -551,8 +544,7 @@ jQuery.fn.extend({
 	 tooltip_wsty_init: function(){
 		 $( this ).tooltip({
 		      position: { my: "left top+10", at: "left bottom", collision: "flipfit" },
-		      disabled: true,
-		      items: ".wsty,.mwsty",
+		      items: ".hword",
 		      show: {easing: 'easeOutCirc'},
 		      content: function() {return $(this).tooltip_wsty_content();}
 			});
