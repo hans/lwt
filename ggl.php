@@ -20,7 +20,11 @@ class GoogleTranslate {
 	public $lastResult = "";
 	private $langFrom;
 	private $langTo;
-	private static $urlFormat = "http://translate.google.com/translate_a/single?client=t&q=%s&hl=en&sl=%s&tl=%s&dt=bd&dt=t&dt=at&ie=UTF-8&oe=UTF-8&oc=1&otf=2&ssel=0&tsel=3";
+	private static $urlFormat = "http://translate.google.com/translate_a/single?client=tw-ob&q=%s&hl=en&sl=%s&tl=%s&dt=bd&dt=t&dt=at&ie=UTF-8&oe=UTF-8&oc=1&otf=2&ssel=0&tsel=3&tk=%s";
+	private static final function  generateToken() {
+		$a =  floor(round(microtime(true)*1000) / 36E5) ^ 123456;
+		return $a . "|" . floor(fmod( (sqrt(5) - 1) / 2 * ($a ^ 654321),1) * 1048576);
+	}
 	public function setLangFrom($lang) {
 		$this->langFrom = $lang;
 		return $this;
@@ -62,8 +66,8 @@ class GoogleTranslate {
 	}
 
 	public static function staticTranslate($string, $from, $to) {
-		$url = sprintf(self::$urlFormat, rawurlencode($string), $from, $to);
-		$result = preg_replace('!([[,])(?=,)!', '$1[]$2', self::makeCurl($url));
+		$url = sprintf(self::$urlFormat, rawurlencode($string), $from, $to, self::generateToken());
+		$result = preg_replace('!([[,])(?=,)!', '$1[]', self::makeCurl($url));
 		$resultArray = json_decode($result, true);
 		$finalResult = "";
 		if (!empty($resultArray[0])) {

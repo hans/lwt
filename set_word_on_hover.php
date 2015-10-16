@@ -44,8 +44,10 @@ if($_REQUEST['status']==1){
 	$tl=$_GET["tl"];
 	$sl=$_GET["sl"];
 	$text=$_GET["text"];
+	$a =  floor(round(microtime(true)*1000) / 36E5) ^ 123456;
+	$token = $a . "|" . floor(fmod( (sqrt(5) - 1) / 2 * ($a ^ 654321),1) * 1048576);
 	$qs = http_build_query(array("sl" => $_GET["sl"],"tl" => $_GET["tl"], "q" => $_GET["text"]));
-	$url = "http://translate.google.com/translate_a/single?client=t&" . $qs . "&hl=en&dt=bd&dt=t&ie=UTF-8&oe=UTF-8&oc=1&otf=2&ssel=0&tsel=3";
+	$url = "http://translate.google.com/translate_a/single?client=tw-ob&" . $qs . "&hl=en&dt=bd&dt=t&ie=UTF-8&oe=UTF-8&oc=1&otf=2&ssel=0&tsel=3&tk=" . $token;
 	if(is_callable('curl_init')){
 		$cookie = tempnam(sys_get_temp_dir(), "CURLCOOKIE");
 		$curl = curl_init($url);
@@ -59,7 +61,7 @@ if($_REQUEST['status']==1){
 		$ctx = stream_context_create(array("http"=>array("method"=>"GET","header"=>"Referer: \r\n")));
 		$file = file_get_contents($url, false, $ctx);
 	}
-	$result = preg_replace('!([[,])(?=[],])!', '$1[]$2', $file);
+	$result = preg_replace('!([[,])(?=[],])!', '$1[]', $file);
 	$resultArray = json_decode($result, true);
 	$translation=isset($resultArray[0][0][0])?$resultArray[0][0][0]:'*';
 
