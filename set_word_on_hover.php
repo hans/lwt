@@ -38,45 +38,20 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'googleTranslateClass.php' );
 
 $translation = '*'; 
 if($_REQUEST['status']==1){
 	$tl=$_GET["tl"];
 	$sl=$_GET["sl"];
 	$text=$_GET["text"];
-	$headers = array(
-	 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-	 'Accept-Language: en-US,en',
-	 'Connection: keep-alive',
-	 'Cookie: OGPC=4061130-1:',
-	 'DNT: 1',
-	 'Host: translate.google.com',
-	 'Referer: https://translate.google.com/',
-	 'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
-	);
-	$qs = http_build_query(array("sl" => $_GET["sl"],"tl" => $_GET["tl"], "q" => $_GET["text"]));
-	$url = "http://translate.google.com/translate_a/single?client=t&" . $qs . "&hl=en&dt=bd&dt=t&ie=UTF-8&oe=UTF-8&oc=1&otf=2&ssel=0&tsel=3";
-	if(is_callable('curl_init')){
-		$cookie = tempnam(sys_get_temp_dir(), "CURLCOOKIE");
-		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_COOKIEJAR, $cookie);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-		$file = curl_exec($curl);
-		unset($curl);
-		unlink($cookie);
-	}
-	else{
-		$ctx = stream_context_create(array("http"=>array("method"=>"GET","header"=>implode("\r\n",$headers) . "\r\n")));
-		$file = file_get_contents($url, false, $ctx);
-	}
-	$result = preg_replace('!([[,])(?=[],])!', '$1[]', $file);
-	$resultArray = json_decode($result, true);
-	$translation=isset($resultArray[0][0][0])?$resultArray[0][0][0]:'*';
+
+	$tl_array = GoogleTranslate::staticTranslate($text,$sl,$tl);
+	if($tl_array) $translation = $tl_array[0];
+	if($translation == $_GET["text"])$translation = '*';
 
 	header('Pragma: no-cache');
 	header('Expires: 0');
-	if($translation == $_GET["text"])$translation = '*';
 }
 
 $word = convert_string_to_sqlsyntax($_REQUEST['text']);
