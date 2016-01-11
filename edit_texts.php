@@ -501,6 +501,7 @@ else {
 	
 ?>
 
+<link rel="stylesheet" type="text/css" href="<?php print_file_path('css/css_charts.css');?>" />
 <p>
 <a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Text ...</a> &nbsp; | &nbsp;
 <a href="long_text_import.php"><img src="icn/plus-button.png" title="Long Text Import" alt="Long Text Import" /> Long Text Import ...</a> &nbsp; | &nbsp;
@@ -566,6 +567,8 @@ if ($recno==0) {
 <p>No texts found.</p>
 <?php
 } else {
+	$showCounts = getSettingWithDefault('set-show-text-word-counts');
+	if(strlen($showCounts)!=4) $showCounts = "1111";
 ?>
 <form name="form2" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="data" value="" />
@@ -586,55 +589,22 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Actions</th>
 <?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
 <th class="th1 clickable">Title [Tags] / Audio:&nbsp;<img src="<?php print_file_path('icn/speaker-volume.png'); ?>" title="With Audio" alt="With Audio" />, Src.Link:&nbsp;<img src="<?php print_file_path('icn/chain.png'); ?>" title="Source Link available" alt="Source Link available" />, Ann.Text:&nbsp;<img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></th>
-<th class="th1 sorttable_numeric clickable">Total<br />Words</th>
-<th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex</th>
-<th class="th1 sorttable_numeric clickable">Unkn.<br />Words</th>
-<th class="th1 sorttable_numeric clickable">Unkn.<br />%</th>
+<th class="th1 sorttable_numeric clickable">Total<br />Words<br /><div class="wc_cont"><span id="total" data_wo_cnt="<?php echo substr($showCounts,0,1); ?>"></span></div></th>
+<th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex<br /><div class="wc_cont"><span id="saved" data_wo_cnt="<?php echo substr($showCounts,1,1); ?>"></span></div></th>
+<th class="th1 sorttable_numeric clickable">Unkn.<br />Words<br /><div class="wc_cont"><span id="unknown" data_wo_cnt="<?php echo substr($showCounts,2,1); ?>"></span></div></th>
+<th class="th1 sorttable_numeric clickable">Status<br />Charts<br /><div class="wc_cont"><span id="chart" data_wo_cnt="<?php echo substr($showCounts,3,1); ?>"></span></div></th>
 </tr>
 
 <?php
-	$showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
-	if ($showCounts) {
-		$sql = 'select count(distinct lower(Ti2Text)) as total,Ti2TxID from ' . $tbpref . 'textitems2 where Ti2WordCount=1 group by Ti2TxID';
-		$res = do_mysql_query($sql);
-		while ($record = mysqli_fetch_assoc($res)) {
-			$total[$record['Ti2TxID']]=$record['total'];
-			$ukn[$record['Ti2TxID']]=0;
-			$expr[$record['Ti2TxID']]=0;
-			$wo[$record['Ti2TxID']]=$record['total'];
-		}
-		$sql = 'select count(distinct lower(Ti2Text)) as ukn,Ti2TxID from ' . $tbpref . 'textitems2 where Ti2WordCount=1 AND Ti2WoID=0 group by Ti2TxID';
-		$res = do_mysql_query($sql);
-		while ($record = mysqli_fetch_assoc($res)) {
-			$ukn[$record['Ti2TxID']]=$record['ukn'];
-			$wo[$record['Ti2TxID']]=$total[$record['Ti2TxID']]-$ukn[$record['Ti2TxID']];
-		}
-		$sql = 'select count(distinct lower(Ti2WoID)) as expr,Ti2TxID from ' . $tbpref . 'textitems2 where Ti2WordCount>1 group by Ti2TxID';
-		$res = do_mysql_query($sql);
-		while ($record = mysqli_fetch_assoc($res)) {
-			$expr[$record['Ti2TxID']]=$record['expr'];
-		}
-	}
+
 $sql = 'select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
+$i = array(0,1,2,3,4,5,99,98);
+$statuses = get_statuses();
+$statuses[0]["name"]='Unknown';
+$statuses[0]["abbr"]='Ukn';
 $res = do_mysql_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
-	if ($showCounts) {
-
-		$txttotalwords = $total[$record['TxID']];
-		$txtworkedwords = $wo[$record['TxID']];
-		$txtworkedexpr = $expr[$record['TxID']];
-		$txtworkedall = $txtworkedwords + $txtworkedexpr;
-		$txttodowords = $ukn[$record['TxID']];
-		$percentunknown = 0;
-		if ($txttotalwords != 0) {
-			$percentunknown = 
-				round(100*$txttodowords/$txttotalwords,0);
-			if ($percentunknown > 100) $percentunknown = 100;
-			if ($percentunknown < 0) $percentunknown = 0;
-		}		
-
-	}
 	$audio = $record['TxAudioURI'];
 	if(!isset($audio)) $audio='';
 	$audio=trim($audio);
@@ -644,21 +614,36 @@ while ($record = mysqli_fetch_assoc($res)) {
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
 	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' ; if($audio != ''){ echo '<img src="';print_file_path('icn/speaker-volume.png');echo '" title="With Audio" alt="With Audio" />';} else echo ''; echo (isset($record['TxSourceURI']) && substr(trim($record['TxSourceURI']),0,1)!='#' ? ' <a href="' . $record['TxSourceURI'] . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <a href="print_impr_text.php?text=' . $record['TxID'] . '"><img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></a>' : '') . '</td>';
-	if ($showCounts) {
-		echo '<td class="td1 center"><span title="Total">&nbsp;' . $txttotalwords . '&nbsp;</span></td>'; 
-		echo '<td class="td1 center"><span title="Saved" class="status4">&nbsp;' . ($txtworkedall > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text_mode=0&amp;text=' . $record['TxID'] . '">' . $txtworkedwords . '+' . $txtworkedexpr . '</a>' : '0' ) . '&nbsp;</span></td>';
-		echo '<td class="td1 center"><span title="Unknown" class="status0">&nbsp;' . $txttodowords . '&nbsp;</span></td>';
-		echo '<td class="td1 center"><span title="Unknown (%)">' . $percentunknown . '</span></td>';
-	} else {
-		echo '<td class="td1 center"><span id="total-' . $record['TxID'] . '"></span></td><td class="td1 center"><span data_id="' . $record['TxID'] . '" id="saved-' . $record['TxID'] . '"><span class="click" onclick="do_ajax_word_counts();"><img src="icn/lightning.png" title="View Word Counts" alt="View Word Counts" /></span></span></td><td class="td1 center"><span id="todo-' . $record['TxID'] . '"></span></td><td class="td1 center"><span id="todop-' . $record['TxID'] . '"></span></td>'; 
+	echo '<td class="td1 center"><span title="Total" id="total_' . $record['TxID'] . '"></span></td><td class="td1 center"><span title="Saved" data_id="' . $record['TxID'] . '"><a class="status4" id="saved_' . $record['TxID'] . '" href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text_mode=0&amp;text=' . $record['TxID'] . '"></a></td>';
+	echo '<td class="td1 center"><span title="Unknown" class="status0" id="todo_' . $record['TxID'] . '"></span></td>';
+	echo '<td class="td1 center"><ul class="barchart hide">';
+
+	foreach($i as $cnt){
+		echo '<li class="bc' . $cnt . ' "title="' . $statuses[$cnt]["name"] . ' (' . $statuses[$cnt]["abbr"] . ')"><span id="stat_' . $cnt . '_' . $record['TxID'] .'">0</span></li>';
 	}
-	echo '</tr>';
+	echo '</ul></td></tr>';
 }
 mysqli_free_result($res);
 
 ?>
 </table>
-
+<script type="text/javascript">
+var WORDCOUNTS = '', SUW = SHOWUNIQUE = <?php echo intval($showCounts,2); ?>;
+$(document).ready( function() {
+	$('#total,#saved,#unknown,#chart').click(function( event ) {
+		$(this).attr('data_wo_cnt',parseInt($(this).attr('data_wo_cnt'))^1);
+		word_count_click();
+		event.stopImmediatePropagation();
+	}).attr('title',"u: Unique Word Counts\nt:  Total  Word  Counts");
+	do_ajax_word_counts();
+});
+$(window).on('beforeunload',function() {
+	if(SUW != SHOWUNIQUE){
+		var a =$('#total').attr('data_wo_cnt') + $('#saved').attr('data_wo_cnt') + $('#unknown').attr('data_wo_cnt') + $('#chart').attr('data_wo_cnt');
+		$.ajax({type: "POST",url:'ajax_save_setting.php', data: { k: 'set-show-text-word-counts', v:  a}, async:false});
+	}
+});
+</script>
 
 <?php if( $pages > 1) { ?>
 <table class="tab1" cellspacing="0" cellpadding="5">

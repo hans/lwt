@@ -553,7 +553,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.23 (December 13 2015)'  . 
+	return '1.6.24 (January 11 2016)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -2813,21 +2813,28 @@ function mask_term_in_sentence($s,$regexword) {
 
 function textwordcount($text) {
 	global $tbpref;
-	return get_first_value('select count(distinct lower(Ti2Text)) as value from ' . $tbpref . 'textitems2 where Ti2WordCount = 1 and Ti2TxID = ' . $text);
-}
-
-// -------------------------------------------------------------
-
-function textexprcount($text) {
-	global $tbpref;
-	return get_first_value('select count(distinct lower(Ti2Text)) as value from ' . $tbpref . 'textitems2 where Ti2WordCount > 1 and Ti2TxID = ' . $text);
-}
-
-// -------------------------------------------------------------
-
-function textworkcount($text) {
-	global $tbpref;
-	return get_first_value('select count(distinct lower(Ti2Text)) as value from ' . $tbpref . 'textitems2 where Ti2WordCount = 1 and Ti2TxID = ' . $text . ' and Ti2WoID != 0');
+	$r = $total = $total_unique = $expr = $expr_unique = $stat = $stat_unique = array();
+	$i = array(1,2,3,4,5,99,98);
+	$res = do_mysql_query('select Ti2TxID as text, count(distinct lower(Ti2Text)) as value, count(lower(Ti2Text)) as total from ' . $tbpref . 'textitems2 where Ti2WordCount = 1 and Ti2TxID in(' . $text . ') group by Ti2TxID');
+	while ($record = mysqli_fetch_assoc($res)) {
+		$total[$record['text']] = $record['total'];
+		$total_unique[$record['text']] = $record['value'];
+	}
+	mysqli_free_result($res);
+	$res = do_mysql_query('select Ti2TxID as text, count(distinct Ti2WoID) as value, count(Ti2WoID) as total from ' . $tbpref . 'textitems2 where Ti2WordCount > 1 and Ti2TxID in(' . $text . ') group by Ti2TxID');
+	while ($record = mysqli_fetch_assoc($res)) {
+		$expr[$record['text']] = $record['total'];
+		$expr_unique[$record['text']] = $record['value'];
+	}
+	mysqli_free_result($res);
+	$res = do_mysql_query('select Ti2TxID as text, count(distinct Ti2WoID) as value, count(Ti2WoID) as total, WoStatus as status from ' . $tbpref . 'textitems2, ' . $tbpref . 'words where Ti2WoID!=0 and Ti2TxID in(' . $text . ') and Ti2WoID=WoID group by Ti2TxID,WoStatus');
+	while ($record = mysqli_fetch_assoc($res)) {
+			$stat[$record['text']][$record['status']]=$record['total'];
+			$stat_unique[$record['text']][$record['status']]=$record['value'];
+	}
+	mysqli_free_result($res);
+	$r = array('total'=>$total,'expr'=>$expr,'stat'=>$stat,'totalu'=>$total_unique,'expru'=>$expr_unique,'statu'=>$stat_unique);
+	echo json_encode($r);
 }
 
 // -------------------------------------------------------------
@@ -3076,8 +3083,6 @@ function get_setting_data() {
 		array("dft" => '', "num" => 0),
 		'set-theme_dir' => 
 		array("dft" => 'themes/default/', "num" => 0),
-		'set-show-text-word-counts' => 
-		array("dft" => '1', "num" => 0),
 		'set-text-visit-statuses-via-key' => 
 		array("dft" => '', "num" => 0),
 		'set-term-translation-delimiters' => 

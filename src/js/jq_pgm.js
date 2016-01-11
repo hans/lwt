@@ -755,21 +755,53 @@ function do_ajax_show_similar_terms() {
 }
 
 function do_ajax_word_counts() {
-	$("span[id^='saved-']").each(
-		function(i) {
-			var textid = $(this).attr('data_id');
-			$(this).html('<img src="icn/waiting2.gif" />');
-			$.post('ajax_word_counts.php', { id: textid },
-				function(data) { 
-					var res = eval('(' + data + ')');
-					$('#total-'+textid).html(res[0]);
-					$('#saved-'+textid).html(res[1]);
-					$('#todo-'+textid).html(res[2]);
-					$('#todop-'+textid).html(res[3]);
-				}
-			);
+	var t = $('.markcheck').map(function() {return $( this ).val();}).get().join( "," );
+	$.post('ajax_word_counts.php', { id: t },
+		function(data) {
+			WORDCOUNTS=data;
+			word_count_click();
+			$('.barchart').removeClass('hide');
+	},'json');
+}
+
+function set_word_counts(){
+	$.each(WORDCOUNTS.totalu,function(key,value){
+		var knownu = known = todo = stat0 = 0;
+		var expr = WORDCOUNTS.expru[key]?parseInt((SUW&2)?WORDCOUNTS.expru[key]:WORDCOUNTS.expr[key]):0;
+		$('#total_' + key).html((SUW&1?value:WORDCOUNTS.total[key]));
+		$.each(WORDCOUNTS.statu[key],function(k,v){
+			if(SUW&8)$('#stat_' + k + '_' + key).html(v);knownu += parseInt(v);
+		});
+		$.each(WORDCOUNTS.stat[key],function(k,v){
+			if(!(SUW&8))$('#stat_' + k + '_' + key).html(v);known += parseInt(v);
+		});
+		$('#saved_' + key).html(knownu?((SUW&2?knownu:known)-expr + '+' + expr):0);
+		todo = SUW&4?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known));
+		$('#todo_' + key).html(todo);
+		stat0 = SUW&8?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known));
+		$('#stat_0_' + key).html(stat0);
+	});
+	$( '.barchart' ).each(function(){
+		var id = $(this).find('span').first().attr('id').split('_')[2];
+		var v = SUW&8?parseInt(WORDCOUNTS.expru[id]||0) + parseInt(WORDCOUNTS.totalu[id]):parseInt(WORDCOUNTS.expr[id]||0) + parseInt(WORDCOUNTS.total[id]);
+		$(this).children('li').each(function(){
+			var h = (v - $(this).children('span').text()) * 25 / v;
+			$(this).css('border-top-width', h + 'px');
+		});
+	});
+}
+
+function word_count_click(){
+	$(".wc_cont").children().each( function() {
+		if(parseInt($(this).attr('data_wo_cnt'))==1){
+			$(this).html("u");
 		}
-	);
+		else{
+			$(this).html("t");
+		}
+		SUW = (parseInt($('#chart').attr('data_wo_cnt'))<<3) + (parseInt($('#unknown').attr('data_wo_cnt'))<<2) + (parseInt($('#saved').attr('data_wo_cnt'))<<1) + (parseInt($('#total').attr('data_wo_cnt')));
+		set_word_counts();
+	});
 }
 
 function do_ajax_edit_impr_text(pagepos, word) {

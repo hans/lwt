@@ -240,6 +240,8 @@ if ($count <= 0) {
 WBLINK1 = '<?php echo $wb1; ?>';
 WBLINK2 = '<?php echo $wb2; ?>';
 WBLINK3 = '<?php echo $wb3; ?>';
+LANG = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
+if(LANG && LANG!=WBLINK3) $("html").attr('lang',LANG);
 SOLUTION = <?php echo prepare_textdata_js ( $testtype==1 ? ( $nosent ? ($trans) : (' [' . $trans . '] ')) : $save ); ?>;
 OPENED = 0;
 WID = <?php echo $wid; ?>;

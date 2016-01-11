@@ -77,7 +77,7 @@ WBLINK1 = '<?php echo $wb1; ?>';
 WBLINK2 = '<?php echo $wb2; ?>';
 WBLINK3 = '<?php echo $wb3; ?>';
 LANG = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
-if(LANG) $("html").attr('lang',LANG);
+if(LANG && LANG!=WBLINK3) $("html").attr('lang',LANG);
 RTL = <?php echo $rtlScript; ?>;
 TID = '<?php echo $_REQUEST['text']; ?>';
 ADDFILTER = '<?php echo makeStatusClassFilter(getSettingWithDefault('set-text-visit-statuses-via-key')); ?>';

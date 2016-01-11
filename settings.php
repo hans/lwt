@@ -134,9 +134,6 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-max-texts-per-feed',
 		$_REQUEST['set-max-texts-per-feed']);
 	
-		saveSetting('set-show-text-word-counts',
-		$_REQUEST['set-show-text-word-counts']);
-	
 		saveSetting('set-text-visit-statuses-via-key',
 		$_REQUEST['set-text-visit-statuses-via-key']);
 	
@@ -426,25 +423,12 @@ getSettingWithDefault('set-tts'));
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="8">Text, Term,<br />Newsfeed &amp;<br />Tag Tables</th>
+<th class="th1 center" rowspan="7">Text, Term,<br />Newsfeed &amp;<br />Tag Tables</th>
 <td class="td1 center">Texts per Page</td>
 <td class="td1 center">
 <input class="notempty posintnumber right" type="text" 
 name="set-texts-per-page"  data_info="Texts per Page" 
 value="<?php echo tohtml(getSettingWithDefault('set-texts-per-page')); ?>" maxlength="4" size="4" /> </td>
-<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-</tr>
-<!-- ******************************************************* -->
-<tr>
-<td class="td1 center">Show Word Counts of Texts immediately<br />(<b>"No"</b> loads a long text table faster)</td>
-<td class="td1 center">
-<select name="set-show-text-word-counts" class="notempty">
-<?php
-echo get_yesno_selectoptions(
-getSettingWithDefault('set-show-text-word-counts'));
-?>
-</select>
-</td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->
