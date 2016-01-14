@@ -39,7 +39,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.5.20 (September 22 2014)'  . 
+	return '1.5.21 (January 14 2016)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -862,6 +862,12 @@ function optimizedb() {
 	adjust_autoincr('tags','TgID');
 	adjust_autoincr('tags2','T2ID');
 	$dummy = runsql('OPTIMIZE TABLE ' . $tbpref . 'archivedtexts,' . $tbpref . 'languages,' . $tbpref . 'sentences,' . $tbpref . 'textitems,' . $tbpref . 'texts,' . $tbpref . 'words,' . $tbpref . 'settings,' . $tbpref . 'tags,' . $tbpref . 'wordtags,' . $tbpref . 'tags2,' . $tbpref . 'texttags,' . $tbpref . 'archtexttags, _lwtgeneral', '');
+}
+
+// -------------------------------------------------------------
+
+function remove_soft_hyphens($str) {
+	return str_replace('­', '', $str);  // first '..' contains Softhyphen 0xC2 0xAD
 }
 
 // -------------------------------------------------------------

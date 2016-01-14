@@ -175,6 +175,7 @@ if (isset($_REQUEST['op'])) {
 			
 			$imported = 0;
 			for ($i = 0; $i < $textcount; $i++) {
+				$texts[$i] = remove_soft_hyphens($texts[$i]);
 				$counter = makeCounterWithTotal ($textcount, $i+1);
 				$thistitle = $title . ($counter == '' ? '' : (' (' . $counter . ')')); 
 				$imported = $imported + runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 

@@ -248,7 +248,7 @@ elseif (isset($_REQUEST['op'])) {
 		
 		if ($_REQUEST['op'] == 'Check') {
 			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
-			echo splitCheckText($_REQUEST['TxText'], $_REQUEST['TxLgID'], -1);
+			echo splitCheckText(remove_soft_hyphens($_REQUEST['TxText']), $_REQUEST['TxLgID'], -1);
 			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
 			pageend();
 			exit();
@@ -260,7 +260,7 @@ elseif (isset($_REQUEST['op'])) {
 			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
 			$_REQUEST["TxLgID"] . ', ' . 
 			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
-			convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ", '', " .
+			convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) . ", '', " .
 			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ')', "Saved");
 			$id = get_last_key();
@@ -271,11 +271,11 @@ elseif (isset($_REQUEST['op'])) {
 		
 		elseif (substr($_REQUEST['op'],0,6) == 'Change') {
 			$oldtext = get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST["TxID"]);
-			$textsdiffer = (convert_string_to_sqlsyntax($_REQUEST["TxText"]) != convert_string_to_sqlsyntax($oldtext));
+			$textsdiffer = (convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) != convert_string_to_sqlsyntax($oldtext));
 			$message1 = runsql('update ' . $tbpref . 'texts set ' .
 			'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
 			'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
-			'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
+			'TxText = ' . convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) . ', ' .
 			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
 			'TxSourceURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ' ' .
 			'where TxID = ' . $_REQUEST["TxID"], "Updated");
