@@ -768,6 +768,9 @@ function set_word_counts(){
 	$.each(WORDCOUNTS.totalu,function(key,value){
 		var knownu = known = todo = stat0 = 0;
 		var expr = WORDCOUNTS.expru[key]?parseInt((SUW&2)?WORDCOUNTS.expru[key]:WORDCOUNTS.expr[key]):0;
+		if(!WORDCOUNTS.stat[key]){
+			WORDCOUNTS.statu[key] = WORDCOUNTS.stat[key] = [];
+		}
 		$('#total_' + key).html((SUW&1?value:WORDCOUNTS.total[key]));
 		$.each(WORDCOUNTS.statu[key],function(k,v){
 			if(SUW&8)$('#stat_' + k + '_' + key).html(v);knownu += parseInt(v);
@@ -775,7 +778,7 @@ function set_word_counts(){
 		$.each(WORDCOUNTS.stat[key],function(k,v){
 			if(!(SUW&8))$('#stat_' + k + '_' + key).html(v);known += parseInt(v);
 		});
-		$('#saved_' + key).html(knownu?((SUW&2?knownu:known)-expr + '+' + expr):0);
+		$('#saved_' + key).html(known?((SUW&2?knownu:known)-expr + '+' + expr):0);
 		todo = SUW&4?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known));
 		$('#todo_' + key).html(todo);
 		stat0 = SUW&8?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known));

@@ -249,7 +249,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
-          <li>The current version is <b>1.6.24 (January 11 2016)</b>.
+          <li>The current version is <b>1.6.25 (January 18 2016)</b>.
           </li>
 
           <li>
@@ -2601,9 +2601,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
           <li>
             <b>Table "temptextitems" (memory table only used when creating texts, otherwise empty):</b>
             <br />
-				  TiLgID tinyint(3) unsigned NOT NULL,
-				<br />
-				  TiTxID smallint(5) unsigned NOT NULL,
+				  TiCount smallint(5) unsigned NOT NULL,
 				<br />
 				  TiSeID mediumint(8) unsigned NOT NULL,
 				<br />
@@ -2611,9 +2609,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 				<br />
 				  TiWordCount tinyint(3) unsigned NOT NULL,
 				<br />
-				  TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-				<br />
-				  TiTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+				  TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
   					<br />
   					<br />
           </li>
@@ -2717,6 +2713,15 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
+
+	<li>1.6.25 (January 18 2016):<br />
+		SplitCheckText rewritten for faster text parsing.<br />
+		Added saved expressions to CheckText.<br />
+		Bugfix: No Word Counts displayed when text has no saved words.<br />
+		Added German Feed 'NachDenkSeiten'(url:'http://www.nachdenkseiten.de/?feed=audiopodcast', Article Section:'//encoded/p', Options:'Article Source:encoded') to DemoDatabase.<br />
+		Database changes (table 'temptextitems'): added: TiCount, dropped: TiLgID, TiTxID, TiTextLC and index TiTextLC<br />
+		<br />
+	</li>
 
 	<li>1.6.24 (January 11 2016):<br />
 		HTML lang attribute added in testing frame.<br />

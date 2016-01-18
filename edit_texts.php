@@ -616,7 +616,7 @@ while ($record = mysqli_fetch_assoc($res)) {
 	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' ; if($audio != ''){ echo '<img src="';print_file_path('icn/speaker-volume.png');echo '" title="With Audio" alt="With Audio" />';} else echo ''; echo (isset($record['TxSourceURI']) && substr(trim($record['TxSourceURI']),0,1)!='#' ? ' <a href="' . $record['TxSourceURI'] . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <a href="print_impr_text.php?text=' . $record['TxID'] . '"><img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></a>' : '') . '</td>';
 	echo '<td class="td1 center"><span title="Total" id="total_' . $record['TxID'] . '"></span></td><td class="td1 center"><span title="Saved" data_id="' . $record['TxID'] . '"><a class="status4" id="saved_' . $record['TxID'] . '" href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text_mode=0&amp;text=' . $record['TxID'] . '"></a></td>';
 	echo '<td class="td1 center"><span title="Unknown" class="status0" id="todo_' . $record['TxID'] . '"></span></td>';
-	echo '<td class="td1 center"><ul class="barchart hide">';
+	echo '<td class="td1 center"><ul class="barchart">';
 
 	foreach($i as $cnt){
 		echo '<li class="bc' . $cnt . ' "title="' . $statuses[$cnt]["name"] . ' (' . $statuses[$cnt]["abbr"] . ')"><span id="stat_' . $cnt . '_' . $record['TxID'] .'">0</span></li>';
