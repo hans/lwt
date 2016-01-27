@@ -119,19 +119,19 @@ if($annplcmnt == '') $annplcmnt = 0;
 
 $sql = 'select TxLgID, TxTitle, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
 $langid = $record['TxLgID'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 saveSetting('currenttext',$textid);
 saveSetting('currentprintannotation',$ann);
@@ -187,7 +187,7 @@ $until = 0;
 
 $res = do_mysql_query($sql);
 
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 
 	$actcode = $record['Code'] + 0;
 	$order = $record['TiOrder'] + 0;
@@ -226,7 +226,7 @@ while ($record = mysql_fetch_assoc($res)) {
 		}
 	}
 } // while
-mysql_free_result($res);
+mysqli_free_result($res);
 output_text($saveterm,$saverom,$savetrans,$savetags,
 	$show_rom,$show_trans,$show_tags,$annplcmnt);
 echo "</p></div>";

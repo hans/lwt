@@ -180,14 +180,14 @@ else {  // if (! isset($_REQUEST['op']))
 	if ($wid == '') {	
 		$sql = 'select TiText, TiLgID from ' . $tbpref . 'textitems where TiTxID = ' . $_REQUEST['tid'] . ' and TiWordCount = 1 and TiOrder = ' . $_REQUEST['ord'];
 		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$record = mysqli_fetch_assoc($res);
 		if ($record) {
 			$term = $record['TiText'];
 			$lang = $record['TiLgID'];
 		} else {
 			my_die("Cannot access Term and Language in edit_word.php");
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		
 		$termlc =	mb_strtolower($term, 'UTF-8');
 		
@@ -197,14 +197,14 @@ else {  // if (! isset($_REQUEST['op']))
 
 		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
 		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$record = mysqli_fetch_assoc($res);
 		if ( $record ) {
 			$term = $record['WoText'];
 			$lang = $record['WoLgID'];
 		} else {
 			my_die("Cannot access Term and Language in edit_word.php");
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$termlc =	mb_strtolower($term, 'UTF-8');
 		
 	}
@@ -282,7 +282,7 @@ else {  // if (! isset($_REQUEST['op']))
 		
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 		$res = do_mysql_query($sql);
-		if ($record = mysql_fetch_assoc($res)) {
+		if ($record = mysqli_fetch_assoc($res)) {
 			
 			$status = $record['WoStatus'];
 			if ($fromAnn == '' ) {
@@ -350,7 +350,7 @@ else {  // if (! isset($_REQUEST['op']))
 			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 			<?php
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	}
 
 }

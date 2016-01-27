@@ -89,7 +89,7 @@ if (isset($_REQUEST["action"])) {  // Action
 
 		<?php
 
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			echo '<li><a href="mobile.php?action=3&amp;lang=' . 
 				$lang . '&amp;text=' . $record["TxID"] . '">' .
 				tohtml($record["TxTitle"]) . '</a></li>';	
@@ -99,7 +99,7 @@ if (isset($_REQUEST["action"])) {  // Action
 
 		</ul>
 		<?php
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	
 	} // $action == 2
 	
@@ -139,7 +139,7 @@ if (isset($_REQUEST["action"])) {  // Action
 
 		<?php
 		
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			if (trim($record["SeText"]) != '¶')
 			 echo '<li><a href="mobile.php?action=4&amp;lang=' . 
 				$lang . '&amp;text=' . $text . 
@@ -153,7 +153,7 @@ if (isset($_REQUEST["action"])) {  // Action
 
 		<?php
 		
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	
 	} // $action == 3
 	
@@ -191,7 +191,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$saverom = '';
 		$savestat = '';
 		$until = 0;
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			$actcode = $record['Code'] + 0;
 			$order = $record['TiOrder'] + 0;
 			
@@ -226,7 +226,7 @@ if (isset($_REQUEST["action"])) {  // Action
 				$savestat = $record['WoStatus'];
 			}
 		} 
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		if (trim($saveterm) != '') {
 			$desc = trim(($saverom != '' ? '[' . $saverom . '] ' : '') . $savetrans);
 			echo '<li><span class="status' . $savestat . '">' . tohtml($saveterm) . '</span>' . 
@@ -306,11 +306,11 @@ span.status5 {
 <?php
 	$sql = 'select LgID, LgName from ' . $tbpref . 'languages order by LgName';
 	$res = do_mysql_query($sql);
-	while ($record = mysql_fetch_assoc($res)) {
+	while ($record = mysqli_fetch_assoc($res)) {
 		echo '<li><a href="mobile.php?action=2&amp;lang=' . $record["LgID"] . '">' .
 			tohtml($record["LgName"]) . '</a></li>';	
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 ?>
 	<li class="group">Other</li>
 	<li><a href="#about">About</a></li>

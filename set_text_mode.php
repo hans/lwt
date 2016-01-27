@@ -66,7 +66,7 @@ $res = do_mysql_query($sql);
 $hideuntil = -1;
 $hidetag = "removeClass('hide');";
 
-while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
+while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 	$actcode = $record['Code'] + 0;
 	$t = $record['TiText'];
 	$order = $record['TiOrder'] + 0;
@@ -112,8 +112,8 @@ while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
 			echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
 		}  // ($actcode == 1)  -- A WORD FOUND
 	} // $record['TiIsNotWord'] == 0  -- A TERM
-} // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
-mysql_free_result($res);
+} // while ($record = mysqli_fetch_assoc($res))  -- MAIN LOOP
+mysqli_free_result($res);
 
 (jquery, deact.) 
 ***************************************************************/

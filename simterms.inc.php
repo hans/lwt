@@ -82,10 +82,10 @@ function get_similar_terms($lang_id, $compared_term, $max_count,
 	$sql = "select WoID, WoTextLC from " . $tbpref . "words where WoLgID = " . $lang_id . " AND WoTextLC <> " . convert_string_to_sqlsyntax($compared_term_lc);
 	$res = do_mysql_query($sql);
 	$termlsd = array();
-	while ($record = mysql_fetch_assoc($res)) {
+	while ($record = mysqli_fetch_assoc($res)) {
 		$termlsd[$record["WoID"]] = getSimilarityRanking($compared_term_lc, $record["WoTextLC"]);
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	arsort($termlsd, SORT_NUMERIC);
 	$r = array();
 	$i = 0;
@@ -113,7 +113,7 @@ function print_similar_terms($lang_id, $compared_term) {
 	foreach ($termarr as $termid) {
 		$sql = "select WoText, WoTranslation, WoRomanization from " . $tbpref . "words where WoID = " . $termid;
 		$res = do_mysql_query($sql);
-		if ($record = mysql_fetch_assoc($res)) {
+		if ($record = mysqli_fetch_assoc($res)) {
 			$term = tohtml($record["WoText"]);
 			if (stripos($compare, $term) !== FALSE)
 				$term = '<span class="red3">' . $term . '</span>';
@@ -131,7 +131,7 @@ function print_similar_terms($lang_id, $compared_term) {
     	}
     	$rarr[] = '<img class="clickedit" src="icn/tick-button-small.png" title="Copy → Translation &amp; Romanization Field(s)" onclick="setTransRoman(' . prepare_textdata_js($tra) . ',' . prepare_textdata_js($rom) . ');" /> ' . $term . tohtml($romd) . ' — ' . tohtml($tra) . '<br />';
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	}
 	if(count($rarr) == 0)
 		return "(none)";

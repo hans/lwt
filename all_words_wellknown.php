@@ -48,7 +48,7 @@ $sql = 'select distinct TiText, TiTextLC from (' . $tbpref . 'textitems left joi
 $res = do_mysql_query($sql);
 $count = 0;
 $javascript = "var title='';";
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$term = $record['TiText'];	
 	$termlc = $record['TiTextLC'];	
 	$count1 = 0 + runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
@@ -62,7 +62,7 @@ make_score_random_insert_update('id') . ')','');
 		$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status99 word" . $wid . "').attr('data_status','99').attr('data_wid','" . $wid . "').attr('title',title);";
 	$count += $count1;
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 echo "<p>OK, you know all " . $count . " word(s) well!</p>";
 

@@ -86,12 +86,12 @@ if (isset($_REQUEST['refresh'])) {
 	adjust_autoincr('textitems','TiID');
 	$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
 	$res = do_mysql_query($sql);
-	while ($record = mysql_fetch_assoc($res)) {
+	while ($record = mysqli_fetch_assoc($res)) {
 		$txtid = $record["TxID"];
 		$txttxt = $record["TxText"];
 		splitCheckText($txttxt, $id, $txtid );
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	$message = $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from ' . $tbpref . 'sentences where SeLgID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from ' . $tbpref . 'textitems where TiLgID = ' . $id);
 }
 
@@ -145,7 +145,7 @@ elseif (isset($_REQUEST['op'])) {
 		// Get old values
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $_REQUEST["LgID"];
 		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$record = mysqli_fetch_assoc($res);
 		if ($record == FALSE) my_die("Cannot access language data: $sql");
 		$oldCharacterSubstitutions = $record['LgCharacterSubstitutions'];
 		$oldRegexpSplitSentences = $record['LgRegexpSplitSentences'];
@@ -153,7 +153,7 @@ elseif (isset($_REQUEST['op'])) {
 		$oldRegexpWordCharacters = $record['LgRegexpWordCharacters'];
 		$oldRemoveSpaces = $record['LgRemoveSpaces'];
 		$oldSplitEachChar = $record['LgSplitEachChar'];
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	
 		$needReParse = 
 		(convert_string_to_sqlsyntax_notrim_nonull( $_REQUEST["LgCharacterSubstitutions"]) != convert_string_to_sqlsyntax_notrim_nonull( $oldCharacterSubstitutions)) 
@@ -197,13 +197,13 @@ elseif (isset($_REQUEST['op'])) {
 			$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
 			$res = do_mysql_query($sql);
 			$cntrp = 0;
-			while ($record = mysql_fetch_assoc($res)) {
+			while ($record = mysqli_fetch_assoc($res)) {
 				$txtid = $record["TxID"];
 				$txttxt = $record["TxText"];
 				splitCheckText($txttxt, $id, $txtid );
 				$cntrp++;
 			}
-			mysql_free_result($res);
+			mysqli_free_result($res);
 			$message .= " / Reparsed texts: " . $cntrp;
 		} else {
 			$message .= " / Reparsing not needed";
@@ -301,7 +301,7 @@ elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'languages where LgID = ' . $_REQUEST['chg'];
 	$res = do_mysql_query($sql);
-	if ($record = mysql_fetch_assoc($res)) {
+	if ($record = mysqli_fetch_assoc($res)) {
 	
 		?>
 	
@@ -372,7 +372,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<?php
 
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 }
 
 // DISPLAY
@@ -414,7 +414,7 @@ if ($recno==0) {
 $sql = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages order by LgName';
 if ($debug) echo $sql;
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$textcount = get_first_value('select count(TxID) as value from ' . $tbpref . 'texts where TxLgID=' . $record['LgID']);
 	$archtextcount = get_first_value('select count(AtID) as value from ' . $tbpref . 'archivedtexts where AtLgID=' . $record['LgID']);
 	$wordcount = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID=' . $record['LgID']);
@@ -444,7 +444,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . (isset($record['LgExportTemplate']) ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />' ) . '</' . $tdth . '>';
 	echo '</tr>';
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 

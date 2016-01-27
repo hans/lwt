@@ -127,7 +127,7 @@ if (isset($_REQUEST['markaction'])) {
 					$count = 0;
 					$sql = "select AtID, AtLgID from " . $tbpref . "archivedtexts where AtID in " . $list;
 					$res = do_mysql_query($sql);
-					while ($record = mysql_fetch_assoc($res)) {
+					while ($record = mysqli_fetch_assoc($res)) {
 						$ida = $record['AtID'];
 						$mess = 0 + runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI from ' . $tbpref . 'archivedtexts where AtID = ' . $ida, "");
 						$count += $mess;
@@ -140,7 +140,7 @@ if (isset($_REQUEST['markaction'])) {
 							$id );	
 						runsql('delete from ' . $tbpref . 'archivedtexts where AtID = ' . $ida, "");
 					}
-					mysql_free_result($res);
+					mysqli_free_result($res);
 					adjust_autoincr('archivedtexts','AtID');
 					runsql("DELETE " . $tbpref . "archtexttags FROM (" . $tbpref . "archtexttags LEFT JOIN " . $tbpref . "archivedtexts on AgAtID = AtID) WHERE AtID IS NULL",'');
 					$message = 'Unarchived Text(s): ' . $count;
@@ -209,7 +209,7 @@ if (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select AtLgID, AtTitle, AtText, AtAudioURI, AtSourceURI, length(AtAnnotatedText) as annotlen from ' . $tbpref . 'archivedtexts where AtID = ' . $_REQUEST['chg'];
 	$res = do_mysql_query($sql);
-	if ($record = mysql_fetch_assoc($res)) {
+	if ($record = mysqli_fetch_assoc($res)) {
 
 		?>
 	
@@ -271,7 +271,7 @@ if (isset($_REQUEST['chg'])) {
 		<?php
 
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 
 }
 
@@ -381,7 +381,7 @@ $sql = 'select AtID, AtTitle, LgName, AtAudioURI, AtSourceURI, length(AtAnnotate
 if ($debug) echo $sql;
 
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $record['AtID'] . '" ' . checkTest($record['AtID'], 'marked') . ' /></a></td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?unarch=' . $record['AtID'] . '"><img src="icn/inbox-upload.png" title="Unarchive" alt="Unarchive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['AtID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['AtID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
@@ -389,7 +389,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' . (isset($record['AtAudioURI']) ? '<img src="icn/speaker-volume.png" title="With Audio" alt="With Audio" />' : '') . (isset($record['AtSourceURI']) ? ' <a href="' . $record['AtSourceURI'] . '" target="_blank"><img src="icn/chain.png" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" />' : '') . '</td>';
 	echo '</tr>';
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 

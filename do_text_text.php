@@ -42,25 +42,25 @@ require_once( 'utilities.inc.php' );
 
 $sql = 'select TxLgID, TxTitle, TxAnnotatedText from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text'];
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 $ann = $record['TxAnnotatedText'];
 $ann_exists = (strlen($ann) > 0);
-mysql_free_result($res);
+mysqli_free_result($res);
 
 pagestart_nobody(tohtml($title));
 
 $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 $showAll = getSettingZeroOrOne('showallwords',1);
 
@@ -102,7 +102,7 @@ $hidetag = '';
 
 $res = do_mysql_query($sql);
 
-while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
+while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 
 	$actcode = $record['Code'] + 0;
 	$spanid = 'ID-' . $record['TiOrder'] . '-' . $actcode;
@@ -183,9 +183,9 @@ while ($record = mysql_fetch_assoc($res)) {  // MAIN LOOP
 	
 	if ($actcode == 1) $currcharcount += $record['TiTextLength']; 
 	
-} // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
+} // while ($record = mysqli_fetch_assoc($res))  -- MAIN LOOP
 
-mysql_free_result($res);
+mysqli_free_result($res);
 echo '<span id="totalcharcount" class="hide">' . $currcharcount . '</span></p><p style="font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 300px;">&nbsp;</p></div>';
 
 pageend();

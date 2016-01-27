@@ -75,7 +75,7 @@ $sumall = 0;
 
 $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages ORDER BY LgName';
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 	
 	flush();
@@ -119,7 +119,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '</tr>';
 	
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 echo '<tr>';
 echo '<th class="th1"><b>TOTAL</b></th>';
 echo '<th class="th1 center"><a href="edit_words.php?page=1&amp;text=&amp;query=&amp;filterlang=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1="><b>' . $sumall . '</b></a></th>';
@@ -194,7 +194,7 @@ $sumkall = 0;
 <?php
 $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages ORDER BY LgName';
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 
 	flush();
@@ -270,7 +270,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	
 	echo '</tr>';
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 echo '<tr>';
 echo '<th class="th1"><b>TOTAL</b></th>';
 

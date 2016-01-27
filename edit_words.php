@@ -202,7 +202,7 @@ if (isset($_REQUEST['allaction'])) {
 		}
 		$cnt=0;
 		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			$id = $record['WoID'];
 			$message='0';
 			if ($allaction == 'delall' ) {
@@ -248,7 +248,7 @@ if (isset($_REQUEST['allaction'])) {
 			}
 			$cnt += (int)$message;
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		if ($allaction == 'deltagall') {
 			header("Location: edit_words.php");
 			exit();
@@ -297,13 +297,13 @@ if (isset($_REQUEST['allaction'])) {
 		$cnt = 0;
 		$list = '(';
 		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		while ($record = mysqli_fetch_assoc($res)) {
 			$cnt++;
 			$id = $record['WoID'];
 			$list .= ($cnt==1 ? '' : ',') . $id;
 		}	
 		$list .= ")";
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$_SESSION['testsql'] = ' ' . $tbpref . 'words where WoID in ' . $list . ' ';
 		header("Location: do_test.php?selection=1");
 		exit();
@@ -432,7 +432,7 @@ elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'words, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
 	$res = do_mysql_query($sql);
-	if ($record = mysql_fetch_assoc($res)) {
+	if ($record = mysqli_fetch_assoc($res)) {
 		
 		$wordlc = $record['WoTextLC'];
 		$transl = repl_tab_nl($record['WoTranslation']);
@@ -494,7 +494,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence"); ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 <?php
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 }
 
 // DISPLAY
@@ -664,7 +664,7 @@ if ($currentsort == 6) {
 if ($debug) echo $sql;
 flush();
 $res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$days = $record['Days'];
 	if ( $record['WoStatus'] > 5 ) $days="-";
 	$score = $record['Score'];
@@ -684,7 +684,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	}
 	echo "</tr>\n";
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 </table>

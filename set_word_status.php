@@ -47,7 +47,7 @@ $status = $_REQUEST['status'];
 
 $sql = 'SELECT WoText, WoTranslation, WoRomanization FROM ' . $tbpref . 'words where WoID = ' . $wid;
 $res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$record = mysqli_fetch_assoc($res);
 if ($record) {
 	$word = $record['WoText'];
 	$trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid,' ',1,0);
@@ -55,7 +55,7 @@ if ($record) {
 } else {
 	my_die("Word not found in set_word_status.php"); 
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 pagestart("Term: " . $word, false);
 
