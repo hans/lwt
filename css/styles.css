@@ -242,6 +242,10 @@ img {
 .backlightyellow {
 	background-color: #FFFACD;
 }
+.small { 
+	color: black;
+	font-size:60%;
+}
 .smallgray { 
 	color: gray;
 	font-size:60%;

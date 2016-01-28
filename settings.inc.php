@@ -37,7 +37,7 @@ Start a PHP session if not one already exists
 ***************************************************************/
 
 $debug = 0;        // 1 = debugging on, 0 = .. off
-$dsplerrors = 1;   // 1 = display all errors on, 0 = .. off
+$dsplerrors = 0;   // 1 = display all errors on, 0 = .. off
 $dspltime = 0;     // 1 = display time on, 0 = .. off
 
 if ($dsplerrors) {
