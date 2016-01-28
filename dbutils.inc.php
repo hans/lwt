@@ -36,7 +36,7 @@ Database Utility Functions
 
 // -------------------------------------------------------------
 
-function do_mysql_query($sql) {
+function do_mysqli_query($sql) {
 	$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
 	if ($res == FALSE) {
 		echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
@@ -60,7 +60,7 @@ function do_mysql_query($sql) {
 
 function runsql($sql, $m, $sqlerrdie = TRUE) {
 	if ($sqlerrdie)
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 	else
 		$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);		
 	if ($res == FALSE) {
@@ -75,7 +75,7 @@ function runsql($sql, $m, $sqlerrdie = TRUE) {
 // -------------------------------------------------------------
 
 function get_first_value($sql) {
-	$res = do_mysql_query($sql);		
+	$res = do_mysqli_query($sql);		
 	$record = mysqli_fetch_assoc($res);
 	if ($record) 
 		$d = $record["value"];

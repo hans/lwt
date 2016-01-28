@@ -74,10 +74,10 @@ elseif (isset($_REQUEST['backup'])) {
 	$fname = "lwt-backup-" . $pref . date('Y-m-d-H-i-s') . ".sql.gz";
 	$out = "-- " . $fname . "\n";
 	foreach($tables as $table) { // foreach table
-		$result = do_mysql_query('SELECT * FROM ' . $tbpref . $table);
+		$result = do_mysqli_query('SELECT * FROM ' . $tbpref . $table);
 		$num_fields = mysqli_num_fields($result);
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
-		$row2 = mysqli_fetch_row(do_mysql_query('SHOW CREATE TABLE ' . $tbpref . $table));
+		$row2 = mysqli_fetch_row(do_mysqli_query('SHOW CREATE TABLE ' . $tbpref . $table));
 		$out .= str_replace($tbpref . $table, $table, str_replace("\n"," ",$row2[1])) . ";\n";
 		if ($table !== 'sentences' && $table !== 'textitems') {
 			while ($row = mysqli_fetch_row($result)) { // foreach record

@@ -82,14 +82,14 @@ $textid = $_POST["id"] + 0;
 $wordlc = stripTheSlashesIfNeeded($_POST['word']);
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
 mysqli_free_result($res);
 
 $sql = 'select LgTextSize, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $textsize = $record['LgTextSize'] + 0;
 if ($textsize > 100) $textsize = intval($textsize * 0.8);

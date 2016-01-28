@@ -49,7 +49,7 @@ $t = stripTheSlashesIfNeeded($_REQUEST["t"]);
 
 if ( $x == 1 ) {
 	$sql = 'select SeText, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'sentences, ' . $tbpref . 'textitems where TiSeID = SeID and TiLgID = LgID and TiTxID = ' . $t . ' and TiOrder = ' . $i;
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	$record = mysqli_fetch_assoc($res);
 	if ($record) {
 		$satz = $record['SeText'];

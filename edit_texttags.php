@@ -168,7 +168,7 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'tags2 where T2ID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	if ($record = mysqli_fetch_assoc($res)) {
 ?>
 		<h4>Edit Tag</h4>
@@ -297,7 +297,7 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 
 $sql = 'select T2ID, T2Text, T2Comment from ' . $tbpref . 'tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	$c = get_first_value('select count(*) as value from ' . $tbpref . 'texttags where TtT2ID=' . $record['T2ID']);
 	$ca = get_first_value('select count(*) as value from ' . $tbpref . 'archtexttags where AgT2ID=' . $record['T2ID']);

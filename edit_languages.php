@@ -85,7 +85,7 @@ if (isset($_REQUEST['refresh'])) {
 	adjust_autoincr('sentences','SeID');
 	adjust_autoincr('textitems','TiID');
 	$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	while ($record = mysqli_fetch_assoc($res)) {
 		$txtid = $record["TxID"];
 		$txttxt = $record["TxText"];
@@ -144,7 +144,7 @@ elseif (isset($_REQUEST['op'])) {
 	elseif ($_REQUEST['op'] == 'Change') {
 		// Get old values
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $_REQUEST["LgID"];
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		if ($record == FALSE) my_die("Cannot access language data: $sql");
 		$oldCharacterSubstitutions = $record['LgCharacterSubstitutions'];
@@ -195,7 +195,7 @@ elseif (isset($_REQUEST['op'])) {
 			adjust_autoincr('sentences','SeID');
 			adjust_autoincr('textitems','TiID');
 			$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
-			$res = do_mysql_query($sql);
+			$res = do_mysqli_query($sql);
 			$cntrp = 0;
 			while ($record = mysqli_fetch_assoc($res)) {
 				$txtid = $record["TxID"];
@@ -300,7 +300,7 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'languages where LgID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	if ($record = mysqli_fetch_assoc($res)) {
 	
 		?>
@@ -413,7 +413,7 @@ if ($recno==0) {
 
 $sql = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages order by LgName';
 if ($debug) echo $sql;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	$textcount = get_first_value('select count(TxID) as value from ' . $tbpref . 'texts where TxLgID=' . $record['LgID']);
 	$archtextcount = get_first_value('select count(AtID) as value from ' . $tbpref . 'archivedtexts where AtLgID=' . $record['LgID']);

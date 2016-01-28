@@ -62,7 +62,7 @@ var context = window.parent.frames['l'].document;
 
 $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
 
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $hideuntil = -1;
 $hidetag = "removeClass('hide');";
 

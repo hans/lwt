@@ -74,7 +74,7 @@ $sum599 = 0;
 $sumall = 0;
 
 $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages ORDER BY LgName';
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 	
@@ -193,7 +193,7 @@ $sumkall = 0;
 </tr>
 <?php
 $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages ORDER BY LgName';
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	$lang = $record['LgID'];
 

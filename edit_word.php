@@ -179,7 +179,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	if ($wid == '') {	
 		$sql = 'select TiText, TiLgID from ' . $tbpref . 'textitems where TiTxID = ' . $_REQUEST['tid'] . ' and TiWordCount = 1 and TiOrder = ' . $_REQUEST['ord'];
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		if ($record) {
 			$term = $record['TiText'];
@@ -196,7 +196,7 @@ else {  // if (! isset($_REQUEST['op']))
 	} else {
 
 		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		if ( $record ) {
 			$term = $record['WoText'];
@@ -281,7 +281,7 @@ else {  // if (! isset($_REQUEST['op']))
 	else {
 		
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		if ($record = mysqli_fetch_assoc($res)) {
 			
 			$status = $record['WoStatus'];

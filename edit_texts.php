@@ -130,7 +130,7 @@ if (isset($_REQUEST['markaction'])) {
 					runsql('delete from ' . $tbpref . 'sentences where SeTxID in ' . $list, "");
 					$count = 0;
 					$sql = "select TxID from " . $tbpref . "texts where TxID in " . $list;
-					$res = do_mysql_query($sql);
+					$res = do_mysqli_query($sql);
 					while ($record = mysqli_fetch_assoc($res)) {
 						$id = $record['TxID'];
 						$count += (0 + runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $id, ""));
@@ -159,7 +159,7 @@ if (isset($_REQUEST['markaction'])) {
 				elseif ($markaction == 'setsent') {
 					$count = 0;
 					$sql = "select WoID, WoTextLC, min(TiSeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(TiSeID)";
-					$res = do_mysql_query($sql);
+					$res = do_mysqli_query($sql);
 					while ($record = mysqli_fetch_assoc($res)) {
 						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
 						$count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
@@ -171,7 +171,7 @@ if (isset($_REQUEST['markaction'])) {
 				elseif ($markaction == 'rebuild') {
 					$count = 0;
 					$sql = "select TxID, TxLgID from " . $tbpref . "texts where TxID in " . $list;
-					$res = do_mysql_query($sql);
+					$res = do_mysqli_query($sql);
 					while ($record = mysqli_fetch_assoc($res)) {
 						$id = $record['TxID'];
 						$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
@@ -375,7 +375,7 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	if ($record = mysqli_fetch_assoc($res)) {
 
 		?>
@@ -556,7 +556,7 @@ Marked Texts:&nbsp;
 
 $sql = 'select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
 while ($record = mysqli_fetch_assoc($res)) {
 	if ($showCounts) {

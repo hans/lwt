@@ -41,7 +41,7 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
 $sql = 'select TxLgID, TxTitle, TxAnnotatedText from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text'];
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
@@ -52,7 +52,7 @@ mysqli_free_result($res);
 pagestart_nobody(tohtml($title));
 
 $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
@@ -100,7 +100,7 @@ $titext = array('','','','','','','','','','','');
 $hideuntil = -1;
 $hidetag = '';
 
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 
 while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 

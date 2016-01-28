@@ -146,7 +146,7 @@ else {  // if (! isset($_REQUEST['op']))
 	if ($wid == '') my_die("Term ID missing in edit_tword.php");
 	
 	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	$record = mysqli_fetch_assoc($res);
 	if ( $record ) {
 		$term = $record['WoText'];

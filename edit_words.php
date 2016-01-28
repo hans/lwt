@@ -201,7 +201,7 @@ if (isset($_REQUEST['allaction'])) {
 			$sql = 'select distinct WoID from (' . $tbpref . 'words left JOIN ' . $tbpref . 'wordtags ON WoID = WtWoID), ' . $tbpref . 'textitems where TiLgID = WoLgID and TiTextLC = WoTextLC and TiTxID = ' . $currenttext . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag;
 		}
 		$cnt=0;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		while ($record = mysqli_fetch_assoc($res)) {
 			$id = $record['WoID'];
 			$message='0';
@@ -296,7 +296,7 @@ if (isset($_REQUEST['allaction'])) {
 		}
 		$cnt = 0;
 		$list = '(';
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		while ($record = mysqli_fetch_assoc($res)) {
 			$cnt++;
 			$id = $record['WoID'];
@@ -431,7 +431,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'words, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	if ($record = mysqli_fetch_assoc($res)) {
 		
 		$wordlc = $record['WoTextLC'];
@@ -663,7 +663,7 @@ if ($currentsort == 6) {
 
 if ($debug) echo $sql;
 flush();
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	$days = $record['Days'];
 	if ( $record['WoStatus'] > 5 ) $days="-";
