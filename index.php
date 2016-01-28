@@ -182,9 +182,17 @@ $mb = get_first_value("SELECT round(sum(data_length+index_length)/1024/1024,1) a
 	"CONCAT(" . $p . ",'wordtags'))");
 if (! isset($mb)) $mb = '0.0';
 
+$serversoft = explode(' ',apache_get_version());
+$apache = "Apache/?.?.?";
+if (count($serversoft) >= 1) {
+	if (substr($serversoft[0],0,6) == "Apache") $apache = $serversoft[0];
+}
+$php = "PHP/" . phpversion();
+$mysql = "MySQL/" . get_first_value("SELECT VERSION() as value");
+
 ?>
 
-This is <b>LWT <?php echo get_version(); ?></b><br />Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / <?php echo $span1 . $span2; ?> / Size: <b><?php echo $mb; ?> MB</b></p></td></tr></table>
+This is <b>LWT Version <?php echo get_version(); ?></b><br />Database: <b><?php echo $dbname; ?></b> on <b><?php echo $server; ?></b> / <?php echo $span1 . $span2; ?> / Size: <b><?php echo $mb; ?> MB</b><br />Webserver: <b><?php echo $_SERVER['HTTP_HOST']; ?></b> / Software: <b><?php echo $apache . ", " . $php . ", " . $mysql; ?></b></p></td></tr></table>
 
 <?php
 
