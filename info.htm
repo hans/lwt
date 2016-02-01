@@ -249,7 +249,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
-          <li>The current version is <b>1.6.25 (January 18 2016)</b>.
+          <li>The current version is <b>1.6.25 (January 31 2016)</b>.
           </li>
 
           <li>
@@ -2435,8 +2435,6 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
             <br />
 						PRIMARY KEY (TtTxID,TtT2ID),
             <br />
-						KEY TtTxID (TtTxID),
-            <br />
 						KEY TtT2ID (TtT2ID)
   					<br />
   					<br />
@@ -2450,8 +2448,6 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 						AgT2ID smallint(5) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
             <br />
 						PRIMARY KEY (AgAtID,AgT2ID),
-            <br />
-						KEY AgAtID (AgAtID),
             <br />
 						KEY AgT2ID (AgT2ID)
   					<br />
@@ -2541,9 +2537,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
             <br />
   					PRIMARY KEY (WtWoID,WtTgID),
             <br />
-  					KEY WtTgID (WtTgID),
-            <br />
-  					KEY WtWoID (WtWoID)
+  					KEY WtTgID (WtTgID)
   					<br />
   					<br />
           </li>
@@ -2714,12 +2708,13 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
       <dd>
         <ul>
 
-	<li>1.6.25 (January 18 2016):<br />
-		SplitCheckText rewritten for faster text parsing.<br />
+	<li>1.6.25 (January 31 2016):<br />
+		SplitCheckText rewritten.<br />
 		Added saved expressions to CheckText.<br />
 		Bugfix: No Word Counts displayed when text has no saved words.<br />
 		Added German Feed 'NachDenkSeiten'(url:'http://www.nachdenkseiten.de/?feed=audiopodcast', Article Section:'//encoded/p', Options:'Article Source:encoded') to DemoDatabase.<br />
 		Database changes (table 'temptextitems'): added: TiCount, dropped: TiLgID, TiTxID, TiTextLC and index TiTextLC<br />
+		Database changes : dropped: index WtWoID, index TtTxID, index AgAtID<br />
 		<br />
 	</li>
 

@@ -619,7 +619,7 @@ while ($record = mysqli_fetch_assoc($res)) {
 	echo '<td class="td1 center"><ul class="barchart">';
 
 	foreach($i as $cnt){
-		echo '<li class="bc' . $cnt . ' "title="' . $statuses[$cnt]["name"] . ' (' . $statuses[$cnt]["abbr"] . ')"><span id="stat_' . $cnt . '_' . $record['TxID'] .'">0</span></li>';
+		echo '<li class="bc' . $cnt . ' "title="' . $statuses[$cnt]["name"] . ' (' . $statuses[$cnt]["abbr"] . ')" style="border-top-width: 25px;"><span id="stat_' . $cnt . '_' . $record['TxID'] .'">0</span></li>';
 	}
 	echo '</ul></td></tr>';
 }

@@ -51,8 +51,8 @@ if (isset($_REQUEST['delpref'])) {
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_sentences','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags2','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tempwords','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_temptextitems','');
+		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tempwords','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_textitems2','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texts','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texttags','');
