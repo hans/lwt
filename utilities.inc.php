@@ -371,7 +371,8 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
 		}
 		else{
 			$data[$key]['TxSourceURI'] = $feed_data[$key]['link'];
-			$HTMLString = file_get_contents(trim($data[$key]['TxSourceURI']));
+			$context = stream_context_create(array('http' => array('follow_location' => true )));
+			$HTMLString = file_get_contents(trim($data[$key]['TxSourceURI']), false, $context);
 			if(!empty($HTMLString)){
 				$encod  = '';
 				if(empty($NfCharset)){
@@ -538,6 +539,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 				
 		if($data[$key]['TxText']==""){
 			unset($data[$key]);
+			if(!isset($data['error']['message'])) $data['error']['message']='';
 			$data['error']['message'].= '"<a href=' . $feed_data[$key]['link'] .' onclick="window.open(this.href, \'child\'); return false">'  . $feed_data[$key]['title'] . '</a>" has no text section!<br />';
 			$data['error']['link'][]=$feed_data[$key]['link'];
 		}
@@ -3202,17 +3204,17 @@ function splitCheckText($text, $lid, $id) {
 	$s = preg_replace_callback("/(\S+)\s*((\.+)|([$splitSentence]))(['`\"”)\]‘’‹›“„«»』」]*)(?=(\s*)(\S+|$))/u", function ($matches) use ($noSentenceEnd) {//var_dump($matches);
 		if(!strlen ($matches[6]) && strlen ($matches[7]))return preg_replace("/[.]/",".\t",$matches[0]);
 		if(is_numeric ($matches[1])){
-			 if( strlen ($matches[1])<3)return $matches[0]."\t";
+			 if( strlen ($matches[1])<3)return $matches[0];
 		}
-		else if($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u',$matches[1]) || preg_match('/^[AEIOUY]$/',$matches[1])))return $matches[0]."\t";
+		else if($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u',$matches[1]) || preg_match('/^[AEIOUY]$/',$matches[1])))return $matches[0];
 		if(preg_match('/[.:]/',$matches[2])){
-			if(preg_match('/^[a-z]/', $matches[7]))return $matches[0]."\t";
+			if(preg_match('/^[a-z]/', $matches[7]))return $matches[0];
 		}
-		if($noSentenceEnd != '' && preg_match('/^(' . $noSentenceEnd . ')$/',$matches[0]))return $matches[0]."\t";
+		if($noSentenceEnd != '' && preg_match('/^(' . $noSentenceEnd . ')$/',$matches[0]))return $matches[0];
 		return preg_replace("/[.]/",".\t",$matches[1]).$matches[2].$matches[5]."\r";
 	},$s);
 	$s = str_replace(array("¶"," ¶"),array("¶\r","\r¶"), $s);
-	$s = preg_replace(array('/([^' . $termchar . '0-9])/u','/\n([' . $splitSentence . '][\'`"”)\]‘’‹›“„«»』」]*)\n\t/u','/([0-9])[\n]([:.,])[\n]([0-9])/u'),array("\n$1\n","$1","$1$2$3"), $s);
+	$s = preg_replace(array('/([^' . $termchar . '])/u','/\n([' . $splitSentence . '][\'`"”)\]‘’‹›“„«»』」]*)\n\t/u','/([0-9])[\n]([:.,])[\n]([0-9])/u'),array("\n$1\n","$1","$1$2$3"), $s);
 	if($id == -2){
 		return explode("\r", str_replace(array("\r\r","\t","\n"),array("\r","",""),$s));
 	}
@@ -3220,8 +3222,8 @@ function splitCheckText($text, $lid, $id) {
 	$fp = fopen($file_name, 'w');
 	fwrite($fp, trim(preg_replace(array('/([^\n])\r/u','/\r([^\n])/u'),array("$1\n\r","\r\n$1"),str_replace(array("\t","\n\n","\r\r"),array("\n","","\r") ,$s))));
 	fclose($fp);
-	do_mysql_query('SET @a=0, @b=' . ($id>0?'(SELECT max(`SeID`)+1 FROM `' . $tbpref . 'sentences`)':1) . ',@d=0,@e=0;');
-	$sql= 'LOAD DATA INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\r",@b:=@b+1,@b),TiWordCount=(!(@c rlike ' . convert_string_to_sqlsyntax('[^' . $termchar . ']+') . ')), TiCount = IF(@c="\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
+	do_mysql_query('SET @a=0, @b=' . ($id>0?'(SELECT max(`SeID`)+1 FROM `' . $tbpref . 'sentences`)':1) . ',@d=0;');
+	$sql= 'LOAD DATA INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\\r",@b:=@b+1,@b),TiWordCount=(!(@c rlike "[^' . str_replace(array("\\","'",'"'),array("\\\\","\\'",'\\"'),$termchar) . ']+")), TiCount = IF(@c="\\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
 	do_mysql_query($sql);
 	do_mysql_query('ALTER IGNORE TABLE ' . $tbpref . 'temptextitems ADD UNIQUE INDEX DelSentEnd (TiOrder)');
 	do_mysql_query('ALTER TABLE ' . $tbpref . 'temptextitems DROP INDEX DelSentEnd');

@@ -353,7 +353,7 @@ Marked Texts:&nbsp;
 <th class="th1 clickable" style="min-width:90px;">Date</th>
 </tr>	
 <?php
-			$result = do_mysql_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on FlLink=TxSourceURI left join " . $tbpref . "archivedtexts on FlLink=AtSourceURI WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);
+			$result = do_mysql_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on TxSourceURI=trim(FlLink) left join " . $tbpref . "archivedtexts on AtSourceURI=trim(FlLink) WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);
 			while($row = mysqli_fetch_assoc($result)){
 				echo  '<tr>';
 				if ($row['TxID'])
