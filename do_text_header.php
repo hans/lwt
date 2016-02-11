@@ -42,7 +42,7 @@ require_once( 'utilities.inc.php' );
 
 $textid = getreq('text');
 $sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition from ' . $tbpref . 'texts where TxID = ' . $textid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 
 $audio = $record['TxAudioURI'];

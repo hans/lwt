@@ -41,7 +41,7 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
 $sql = 'select TxLgID, TxTitle, TxAnnotatedText, TxPosition from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text'];
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
@@ -53,7 +53,7 @@ mysqli_free_result($res);
 pagestart_nobody(tohtml($title));
 
 $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
@@ -85,7 +85,7 @@ ADDFILTER = '<?php echo makeStatusClassFilter(getSettingWithDefault('set-text-vi
 JQ_TOOLTIP = 1;
 IMGPATH = '<?php echo './thumbnails/' . $tbpref . 'thumbs' . '/'; ?>';
 <?php $sql = 'select ImID,Ti2WoID  from ' . $tbpref . 'textitems2,' . $tbpref . 'images where Ti2WoID = ImWoID and Ti2TxID = ' .  $_REQUEST['text'] . ' group by ImID order by Ti2WoID';
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	while ($record = mysqli_fetch_assoc($res)) {
 		$images[$record["Ti2WoID"]] = $record["ImID"];
 	}
@@ -157,6 +157,7 @@ if($ruby){echo '.wsty {',($mode_trans==4?'margin-top: 0.2em;':'margin-bottom: 0.
 if($ruby)echo '.wsty:',$pseudo_element,'{display: block !important;',($mode_trans==2?'margin-top: -0.05em;':'margin-bottom:  -0.15em;'),'}',"\n";
 $ann_textsize=array(100 => 50, 150 => 50,200 => 40, 250 => 25);
 echo '.tword:',$pseudo_element,',.wsty:',$pseudo_element,'{',($ruby?'text-align: center;':''),'font-size:' . $ann_textsize[$textsize] . '%;',($mode_trans==1?'margin-left: 0.2em;':''),($mode_trans==3?'margin-right: 0.2em;':''),($ann_exists?'':'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:inline-block;vertical-align:-25%;'),'}',"\n",'.hide{display:none !important;}.tword:',$pseudo_element,($ruby?',.word:':',.wsty:'),$pseudo_element,'{max-width:15em;}</style>';
+
 echo '<div id="thetext" ' .  ($rtlScript ? 'dir="rtl"' : '') . '><p style="' . ($removeSpaces ? 'word-break:break-all;' : '') . 
 'font-size:' . $textsize . '%;line-height: ',($ruby?'1':'1.4'),'; margin-bottom: 10px;">';
 
@@ -169,7 +170,7 @@ $hidetag = '';
 $cnt = 1;
 $sid = 0;
 
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 
 while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
 	if($sid != $record['TiSeID']){

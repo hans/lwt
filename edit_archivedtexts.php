@@ -75,7 +75,7 @@ switch($currentquerymode){
 }
 if($currentquery!==''){
 	if($currentregexmode!==''){
-		if(@mysqli_query($GLOBALS["___mysqli_ston"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
+		if(@mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
 			$currentquery='';
 			$wh_query = '';
 			unset($_SESSION['currentwordquery']);
@@ -149,7 +149,7 @@ if (isset($_REQUEST['markaction'])) {
 				elseif ($markaction == 'unarch') {
 					$count = 0;
 					$sql = "select AtID, AtLgID from " . $tbpref . "archivedtexts where AtID in " . $list;
-					$res = do_mysql_query($sql);
+					$res = do_mysqli_query($sql);
 					while ($record = mysqli_fetch_assoc($res)) {
 						$ida = $record['AtID'];
 						$mess = 0 + runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI from ' . $tbpref . 'archivedtexts where AtID = ' . $ida, "");
@@ -231,7 +231,7 @@ elseif (isset($_REQUEST['op'])) {
 if (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select AtLgID, AtTitle, AtText, AtAudioURI, AtSourceURI, length(AtAnnotatedText) as annotlen from ' . $tbpref . 'archivedtexts where AtID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	if ($record = mysqli_fetch_assoc($res)) {
 
 		?>
@@ -411,7 +411,7 @@ $sql = 'select AtID, AtTitle, LgName, AtAudioURI, AtSourceURI, length(AtAnnotate
 
 if ($debug) echo $sql;
 
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $record['AtID'] . '" ' . checkTest($record['AtID'], 'marked') . ' /></a></td>';

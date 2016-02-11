@@ -25,7 +25,7 @@ pagestart('My ' . getLanguage($currentlang) . ' Feeds',true);
 
 if($currentquery!==''){
 	if($currentregexmode!==''){
-		if(@mysqli_query($GLOBALS["___mysqli_ston"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
+		if(@mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
 			$currentquery='';
 			$wh_query = '';
 			unset($_SESSION['currentwordquery']);
@@ -40,7 +40,7 @@ $edit_text=0;
 
 if (isset($_REQUEST['marked_items'])) {
 	$marked_items = implode(',',$_REQUEST['marked_items']);
-	$res = do_mysql_query("SELECT * FROM (SELECT * FROM " . $tbpref . "feedlinks WHERE FlID IN ($marked_items) ORDER BY FlNfID) A left join " . $tbpref . "newsfeeds ON NfID=FlNfID") ;
+	$res = do_mysqli_query("SELECT * FROM (SELECT * FROM " . $tbpref . "feedlinks WHERE FlID IN ($marked_items) ORDER BY FlNfID) A left join " . $tbpref . "newsfeeds ON NfID=FlNfID") ;
 	$count=$message1=$message2=$message3=$message4=0;
 	while($row = mysqli_fetch_assoc($res)){
 		if(get_nf_option($row['NfOptions'],'edit_text')==1){
@@ -85,7 +85,7 @@ if (isset($_REQUEST['marked_items'])) {
 		<td class="td1">
 		<select name="feed[<?php echo $count; ?>][TxLgID]" class="notempty setfocus">
 		<?php
-	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
+	$result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 	while($row_l = mysqli_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
 		if($row['NfLgID']===$row_l['LgID']){
@@ -126,10 +126,10 @@ if (isset($_REQUEST['marked_items'])) {
 			}
 		}
 		else{
-			do_mysql_query( 'insert ignore into ' . $tbpref . 'tags2 (T2Text) values("' . $nf_tag_name . '")');
+			do_mysqli_query( 'insert ignore into ' . $tbpref . 'tags2 (T2Text) values("' . $nf_tag_name . '")');
 			foreach($texts as $text){
 				echo '<div class="msgblue"><p class="hide_message">+++ "' . $text['TxTitle']. '" added! +++</p></div>';
-				do_mysql_query('INSERT INTO ' . $tbpref . 'texts (TxLgID,TxTitle,TxText,TxAudioURI,TxSourceURI)VALUES ('.$row['NfLgID'].',' . convert_string_to_sqlsyntax($text['TxTitle']) .','. convert_string_to_sqlsyntax($text['TxText']) .','. convert_string_to_sqlsyntax($text['TxAudioURI']) .','.convert_string_to_sqlsyntax($text['TxSourceURI']) .')');
+				do_mysqli_query('INSERT INTO ' . $tbpref . 'texts (TxLgID,TxTitle,TxText,TxAudioURI,TxSourceURI)VALUES ('.$row['NfLgID'].',' . convert_string_to_sqlsyntax($text['TxTitle']) .','. convert_string_to_sqlsyntax($text['TxText']) .','. convert_string_to_sqlsyntax($text['TxAudioURI']) .','.convert_string_to_sqlsyntax($text['TxSourceURI']) .')');
 				$id = get_last_key();
 				splitCheckText(
 				get_first_value(
@@ -140,27 +140,29 @@ if (isset($_REQUEST['marked_items'])) {
 				runsql('insert into ' . $tbpref . 'texttags (TtTxID, TtT2ID) select ' . $id . ', T2ID from ' . $tbpref . 'tags2 where T2Text = "' . $nf_tag_name .'"', "");		
 			}
 			get_texttags(1);
-			$result=do_mysql_query( "SELECT TtTxID FROM " . $tbpref . "texttags join " . $tbpref . "tags2 on TtT2ID=T2ID WHERE T2Text='". $nf_tag_name ."'");
+			$result=do_mysqli_query( "SELECT TtTxID FROM " . $tbpref . "texttags join " . $tbpref . "tags2 on TtT2ID=T2ID WHERE T2Text='". $nf_tag_name ."'");
 			$text_count=0;
 			while($row = mysqli_fetch_assoc($result)){
 				$text_item[$text_count++]=$row['TtTxID'];
 			}
 			mysqli_free_result($result);
-			sort($text_item,SORT_NUMERIC);
-			if($text_count>$nf_max_texts){
-				$text_item=array_slice($text_item, 0,$text_count-$nf_max_texts);
-				foreach ($text_item as $text_ID){
-					$message3 += runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $text_ID, 
-					"");
-					$message2 += runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $text_ID, 
-					"");
-					$message4 += runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $text_ID, "");
-					$id = get_last_key();
-					runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $text_ID, "");	
-					$message1 += runsql('delete from ' . $tbpref . 'texts where TxID = ' . $text_ID, "");
-					adjust_autoincr('texts','TxID');
-					adjust_autoincr('sentences','SeID');
-					runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');		
+			if(isset($text_item)){
+				sort($text_item,SORT_NUMERIC);
+				if($text_count>$nf_max_texts){
+					$text_item=array_slice($text_item, 0,$text_count-$nf_max_texts);
+					foreach ($text_item as $text_ID){
+						$message3 += runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $text_ID, 
+						"");
+						$message2 += runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $text_ID, 
+						"");
+						$message4 += runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $text_ID, "");
+						$id = get_last_key();
+						runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $text_ID, "");	
+						$message1 += runsql('delete from ' . $tbpref . 'texts where TxID = ' . $text_ID, "");
+						adjust_autoincr('texts','TxID');
+						adjust_autoincr('sentences','SeID');
+						runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');		
+					}
 				}
 			}
 		}
@@ -273,10 +275,10 @@ else echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>';?>
 </td></tr><tr>
 <td class="td1 center" colspan="2" style="width:70%;"><?php
 	if(!empty($currentlang)){
-		$result = do_mysql_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang ORDER BY NfUpdate DESC");
+		$result = do_mysqli_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang ORDER BY NfUpdate DESC");
 	}
 	else{
-		$result = do_mysql_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds ORDER BY NfUpdate DESC");
+		$result = do_mysqli_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds ORDER BY NfUpdate DESC");
 	}
 	if(!mysqli_data_seek($result, 0)){
 		echo ' no feed available</td><td class="td1"></td></tr></table></form>';
@@ -353,7 +355,7 @@ Marked Texts:&nbsp;
 <th class="th1 clickable" style="min-width:90px;">Date</th>
 </tr>	
 <?php
-			$result = do_mysql_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on TxSourceURI=trim(FlLink) left join " . $tbpref . "archivedtexts on AtSourceURI=trim(FlLink) WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);
+			$result = do_mysqli_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on TxSourceURI=trim(FlLink) left join " . $tbpref . "archivedtexts on AtSourceURI=trim(FlLink) WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);
 			while($row = mysqli_fetch_assoc($result)){
 				echo  '<tr>';
 				if ($row['TxID'])

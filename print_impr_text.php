@@ -68,7 +68,7 @@ if ( $delmode ) {  // Delete
 }
 
 $sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
@@ -79,7 +79,7 @@ $audio = trim($audio);
 mysqli_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];

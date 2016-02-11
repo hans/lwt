@@ -91,7 +91,7 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 
 		$lid = $_REQUEST["WoLgID"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
@@ -115,7 +115,7 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 			else {
 				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%");
 			}
-			$res=do_mysql_query ($sql);
+			$res=do_mysqli_query ($sql);
 			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
 			while($record = mysqli_fetch_assoc($res)){
 				$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
@@ -227,7 +227,7 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 	
 <?php
 			flush();
-			if(isset($sqltext))do_mysql_query ($sqltext);
+			if(isset($sqltext))do_mysqli_query ($sqltext);
 		} // (substr($message,0,5) != 'Error')
 
 	} // $_REQUEST['op'] == 'Save'

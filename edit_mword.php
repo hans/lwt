@@ -126,7 +126,7 @@ make_score_random_insert_update('id') . ')', "Term saved");
 		$lid = $_REQUEST["WoLgID"];
 		$len = $_REQUEST["len"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
@@ -151,7 +151,7 @@ make_score_random_insert_update('id') . ')', "Term saved");
 			else {
 				$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%");
 			}
-			$res=do_mysql_query ($sql);
+			$res=do_mysqli_query ($sql);
 			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
 			while($record = mysqli_fetch_assoc($res)){
 				$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
@@ -269,7 +269,7 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 
 	if(isset($sqltext)){
 		flush();
-		do_mysql_query ($sqltext);
+		do_mysqli_query ($sqltext);
 		echo '<p>OK: ',tohtml($message),'</p>';
 	}
 } // if (isset($_REQUEST['op']))
@@ -290,7 +290,7 @@ else {  // if (! isset($_REQUEST['op']))
 	} else {
 
 		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		if ( $record ) {
 			$term = $record['WoText'];
@@ -380,7 +380,7 @@ else {  // if (! isset($_REQUEST['op']))
 	else {
 
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus, ImID from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID where WoID = ' . $wid;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		if ($record = mysqli_fetch_assoc($res)) {
 
 			$status = $record['WoStatus'];

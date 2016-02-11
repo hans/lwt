@@ -82,7 +82,7 @@ switch($currentquerymode){
 }
 if($currentquery!==''){
 	if($currentregexmode!==''){
-		if(@mysqli_query($GLOBALS["___mysqli_ston"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
+		if(@mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
 			$currentquery='';
 			$wh_query = '';
 			unset($_SESSION['currentwordquery']);
@@ -152,7 +152,7 @@ if (isset($_REQUEST['markaction'])) {
 					runsql('delete from ' . $tbpref . 'sentences where SeTxID in ' . $list, "");
 					$count = 0;
 					$sql = "select TxID from " . $tbpref . "texts where TxID in " . $list;
-					$res = do_mysql_query($sql);
+					$res = do_mysqli_query($sql);
 					while ($record = mysqli_fetch_assoc($res)) {
 						$id = $record['TxID'];
 						$count += (0 + runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $id, ""));
@@ -181,7 +181,7 @@ if (isset($_REQUEST['markaction'])) {
 					$count = 0;
 					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
 
-					$res = do_mysql_query($sql);
+					$res = do_mysqli_query($sql);
 					while ($record = mysqli_fetch_assoc($res)) {
 						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
 						$count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
@@ -194,7 +194,7 @@ if (isset($_REQUEST['markaction'])) {
 					$count = 0;
 					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and WoStatus != 98 and WoStatus != 99 and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
 
-					$res = do_mysql_query($sql);
+					$res = do_mysqli_query($sql);
 					while ($record = mysqli_fetch_assoc($res)) {
 						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
 						$count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
@@ -206,7 +206,7 @@ if (isset($_REQUEST['markaction'])) {
 				elseif ($markaction == 'rebuild') {
 					$count = 0;
 					$sql = "select TxID, TxLgID from " . $tbpref . "texts where TxID in " . $list;
-					$res = do_mysql_query($sql);
+					$res = do_mysqli_query($sql);
 					while ($record = mysqli_fetch_assoc($res)) {
 						$id = $record['TxID'];
 						$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
@@ -406,7 +406,7 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	if ($record = mysqli_fetch_assoc($res)) {
 
 		?>
@@ -603,7 +603,7 @@ $i = array(0,1,2,3,4,5,99,98);
 $statuses = get_statuses();
 $statuses[0]["name"]='Unknown';
 $statuses[0]["abbr"]='Ukn';
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	$audio = $record['TxAudioURI'];
 	if(!isset($audio)) $audio='';

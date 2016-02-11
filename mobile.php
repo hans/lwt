@@ -81,7 +81,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$langname = getLanguage($lang);
 		$sql = 'select TxID, TxTitle from ' . $tbpref . 'texts where TxLgID = ' . $lang . 
 		' order by TxTitle';
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 
 		?>
 
@@ -112,7 +112,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$texttitle = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID = ' . $text);
 		$textaudio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $text);
 		$sql = 'select SeID, SeText from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' order by SeOrder';
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 
 		?>
 
@@ -167,7 +167,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$senttext = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID = ' . $sent);
 		$nextsent = get_first_value('select SeID as value from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' and trim(SeText) != \'¶\' and SeID > ' . $sent . ' order by SeID limit 1');
 		$sql = 'select CASE WHEN Ti2WordCount>0 THEN Ti2WordCount ELSE 1 END as Code, CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN Ti2Text ELSE WoText END as TiText, Ti2Order, CASE WHEN Ti2WordCount > 0 THEN 0 ELSE 1 END as TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2SeID = ' . $sent . ' order by Ti2Order asc, Ti2WordCount desc';
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		
 		if ($action == 4) {
 		?>
@@ -305,7 +305,7 @@ span.status5 {
 	<li class="group">Languages</li>
 <?php
 	$sql = 'select LgID, LgName from ' . $tbpref . 'languages where LgName<>"" order by LgName';
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	while ($record = mysqli_fetch_assoc($res)) {
 		echo '<li><a href="mobile.php?action=2&amp;lang=' . $record["LgID"] . '">' .
 			tohtml($record["LgName"]) . '</a></li>';	

@@ -84,7 +84,7 @@ if (isset($_REQUEST['refresh'])) {
 		"Text items deleted");
 	adjust_autoincr('sentences','SeID');
 	$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	while ($record = mysqli_fetch_assoc($res)) {
 		$txtid = $record["TxID"];
 		$txttxt = $record["TxText"];
@@ -164,7 +164,7 @@ elseif (isset($_REQUEST['op'])) {
 	elseif ($_REQUEST['op'] == 'Change') {
 		// Get old values
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $_REQUEST["LgID"];
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		if ($record == FALSE) my_die("Cannot access language data: $sql");
 		$oldCharacterSubstitutions = $record['LgCharacterSubstitutions'];
@@ -216,7 +216,7 @@ elseif (isset($_REQUEST['op'])) {
 			runsql("UPDATE  " . $tbpref . "words SET WoWordCount  = 0 where WoLgID = " . $id,'');
 			set_word_count ();
 			$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
-			$res = do_mysql_query($sql);
+			$res = do_mysqli_query($sql);
 			$cntrp = 0;
 			while ($record = mysqli_fetch_assoc($res)) {
 				$txtid = $record["TxID"];
@@ -321,7 +321,7 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'languages where LgID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
+	$res = do_mysqli_query($sql);
 	if ($record = mysqli_fetch_assoc($res)) {
 	
 		?>
@@ -435,27 +435,27 @@ if ($recno==0) {
 
 $sql = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages where LgName<>"" order by LgName';
 if ($debug) echo $sql;
-$res = do_mysql_query('select TxLgID,count(*) as value from ' . $tbpref . 'texts group by TxLgID');
+$res = do_mysqli_query('select TxLgID,count(*) as value from ' . $tbpref . 'texts group by TxLgID');
 while ($record = mysqli_fetch_assoc($res)) {
 	$textcount[$record['TxLgID']]=$record['value'];
 }
-$res = do_mysql_query('select AtLgID,count(*) as value from ' . $tbpref . 'archivedtexts group by AtLgID');
+$res = do_mysqli_query('select AtLgID,count(*) as value from ' . $tbpref . 'archivedtexts group by AtLgID');
 while ($record = mysqli_fetch_assoc($res)) {
 	$archtextcount[$record['AtLgID']]=$record['value'];
 }
-$res = do_mysql_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds group by NfLgID');
+$res = do_mysqli_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds group by NfLgID');
 while ($record = mysqli_fetch_assoc($res)) {
 	$newsfeedcount[$record['NfLgID']]=$record['value'];
 }
-$res = do_mysql_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds,' . $tbpref . 'feedlinks WHERE NfID=FlNfID group by NfLgID');
+$res = do_mysqli_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds,' . $tbpref . 'feedlinks WHERE NfID=FlNfID group by NfLgID');
 while ($record = mysqli_fetch_assoc($res)) {
 	$feedarticlescount[$record['NfLgID']]=$record['value'];
 }
-$res = do_mysql_query('select WoLgID,count(*) as value from ' . $tbpref . 'words group by WoLgID');
+$res = do_mysqli_query('select WoLgID,count(*) as value from ' . $tbpref . 'words group by WoLgID');
 while ($record = mysqli_fetch_assoc($res)) {
 	$wordcount[$record['WoLgID']]=$record['value'];
 }
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	if(!isset($textcount[$record['LgID']]))$textcount[$record['LgID']]=0;
 	if(!isset($archtextcount[$record['LgID']]))$archtextcount[$record['LgID']]=0;

@@ -81,7 +81,7 @@ if (isset($_REQUEST['op'])) {
 				convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Term saved");
 			$wid = get_last_key();
-			do_mysql_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
+			do_mysqli_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
 			$hex = strToClassName(prepare_textdata($_REQUEST["WoTextLC"]));
 	
 			
@@ -184,7 +184,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	if ($wid == '') {	
 		$sql = 'select Ti2Text, Ti2LgID from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['tid'] . ' and Ti2WordCount = 1 and Ti2Order = ' . $_REQUEST['ord'];
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		if ($record) {
 			$term = $record['Ti2Text'];
@@ -201,7 +201,7 @@ else {  // if (! isset($_REQUEST['op']))
 	} else {
 
 		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		if ( $record ) {
 			$term = $record['WoText'];
@@ -294,7 +294,7 @@ $(window).on('beforeunload',function() {
 	else {
 		
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus, ImID from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID where WoID = ' . $wid;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		if ($record = mysqli_fetch_assoc($res)) {
 			
 			$status = $record['WoStatus'];

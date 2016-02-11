@@ -72,7 +72,7 @@ if ($recno==0) {
 <th class="th1 sorttable_numeric clickable">Status</th>
 <?php
 $sql = 'select WoID, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, ifnull(concat(\'[\',group_concat(distinct TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'words left JOIN ' . $tbpref . 'wordtags ON WoID = WtWoID) left join ' . $tbpref . 'tags on TgID = WtTgID) where WoStatusChanged > ' . convert_string_to_sqlsyntax($last_update) . ' group by WoID ' . $limit;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $cnt=0;
 while ($record = mysqli_fetch_assoc($res)) {
 	echo '<tr>';

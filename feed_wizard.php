@@ -13,7 +13,7 @@ if($_REQUEST['step']==4){
 <tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID" class="notempty"><option value="">[Select...]</option>
 <?php	
 		
-	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
+	$result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 	while($row_l = mysqli_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
 		if($_SESSION['wizard']['lang']===$row_l['LgID']){
@@ -254,7 +254,7 @@ $(function(){
 elseif($_REQUEST['step']==2){
 	if(isset($_REQUEST['edit_feed']) && !isset($_SESSION['wizard'])){
 		$_SESSION['wizard']['edit_feed']=$_REQUEST['edit_feed'];
-		$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=".$_REQUEST['edit_feed']);
+		$result = do_mysqli_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=".$_REQUEST['edit_feed']);
 		$row = mysqli_fetch_assoc($result);
 		mysqli_free_result($result);
 		$_SESSION['wizard']['rss_url']=$row['NfSourceURI'];

@@ -61,7 +61,7 @@ if ($wid == 0) {
 		make_score_random_insert_update('id') . ')', "");
 	if ($dummy == 1){
 		$wid = get_last_key();
-		do_mysql_query( 'UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $lang . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
+		do_mysqli_query( 'UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $lang . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
 		$success = $textlc;
 	}
 }

@@ -46,13 +46,13 @@ if($url=='DEL'){
 		if(file_exists($filename)){
 			unlink($filename);
 		}
-		do_mysql_query( 'delete from ' . $tbpref . 'images where ImID = ' . $i);
+		do_mysqli_query( 'delete from ' . $tbpref . 'images where ImID = ' . $i);
 		adjust_autoincr('images','ImID');
 	}
 	echo '{"ImWoID":"',$q,'"}';
 }
 else{
-	do_mysql_query( 'INSERT IGNORE INTO ' . $tbpref . 'images (ImWoID) VALUES ('.$q.')');
+	do_mysqli_query( 'INSERT IGNORE INTO ' . $tbpref . 'images (ImWoID) VALUES ('.$q.')');
 	$i = get_first_value('select ImID as value from ' . $tbpref . 'images where ImWoID = ' . $q);
 	$path = './thumbnails/' . $tbpref . 'thumbs';
 	$filename = $path . '/' . $i . '.jpg';

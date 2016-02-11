@@ -82,7 +82,7 @@ if (isset($_REQUEST['op'])) {
 		$lang = $_REQUEST["LgID"];
 		$status = $_REQUEST["WoStatus"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lang;
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 		$record = mysqli_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
@@ -232,7 +232,7 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 						"Text items deleted");
 				adjust_autoincr('sentences','SeID');
 				$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $lang . " order by TxID";
-				$res = do_mysql_query($sql);
+				$res = do_mysqli_query($sql);
 				$cntrp = 0;
 				while ($record = mysqli_fetch_assoc($res)) {
 					$txtid = $record["TxID"];
@@ -247,7 +247,7 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 				$sqlarr=array();
 				$twidarr=array();
 				$wocountarr=array();
-				$res = do_mysql_query("select WoID, WoTextLC from " . $tbpref . "words where WoCreated > " . convert_string_to_sqlsyntax($last_update));
+				$res = do_mysqli_query("select WoID, WoTextLC from " . $tbpref . "words where WoCreated > " . convert_string_to_sqlsyntax($last_update));
 				while ($record = mysqli_fetch_assoc($res)) {
 					$wid = $record['WoID'];
 					$textlc = $record['WoTextLC'];
@@ -272,7 +272,7 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 						else {
 							$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lang . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%");
 						}
-						$result = do_mysql_query($sql);
+						$result = do_mysqli_query($sql);
 						while($record2 = mysqli_fetch_assoc($result)){
 							$string = ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record2['SeText']):$record2['SeText']) . ' ';
 							if($removeSpaces==1 && $splitEachChar==0){
@@ -323,17 +323,17 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 				if(!empty($sqlarr)){
 				$sqltext = 'INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 				$sqltext .= rtrim(implode(',', $sqlarr),',');
-				do_mysql_query ($sqltext);
+				do_mysqli_query ($sqltext);
 				}
 				if(!empty($twidarr)){
 				$sqltext = "UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = CASE ";
 				$sqltext .= implode(' ', $twidarr) . ' ELSE 0 END where Ti2WoID=0 and Ti2WordCount = 1 and Ti2LgID = ' . $lang;
-				do_mysql_query ($sqltext);
+				do_mysqli_query ($sqltext);
 				}
 				if(!empty($wocountarr)){
 				$sqltext = "UPDATE  " . $tbpref . "words SET WoWordCount  = CASE WoID";
 				$sqltext .= implode(' ', $wocountarr) . ' END where WoWordCount=0 and WoLgID = ' . $lang;
-				do_mysql_query ($sqltext);
+				do_mysqli_query ($sqltext);
 				}
 			}
 			$recno = get_first_value('select count(*) as value from ' . $tbpref . 'words where WoStatusChanged > ' . convert_string_to_sqlsyntax($last_update));

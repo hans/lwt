@@ -30,7 +30,7 @@ if (isset($_REQUEST['term'])) {
 	pagestart($cnt . ' New Word' . ($cnt!=1?'s':'') . ' Saved',false);
 	echo '<p id="displ_message"><img src="icn/waiting2.gif" /> Updating Texts</p>';
 	flush();
-	$res = do_mysql_query('select WoID, WoTextLC, WoStatus, WoTranslation from ' . $tbpref . 'words where WoID > ' . $max);
+	$res = do_mysqli_query('select WoID, WoTextLC, WoStatus, WoTranslation from ' . $tbpref . 'words where WoID > ' . $max);
 	echo '<script type="text/javascript">var context = window.parent.frames[\'l\'].document;';
 	$tooltip_mode = getSettingWithDefault('set-tooltip-mode');
 	while($record = mysqli_fetch_assoc($res)){
@@ -43,7 +43,7 @@ if (isset($_REQUEST['term'])) {
 	mysqli_free_result($res);
 	echo "</script>";
 	flush();
-	do_mysql_query('UPDATE ' . $tbpref . 'textitems2 join ' . $tbpref . 'words on lower(Ti2Text)=WoTextLC AND Ti2WordCount =1 and Ti2LgID=WoLgID and WoID > ' . $max . ' set Ti2WoID = WoID');
+	do_mysqli_query('UPDATE ' . $tbpref . 'textitems2 join ' . $tbpref . 'words on lower(Ti2Text)=WoTextLC AND Ti2WordCount =1 and Ti2LgID=WoLgID and WoID > ' . $max . ' set Ti2WoID = WoID');
 	echo "<script type=\"text/javascript\">$('#learnstatus', window.parent.frames['h'].document).html('",addslashes(texttodocount2($tid)),"');$('#displ_message').remove();";
 	if(!isset($pos)){
 		echo "window.parent.frames['l'].focus();window.parent.frames['l'].setTimeout('cClick()', 100);";
@@ -59,7 +59,7 @@ $cnt = 0;
 $offset = '';
 $limit = getSettingWithDefault('set-ggl-translation-per-page') + 1;
 $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $tid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
@@ -150,7 +150,7 @@ Marked Terms: </td><td class="td1">
 <select onchange="v=$(this).val();if(v==6){$(\'.markcheck:checked\').each(function(){e=$(\'#Term_\' + $(this).val()).children(\'.term\');e.text(e.text().toLowerCase());$(\'#Text_\' + $(this).val()).val(e.text().toLowerCase());});$(this).prop(\'selectedIndex\',0);return false;}if(v==7){$(\'.markcheck:checked\').each(function(){$(\'#Trans_\' + $(this).val() + \' input\').val(\'*\');});$(this).prop(\'selectedIndex\',0);return false;}$(\'.markcheck:checked\').each(function(){$(\'#Stat_\' + $(this).val()).val(v);});$(this).prop(\'selectedIndex\',0);return false;"><option value="0" selected="selected">[Choose...]</option><option value="1">Set Status To [1]</option><option value="2">Set Status To [2]</option><option value="3">Set Status To [3]</option><option value="4">Set Status To [4]</option><option value="5">Set Status To [5]</option><option value="99">Set Status To [WKn]</option><option value="98">Set Status To [Ign]</option><option value="6">Set To Lowercase</option><option value="7">Delete Translation</option></select></td><td class="td1" style="min-width: 45px;"><input  type="submit" value="Save" /></td></tr></table></span>
 <table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1">Mark</th><th class="th1" style="min-width:5em;">Term</th><th class="th1">Translation</th><th class="th1">Status</th></tr>';
 
-$res = do_mysql_query ('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from ' . $tbpref . 'textitems2 where Ti2WoID = 0 and Ti2TxID = ' . $tid . ' AND Ti2WordCount =1 group by LOWER(Ti2Text) order by pos limit ' . $pos . ',' . $limit);
+$res = do_mysqli_query ('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from ' . $tbpref . 'textitems2 where Ti2WoID = 0 and Ti2TxID = ' . $tid . ' AND Ti2WordCount =1 group by LOWER(Ti2Text) order by pos limit ' . $pos . ',' . $limit);
 while($record = mysqli_fetch_assoc($res)){
 	if(++$cnt<$limit){
 		$value=tohtml($record['word']);

@@ -46,7 +46,7 @@ $wid = $_REQUEST['wid'];
 $status = $_REQUEST['status'];
 
 $sql = 'SELECT WoText, WoTranslation, WoRomanization FROM ' . $tbpref . 'words where WoID = ' . $wid;
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 if ($record) {
 	$word = $record['WoText'];

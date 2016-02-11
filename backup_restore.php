@@ -74,10 +74,10 @@ elseif (isset($_REQUEST['backup'])) {
 	$fname = "lwt-backup-exp_version-" . $pref . date('Y-m-d-H-i-s') . ".sql.gz";
 	$out = "-- " . $fname . "\n";
 	foreach($tables as $table) { // foreach table
-		$result = do_mysql_query('SELECT * FROM ' . $tbpref . $table);
+		$result = do_mysqli_query('SELECT * FROM ' . $tbpref . $table);
 		$num_fields = mysqli_num_fields($result);
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";
-		$row2 = mysqli_fetch_row(do_mysql_query('SHOW CREATE TABLE ' . $tbpref . $table));
+		$row2 = mysqli_fetch_row(do_mysqli_query('SHOW CREATE TABLE ' . $tbpref . $table));
 		$out .= str_replace($tbpref . $table, $table, str_replace("\n"," ",$row2[1])) . ";\n";
 		if ($table !== 'sentences' && $table !== 'textitems2') {
 			while ($row = mysql_fetch_row($result)) { // foreach record
@@ -103,19 +103,19 @@ elseif (isset($_REQUEST['orig_backup'])) {
 
 	foreach($tables as $table) {
 		if ($table == 'texts') {
-				$result = do_mysql_query('SELECT TxID, TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI FROM ' . $tbpref . $table);
+				$result = do_mysqli_query('SELECT TxID, TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI FROM ' . $tbpref . $table);
 				$num_fields = 7;
 		}
 		elseif ($table == 'words') {
-				$result = do_mysql_query('SELECT WoID, WoLgID, WoText, WoTextLC, WoStatus, WoTranslation, WoRomanization, WoSentence, WoCreated, WoStatusChanged, WoTodayScore, WoTomorrowScore, WoRandom FROM ' . $tbpref . $table);
+				$result = do_mysqli_query('SELECT WoID, WoLgID, WoText, WoTextLC, WoStatus, WoTranslation, WoRomanization, WoSentence, WoCreated, WoStatusChanged, WoTodayScore, WoTomorrowScore, WoRandom FROM ' . $tbpref . $table);
 				$num_fields = 13;
 		}
 		elseif ($table == 'languages') {
-				$result = do_mysql_query('SELECT LgID, LgName, LgDict1URI, LgDict2URI, REPLACE(LgGoogleTranslateURI,"ggl.php","*http://translate.google.com") as LgGoogleTranslateURI, LgExportTemplate, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft FROM ' . $tbpref . 'languages where LgName<>""');
+				$result = do_mysqli_query('SELECT LgID, LgName, LgDict1URI, LgDict2URI, REPLACE(LgGoogleTranslateURI,"ggl.php","*http://translate.google.com") as LgGoogleTranslateURI, LgExportTemplate, LgTextSize, LgCharacterSubstitutions, LgRegexpSplitSentences, LgExceptionsSplitSentences, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar, LgRightToLeft FROM ' . $tbpref . 'languages where LgName<>""');
 				$num_fields = mysqli_num_fields($result);
 		}
 		elseif ($table !== 'sentences' && $table !== 'textitems' && $table !== 'settings') {
-				$result = do_mysql_query('SELECT * FROM ' . $tbpref . $table);
+				$result = do_mysqli_query('SELECT * FROM ' . $tbpref . $table);
 				$num_fields = mysqli_num_fields($result);
 		}
 		$out .= "\nDROP TABLE IF EXISTS " . $table . ";\n";

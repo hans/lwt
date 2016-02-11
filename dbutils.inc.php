@@ -36,17 +36,17 @@ Database Utility Functions
 
 // -------------------------------------------------------------
 
-function do_mysql_query($sql) {
-	$res = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+function do_mysqli_query($sql) {
+	$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
 	if ($res == FALSE) {
 		echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
 			'<p><b>Fatal Error in SQL Query:</b> ' . 
 			tohtml($sql) . 
 			'</p>' . 
 			'<p><b>Error Code &amp; Message:</b> [' . 
-			((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) . 
+			mysqli_errno($GLOBALS['DBCONNECTION']) . 
 			'] ' . 
-			tohtml(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))) . 
+			tohtml(mysqli_error($GLOBALS['DBCONNECTION'])) . 
 			"</p></div><hr /><pre>Backtrace:\n\n";
 		debug_print_backtrace ();
 		echo '</pre><hr />';
@@ -60,13 +60,13 @@ function do_mysql_query($sql) {
 
 function runsql($sql, $m, $sqlerrdie = TRUE) {
 	if ($sqlerrdie)
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 	else
-		$res = mysqli_query($GLOBALS["___mysqli_ston"], $sql);
+		$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
 	if ($res == FALSE) {
-		$message = "Error: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+		$message = "Error: " . mysqli_error($GLOBALS['DBCONNECTION']);
 	} else {
-		$num = mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+		$num = mysqli_affected_rows($GLOBALS['DBCONNECTION']);
 		$message = (($m == '') ? $num : ($m . ": " . $num));
 	}
 	return $message;
@@ -75,13 +75,13 @@ function runsql($sql, $m, $sqlerrdie = TRUE) {
 // -------------------------------------------------------------
 
 function get_first_value($sql) {
-	$res = do_mysql_query($sql);		
+	$res = do_mysqli_query($sql);		
 	$record = mysqli_fetch_assoc($res);
 	if ($record) 
 		$d = $record["value"];
 	else
 		$d = NULL;
-	((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
+	mysqli_free_result($res);
 	return $d;
 }
 

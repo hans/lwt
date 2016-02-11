@@ -19,7 +19,7 @@ if (! $no_pagestart) {
 }
 
 $message = '';
-if(isset($_REQUEST['save_feed']) || isset($_REQUEST['del_wiz'])){unset($_SESSION['wizard']);}
+if(isset($_SESSION['wizard'])){unset($_SESSION['wizard']);}
 
 
 
@@ -33,7 +33,7 @@ if (isset($_REQUEST['markaction'])){
 	if ($_REQUEST['markaction']=='del_art') {
 		$message= runsql('delete from ' . $tbpref . 'feedlinks where FlNfID in(' . $currentfeed . ')', "Article item(s) deleted");
 		echo error_message_with_hide($message,0);unset($message);
-		do_mysql_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID in(' . $currentfeed . ')');
+		do_mysqli_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID in(' . $currentfeed . ')');
 	}
 
 	if ($_REQUEST['markaction']=='res_art'){
@@ -66,7 +66,7 @@ if(isset($_REQUEST['load_feed']) || isset($_REQUEST['check_autoupdate']) || (iss
 	load_feeds($currentfeed);
 }	
 elseif(isset($_REQUEST['new_feed'])){
-	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
+	$result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
 <h4>New Feed <a target="_blank" href="info.htm#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 <a href="do_feeds.php?page=1"> My Feeds</a> &nbsp; | &nbsp;
@@ -131,9 +131,9 @@ $('[type="submit"]').click(function(){
 }
 
 elseif(isset($_REQUEST['edit_feed'])){
-	$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=$currentfeed");
+	$result = do_mysqli_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=$currentfeed");
 	$row = mysqli_fetch_assoc($result);
-	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
+	$result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
 <h4>Edit Feed <a target="_blank" href="info.htm#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 <a href="do_feeds.php?page=1"> My Feeds</a> &nbsp; | &nbsp;
@@ -206,10 +206,10 @@ $('[type="submit"]').click(function(){
 
 elseif(isset($_REQUEST['multi_load_feed'])){
 	if(!empty($currentlang)){
-		$result = do_mysql_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang ORDER BY NfUpdate DESC");
+		$result = do_mysqli_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang ORDER BY NfUpdate DESC");
 	}
 	else{
-		$result = do_mysql_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds ORDER BY NfUpdate DESC");
+		$result = do_mysqli_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds ORDER BY NfUpdate DESC");
 	}
 ?>
 <form name="form1" action="do_feeds.php" onsubmit="document.form1.querybutton.click(); return false;">
@@ -317,10 +317,10 @@ Feed Name (Wildc.=*):
 			echo '</th><th class="th1">';
 			makePager ($currentpage, $pages, 'edit_feeds.php', 'form1');
 	if(!empty($currentlang)){
-		$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang $wh_query ORDER BY " . $sorts[$currentsort-1]);
+		$result = do_mysqli_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang $wh_query ORDER BY " . $sorts[$currentsort-1]);
 	}
 	else{
-		$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE (1=1) $wh_query ORDER BY " . $sorts[$currentsort-1]);
+		$result = do_mysqli_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE (1=1) $wh_query ORDER BY " . $sorts[$currentsort-1]);
 	}
 ?>
 </th>
