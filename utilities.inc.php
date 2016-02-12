@@ -3223,7 +3223,7 @@ function splitCheckText($text, $lid, $id) {
 	fwrite($fp, trim(preg_replace(array('/([^\n])\r/u','/\r([^\n])/u'),array("$1\n\r","\r\n$1"),str_replace(array("\t","\n\n","\r\r"),array("\n","","\r") ,$s))));
 	fclose($fp);
 	do_mysqli_query('SET @a=0, @b=' . ($id>0?'(SELECT max(`SeID`)+1 FROM `' . $tbpref . 'sentences`)':1) . ',@d=0;');
-	$sql= 'LOAD DATA INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\\r",@b:=@b+1,@b),TiWordCount=(!(@c rlike "[^' . str_replace(array("\\","'",'"'),array("\\\\","\\'",'\\"'),$termchar) . ']+")), TiCount = IF(@c="\\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
+	$sql= 'LOAD DATA INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\\r",@b:=@b+1,@b),TiWordCount=(!(@c rlike ' . convert_string_to_sqlsyntax('[^' . $termchar . ']+|¶') . ')), TiCount = IF(@c="\\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
 	do_mysqli_query($sql);
 	do_mysqli_query('ALTER IGNORE TABLE ' . $tbpref . 'temptextitems ADD UNIQUE INDEX DelSentEnd (TiOrder)');
 	do_mysqli_query('ALTER TABLE ' . $tbpref . 'temptextitems DROP INDEX DelSentEnd');

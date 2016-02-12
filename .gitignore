@@ -1,5 +1,8 @@
 connect.inc.php
 media/
+thumbnail/
+tts/
 _*
 .DS_Store
-
+error.log
+access.log
