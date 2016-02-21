@@ -169,15 +169,6 @@ if (isset($_REQUEST['markaction'])) {
 					do_mysqli_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID in ' . $list);
 					adjust_autoincr('words','WoID');
 					runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
-					$res = do_mysqli_query('select ImID from ' . $tbpref . 'images where ImWoID in ' . $list);
-					while ($record = mysqli_fetch_assoc($res)) {
-						$filename = './thumbnails/' . $tbpref . 'thumbs/' . $record['ImID'] . '.jpg';
-						if(file_exists($filename)){
-							unlink($filename);
-						}
-					}
-					mysqli_free_result($res);
-					do_mysqli_query('delete from ' . $tbpref . 'images where ImWoID in ' . $list);
 				}
 				elseif ($markaction == 'addtag' ) {
 					$message = addtaglist($actiondata,$list);
@@ -257,14 +248,6 @@ if (isset($_REQUEST['allaction'])) {
 				$message = runsql('delete from ' . $tbpref . 'words where WoID = ' . $id, "");
 				do_mysqli_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $id);
 				do_mysqli_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $id);
-				$i = get_first_value('select ImID as value from ' . $tbpref . 'images where ImWoID = ' . $id);
-				if(isset($i)){
-					$filename = './thumbnails/' . $tbpref . 'thumbs/' . $i . '.jpg';
-					if(file_exists($filename)){
-						unlink($filename);
-					}
-					do_mysqli_query('delete from ' . $tbpref . 'images where ImID = ' . $i);
-				}
 			}
 			elseif ($allaction == 'addtagall' ) {
 				addtaglist($actiondata,'(' . $id . ')');
@@ -379,14 +362,6 @@ elseif (isset($_REQUEST['del'])) {
 	do_mysqli_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $_REQUEST['del']);
 	do_mysqli_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $_REQUEST['del']);
 	runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
-	$i = get_first_value('select ImID as value from ' . $tbpref . 'images where ImWoID = ' . $_REQUEST['del']);
-	if(isset($i)){
-		$filename = './thumbnails/' . $tbpref . 'thumbs/' . $i . '.jpg';
-		if(file_exists($filename)){
-			unlink($filename);
-		}
-		do_mysqli_query('delete from ' . $tbpref . 'images where ImID = ' . $i);
-	}
 }
 
 // INS/UPD
@@ -520,7 +495,6 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $_REQUEST['lang']; ?>" />
-	<input type="hidden" name="WoImage" value="" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
@@ -533,7 +507,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<?php print_similar_terms_tabrow(); ?>	
 	<tr>
 	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea><div id="thumbnail_container"><div id="thumbnail" onclick="if(document.forms['newword'].WoText.value.length)owin('ggl_img.php?q=' + document.forms['newword'].WoText.value);"></div></div></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Tags:</td>
@@ -573,7 +547,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 	
-	$sql = 'select * from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
+	$sql = 'select * from ' . $tbpref . 'words, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
 	$res = do_mysqli_query($sql);
 	if ($record = mysqli_fetch_assoc($res)) {
 		
@@ -590,7 +564,6 @@ elseif (isset($_REQUEST['chg'])) {
 		<input type="hidden" name="WoID" value="<?php echo $record['WoID']; ?>" />
 		<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $record['WoLgID']; ?>" />
 		<input type="hidden" name="WoOldStatus" value="<?php echo $record['WoStatus']; ?>" />
-		<input type="hidden" name="WoImage" value="" />
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Language:</td>
@@ -603,7 +576,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<?php print_similar_terms_tabrow(); ?>
 		<tr>
 		<td class="td1 right">Translation:</td>
-		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea><div id="thumbnail_container"><div id="thumbnail" <?php if(isset($record['ImID']) ) {$filename='./thumbnails/' . $tbpref . 'thumbs' . '/' . $record['ImID'] . '.jpg'; if(file_exists($filename)) echo  'style="background-image: url(\'' ,$filename,'\');" ';}?>onclick="owin('ggl_img.php?q=<?php echo tohtml($record['WoText']); ?>');"></div></div></td>
+		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"><?php echo tohtml($transl); ?></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Tags:</td>
@@ -855,11 +828,6 @@ mysqli_free_result($res);
 <script type="text/javascript">
 //<![CDATA[
 $('#waitinfo').addClass('hide');
-<?php 
-if(!empty($_REQUEST["WoImage"])){
-	echo '$.ajax({type: "POST",url:"ajax_save_thumbnail.php", data: { url: "',$_REQUEST['WoImage'],'", woid: ',$wid ,' }, async:false});';
-}
-?>
 //]]>
 </script>
 

@@ -83,18 +83,10 @@ TID = '<?php echo $_REQUEST['text']; ?>';
 ADDFILTER = '<?php echo makeStatusClassFilter(getSettingWithDefault('set-text-visit-statuses-via-key')); ?>';
 <?php if(getSettingWithDefault('set-tooltip-mode') == 2) { ?>
 JQ_TOOLTIP = 1;
-IMGPATH = '<?php echo './thumbnails/' . $tbpref . 'thumbs' . '/'; ?>';
-<?php $sql = 'select ImID,Ti2WoID  from ' . $tbpref . 'textitems2,' . $tbpref . 'images where Ti2WoID = ImWoID and Ti2TxID = ' .  $_REQUEST['text'] . ' group by ImID order by Ti2WoID';
-	$res = do_mysqli_query($sql);
-	while ($record = mysqli_fetch_assoc($res)) {
-		$images[$record["Ti2WoID"]] = $record["ImID"];
-	}
-	if(!empty($images))echo "var IMAGES = jQuery.parseJSON('" . json_encode($images) . "');\n";
-	mysqli_free_result($res); ?>
-	$(function() {
-		$( '#overDiv' ).tooltip();
-		$( "#thetext" ).tooltip_wsty_init();
-	});
+$(function() {
+	$( '#overDiv' ).tooltip();
+	$( "#thetext" ).tooltip_wsty_init();
+});
 <?php }
 else echo 'JQ_TOOLTIP = 0;';
 $mode_trans=getSettingWithDefault('set-text-frame-annotation-position');
@@ -135,11 +127,6 @@ $(window).on('beforeunload',function() {
 		}
 	});
 	$.ajax({type: "POST",url:'ajax_save_text_position.php', data: { id: '<?php echo $_REQUEST['text']; ?>', position: pos }, async:false});
-});
-$(window).load(function() {
-	$.each(IMAGES, function (key, data) {
-		$('.word' + key).attr('data_img',data);
-	});
 });
 //]]>
 </script>

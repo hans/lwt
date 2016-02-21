@@ -249,7 +249,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
-          <li>The current version is <b>1.6.26 (February 11 2016)</b>.
+          <li>The current version is <b>1.6.27 (February 21 2016)</b>.
           </li>
 
           <li>
@@ -558,14 +558,11 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
           </li>
           <li>Optional "ignore all" button in read texts
           </li>
-          <li>Possibility to add images to terms
-          </li>
           <li>New key bindings in the reading frame:
 		<ul><li>T (translate sentence),</li>
 		  <li>P (pronounce term),</li>
-		  <li>G (edit term with Google Translate),</li>
-		  <li>J (edit term with Google Image Search)
-		</li></ul>
+		  <li>G (edit term with Google Translate)</li>
+		</ul>
           </li>
           <li>Ability to change audio playback speed (doesn't work when using the flash plugin)
           </li>
@@ -2687,17 +2684,6 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
             <br />
             <br />
          </li>
-         <li>
-            <b>Table "images" (Term image relations, no backup possible):</b>
-            <br />
-					ImID smallint(5) NOT NULL AUTO_INCREMENT,
-            <br />
-  					ImWoID mediumint(8) NOT NULL,
-            <br />
-  					PRIMARY KEY (ImID),
-            <br />
-  					UNIQUE KEY ImWoID (ImWoID)
-          </li>
         </ul>
       </dd>
 
@@ -2707,6 +2693,13 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_fe
 
       <dd>
         <ul>
+
+	<li>1.6.27 (February 21 2016):<br />
+		Bugfix: DB backup/import errors.<br />
+		RegExp Word Characters are checked for correct syntax when creating/updating language.<br />
+		thumbnail/image support removed.<br />
+		<br />
+	</li>
 
 	<li>1.6.26 (February 11 2016):<br />
 		Some bugfixes: errors when emptying database and installing Demo database, added 'follow redirect' to feed.<br />

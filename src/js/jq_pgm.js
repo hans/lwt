@@ -44,8 +44,6 @@ var ADDFILTER = '';
 var RTL = 0;
 var ANN_ARRAY = {};
 var DELIMITER = '';
-var IMAGES = {};
-var IMGPATH = '';
 var JQ_TOOLTIP = 0;
  
 /**************************************************************
@@ -152,6 +150,19 @@ function check() {
 			}
 		}
 	} );
+	$('input.checkregexp').each( function(n) {
+		var regexp = $(this).val().trim();
+		if(regexp.length > 0) {
+		$.ajax({type: "POST",url:'ajax_check_regexp.php', data:{ regex: regexp }
+			, async: false}
+			).always(function(data) { 
+				if(data != '') {
+					alert(data);
+					count++;
+				}
+			});
+		}
+	});
 //to enable limits of custom feed texts/articl. change the following «input[class*="max_int_"]» into «input[class*="maxint_"]»
 	$('input[class*="max_int_"]').each( function(n) {
 		var maxvalue = parseInt($(this).attr("class").replace(/.*maxint_([0-9]+).*/, '$1'));
@@ -535,7 +546,6 @@ jQuery.fn.extend({
 		title += '<p><b>Transl.</b>: ' + trans + "</p>";
 	}
 	title += '<p><b>Status</b>: <span class="status' + status + '" style="color:inherit !important">' + statname + '</span></p>';
-	if($( this ).attr('data_img'))title += '<img src="' + IMGPATH + $( this ).attr('data_img') + '.jpg" />';
 	return title;
 	}
 });
@@ -573,7 +583,7 @@ function keydown_event_do_text_text(e) {
 	
 	var knownwordlist = $('span.word:not(.hide):not(.status0)' + ADDFILTER + ',span.mword:not(.hide)' + ADDFILTER);
 	var l_knownwordlist = knownwordlist.size();
-	if (l_knownwordlist == 0) return true;
+	if (l_knownwordlist == 0 && e.which < 40) return true;
 	
 	// the following only for a non-zero known words list
 	if (e.which == 36) {  // home : known word navigation -> first
@@ -709,11 +719,7 @@ function keydown_event_do_text_text(e) {
 		dict = '&nodict';
 		setTimeout(function(){window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK3,txt);}, 10);
 	}
-	else if (e.which == 74) { //  J : edit term and open GImage
-		dict = '&nodict';
-		setTimeout(function(){window.parent.frames['ru'].location.href = 'ggl_img.php?q=' + txt;}, 10);
-	}
-	if (e.which == 69 || e.which == 71 || e.which == 74) { //  E / G / J: edit term
+	if (e.which == 69 || e.which == 71) { //  E / G: edit term
 		if(curr.hasClass('mword'))
 			window.parent.frames['ro'].location.href = 
 				'edit_mword.php?wid=' + wid + '&len=' + curr.attr('data_code') + '&tid=' + TID + '&ord=' + ord + dict;
@@ -838,7 +844,6 @@ $.fn.serializeObject = function()
 };
 
 $( window ).load(function(){
-	$('#thumbnail_container').tooltip({items:'#thumbnail',content:function() {if(typeof $( this ).attr('style') != 'undefined'){return '<img src="' + $( this ).css('background-image').replace('"','').replace('url(','').replace(')','') + '" alt="-" /><p>Click for changing image!</p>';}else return '<p>Click for adding image!</p>';},position:{ at: "right",my: "left",collision: "flipfit" }});
 	$(":input,.wrap_checkbox span,.wrap_radio span,a:not([name^=rec]),select,#mediaselect span.click,#forwbutt,#backbutt").each(function (i) { $(this).attr('tabindex', i + 1); });
 	$(".wrap_radio span").bind("keydown", function(e){
 		if(e.keyCode==32){

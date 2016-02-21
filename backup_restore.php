@@ -80,10 +80,10 @@ elseif (isset($_REQUEST['backup'])) {
 		$row2 = mysqli_fetch_row(do_mysqli_query('SHOW CREATE TABLE ' . $tbpref . $table));
 		$out .= str_replace($tbpref . $table, $table, str_replace("\n"," ",$row2[1])) . ";\n";
 		if ($table !== 'sentences' && $table !== 'textitems2') {
-			while ($row = mysql_fetch_row($result)) { // foreach record
+			while ($row = mysqli_fetch_row($result)) { // foreach record
 				$return = 'INSERT INTO ' . $table . ' VALUES(';
 				for ($j=0; $j < $num_fields; $j++) { // foreach field
-					$return .= convert_string_to_sqlsyntax($row[$j]);
+					$return .= convert_string_to_sqlsyntax_nonull($row[$j]);
 					if ($j < ($num_fields-1)) $return .= ',';
 				} // foreach field
 				$out .= $return . ");\n";
@@ -163,7 +163,7 @@ elseif (isset($_REQUEST['orig_backup'])) {
 			while ($row = mysqli_fetch_row($result)) { // foreach record
 				$return = 'INSERT INTO ' . $table . ' VALUES(';
 				for ($j=0; $j < $num_fields; $j++) { // foreach field
-					$return .= convert_string_to_sqlsyntax($row[$j]);
+					$return .= convert_string_to_sqlsyntax_nonull($row[$j]);
 					if ($j < ($num_fields-1)) $return .= ',';
 				} // foreach field
 				$out .= $return . ");\n";
@@ -193,25 +193,10 @@ elseif (isset($_REQUEST['empty'])) {
 	$dummy = runsql('TRUNCATE ' . $tbpref . 'texttags','');
 	$dummy = runsql('TRUNCATE ' . $tbpref . 'words','');
 	$dummy = runsql('TRUNCATE ' . $tbpref . 'wordtags', '');
-	$dummy = runsql('TRUNCATE ' . $tbpref . 'images','');
 	$dummy = runsql('DELETE FROM ' . $tbpref . 'settings where StKey = \'currenttext\'', '');
 	optimizedb();
 	get_tags($refresh = 1);
 	get_texttags($refresh = 1);
-	$dir = './thumbnails/' . $tbpref . 'thumbs';
-	if(is_dir($dir)){
-		$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
-		$files = new RecursiveIteratorIterator($it,
-			     RecursiveIteratorIterator::CHILD_FIRST);
-		foreach($files as $file) {
-		    if ($file->isDir()){
-			rmdir($file->getRealPath());
-		    } else {
-			unlink($file->getRealPath());
-		    }
-		}
-		rmdir($dir);
-	}
 	$message = "Database content has been deleted (but settings have been kept)";
 }
 

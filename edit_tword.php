@@ -128,9 +128,6 @@ if(window.parent.frames['l'].location.href.indexOf('do_test_table') !== -1) {
 	var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 	$('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
 }  
-<?php			if(!empty($_REQUEST["WoImage"])){
-				echo '$.ajax({type: "POST",url:"ajax_save_thumbnail.php", data: { url: "',$_REQUEST['WoImage'],'", woid: ',$wid ,' }, async:false});';
-			} ?>
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
@@ -148,7 +145,7 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	if ($wid == '') my_die("Term ID missing in edit_tword.php");
 	
-	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus, ImID from ' . $tbpref . 'words left join ' . $tbpref . 'images on WoID = ImWoID where WoID = ' . $wid;
+	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 	$res = do_mysqli_query($sql);
 	$record = mysqli_fetch_assoc($res);
 	if ( $record ) {
@@ -159,7 +156,6 @@ else {  // if (! isset($_REQUEST['op']))
 		$sentence = repl_tab_nl($record['WoSentence']);
 		$rom = $record['WoRomanization'];
 		$status = $record['WoStatus'];
-		if(isset($record['ImID']))$imid = $record['ImID'];
 	} else {
 		my_die("Term data not found in edit_tword.php");
 	}
@@ -183,7 +179,6 @@ else {  // if (! isset($_REQUEST['op']))
 <input type="hidden" name="WoID" value="<?php echo $wid; ?>" />
 <input type="hidden" name="WoOldStatus" value="<?php echo $status; ?>" />
 <input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
-<input type="hidden" name="WoImage" value="" />
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr title="Only change uppercase/lowercase!">
 <td class="td1 right"><b>Edit Term:</b></td>
@@ -191,7 +186,7 @@ else {  // if (! isset($_REQUEST['op']))
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
-<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea><div id="thumbnail_container"><div id="thumbnail" <?php if(isset($imid) ) {$filename='./thumbnails/' . $tbpref . 'thumbs' . '/' . $imid . '.jpg'; if(file_exists($filename)) echo  'style="background-image: url(\'' ,$filename,'\');" ';}?>onclick="window.parent.frames['ru'].location.href = 'ggl_img.php?q=<?php echo tohtml($term); ?>'"></div></div</td>
+<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
 ></tr>
 <tr>
 <td class="td1 right">Tags:</td>

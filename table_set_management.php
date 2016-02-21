@@ -46,7 +46,6 @@ if (isset($_REQUEST['delpref'])) {
 	if($_REQUEST['delpref'] !== '-') {
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archivedtexts','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archtexttags','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_images','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_languages','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_sentences','');
 		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags','');

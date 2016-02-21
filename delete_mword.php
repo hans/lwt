@@ -77,7 +77,6 @@ $('.mword', sid).each(function(){
 $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
-$.ajax({type: "POST",url:"ajax_save_thumbnail.php", data: { url: "DEL", woid: <?php echo $wid; ?> }, async:false});
 //]]>
 </script>
 <?php

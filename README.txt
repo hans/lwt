@@ -17,8 +17,7 @@ Bulk translate new words in the reading frame
 Google api (use 'ggl.php' instead of '*http://translate.google.com' for Google Translate)
 Text to speech support (only words)
 Optional "ignore all" button in read texts
-Possibility to add images to terms
-New key bindings in the reading frame: T (translate sentence), P (pronounce term), G (edit term with Google Translate), J (edit term with Google Image Search)
+New key bindings in the reading frame: T (translate sentence), P (pronounce term), G (edit term with Google Translate)
 Ability to change audio playback speed (doesn't work when using the flash plugin)
 Improved Search/Query for Words/Texts
 Selecting terms according to a text tag

@@ -215,11 +215,7 @@ refresh_text(el);
 }
 <?php if(!empty($sid) && $len==1){ ?>
 	$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
-<?php }
-	if(!empty($_REQUEST["WoImage"]) and $_REQUEST['WoImage']!='DEL'){
-		echo '$.ajax({type: "POST",url:"ajax_save_thumbnail.php", data: { url: "',$_REQUEST['WoImage'],'", woid: ',$wid ,' }, async:false, success: function(data) {img=jQuery.parseJSON(data);$( ".word" + img.ImWoID,window.parent.frames["l"].document ).attr( "data_img", img.ImID );}});';
-	}
-?>
+<?php } ?>
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
@@ -258,7 +254,6 @@ else {  // if (! isset($_REQUEST['op']))
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 	<input type="hidden" name="tid" value="<?php echo $text; ?>" />
-	<input type="hidden" name="WoImage" value="" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right"><b>New Term:</b></td>
@@ -267,7 +262,7 @@ else {  // if (! isset($_REQUEST['op']))
 	<?php print_similar_terms_tabrow(); ?>
 	<tr>
 	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="35" rows="3"></textarea><div id="thumbnail_container"><div id="thumbnail" onclick="if(document.forms['newword'].WoText.value.length)window.parent.frames['ru'].location.href = 'ggl_img.php?q=' + document.forms['newword'].WoText.value"></div></div></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="35" rows="3"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Tags:</td>

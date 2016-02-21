@@ -35,6 +35,39 @@ PHP Utility Functions
 Plus (at end): Database Connect, .. Select, .. Updates
 ***************************************************************/
 
+function get_version() {
+	global $debug;
+	return '1.6.27 (February 21 2016)'  . 
+	($debug ? ' <span class="red">DEBUG</span>' : '');
+}
+
+// -------------------------------------------------------------
+
+function get_version_number() {
+	$r = 'v';
+	$v = get_version();
+	$pos = strpos($v,' ',0);
+	if ($pos === false) my_die ('Wrong version: '. $v);
+	$vn = preg_split ("/[.]/", substr($v,0,$pos));
+	if (count($vn) < 3) my_die ('Wrong version: '. $v);
+	for ($i=0; $i<3; $i++) $r .= substr('000' . $vn[$i],-3);
+	return $r;  // 'vxxxyyyzzz' wenn version = x.y.z
+}
+
+// -------------------------------------------------------------
+
+function my_die($text) {
+	echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
+		'<p><b>Fatal Error:</b> ' . 
+		tohtml($text) . 
+		"</p></div><hr /><pre>Backtrace:\n\n";
+	debug_print_backtrace ();
+	echo '</pre><hr />';
+	die('</body></html>');
+}
+
+// -------------------------------------------------------------
+
 function load_feeds($currentfeed){
 	global $tbpref;
 	$cnt=0;
@@ -550,39 +583,6 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 	return $data;
 }
 
-
-// -------------------------------------------------------------
-
-function get_version() {
-	global $debug;
-	return '1.6.26 (February 11 2016)'  . 
-	($debug ? ' <span class="red">DEBUG</span>' : '');
-}
-
-// -------------------------------------------------------------
-
-function get_version_number() {
-	$r = 'v';
-	$v = get_version();
-	$pos = strpos($v,' ',0);
-	if ($pos === false) my_die ('Wrong version: '. $v);
-	$vn = preg_split ("/[.]/", substr($v,0,$pos));
-	if (count($vn) < 3) my_die ('Wrong version: '. $v);
-	for ($i=0; $i<3; $i++) $r .= substr('000' . $vn[$i],-3);
-	return $r;  // 'vxxxyyyzzz' wenn version = x.y.z
-}
-
-// -------------------------------------------------------------
-
-function my_die($text) {
-	echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
-		'<p><b>Fatal Error:</b> ' . 
-		tohtml($text) . 
-		"</p></div><hr /><pre>Backtrace:\n\n";
-	debug_print_backtrace ();
-	echo '</pre><hr />';
-	die('</body></html>');
-}
 
 // -------------------------------------------------------------
 
@@ -1533,6 +1533,17 @@ function convert_string_to_sqlsyntax_nonull($data) {
 
 function convert_string_to_sqlsyntax_notrim_nonull($data) {
 	return "'" . mysqli_real_escape_string($GLOBALS['DBCONNECTION'], prepare_textdata($data)) . "'";
+}
+
+// -------------------------------------------------------------
+
+function convert_regexp_to_sqlsyntax ($input) {
+	$output = preg_replace_callback("/\\\\x\{([\da-z]+)\}/i", function ($a) {
+		$num = $a[1];
+		$dec = hexdec($num);
+		return "&#$dec;";
+	}, preg_replace('/^\-/','-', $input));
+	return convert_string_to_sqlsyntax_nonull(html_entity_decode($output, ENT_NOQUOTES, 'UTF-8'));
 }
 
 // -------------------------------------------------------------
@@ -3202,7 +3213,7 @@ function splitCheckText($text, $lid, $id) {
 	if ($id == -1) echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
 				//	"\r" => Sentence delimiter, "\t" and "\n" => Word delimiter
 	$s = preg_replace_callback("/(\S+)\s*((\.+)|([$splitSentence]))(['`\"”)\]‘’‹›“„«»』」]*)(?=(\s*)(\S+|$))/u", function ($matches) use ($noSentenceEnd) {//var_dump($matches);
-		if(!strlen ($matches[6]) && strlen ($matches[7]))return preg_replace("/[.]/",".\t",$matches[0]);
+		if(!strlen ($matches[6]) && strlen ($matches[7]) && preg_match('/[a-zA-Z0-9]/', $matches[1][-1]))return preg_replace("/[.]/",".\t",$matches[0]);
 		if(is_numeric ($matches[1])){
 			 if( strlen ($matches[1])<3)return $matches[0];
 		}
@@ -3223,7 +3234,7 @@ function splitCheckText($text, $lid, $id) {
 	fwrite($fp, trim(preg_replace(array('/([^\n])\r/u','/\r([^\n])/u'),array("$1\n\r","\r\n$1"),str_replace(array("\t","\n\n","\r\r"),array("\n","","\r") ,$s))));
 	fclose($fp);
 	do_mysqli_query('SET @a=0, @b=' . ($id>0?'(SELECT max(`SeID`)+1 FROM `' . $tbpref . 'sentences`)':1) . ',@d=0;');
-	$sql= 'LOAD DATA INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\\r",@b:=@b+1,@b),TiWordCount=(' . convert_string_to_sqlsyntax('¶' . $splitSentence) . ' not like concat("%",@c,"%")) and (!(@c rlike ' . convert_string_to_sqlsyntax('[^' . $termchar . ']+') . ')), TiCount = IF(@c="\\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
+	$sql= 'LOAD DATA INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\\r",@b:=@b+1,@b),TiWordCount=(' . convert_regexp_to_sqlsyntax('¶' . $splitSentence) . ' not like concat("%",@c,"%")) and (!(@c rlike ' . convert_regexp_to_sqlsyntax('[^' . $termchar . ']+') . ')), TiCount = IF(@c="\\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
 	do_mysqli_query($sql);
 	do_mysqli_query('ALTER IGNORE TABLE ' . $tbpref . 'temptextitems ADD UNIQUE INDEX DelSentEnd (TiOrder)');
 	do_mysqli_query('ALTER TABLE ' . $tbpref . 'temptextitems DROP INDEX DelSentEnd');
@@ -3260,6 +3271,8 @@ function splitCheckText($text, $lid, $id) {
 	mysqli_free_result($res);
 	$sql = '';
 	if(!empty($wl)) {//text has expressions
+		do_mysqli_query('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2');
+		do_mysqli_query('SET GLOBAL tmp_table_size = 1024 * 1024 * 1024 * 2');
 		for ($i=$wl_max*2 -1; $i>1; $i--) {
 			$set_wo_sql .= 'WHEN (@a' . strval($i) . ':=@a' . strval($i-1) . ') IS NULL THEN NULL ';
 			$set_wo_sql_2 .= 'WHEN (@a' . strval($i) . ':=@a' . strval($i-2) . ') IS NULL THEN NULL ';
@@ -3884,11 +3897,6 @@ function check_update_db() {
 	if (in_array($tbpref . 'archtexttags', $tables) == FALSE) {
 		if ($debug) echo '<p>DEBUG: rebuilding archtexttags</p>';
 		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "archtexttags ( AgAtID smallint(5) unsigned NOT NULL, AgT2ID smallint(5) unsigned NOT NULL, PRIMARY KEY (AgAtID,AgT2ID), KEY AgT2ID (AgT2ID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
-	}
-	
-	if (in_array($tbpref . 'images', $tables) == FALSE) {
-		if ($debug) echo '<p>DEBUG: rebuilding images</p>';
-		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "images ( ImID smallint(5) NOT NULL AUTO_INCREMENT, ImWoID mediumint(8) NOT NULL, PRIMARY KEY (ImID),  UNIQUE KEY ImWoID (ImWoID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
 	
 	if ($count > 0) {		
