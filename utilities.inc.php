@@ -1538,11 +1538,11 @@ function convert_string_to_sqlsyntax_notrim_nonull($data) {
 // -------------------------------------------------------------
 
 function convert_regexp_to_sqlsyntax ($input) {
-	$output = preg_replace_callback("/\\\\x\{([\da-z]+)\}/i", function ($a) {
+	$output = preg_replace_callback("/\\\\x\{([\da-z]+)\}/ui", function ($a) {
 		$num = $a[1];
 		$dec = hexdec($num);
 		return "&#$dec;";
-	}, preg_replace('/\\\\(?![xtfrnvu])/','', $input));
+	}, preg_replace(array('/\\\\(?![-xtfrnvu])/u','/^[\]-/u'),array('','-'), $input));
 	return convert_string_to_sqlsyntax_nonull(html_entity_decode($output, ENT_NOQUOTES, 'UTF-8'));
 }
 

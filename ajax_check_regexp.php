@@ -45,7 +45,7 @@ require_once( 'utilities.inc.php' );
 $regex = $_REQUEST['regex'];
 $old_error = error_reporting(0); // Turn off error reporting
 $err = 0;
-$match = preg_match('/[' . $regex . ']/','test');
+$match = preg_match('/[' . $regex . ']/u','test');
 if ($match === false) {
 	$err = 1;
 }
