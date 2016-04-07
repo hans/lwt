@@ -41,9 +41,6 @@
   border-color:#444;
 }
 .barchart li:hover span{
-  left:5px;
-  z-index:10;
-  top: -2px;
   font-size:15px;
   width:auto;
   background:transparent;

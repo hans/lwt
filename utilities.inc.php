@@ -37,7 +37,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.6.27 (February 21 2016)'  . 
+	return '1.6.28 (April 07 2016)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1542,7 +1542,7 @@ function convert_regexp_to_sqlsyntax ($input) {
 		$num = $a[1];
 		$dec = hexdec($num);
 		return "&#$dec;";
-	}, preg_replace('/^\-/','-', $input));
+	}, preg_replace('/\\\\(?![xtfrnvu])/','', $input));
 	return convert_string_to_sqlsyntax_nonull(html_entity_decode($output, ENT_NOQUOTES, 'UTF-8'));
 }
 
@@ -1550,7 +1550,7 @@ function convert_regexp_to_sqlsyntax ($input) {
 
 function remove_spaces($s,$remove) {
 	if ($remove) 
-		return preg_replace('/\s{1,}/u', '', $s);  // '' enthält &#x200B;
+		return str_replace(' ', '', $s);  // '' enthält &#x200B;
 	else
 		return $s;
 }
@@ -2947,7 +2947,7 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) {
 		mysqli_free_result($res);
 		$removeSpaces = $record["LgRemoveSpaces"];
 		if(!($removeSpaces==1)){
-			$pattern = convert_string_to_sqlsyntax('(^|[^' . $record["LgRegexpWordCharacters"] . '])' . remove_spaces($wordlc, $removeSpaces) . '([^' . $record["LgRegexpWordCharacters"] . ']|$)');
+			$pattern = convert_regexp_to_sqlsyntax('(^|[^' . $record["LgRegexpWordCharacters"] . '])' . remove_spaces($wordlc, $removeSpaces) . '([^' . $record["LgRegexpWordCharacters"] . ']|$)');
 		}
 		else{
 			$pattern = convert_string_to_sqlsyntax($wordlc);
@@ -3190,11 +3190,11 @@ function splitCheckText($text, $lid, $id) {
 	$s = prepare_textdata($text);
 	//if(is_callable('normalizer_normalize')) $s = normalizer_normalize($s);
 
-	$file_name=sys_get_temp_dir() . "/lwt/" . $tbpref . "tmpti.txt";
-	if(!is_dir(sys_get_temp_dir() . "/lwt")){
+	$file_name = sys_get_temp_dir() . "/" . $tbpref . "tmpti.txt";
+	/*if(!is_dir(sys_get_temp_dir() . "/lwt")){
 		mkdir(sys_get_temp_dir() . "/lwt",0777);
 		chmod(sys_get_temp_dir() . "/lwt", 0777);
-	}
+	}*/
 	do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'temptextitems');
 
 	$s = str_replace(array('}','{'),array(']','[') , $s);	// because of sent. spc. char
@@ -3207,7 +3207,7 @@ function splitCheckText($text, $lid, $id) {
 	$s = str_replace("\n", " ¶", $s);
 	$s = trim($s);
 	if ($splitEachChar) {
-		$s = preg_replace('/([^\s])/u', "$1 ", $s);
+		$s = preg_replace('/([^\s])/u', "$1\t", $s);
 	}
 	$s = preg_replace('/\s+/u', ' ', $s);
 	if ($id == -1) echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
@@ -3227,14 +3227,14 @@ function splitCheckText($text, $lid, $id) {
 	$s = str_replace(array("¶"," ¶"),array("¶\r","\r¶"), $s);
 	$s = preg_replace(array('/([^' . $termchar . '])/u','/\n([' . $splitSentence . '][\'`"”)\]‘’‹›“„«»』」]*)\n\t/u','/([0-9])[\n]([:.,])[\n]([0-9])/u'),array("\n$1\n","$1","$1$2$3"), $s);
 	if($id == -2){
-		return explode("\r", str_replace(array("\r\r","\t","\n"),array("\r","",""),$s));
+		return explode("\r", remove_spaces(str_replace(array("\r\r","\t","\n"),array("\r","",""),$s),$removeSpaces));
 	}
 
 	$fp = fopen($file_name, 'w');
-	fwrite($fp, trim(preg_replace(array('/([^\n])\r/u','/\r([^\n])/u'),array("$1\n\r","\r\n$1"),str_replace(array("\t","\n\n","\r\r"),array("\n","","\r") ,$s))));
+	fwrite($fp, remove_spaces(trim(preg_replace(array('/([^\n])\r/u','/\r([^\n])/u'),array("$1\n\r","\r\n$1"),str_replace(array("\t","\n\n","\r\r"),array("\n","","\r") ,$s))),$removeSpaces));
 	fclose($fp);
 	do_mysqli_query('SET @a=0, @b=' . ($id>0?'(SELECT max(`SeID`)+1 FROM `' . $tbpref . 'sentences`)':1) . ',@d=0;');
-	$sql= 'LOAD DATA INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\\r",@b:=@b+1,@b),TiWordCount=(' . convert_regexp_to_sqlsyntax('¶' . $splitSentence) . ' not like concat("%",@c,"%")) and (!(@c rlike ' . convert_regexp_to_sqlsyntax('[^' . $termchar . ']+') . ')), TiCount = IF(@c="\\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
+	$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\\r",@b:=@b+1,@b),TiWordCount=(' . convert_regexp_to_sqlsyntax('¶' . $splitSentence) . ' not like concat("%",@c,"%")) and (!(@c rlike ' . convert_regexp_to_sqlsyntax('[^' . $termchar . ']+') . ')), TiCount = IF(@c="\\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
 	do_mysqli_query($sql);
 	do_mysqli_query('ALTER IGNORE TABLE ' . $tbpref . 'temptextitems ADD UNIQUE INDEX DelSentEnd (TiOrder)');
 	do_mysqli_query('ALTER TABLE ' . $tbpref . 'temptextitems DROP INDEX DelSentEnd');
@@ -3800,7 +3800,7 @@ function make_score_random_insert_update($type) {  // $type='iv'/'id'/'u'
 // -------------------------------------------------------------
 
 function check_update_db() {
-	global $debug, $tbpref;
+	global $debug, $tbpref, $dbname;
 	$tables = array();
 	
 	$res = do_mysqli_query(str_replace('_',"\\_","SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull($tbpref . '%')));
@@ -3922,6 +3922,15 @@ function check_update_db() {
 	// Do DB Updates if tables seem to be old versions
 	
 	if ( $dbversion < $currversion ) {
+
+		if ($debug) echo "<p>DEBUG: check DB collation: ";
+		if('utf8utf8_general_ci' != get_first_value('SELECT concat(default_character_set_name, default_collation_name) as value FROM information_schema.SCHEMATA WHERE schema_name = "' . $dbname . '"')){
+			runsql("SET collation_connection = 'utf8_general_ci'",'');
+			runsql('ALTER DATABASE ' . $dbname . ' CHARACTER SET utf8 COLLATE utf8_general_ci','');
+			if ($debug)echo 'changed to utf8_general_ci</p>';
+		}
+		else if ($debug)echo 'OK</p>';
+
 		if ($debug) echo "<p>DEBUG: do DB updates: $dbversion --&gt; $currversion</p>";
 		runsql("ALTER TABLE " . $tbpref . "words ADD WoTodayScore DOUBLE NOT NULL DEFAULT 0, ADD WoTomorrowScore DOUBLE NOT NULL DEFAULT 0, ADD WoRandom DOUBLE NOT NULL DEFAULT 0", '', $sqlerrdie = FALSE);
 		runsql("ALTER TABLE " . $tbpref . "words ADD WoWordCount tinyint(3) unsigned NOT NULL DEFAULT 0 AFTER WoSentence", '', $sqlerrdie = FALSE);
