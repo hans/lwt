@@ -47,9 +47,8 @@ $langDefs = array(
 
 "Arabic" => 
 	array("ar", "ar", true, 
-	"\\x{0600}-\\x{061A}\\x{0620}-\\x{06FF}" .
-	"\\x{0750}-\\x{077F}\\x{FB50}-\\x{FDFF}" .
-	"\\x{FE70}-\\x{FEFF}", 
+	"\\x{610}-\\x{614}\\x{621}-\\x{65F}" .
+	"\\x{671}-\\x{6D3}\\x{6DE}-\\x{6FF}", 
 	".!?:;\\x{061B}\\x{061F}", 
 	false, false, true),
 

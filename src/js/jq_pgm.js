@@ -545,7 +545,7 @@ jQuery.fn.extend({
 		}
 		title += '<p><b>Transl.</b>: ' + trans + "</p>";
 	}
-	title += '<p><b>Status</b>: <span class="status' + status + '" style="color:inherit !important">' + statname + '</span></p>';
+	title += '<p><b>Status</b>: <span class="status' + status + '">' + statname + '</span></p>';
 	return title;
 	}
 });
