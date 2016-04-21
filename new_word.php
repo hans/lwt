@@ -132,13 +132,12 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 				$txtid =$record['SeTxID'];
 				$sentid =$record['SeID'];
 				$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
-				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
 				while($last_pos!==false){
 					$matches=array();
-					if($splitEachChar || $removeSpaces || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+					if($splitEachChar || $removeSpaces || preg_match ( $notermchar, '  ' . $string, $matches, 0, $last_pos - 1)==1){
 						$string = mb_substr ( $string, 0, $last_pos, 'UTF-8' );
 						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
-						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
+						$pos=2*$cnt+$record['SeFirstPos'];
 						$txt='';
 						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar || $removeSpaces?$wis:$matches[1];
 						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';

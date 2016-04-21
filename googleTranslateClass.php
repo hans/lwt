@@ -54,9 +54,8 @@ class GoogleTranslate {
 		$x = hexdec(80000000);
 		$z = 0xffffffff;
 		$y = PHP_INT_SIZE==8?0xffffffff00000000:0x00000000;
-		$w = PHP_INT_SIZE==8?0xffffffffffffffff:$z;
 		$d = array();
-		$strlen = mb_strlen($str);
+		$strlen = mb_strlen($str,"UTF-8");
 		while ($strlen) {
 			$charString = mb_substr($str,0,1,"UTF-8");
 			$size = strlen($charString);
@@ -64,7 +63,7 @@ class GoogleTranslate {
 				$d[] = ord($charString[$i]);
 			}
 			$str = mb_substr($str,1,$strlen,"UTF-8");
-			$strlen = mb_strlen($str);
+			$strlen = mb_strlen($str,"UTF-8");
 		}
 		foreach ($d as $b) {
 			$c += $b;
@@ -72,7 +71,7 @@ class GoogleTranslate {
 			if($b & $x) $b |= $y;
 			else $b &= $z;
 			$c += $b;
-			$b = ($c < 0 ? (((($w ^ $c) + 1) >> 6) & 0x03ffffff) : $c >> 6);
+			$b = (($c >> 6) & (0x03ffffff));
 			$c ^= $b;
 			if($c & $x) $c |= $y;
 			else $c &= $z;
@@ -81,13 +80,18 @@ class GoogleTranslate {
 		if($b & $x) $b |= $y;
 		else $b &= $z;
 		$c += $b;
-		$b = ($c < 0 ? (((($w ^ $c) + 1) >> 11) & 0x001fffff) : $c >> 11);
+		$b = (($c >> 11) & (0x001fffff));
 		$c ^= $b;
 		$b = $c << 15;
 		if($b & $x) $b |= $y;
 		else $b &= $z;
 		$c += $b;
-		$c &=$z;
+		$c &= $z;
+		if(0 > $c){
+			$c = (($x ^ $c));
+			if(5000000 > $c) $c += 483648;
+			else $c -= 516352;
+		}
 		$c %= 1000000;
 		return $c . '.' . ($t ^ $c);
 	}

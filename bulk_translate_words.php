@@ -95,7 +95,12 @@ $('td').on('click','span.dict1, span.dict2, span.dict3',function(){
 	if($(this).hasClass( "dict1" ))WBLINK=WBLINK1;
 	if($(this).hasClass( "dict2" ))WBLINK=WBLINK2;
 	if($(this).hasClass( "dict3" ))WBLINK=WBLINK3;
-	window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK,$(this).parent().prev().text());
+	if((WBLINK.substr(0,8) == '*http://') || (WBLINK.substr(0,9) == '*https://')) {
+		owin(createTheDictUrl(WBLINK.replace('*',''),$(this).parent().prev().text()));
+	}
+	else{
+		window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK,$(this).parent().prev().text());
+	}
 	$('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
 	el=$(this).parent().parent().next().children();
 	el.attr('data_name',el.attr('name'));

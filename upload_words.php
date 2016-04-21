@@ -293,13 +293,12 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 							$txtid =$record2['SeTxID'];
 							$sentid =$record2['SeID'];
 							$last_pos = mb_strripos ( $string , $textlc , 0,  'UTF-8' );
-							$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
 							while($last_pos!==false){
 								$matches=array();
-								if($splitEachChar || $removeSpaces || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
+								if($splitEachChar || $removeSpaces || preg_match ( $notermchar, '  ' . $string, $matches, 0, $last_pos - 1)==1){
 									$string = mb_substr ( $string, 0, $last_pos , 'UTF-8' );
 									$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
-									$pos=2*$cnt+$record2['SeFirstPos'] + $sentoffset;
+									$pos=2*$cnt+$record2['SeFirstPos'];
 								if($len!=1){
 									$txt='';
 									if(!($matches[1]==$textlc))$txt=$splitEachChar || $removeSpaces?$wis:$matches[1];

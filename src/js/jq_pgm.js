@@ -697,7 +697,7 @@ function keydown_event_do_text_text(e) {
 		if((WBLINK3.substr(0,8) == '*http://') || (WBLINK3.substr(0,9) == '*https://')){
 			owin('trans.php?x=1&i=' + ord + '&t=' + TID);
 		}
-		else  if ((WBLINK3.substr(0,7) == 'http://') || (WBLINK3.substr(0,8) == 'https://') || (WBLINK3.substr(0,7) == 'ggl.php')) {
+		else if ((WBLINK3.substr(0,7) == 'http://') || (WBLINK3.substr(0,8) == 'https://') || (WBLINK3.substr(0,7) == 'ggl.php')) {
 			window.parent.frames['ru'].location.href = 
 			'trans.php?x=1&i=' + ord + '&t=' + TID;
 		}
@@ -717,7 +717,12 @@ function keydown_event_do_text_text(e) {
 	}
 	if (e.which == 71) { //  G : edit term and open GTr
 		dict = '&nodict';
-		setTimeout(function(){window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK3,txt);}, 10);
+		setTimeout(function(){
+			if((WBLINK3.substr(0,8) == '*http://') || (WBLINK3.substr(0,9) == '*https://'))
+				owin(createTheDictUrl(WBLINK3.replace('*',''),txt));
+			else
+				window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK3,txt);
+		}, 10);
 	}
 	if (e.which == 69 || e.which == 71) { //  E / G: edit term
 		if(curr.hasClass('mword'))

@@ -496,11 +496,11 @@ function createTheDictLink(u,w,t,b) {
 	if (url != '' && txt != '') {
 		if(url.substr(0,1) == '*') {
 			r = ' ' + txtbefore + 
-			' <span class=\x22click\x22 onclick=\x22owin(\'' + createTheDictUrl(url.substring(1),escape_apostrophes(trm)) + '\');if($(\'a.edit\')[0]){window.parent.frames[\'ro\'].location.href =$(\'a.edit\').eq(0).attr(\'href\');}\x22>' + txt + '</span> ';
+			' <span class=\x22click\x22 onclick=\x22owin(\'' + createTheDictUrl(url.substring(1),escape_apostrophes(trm)) + '\');if($(\'a.edit\')[0]){window.parent.frames[\'ro\'].location.href =$(\'a.edit\').eq(0).attr(\'href\') + \'&nodict\';}\x22>' + txt + '</span> ';
 		} 
 		else {
 			r = ' ' + txtbefore + 
-			' <a onclick=\x22{if($(\'a.edit\')[0]){window.parent.frames[\'ro\'].location.href =$(\'a.edit\').eq(0).attr(\'href\') + \'&nodict\';}}\x22 href=\x22' + createTheDictUrl(url,trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
+			' <a onclick=\x22{if($(\'a.edit\')[0]){window.parent.frames[\'ro\'].location.href =$(\'a.edit\').eq(0).attr(\'href\') + \'&nodict\';}setTimeout(function(){window.parent.frames[\'ru\'].location.href =\'' + createTheDictUrl(url,trm) + '\'}, 10);}\x22 href=\x22javascript:{}\x22 target=\x22ru\x22>' + txt + '</a> ';
 		} 
 	}
 	return r;

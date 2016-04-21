@@ -37,7 +37,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.6.29 (April 12 2016)'  . 
+	return '1.6.29 (April 21 2016)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -1542,7 +1542,7 @@ function convert_regexp_to_sqlsyntax ($input) {
 		$num = $a[1];
 		$dec = hexdec($num);
 		return "&#$dec;";
-	}, preg_replace(array('/\\\\(?![-xtfrnvu])/u','/(?<=[[^])[\\\\]-/u'), array('','-'), $input));
+	}, preg_replace(array('/\\\\(?![-xtfrnvup])/u','/(?<=[[^])[\\\\]-/u'), array('','-'), $input));
 	return convert_string_to_sqlsyntax_nonull(html_entity_decode($output, ENT_NOQUOTES, 'UTF-8'));
 }
 
@@ -3191,10 +3191,6 @@ function splitCheckText($text, $lid, $id) {
 	//if(is_callable('normalizer_normalize')) $s = normalizer_normalize($s);
 
 	$file_name = sys_get_temp_dir() . "/" . $tbpref . "tmpti.txt";
-	/*if(!is_dir(sys_get_temp_dir() . "/lwt")){
-		mkdir(sys_get_temp_dir() . "/lwt",0777);
-		chmod(sys_get_temp_dir() . "/lwt", 0777);
-	}*/
 	do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'temptextitems');
 
 	$s = str_replace(array('}','{'),array(']','[') , $s);	// because of sent. spc. char
@@ -3204,40 +3200,66 @@ function splitCheckText($text, $lid, $id) {
 			$s = str_replace(trim($fromto[0]), trim($fromto[1]), $s);
 		}
 	}
-	$s = str_replace("\n", " ¶", $s);
-	$s = trim($s);
-	if ($splitEachChar) {
-		$s = preg_replace('/([^\s])/u', "$1\t", $s);
-	}
-	$s = preg_replace('/\s+/u', ' ', $s);
-	if ($id == -1) echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
-				//	"\r" => Sentence delimiter, "\t" and "\n" => Word delimiter
-	$s = preg_replace_callback("/(\S+)\s*((\.+)|([$splitSentence]))(['`\"”)\]‘’‹›“„«»』」]*)(?=(\s*)(\S+|$))/u", function ($matches) use ($noSentenceEnd) {//var_dump($matches);
-		if(!strlen ($matches[6]) && strlen ($matches[7]) && preg_match('/[a-zA-Z0-9]/', $matches[1][-1]))return preg_replace("/[.]/",".\t",$matches[0]);
-		if(is_numeric ($matches[1])){
-			 if( strlen ($matches[1])<3)return $matches[0];
-		}
-		else if($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u',$matches[1]) || preg_match('/^[AEIOUY]$/',$matches[1])))return $matches[0];
-		if(preg_match('/[.:]/',$matches[2])){
-			if(preg_match('/^[a-z]/', $matches[7]))return $matches[0];
-		}
-		if($noSentenceEnd != '' && preg_match('/^(' . $noSentenceEnd . ')$/',$matches[0]))return $matches[0];
-		return str_replace(".",".\t",$matches[1]).$matches[2].$matches[5]."\r";
-	},$s);
-	$s = str_replace(array("¶"," ¶"),array("¶\r","\r¶"), $s);
-	$s = preg_replace(array('/([^' . $termchar . '])/u','/\n([' . $splitSentence . '][\'`"”)\]‘’‹›“„«»』」]*)\n\t/u','/([0-9])[\n]([:.,])[\n]([0-9])/u'),array("\n$1\n","$1","$1$2$3"), $s);
-	if($id == -2){
-		return explode("\r", remove_spaces(str_replace(array("\r\r","\t","\n"),array("\r","",""),$s),$removeSpaces));
-	}
 
-	$fp = fopen($file_name, 'w');
-	fwrite($fp, remove_spaces(trim(preg_replace(array('/([^\n])\r/u','/\r([^\n])/u',"/\n[.](?!\n\r)/u"),array("$1\n\r","\r\n$1",".\n"),str_replace(array("\t","\n\n","\r\r"),array("\n","","\r") , $s))),$removeSpaces));
-	fclose($fp);
-	do_mysqli_query('SET @a=0, @b=' . ($id>0?'(SELECT max(`SeID`)+1 FROM `' . $tbpref . 'sentences`)':1) . ',@d=0;');
-	$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiOrder = if(@c="\\r",@a,@a:=@a+1), TiText = @c, TiSeID = if(@c="\\r",@b:=@b+1,@b),TiWordCount=(' . convert_regexp_to_sqlsyntax('¶' . $splitSentence) . ' not like concat("%",@c,"%")) and (@c rlike ' . convert_regexp_to_sqlsyntax('[' . $termchar . ']+') . '), TiCount = IF(@c="\\r",(@d:= 0), (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c))';
-	do_mysqli_query($sql);
-	do_mysqli_query('ALTER IGNORE TABLE ' . $tbpref . 'temptextitems ADD UNIQUE INDEX DelSentEnd (TiOrder)');
-	do_mysqli_query('ALTER TABLE ' . $tbpref . 'temptextitems DROP INDEX DelSentEnd');
+	if('MECAB'== strtoupper(trim($termchar))){
+		$os = strtoupper(substr(PHP_OS, 0, 3));
+		switch($os){
+			case 'LIN':
+				$mecab = 'mecab';
+				break;
+			case 'WIN':
+				$mecab = 'C:/"Program Files"/MeCab/bin/mecab.exe';
+				break;
+		}
+		$s = preg_replace('/[ \t]+/u', ' ', $s);
+		$s = trim($s);
+		if ($id == -1) echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p>" . str_replace("\n", "<br /><br />", tohtml($s)). "</p>";
+		$handle = popen($mecab .' -E¶\\\\t記号-句点\\\\n -F%m\\\\t%F-[0,1,2,3]\\\\n -U%m\\\\t%F-[0,1,2,3]\\\\n -o ' . $file_name,'w');
+		$write = fwrite($handle, $s);
+		pclose($handle);
+
+		runsql("CREATE TEMPORARY TABLE IF NOT EXISTS " . $tbpref . "temptextitems2 ( TiCount smallint(5) unsigned NOT NULL, TiSeID mediumint(8) unsigned NOT NULL, TiOrder smallint(5) unsigned NOT NULL, TiWordCount tinyint(3) unsigned NOT NULL, TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL) DEFAULT CHARSET=utf8",'');
+		do_mysqli_query('SET @a:=0, @g:=0, @s:=' . ($id>0?'(SELECT ifnull(max(`SeID`)+1,1) FROM `' . $tbpref . 'sentences`)':1) . ',@d:=0,@h:=0,@i:=0;');
+		$sql= 'LOAD DATA LOCAL INFILE ' . convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems2 FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c,@f) set TiSeID = if(@g=2,@s:=@s+(@d:=@h)+1,@s), TiCount = (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c), TiOrder = if(case when @f like \'記号-句点\' then @g:=2  when @f like \'記号%\' then @g:=1 when @f like \'名詞-数\' then @g:=1 when @c rlike \'[0-9a-zA-Z]+\' then @g:=1 else @g:=@h end is null, null, @a:=@a+if((@i=1) and (@g=1),0,1)+if((@i=0) and (@g=0),1,0)), TiText = @c, TiWordCount= case when (@i:=@g) is NULL then NULL when @g=0 then 1 else 0 end';
+		do_mysqli_query($sql);
+		do_mysqli_query('DELETE FROM ' . $tbpref . 'temptextitems2 WHERE TiOrder=@a');
+		do_mysqli_query('INSERT INTO ' . $tbpref . 'temptextitems (TiCount, TiSeID, TiOrder, TiWordCount, TiText) SELECT min(TiCount) s, TiSeID, TiOrder, TiWordCount, group_concat(TiText order by TiCount SEPARATOR \'\') FROM ' . $tbpref . 'temptextitems2 WHERE 1 group by TiOrder');
+		do_mysqli_query('DROP TABLE ' . $tbpref . 'temptextitems2');
+	}
+	else{
+		$s = str_replace("\n", " ¶", $s);
+		$s = trim($s);
+		if ($splitEachChar) {
+			$s = preg_replace('/([^\s])/u', "$1\t", $s);
+		}
+		$s = preg_replace('/\s+/u', ' ', $s);
+		if ($id == -1) echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>";
+					//	"\r" => Sentence delimiter, "\t" and "\n" => Word delimiter
+		$s = preg_replace_callback("/(\S+)\s*((\.+)|([$splitSentence]))(['`\"”)\]‘’‹›“„«»』」]*)(?=(\s*)(\S+|$))/u", function ($matches) use ($noSentenceEnd) {//var_dump($matches);
+			if(!strlen ($matches[6]) && strlen ($matches[7]) && preg_match('/[a-zA-Z0-9]/', substr($matches[1],-1)))return preg_replace("/[.]/",".\t",$matches[0]);
+			if(is_numeric ($matches[1])){
+				 if( strlen ($matches[1])<3)return $matches[0];
+			}
+			else if($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u',$matches[1]) || preg_match('/^[AEIOUY]$/',$matches[1])))return $matches[0];
+			if(preg_match('/[.:]/',$matches[2])){
+				if(preg_match('/^[a-z]/', $matches[7]))return $matches[0];
+			}
+			if($noSentenceEnd != '' && preg_match('/^(' . $noSentenceEnd . ')$/',$matches[0]))return $matches[0];
+			return str_replace(".",".\t",$matches[1]).$matches[2].$matches[5]."\r";
+		},$s);
+		$s = str_replace(array("¶"," ¶"),array("¶\r","\r¶"), $s);
+		$s = preg_replace(array('/([^' . $termchar . '])/u','/\n([' . $splitSentence . '][\'`"”)\]‘’‹›“„«»』」]*)\n\t/u','/([0-9])[\n]([:.,])[\n]([0-9])/u'),array("\n$1\n","$1","$1$2$3"), $s);
+		if($id == -2){
+			return explode("\r", remove_spaces(str_replace(array("\r\r","\t","\n"),array("\r","",""),$s),$removeSpaces));
+		}
+
+		$fp = fopen($file_name, 'w');
+		fwrite($fp, remove_spaces(trim(preg_replace(array('/[\n]+\r/u','/\r([^\n])/u',"/\n[.](?!\r)/u"),array("\r","\r\n$1",".\n"),str_replace(array("\t","\n\n","\r\r"),array("\n","","\r") , $s))),$removeSpaces));
+		fclose($fp);
+		do_mysqli_query('SET @a=0, @b=' . ($id>0?'(SELECT ifnull(max(`SeID`)+1,1) FROM `' . $tbpref . 'sentences`)':1) . ',@d=0,@e=0;');
+		$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiSeID = @b, TiCount = (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c), TiOrder = if(@c like "%\\r",case when (@c:=REPLACE(@c,"\\r","")) is NULL then NULL when (@b:=@b+1) is NULL then NULL when @d:= @e is NULL then NULL else @a:=@a+1 end, @a:=@a+1), TiText = @c,TiWordCount=(' . convert_regexp_to_sqlsyntax('¶' . $splitSentence) . ' not like concat("%",@c,"%")) and (@c rlike ' . convert_regexp_to_sqlsyntax('[' . $termchar . ']+') . ')';
+		do_mysqli_query($sql);
+	}
 	unlink($file_name);
 
 	if($id==-1){//check text
@@ -3291,7 +3313,7 @@ function splitCheckText($text, $lid, $id) {
 		do_mysqli_query ('insert into ' . $tbpref . 'textitems2 (Ti2WoID, Ti2SeID, Ti2Order, Ti2WordCount, Ti2Text) ' . $sql . 'select  WoID, TiSeID, TiOrder, TiWordCount, TiText FROM ' . $tbpref . 'temptextitems left join ' . $tbpref . 'words on lower(TiText) = WoTextLC and TiWordCount=1 and WoLgID = ' . $lid . ' order by TiOrder,TiWordCount');
 		do_mysqli_query ('ALTER TABLE ' . $tbpref . 'sentences ALTER SeLgID SET DEFAULT ' . $lid . ', ALTER SeTxID SET DEFAULT ' . $id);
 		do_mysqli_query ('set @a=0;');
-		do_mysqli_query('INSERT INTO ' . $tbpref . 'sentences ( SeOrder, SeFirstPos, SeText) SELECT @a:=@a+1,min(TiOrder),GROUP_CONCAT(TiText order by TiOrder SEPARATOR "") FROM ' . $tbpref . 'temptextitems group by TiSeID');
+		do_mysqli_query('INSERT INTO ' . $tbpref . 'sentences ( SeOrder, SeFirstPos, SeText) SELECT @a:=@a+1, min(if(TiWordCount=0,TiOrder+1,TiOrder)),GROUP_CONCAT(TiText order by TiOrder SEPARATOR "") FROM ' . $tbpref . 'temptextitems group by TiSeID');
 		do_mysqli_query ('ALTER TABLE ' . $tbpref . 'textitems2 ALTER Ti2LgID DROP DEFAULT, ALTER Ti2TxID DROP DEFAULT');
 		do_mysqli_query ('ALTER TABLE ' . $tbpref . 'sentences ALTER SeLgID DROP DEFAULT, ALTER SeTxID DROP DEFAULT');
 	}
@@ -3392,6 +3414,50 @@ function set_word_count () {
 	$i=0;
 	$min=0;
 	$max=0;
+
+	if(get_first_value('SELECT (@m := group_concat(LgID)) value FROM ' . $tbpref . 'languages WHERE UPPER(LgRegexpWordCharacters)="MECAB"')){
+		$db_to_mecab = sys_get_temp_dir() . "/lwt/' . $tbpref . 'db_to_mecab.txt";
+		$mecab_to_db = sys_get_temp_dir() . "/' . $tbpref . 'mecab_to_db.txt";
+		if(!is_dir(sys_get_temp_dir() . "/lwt")){
+			mkdir(sys_get_temp_dir() . "/lwt",0777);
+			chmod(sys_get_temp_dir() . "/lwt", 0777);
+		}
+		if(file_exists($db_to_mecab)) unlink($db_to_mecab);
+		$os = strtoupper(substr(PHP_OS, 0, 3));
+		switch($os){
+			case 'LIN':
+				$mecab = 'mecab';
+				break;
+			case 'WIN':
+				$mecab = 'C:/"Program Files"/MeCab/bin/mecab.exe';
+				break;
+		}
+
+		do_mysqli_query('SELECT WoID, WoTextLC FROM ' . $tbpref . 'words WHERE WoLgID in(@m) AND WoWordCount = 0 into outfile ' . convert_string_to_sqlsyntax($db_to_mecab));
+		$handle = popen($mecab .' -E\\\\n -F%m%F-[0,1,2,3]\\\\t -U%m%F-[0,1,2,3]\\\\t ' . $db_to_mecab, "r");
+		$fp = fopen($mecab_to_db, 'w');
+		if(!feof($handle)){
+			while (!feof($handle)) {
+				$row = fgets($handle,1024);
+				$arr  = explode("名詞-数\t",$row , 2);
+				//var_dump($arr);
+				if(!empty($arr[1])){
+					$cnt = substr_count(preg_replace(array('$記号[^\t]*\t$u','$名詞-数\t$u','$[0-9a-zA-Z][^\t]*\t$u'),array('','',''), $arr[1]),"\t");
+					if(empty($cnt)) $cnt =1;
+					fwrite($fp, $arr[0] . "\t" . $cnt . "\n");
+				}
+			}
+			pclose($handle);
+			fclose($fp);
+			do_mysqli_query('CREATE TEMPORARY TABLE ' . $tbpref . 'mecab ( MID mediumint(8) unsigned NOT NULL, MWordCount tinyint(3) unsigned NOT NULL, PRIMARY KEY (MID)) CHARSET=utf8');
+			do_mysqli_query('LOAD DATA LOCAL INFILE ' . convert_string_to_sqlsyntax($mecab_to_db) . ' INTO TABLE ' . $tbpref . 'mecab (MID, MWordCount)');
+			do_mysqli_query('UPDATE ' . $tbpref . 'words join ' . $tbpref . 'mecab on MID = WoID SET WoWordCount = MWordCount');
+			do_mysqli_query('DROP TABLE ' . $tbpref . 'mecab');
+
+			unlink($mecab_to_db);
+			unlink($db_to_mecab);
+		}
+	}
 	$sql= "select WoID, WoTextLC, LgRegexpWordCharacters, LgSplitEachChar from " . $tbpref . "words, " . $tbpref . "languages where WoWordCount=0 and WoLgID = LgID order by WoID";
 	$result = do_mysqli_query($sql);
 	while($rec = mysqli_fetch_assoc($result)){
@@ -3837,10 +3903,10 @@ function check_update_db() {
 		if ($debug) echo '<p>DEBUG: rebuilding textitems2</p>';
 		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "textitems2 ( Ti2WoID mediumint(8) unsigned NOT NULL, Ti2LgID tinyint(3) unsigned NOT NULL, Ti2TxID smallint(5) unsigned NOT NULL, Ti2SeID mediumint(8) unsigned NOT NULL, Ti2Order smallint(5) unsigned NOT NULL, Ti2WordCount tinyint(3) unsigned NOT NULL, Ti2Text varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, PRIMARY KEY (Ti2TxID,Ti2Order,Ti2WordCount), KEY Ti2WoID (Ti2WoID)) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 		if (in_array($tbpref . 'textitems', $tables) != FALSE) {
-			runsql('INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) select IFNULL(WoID,0), TiLgID,TiTxID, TiSeID, TiOrder, CASE WHEN TiIsNotWord = 1 THEN 0 ELSE TiWordCount END as WordCount, CASE WHEN STRCMP( TiText COLLATE utf8_bin ,TiTextLC)!=0 OR TiWordCount = 1 THEN TiText ELSE "" END as Text from ' . $tbpref . 'textitems left join ' . $tbpref . 'words on TiTextLC=WoTextLC and TiLgID=WoLgID where TiWordCount<2 or WoID IS NOT NULL','');
+			//runsql('INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) select IFNULL(WoID,0), TiLgID,TiTxID, TiSeID, TiOrder, CASE WHEN TiIsNotWord = 1 THEN 0 ELSE TiWordCount END as WordCount, CASE WHEN STRCMP( TiText COLLATE utf8_bin ,TiTextLC)!=0 OR TiWordCount = 1 THEN TiText ELSE "" END as Text from ' . $tbpref . 'textitems left join ' . $tbpref . 'words on TiTextLC=WoTextLC and TiLgID=WoLgID where TiWordCount<2 or WoID IS NOT NULL','');
 			runsql ('TRUNCATE ' . $tbpref . 'textitems','');
 		}
-		else $count++;
+		$count++;
 	}
 
 
@@ -3898,6 +3964,7 @@ function check_update_db() {
 		if ($debug) echo '<p>DEBUG: rebuilding archtexttags</p>';
 		runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "archtexttags ( AgAtID smallint(5) unsigned NOT NULL, AgT2ID smallint(5) unsigned NOT NULL, PRIMARY KEY (AgAtID,AgT2ID), KEY AgT2ID (AgT2ID) ) ENGINE=MyISAM DEFAULT CHARSET=utf8",'');
 	}
+	runsql('ALTER TABLE `' . $tbpref . 'sentences`  ADD SeFirstPos smallint(5) NOT NULL', '', $sqlerrdie = FALSE);
 	
 	if ($count > 0) {		
 		// Rebuild Text Cache if cache tables new
@@ -3951,7 +4018,7 @@ function check_update_db() {
 
 			runsql('ALTER TABLE `' . $tbpref . 'archivedtexts` MODIFY COLUMN `AtLgID` tinyint(3) unsigned NOT NULL, MODIFY COLUMN `AtID` smallint(5) unsigned NOT NULL, ADD INDEX AtLgIDSourceURI (AtSourceURI(20),AtLgID)','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'languages` MODIFY COLUMN `LgID` tinyint(3) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `LgRemoveSpaces` tinyint(1) unsigned NOT NULL, MODIFY COLUMN `LgSplitEachChar` tinyint(1) unsigned NOT NULL, MODIFY COLUMN `LgRightToLeft` tinyint(1) unsigned NOT NULL','', $sqlerrdie = FALSE);
-			runsql('ALTER TABLE `' . $tbpref . 'sentences`  ADD SeFirstPos smallint(5) NOT NULL, MODIFY COLUMN `SeID` mediumint(8) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `SeLgID` tinyint(3) unsigned NOT NULL, MODIFY COLUMN `SeTxID` smallint(5) unsigned NOT NULL, MODIFY COLUMN `SeOrder` smallint(5) unsigned NOT NULL','', $sqlerrdie = FALSE);
+			runsql('ALTER TABLE `' . $tbpref . 'sentences` MODIFY COLUMN `SeID` mediumint(8) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `SeLgID` tinyint(3) unsigned NOT NULL, MODIFY COLUMN `SeTxID` smallint(5) unsigned NOT NULL, MODIFY COLUMN `SeOrder` smallint(5) unsigned NOT NULL','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'texts` MODIFY COLUMN `TxID` smallint(5) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `TxLgID` tinyint(3) unsigned NOT NULL, ADD INDEX TxLgIDSourceURI (TxSourceURI(20),TxLgID)','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'words` MODIFY COLUMN `WoID` mediumint(8) unsigned NOT NULL AUTO_INCREMENT, MODIFY COLUMN `WoLgID` tinyint(3) unsigned NOT NULL, MODIFY COLUMN `WoStatus` tinyint(4) NOT NULL','', $sqlerrdie = FALSE);		
 			runsql('ALTER TABLE `' . $tbpref . 'words` DROP INDEX WoTextLC','', $sqlerrdie = FALSE);
@@ -3966,6 +4033,7 @@ function check_update_db() {
 			runsql('ALTER TABLE `' . $tbpref . 'temptextitems` ADD DROP INDEX TiTextLC','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'temptextitems` ADD  DROP TiTextLC','', $sqlerrdie = FALSE);
 			runsql('ALTER TABLE `' . $tbpref . 'temptextitems` ADD TiCount smallint(5) unsigned NOT NULL','', $sqlerrdie = FALSE);
+			runsql('UPDATE ' . $tbpref . 'sentences join ' . $tbpref . 'textitems2 on Ti2SeID=SeID and Ti2Order=SeFirstPos and Ti2WordCount=0 SET SeFirstPos=SeFirstPos+1','', $sqlerrdie = FALSE);
 		if ($debug) echo '<p>DEBUG: rebuilding tts</p>';
 		runsql("CREATE TABLE IF NOT EXISTS tts ( TtsID mediumint(8) unsigned NOT NULL AUTO_INCREMENT, TtsTxt varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, TtsLc varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, PRIMARY KEY (TtsID), UNIQUE KEY TtsTxtLC (TtsTxt,TtsLc) ) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=1",'');
 		
