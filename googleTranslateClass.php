@@ -2,12 +2,14 @@
 
 /**************************************************************
 
-Parameters - GoogleTranslate::staticTranslate($text,$sl,$tl,$domain = NULL):
+Parameters - GoogleTranslate::staticTranslate($text,$sl,$tl[,$time_token = NULL[,$domain = NULL]]):
 $text -> word to translate
 $sl -> source language code (i.e. en,de,fr,...)
 $tl -> target language code (i.e. en,de,fr,...)
 	all supported language codes can be found here: https://cloud.google.com/translate/v2/using_rest#language-params
-$domain (optional) -> connect to Google Domain (i.e. 'com' for  http://translate.google.com)
+$time_token (optional) -> array() from https://translate.google.com
+	if $time_token is empty, array(408254,585515986) is used
+$domain (optional) -> connect to Google Domain (i.e. 'com' for  https://translate.google.com)
 	if $domain is empty, a random domain will be used (the default value can be altered by changing DEFAULT_DOMAIN)
 	Possible values:
 		('com.ar', 'at', 'com.au', 'be', 'com.br', 'ca', 'cat', 'ch', 'cl', 'cn', 'cz', 'de', 'dk', 'es', 'fi', 'fr', 'gr', 'com.hk', 'hr', 'hu', 'co.id', 'ie', 'co.il', 'im', 'co.in', 'it', 'jm', 'co.jp', 'co.kr', 'com.mx', 'nl', 'no', 'pl', 'pt', 'ru', 'se', 'com.sg', 'co.th', 'com.tw', 'co.uk', 'com', 'za')
@@ -49,8 +51,8 @@ class GoogleTranslate {
 		 'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
 		);
 	}
-	private static final function  generateToken($str) {
-		$t = $c = floor(time()/3600);
+	private static final function  generateToken($str,$tok) {
+		$t = $c = isset($tok)?$tok[0]:408254;//todo floor(time()/3600);
 		$x = hexdec(80000000);
 		$z = 0xffffffff;
 		$y = PHP_INT_SIZE==8?0xffffffff00000000:0x00000000;
@@ -86,6 +88,7 @@ class GoogleTranslate {
 		if($b & $x) $b |= $y;
 		else $b &= $z;
 		$c += $b;
+		$c ^= isset($tok)?$tok[1]:585515986;//todo create from time() / TKK ggltrns
 		$c &= $z;
 		if(0 > $c){
 			$c = (($x ^ $c));
@@ -154,9 +157,9 @@ class GoogleTranslate {
 	public function translate($string) {
 		return $this->lastResult = self::staticTranslate($string, $this->langFrom, $this->langTo);
 	}
-	public static function staticTranslate($string, $from, $to, $domain = self::DEFAULT_DOMAIN) {
+	public static function staticTranslate($string, $from, $to, $time_token = NULL, $domain = self::DEFAULT_DOMAIN) {
 		self::setDomain($domain);
-		$url = sprintf(self::$urlFormat, self::$gglDomain, rawurlencode($string), $from, $to, self::generateToken($string));
+		$url = sprintf(self::$urlFormat, self::$gglDomain, rawurlencode($string), $from, $to, self::generateToken($string, $time_token));
 		$result = preg_replace('!([[,])(?=,)!', '$1[]', self::makeCurl($url));
 		$resultArray = json_decode($result, true);
 		$finalResult = "";
