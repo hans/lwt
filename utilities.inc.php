@@ -37,7 +37,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.6.30 (July 28 2016)'  . 
+	return '1.6.31 (October 03 2016)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -3289,10 +3289,10 @@ function splitCheckText($text, $lid, $id) {
 		}
 
 		$fp = fopen($file_name, 'w');
-		fwrite($fp, remove_spaces(trim(preg_replace(array("/\r(?=[]'`\"”)‘’‹›“„«»』」 ]*\r)/u",'/[\n]+\r/u','/\r([^\n])/u',"/\n[.](?![]'`\"”)‘’‹›“„«»』」]*\r)/u"),array("","\r","\r\n$1",".\n"),str_replace(array("\t","\n\n"),array("\n","") , $s))),$removeSpaces));
+		fwrite($fp, remove_spaces(preg_replace("/(\n|^)(?!1\t)/u","\n0\t",trim(preg_replace(array("/\r(?=[]'`\"”)‘’‹›“„«»』」 ]*\r)/u",'/[\n]+\r/u','/\r([^\n])/u',"/\n[.](?![]'`\"”)‘’‹›“„«»』」]*\r)/u","/(\n|^)(?=.?[$termchar][^\n]*\n)/u"),array("","\r","\r\n$1",".\n","\n1\t"),str_replace(array("\t","\n\n"),array("\n","") , $s)))),$removeSpaces));
 		fclose($fp);
 		do_mysqli_query('SET @a=0, @b=' . ($id>0?'(SELECT ifnull(max(`SeID`)+1,1) FROM `' . $tbpref . 'sentences`)':1) . ',@d=0,@e=0;');
-		$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@c) set TiSeID = @b, TiCount = (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c), TiOrder = if(@c like "%\\r",case when (@c:=REPLACE(@c,"\\r","")) is NULL then NULL when (@b:=@b+1) is NULL then NULL when @d:= @e is NULL then NULL else @a:=@a+1 end, @a:=@a+1), TiText = @c,TiWordCount=(' . convert_regexp_to_sqlsyntax('¶' . $splitSentence) . ' not like concat("%",@c,"%")) and (@c rlike ' . convert_regexp_to_sqlsyntax('[' . $termchar . ']+') . ')';
+		$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@w,@c) set TiSeID = @b, TiCount = (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c), TiOrder = if(@c like "%\\r",case when (@c:=REPLACE(@c,"\\r","")) is NULL then NULL when (@b:=@b+1) is NULL then NULL when @d:= @e is NULL then NULL else @a:=@a+1 end, @a:=@a+1), TiText = @c,TiWordCount=@w';
 		do_mysqli_query($sql);
 	}
 	unlink($file_name);
