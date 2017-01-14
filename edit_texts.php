@@ -383,6 +383,7 @@ if (isset($_REQUEST['new'])) {
 	<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>
 	</td>
 	</tr>
+	<?php if (isset($YT_API_KEY)) {require_once('text_from_yt.php');} ?>
 	<tr>
 	<td class="td1 right" colspan="2">
 	<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php';}" />
