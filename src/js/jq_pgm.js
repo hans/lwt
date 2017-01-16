@@ -235,11 +235,13 @@ function markClick() {
 	}
 }
 
-function showallwordsClick() {
-	var option = $('#showallwords:checked').length;
+function textModeChangeClick() {
+	var showAll = $('#showallwords:checked').length;
+	var showLeaning = $('#showlearningtranslations:checked').length;
 	var text = $('#thetextid').text();
 	window.parent.frames['ro'].location.href =
-		'set_text_mode.php?mode=' + option +
+		'set_text_mode.php?mode=' + showAll +
+		'&showLearning=' + showLeaning +
 		'&text=' + text;
 }
 
@@ -929,7 +931,8 @@ $(document).ready( function() {
 	$('input.impr-ann-radio').change(changeImprAnnRadio);
 	$('form.validate').submit(check);
 	$('input.markcheck').click(markClick);
-	$('#showallwords').click(showallwordsClick);
+	$('#showallwords').click(textModeChangeClick);
+	$('#showlearningtranslations').click(textModeChangeClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
 	$('#termtags').tagit(
 		{
