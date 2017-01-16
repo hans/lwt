@@ -64,6 +64,7 @@ $rtlScript = $record['LgRightToLeft'];
 mysqli_free_result($res);
 
 $showAll = getSettingZeroOrOne('showallwords',1);
+$showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 
 ?>
 <script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
@@ -137,8 +138,10 @@ $ruby=($mode_trans==2 || $mode_trans==4)?1:0;
 $displaystattrans=getSettingWithDefault('set-display-text-frame-term-translation');
 echo "<style>\n";
 $stat_arr = array(1,2,3,4,5,98,99);
-foreach ($stat_arr as $value) {
-	if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':',$pseudo_element,',.tword.content',$value,':',$pseudo_element,'{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':',$pseudo_element,'{color:rgba(0,0,0,0)}',"\n";
+if ($showLearning) {
+	foreach ($stat_arr as $value) {
+		if(checkStatusRange($value, $displaystattrans))echo '.wsty.status',$value,':',$pseudo_element,',.tword.content',$value,':',$pseudo_element,'{content: attr(',$data_trans,');}',"\n",'.tword.content',$value,':',$pseudo_element,'{color:rgba(0,0,0,0)}',"\n";
+	}
 }
 if($ruby){echo '.wsty {',($mode_trans==4?'margin-top: 0.2em;':'margin-bottom: 0.2em;'),'text-align: center;display: inline-block;',($mode_trans==2?'vertical-align: top;':''),'}',"\n";}
 if($ruby)echo '.wsty:',$pseudo_element,'{display: block !important;',($mode_trans==2?'margin-top: -0.05em;':'margin-bottom:  -0.15em;'),'}',"\n";

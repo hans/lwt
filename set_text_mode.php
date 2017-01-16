@@ -43,6 +43,7 @@ require_once( 'utilities.inc.php' );
 $tid = getreq('text') + 0;
 $showAll = getreq('mode') + 0;
 saveSetting('showallwords',$showAll);
+$previousShowLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 $showLearning = getreq('showLearning');
 saveSetting('showlearningtranslations', $showLearning);
 
@@ -54,7 +55,7 @@ flush();
 
 <script type="text/javascript">
 //<![CDATA[
-var method = 0;  // 0 (jquery) or 1 (reload)
+var method = <?php echo ($showLearning != $previousShowLearning ? '1' : '0'); ?>;  // 0 (jquery) or 1 (reload)
 if (method) window.parent.frames['l'].location.reload();
 else {
 var context = window.parent.frames['l'].document;
