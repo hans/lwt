@@ -162,7 +162,7 @@ class GoogleTranslate {
 		$url = sprintf(self::$urlFormat, self::$gglDomain, rawurlencode($string), $from, $to, self::generateToken($string, $time_token));
 		$result = preg_replace('!([[,])(?=,)!', '$1[]', self::makeCurl($url));
 		$resultArray = json_decode($result, true);
-		$finalResult = "";
+		$finalResult = [];
 		if (!empty($resultArray[0])) {
 			foreach ($resultArray[0] as $results) {
 				$finalResult[] = $results[0];
