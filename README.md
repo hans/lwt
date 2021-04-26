@@ -29,7 +29,20 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
 * Two database backup modes (new or old structure)
 
 
+# Install instructions
+## Run in [Docker](https://docs.docker.com/get-docker/)
+This repository contains docker-compose file to accomodate running LWT in a docker container.
+#### To use it, change into project root folder and run
 
+	docker-compose -f docker/docker-compose.yml up -d
+	
+#### By default the server can be accessed on port 8010
+http://localhost:8010
+
+To remove the created containers run
+
+	docker-compose -f docker/docker-compose.yml down
+	
 ---
 ## Original README from LWT
 

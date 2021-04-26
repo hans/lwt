@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  web:
+    build:
+      context: ./..
+      dockerfile: docker/Dockerfile
+      args:
+        - DB_HOSTNAME
+        - DB_USER
+        - DB_PASSWORD
+        - DB_DATABASE
+    container_name: lwt
+    depends_on:
+      - db
+    ports:
+      - "8010:80"
+    restart: unless-stopped
+  db:
+    container_name: lwt_db
+    environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    hostname: ${DB_HOSTNAME}
+    image: mariadb:10.5
+    restart: unless-stopped
+    volumes:
+        - lwt_db_data:/var/lib/mysql
+volumes:
+  lwt_db_data:
