@@ -1,8 +1,12 @@
 # Learning with Texts
 
-> [Learning with Texts](http://lwt.sf.net) (LWT) is a tool for Language Learning.
+> [Learning with Texts](https://sourceforge.net/projects/learning-with-texts) (LWT) is a tool for Language Learning.
 
-This is @PirtleShell's fork of [@andreask7's fork](https://github.com/andreask7/lwt). Its altered database structure makes it quicker, and it has many features not found in the original. It also looks more likely to develop communally, whereas the original is fairly stagnant and not open for contributions.
+This is @chaosarium's fork of [@PirtleShell's fork](https://github.com/pirtleshell/lwt) of [@andreask7's fork](https://github.com/andreask7/lwt). Its altered database structure makes it quicker, and it has many features not found in the original. It also looks more likely to develop communally, whereas the original is fairly stagnant and not open for contributions.
+
+If the reading page displays a database error, try downgrading to PHP version 5.4.45.
+
+[@gustavklopp's LingL](https://github.com/gustavklopp/LingL) is a wonderful alternative written in python.
 
 **THIS IS A THIRD PARTY VERSION**
 IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
@@ -27,8 +31,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
 * Selecting terms according to a text tag
 * Term import with more options (i.e.: combine translations, multiple tag import)
 * Two database backup modes (new or old structure)
-
-
+* My custom theme
 
 ---
 ## Original README from LWT
