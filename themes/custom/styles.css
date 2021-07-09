@@ -63,6 +63,7 @@ h4 {
   /* background-color: #f8f8f8; */
   /* border-bottom: solid 2px rgba(18, 145, 18, 0.212); */
   color: #000;
+  border-bottom: solid 2px rgba(43, 187, 43, 0);
 }
 .status99:hover {
   background-color: #e0f5da;
@@ -70,8 +71,8 @@ h4 {
   color: #000;
 }
 .status98 {
-  background-color: #f8f8f8;
-  border-bottom: dashed 2px rgb(196, 196, 196);
+  background-color: #b2abe02f;
+  border-bottom: dashed 2px #9885ff;
   color: #000;
 }
 .mwsty {
@@ -96,8 +97,8 @@ h4 {
   background-color: #f5b8a9;
 }
 .status5stat {
-  background-color: #bfb;
-  color: #000;
+  background-color: #a8eca8cf;
+  border-bottom: 2px solid #259f25;
 }
 .tword.lword,
 .nword.lword {
@@ -117,7 +118,7 @@ h4 {
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;
+  user-select: text;
 }
 textarea {
   font: 85% "Lucida Grande", Arial, sans-serif, STHeiti, "Arial Unicode MS",
@@ -457,4 +458,8 @@ dt {
 .tword:after, .word:after {
   max-width: 15em;
   opacity: 70%;
+}
+
+.bc98{
+  background: rgb(170, 133, 187) !important;
 }
