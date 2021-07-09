@@ -141,7 +141,7 @@ $(document).ready(init);
 	
 ?>
 
-<frameset cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
+<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
 	<frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
 		<frame src="do_test_header.php?<?php echo $p; ?>" scrolling="auto" name="h" />			
 		<frame src="empty.htm" scrolling="auto" name="l" />
