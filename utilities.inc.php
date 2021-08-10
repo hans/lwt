@@ -2827,21 +2827,6 @@ function mask_term_in_sentence($s,$regexword) {
 
 // new for unknown percent
 
-function textwordcountx($text) {
-	global $tbpref;
-	return get_first_value('select count(distinct TiTextLC) as value from ' . $tbpref . 'textitems where TiIsNotWord = 0 and TiWordCount = 1 and TiTxID = ' . $text);
-}
-
-function textworkcountx($text) {
-	global $tbpref;
-	return get_first_value('select count(distinct TiTextLC) as value from ' . $tbpref . 'textitems left join ' . $tbpref . 'words on TiTextLC = WoTextLC where TiWordCount = 1 and TiIsNotWord = 0 and TiTxID = ' . $text . ' and WoID is not null and TiLgID = WoLgID');
-}
-
-function textexprcountx($text) {
-	global $tbpref;
-	return get_first_value('select count(distinct TiTextLC) as value from ' . $tbpref . 'textitems left join ' . $tbpref . 'words on TiTextLC = WoTextLC where TiWordCount > 1 and TiIsNotWord = 0 and TiTxID = ' . $text . ' and WoID is not null and TiLgID = WoLgID');
-}
-
 function textwordcount($text) {
 	global $tbpref;
 	$r = $total = $total_unique = $expr = $expr_unique = $stat = $stat_unique = array();
