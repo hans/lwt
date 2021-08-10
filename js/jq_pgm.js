@@ -800,12 +800,21 @@ function set_word_counts(){
 		$('#saved_' + key).html(known?((SUW&2?knownu:known)-expr + '+' + expr):0);
 		todo = SUW&4?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known));
 		$('#todo_' + key).html(todo);
-		stat0 = SUW&8?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known));
+
+		// added unknown percent
+		console.log(SUW)
+		unknowncount = SUW&8?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known))
+		unknownpercent = SUW&8? Math.round(unknowncount * 10000 / (knownu + unknowncount)) / 100 : Math.round(unknowncount * 10000 / (known + unknowncount)) / 100
+		$('#unknownpercent_' + key).html(unknownpercent);
+		// end here
+
+		stat0 = SUW&16?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known));
 		$('#stat_0_' + key).html(stat0);
+
 	});
 	$( '.barchart' ).each(function(){
 		var id = $(this).find('span').first().attr('id').split('_')[2];
-		var v = SUW&8?parseInt(WORDCOUNTS.expru[id]||0) + parseInt(WORDCOUNTS.totalu[id]):parseInt(WORDCOUNTS.expr[id]||0) + parseInt(WORDCOUNTS.total[id]);
+		var v = SUW&16?parseInt(WORDCOUNTS.expru[id]||0) + parseInt(WORDCOUNTS.totalu[id]):parseInt(WORDCOUNTS.expr[id]||0) + parseInt(WORDCOUNTS.total[id]);
 		$(this).children('li').each(function(){
             // v is the text vocab size
             // ($(this).children('span').text()) gets the category word count
@@ -829,7 +838,7 @@ function word_count_click(){
 		else{
 			$(this).html("t");
 		}
-		SUW = (parseInt($('#chart').attr('data_wo_cnt'))<<3) + (parseInt($('#unknown').attr('data_wo_cnt'))<<2) + (parseInt($('#saved').attr('data_wo_cnt'))<<1) + (parseInt($('#total').attr('data_wo_cnt')));
+		SUW = (parseInt($('#chart').attr('data_wo_cnt'))<<4) + (parseInt($('#unknownpercent').attr('data_wo_cnt'))<<3) + (parseInt($('#unknown').attr('data_wo_cnt'))<<2) + (parseInt($('#saved').attr('data_wo_cnt'))<<1) + (parseInt($('#total').attr('data_wo_cnt')));
 		set_word_counts();
 	});
 }
