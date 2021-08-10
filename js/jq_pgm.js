@@ -783,10 +783,6 @@ function do_ajax_word_counts() {
 	},'json');
 }
 
-function getBaseLog(x, y) {
-    return Math.log(y) / Math.log(x);
-}
-
 function set_word_counts(){
 	$.each(WORDCOUNTS.totalu,function(key,value){
 		var knownu = known = todo = stat0 = 0;
