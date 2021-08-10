@@ -783,6 +783,10 @@ function do_ajax_word_counts() {
 	},'json');
 }
 
+function getBaseLog(x, y) {
+    return Math.log(y) / Math.log(x);
+}
+
 function set_word_counts(){
 	$.each(WORDCOUNTS.totalu,function(key,value){
 		var knownu = known = todo = stat0 = 0;
@@ -807,7 +811,15 @@ function set_word_counts(){
 		var id = $(this).find('span').first().attr('id').split('_')[2];
 		var v = SUW&8?parseInt(WORDCOUNTS.expru[id]||0) + parseInt(WORDCOUNTS.totalu[id]):parseInt(WORDCOUNTS.expr[id]||0) + parseInt(WORDCOUNTS.total[id]);
 		$(this).children('li').each(function(){
-			var h = (v - $(this).children('span').text()) * 25 / v;
+            // v is the text vocab size
+            // ($(this).children('span').text()) gets the category word count
+            // (25 / v) is vocab per pixel
+            // log scale so the size scaled becomes Math.log(($(this).children('span').text()))
+            // so the total height corresponding to text vocab after scaling should be Math.log(v)
+            // the proportion of column height to box height is thus (Math.log(($(this).children('span').text())) / Math.log(v))
+            // putting this back in pixel, we get (Math.log(($(this).children('span').text())) / Math.log(v)) * 25 should be the column height
+            // so (25 - (Math.log(($(this).children('span').text())) / Math.log(v)) * 25) is the intended border top size
+			var h = (25 - (Math.log(($(this).children('span').text())) / Math.log(v)) * 25);
 			$(this).css('border-top-width', h + 'px');
 		});
 	});
