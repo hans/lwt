@@ -805,7 +805,7 @@ function set_word_counts(){
 		console.log(SUW)
 		unknowncount = SUW&8?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known))
 		unknownpercent = SUW&8? Math.round(unknowncount * 10000 / (knownu + unknowncount)) / 100 : Math.round(unknowncount * 10000 / (known + unknowncount)) / 100
-		$('#unknownpercent_' + key).html(unknownpercent);
+		$('#unknownpercent_' + key).html(unknownpercent == 0 ? 0 : unknownpercent.toFixed(2));
 		// end here
 
 		stat0 = SUW&16?(parseInt(value) + parseInt( WORDCOUNTS.expru[key]||0) - parseInt(knownu)):(parseInt(WORDCOUNTS.total[key]) + parseInt( WORDCOUNTS.expr[key]||0) - parseInt(known));
