@@ -31,22 +31,26 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: edit_texts.php?....
-      ... markaction=[opcode] ... do actions on marked texts
-      ... del=[textid] ... do delete
-      ... arch=[textid] ... do archive
-      ... op=Check ... do check
-      ... op=Save ... do insert new
-      ... op=Change ... do update
-      ... op=Save+and+Open ... do insert new and open
-      ... op=Change+and+Open ... do update and open
-      ... new=1 ... display new text screen
-      ... chg=[textid] ... display edit screen
-      ... filterlang=[langid] ... language filter
-      ... sort=[sortcode] ... sort
-      ... page=[pageno] ... page
-      ... query=[titlefilter] ... title filter
-Manage active texts
+ * \file
+ * \brief Provides an interface to edit texts.
+ * 
+ * Call: edit_texts.php?....
+ * 	... markaction=[opcode] ... do actions on marked texts
+ *     ... del=[textid] ... do delete
+ *    ... arch=[textid] ... do archive
+ *     ... op=Check ... do check
+ *     ... op=Save ... do insert new
+ *     ... op=Change ... do update
+ *     ... op=Save+and+Open ... do insert new and open
+ *     ... op=Change+and+Open ... do update and open
+ *     ... new=1 ... display new text screen
+ *     ... chg=[textid] ... display edit screen
+ *     ... filterlang=[langid] ... language filter
+ *     ... sort=[sortcode] ... sort
+ *     ... page=[pageno] ... page
+ *     ... query=[titlefilter] ... title filter
+ * 
+ * Manage active texts
 ***************************************************************/
 
 require_once( 'settings.inc.php' );

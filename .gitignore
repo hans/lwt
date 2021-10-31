@@ -7,3 +7,4 @@ _*
 error.log
 access.log
 plugins
+*.bak

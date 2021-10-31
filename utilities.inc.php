@@ -31,18 +31,30 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-PHP Utility Functions
-Plus (at end): Database Connect, .. Select, .. Updates
+ * \file 
+ * \brief PHP Utility Functions
+ * 
+ * This file contains all the useful functions, and is a general
+ * wrapper.
+ * Plus (at end): Database Connect, .. Select, .. Updates
 ***************************************************************/
 
+/** 
+ * Returns LWT version for humans
+ * 
+ * Version is hardcoded in this function.
+ * For instance 1.6.31 (October 03 2016)
+ */
 function get_version() {
 	global $debug;
 	return '1.6.31 (October 03 2016)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
-// -------------------------------------------------------------
-
+/** 
+ * Returns a machine readable version number
+ * For instance v001.006.031
+ */
 function get_version_number() {
 	$r = 'v';
 	$v = get_version();
@@ -54,8 +66,10 @@ function get_version_number() {
 	return $r;  // 'vxxxyyyzzz' wenn version = x.y.z
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Make the script crash and returns an error message
+ * @param any $text Error text to output
+ */
 function my_die($text) {
 	echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
 		'<p><b>Fatal Error:</b> ' . 
@@ -1365,8 +1379,7 @@ function get_seconds_selectoptions($v) {
 	return $r;
 }
 
-// -------------------------------------------------------------
-
+/// Displays the main menu of navigation as a dropdown
 function quickMenu() {
 ?><select id="quickmenu" onchange="{var qm = document.getElementById('quickmenu'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { if (val == 'INFO') {top.location.href='info.htm';}else if (val == 'rss_import'){top.location.href = 'do_feeds.php?check_autoupdate=1';} else {top.location.href = val + '.php';}}}">
 <option value="" selected="selected">[Menu]</option>
@@ -1594,8 +1607,11 @@ function get_first_sepa() {
 	return $sepa;
 }
 
-// -------------------------------------------------------------
-
+/** 
+ * Convert a setting to 0 or 1
+ * @param type $key The input value
+ * @param type $dft Default value to use
+ */
 function getSettingZeroOrOne($key, $dft) {
 	$r = getSetting($key);
 	$r = ($r == '' ? $dft : ((((int) $r) !== 0) ? 1 : 0));
@@ -2937,6 +2953,19 @@ function getSentence($seid, $wordlc,$mode) {
 	                         // [1]=text, word in {} 
 }
 
+/** 
+ * Returns path to the MeCaB application.
+ * MeCaB can split Japanese text word by word
+ * @param String $mecab_args Arguments to add
+ */
+function get_mecab_path($mecab_args = '') {
+		$os = strtoupper(substr(PHP_OS, 0, 3));
+		if ($os == 'LIN') {
+			return 'mecab' . str_replace('\\','\\\\',$mecab_args);
+		if ($os == 'WIN')
+			return '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args;
+}
+
 // -------------------------------------------------------------
 
 function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) {
@@ -2958,15 +2987,7 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) {
 			$fp = fopen($mecab_file, 'w');
 			fwrite($fp, $wordlc . "\n");
 			fclose($fp);
-			$os = strtoupper(substr(PHP_OS, 0, 3));
-			switch($os){
-				case 'LIN':
-					$mecab = 'mecab' . str_replace('\\','\\\\',$mecab_args);
-					break;
-				case 'WIN':
-					$mecab = '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args;
-					break;
-			}
+			$mecab = get_mecab_path($mecab_args);
 			$handle = popen($mecab . $mecab_file, "r");
 			if (!feof($handle)) {
 				$row = fgets($handle,256);
@@ -3237,17 +3258,7 @@ function splitCheckText($text, $lid, $id) {
 	if('MECAB'== strtoupper(trim($termchar))){
 		//$mecab_args = ' -F %m\\t%F-[0,1,2,3]\\n -U %m\\t%F-[0,1,2,3]\\n -E ¶\\t記号-句点\\n ';
 		$mecab_args = ' -F %m\\t%t\\t%h\\n -U %m\\t%t\\t%h\\n -E EOS\\t3\\t7\\n ';
-		$os = strtoupper(substr(PHP_OS, 0, 3));
-		switch($os){
-			case 'LIN':
-				$mecab = 'mecab' . str_replace('\\','\\\\',$mecab_args);
-				$delim = "\\n";
-				break;
-			case 'WIN':
-				$mecab = '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args;
-				$delim = "\\r\\n";
-				break;
-		}
+		$mecab = get_mecab_path($mecab_args);
 		$s = preg_replace('/[ \t]+/u', ' ', $s);
 		$s = trim($s);
 		if ($id == -1) echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p>" . str_replace("\n", "<br /><br />", tohtml($s)). "</p>";
@@ -3419,15 +3430,7 @@ function insertExpressions ($textlc,$lid,$wid,$len,$mode) {
 			chmod(sys_get_temp_dir() . "/lwt", 0777);
 		}
 		if(file_exists($db_to_mecab)) unlink($db_to_mecab);
-		$os = strtoupper(substr(PHP_OS, 0, 3));
-		switch($os){
-			case 'LIN':
-				$mecab = 'mecab' . str_replace('\\','\\\\',$mecab_args);
-				break;
-			case 'WIN':
-				$mecab = '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args;
-				break;
-		}
+		$mecab = get_mecab_path($mecab_args);
 		do_mysqli_query('SELECT 0 SeID, 0 SeTxID, 0 SeFirstPos, ' . convert_string_to_sqlsyntax_notrim_nonull($wis) . ' SeText UNION SELECT SeID,SeTxID,SeFirstPos,SeText FROM sentences WHERE SeText like ' . convert_string_to_sqlsyntax_notrim_nonull('%' . $wis . '%') . ' into outfile ' . convert_string_to_sqlsyntax($db_to_mecab));
 		$handle = popen($mecab . $db_to_mecab, "r");
 		$fp = fopen($mecab_to_db, 'w');
@@ -3625,6 +3628,7 @@ function restore_file($handle, $title) {
 	return $message;
 }
 
+
 // -------------------------------------------------------------
 
 function set_word_count () {
@@ -3644,15 +3648,8 @@ function set_word_count () {
 			chmod(sys_get_temp_dir() . "/lwt", 0777);
 		}
 		if(file_exists($db_to_mecab)) unlink($db_to_mecab);
-		$os = strtoupper(substr(PHP_OS, 0, 3));
-		switch($os){
-			case 'LIN':
-				$mecab = 'mecab' . str_replace('\\','\\\\',$mecab_args);
-				break;
-			case 'WIN':
-				$mecab = '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args;
-				break;
-		}
+
+		$mecab = get_mecab_path($mecab_args);
 
 		do_mysqli_query('SELECT WoID, WoTextLC FROM ' . $tbpref . 'words WHERE WoLgID in(@m) AND WoWordCount = 0 into outfile ' . convert_string_to_sqlsyntax($db_to_mecab));
 		$handle = popen($mecab . $db_to_mecab, "r");
@@ -4095,7 +4092,7 @@ function check_update_db() {
   	$tables[] = $row[0];
 	mysqli_free_result($res);
 	
-	$count = 0;  // counter for cache rebuild
+	$count = 0;  /// counter for cache rebuild
 	
 	// Rebuild Tables if missing (current versions!)
 	
@@ -4282,15 +4279,19 @@ function check_update_db() {
 
 // -------------------------------------------------------------
 
-//////////////////  S T A R T  /////////////////////////////////
+// --------------------  S T A R T  ---------------------------//
 
 // Start Timer
 
 if (!empty($dspltime)) get_execution_time();
 
-// Connection, @ suppresses messages from function
-
-$DBCONNECTION = @mysqli_connect($server, $userid, $passwd, $dbname);
+/* 
+ * \var $DBCONNECTION
+ * \brief Connection to database
+ * Connect to the database
+ * 
+ */
+$DBCONNECTION = @mysqli_connect($server, $userid, $passwd, $dbname); // @ suppresses messages from function
 
 if ((! $DBCONNECTION) && mysqli_connect_errno() == 1049) {
 	$DBCONNECTION = @mysqli_connect($server, $userid, $passwd);
@@ -4308,8 +4309,13 @@ if (! $DBCONNECTION) my_die('DB connect error (MySQL not running or connection p
 @mysqli_query($DBCONNECTION, "SET SESSION sql_mode = ''");
 
 // *** GLOBAL VARIABLES ***
-// $tbpref = Current Table Prefix
-// $fixed_tbpref = Table Prefix is fixed, no changes possible
+/**
+ *  \var $tbpref 
+ * Current Table Prefix
+ */
+/** \var $fixed_tbpref
+ * Table Prefix is fixed, no changes possible
+ */
 // *** GLOBAL VARIABLES ***
 
 // Is $tbpref set in connect.inc.php? Take it and $fixed_tbpref=1.

@@ -31,8 +31,11 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: do_text_header.php?text=[textid]
-Show text header frame
+ * \file
+ * \brief Responsible for drawing the header when reading texts.
+ * 
+ * Call: do_text_header.php?text=[textid]
+ * Show text header frame
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -72,15 +75,20 @@ $showAll = getSettingZeroOrOne('showallwords', 1);
 $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 
 ?>
-<table class="width99pc"><tr><td class="center" colspan="7" style="padding:2px 5px 5px 5px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.
-[Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">Show All&nbsp;<input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> /></span>&nbsp;&nbsp;
-<span title="[Learning Translations] = ON: Terms with Learning Level&nbsp;1 display their translations under the term.
-[Learning Translations] = OFF: No translations are shown in the reading mode.">Learning Translations&nbsp;<input type="checkbox" id="showlearningtranslations" <?php echo get_checked($showLearning); ?> /></span>
-<span id="thetextid" class="hide"><?php echo $textid; ?></span></td></tr>
+<table class="width99pc">
+	<tr>
+		<td>TO DO:<span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span></td>
+		<td title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.
+[Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">Show All&nbsp;<input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> /></td>
+		<td title="[Learning Translations] = ON: Terms with Learning Level&nbsp;1 display their translations under the term.
+[Learning Translations] = OFF: No translations are shown in the reading mode.">Learning Translations&nbsp;<input type="checkbox" id="showlearningtranslations" <?php echo get_checked($showLearning); ?> /></td>
+	<td id="thetextid" class="hide"><?php echo $textid; ?></td>
+	<td><button onclick="">Read in browser</button></td>
+</tr>
 
 <?php
 
-makeAudioPlayer($audio,$pos);
+makeAudioPlayer($audio, $pos);
 
 ?>
 </table>

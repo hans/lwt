@@ -1,4 +1,5 @@
-
+<!-- \file From to import a file from YouTube 
+You need a personal YouTube API key. -->
 <tr>
 <td class="td1 right">YouTube Video Id:</td>
 <td class="td1">

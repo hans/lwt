@@ -31,8 +31,10 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: do_text.php?start=[textid]
-Start Reading a text (frameset)
+ * \file
+ * \brief Create the main window when reagin texts. 
+ * Call: do_text.php?start=[textid]
+ * Start Reading a text (frameset)
 ***************************************************************/
 
 require_once( 'settings.inc.php' );

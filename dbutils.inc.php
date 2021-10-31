@@ -31,11 +31,16 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Database Utility Functions
+ * \file
+ * \brief Database Utility Functions
+ * 
+ * This file is responsible for interacting with the database.
 ***************************************************************/
 
-// -------------------------------------------------------------
-
+/**
+ * Do a SQL query to the database. 
+ * It is a wrapper for "mysqli_query" function
+ */ 
 function do_mysqli_query($sql) {
 	$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
 	if ($res == FALSE) {
@@ -56,8 +61,13 @@ function do_mysqli_query($sql) {
 		return $res;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Run a SQL query, you can specify its behavior and error message.
+ * 
+ * @param String $sql MySQL query
+ * @param String $m Error message ('' to return the number of affected rows)
+ * @param Bool $sqlerrdie To die on errors (default = TRUE)
+ */
 function runsql($sql, $m, $sqlerrdie = TRUE) {
 	if ($sqlerrdie)
 		$res = do_mysqli_query($sql);
@@ -72,8 +82,10 @@ function runsql($sql, $m, $sqlerrdie = TRUE) {
 	return $message;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Returns the first line from the database 
+ * @param String $sql MySQL query
+ */
 function get_first_value($sql) {
 	$res = do_mysqli_query($sql);		
 	$record = mysqli_fetch_assoc($res);

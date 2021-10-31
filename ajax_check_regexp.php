@@ -47,15 +47,7 @@ $old_error = error_reporting(0); // Turn off error reporting
 $err = 0;
 
 if('MECAB'== strtoupper(trim($regex))){
-	$os = strtoupper(substr(PHP_OS, 0, 3));
-	switch($os){
-		case 'LIN':
-			$mecab = 'mecab';
-			break;
-		case 'WIN':
-			$mecab = '"%ProgramFiles%/MeCab/bin/mecab.exe"';
-			break;
-	}
+	$mecab = get_mecab_path();
 	$conf = shell_exec($mecab . " -P");
 	$conf_data = array();
 	foreach (explode("\n", $conf) as $cLine) {
