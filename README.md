@@ -32,6 +32,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
 * Term import with more options (i.e.: combine translations, multiple tag import)
 * Two database backup modes (new or old structure)
 * My custom theme
+* Support for MeCaB for Japanese word-by-word automatic translation
 
 ---
 ## Original README from LWT

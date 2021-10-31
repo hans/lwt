@@ -167,10 +167,15 @@ $langDefs = array(
 	".!?:;", 
 	false, false, false),
 
-"Japanese" => 
+"Japanese character-by-character" => 
 	array("ja", "ja", true, 
-	"\\x{4E00}-\\x{9FFF}\\x{F900}-\\x{FAFF}" . 
-	"\\x{3040}-\\x{30FF}\\x{31F0}-\\x{31FF}", 
+	"\\x{4E00}-\\x{9FFF}\\x{F900}-\\x{FAFF}\\x{3040}-\\x{30FF}\\x{31F0}-\\x{31FF}",
+	".!?:;。！？：；", 
+	true, true, false),
+
+"Japanese word-by-word (need MeCab, experiental)" => 
+	array("ja", "ja", true, 
+	"mecab",
 	".!?:;。！？：；", 
 	true, true, false),
 

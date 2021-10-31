@@ -34,9 +34,9 @@ For more information, please refer to [http://unlicense.org/].
 DB variables for MAMP
 ***************************************************************/
 
-$server = "localhost:8889";
-$userid = "root";
+$server = "localhost";
+$userid = "lwt-fork";
 $passwd = "root";
-$dbname = "learning-with-texts";
+$dbname = "learning-with-texts-fork";
 
 ?>

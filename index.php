@@ -85,6 +85,7 @@ echo '<table class="tab3" cellspacing="0" cellpadding="5"><tr><th class="th1">Hi
 if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not enabled! Please enable! ***</p>');
 //]]>
 </script>
+<p>Welcome to your language learning app!</p> 
 
 <?php if ($langcnt > 0 ) { ?>
 
