@@ -2959,11 +2959,11 @@ function getSentence($seid, $wordlc,$mode) {
  * @param String $mecab_args Arguments to add
  */
 function get_mecab_path($mecab_args = '') {
-		$os = strtoupper(substr(PHP_OS, 0, 3));
-		if ($os == 'LIN') {
-			return 'mecab' . str_replace('\\','\\\\',$mecab_args);
-		if ($os == 'WIN')
-			return '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args;
+	$os = strtoupper(substr(PHP_OS, 0, 3));
+	if ($os == 'LIN')
+		return 'mecab' . str_replace('\\','\\\\',$mecab_args);
+	if ($os == 'WIN')
+		return '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args;
 }
 
 // -------------------------------------------------------------
@@ -4289,7 +4289,6 @@ if (!empty($dspltime)) get_execution_time();
  * \var $DBCONNECTION
  * \brief Connection to database
  * Connect to the database
- * 
  */
 $DBCONNECTION = @mysqli_connect($server, $userid, $passwd, $dbname); // @ suppresses messages from function
 
@@ -4310,7 +4309,7 @@ if (! $DBCONNECTION) my_die('DB connect error (MySQL not running or connection p
 
 // *** GLOBAL VARIABLES ***
 /**
- *  \var $tbpref 
+ * \var $tbpref 
  * Current Table Prefix
  */
 /** \var $fixed_tbpref

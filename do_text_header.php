@@ -32,10 +32,10 @@ For more information, please refer to [http://unlicense.org/].
 
 /**************************************************************
  * \file
- * \brief Responsible for drawing the header when reading texts.
+ * \brief Show text header frame
  * 
  * Call: do_text_header.php?text=[textid]
- * Show text header frame
+ * Responsible for drawing the header when reading texts.
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -44,7 +44,7 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
 $textid = getreq('text');
-$sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition from ' . $tbpref . 'texts where TxID = ' . $textid;
+$sql = 'select TxLgID, TxText, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 
@@ -75,6 +75,36 @@ $showAll = getSettingZeroOrOne('showallwords', 1);
 $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 
 ?>
+<script type="text/javascript">
+	/// Main object for text-to-speech interaction
+	var text_reader = {
+		/// The text to read
+		text: `<?php echo htmlentities($record["TxText"]); ?>`,
+
+		/// {string} ISO code for the language
+		lang: 'ru',
+
+		/**
+		 * Reads a text using the browser text reader
+		 */
+		readTextAloud: function () {
+			var msg = new SpeechSynthesisUtterance();
+			msg.text = this.text;
+			msg.lang = this.lang;
+			window.speechSynthesis.speak(msg);
+		},
+
+	};
+
+	/// Check browser compatibility before reading
+	function init_reading() {
+		if (!'speechSynthesis' in window) {
+			alert('Your browser is not compatible with speechSynthesis!');
+		} else {
+			text_reader.readTextAloud();
+		}
+	}
+</script>
 <table class="width99pc">
 	<tr>
 		<td>TO DO:<span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span></td>
@@ -83,7 +113,7 @@ $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 		<td title="[Learning Translations] = ON: Terms with Learning Level&nbsp;1 display their translations under the term.
 [Learning Translations] = OFF: No translations are shown in the reading mode.">Learning Translations&nbsp;<input type="checkbox" id="showlearningtranslations" <?php echo get_checked($showLearning); ?> /></td>
 	<td id="thetextid" class="hide"><?php echo $textid; ?></td>
-	<td><button onclick="">Read in browser</button></td>
+	<td><button id="readTextButton">Read in browser</button></td>
 </tr>
 
 <?php
@@ -99,6 +129,10 @@ $(window).on('beforeunload',function() {
 	$.ajax({type: "POST",url:'ajax_save_text_position.php', data: { id: '<?php echo $_REQUEST['text']; ?>', audioposition: pos }, async:false});
 });
 <?php } ?>
+	// We need to capture the event manually for Chrome
+	$(document).ready(function(){
+		$('#readTextButton').click(init_reading)
+	});
 </script>
 <?php
 pageend();

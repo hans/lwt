@@ -32,9 +32,9 @@ For more information, please refer to [http://unlicense.org/].
 
 /**************************************************************
  * \file
- * \brief Create the main window when reagin texts. 
+ * \brief Start Reading a text (frameset) 
  * Call: do_text.php?start=[textid]
- * Start Reading a text (frameset)
+ * Create the main window when reading texts.
 ***************************************************************/
 
 require_once( 'settings.inc.php' );

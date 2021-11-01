@@ -38,10 +38,39 @@ For more information, please refer to [http://unlicense.org/].
 Display empty screen
 ************************************************************ -->
 	<title> 
-		Learning with Texts
+		Learning with Texts - Database
 	</title> 
 </head>
 <body>
-    <p>Please see the code documentation <a href="./html/index.html">here</a>.</p>
-    <p>Database documentation is <a href="./database.html">here</a>.</p>
+	<p>This file roughly document the structure of the database. It is temporary before an automated file is used.</p>
+	<h2>_lwtgeneral</h2>
+	<p>General purpose table.</p>
+	<h2>archivedtexts</h2>
+	<h2>archtexttags</h2>
+	<h2>feedlinks</h2>
+	<h2>languages</h2>
+	<p>Main table for the languages</p>
+	<p>Keys: 
+	LgID | LgName | LgDict1URI | LgDict2URI | LgGoogleTranslateURI |LgExportTemplate | LgTextSize | LgCharacterSubstitutions | LgRegexpSplitSentences | LgExceptionsSplitSentences | LgRegexpWordCharacters | LgRemoveSpaces | LgSplitEachChar | LgRightToLeft </p>
+	<h2>newsfeeds</h2>
+	<h2>sentences</h2>
+	<h2>settings</h2>
+	<h2>tags</h2>
+	<h2>tags2</h2>
+	<h2>temptextitems</h2>
+	<h2>tempwords</h2>
+	<h2>textitems2</h2>
+	<h2>texts</h2>
+	<p>All your recorded texts</p>
+	<p>Keys:
+	TxID | TxLgID | TxTitle | TxText | TxAnnotatedText | TxAudioURI | TxSourceURI | TxPosition | TxAudioPosition
+	</p>
+	<h2>texttags</h2>
+	<h2>tts</h2>
+	<h2>words</h2>
+	<p>Recorded words</p>
+	<p>Keys: 
+	WoID | WoLgID | WoText | WoTextLC | WoStatus | WoTranslation | WoRomanization | WoSentence | WoWordCount | WoCreated | WoStatusChanged | WoTodayScore | WoTomorrowScore | WoRandom</p>
+	<h2>wordtags</h2>
 </body>
+</html>

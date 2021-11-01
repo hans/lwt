@@ -20,7 +20,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
-  <td id="projectlogo"><img alt="Logo" src="favicon.ico"/></td>
+  <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
    <div id="projectname">Learning with Texts - Fork
    </div>
@@ -70,7 +70,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Responsible for drawing the header when reading texts.  
+<p>Show text header frame.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
@@ -79,7 +79,7 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$textid</b> = getreq('text')</td></tr>
 <tr class="separator:a023626592a25cd2baba8feb6eee16401"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a047170d6020a882807665812a27e2525"><td class="memItemLeft" align="right" valign="top"><a id="a047170d6020a882807665812a27e2525" name="a047170d6020a882807665812a27e2525"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition from ' . $tbpref . 'texts where TxID = ' . $textid</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select TxLgID, TxText, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition from ' . $tbpref . 'texts where TxID = ' . $textid</td></tr>
 <tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
@@ -110,13 +110,13 @@ Variables</h2></td></tr>
 <tr class="separator:a2ebb4f178eac5a7e1f8466a47a81d4c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Responsible for drawing the header when reading texts. </p>
+<div class="textblock"><p >Show text header frame. </p>
 <p >"Learning with Texts" (LWT) is free and unencumbered software released into the PUBLIC DOMAIN.</p>
 <p >Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.</p>
 <p >In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.</p>
 <p >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <p >For more information, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
-<p >Call: <a class="el" href="do__text__header_8php.html" title="Responsible for drawing the header when reading texts.">do_text_header.php</a>?text=[textid] Show text header frame </p>
+<p >Call: <a class="el" href="do__text__header_8php.html" title="Show text header frame.">do_text_header.php</a>?text=[textid] Responsible for drawing the header when reading texts. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
