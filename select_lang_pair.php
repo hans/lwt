@@ -31,8 +31,9 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: select_lang_pair.php
-Display Language Pair Selection Window for Wizard
+ * \file
+ * \brief Display Language Pair Selection Window for Wizard
+ * Call: select_lang_pair.php
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -41,6 +42,7 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 require_once( 'langdefs.inc.php' );
 
+/// Returns a dropdown menu of the different languages
 function get_wizard_selectoptions($v) {
 	global $langDefs;
 	$r = "<option value=\"\"" . get_selected($v,"") . ">[Choose...]</option>";
@@ -62,6 +64,7 @@ $currentnativelanguage = getSetting('currentnativelanguage');
 
 <?php echo "var LANGDEFS = " . json_encode($langDefs) . ";\n"; ?>
 
+/// Execute the wizard
 function wizard_go() {
 	var l1 = $('#l1').val();
 	var l2 = $('#l2').val();
@@ -101,16 +104,17 @@ function wizard_go() {
 	wizard_exit();
 }
 
+/// Closes the wizard
 function wizard_exit() {
 	window.close();
 }
 
 //]]>
 $(function(){
-$('.center').addClass('backlightyellow');
-bg=$('.center').css('background-color');
-$('body').css('background-color',bg);
-$('.center').removeClass('backlightyellow');
+	$('.center').addClass('backlightyellow');
+	bg=$('.center').css('background-color');
+	$('body').css('background-color',bg);
+	$('.center').removeClass('backlightyellow');
 });
 </script>
 

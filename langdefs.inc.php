@@ -31,12 +31,13 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Language Settings for Wizard
+ * \file
+ * \brief Language Settings for Wizard
 ***************************************************************/
 
+/// All the supported languages
 // "Name" => ("glosbeIso", "googleIso", biggerFont, "wordCharRegExp",
-//           "sentSplRegExp", makeCharacterWord, removeSpaces, rightToLeft)
-
+//            "sentSplRegExp", makeCharacterWord, removeSpaces, rightToLeft)
 $langDefs = array(
 
 "Afrikaans" => 
@@ -167,14 +168,9 @@ $langDefs = array(
 	".!?:;", 
 	false, false, false),
 
-"Japanese character-by-character" => 
+"Japanese" => 
 	array("ja", "ja", true, 
-	"\\x{4E00}-\\x{9FFF}\\x{F900}-\\x{FAFF}\\x{3040}-\\x{30FF}\\x{31F0}-\\x{31FF}",
-	".!?:;。！？：；", 
-	true, true, false),
-
-"Japanese word-by-word (need MeCab, experiental)" => 
-	array("ja", "ja", true, 
+	//"\\x{4E00}-\\x{9FFF}\\x{F900}-\\x{FAFF}\\x{3040}-\\x{30FF}\\x{31F0}-\\x{31FF}",
 	"mecab",
 	".!?:;。！？：；", 
 	true, true, false),

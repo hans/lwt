@@ -66,7 +66,7 @@ if('MECAB'== strtoupper(trim($regex))){
 				$dic_data[$cKey] = trim($cValue);
 			}
 		}
-		if($dic_data["charset"]!="UTF-8")echo "ERROR\n\nWRONG ENCODING!\nMecab Dictionary must compiled with UTF-8!\n";
+		if($dic_data["charset"]!="UTF-8")echo "ERROR\n\nWRONG ENCODING!\nMeCab Dictionary must compiled with UTF-8!\n";
 	}
 	else {
 		echo "ERROR\n\nCould not find '" . $mecab . "'\n";

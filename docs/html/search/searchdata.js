@@ -2,8 +2,8 @@ var indexSectionsWithContent =
 {
   0: "$_cdegilmpqrstuv",
   1: "gm",
-  2: "deu",
-  3: "_cdgimpqrsv",
+  2: "delsu",
+  3: "_cdegimpqrstv",
   4: "$dmv",
   5: "dlt"
 };

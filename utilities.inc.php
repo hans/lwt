@@ -2954,8 +2954,8 @@ function getSentence($seid, $wordlc,$mode) {
 }
 
 /** 
- * Returns path to the MeCaB application.
- * MeCaB can split Japanese text word by word
+ * Returns path to the MeCab application.
+ * MeCab can split Japanese text word by word
  * @param String $mecab_args Arguments to add
  */
 function get_mecab_path($mecab_args = '') {
@@ -3056,8 +3056,7 @@ function AreUnknownWordsInSentence ($sentno) {
 	return false;
 }
 
-// -------------------------------------------------------------
-
+/// Returns an array of the statuses 
 function get_statuses() {
 	static $statuses;
 	if (!$statuses) {
@@ -3074,8 +3073,7 @@ function get_statuses() {
 	return $statuses;
 }
 
-// -------------------------------------------------------------
-
+/// Return a dictionary of languages name - id
 function get_languages() {
 	global $tbpref;
 	$langs = array();
@@ -3181,8 +3179,7 @@ function reparse_all_texts() {
 	mysqli_free_result($res);
 }
 
-// -------------------------------------------------------------
-
+/// Returns a language name from its id
 function getLanguage($lid) {
 	global $tbpref;
 	if ( ! isset($lid) ) return '';
@@ -3207,7 +3204,11 @@ function getScriptDirectionTag($lid) {
 	return '';
 }
 
-// -------------------------------------------------------------
+/**
+ * Debug function
+ * @param Any $var A printed variable to debug
+ * @param String $text Echoed text in HTML page
+ */
 
 function echodebug($var,$text) {
 	global $debug;
@@ -3892,11 +3893,53 @@ function get_annotation_link($textid) {
 		return '';
 }
 
-// -------------------------------------------------------------
-
+/// Like trim, but in place (modify variable)
 function trim_value(&$value) 
 { 
 	$value = trim($value); 
+}
+
+/*
+ * Return text to so that it can be read by an automatic audio player.
+ * Some non-phonetic alphabet will need this, currently only Japanese
+ * is supported, using MeCaB.
+ * @param String $text Text to be converted
+ * @param String $lang Language code (usually BCP 47 or ISO 639-1)
+ */
+function phonetic_reading($text, $lang) {
+	if ($lang == 'ja' || $lang == 'jp-JP' || $lang == 'jp' ) {
+		$mecab_file = sys_get_temp_dir() . "/" . $tbpref . "mecab_to_db.txt";
+		$mecab_args = ' -O yomi '; // ' -F {%m%t\\t -U {%m%t\\t -E \\n '; 
+		if (file_exists($mecab_file)) 
+			unlink($mecab_file);
+		$fp = fopen($mecab_file, 'w');
+		fwrite($fp, $text . "\n");
+		fclose($fp);
+		$mecab = get_mecab_path($mecab_args);
+		$handle = popen($mecab . $mecab_file, "r");
+		/// Output string
+		$mecab_str = '';
+		while (($line = fgets($handle, 4096)) !== false) {
+	        $mecab_str .= $line; 
+	    }
+	    if (!feof($handle)) {
+	        echo "Error: unexpected fgets() fail\n";
+	    }
+	    /*
+		if (!feof($handle)) {
+			$mecab = fread($handle, filesize($mecab_file))
+			/*$row = fgets($handle);
+			$mecab_str = "\t" . str_replace(
+				array('{',"\n"),
+				array('',''),
+				preg_replace_callback('$(([267])|[0-9])\t$u', function($matches){if(isset($matches[2])) return "\t"; else return "";}, $row)
+			);
+		}*/
+		pclose($handle);
+		unlink($mecab_file);
+		return $mecab_str;
+	} 
+	return $text;
 }
 
 // -------------------------------------------------------------

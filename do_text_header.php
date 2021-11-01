@@ -42,9 +42,15 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+// To get the BCP 47 language tag
+require_once( 'langdefs.inc.php' );
 
 $textid = getreq('text');
-$sql = 'select TxLgID, TxText, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition from ' . $tbpref . 'texts where TxID = ' . $textid;
+$sql = 'select LgName, TxLgID, TxText, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition 
+from ' . $tbpref . 'texts 
+join ' . $tbpref . 'languages 
+on TxLgID = LgID 
+where TxID = ' . $textid;
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 
@@ -76,13 +82,16 @@ $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 
 ?>
 <script type="text/javascript">
-	/// Main object for text-to-speech interaction
+	/// Main object for text-to-speech interaction with SpeechSynthesisUtterance
 	var text_reader = {
 		/// The text to read
-		text: `<?php echo htmlentities($record["TxText"]); ?>`,
+		text: `<?php echo htmlentities(phonetic_reading($record["TxText"], $langDefs[$record["LgName"]][1])); ?>`,
 
 		/// {string} ISO code for the language
-		lang: 'ru',
+		lang: '<?php global $langDefs; echo htmlentities($langDefs[$record["LgName"]][1]); ?>',
+
+		/// {string} Rate at wich the speech is done
+		rate: 0.8,
 
 		/**
 		 * Reads a text using the browser text reader
@@ -91,6 +100,7 @@ $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 			var msg = new SpeechSynthesisUtterance();
 			msg.text = this.text;
 			msg.lang = this.lang;
+			msg.rate = this.rate;
 			window.speechSynthesis.speak(msg);
 		},
 

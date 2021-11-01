@@ -31,14 +31,16 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: edit_languages.php?....
+ * \file
+ * \brief Manage languages
+ * 
+ * Call: edit_languages.php?....
       ... refresh=[langid] ... reparse all texts in lang
       ... del=[langid] ... do delete
       ... op=Save ... do insert new 
       ... op=Change ... do update 
       ... new=1 ... display new lang. screen 
       ... chg=[langid] ... display edit screen 
-Manage languages
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -54,10 +56,10 @@ pagestart('My Languages',true);
 //<![CDATA[
 <?php echo "var LANGUAGES = " . json_encode(get_languages()) . ";\n"; ?>
 
+/// Check if langname exists and its lang# != curr
 function check_dupl_lang(curr) {
-	// Check if langname exists and its lang# != curr
 	var l = $('#LgName').val();
-	if(l in LANGUAGES) {
+	if (l in LANGUAGES) {
 		if (curr != LANGUAGES[l]) {
 			alert ('Language "' + l + '" exists already. Please change the language name!');
 			$('#LgName').focus();
