@@ -56,21 +56,22 @@ function setTransRoman(tra, rom) {
 	makeDirty();
 }
 
-function getUTF8Length(string) {
-	var utf8length = 0;
-	for (var n = 0; n < string.length; n++) {
-		var c = string.charCodeAt(n);
-		if (c < 128) {
-			utf8length++;
-		}
-		else if((c > 127) && (c < 2048)) {
-			utf8length = utf8length+2;
-		}
-		else {
-			utf8length = utf8length+3;
-		}
+function containsCharacterOutsideBasicMultilingualPlane(s) {
+  return /[\uD800-\uDFFF]/.test(s);
+}
+
+function alertFirstCharacterOutsideBasicMultilingualPlane(s,info) {
+	var match = /[\uD800-\uDFFF]/.exec(s);
+	if (match) {
+		alert('ERROR\n\nText "' + info + '" contains invalid character(s) (in the Unicode Supplementary Multilingual Planes, > U+FFFF) like emojis or very rare characters.\n\nFirst invalid character: "' + s.substring(match.index, match.index+2) + '" at position ' + (match.index+1) + '.\n\nMore info: https://en.wikipedia.org/wiki/Plane_(Unicode)\n\nPlease remove this/these character(s) and try again.');
+    return 1;
+	} else {
+		return 0;
 	}
-	return utf8length;
+}
+
+function getUTF8Length(s) {
+	return (new Blob([String(s)]).size);
 }
 
 function scrollToAnchor(aid){
@@ -81,9 +82,12 @@ function changeImprAnnText() {
 	var textid = $('#editimprtextdata').attr('data_id');
 	$(this).prev('input:radio').attr('checked', 'checked');
 	var elem = $(this).attr('name');
+	var idwait = '#wait' + elem.substring(2);
+	$(idwait).html('<img src="icn/waiting2.gif" />');
 	var thedata = JSON.stringify($('form').serializeObject());
 	$.post('ajax_save_impr_text.php', { id: textid, elem: elem, data : thedata }
 		, function(d) { 
+				$(idwait).html('<img src="icn/empty.gif" />');
 				if(d != 'OK') 
 					alert('Saving your changes failed, please reload page and try again!'); 
 			} 
@@ -93,9 +97,12 @@ function changeImprAnnText() {
 function changeImprAnnRadio() {
 	var textid = $('#editimprtextdata').attr('data_id');
 	var elem = $(this).attr('name');
+	var idwait = '#wait' + elem.substring(2);
+	$(idwait).html('<img src="icn/waiting2.gif" />');
 	var thedata = JSON.stringify($('form').serializeObject());
 	$.post('ajax_save_impr_text.php', { id: textid, elem: elem, data : thedata }
 		, function(d) { 
+				$(idwait).html('<img src="icn/empty.gif" />');
 				if(d != 'OK') 
 					alert('Saving your changes failed, please reload page and try again!'); 
 			} 
@@ -172,10 +179,22 @@ function check() {
 			}
 		}
 	} );
+	$('input.checkoutsidebmp').each( function(n) {
+		if ($(this).val().trim().length > 0) {
+			if (containsCharacterOutsideBasicMultilingualPlane($(this).val())) {
+				count += alertFirstCharacterOutsideBasicMultilingualPlane($(this).val(), $(this).attr('data_info'));
+			}
+		}
+	} );
 	$('textarea.checklength').each( function(n) {
 		if($(this).val().trim().length > (0 + $(this).attr('data_maxlength'))) {
 			alert('ERROR\n\nText is too long in field "' + $(this).attr('data_info') + '", please make it shorter! (Maximum length: ' + $(this).attr('data_maxlength') + ' char.)');
 			count++;
+		}
+	} );
+	$('textarea.checkoutsidebmp').each( function(n) {
+		if(containsCharacterOutsideBasicMultilingualPlane($(this).val())) {
+			count += alertFirstCharacterOutsideBasicMultilingualPlane($(this).val(), $(this).attr('data_info'));
 		}
 	} );
 	$('textarea.checkbytes').each( function(n) {
@@ -609,13 +628,19 @@ $(document).ready( function() {
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
 	$('#termtags').tagit(
-		{ 
+		{
+			beforeTagAdded: function(event, ui) {
+				return ! (containsCharacterOutsideBasicMultilingualPlane(ui.tag.text())); 
+			},
 			availableTags : TAGS, 
 			fieldName : 'TermTags[TagList][]' 
 		}
 	);
 	$('#texttags').tagit(
 		{ 
+			beforeTagAdded: function(event, ui) {
+				return ! (containsCharacterOutsideBasicMultilingualPlane(ui.tag.text())); 
+			},
 			availableTags : TEXTTAGS, 
 			fieldName : 'TextTags[TagList][]'
 		}

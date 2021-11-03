@@ -66,6 +66,8 @@ if (count($items) >= $line) {
 	}
 }
 
+// error_log ("ajax_save_impr_text / " . $success . " / " . $stringdata);
+
 echo $success;
 
 ?>

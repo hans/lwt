@@ -116,18 +116,21 @@ foreach ($items as $item) {
 		$c = count($vals);
 		$rom = '';
 		if ($c > 2) {
-			$wid = $vals[2] + 0;
-			$rom = get_first_value("select WoRomanization as value from " . $tbpref . "words where WoID = " . $wid);
-			if (! isset($rom)) $rom = '';
+			if ($vals[2] !== '') {
+				$wid = $vals[2] + 0;
+				$rom = get_first_value("select WoRomanization as value from " . $tbpref . "words where WoID = " . $wid);
+				if (! isset($rom)) $rom = '';
+			}
 		}
 		if ($c > 3) $trans = $vals[3];
-		if ($trans == '*') $trans = $vals[1];
+		if ($trans == '*') $trans = $vals[1] . " "; // <- U+200A HAIR SPACE
 		echo ' <ruby><rb><span class="click anntermruby" style="color:black;"' . ($rom == '' ? '' : (' title="' . tohtml($rom) . '"')) . '>' . tohtml($vals[1]) . '</span></rb><rt><span class="click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
 	} else {
-		echo str_replace(
-		"¶",
-		'</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
-		" " . tohtml($vals[1]));
+		if (count($vals) >= 2) 
+			echo str_replace(
+			"¶",
+			'</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
+			" " . tohtml($vals[1]));
 	}
 }
 

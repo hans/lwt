@@ -94,9 +94,14 @@ if (isset($_REQUEST['op'])) {
 		
 		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
 			$lines = file($_FILES["thefile"]["tmp_name"], FILE_IGNORE_NEW_LINES);
+			$l = count($lines);
+			for ($i=0; $i<$l; $i++) {
+				$lines[$i] = replace_supp_unicode_planes_char($lines[$i]);
+			}
 		} 
 		else {
-			$lines = explode("\n",prepare_textdata($_REQUEST["Upload"]));
+			$lines = explode("\n",replace_supp_unicode_planes_char(
+			prepare_textdata($_REQUEST["Upload"])));
 		}
 		$l = count($lines);
 		for ($i=0; $i<$l; $i++) {
@@ -264,7 +269,7 @@ make_score_random_insert_update('id') . ')',"Imported");
 	Either specify a <b>File to upload</b>:<br />
 	<input name="thefile" type="file" /><br /><br />
 	<b>Or</b> type in or paste from clipboard (do <b>NOT</b> specify file):<br />
-	<textarea name="Upload" cols="60" rows="25"></textarea>
+	<textarea class="checkoutsidebmp" data_info="Upload" name="Upload" cols="60" rows="25"></textarea>
 	</td>
 	</tr>
 	<tr>

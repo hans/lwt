@@ -142,11 +142,11 @@ if (isset($_REQUEST['new'])) {
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Tag:</td>
-	<td class="td1"><input class="notempty setfocus noblanksnocomma" type="text" name="TgText" data_info="Tag" value="" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input class="notempty setfocus noblanksnocomma checkoutsidebmp" type="text" name="TgText" data_info="Tag" value="" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Comment:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="200" data_info="Comment" name="TgComment" cols="40" rows="3"></textarea></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="200" data_info="Comment" name="TgComment" cols="40" rows="3"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2">
@@ -175,11 +175,11 @@ elseif (isset($_REQUEST['chg'])) {
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Tag:</td>
-		<td class="td1"><input data_info="Tag" class="notempty setfocus noblanksnocomma" type="text" name="TgText" value="<?php echo tohtml($record['TgText']); ?>" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input data_info="Tag" class="notempty setfocus noblanksnocomma checkoutsidebmp" type="text" name="TgText" value="<?php echo tohtml($record['TgText']); ?>" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Comment:</td>
-		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="200" data_info="Comment" name="TgComment" cols="40" rows="3"><?php echo tohtml($record['TgComment']); ?></textarea></td>
+		<td class="td1"><textarea class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="200" data_info="Comment" name="TgComment" cols="40" rows="3"><?php echo tohtml($record['TgComment']); ?></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">

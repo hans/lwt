@@ -62,8 +62,10 @@ if (isset($_REQUEST['op'])) {
 		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
 			$data = file_get_contents($_FILES["thefile"]["tmp_name"]);
 			$data = str_replace("\r\n","\n",$data);
+			$data = replace_supp_unicode_planes_char($data);
 		} else {
-			$data = prepare_textdata($_REQUEST["Upload"]);
+			$data = replace_supp_unicode_planes_char(
+				prepare_textdata($_REQUEST["Upload"]));
 		}
 		$data = trim($data);
 		
@@ -220,7 +222,7 @@ if (isset($_REQUEST['op'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Title:</td>
-	<td class="td1"><input type="text" class="notempty" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">
@@ -230,7 +232,7 @@ if (isset($_REQUEST['op'])) {
 	Either specify a <b>File to upload</b>:<br />
 	<input name="thefile" type="file" /><br /><br />
 	<b>Or</b> paste a text from the clipboard (and do <b>NOT</b> specify file):<br />
-	<textarea name="Upload" cols="60" rows="15"></textarea>
+	<textarea class="checkoutsidebmp" data_info="Upload" name="Upload" cols="60" rows="15"></textarea>
 	
 	<p class="smallgray">
 	If the text is too long, the import may not be possible.<br />
@@ -256,7 +258,7 @@ if (isset($_REQUEST['op'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Source URI:</td>
-	<td class="td1"><input type="text" class="checkurl" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
+	<td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Tags:</td>

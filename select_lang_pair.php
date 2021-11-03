@@ -85,8 +85,8 @@ function wizard_go() {
 	var context = w.document;
 	$('input[name="LgName"]',context).val(l2);	
 	$('input[name="LgDict1URI"]',context).val(
-		'glosbe_api.php?from=' + LANGDEFS[l2][0] + '&dest=' + 
-		LANGDEFS[l1][0] + '&phrase=###'
+		'*https://de.glosbe.com/' + LANGDEFS[l2][0] + '/' + 
+		LANGDEFS[l1][0] + '/###'
 		);	
 	$('input[name="LgGoogleTranslateURI"]',context).val(
 		'*http://translate.google.com/?ie=UTF-8&sl=' + 

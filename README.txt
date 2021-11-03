@@ -4,6 +4,10 @@ PLEASE READ MORE ...
 Either open ... info.htm (within the distribution)
 or     open ... http://lwt.sf.net
 
+UP-TO-DATE INSTALLATION INSTRUCTIONS can be found in the 
+file "LWT_INSTALLATION.txt" !!
+_____________________________________________________________
+
 "Learning with Texts" (LWT) is free and unencumbered software 
 released into the PUBLIC DOMAIN.
 

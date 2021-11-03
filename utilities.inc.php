@@ -39,7 +39,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '1.6.1 (February 01 2016)'  . 
+	return '1.6.2 (March 10 2018)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -806,6 +806,19 @@ function get_seconds_selectoptions($v) {
 
 // -------------------------------------------------------------
 
+function get_playbackrate_selectoptions($v) {
+	if ( ! isset($v) ) $v = '10';
+	$r = '';
+	for ($i=5; $i <= 15; $i++) {
+		$text = ($i<10 ? (' 0.' . $i . ' x ') : (' 1.' . ($i-10) . ' x ') ); 
+		$r .= "<option value=\"" . $i . "\"" . get_selected($v,$i);
+		$r .= ">&nbsp;" . $text . "&nbsp;</option>";
+	}
+	return $r;
+}
+
+// -------------------------------------------------------------
+
 function quickMenu() {
 ?><select id="quickmenu" onchange="{var qm = document.getElementById('quickmenu'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { if (val == 'INFO') {top.location.href='info.htm';} else {top.location.href = val + '.php';}}}">
 <option value="" selected="selected">[Menu]</option>
@@ -885,6 +898,13 @@ function adjust_autoincr($table,$key) {
 	if (! isset($val)) $val = 1;
 	$sql = 'alter table ' . $tbpref . $table . ' AUTO_INCREMENT = ' . $val;
 	$res = do_mysqli_query($sql);
+}
+
+// -------------------------------------------------------------
+
+function replace_supp_unicode_planes_char($s) {
+	return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xE2\x96\x88", $s); 
+	/* U+2588 = UTF8: E2 96 88 = FULL BLOCK = ⬛︎  */ 
 }
 
 // -------------------------------------------------------------
@@ -2912,9 +2932,8 @@ function makeAudioPlayer($audio) {
 ?>
 <link type="text/css" href="css/jplayer_skin/<?php echo $playerskin; ?>.css" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-<table class="width99pc" cellspacing="0" cellpadding="3">
+<table align="center" style="margin-top:5px;" cellspacing="0" cellpadding="0">
 <tr>
-<td class="width45pc">&nbsp;</td>
 <td class="center borderleft" style="padding-left:10px;">
 <span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>"><img src="icn/arrow-repeat.png" alt="Toggle Repeat (Now ON)" title="Toogle Repeat (Now ON)" style="width:24px;height:24px;" /></span><span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>"><img src="icn/arrow-norepeat.png" alt="Toggle Repeat (Now OFF)" title="Toggle Repeat (Now OFF)" style="width:24px;height:24px;" /></span>
 </td>
@@ -2949,22 +2968,49 @@ function makeAudioPlayer($audio) {
 </div>
 </td>
 <td class="center bordermiddle">&nbsp;</td>
-<td class="center borderright" style="padding-right:10px;">
+<td class="center bordermiddle">
 <?php
 $currentplayerseconds = getSetting('currentplayerseconds');
 if($currentplayerseconds == '') $currentplayerseconds = 5;
 ?>
-<select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
+<select id="backtime" name="backtime"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
 <span id="backbutt" class="click"><img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" /></span>&nbsp;&nbsp;<span id="forwbutt" class="click"><img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" /></span>
 <span id="playTime" class="hide"></span>
 </td>
-<td class="width45pc">&nbsp;</td>
+<td class="center bordermiddle">&nbsp;</td>
+<td class="center borderright" style="padding-right:10px;">
+<?php
+$currentplaybackrate = getSetting('currentplaybackrate');
+if($currentplaybackrate == '') $currentplaybackrate = 10;
+?>
+<select id="playbackrate" name="playbackrate"><?php echo get_playbackrate_selectoptions($currentplaybackrate); ?></select><br />
+<span id="slower" class="click"><img src="icn/minus.png" alt="Slower" title="Slower" style="margin-top:3px" /></span>&nbsp;<span id="stdspeed" class="click"><img src="icn/status-away.png" alt="Normal" title="Normal" style="margin-top:3px" /></span>&nbsp;<span id="faster" class="click"><img src="icn/plus.png" alt="Faster" title="Faster" style="margin-top:3px" /></span>
+</td>
 </tr>
 <script type="text/javascript">
 //<![CDATA[
 
 function new_pos(p) {
 	$("#jquery_jplayer_1").jPlayer("playHead", p);
+}
+
+function set_new_playerseconds() {
+	var newval = ($("#backtime :selected").val());
+	do_ajax_save_setting('currentplayerseconds',newval); 
+	// console.log("set_new_playerseconds="+newval);
+}
+
+function set_new_playbackrate() {
+	var newval = ($("#playbackrate :selected").val());
+	do_ajax_save_setting('currentplaybackrate',newval); 
+	$("#jquery_jplayer_1").jPlayer("option","playbackRate", newval*0.1);
+	// console.log("set_new_playbackrate="+newval);
+}
+
+function set_current_playbackrate() {
+	var val = ($("#playbackrate :selected").val());
+	$("#jquery_jplayer_1").jPlayer("option","playbackRate", val*0.1);
+	// console.log("set_current_playbackrate="+val);
 }
 
 function click_single() {
@@ -3000,8 +3046,31 @@ function click_forw() {
 	$("#jquery_jplayer_1").jPlayer("play", nt);
 }
 
+function click_stdspeed() {
+	$("#playbackrate").val(10);
+	set_new_playbackrate();
+}
+
+function click_slower() {
+	var val = ($("#playbackrate :selected").val());
+	if (val > 5) {
+		val--;
+		$("#playbackrate").val(val);
+		set_new_playbackrate();
+	}
+}
+
+function click_faster() {
+	var val = ($("#playbackrate :selected").val());
+	if (val < 15) {
+		val++;
+		$("#playbackrate").val(val);
+		set_new_playbackrate();
+	}
+}
+
 $(document).ready(function(){
-  $("#jquery_jplayer_1").jPlayer({
+	  $("#jquery_jplayer_1").jPlayer({
     ready: function () {
       $(this).jPlayer("setMedia", { <?php 
 	$audio = trim($audio);
@@ -3026,10 +3095,20 @@ $(document).ready(function(){
   	$("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
 	});
   
+  $("#jquery_jplayer_1").bind($.jPlayer.event.play, function(event) { 
+  	set_current_playbackrate();
+  	// console.log("play");
+	});
+  
+  $("#slower").click(click_slower);
+  $("#faster").click(click_faster);
+  $("#stdspeed").click(click_stdspeed);
   $("#backbutt").click(click_back);
   $("#forwbutt").click(click_forw);
   $("#do-single").click(click_single);
   $("#do-repeat").click(click_repeat);
+  $("#playbackrate").change(set_new_playbackrate);
+  $("#backtime").change(set_new_playerseconds);
   
   <?php echo ($repeatMode ? "click_repeat();\n" : ''); ?>
 });
