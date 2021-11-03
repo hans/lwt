@@ -199,7 +199,6 @@ elseif (isset($_REQUEST['chg'])) {
 // DISPLAY
 
 else {
-
 	if (substr($message,0,24) == "Error: Duplicate entry '" && 
 		substr($message,-18) == "' for key 'T2Text'") {
 		$message = substr($message,24);	

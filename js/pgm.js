@@ -461,13 +461,7 @@ function escape_html_chars_2 (title, lg, ann) {
 	}
 	if (ann != '' && ann != '*') {
 		var ann2 = escape_html_chars(ann);
-		var re = new RegExp("(<br />▶[^<]*/|<br />▶)( " + ann2.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")(<| /| \\[)([^<]*[<]*br />▶ [^<]*)$","");
-		if(!re.test(title)){
-			var re = new RegExp("(<br />▶)([^▶]*<br />▶ [^<]*)$","");
-			ann2 = '<span style="color:limegreen">' + ann2 + '</span>';
-			return title.replace(re,' $1 ' + ann2 + ' / $2')
-			.replace(ann2 + ' / *', ann2);
-		}
+		var re = new RegExp("(<br />▶[^<]*[" + DELIMITER + "][ ]{0,1}|<br />▶ )(" + ann2.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")(<|[ ]{0,1}[" + DELIMITER + "]| \\[)([^<]*[<]*br />▶ [^<]*)$","");
 		return title.replace(re,'$1<span style="color:red">$2</span>$3$4');
 	}
 	else
@@ -524,10 +518,7 @@ function createSentLookupLink(torder,txid,url,txt) {
 		if((url.substr(0,8) == '*http://') || (url.substr(0,9) == '*https://')) {
 			r = ' <span class=\x22click\x22 onclick=\x22owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');\x22>' + txt + '</span> ';
 		} 
-		else if ((url.substr(0,7) == 'http://') || (url.substr(0,8) == 'https://')) {
-			r = ' <a href=\x22trans.php?x=1&i=' + torder + '&t=' + txid + '\x22 target=\x22ru\x22>' + txt + '</a> ';
-		}
-		else if (url.substr(0,7) == 'ggl.php') {
+		else if ((url.substr(0,7) == 'http://') || (url.substr(0,8) == 'https://') || (url.substr(0,7) == 'ggl.php')) {
 			r = ' <a href=\x22trans.php?x=1&i=' + torder + '&t=' + txid + '\x22 target=\x22ru\x22>' + txt + '</a> ';
 		}
 	}

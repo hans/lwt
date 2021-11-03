@@ -254,6 +254,9 @@ while ($record = mysql_fetch_assoc($res)) {
 	if(isset($term_created[$record['LgID']])){
 		foreach($term_created[$record['LgID']] as $created => $val){
 			switch ($created){
+				case($created==='0'):
+					$cw+=$val;
+					break;
 				case ($created>364):
 					$call+=$val;
 					break;
@@ -263,28 +266,24 @@ while ($record = mysql_fetch_assoc($res)) {
 				case ($created>6):
 					$cm+=$val;
 					break;
-				case ($created>1):
-					$cw+=$val;
-					break;
-				case ($created>0):
-					$cy+=$val;
-					break;
-				case ($created==0):
-					$ct+=$val;
-					break;
 				default:
+					$cw+=$val;
 					break;
 			}
 		}
 	}
-	$cy+=$ct;
-	$cw+=$cy;
+
+	$ct=$term_created[$record['LgID']][0]+0;
+	$cy=$term_created[$record['LgID']][1]+0;
 	$cm+=$cw;
 	$ca+=$cm;
 	$call+=$ca;
 	if(isset($term_active[$record['LgID']])){
 		foreach($term_active[$record['LgID']] as $active=>$val){
 			switch ($active){
+				case($active==='0'):
+					$aw+=$val;
+					break;
 				case ($active>364):
 					$aall+=$val;
 					break;
@@ -294,22 +293,15 @@ while ($record = mysql_fetch_assoc($res)) {
 				case ($active>6):
 					$am+=$val;
 					break;
-				case ($active>1):
-					$aw+=$val;
-					break;
-				case ($active>0):
-					$ay+=$val;
-					break;
-				case ($active==0):
-					$at+=$val;
-					break;
 				default:
+					$aw+=$val;
 					break;
 			}
 		}
 	}
-	$ay+=$at;
-	$aw+=$ay;
+
+	$at=$term_active[$record['LgID']][0]+0;
+	$ay=$term_active[$record['LgID']][1]+0;
 	$am+=$aw;
 	$aa+=$am;
 	$aall+=$aa;
@@ -317,6 +309,9 @@ while ($record = mysql_fetch_assoc($res)) {
 	if(isset($term_known[$record['LgID']])){
 		foreach($term_known[$record['LgID']] as $known=>$val){
 			switch ($known){
+				case($known==='0'):
+					$kw+=$val;
+					break;
 				case ($known>364):
 					$kall+=$val;
 					break;
@@ -326,23 +321,15 @@ while ($record = mysql_fetch_assoc($res)) {
 				case ($known>6):
 					$km+=$val;
 					break;
-				case ($known>1):
-					$kw+=$val;
-					break;
-				case ($known>0):
-					$ky+=$val;
-					break;
-				case ($known==0):
-					$kt+=$val;
-					break;
 				default:
+					$kw+=$val;
 					break;
 			}
 		}
 	}
 
-	$ky+=$kt;
-	$kw+=$ky;
+	$kt=$term_known[$record['LgID']][0]+0;
+	$ky=$term_known[$record['LgID']][1]+0;
 	$km+=$kw;
 	$ka+=$km;
 	$kall+=$ka;

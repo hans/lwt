@@ -58,7 +58,8 @@ LWT Information / Help
 		<script type="text/javascript" src="js/floating.js"></script>
  <script type="text/javascript">
 $.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/styles.css' }, success:function (data) {$('style').text( "@import url(" + data + ");" );
-}}); 
+}});
+if(!$.trim($('style').text().length)){$('style').text('@import url(css/styles.css);');}
 </script>
     <title>
       Learning with Texts :: Help/Information
@@ -118,6 +119,7 @@ $(document).ready( function() {
 <script type="text/javascript">
 $.ajax({type: 'POST',url:'ajax_get_theme.php', data: { file:'img/lwt_icon_big.png' }, success:function (data) {
 $('.lwtlogoright').attr( "src", data );}});
+if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/lwt_icon_big.png' );}
 </script>
 
     <p class="inline">
@@ -240,7 +242,7 @@ $('.lwtlogoright').attr( "src", data );}});
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.19 (September 15 2014)</b>.
+          <li>The current version is <b>1.6.1 (September 18 2014)</b>.
           </li>
 
           <li>
@@ -636,7 +638,7 @@ $('.lwtlogoright').attr( "src", data );}});
             </li>
 
             <li>
-            Query.Xpath - Copyright © 2012-2013 Sergey Ilinsky, <a href="https://github.com/ilinsky/jquery-xpath" target="_blank">https://github.com/ilinsky/jquery-xpath</a> (js/jquery.xpath.js)
+            Query.Xpath - Copyright © Sergey Ilinsky, <a href="https://github.com/ilinsky/jquery-xpath" target="_blank">https://github.com/ilinsky/jquery-xpath</a> (js/jquery.xpath.js)
             </li>
             </ul>
             <br />
@@ -753,7 +755,6 @@ $('.lwtlogoright').attr( "src", data );}});
             <iframe width="640" height="360" src="http://www.youtube.com/embed/9RveJXGPSJU" frameborder="0" allowfullscreen></iframe>
             <br /><br />
           </li>
-          
           <li>Uninstall: Just run the EasyPHP Uninstaller, afterwards delete the EasyPHP directory below <i>C:\Program Files (x86)</i>.
           </li>
 
@@ -2215,7 +2216,7 @@ $('.lwtlogoright').attr( "src", data );}});
       <dd>
         <ul>
         	<li>
-        		The following fourteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
+        		The following sixteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
         		<br />
         		<br />
         		Additional table sets have its "table set name" plus an underscore "_" as a table name prefix: "setname_settings", "setname_languages", etc.

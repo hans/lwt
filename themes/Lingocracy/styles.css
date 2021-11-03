@@ -59,46 +59,58 @@ h4 {
 	padding: 0;
 }
 span.status0 {
-	background-color: #ADDFFF;
+	border-bottom: 2px solid #ADDFFF;
+	text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
 }
 span.status1 {
-	background-color: #F5B8A9;
+	border-bottom: 2px solid #F5B8A9;
+	text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
 }
 span.status2 {
-	background-color: #F5CCA9;
+	border-bottom: 2px solid #F5CCA9;
+	text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
 }
 span.status3 {
-	background-color: #F5E1A9;
+	border-bottom: 2px solid #F5E1A9;
+	text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
 }
 span.status4 {
-	background-color: #F5F3A9;
+	border-bottom: 2px solid #F5F3A9;
+	text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
 }
 span.status5 {
-	background-color: #DDFFDD;
+	border-bottom: 2px solid #DDFFDD;
+	text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
 }
 span.status99 {
-	background-color: #F8F8F8;
-	border-bottom: solid 2px #CCFFCC;  
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
 }
+span.hword.status99, table .status99 {
+  border-bottom: 2px solid #cccccc;
+}
 span.status98 {
-	background-color: #F8F8F8;
-	border-bottom: dashed 1px #000000; 
+  border-bottom: 2px dashed transparent;
+  text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
+}
+span.hword.status98, table .status98 {
+	border-bottom: dashed 2px #DDD;
 }
 span.mwsty {
 	margin: 0px 1px;
@@ -117,35 +129,47 @@ span.wsty {
 	border-radius: 3px;
 }
 span.todosty {
-	background-color: #F5E1A9;
+	border-bottom: 2px solid #F5E1A9;
+	text-decoration: none;
 	padding: 1px 2px;
 	border-radius: 3px;
 }
 span.doneoksty {
-	background-color: #A9F5A9;
+	border-bottom: 2px solid #A9F5A9;
+	text-decoration: none;
 	padding: 1px 2px;
 	border-radius: 3px;
 }
 span.donewrongsty {
-	background-color: #F5B8A9;
+	border-bottom: 2px solid #F5B8A9;
+	text-decoration: none;
 	padding: 1px 2px;
 	border-radius: 3px;
 }
 span.status5stat {
-	background-color: #BBFFBB;
+	border-bottom: 2px solid #BBFFBB;
+	text-decoration: none;
 	color: #000000;
 	border-radius: 3px;
 }
 .tword.lword,.tword.sword{
-	background-color: #D57;
+	border-top: 2px solid #D57;
+	border-bottom: 2px solid #D57;
+	text-decoration: none;
+	background-color: #FEE;
 }
 .tword{
 	border-radius: 3px;
 	box-shadow: 0 0 0px 1px #FFF;
-	background-color: #C9B;
+	border-bottom: 2px solid #C9B;
+	text-decoration: none;
 }
 .nword{
 	background-color: #FFF;
+	border-bottom: 2px solid #FFF !important;
+}
+.hword{
+	background-color: #FF9;
 }
 #thetext span{
 	-webkit-touch-callout: none;

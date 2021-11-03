@@ -66,9 +66,11 @@ mysql_free_result($res);
 $showAll = getSettingZeroOrOne('showallwords',1);
 
 ?>
+<script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
 <script type="text/javascript">
 //<![CDATA[
 ANN_ARRAY = <?php echo annotation_to_json($ann); ?>;
+DELIMITER = '<?php echo tohtml(str_replace (array('\\',']','-','^'),array('\\\\','\\]','\\-','\\^'),getSettingWithDefault('set-term-translation-delimiters'))); ?>';
 TEXTPOS = -1;
 OPENED = 0;
 WBLINK1 = '<?php echo $wb1; ?>';
@@ -86,6 +88,7 @@ $(document).ready( function() {
 	$('.word').dblclick(word_dblclick_event_do_text_text);
 	$('#thetext').on('dblclick','.mword',word_dblclick_event_do_text_text);
 	$(document).keydown(keydown_event_do_text_text);
+	$('#thetext').hoverIntent({over: word_hover_over, out: word_hover_out, interval: 150,selector:".wsty,.mwsty"});
 });
 //]]>
 $(document).ready( function() {

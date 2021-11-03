@@ -43,6 +43,7 @@ var SOLUTION = '';
 var ADDFILTER = '';
 var RTL = 0;
 var ANN_ARRAY = {};
+var DELIMITER = '';
  
 /**************************************************************
 LWT jQuery functions
@@ -160,7 +161,6 @@ function check() {
 			}
 		}
 	} );
-
 	$('input.checkdicturl').each( function(n) {
 		if($(this).val().trim().length > 0) {
 			if(($(this).val().trim().indexOf('http://') != 0) &&   ($(this).val().trim().indexOf('https://') != 0) &&   ($(this).val().trim().indexOf('*http://') != 0) &&   ($(this).val().trim().indexOf('*https://') != 0) &&   ($(this).val().trim().indexOf('glosbe_api.php') != 0)) {
@@ -312,24 +312,27 @@ function keydown_event_do_test_test(e) {
 }
 
 function word_each_do_text_text(i) {
-	this.title = make_tooltip($(this).text(), $(this).attr('data_trans'), 
-		$(this).attr('data_rom'), $(this).attr('data_status'));
 	var wid = $(this).attr('data_wid');
 	if (wid != '') {
 		var order = $(this).attr('data_order');
 		if (order in ANN_ARRAY) {
 			if (wid == ANN_ARRAY[order][1]) {
-				$(this).attr('data_ann',ANN_ARRAY[order][2]);
+				var ann = ANN_ARRAY[order][2];
+				var re = new RegExp("([" + DELIMITER + "][ ]{0,1}|^)(" + ann.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")($|[ ]{0,1}[" + DELIMITER + "])","");
+				if(!re.test($(this).attr('data_trans').replace( / \[.*$/, ''))){
+					var trans = ann + ' / ' + $(this).attr('data_trans');
+					$(this).attr('data_trans', trans.replace( ' / *', ''));
+				}
+				$(this).attr('data_ann',ann);
 			}
 		}
 	}
+	this.title = make_tooltip($(this).text(), $(this).attr('data_trans'), 
+		$(this).attr('data_rom'), $(this).attr('data_status'));
 }
 
 function mword_each_do_text_text(i) {
 	if ($(this).attr('data_status') != '') {
-		this.title = make_tooltip($(this).attr('data_text'), 
-		$(this).attr('data_trans'), $(this).attr('data_rom'), 
-		$(this).attr('data_status'));
 		var wid = $(this).attr('data_wid');
 		if (wid != '') {
 			var order = parseInt($(this).attr('data_order'));
@@ -337,12 +340,21 @@ function mword_each_do_text_text(i) {
 				var index = (order+j).toString();
 				if (index in ANN_ARRAY) {
 					if (wid == ANN_ARRAY[index][1]) {
-						$(this).attr('data_ann',ANN_ARRAY[index][2]);
+						var ann = ANN_ARRAY[index][2];
+						var re = new RegExp("([" + DELIMITER + "][ ]{0,1}|^)(" + ann.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + ")($|[ ]{0,1}[" + DELIMITER + "])","");
+						if(!re.test($(this).attr('data_trans').replace( / \[.*$/, ''))){
+							var trans = ann + ' / ' + $(this).attr('data_trans');
+							$(this).attr('data_trans', trans.replace( ' / *', ''));
+						}
+						$(this).attr('data_ann',ann);
 						break;
 					}
 				}
 			}
 		}
+		this.title = make_tooltip($(this).attr('data_text'), 
+		$(this).attr('data_trans'), $(this).attr('data_rom'), 
+		$(this).attr('data_status'));
 	}
 }
 
@@ -468,6 +480,71 @@ function mword_drag_n_drop_select() {
 			});
 		});
 	}, 300);
+}
+
+function word_hover_over () {
+	if (!$(".tword")[0]){
+		var v = $(this).attr("class").replace(/.*(TERM[^ ]*)( .*)*/, '$1');
+		$( "." + v ).addClass("hword");
+		if (!$(".kwordmarked .uwordmarked")[0]){
+			var p = $(this);
+			$(document).on('keyup',function(e) {
+				var wid = p.attr('data_wid');
+				var ord = p.attr('data_order');
+				var stat = p.attr('data_status');
+				if(p.hasClass( "mwsty" ))var txt = p.attr('data_text');
+				else var txt = p.text();
+				for (var i=1; i<=5; i++) {
+					if (e.which == (48+i) || e.which == (96+i)) {  // 1,.. : status=i
+						if(stat=='0'){
+							if(i==1){
+								var sl = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+								var tl = WBLINK3.replace(/.*&tl=([a-zA-Z\-]*)&.*/,'$1');
+								if(sl && tl)i=i+'&sl='+sl+'&tl='+tl;
+							}
+						window.parent.frames['ro'].location.href = 
+						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status='+i;}
+					else {
+						window.parent.frames['ro'].location.href = 
+							'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i;
+						return false;
+						}
+					}
+				}
+				if (e.which == 73) {  // I : status=98
+					if(stat=='0'){window.parent.frames['ro'].location.href = 
+						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=98';}
+					else {
+						window.parent.frames['ro'].location.href = 
+						'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=98';
+					return false;
+					}
+				}
+				if (e.which == 87) {  // W : status=99
+					if(stat=='0'){window.parent.frames['ro'].location.href = 
+						'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=99';}
+					else {
+						window.parent.frames['ro'].location.href = 
+						'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99';
+					}
+					return false;
+				}
+				if (e.which == 80) {
+					if(p.hasClass( "mwsty" ))var txt = p.attr('data_text');
+					else var txt = p.text();
+					var lg = WBLINK3.replace(/.*&sl=([a-zA-Z\-]*)&.*/,'$1');
+					var audio = new Audio();
+					audio.src ='tts.php?tl=' + lg + '&q=' + txt;
+					audio.play();
+				}
+			});
+		}
+	}
+}
+
+function word_hover_out () {
+	$( ".hword" ).removeClass("hword");
+	$(document).off('keyup');
 }
 
 function keydown_event_do_text_text(e) {
