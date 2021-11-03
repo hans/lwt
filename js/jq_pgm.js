@@ -229,6 +229,10 @@ function markClick() {
 	}
 }
 
+function confirmDelete() {
+	return confirm('CONFIRM\n\nAre you sure you want to delete?');
+}
+
 function showallwordsClick() {
 	var option = $('#showallwords:checked').length;
 	var text = $('#thetextid').text();
@@ -625,6 +629,7 @@ $(document).ready( function() {
 	$('input.impr-ann-radio').change(changeImprAnnRadio);
 	$('form.validate').submit(check);
 	$('input.markcheck').click(markClick);
+	$('.confirmdelete').click(confirmDelete);
 	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
 	$('#termtags').tagit(
