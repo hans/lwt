@@ -2,10 +2,10 @@ Learning with Texts (LWT) is a tool for Language Learning.
 
 PLEASE READ MORE ... 
 Either open ... info.htm (within the distribution)
-or     open ... http://lwt.sf.net
+or     open ... https://learning-with-texts.sourceforge.io
 
-UP-TO-DATE INSTALLATION INSTRUCTIONS can be found in the 
-file "LWT_INSTALLATION.txt" !!
+MOST UP-TO-DATE INSTALLATION INSTRUCTIONS can be found online: 
+https://learning-with-texts.sourceforge.io/LWT_INSTALLATION.txt
 _____________________________________________________________
 
 "Learning with Texts" (LWT) is free and unencumbered software 
@@ -35,3 +35,4 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 For more information, please refer to [http://unlicense.org/].
+_____________________________________________________________
