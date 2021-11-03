@@ -232,7 +232,7 @@ $('.lwtlogoright').attr( "src", data );}});
 
       <dd>
         <ul>
-          <li>The current version is <b>1.6.0 (August 04 2014)</b>.
+          <li>The current version is <b>1.5.17 (August ?? 2014)</b>.
           </li>
 
           <li>
@@ -701,16 +701,13 @@ $('.lwtlogoright').attr( "src", data );}});
             <br />
           </li>
 
-          <li><a href="http://www.easyphp.org/easyphp-devserver.php" target="_blank"><img src="img/easyphp.png" /></a><br /><br />
-          </li>
-          
           <li>Step 1: Go to <a href="http://www.easyphp.org/easyphp-devserver.php" target="_blank">http://www.easyphp.org/easyphp-devserver.php</a>.
           </li>
 
-          <li>Step 2: Download the "EasyPHP DevServer <b>for Windows XP to Windows 8</b>" (currently EasyPHP 14.1 VC9).
+          <li>Step 2: Scroll down and download the "EasyPHP DevServer for Windows XP to Windows 8" (currently EasyPHP 14.1 VC9).
           </li>
 
-          <li>Step 3: Open your Downloads folder and run the downloaded <i>EasyPHP-DevServer-14.1VC9-install.exe</i> into <i>C:\Program Files (x86)\EasyPHP-...</i> .
+          <li>Step 3: Install the downloaded <i>EasyPHP-DevServer-14.1VC9-install.exe</i> into <i>C:\Program Files (x86)\EasyPHP-...</i>.
           </li>
 
           <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
@@ -2476,30 +2473,43 @@ $('.lwtlogoright').attr( "src", data );}});
 
       <dd>
         <ul>
-			<li>1.5.17 (June 08 2014):<br />
-			New Feature: Selecting terms according to a text tag<br />
-			New Feature: Start a document where you left off (only "Read Text Screen")<br />
-			New Feature: Improved Search/Query for Words/Texts<br />
-			New Feature: Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)<br />
-			JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated<br />
-			Database table optimization: first check, only optimize if (Overhead >10% of table and > 100KB) or (Overhead > 1,0MB)<br />
-			Database table optimization: data types changed.<br />
-			New Setting: Button(s) for "words to do" "IGNORE ALL"/"I KNOW ALL" <br />
-			New Setting: Theme<br />
-			New Setting: term/word query with standard/regexp/regexp CS<br />
-			New Sort option "Oldest First"<br />
-			New option "Set Active Term(1-5) Sentences" in My Texts<br />
-			Bugfix: importing multiple words with the same tag causes an error<br />
-			Bugfix: can't select media in Archived Texts<br />
-			Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)<br />
-			Bugfix: bottom page select doesn't work in firefox (edit_texts.php, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php)<br />
-			Bugfix: setting a tag where tag already exists causes an error<br />
-			Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)<br />
-        	Documentation updated.<br />
-			<br />
-			</li>
+          <li>1.5.17-fork (June 08 2014):<br />
+          New Feature: Selecting terms according to a text tag<br />
+          New Feature: Start a document where you left off (only "Read Text Screen")<br />
+          New Feature: Improved Search/Query for Words/Texts<br />
+          New Feature: Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)<br />
+          JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated<br />
+          Database table optimization: first check, only optimize if (Overhead >10% of table and > 100KB) or (Overhead > 1,0MB)<br />
+          Database table optimization: data types changed.<br />
+          New Setting: Button(s) for "words to do" "IGNORE ALL"/"I KNOW ALL" <br />
+          New Setting: Theme<br />
+          New Setting: term/word query with standard/regexp/regexp CS<br />
+          New Sort option "Oldest First"<br />
+          New option "Set Active Term(1-5) Sentences" in My Texts<br />
+          Bugfix: importing multiple words with the same tag causes an error<br />
+          Bugfix: can't select media in Archived Texts<br />
+          Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)<br />
+          Bugfix: bottom page select doesn't work in firefox (edit_texts.php, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php)<br />
+          Bugfix: setting a tag where tag already exists causes an error<br />
+          Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)<br />
+              Documentation updated.<br />
+          <br />
+        </li>
 
-        	<li>1.5.15 (December 17 2013):<br />
+        	<li>1.5.17 (August ?? 2014):</br />
+        	Minor bug in Utilities fixed.<br />
+        	Documentation updated. Broken links corrected or deleted. From now on, only the installation via EasyPHP (Windows) and MAMP (OS X) will be explained in detail and are recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).<br />
+        	</br />
+        	</li>
+        
+        	<li>1.5.16 (February 19 2014):</br />
+        	Paging (via page select, and only at the bottom of a page) did not work correctly in all cases, has been corrected.<br />
+        	Documentation updated.<br />
+        	Documentation (installation sections) updated on August 14 2014. From now on, only the installation via EasyPHP (Windows) and MAMP (OS X) will be explained in detail and are recommended. Other local web server packages like XAMPP, etc. are still possible, but it's beyond the scope of this document to explain all the details for every package. It will also confuse not so experienced LWT users.<br />
+        	</br />
+        	</li>
+        
+        	<li>1.5.15 (December 17 2013):</br />
         	Corrected wrong language code (French) within the language wizard definitions.<br />
         	Documentation updated.<br />
         	<br />
