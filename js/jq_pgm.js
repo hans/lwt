@@ -48,6 +48,14 @@ var ANN_ARRAY = {};
 LWT jQuery functions
 ***************************************************************/
 
+function setTransRoman(tra, rom) {
+	if($('textarea[name="WoTranslation"]').length == 1)
+		$('textarea[name="WoTranslation"]').val(tra);
+	if($('input[name="WoRomanization"]').length == 1)
+		$('input[name="WoRomanization"]').val(rom);
+	makeDirty();
+}
+
 function getUTF8Length(string) {
 	var utf8length = 0;
 	for (var n = 0; n < string.length; n++) {
@@ -140,7 +148,9 @@ function check() {
 			}
 		}
 	} );
-//to enable limits of custom feed texts/articl. change the following «input[class*="max_int_"]» into «input[class*="maxint_"]»
+	
+	// To enable limits of custom feed texts/article 
+	// change the following «input[class*="max_int_"]» into «input[class*="maxint_"]»
 	$('input[class*="max_int_"]').each( function(n) {
 		var maxvalue = parseInt($(this).attr("class").replace(/.*maxint_([0-9]+).*/, '$1'));
 		if ($(this).val().trim().length > 0) {
@@ -150,10 +160,27 @@ function check() {
 			}
 		}
 	} );
+
+	$('input.checkdicturl').each( function(n) {
+		if($(this).val().trim().length > 0) {
+			if(($(this).val().trim().indexOf('http://') != 0) &&   ($(this).val().trim().indexOf('https://') != 0) &&   ($(this).val().trim().indexOf('*http://') != 0) &&   ($(this).val().trim().indexOf('*https://') != 0) &&   ($(this).val().trim().indexOf('glosbe_api.php') != 0)) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must start with "http://" or "https://" or "*http://" or "*https://" or "glosbe_api.php" if not empty.');
+				count++;
+			}
+		}
+	} );
 	$('input.posintnumber').each( function(n) {
 		if ($(this).val().trim().length > 0) {
-			if (! (isInt($(this).val().trim()) && (($(this).val().trim()+0) != 0))) {
-				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" is not a positive integer number.');
+			if (! (isInt($(this).val().trim()) && (($(this).val().trim() + 0) > 0))) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number > 0.');
+				count++;
+			}
+		}
+	} );
+	$('input.zeroposintnumber').each( function(n) {
+		if ($(this).val().trim().length > 0) {
+			if (! (isInt($(this).val().trim()) && (($(this).val().trim() + 0) >= 0))) {
+				alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number >= 0.');
 				count++;
 			}
 		}
@@ -586,6 +613,13 @@ function do_ajax_show_sentences(lang,word,ctl,woid) {
 	);
 }
 
+function do_ajax_show_similar_terms() {
+	$('#simwords').html('<img src="icn/waiting2.gif" />');
+	$.post('ajax_show_similar_terms.php', { lang: $('#langfield').val(), word: $('#wordfield').val() }, 
+		function(data) { $('#simwords').html(data); } 
+	);
+}
+
 function do_ajax_word_counts() {
 	$("span[id^='saved-']").each(
 		function(i) {
@@ -710,5 +744,9 @@ $(document).ready( function() {
 	); 
 	markClick();
 	setTheFocus();
+	if ($('#simwords').length > 0 && $('#langfield').length > 0 && $('#wordfield').length > 0) {
+  	$('#wordfield').blur(do_ajax_show_similar_terms);
+  	do_ajax_show_similar_terms();
+	}
 	window.setTimeout(noShowAfter3Secs,3000);
 } ); 

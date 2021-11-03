@@ -41,6 +41,7 @@ require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'simterms.inc.php' );
 
 // INSERT
 
@@ -221,16 +222,17 @@ else {  // if (! isset($_REQUEST['op']))
 ?>
 	
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<input type="hidden" name="WoLgID" value="<?php echo $lang; ?>" />
+	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 	<input type="hidden" name="tid" value="<?php echo $text; ?>" />
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right"><b>New Term:</b></td>
-	<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
-	<tr>
+	<?php print_similar_terms_tabrow(); ?>
+  <tr>
 	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="35" rows="3"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Tags:</td>
@@ -240,11 +242,11 @@ else {  // if (! isset($_REQUEST['op']))
 	</tr>
 	<tr>
 	<td class="td1 right">Romaniz.:</td>
-	<td class="td1"><input type="text" name="WoRomanization" value="" maxlength="100" size="40" /></td>
+	<td class="td1"><input type="text" name="WoRomanization" value="" maxlength="100" size="35" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Sentence<br />Term in {...}:</td>
-	<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" cols="40" rows="3" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence"></textarea></td>
+	<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" cols="35" rows="3" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Status:</td>

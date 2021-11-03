@@ -197,9 +197,15 @@ elseif (isset($_REQUEST['chg'])) {
 
 else {
 	
+	if (substr($message,0,24) == "Error: Duplicate entry '" && 
+		substr($message,-18) == "' for key 'TgText'") {
+		$message = substr($message,24);	
+		$message = substr($message,0,strlen($message)-18);
+		$message = "Error: Term Tag '" . $message . "' already exists. Please go back and correct this!";
+	} 	
 	echo error_message_with_hide($message,0);
 	
-	get_tags(1);   // refresh tags cache
+	get_tags($refresh = 1);   // refresh tags cache
 
 	$sql = 'select count(TgID) as value from ' . $tbpref . 'tags where (1=1) ' . $wh_query;
 	$recno = get_first_value($sql);

@@ -4,7 +4,7 @@
 * This notice MUST stay intact(in both JS file and SCRIPT tag) for legal use.
 * http://praveenlobo.com/blog/disclaimer/
 * 
-* --- modified by J. Pierre ---
+* --- modified for LWT ---
 * server_now   = Server Time Now   = php call "gmmktime()" @ now
 * server_start = Server Time Start = php call "gmmktime()" @ begin
 * id           = div/span-id
@@ -40,4 +40,3 @@ CountUp.prototype.update = function(id) {
 	var self = this;
 	setTimeout(function(){self.update(id);}, 1000);
 }
-

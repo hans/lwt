@@ -199,10 +199,16 @@ elseif (isset($_REQUEST['chg'])) {
 // DISPLAY
 
 else {
-	
+
+	if (substr($message,0,24) == "Error: Duplicate entry '" && 
+		substr($message,-18) == "' for key 'T2Text'") {
+		$message = substr($message,24);	
+		$message = substr($message,0,strlen($message)-18);
+		$message = "Error: Text Tag '" . $message . "' already exists. Please go back and correct this!";
+	} 	
 	echo error_message_with_hide($message,0);
 	
-	get_texttags(1);   // refresh tags cache
+	get_texttags($refresh = 1);   // refresh tags cache
 
 	$sql = 'select count(T2ID) as value from ' . $tbpref . 'tags2 where (1=1) ' . $wh_query;
 	$recno = get_first_value($sql);

@@ -45,7 +45,7 @@ LWT Information / Help
 		<meta name="keywords" content="Language Learning Texts LWT Software Freeware LingQ Alternative AJATT Khatzumoto MCD MCDs Massive Context Cloze Deletion Cards Tool Stephen Krashen Second Language Acquisition Steve Kaufmann" />
     <meta name="description" content="Learning with Texts (LWT) is a tool for Language Learning, inspired by Stephen Krashen's principles in Second Language Acquisition, Steve Kaufmann's LingQ System and ideas (e. g. Massive-Context Cloze Deletion Cards = MCDs) from Khatzumoto, published at AJATT - All Japanese All The Time. It is an Alternative to LingQ, 100 % free, Open Source, and in the Public Domain." />
     <meta name="revisit-after" content="2 days" />
-		<meta name="viewport" content="width=900" />
+		<meta name="viewport" content="width=1280, user-scalable=yes" />
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 		<link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png" />
 		<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
@@ -79,6 +79,8 @@ $.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/st
 		<a href="#upgradewin">Upgrade Win</a><br />
 		<a href="#installmac">Install. Mac</a><br />
 		<a href="#upgrademac">Upgrade Mac</a><br />
+		<a href="#installlnx">Install. Linux</a><br />
+		<a href="#upgradelnx">Upgrade Linux</a><br />
 		<a href="#installhoster">Webhoster</a><br /><br />
 		<a href="#learn">How to learn</a><br /><br />
 		<a href="#howto">How to use</a><br /><br />
@@ -160,6 +162,12 @@ $('.lwtlogoright').attr( "src", data );}});
         <option value="upgrademac">
           Upgrade Mac OS X
         </option>
+        <option value="installlnx">
+          Installation Linux
+        </option>
+        <option value="upgradelnx">
+          Upgrade Linux
+        </option>
         <option value="installhoster">
           Installation @ Webhoster
         </option>
@@ -232,7 +240,7 @@ $('.lwtlogoright').attr( "src", data );}});
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.17 (August ?? 2014)</b>.
+          <li>The current version is <b>1.5.19 (September 15 2014)</b>.
           </li>
 
           <li>
@@ -394,14 +402,6 @@ $('.lwtlogoright').attr( "src", data );}});
 									</li>
 								</ul>
 							</li>
-							<li>
-								Installing LWT on other operating systems 
-								<ul>
-									<li>
-										<a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">Installing Learning With Texts on <b>Ubuntu</b></a>
-									</li>
-								</ul>
-							</li>
 						</ul>
           </li>
         </ul>
@@ -441,9 +441,9 @@ $('.lwtlogoright').attr( "src", data );}});
           </li>
 
           <li><b><u>MOST IMPORTANT:</u><br /><br /> To run LWT, you'll need: </b><br /><br />
-          <b>(1) A modern web browser.</b><ul><li>Windows: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a>. - MS Internet Explorer is not recommended.</li><li>OS X: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a> (Adobe Flash must be installed and enabled for MP3 playback in Firefox). - Safari does not display frame sets properly and is not recommended. </li><li>Linux: Use <a href="http://www.google.com/chrome/" target="_blank">Chrome</a> or <a href="http://www.mozilla.org/firefox" target="_blank">Firefox</a> (Adobe Flash must be installed and enabled for MP3 playback in Firefox). - Other browsers are not recommended.</li></ul><b>Remark:</b> Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/" target="_blank">HTML Ruby Add-On</a> to display ruby markup properly.<br /><br />
-          <b>(2) A local web server.</b><br />An easy way to install a local web server are preconfigured packages like<ul><li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Windows), or </li><li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac OS X), or</li><li><a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">tasksel</a> &amp; <a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">lamp-server</a> (Ubuntu, etc.).</li></ul><br />
-          <b>(3) The LWT Application.</b><br />The ZIP Archive can be downloaded <a href="http://sourceforge.net/projects/lwt/files/" target="_blank">here</a>.<br />The installation is explained<ul><li><a href="#installwin">here (Windows)</a>,</li><li><a href="#installmac">here (Mac OS X)</a> and</li><li><a href="http://expertscolumn.com/content/installing-learning-texts-ubuntu" target="_blank">here (Ubuntu, etc.)</a>.</li></ul>
+          <b>(1) A modern web browser.</b><br />I recommend (in this order) <ul><li><a href="http://www.google.com/chrome/" target="_blank">Chrome</a>, </li><li><a href="http://www.mozilla.org/firefox/" target="_blank">Firefox</a>, </li><li><a href="http://www.apple.com/safari/" target="_blank">Safari</a>, or </li><li><a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">Internet Explorer 11+</a>.</li></ul>If MP3 audio playback doesn't work, install Adobe Flash, or consider switching to a different browser. MP3 playback on some Firefox editions (like the one for Mac OS X) does not seem to work, and playback via Adobe Flash does not seem to work either if the audio is on a different domain (due to security reasons within Flash).<br />Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/" target="_blank">HTML Ruby Add-On</a> to display ruby markup (i. e. to display annotations above a text) properly.<br /><br />
+          <b>(2) A local web server.</b><br />An easy way to install a local web server are preconfigured packages like<ul><li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> (Windows), or </li><li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (Mac OS X), or</li><li>a <a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29" target="_blank">LAMP (Linux-Apache-MySQL-PHP) server</a> (Linux).</li></ul><br />
+          <b>(3) The LWT Application.</b><br />The ZIP Archive can be downloaded <a href="http://sourceforge.net/projects/lwt/files/" target="_blank">here</a>.<br />The installation is explained<ul><li><a href="#installwin">here (Windows)</a>,</li><li><a href="#installmac">here (Mac OS X)</a> and</li><li><a href="#installlnx">here (Ubuntu, LinuxMint, etc.)</a>.</li></ul>
           <br />
           </li>
           
@@ -504,7 +504,7 @@ $('.lwtlogoright').attr( "src", data );}});
           <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
           </li>
           
-          <li>Prerequisites: a local webserver (Apache, PHP, mySQL), e.g. EasyPHP (Windows) or MAMP (OS X).
+          <li>Prerequisites: a local webserver (Apache, PHP, mySQL), e.g. EasyPHP (Windows), MAMP (OS X), or a LAMP server (Linux).
           </li>
           
           <li>Enjoy your language learning!
@@ -592,23 +592,23 @@ $('.lwtlogoright').attr( "src", data );}});
             <ul>
             
             <li>
-            jQuery, jQueryUI - Copyright © 2011 John Resig et.al., <a href="http://jquery.org/license" target="_blank">http://jquery.org/license</a> (js/jquery.js, js/jquery-ui.min.js)
+            jQuery, jQueryUI - Copyright © John Resig et.al., <a href="http://jquery.org/license" target="_blank">http://jquery.org/license</a> (js/jquery.js, js/jquery-ui.min.js)
             </li>
             
             <li>
-            jQuery.ScrollTo - Copyright © 2007-2009 Ariel Flesler, <a href="http://flesler.blogspot.com" target="_blank">http://flesler.blogspot.com</a>  (js/jquery.scrollTo.min.js)
+            jQuery.ScrollTo - Copyright © Ariel Flesler, <a href="http://flesler.blogspot.com" target="_blank">http://flesler.blogspot.com</a>  (js/jquery.scrollTo.min.js)
             </li>
             
             <li>
-            Jeditable - jQuery in-place edit plugin - Copyright © 2006-2009 Mika Tuupola, Dylan Verheul, <a href="http://www.appelsiini.net/projects/jeditable" target="_blank">http://www.appelsiini.net/projects/jeditable</a>  (js/jquery.jeditable.mini.js)
+            Jeditable - jQuery in-place edit plugin - Copyright © Mika Tuupola, Dylan Verheul, <a href="http://www.appelsiini.net/projects/jeditable" target="_blank">http://www.appelsiini.net/projects/jeditable</a>  (js/jquery.jeditable.mini.js)
             </li>
             
             <li>
-            jQueryUI Tag-it! - Copyright © 2011, Levy Carneiro Jr., <a href="http://aehlke.github.com/tag-it/" target="_blank">http://aehlke.github.com/tag-it/</a>  (js/tag-it.js)
+            jQueryUI Tag-it! - Copyright © Levy Carneiro Jr., <a href="http://aehlke.github.com/tag-it/" target="_blank">http://aehlke.github.com/tag-it/</a>  (js/tag-it.js)
             </li>
             
             <li>
-            оverLIB 4.22 - Copyright © 1998-2004 Erik Bоsrup, <a href="http://www.bosrup.com/web/overlib/" target="_blank">http://www.bosrup.com/web/overlib/</a> (js/overlib/...)
+            оverLIB 4.22 - Copyright © Erik Bоsrup, <a href="http://www.bosrup.com/" target="_blank">http://www.bosrup.com/</a> (js/overlib/...)
             </li>
             
             <li>
@@ -620,7 +620,7 @@ $('.lwtlogoright').attr( "src", data );}});
             </li>
             
             <li>
-            jPlayer - Copyright © 2011 Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (js/jquery.jplayer.min.js, js/Jplayer.swf, css/jplayer_skin/...)
+            jPlayer - Copyright © Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (js/jquery.jplayer.min.js, js/Jplayer.swf, css/jplayer_skin/...)
             </li>
             
             <li>
@@ -632,7 +632,7 @@ $('.lwtlogoright').attr( "src", data );}});
             </li>
 
             <li>
-            iUI - Copyright © 2007-2011, <a href="http://www.iui-js.org/" target="_blank">http://www.iui-js.org/</a> (iui)
+            iUI - Copyright © iUI, <a href="http://www.iui-js.org/" target="_blank">http://www.iui-js.org/</a> (iui)
             </li>
 
             <li>
@@ -691,23 +691,26 @@ $('.lwtlogoright').attr( "src", data );}});
       </dd>
 
       <dt>
-        ▶ <b><a name="installwin" id="installwin">Installation Windows</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="installwin" id="installwin">Installation on MS Windows</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
         <ul>
-          <li>Are you upgrading? See section <a href="#upgradewin">"Upgrade Windows"</a>!
+          <li>Are you upgrading? See section <a href="#upgradewin">"Upgrade on MS Windows"</a>!
             <br />
             <br />
           </li>
 
+          <li><a href="http://www.easyphp.org/easyphp-devserver.php" target="_blank"><img src="img/easyphp.png" /></a><br /><br />
+          </li>
+          
           <li>Step 1: Go to <a href="http://www.easyphp.org/easyphp-devserver.php" target="_blank">http://www.easyphp.org/easyphp-devserver.php</a>.
           </li>
 
-          <li>Step 2: Scroll down and download the "EasyPHP DevServer for Windows XP to Windows 8" (currently EasyPHP 14.1 VC9).
+          <li>Step 2: Download the "EasyPHP DevServer <b>for Windows XP to Windows 8</b>" (currently EasyPHP 14.1 VC9).
           </li>
 
-          <li>Step 3: Install the downloaded <i>EasyPHP-DevServer-14.1VC9-install.exe</i> into <i>C:\Program Files (x86)\EasyPHP-...</i>.
+          <li>Step 3: Open your Downloads folder and run the downloaded <i>EasyPHP-DevServer-14.1VC9-install.exe</i> into <i>C:\Program Files (x86)\EasyPHP-...</i> .
           </li>
 
           <li>Step 4: Go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>.
@@ -745,16 +748,23 @@ $('.lwtlogoright').attr( "src", data );}});
             <br />
           </li>
 
+          <li>Watch the video: <a href="http://www.youtube.com/watch?v=9RveJXGPSJU" target="_blank"> Installation of "Learning With Texts" on MS Windows</a>
+            <br />
+            <iframe width="640" height="360" src="http://www.youtube.com/embed/9RveJXGPSJU" frameborder="0" allowfullscreen></iframe>
+            <br /><br />
+          </li>
+          
           <li>Uninstall: Just run the EasyPHP Uninstaller, afterwards delete the EasyPHP directory below <i>C:\Program Files (x86)</i>.
           </li>
 
           <li>You have questions about EasyPHP: Try the <a href="http://www.easyphp.org/introduction.php" target="_blank">»EasyPHP Introduction«</a>, or the <a href="http://www.easyphp.org/faq.php" target="_blank">»EasyPHP FAQ«</a>, or the <a href="http://www.easyphp.org/forums/" target="_blank">»EasyPHP Forum«</a>.
           </li>
+
         </ul>
       </dd>
 
       <dt>
-        ▶ <b><a name="upgradewin" id="upgradewin">Upgrade Windows</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="upgradewin" id="upgradewin">Upgrade on MS Windows</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
@@ -782,12 +792,12 @@ $('.lwtlogoright').attr( "src", data );}});
       </dd>
 
       <dt>
-        ▶ <b><a name="installmac" id="installmac">Installation Mac OS X</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="installmac" id="installmac">Installation on Mac OS X</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
         <ul>
-          <li>Are you upgrading? See section <a href="#upgrademac">"Upgrade Mac OS X"</a>!
+          <li>Are you upgrading? See section <a href="#upgrademac">"Upgrade on Mac OS X"</a>!
             <br />
             <br />
           </li>
@@ -834,6 +844,11 @@ $('.lwtlogoright').attr( "src", data );}});
            <br />
           </li>
 
+          <li>Watch the video: <a href="http://www.youtube.com/watch?v=uIwCEAQWyVY" target="_blank"> Installation of "Learning With Texts" on Mac OS X</a>
+            <br />
+            <iframe width="640" height="360" src="http://www.youtube.com/embed/uIwCEAQWyVY" frameborder="0" allowfullscreen></iframe>
+            <br /><br />
+          </li>
 
           <li>Uninstall: Just delete the folder <i>/Applications/MAMP</i>.
           </li>
@@ -847,7 +862,7 @@ $('.lwtlogoright').attr( "src", data );}});
       </dd>
 
       <dt>
-        ▶ <b><a name="upgrademac" id="upgrademac">Upgrade Mac OS X</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="upgrademac" id="upgrademac">Upgrade on Mac OS X</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
@@ -869,6 +884,113 @@ $('.lwtlogoright').attr( "src", data );}});
           </li>
 
           <li>Step 4: Clear the web browser cache and start MAMP and LWT as usual. 
+            <br />
+            <br />
+          </li>
+
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="installlnx" id="installlnx">Installation on Linux (Ubuntu, LinuxMint, etc.)</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+          <li>Are you upgrading? See section <a href="#upgradelnx">"Upgrade on Linux (Ubuntu, LinuxMint, etc.)"</a>!
+            <br />
+            <br />
+          </li>
+
+          <li><a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29" target="_blank"><img src="img/lamp.png" /></a></li>
+          <li>The following installation procedure of LAMP "Linux-Apache-MySQL-PHP" and LWT is for newer Ubuntu, LinuxMint, and similar Linux systems. </li>
+          <li><b>For other Linux systems, see the external links <a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29#External_links" target="_blank">here</a></b>.
+          	<br /><br />
+          </li>
+          
+          <li>Step 1: Open a Terminal and type and execute the following commands:
+          	<ul>
+          		<li>sudo apt-get update</li>
+          		<li>sudo apt-get install lamp-server^</li>
+          	</ul>
+          	After the first command you must enter your password.<br/>
+          	Mind the caret (^) at the end of the second command.<br/>
+          	During the second command you must confirm once with Y. You are also asked several times for a MySQL password for user "root". Just press [Return] in all these cases.
+          </li>
+
+          <li>Step 2: Open a browser and go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>. It will be normally placed in <i>/home/[your userid]/Downloads</i>.
+          </li>
+
+          <li>Step 3: Open a file explorer, go to <i>/home/[your userid]/Downloads</i> and extract the LWT zip archive. 
+          </li>
+
+          <li>Step 4: Rename the new directory <i>lwt_v_x_y</i> to <i>lwt</i>. The zip archive <i>lwt_v_x_y.zip</i> may be deleted.
+          </li>
+
+          <li>Step 5: Rename the file <i>connect_xampp.inc.php</i> in <i>/home/[your userid]/Downloads/lwt</i> to <i>connect.inc.php</i>.
+          </li>
+          
+          <li>Step 6: Open a Terminal window, type and execute the following commands:
+          	<ul>
+          		<li>sudo mv /home/[your userid]/Downloads/lwt /var/www/html</li>
+          		<li>sudo chmod -R 755 /var/www/html/lwt</li>
+          		<li>sudo rm /var/www/html/index.html</li>
+          		<li>sudo /etc/init.d/apache2 restart</li>
+          	</ul>
+          </li>
+
+          <li>Step 7: LWT can now be started in your web browser, go to: <a href="http://localhost/lwt" target="_blank">http://localhost/lwt</a>.
+          </li>
+
+          <li>Step 8: You may install the LWT demo database, or define the first language you want to learn. 
+            <br />
+            <br />
+          </li>
+
+          <li>If you want to use LWT again, just do step 7.
+           <br />
+           <br />
+          </li>
+
+          <li>Watch the video: <a href="http://www.youtube.com/watch?v=SiGXpWJ9dmY" target="_blank"> Installation of "Learning With Texts" on LinuxMint</a>
+            <br />
+            <iframe width="640" height="360" src="http://www.youtube.com/embed/SiGXpWJ9dmY" frameborder="0" allowfullscreen></iframe>
+            <br /><br />
+          </li>
+
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="upgradelnx" id="upgradelnx">Upgrade on Linux (Ubuntu, LinuxMint, etc.)</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+        <ul>
+
+          <li>Step 1: Backup (Copy or ZIP) the directory <i>/var/www/html/lwt</i>. Backup your database (within LWT).
+          </li>
+
+          <li>Step 2: Open a browser and go to <a href="http://sourceforge.net/projects/lwt" target="_blank">http://sourceforge.net/projects/lwt</a> and download the latest zip archive <i>lwt_v_x_y.zip</i>. It will be normally placed in <i>/home/[your userid]/Downloads</i>.
+          </li>
+
+          <li>Step 3: Open a file explorer, go to <i>/home/[your userid]/Downloads</i> and extract the LWT zip archive into the new directory <i>lwt_v_x_y</i>. 
+          </li>
+
+          <li>Step 4: Open a Terminal window, type and execute the following commands::
+          	<ul>
+          	<li>sudo cp -R /home/[your userid]/Downloads/lwt_v_x_y/* /var/www/html/lwt</li>
+          	<li>sudo chmod -R 755 /var/www/html/lwt</li>
+          	<li>sudo /etc/init.d/apache2 restart</li>
+          	</ul>
+            You will keep (those are <b>not</b> included in the distributed package):
+            <ul>
+							<li>the database connection parameters <i>/var/www/html/lwt/connect.inc.php</i> (you created this by renaming <i>connect_xampp.inc.php</i>, see installation) and</li>
+							<li>the whole media sub-directory <i>/var/www/html/lwt/media</i> (contains your MP3 audio files).</li>
+            </ul>
+          </li>
+
+          <li>Step 5: Clear the web browser cache and open LWT as usual. 
             <br />
             <br />
           </li>
@@ -1701,10 +1823,10 @@ $('.lwtlogoright').attr( "src", data );}});
             <br />
           </li>
 
-          <li>I have installed or updated LWT on Mac OS X or Linux/Unix, but the application does not run as expected:
+          <li>I have installed or updated LWT on OS X or Linux, but the application does not run as expected:
             <br />
             <br />
-            Answer: The Webserver does seem to have full access to all files (insufficient rights). Open a terminal window, go to the directory where the directory "lwt" has been created with all LWT files, e. g. <br /><b>cd /var/www/</b><br />Now execute:<br /><b>sudo chmod -R 775 lwt</b><br />and everything should now work as expected.
+            Answer: The Webserver does seem to have full access to all files (insufficient rights). Open a terminal window, go to the directory where the directory "lwt" has been created with all LWT files, e. g. <br /><b>cd /var/www/html</b><br />Now execute:<br /><b>sudo chmod -R 755 lwt</b><br />and everything should now work as expected.
             <br />
             <br />
           </li>
@@ -2473,6 +2595,26 @@ $('.lwtlogoright').attr( "src", data );}});
 
       <dd>
         <ul>
+        	<li>1.5.19 (September 15 2014):</br />
+        	Missing tag cache updating fixed (in "Add tag in all/marked texts or terms").<br />
+        	Tag caches now also work properly if several instances of LWT are installed in parallel directories on the same server.</br />
+        	Information about <a href="#abstract">which web browser to use for LWT</a> in this document updated.</br />
+        	</br />
+        	</li>
+        
+        	<li>1.5.18 (September 14 2014):</br />
+        	<b>New Feature:</b> Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense.</br />
+        	"https://" dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved. The Glosbe dictionary page has been improved with a simple form to change the term and do a requery if you are unhappy with the query results.</br />
+        	The jQuery and jPlayer libraries have been updated to v1.11.1 and v2.7.0, respectively. The jQuery.ScrollTo package has been updated to v1.4.13. The Floating Menu package has been updated to v1.12.<br />
+        	The audio player skin selection has been removed; the "Blue Monday Small" skin is the standard skin beginning with this release.<br />
+        	The Catalan language has been added to the Language Settings Wizard. <br />
+        	New sort option for texts, terms or tags: "Oldest first".<br />
+        	Some minor bugs fixed: media selection in archived texts, tag import errors, adding existing tag errors, etc.</br /> 
+        	Some error messages (term/tag already exists) have been improved.</br />
+        	Documentation updated.</br />
+        	</br />
+        	</li>
+
           <li>1.5.17-fork (June 08 2014):<br />
           New Feature: Selecting terms according to a text tag<br />
           New Feature: Start a document where you left off (only "Read Text Screen")<br />
@@ -2494,18 +2636,19 @@ $('.lwtlogoright').attr( "src", data );}});
           Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)<br />
               Documentation updated.<br />
           <br />
-        </li>
-
-        	<li>1.5.17 (August ?? 2014):</br />
+          </li>
+        
+        	<li>1.5.17 (August 15 2014, this document updated Aug 17 2014 and Aug 24 2014):</br />
         	Minor bug in Utilities fixed.<br />
-        	Documentation updated. Broken links corrected or deleted. From now on, only the installation via EasyPHP (Windows) and MAMP (OS X) will be explained in detail and are recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).<br />
+        	Documentation updated. Broken links corrected or deleted. From now on, only the installation with EasyPHP for Windows and MAMP for Mac OS X will be explained in detail and is recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).<br />
+        	Documentation updated on August 17 2014: Installation screencasts added.<br />
+        	Documentation updated on August 24 2014: Linux (Ubuntu, LinuxMint) installation hints and screencast added.<br />
         	</br />
         	</li>
-        
+ 
         	<li>1.5.16 (February 19 2014):</br />
         	Paging (via page select, and only at the bottom of a page) did not work correctly in all cases, has been corrected.<br />
         	Documentation updated.<br />
-        	Documentation (installation sections) updated on August 14 2014. From now on, only the installation via EasyPHP (Windows) and MAMP (OS X) will be explained in detail and are recommended. Other local web server packages like XAMPP, etc. are still possible, but it's beyond the scope of this document to explain all the details for every package. It will also confuse not so experienced LWT users.<br />
         	</br />
         	</li>
         
