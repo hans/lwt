@@ -414,6 +414,12 @@ function mword_click_event_do_text_text() {
 	return false;
 }
 
+function get_position_from_id(id_string) {
+	if ((typeof id_string) == 'undefined') return -1;
+	var arr = id_string.split('-');
+	return parseInt(arr[1]) * 10 + 10 - parseInt(arr[2]);
+}
+
 function keydown_event_do_text_text(e) {
 
 	if (e.which == 27) {  // esc = reset all
@@ -436,6 +442,7 @@ function keydown_event_do_text_text(e) {
 	
 	var knownwordlist = $('span.word:not(.hide):not(.status0)' + ADDFILTER + ',span.mword:not(.hide)' + ADDFILTER);
 	var l_knownwordlist = knownwordlist.size();
+	// console.log(knownwordlist);
 	if (l_knownwordlist == 0) return true;
 	
 	// the following only for a non-zero known words list
@@ -464,9 +471,22 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 	if (e.which == 37) {  // left : known word navigation
+		var marked = $('span.kwordmarked');
+		var currid = (marked.length == 0) ? (100000000) : 
+			get_position_from_id(marked.attr('id'));
 		$('span.kwordmarked').removeClass('kwordmarked');
-		TEXTPOS--;
-		if (TEXTPOS < 0) TEXTPOS = l_knownwordlist - 1;
+		// console.log(currid);
+		TEXTPOS = l_knownwordlist - 1;
+		for (var i = l_knownwordlist - 1; i >= 0; i--) {
+			var iid = get_position_from_id(knownwordlist.eq(i).attr('id'));
+			// console.log(iid);
+			if(iid < currid) {
+				TEXTPOS = i;
+				break;
+			};
+		}
+		// TEXTPOS--;
+		// if (TEXTPOS < 0) TEXTPOS = l_knownwordlist - 1;
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
 		$(window).scrollTo(curr,{axis:'y', offset:-150});
@@ -477,9 +497,22 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 	if (e.which == 39 || e.which == 32) {  // space /right : known word navigation
+		var marked = $('span.kwordmarked');
+		var currid = (marked.length == 0) ? (-1) : 
+			get_position_from_id(marked.attr('id'));
 		$('span.kwordmarked').removeClass('kwordmarked');
-		TEXTPOS++;
-		if (TEXTPOS >= l_knownwordlist) TEXTPOS = 0;
+		// console.log(currid);
+		TEXTPOS = 0;
+		for (var i = 0; i < l_knownwordlist; i++) {
+			var iid = get_position_from_id(knownwordlist.eq(i).attr('id'));
+			// console.log(iid);
+			if(iid > currid) {
+				TEXTPOS = i;
+				break;
+			};
+		}
+		// TEXTPOS++;
+		// if (TEXTPOS >= l_knownwordlist) TEXTPOS = 0;
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
 		$(window).scrollTo(curr,{axis:'y', offset:-150});

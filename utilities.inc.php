@@ -39,7 +39,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '2.0.0 (October 04 2020)'  . 
+	return '2.0.1 (October 07 2020)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
