@@ -31,14 +31,16 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: edit_languages.php?....
+ * \file
+ * \brief Manage languages
+ * 
+ * Call: edit_languages.php?....
       ... refresh=[langid] ... reparse all texts in lang
       ... del=[langid] ... do delete
       ... op=Save ... do insert new 
       ... op=Change ... do update 
       ... new=1 ... display new lang. screen 
       ... chg=[langid] ... display edit screen 
-Manage languages
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -54,10 +56,10 @@ pagestart('My Languages',true);
 //<![CDATA[
 <?php echo "var LANGUAGES = " . json_encode(get_languages()) . ";\n"; ?>
 
+/// Check if langname exists and its lang# != curr
 function check_dupl_lang(curr) {
-	// Check if langname exists and its lang# != curr
 	var l = $('#LgName').val();
-	if(l in LANGUAGES) {
+	if (l in LANGUAGES) {
 		if (curr != LANGUAGES[l]) {
 			alert ('Language "' + l + '" exists already. Please change the language name!');
 			$('#LgName').focus();
@@ -84,13 +86,13 @@ if (isset($_REQUEST['refresh'])) {
 		"Text items deleted");
 	adjust_autoincr('sentences','SeID');
 	$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
-	$res = do_mysql_query($sql);
-	while ($record = mysql_fetch_assoc($res)) {
+	$res = do_mysqli_query($sql);
+	while ($record = mysqli_fetch_assoc($res)) {
 		$txtid = $record["TxID"];
 		$txttxt = $record["TxText"];
 		splitCheckText($txttxt, $id, $txtid );
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	$message = $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from ' . $tbpref . 'sentences where SeLgID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from ' . $tbpref . 'textitems2 where Ti2LgID = ' . $id);
 }
 
@@ -164,8 +166,8 @@ elseif (isset($_REQUEST['op'])) {
 	elseif ($_REQUEST['op'] == 'Change') {
 		// Get old values
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $_REQUEST["LgID"];
-		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$res = do_mysqli_query($sql);
+		$record = mysqli_fetch_assoc($res);
 		if ($record == FALSE) my_die("Cannot access language data: $sql");
 		$oldCharacterSubstitutions = $record['LgCharacterSubstitutions'];
 		$oldRegexpSplitSentences = $record['LgRegexpSplitSentences'];
@@ -173,7 +175,7 @@ elseif (isset($_REQUEST['op'])) {
 		$oldRegexpWordCharacters = $record['LgRegexpWordCharacters'];
 		$oldRemoveSpaces = $record['LgRemoveSpaces'];
 		$oldSplitEachChar = $record['LgSplitEachChar'];
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	
 		$needReParse = 
 		(convert_string_to_sqlsyntax_notrim_nonull( $_REQUEST["LgCharacterSubstitutions"]) != convert_string_to_sqlsyntax_notrim_nonull( $oldCharacterSubstitutions)) 
@@ -216,15 +218,15 @@ elseif (isset($_REQUEST['op'])) {
 			runsql("UPDATE  " . $tbpref . "words SET WoWordCount  = 0 where WoLgID = " . $id,'');
 			set_word_count ();
 			$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
-			$res = do_mysql_query($sql);
+			$res = do_mysqli_query($sql);
 			$cntrp = 0;
-			while ($record = mysql_fetch_assoc($res)) {
+			while ($record = mysqli_fetch_assoc($res)) {
 				$txtid = $record["TxID"];
 				$txttxt = $record["TxText"];
 				splitCheckText($txttxt, $id, $txtid );
 				$cntrp++;
 			}
-			mysql_free_result($res);
+			mysqli_free_result($res);
 			$message .= " / Reparsed texts: " . $cntrp;
 		} else {
 			$message .= " / Reparsing not needed";
@@ -254,7 +256,7 @@ if (isset($_REQUEST['new'])) {
 	<table class="tab1" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right backlightyellow" style="border-top-left-radius:inherit;">Study Language "L2":</td>
-	<td class="td1" style="border-top-right-radius:inherit;"><input type="text" class="notempty setfocus" name="LgName" id="LgName" value="" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="notempty setfocus" name="LgName" id="LgName" value="" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">Dictionary 1 URI:</td>
@@ -286,7 +288,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">RegExp Word Characters:</td>
-	<td class="td1"><input type="text" class="notempty" name="LgRegexpWordCharacters" value="a-zA-ZÀ-ÖØ-öø-ȳ" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="notempty checkregexp" name="LgRegexpWordCharacters" value="a-zA-ZÀ-ÖØ-öø-ȳ" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">Make each character a word:</td>
@@ -321,8 +323,8 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'languages where LgID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
-	if ($record = mysql_fetch_assoc($res)) {
+	$res = do_mysqli_query($sql);
+	if ($record = mysqli_fetch_assoc($res)) {
 	
 		?>
 	
@@ -333,7 +335,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<table class="tab1" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Study Language "L2":</td>
-		<td class="td1" style="border-top-right-radius:inherit;"><input type="text" class="notempty setfocus" name="LgName" id="LgName" value="<?php echo tohtml($record['LgName']); ?>" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty setfocus" name="LgName" id="LgName" value="<?php echo tohtml($record['LgName']); ?>" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Dictionary 1 URI:</td>
@@ -365,7 +367,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">RegExp Word Characters:</td>
-		<td class="td1"><input type="text" class="notempty" name="LgRegexpWordCharacters" value="<?php echo tohtml($record['LgRegexpWordCharacters']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty checkregexp" name="LgRegexpWordCharacters" value="<?php echo tohtml($record['LgRegexpWordCharacters']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Make each character a word:</td>
@@ -393,7 +395,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<?php
 
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 }
 
 // DISPLAY
@@ -426,7 +428,7 @@ if ($recno==0) {
 <th class="th1 clickable">Language</th>
 <th class="th1 sorttable_numeric clickable">Texts,<br />Reparse</th>
 <th class="th1 sorttable_numeric clickable">Arch.<br />Texts</th>
-<th class="th1 sorttable_numeric clickable">Newsfeeds</th>
+<th class="th1 sorttable_numeric clickable">Newsfeeds<br />(Articles)</th>
 <th class="th1 sorttable_numeric clickable">Terms</th>
 <th class="th1 sorttable_nosort">Export<br />Template?</th>
 </tr>
@@ -435,24 +437,28 @@ if ($recno==0) {
 
 $sql = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages where LgName<>"" order by LgName';
 if ($debug) echo $sql;
-$res = do_mysql_query('select TxLgID,count(*) as value from ' . $tbpref . 'texts group by TxLgID');
-while ($record = mysql_fetch_assoc($res)) {
+$res = do_mysqli_query('select TxLgID,count(*) as value from ' . $tbpref . 'texts group by TxLgID');
+while ($record = mysqli_fetch_assoc($res)) {
 	$textcount[$record['TxLgID']]=$record['value'];
 }
-$res = do_mysql_query('select AtLgID,count(*) as value from ' . $tbpref . 'archivedtexts group by AtLgID');
-while ($record = mysql_fetch_assoc($res)) {
+$res = do_mysqli_query('select AtLgID,count(*) as value from ' . $tbpref . 'archivedtexts group by AtLgID');
+while ($record = mysqli_fetch_assoc($res)) {
 	$archtextcount[$record['AtLgID']]=$record['value'];
 }
-$res = do_mysql_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds group by NfLgID');
-while ($record = mysql_fetch_assoc($res)) {
+$res = do_mysqli_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds group by NfLgID');
+while ($record = mysqli_fetch_assoc($res)) {
 	$newsfeedcount[$record['NfLgID']]=$record['value'];
 }
-$res = do_mysql_query('select WoLgID,count(*) as value from ' . $tbpref . 'words group by WoLgID');
-while ($record = mysql_fetch_assoc($res)) {
+$res = do_mysqli_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds,' . $tbpref . 'feedlinks WHERE NfID=FlNfID group by NfLgID');
+while ($record = mysqli_fetch_assoc($res)) {
+	$feedarticlescount[$record['NfLgID']]=$record['value'];
+}
+$res = do_mysqli_query('select WoLgID,count(*) as value from ' . $tbpref . 'words group by WoLgID');
+while ($record = mysqli_fetch_assoc($res)) {
 	$wordcount[$record['WoLgID']]=$record['value'];
 }
-$res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+$res = do_mysqli_query($sql);
+while ($record = mysqli_fetch_assoc($res)) {
 	if(!isset($textcount[$record['LgID']]))$textcount[$record['LgID']]=0;
 	if(!isset($archtextcount[$record['LgID']]))$archtextcount[$record['LgID']]=0;
 	if(!isset($newsfeedcount[$record['LgID']]))$newsfeedcount[$record['LgID']]=0;
@@ -481,12 +487,12 @@ while ($record = mysql_fetch_assoc($res)) {
 	}
 	echo '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($archtextcount[$record['LgID']] > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $archtextcount[$record['LgID']] . '</a>' : '0' ) . '</' . $tdth . '>';
-	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($newsfeedcount[$record['LgID']] > 0 ? '<a href="edit_feeds.php?manage_feeds=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $newsfeedcount[$record['LgID']] . '</a>' : '0' ) . '</' . $tdth . '>';
+	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($newsfeedcount[$record['LgID']] > 0 ? '<a href="do_feeds.php?query=&amp;selected_feed=&amp;check_autoupdate=1&amp;filterlang=' . $record['LgID'] . '">' . $newsfeedcount[$record['LgID']] . ' (' . (empty($feedarticlescount[$record['LgID']])?0:$feedarticlescount[$record['LgID']]) . ')</a>' : '0' ) . '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . ($wordcount[$record['LgID']] > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=' . $record['LgID'] . '&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=">' . $wordcount[$record['LgID']] . '</a>' : '0' ) . '</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center" style="border-top-right-radius:0;">' . (isset($record['LgExportTemplate']) ? '<img src="icn/status.png" title="Yes" alt="Yes" />' : '<img src="icn/status-busy.png" title="No" alt="No" />' ) . '</' . $tdth . '>';
 	echo '</tr>';
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 

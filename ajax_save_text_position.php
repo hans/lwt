@@ -31,8 +31,8 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: ajax_chg_term_status.php
-Change term status (Table Test)
+Call: ajax_save_text_position.php
+Save text and/or audio position (Read Text Screen)
 ***************************************************************/
 
 require_once( 'settings.inc.php' );

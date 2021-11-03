@@ -165,8 +165,8 @@ if (isset($_REQUEST['new'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'tags where TgID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
-	if ($record = mysql_fetch_assoc($res)) {
+	$res = do_mysqli_query($sql);
+	if ($record = mysqli_fetch_assoc($res)) {
 ?>
 		<h4>Edit Tag</h4>
 		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
@@ -190,7 +190,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</form>
 <?php
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 }
 
 // DISPLAY
@@ -293,8 +293,8 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 
 $sql = 'select TgID, TgText, TgComment from ' . $tbpref . 'tags where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
-$res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+$res = do_mysqli_query($sql);
+while ($record = mysqli_fetch_assoc($res)) {
 	$c = get_first_value('select count(*) as value from ' . $tbpref . 'wordtags where WtTgID=' . $record['TgID']);
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['TgID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $record['TgID'] . '" ' . checkTest($record['TgID'], 'marked') . ' /></a></td>';
@@ -304,7 +304,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center">' . ($c > 0 ? '<a href="edit_words.php?page=1&amp;query=&amp;text=&amp;status=&amp;filterlang=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['TgID'] . '">' . $c . '</a>' : '0' ) . '</td>';
 	echo '</tr>';
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 </table>

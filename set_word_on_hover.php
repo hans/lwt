@@ -31,39 +31,29 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: insert_word_ignore.php?tid=[textid]&ord=[textpos]
-Ignore single word (new term with status 98)
+
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
+require_once( 'googleTranslateClass.php' );
 
 $translation = '*'; 
 if($_REQUEST['status']==1){
-	$qs = http_build_query(array("ie" => "utf-8","sl" => $_GET["sl"],"tl" => $_GET["tl"], "text" => $_GET["text"]));
-	$ctx = stream_context_create(array("http"=>array("method"=>"GET","header"=>"Referer: \r\n")));
-	$file = file_get_contents("http://translate.google.com/?".$qs, false, $ctx);
+	$tl=$_GET["tl"];
+	$sl=$_GET["sl"];
+	$text=$_GET["text"];
+
+	$tl_array = GoogleTranslate::staticTranslate($text,$sl,$tl);
+	if($tl_array) $translation = $tl_array[0];
+	if($translation == $_GET["text"])$translation = '*';
 
 	header('Pragma: no-cache');
 	header('Expires: 0');
-	$cs1 = strpos ($file,'content="text/html; charset=');
-	$cs1 = strpos ($file,'=',$cs1+10)+1;
-	$cs2 = strpos ($file,'"',$cs1)-$cs1;
-	$charset = substr($file,$cs1,$cs2);
-	$pos = strpos ($file,'result_box');
-	$pos = strpos ($file,'span title="',$pos);
-	$pos2 = strpos ($file,'>',$pos);
-	$pos3 = strpos ($file,'<',$pos2);
-	$len = $pos3 - $pos2 -1;
-	$file = substr($file,$pos2+1,$len);
-	if(!empty($charset))$file = mb_convert_encoding ($file,"UTF-8",$charset);
-	if ($file != '') {
-		$translation = trim(strip_tags($file));
-		if($translation == $_GET["text"])$translation = '*';
-	}
 }
+
 $word = convert_string_to_sqlsyntax($_REQUEST['text']);
 $wordlc = convert_string_to_sqlsyntax(mb_strtolower($_REQUEST['text'], 'UTF-8'));
 
@@ -78,20 +68,23 @@ $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts wher
 				convert_string_to_sqlsyntax($translation) . ', "", "", NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Term saved");
 			$wid = get_last_key();
-			mysql_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $langid . ' AND LOWER(Ti2Text) =' . $wordlc);
+			do_mysqli_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $langid . ' AND LOWER(Ti2Text) =' . $wordlc);
 			$hex = strToClassName(prepare_textdata(mb_strtolower($_REQUEST['text'], 'UTF-8')));
 
 
-pagestart("Term: " . $word,false);
+pagestart("New Term: " . $word,false);
+
+echo '<p>Status: ' . get_colored_status_msg($_REQUEST['status']) . '</p><br />';
+if($translation != '*')echo '<p>Translation: <b>' . tohtml($translation)  . '</b></p>';
 
 ?>
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
-var title = make_tooltip(<?php echo prepare_textdata_js($_REQUEST['text']); ?>,<?php echo prepare_textdata_js($translation); ?>,'','<?php echo $_REQUEST["status"]; ?>');
-$('.TERM<?php echo $hex; ?>', context).removeClass('status0').addClass('status<?php echo $_REQUEST["status"]; ?> word<?php echo $wid; ?>').attr('data_status','<?php echo $_REQUEST["status"]; ?>').attr('data_wid','<?php echo $wid; ?>').attr('title',title);
-$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
+var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST['text']); ?>,<?php echo prepare_textdata_js($translation); ?>,'','<?php echo $_REQUEST["status"]; ?>');
+$('.TERM<?php echo $hex; ?>', context).removeClass('status0').addClass('status<?php echo $_REQUEST["status"]; ?> word<?php echo $wid; ?>').attr('data_status','<?php echo $_REQUEST["status"]; ?>').attr('data_wid','<?php echo $wid; ?>').attr('title',title).attr('data_trans','<?php echo tohtml($translation); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>

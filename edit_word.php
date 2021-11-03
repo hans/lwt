@@ -71,17 +71,17 @@ if (isset($_REQUEST['op'])) {
 			echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
 		
 			$message = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
-				'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+				'WoStatus, WoTranslation, WoSentence, WoWordCount, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 				$_REQUEST["WoLgID"] . ', ' .
 				convert_string_to_sqlsyntax($_REQUEST["WoTextLC"]) . ', ' .
 				convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
 				$_REQUEST["WoStatus"] . ', ' .
 				convert_string_to_sqlsyntax($translation) . ', ' .
-				convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
+				convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', 1, ' .
 				convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
 make_score_random_insert_update('id') . ')', "Term saved");
 			$wid = get_last_key();
-			mysql_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
+			do_mysqli_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
 			$hex = strToClassName(prepare_textdata($_REQUEST["WoTextLC"]));
 	
 			
@@ -144,7 +144,7 @@ var woid = <?php echo prepare_textdata_js($wid); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
 var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-var title = make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
+var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 <?php
 	if ($_REQUEST['op'] == 'Save') {
 ?>
@@ -156,7 +156,7 @@ $('.word' + woid, context).removeClass('status<?php echo $_REQUEST['WoOldStatus'
 <?php
 	}
 ?>
-$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 <?php
@@ -179,15 +179,15 @@ else {  // if (! isset($_REQUEST['op']))
 	
 	if ($wid == '') {	
 		$sql = 'select Ti2Text, Ti2LgID from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['tid'] . ' and Ti2WordCount = 1 and Ti2Order = ' . $_REQUEST['ord'];
-		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$res = do_mysqli_query($sql);
+		$record = mysqli_fetch_assoc($res);
 		if ($record) {
 			$term = $record['Ti2Text'];
 			$lang = $record['Ti2LgID'];
 		} else {
 			my_die("Cannot access Term and Language in edit_word.php");
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		
 		$termlc =	mb_strtolower($term, 'UTF-8');
 		
@@ -196,15 +196,15 @@ else {  // if (! isset($_REQUEST['op']))
 	} else {
 
 		$sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
-		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$res = do_mysqli_query($sql);
+		$record = mysqli_fetch_assoc($res);
 		if ( $record ) {
 			$term = $record['WoText'];
 			$lang = $record['WoLgID'];
 		} else {
 			my_die("Cannot access Term and Language in edit_word.php");
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$termlc =	mb_strtolower($term, 'UTF-8');
 		
 	}
@@ -215,6 +215,11 @@ else {  // if (! isset($_REQUEST['op']))
 	pagestart_nobody($titletext);
 ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+<script type="text/javascript">
+$(window).on('beforeunload',function() {
+	setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
+});
+</script>
 <?php
 	$scrdir = getScriptDirectionTag($lang);
 
@@ -241,7 +246,8 @@ else {  // if (! isset($_REQUEST['op']))
 		<?php print_similar_terms_tabrow(); ?>
 		<tr>
 		<td class="td1 right">Translation:</td>
-		<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea></td>
+		<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea>
+		</td>
 		</tr>
 		<tr>
 		<td class="td1 right">Tags:</td>
@@ -255,8 +261,8 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		<tr>
 		<td class="td1 right">Sentence<br />Term in {...}:</td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-		</td></tr>
+		<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml(repl_tab_nl($sent[1])); ?></textarea></td>
+		</tr>
 		<?php print_similar_terms_tabrow(); ?>
 		<tr>
 		<td class="td1 right">Status:</td>
@@ -266,13 +272,13 @@ else {  // if (! isset($_REQUEST['op']))
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
-		<?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',1); ?>
+		<?php echo createDictLinksInEditWin($lang,$term,'document.forms[0].WoSentence',isset($_GET['nodict'])?0:1); ?>
 		&nbsp; &nbsp; &nbsp; 
 		<input type="submit" name="op" value="Save" /></td>
 		</tr>
 		</table>
 		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', 0'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 		<?php
 		
 	}
@@ -282,8 +288,8 @@ else {  // if (! isset($_REQUEST['op']))
 	else {
 		
 		$sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-		$res = do_mysql_query($sql);
-		if ($record = mysql_fetch_assoc($res)) {
+		$res = do_mysqli_query($sql);
+		if ($record = mysqli_fetch_assoc($res)) {
 			
 			$status = $record['WoStatus'];
 			if ($fromAnn == '' ) {
@@ -310,7 +316,7 @@ else {  // if (! isset($_REQUEST['op']))
 			<table class="tab2" cellspacing="0" cellpadding="5">
 			<tr title="Only change uppercase/lowercase!">
 			<td class="td1 right"><b>Edit Term:</b></td>
-			<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+			<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 			</td></tr>
 			<?php print_similar_terms_tabrow(); ?>
 			<tr>
@@ -342,7 +348,7 @@ else {  // if (! isset($_REQUEST['op']))
 			<td class="td1 right" colspan="2">  
 			<?php echo (($fromAnn !== '') ? 
 				createDictLinksInEditWin2($lang,'document.forms[0].WoSentence','document.forms[0].WoText') : 
-				createDictLinksInEditWin ($lang,$term,'document.forms[0].WoSentence',1)); ?>
+				createDictLinksInEditWin ($lang,$term,'document.forms[0].WoSentence',isset($_GET['nodict'])?0:1)); ?>
 			&nbsp; &nbsp; &nbsp; 
 			<input type="submit" name="op" value="Change" /></td>
 			</tr>
@@ -351,7 +357,7 @@ else {  // if (! isset($_REQUEST['op']))
 			<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 			<?php
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	}
 
 }

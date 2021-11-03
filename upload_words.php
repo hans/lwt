@@ -82,10 +82,11 @@ if (isset($_REQUEST['op'])) {
 		$lang = $_REQUEST["LgID"];
 		$status = $_REQUEST["WoStatus"];
 		$sql = "select * from " . $tbpref . "languages where LgID=" . $lang;
-		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$res = do_mysqli_query($sql);
+		$record = mysqli_fetch_assoc($res);
 		$termchar = $record['LgRegexpWordCharacters'];
 		$splitEachChar = $record['LgSplitEachChar'];
+		$removeSpaces = $record["LgRemoveSpaces"];
 		$rtl = $record['LgRightToLeft'];
 		$last_update = get_first_value("select max(WoStatusChanged) as value from " . $tbpref . "words");
 
@@ -105,7 +106,7 @@ if (isset($_REQUEST['op'])) {
 			else{
 				switch ($col[$j]){
 					case 'w':
-						$col[$j]='WoText';
+						$col[$j]=$removeSpaces?'@wotext':'WoText';
 						$fields["txt"]=$j;
 						break;
 					case 't':
@@ -148,42 +149,84 @@ if (isset($_REQUEST['op'])) {
 				fseek($temp, 0);
 				fclose($temp);
 			}
-			$sql= 'LOAD DATA LOCAL INFILE \''. $file_name .'\'';
+			$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name);
 			//$sql.= ($overwrite)?' REPLACE':(' IGNORE') ;
 			if($fields["tl"]==0 and $overwrite==0){
 				$sql.= ' IGNORE INTO TABLE ' . $tbpref . 'words ' . $tabs . $columns ;
-				$sql.= ' SET WoLgID =  ' . $lang . ', WoTextLC = LOWER(WoText), WoWordCount = CASE WHEN WoText REGEXP \'^[' . $termchar . ']+$\' THEN 1 ELSE 0 END, WoStatus = ' . $status . ', WoStatusChanged = NOW(), ' . make_score_random_insert_update('u');
+				$sql.= ' SET WoLgID =  ' . $lang . ', ' . ($removeSpaces?'WoTextLC = LOWER(REPLACE(@wotext," ","")),WoText = REPLACE(@wotext," ","")':'WoTextLC = LOWER(WoText)') . ', WoStatus = ' . $status . ', WoStatusChanged = NOW(), ' . make_score_random_insert_update('u');
 				runsql($sql ,'');
 			}
 			else{
 				runsql('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2','');
 				runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL)','');
 				runsql("INSERT IGNORE INTO " . $tbpref . "numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')",'');
-				$sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = LOWER(WoText)';
+				$sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET ' . ($removeSpaces?'WoTextLC = LOWER(REPLACE(@wotext," ","")), WoText = REPLACE(@wotext," ","")':'WoTextLC = LOWER(WoText)');
 				if($fields["tl"]!=0) $sql.= ', WoTaglist = REPLACE(@taglist," ",",")';
 				runsql($sql ,'');
-				if($overwrite!=3){
+//*//
+if($overwrite>3){
+	runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'merge_words(MID mediumint(8) unsigned NOT NULL AUTO_INCREMENT, MText  varchar(250) NOT NULL,  MTranslation  varchar(250) NOT NULL, PRIMARY KEY (MID), UNIQUE KEY (MText, MTranslation) ) DEFAULT CHARSET=utf8','');
+
+	$wosep = getSettingWithDefault('set-term-translation-delimiters');
+	if(empty($wosep)){
+		if ($tabs == 'h')$wosep[0]="#";
+		elseif ($tabs == 'c')$wosep[0]=",";
+		else $wosep[0]="\t";
+	}
+	$seplen = mb_strlen ($wosep,'UTF-8');
+	$WoTrRepl = $tbpref . 'words.WoTranslation';
+	for($i=1;$i<$seplen;$i++){
+		$WoTrRepl = 'REPLACE(' . $WoTrRepl . ', ' . convert_string_to_sqlsyntax($wosep[$i]) . ', ' . convert_string_to_sqlsyntax($wosep[0]) . ')';
+	}
+
+	runsql('insert ignore into ' . $tbpref . 'merge_words(MText,MTranslation) SELECT b.WoTextLC, trim(SUBSTRING_INDEX(SUBSTRING_INDEX(b.WoTranslation, ' . convert_string_to_sqlsyntax($wosep[0]) . ', ' . $tbpref . 'numbers.n), ' . convert_string_to_sqlsyntax($wosep[0]) . ', -1)) name FROM ' . $tbpref . 'numbers INNER JOIN (select ' . $tbpref . 'words.WoTextLC as WoTextLC, ' . $WoTrRepl . ' as WoTranslation from ' . $tbpref . 'tempwords left join ' . $tbpref . 'words ON ' . $tbpref . 'words.WoTextLC = ' . $tbpref . 'tempwords.WoTextLC and ' . $tbpref . 'words.WoTranslation != \'*\' and ' . $tbpref . 'words.WoLgID = ' . $lang . ') b on CHAR_LENGTH(b.WoTranslation)-CHAR_LENGTH(REPLACE(b.WoTranslation, ' . convert_string_to_sqlsyntax($wosep[0]) . ', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY b.WoTextLC, n','');
+
+	$tesep = $_REQUEST["transl_delim"];
+	if(empty($tesep)){
+		if ($tabs == 'h')$tesep[0]="#";
+		elseif ($tabs == 'c')$tesep[0]=",";
+		else $tesep[0]="\t";
+	}
+
+	$seplen = mb_strlen ($tesep,'UTF-8');
+	$WoTrRepl = $tbpref . 'tempwords.WoTranslation';
+	for($i=1;$i<$seplen;$i++){
+		$WoTrRepl = 'REPLACE(' . $WoTrRepl . ', ' . convert_string_to_sqlsyntax($tesep[$i]) . ', ' . convert_string_to_sqlsyntax($tesep[0]) . ')';
+	}
+
+	runsql('insert ignore into ' . $tbpref . 'merge_words(MText,MTranslation) SELECT ' . $tbpref . 'tempwords.WoTextLC, trim(SUBSTRING_INDEX(SUBSTRING_INDEX(' . $WoTrRepl . ',' . convert_string_to_sqlsyntax($tesep[0]) . ' , ' . $tbpref . 'numbers.n), ' . convert_string_to_sqlsyntax($tesep[0]) . ', -1)) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords on CHAR_LENGTH(' . $tbpref . 'tempwords.WoTranslation)-CHAR_LENGTH(REPLACE(' . $WoTrRepl . ', ' . convert_string_to_sqlsyntax($tesep[0]) . ', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY ' . $tbpref . 'tempwords.WoTextLC, n','');
+	if($wosep[0]==',' or $wosep[0]==';')$wosep = $wosep[0] . ' ';
+	else $wosep= ' ' . $wosep[0] . ' ';
+	runsql('update ' . $tbpref . 'tempwords left join (SELECT MText, GROUP_CONCAT(trim(MTranslation) order by MID separator ' . convert_string_to_sqlsyntax_notrim_nonull($wosep) . ') AS Translation from ' . $tbpref . 'merge_words group by MText ) A on MText=WoTextLC set WoTranslation = Translation','');
+	runsql('DROP TABLE ' . $tbpref . 'merge_words','');
+}
+// */
+				if($overwrite!=3 and $overwrite!=5){
 					$sql=($overwrite!=0)?'INSERT ':('INSERT IGNORE ');
-					$sql.= ' INTO ' . $tbpref . 'words (WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoStatusChanged, WoLgID, WoWordCount,' .  make_score_random_insert_update('iv')  .') ';
-$sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termchar . ']+$\' THEN 1 ELSE 0 END as WordCount, ' . make_score_random_insert_update('id') . ' from (select WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, ' . $status . ' as WoStatus, NOW() as WoStatusChanged from ' . $tbpref . 'tempwords) as tw';
+					$sql.= ' INTO ' . $tbpref . 'words (WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoStatusChanged, WoLgID,' .  make_score_random_insert_update('iv')  .') ';
+$sql.= 'select *, ' . $lang . ' as LgID, ' . make_score_random_insert_update('id') . ' from (select WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, ' . $status . ' as WoStatus, NOW() as WoStatusChanged from ' . $tbpref . 'tempwords) as tw';
 					//if($overwrite==1)$sql.= ' ON DUPLICATE KEY UPDATE ' . $tbpref . 'words.WoTranslation = tw.WoTranslation, ' . $tbpref . 'words.WoRomanization = tw.WoRomanization, ' . $tbpref . 'words.WoSentence = tw.WoSentence, ' . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged';
-					if($overwrite==1)$sql.= ' ON DUPLICATE KEY UPDATE ' . ($fields["tr"]?$tbpref . 'words.WoTranslation = tw.WoTranslation, ':'') . ($fields["ro"]?$tbpref . 'words.WoRomanization = tw.WoRomanization, ':'') . ($fields["se"]?$tbpref . 'words.WoSentence = tw.WoSentence, ':'') . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged';
+					if($overwrite==1 or $overwrite==4)$sql.= ' ON DUPLICATE KEY UPDATE ' . ($fields["tr"]?$tbpref . 'words.WoTranslation = tw.WoTranslation, ':'') . ($fields["ro"]?$tbpref . 'words.WoRomanization = tw.WoRomanization, ':'') . ($fields["se"]?$tbpref . 'words.WoSentence = tw.WoSentence, ':'') . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged';
 					if($overwrite==2)$sql.= ' ON DUPLICATE KEY UPDATE ' . $tbpref . 'words.WoTranslation = case when ' . $tbpref . 'words.WoTranslation = "*" then tw.WoTranslation else ' . $tbpref . 'words.WoTranslation end, ' . $tbpref . 'words.WoRomanization = case when ' . $tbpref . 'words.WoRomanization IS NULL then tw.WoRomanization else ' . $tbpref . 'words.WoRomanization end, ' . $tbpref . 'words.WoSentence = case when ' . $tbpref . 'words.WoSentence IS NULL then tw.WoSentence else ' . $tbpref . 'words.WoSentence end, ' . $tbpref . 'words.WoStatusChanged = case when ' . $tbpref . 'words.WoSentence IS NULL or ' . $tbpref . 'words.WoRomanization IS NULL or ' . $tbpref . 'words.WoTranslation = "*" then tw.WoStatusChanged else ' . $tbpref . 'words.WoStatusChanged end';
+
+
 				}
 				else{
 					$sql = 'UPDATE ' . $tbpref . 'words AS a JOIN ' . $tbpref . 'tempwords AS b ON a.WoTextLC = b.WoTextLC SET a.WoTranslation = CASE WHEN b.WoTranslation = "" or b.WoTranslation = "*" THEN a.WoTranslation ELSE b.WoTranslation END, a.WoRomanization = CASE WHEN b.WoRomanization IS NULL or b.WoRomanization = "" THEN a.WoRomanization ELSE b.WoRomanization END, a.WoSentence = CASE WHEN b.WoSentence IS NULL or b.WoSentence = "" THEN a.WoSentence ELSE b.WoSentence END, a.WoStatusChanged = CASE WHEN (b.WoTranslation = "" or b.WoTranslation = "*") and (b.WoRomanization IS NULL or b.WoRomanization = "") and (b.WoSentence IS NULL or b.WoSentence = "") THEN a.WoStatusChanged ELSE NOW() END';
 				}
 				runsql($sql ,'');
 				if($fields["tl"]!=0){
-				runsql('insert ignore into ' . $tbpref . 'tags (TgText) select name from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', ' . $tbpref . 'numbers.n), \',\', -1) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY WoTextLC, n) A','');
-				runsql('INSERT IGNORE INTO ' . $tbpref . 'wordtags select WoID,TgID from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', ' . $tbpref . 'numbers.n), \',\', -1) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY WoTextLC, n) A,' . $tbpref . 'tags,' . $tbpref . 'words where name=TgText and A.WoTextLC=' . $tbpref . 'words.WoTextLC and WoLgID=' . $lang,'');
+					runsql('insert ignore into ' . $tbpref . 'tags (TgText) select name from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', ' . $tbpref . 'numbers.n), \',\', -1) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY WoTextLC, n) A','');
+					runsql('INSERT IGNORE INTO ' . $tbpref . 'wordtags select WoID,TgID from (SELECT ' . $tbpref . 'tempwords.WoTextLC, SUBSTRING_INDEX(SUBSTRING_INDEX(' . $tbpref . 'tempwords.WoTaglist, \',\', ' . $tbpref . 'numbers.n), \',\', -1) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords ON CHAR_LENGTH(' . $tbpref . 'tempwords.WoTaglist)-CHAR_LENGTH(REPLACE(' . $tbpref . 'tempwords.WoTaglist, \',\', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY WoTextLC, n) A,' . $tbpref . 'tags,' . $tbpref . 'words where name=TgText and A.WoTextLC=' . $tbpref . 'words.WoTextLC and WoLgID=' . $lang,'');
 				}
 				runsql('DROP TABLE ' . $tbpref . 'numbers','');
 				runsql("truncate " . $tbpref . "tempwords" ,'');
 				if($fields["tl"]!=0)get_tags(1);
 			}
 			if ( !$file_upl ) {unlink($file_name);}
-			$mwords = get_first_value("select count(*) as value from " . $tbpref . "words where WoCreated > " . convert_string_to_sqlsyntax($last_update));
+			set_word_count ();
+			runsql('UPDATE ' . $tbpref . 'words join ' . $tbpref . 'textitems2 on WoWordCount=1 and Ti2WoID=0 and lower(Ti2Text)=WoTextLC and Ti2LgID = WoLgID SET Ti2WoID=WoID','');
+			$mwords = get_first_value("select count(*) as value from " . $tbpref . "words where WoWordCount>1 and WoCreated > " . convert_string_to_sqlsyntax($last_update));
 			if($mwords > 40){
 				runsql('delete from ' . $tbpref . 'sentences where SeLgID = ' . $lang, 
 						"Sentences deleted");
@@ -191,83 +234,32 @@ $sql.= 'select *, ' . $lang . ' as LgID, CASE WHEN WoText REGEXP \'^[' . $termch
 						"Text items deleted");
 				adjust_autoincr('sentences','SeID');
 				$sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $lang . " order by TxID";
-				$res = do_mysql_query($sql);
+				$res = do_mysqli_query($sql);
 				$cntrp = 0;
-				while ($record = mysql_fetch_assoc($res)) {
+				while ($record = mysqli_fetch_assoc($res)) {
 					$txtid = $record["TxID"];
 					$txttxt = $record["TxText"];
 					splitCheckText($txttxt, $lang, $txtid );
 					$cntrp++;
 				}
-				mysql_free_result($res);
+				mysqli_free_result($res);
 				//$message .= " / Reparsed texts: " . $cntrp;
 			}
 			elseif($mwords!=0){
-				$sqlarr=array();
-				$twidarr=array();
-				$wocountarr=array();
-				$res = do_mysql_query("select WoID, WoTextLC from " . $tbpref . "words where WoCreated > " . convert_string_to_sqlsyntax($last_update));
-				while ($record = mysql_fetch_assoc($res)) {
+				$sqlarr = array();
+				$res = do_mysqli_query("select WoID, WoTextLC, WoWordCount from " . $tbpref . "words where WoWordCount>1 and WoCreated > " . convert_string_to_sqlsyntax($last_update));
+				while ($record = mysqli_fetch_assoc($res)) {
+					$len = $record['WoWordCount'];
 					$wid = $record['WoID'];
 					$textlc = $record['WoTextLC'];
-					$wis = $textlc;
-					if ($splitEachChar) {
-						$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
-					}
-					$len=preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
-					if($len > 1){
-						$wocountarr[]= ' WHEN ' . $wid . ' THEN ' . $len;
-					}
-
-						$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
-						$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lang . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
-						$result = do_mysql_query($sql);
-						while($record2 = mysql_fetch_assoc($result)){
-							$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record2['SeText']):$record2['SeText']) . ' ';
-							$txtid =$record2['SeTxID'];
-							$sentid =$record2['SeID'];
-							$last_pos = strripos ( $string , $textlc );
-							$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
-							while($last_pos!==false){
-								$matches=array();
-								if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
-									$string = substr ( $string, 0, $last_pos );
-									$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
-									$pos=2*$cnt+$record2['SeFirstPos'] + $sentoffset;
-								if($len!=1){
-									$txt='';
-									if(!($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
-									$sqlarr[] = '(' . $wid . ',' . $lang . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
-								}
-								else{
-									$twidarr[] = ' WHEN Ti2SeID = ' . $sentid . ' AND Ti2Order = ' . $pos . ' THEN ' . $wid;
-								}
-									$last_pos = strripos ( $string , $textlc );
-								}
-								else{
-									$string = substr ( $string, 0, $last_pos );
-									$last_pos = strripos ( $string , $textlc );
-								}
-							}
-						}
-
+					$sqlarr[] = insertExpressions ($textlc,$lang,$wid,$len,2);
 				}
-				mysql_free_result($result);
-				mysql_free_result($res);
+				mysqli_free_result($res);
+				$sqlarr = array_filter($sqlarr);
 				if(!empty($sqlarr)){
 				$sqltext = 'INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
 				$sqltext .= rtrim(implode(',', $sqlarr),',');
-				mysql_query ($sqltext);
-				}
-				if(!empty($twidarr)){
-				$sqltext = "UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = CASE ";
-				$sqltext .= implode(' ', $twidarr) . ' ELSE 0 END where Ti2WoID=0 and Ti2WordCount = 1 and Ti2LgID = ' . $lang;
-				mysql_query ($sqltext);
-				}
-				if(!empty($wocountarr)){
-				$sqltext = "UPDATE  " . $tbpref . "words SET WoWordCount  = CASE WoID";
-				$sqltext .= implode(' ', $wocountarr) . ' END where WoWordCount=0 and WoLgID = ' . $lang;
-				mysql_query ($sqltext);
+				do_mysqli_query ($sqltext);
 				}
 			}
 			$recno = get_first_value('select count(*) as value from ' . $tbpref . 'words where WoStatusChanged > ' . convert_string_to_sqlsyntax($last_update));
@@ -304,7 +296,7 @@ $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $l
 				fseek($temp, 0);
 				fclose($temp);
 			}
-			$sql= 'LOAD DATA LOCAL INFILE \''. $file_name .'\' IGNORE INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = REPLACE(@taglist," ",",")';
+			$sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name) .' IGNORE INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET WoTextLC = REPLACE(@taglist," ",",")';
 			runsql($sql ,'');
 			runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL)','');
 			runsql("INSERT IGNORE INTO " . $tbpref . "numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')",'');
@@ -329,7 +321,7 @@ $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $l
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 center"><b>Language:</b></td>
-	<td class="td1" style="border-top-right-radius:inherit;">
+	<td class="td1">
 	<select name="LgID" class="notempty setfocus">
 	<?php
 	echo get_languages_selectoptions(getSetting('currentlanguage'),'[Choose...]');
@@ -396,14 +388,17 @@ $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $l
 	<option value="g">Tag List</option>
 	<option value="x" selected="selected">Don't import</option>
 	</select><br />
-	<br /><b>Import Modus</b>:<br />
-	<select name="Over">
+	<br /><b>Import Mode</b>:<br />
+	<select name="Over" onchange="if(parseInt(this.value)>3){$('#imp_transl_delim').removeClass('hide');$('#imp_transl_delim input').addClass('notempty');}else{ $('#imp_transl_delim input').removeClass('notempty');$('#imp_transl_delim').addClass('hide');}">
 	<option value="0" title="- don't overwrite existent terms&#x000A;- import new terms" selected="selected">Import only new terms</option>
 	<option value="1" title="- overwrite existent terms&#x000A;- import new terms">Replace all fields</option>
 	<option value="2" title="- update only empty fields&#x000A;- import new terms">Update empty fields</option>
 	<option value="3" title="- overwrite existing terms with new not empty values&#x000A;- don't import new terms">No new terms</option>
+	<option value="4" title="- add new translations to existing ones&#x000A;- import new terms">Merge translation fields</option>
+	<option value="5" title="- add new translations to existing ones&#x000A;- don't import new terms">Update existing translations</option>
 	</select>
-	<br /><br />
+	<br /><div class="hide" id="imp_transl_delim">Import Translation Delimiter:<br />
+	<input class="notempty" type="text" name="transl_delim" style="width:4em;" value="<?php echo getSettingWithDefault('set-term-translation-delimiters'); ?>" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></div><br />
 	<b>Important:</b><br />
 	You must specify the term.<br />
 	Translation, romanization, <br />sentence and tag list<br />are optional. The tag list <br />must be separated either<br />by spaces or commas.

@@ -31,22 +31,27 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Database Utility Functions
+ * \file
+ * \brief Database Utility Functions
+ * 
+ * This file is responsible for interacting with the database.
 ***************************************************************/
 
-// -------------------------------------------------------------
-
-function do_mysql_query($sql) {
-	$res = mysql_query($sql);
+/**
+ * Do a SQL query to the database. 
+ * It is a wrapper for "mysqli_query" function
+ */ 
+function do_mysqli_query($sql) {
+	$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
 	if ($res == FALSE) {
 		echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
 			'<p><b>Fatal Error in SQL Query:</b> ' . 
 			tohtml($sql) . 
 			'</p>' . 
 			'<p><b>Error Code &amp; Message:</b> [' . 
-			mysql_errno() . 
+			mysqli_errno($GLOBALS['DBCONNECTION']) . 
 			'] ' . 
-			tohtml(mysql_error()) . 
+			tohtml(mysqli_error($GLOBALS['DBCONNECTION'])) . 
 			"</p></div><hr /><pre>Backtrace:\n\n";
 		debug_print_backtrace ();
 		echo '</pre><hr />';
@@ -56,32 +61,39 @@ function do_mysql_query($sql) {
 		return $res;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Run a SQL query, you can specify its behavior and error message.
+ * 
+ * @param String $sql MySQL query
+ * @param String $m Error message ('' to return the number of affected rows)
+ * @param Bool $sqlerrdie To die on errors (default = TRUE)
+ */
 function runsql($sql, $m, $sqlerrdie = TRUE) {
 	if ($sqlerrdie)
-		$res = do_mysql_query($sql);
+		$res = do_mysqli_query($sql);
 	else
-		$res = mysql_query($sql);		
+		$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
 	if ($res == FALSE) {
-		$message = "Error: " . mysql_error();
+		$message = "Error: " . mysqli_error($GLOBALS['DBCONNECTION']);
 	} else {
-		$num = mysql_affected_rows();
+		$num = mysqli_affected_rows($GLOBALS['DBCONNECTION']);
 		$message = (($m == '') ? $num : ($m . ": " . $num));
 	}
 	return $message;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Returns the first line from the database 
+ * @param String $sql MySQL query
+ */
 function get_first_value($sql) {
-	$res = do_mysql_query($sql);		
-	$record = mysql_fetch_assoc($res);
+	$res = do_mysqli_query($sql);		
+	$record = mysqli_fetch_assoc($res);
 	if ($record) 
 		$d = $record["value"];
 	else
 		$d = NULL;
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	return $d;
 }
 

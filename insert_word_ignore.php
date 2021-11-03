@@ -54,7 +54,7 @@ convert_string_to_sqlsyntax($word) . ', ' .
 convert_string_to_sqlsyntax($wordlc) . ', 98, 1, NOW(), ' .  
 make_score_random_insert_update('id') . ')','Term added');
 $wid = get_last_key();
-mysql_query ("UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = " . $wid . " where Ti2LgID = " . $langid . " and lower(Ti2Text) = " . convert_string_to_sqlsyntax($wordlc));
+do_mysqli_query ("UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = " . $wid . " where Ti2LgID = " . $langid . " and lower(Ti2Text) = " . convert_string_to_sqlsyntax($wordlc));
 echo "<p>OK, this term will be ignored!</p>";
 
 $hex = strToClassName($wordlc);
@@ -66,7 +66,7 @@ var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 var title = make_tooltip(<?php echo prepare_textdata_js($word); ?>,'*','','98');
 $('.TERM<?php echo $hex; ?>', context).removeClass('status0').addClass('status98 word<?php echo $wid; ?>').attr('data_status','98').attr('data_wid','<?php echo $wid; ?>').attr('title',title);
-$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>

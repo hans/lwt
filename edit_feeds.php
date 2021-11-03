@@ -19,7 +19,7 @@ if (! $no_pagestart) {
 }
 
 $message = '';
-if(isset($_REQUEST['save_feed']) || isset($_REQUEST['del_wiz'])){unset($_SESSION['wizard']);}
+if(isset($_SESSION['wizard'])){unset($_SESSION['wizard']);}
 
 
 
@@ -33,7 +33,7 @@ if (isset($_REQUEST['markaction'])){
 	if ($_REQUEST['markaction']=='del_art') {
 		$message= runsql('delete from ' . $tbpref . 'feedlinks where FlNfID in(' . $currentfeed . ')', "Article item(s) deleted");
 		echo error_message_with_hide($message,0);unset($message);
-		do_mysql_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID in(' . $currentfeed . ')');
+		do_mysqli_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID in(' . $currentfeed . ')');
 	}
 
 	if ($_REQUEST['markaction']=='res_art'){
@@ -55,18 +55,18 @@ $(".hide_message").delay(2500).slideUp(1000);
 
 if(isset($_REQUEST['update_feed'])){
 	$currentfeed = $_REQUEST['NfID'];
-	runsql('UPDATE ' . $tbpref . 'newsfeeds SET NfLgID=' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',NfName=' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',NfSourceURI=' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',NfArticleSectionTags=' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',NfFilterTags=' . convert_string_to_sqlsyntax($_REQUEST['NfFilterTags']) .',NfOptions=' . convert_string_to_sqlsyntax(rtrim($_REQUEST['NfOptions'],',')) .' where NfID='.$_REQUEST['NfID']);
+	runsql('UPDATE ' . $tbpref . 'newsfeeds SET NfLgID=' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',NfName=' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',NfSourceURI=' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',NfArticleSectionTags=' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',NfFilterTags=' . convert_string_to_sqlsyntax_nonull($_REQUEST['NfFilterTags']) .',NfOptions=' . convert_string_to_sqlsyntax_nonull(rtrim($_REQUEST['NfOptions'],',')) .' where NfID='.$_REQUEST['NfID'],"");
 }
 
 if(isset($_REQUEST['save_feed'])){
-	runsql('insert into ' . $tbpref . 'newsfeeds (NfLgID,NfName,NfSourceURI,NfArticleSectionTags,NfFilterTags,NfOptions) VALUES (' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfFilterTags']) .',' . convert_string_to_sqlsyntax(rtrim($_REQUEST['NfOptions'],',')) .')');
+	runsql('insert into ' . $tbpref . 'newsfeeds (NfLgID,NfName,NfSourceURI,NfArticleSectionTags,NfFilterTags,NfOptions) VALUES (' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',' . convert_string_to_sqlsyntax_nonull($_REQUEST['NfFilterTags']) .',' . convert_string_to_sqlsyntax_nonull(rtrim($_REQUEST['NfOptions'],',')) .')',"");
 	$message='newsfeed saved';
 }
 if(isset($_REQUEST['load_feed']) || isset($_REQUEST['check_autoupdate']) || (isset($_REQUEST['markaction']) && $_REQUEST['markaction']=='update')){
 	load_feeds($currentfeed);
 }	
 elseif(isset($_REQUEST['new_feed'])){
-	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
+	$result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
 <h4>New Feed <a target="_blank" href="info.htm#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 <a href="do_feeds.php?page=1"> My Feeds</a> &nbsp; | &nbsp;
@@ -74,15 +74,16 @@ elseif(isset($_REQUEST['new_feed'])){
 <br></br>
 <form class="validate" action="edit_feeds.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
-<tr><td class="td1">Language: </td><td class="td1" style="border-top-right-radius:inherit;"><select name="NfLgID">
+<tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID">
 <?php
-	while($row_l = mysql_fetch_assoc($result)){
+	while($row_l = mysqli_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
 		if($currentlang===$row_l['LgID']){
 			echo ' selected="selected"';
 		}
 		echo '>' . $row_l['LgName'] . '</option>';
 	}
+	mysqli_free_result($result);
 ?>	</select></td></tr>
 <tr><td class="td1">
 Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text" name="NfName" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
@@ -130,24 +131,25 @@ $('[type="submit"]').click(function(){
 }
 
 elseif(isset($_REQUEST['edit_feed'])){
-	$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=$currentfeed");
-	$row = mysql_fetch_assoc($result);	
-	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
+	$result = do_mysqli_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=$currentfeed");
+	$row = mysqli_fetch_assoc($result);
+	$result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
 <h4>Edit Feed <a target="_blank" href="info.htm#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 <a href="do_feeds.php?page=1"> My Feeds</a> &nbsp; | &nbsp;
 <a href="feed_wizard.php?step=2&amp;edit_feed=<?php echo $currentfeed;?>"><img src="icn/wizard.png" title="feed_wizard" alt="feed_wizard" /> Feed Wizard</a>
 <form class="validate" action="edit_feeds.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
-<tr><td class="td1">Language: </td><td class="td1" style="border-top-right-radius:inherit;"><select name="NfLgID">
+<tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID">
 <?php	
-	while($row_l = mysql_fetch_assoc($result)){
+	while($row_l = mysqli_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
 		if($row['NfLgID']===$row_l['LgID']){
 			echo ' selected="selected"';
 		}
 		echo '>' . $row_l['LgName'] . '</option>';
 	}
+	mysqli_free_result($result);
 	$auto_upd_v;
 	$auto_upd_i=get_nf_option($row['NfOptions'],'autoupdate');
 	if($auto_upd_i==NULL)$auto_upd_v=NULL;
@@ -204,10 +206,10 @@ $('[type="submit"]').click(function(){
 
 elseif(isset($_REQUEST['multi_load_feed'])){
 	if(!empty($currentlang)){
-		$result = do_mysql_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang ORDER BY NfUpdate DESC");
+		$result = do_mysqli_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang ORDER BY NfUpdate DESC");
 	}
 	else{
-		$result = do_mysql_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds ORDER BY NfUpdate DESC");
+		$result = do_mysqli_query("SELECT NfName,NfID,NfUpdate FROM " . $tbpref . "newsfeeds ORDER BY NfUpdate DESC");
 	}
 ?>
 <form name="form1" action="do_feeds.php" onsubmit="document.form1.querybutton.click(); return false;">
@@ -230,7 +232,7 @@ elseif(isset($_REQUEST['multi_load_feed'])){
 </tr>
 <?php
 	$time=time();
-	while($row = mysql_fetch_assoc($result)){
+	while($row = mysqli_fetch_assoc($result)){
 		$diff=$time-$row['NfUpdate'];
 		echo '<tr><td class="td1 center"><input class="markcheck" type="checkbox" name="selected_feed[]" value="' . $row['NfID'] . '" checked="checked" /></td>';
 		echo '<td class="td1 center" colspan="2">'.$row['NfName'].'</td><td class="td1 center" sorttable_customkey="'.$diff.'">';
@@ -239,6 +241,7 @@ elseif(isset($_REQUEST['multi_load_feed'])){
 		}
 		echo '</td></tr>';
 	}
+	mysqli_free_result($result);
 ?>
 </table></td></tr>
 <tr>
@@ -314,10 +317,10 @@ Feed Name (Wildc.=*):
 			echo '</th><th class="th1">';
 			makePager ($currentpage, $pages, 'edit_feeds.php', 'form1');
 	if(!empty($currentlang)){
-		$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang $wh_query ORDER BY " . $sorts[$currentsort-1]);
+		$result = do_mysqli_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfLgID=$currentlang $wh_query ORDER BY " . $sorts[$currentsort-1]);
 	}
 	else{
-		$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE (1=1) $wh_query ORDER BY " . $sorts[$currentsort-1]);
+		$result = do_mysqli_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE (1=1) $wh_query ORDER BY " . $sorts[$currentsort-1]);
 	}
 ?>
 </th>
@@ -335,7 +338,7 @@ Sort Order:
 </tr>
 <?php
 	$time=time();	
-	while($row = mysql_fetch_assoc($result)){$diff=$time-$row['NfUpdate'];
+	while($row = mysqli_fetch_assoc($result)){$diff=$time-$row['NfUpdate'];
 		echo '<tr><td class="td1 center"><input type="checkbox" name="marked[]" class="markcheck" value="' . $row['NfID'] . '" /></td>';
 		echo '<td style="white-space: nowrap" class="td1 center"><a href="' . $_SERVER['PHP_SELF'] . '?edit_feed=1&amp;selected_feed=' . $row['NfID'] . '"><img src="icn/feed--pencil.png" title="Edit" alt="Edit" /></a>';
 		echo '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?manage_feeds=1&amp;load_feed=1&amp;selected_feed=' . $row['NfID'] . '"><span title="Update Feed"><img src="icn/arrow-circle-135.png" alt="-" /></span></a>';
@@ -348,6 +351,7 @@ Sort Order:
 		}
 		echo '</td></tr>';
 	}
+	mysqli_free_result($result);
 ?>
 </table>
 </form>
@@ -362,7 +366,6 @@ Sort Order:
 
 	}
 }
-if(isset($result))mysql_free_result($result);
 pageend();
 
 ?>

@@ -101,8 +101,8 @@ if ($count <= 0) {
 	$lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
 	
 	$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
-	$res = do_mysql_query($sql);
-	$record = mysql_fetch_assoc($res);
+	$res = do_mysqli_query($sql);
+	$record = mysqli_fetch_assoc($res);
 	$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
 	$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
 	$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
@@ -111,7 +111,7 @@ if ($count <= 0) {
 	$regexword = $record['LgRegexpWordCharacters'];
 	$rtlScript = $record['LgRightToLeft'];
 	$langname = $record['LgName'];
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	
 	// Find the next word to test
 	
@@ -121,8 +121,8 @@ if ($count <= 0) {
 		$pass++;
 		$sql = 'SELECT DISTINCT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, (ifnull(WoSentence,\'\') not like concat(\'%{\',WoText,\'}%\')) as notvalid, WoStatus, DATEDIFF( NOW( ), WoStatusChanged ) AS Days, WoTodayScore AS Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0 ' . ($pass == 1 ? 'AND WoRandom > RAND()' : '') . ' order by WoTodayScore, WoRandom LIMIT 1';
 		if ($debug) echo 'DEBUG TEST-SQL: ' . $sql . '<br />';
-		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
+		$res = do_mysqli_query($sql);
+		$record = mysqli_fetch_assoc($res);
 		if ( $record ) {
 			$num = 1;
 			$wid = $record['WoID'];
@@ -137,7 +137,7 @@ if ($count <= 0) {
 			$score = $record['Score'];
 			$pass = 2;
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 	}
 	
 	if ($num == 0) {
@@ -159,8 +159,8 @@ if ($count <= 0) {
 				$pass++;
 				if ($debug) echo "DEBUG search sent: pass: $pass <br />";
 				$sql = 'SELECT DISTINCT SeID FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 WHERE Ti2WoID = ' . $wid . $sentexcl . ' AND SeID = Ti2SeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
-				$res = do_mysql_query($sql);
-				$record = mysql_fetch_assoc($res);
+				$res = do_mysqli_query($sql);
+				$record = mysqli_fetch_assoc($res);
 				if ( $record ) {  // random sent found
 					$num = 1;
 					$seid = $record['SeID'];
@@ -183,7 +183,7 @@ if ($count <= 0) {
 					if ($debug) echo "DEBUG no random sent found<br />";
 					// no sent. take term sent. $num == 0
 				}
-				mysql_free_result($res);
+				mysqli_free_result($res);
 			} // while ( $pass < 3 )
 		}  // $nosent == FALSE
 	
@@ -240,6 +240,8 @@ if ($count <= 0) {
 WBLINK1 = '<?php echo $wb1; ?>';
 WBLINK2 = '<?php echo $wb2; ?>';
 WBLINK3 = '<?php echo $wb3; ?>';
+LANG = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
+if(LANG && LANG!=WBLINK3) $("html").attr('lang',LANG);
 SOLUTION = <?php echo prepare_textdata_js ( $testtype==1 ? ( $nosent ? ($trans) : (' [' . $trans . '] ')) : $save ); ?>;
 OPENED = 0;
 WID = <?php echo $wid; ?>;

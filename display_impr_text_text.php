@@ -50,19 +50,19 @@ if(($textid==0) || (! $ann_exists)) {
 }
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
-$res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$res = do_mysqli_query($sql);
+$record = mysqli_fetch_assoc($res);
 $title = $record['TxTitle'];
 $langid = $record['TxLgID'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
-$res = do_mysql_query($sql);
-$record = mysql_fetch_assoc($res);
+$res = do_mysqli_query($sql);
+$record = mysqli_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
 $removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
-mysql_free_result($res);
+mysqli_free_result($res);
 
 saveSetting('currenttext',$textid);
 

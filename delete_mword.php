@@ -58,15 +58,15 @@ echo "<p>OK, term deleted (" . $m1 . ").</p>";
 var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 $('.word<?php echo $wid; ?>', context).each(function(){
-sid = $(this).attr('data_sid');
+sid = $(this).parent();
 $(this).remove();
 <?php 
 if (! $showAll) { ?>
-$('.wsty[data_sid="' + sid + '"]',context).removeClass('hide');
-$('.mword[data_sid="' + sid + '"]',context).each(function(){
+$('*',sid).removeClass('hide');
+$('.mword', sid).each(function(){
 	if($(this).not('.hide').length){
 		u= parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;
-		$(this).nextUntil('[id^="ID-' + u + '-"]',context).addClass('hide');
+		$(this).nextUntil('[id^="ID-' + u + '-"]',sid).addClass('hide');
 	}
 });
 <?php
@@ -74,7 +74,7 @@ $('.mword[data_sid="' + sid + '"]',context).each(function(){
 ?>
 
 });
-$('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>

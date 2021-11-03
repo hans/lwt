@@ -30,11 +30,12 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
-
+require_once( 'settings.inc.php' );
 require_once( 'connect.inc.php' );
 require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
+session_write_close();
 $imported_feed=0;
 $nif=0;
 $msg='';
@@ -57,11 +58,11 @@ else{
 		$valuesArr[] = "($d_title,$d_link,$d_text,$d_desc,$d_date,$d_audio,$d_feed)";
 	}
 	$sql .= implode(',', $valuesArr);
-	mysql_query($sql);
-	$imported_feed=mysql_affected_rows();
+	do_mysqli_query( $sql);
+	$imported_feed=mysqli_affected_rows($GLOBALS["DBCONNECTION"]);
 	$nif=count($valuesArr)-$imported_feed;
 	unset($valuesArr);
-	do_mysql_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID='.$_POST['NfID']);
+	do_mysqli_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID='.$_POST['NfID']);
 	$nf_max_links=NULL;
 	$nf_max_links=get_nf_option($_POST['NfOptions'],'max_links');
 	if(!$nf_max_links){
@@ -76,11 +77,11 @@ else{
 	$msg.= " imported";
 	if($nif>1)$msg.= ", $nif articles are dublicates";
 	if($nif==1)$msg.= ", $nif dublicated article";
-	$result=mysql_query("SELECT COUNT(*) AS total FROM " . $tbpref . "feedlinks WHERE FlNfID in (".$_POST['NfID'].")");
-	$row = mysql_fetch_assoc($result);
+	$result=do_mysqli_query( "SELECT COUNT(*) AS total FROM " . $tbpref . "feedlinks WHERE FlNfID in (".$_POST['NfID'].")");
+	$row = mysqli_fetch_assoc($result);
 	$to=($row['total']-$nf_max_links);
 	if($to>0){
-		do_mysql_query("DELETE FROM " . $tbpref . "feedlinks WHERE FlNfID in (".$_POST['NfID'].") ORDER BY FlDate LIMIT $to");
+		do_mysqli_query("DELETE FROM " . $tbpref . "feedlinks WHERE FlNfID in (".$_POST['NfID'].") ORDER BY FlDate LIMIT $to");
 		$msg.= ", $to old article(s) deleted";
 	}
 	echo "<div class=\"msgblue\"><p> $msg </p></div>";

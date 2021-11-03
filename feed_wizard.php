@@ -10,17 +10,18 @@ if($_REQUEST['step']==4){
 	if(isset($_REQUEST['filter_tags']))$_SESSION['wizard']['filter_tags']=$_REQUEST['filter_tags'];
 	?><form class="validate" action="edit_feeds.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
-<tr><td class="td1">Language: </td><td class="td1" style="border-top-right-radius:inherit;"><select name="NfLgID" class="notempty"><option value="">[Select...]</option>
+<tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID" class="notempty"><option value="">[Select...]</option>
 <?php	
 		
-	$result = do_mysql_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
-	while($row_l = mysql_fetch_assoc($result)){
+	$result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
+	while($row_l = mysqli_fetch_assoc($result)){
 		echo '<option value="' . $row_l['LgID'] . '"';
 		if($_SESSION['wizard']['lang']===$row_l['LgID']){
 			echo ' selected="selected"';
 		}
 		echo '>' . $row_l['LgName'] . '</option>';
 	}
+	mysqli_free_result($result);
 	$auto_upd_v;
 	$auto_upd_i=get_nf_option($_SESSION['wizard']['options'],'autoupdate');
 	if($auto_upd_i==NULL)$auto_upd_v=NULL;
@@ -253,14 +254,15 @@ $(function(){
 elseif($_REQUEST['step']==2){
 	if(isset($_REQUEST['edit_feed']) && !isset($_SESSION['wizard'])){
 		$_SESSION['wizard']['edit_feed']=$_REQUEST['edit_feed'];
-		$result = do_mysql_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=".$_REQUEST['edit_feed']);
-		$row = mysql_fetch_assoc($result);	
+		$result = do_mysqli_query("SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID=".$_REQUEST['edit_feed']);
+		$row = mysqli_fetch_assoc($result);
+		mysqli_free_result($result);
 		$_SESSION['wizard']['rss_url']=$row['NfSourceURI'];
 		$article_tags=explode('|',str_replace('!?!','|',$row['NfArticleSectionTags']));
 		$_SESSION['wizard']['article_tags']='';
 		foreach($article_tags as $tag){
 			if(substr_compare(trim($tag), "redirect", 0, 8)==0){
-				$_SESSION['wizard']['redirect']=trim($tag).'!?!';
+				$_SESSION['wizard']['redirect']=trim($tag).' | ';
 			}
 			else $_SESSION['wizard']['article_tags'].='<li style="text-align: left"><img class="delete_selection" src="icn/cross.png" title="Delete Selection" alt="-" />'.$tag.'</li>';
 		}
@@ -484,7 +486,7 @@ else{
 <form class="validate" action="feed_wizard.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr><td class="td1">Feed URI: </td>
-<td class="td1" style="border-top-right-radius:inherit;"><input class="notempty" style="width:90%" type="text" name="rss_url" <?php if(isset($_SESSION['wizard']['rss_url']))echo 'value="' . $_SESSION['wizard']['rss_url'] .'" ';?>/> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+<td class="td1"><input class="notempty" style="width:90%" type="text" name="rss_url" <?php if(isset($_SESSION['wizard']['rss_url']))echo 'value="' . $_SESSION['wizard']['rss_url'] .'" ';?>/> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 </td></tr></table>
 <input type="hidden" name="step" value="2" />
 <input type="hidden" name="selected_feed" value="0" />

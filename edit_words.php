@@ -100,7 +100,7 @@ switch($currentquerymode){
 }
 if($currentquery!==''){
 	if($currentregexmode!==''){
-		if(@mysql_query('select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
+		if(@mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
 			$currentquery='';
 			$wh_query = '';
 			unset($_SESSION['currentwordquery']);
@@ -165,8 +165,8 @@ if (isset($_REQUEST['markaction'])) {
 				$list .= ")";
 				if ($markaction == 'del') {
 					$message = runsql('delete from ' . $tbpref . 'words where WoID in ' . $list, "Deleted");
-					mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID in ' . $list);
-					mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID in ' . $list);
+					do_mysqli_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID in ' . $list);
+					do_mysqli_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID in ' . $list);
 					adjust_autoincr('words','WoID');
 					runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
 				}
@@ -240,14 +240,14 @@ if (isset($_REQUEST['allaction'])) {
 			$sql = 'select distinct WoID from (' . $tbpref . 'words left JOIN ' . $tbpref . 'wordtags ON WoID = WtWoID), ' . $tbpref . 'textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID in (' . $currenttext. ')' . $wh_lang . $wh_stat . $wh_query . ' group by WoID ' . $wh_tag;
 		}
 		$cnt=0;
-		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		$res = do_mysqli_query($sql);
+		while ($record = mysqli_fetch_assoc($res)) {
 			$id = $record['WoID'];
 			$message='0';
 			if ($allaction == 'delall' ) {
 				$message = runsql('delete from ' . $tbpref . 'words where WoID = ' . $id, "");
-				mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $id);
-				mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $id);
+				do_mysqli_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $id);
+				do_mysqli_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $id);
 			}
 			elseif ($allaction == 'addtagall' ) {
 				addtaglist($actiondata,'(' . $id . ')');
@@ -289,18 +289,20 @@ if (isset($_REQUEST['allaction'])) {
 			}
 			$cnt += (int)$message;
 		}
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		if ($allaction == 'deltagall') {
 			header("Location: edit_words.php");
 			exit();
 		}
 		if ($allaction == 'addtagall') {
 			$message = "Tag added in $cnt Terms";
-		} else if ($allaction == 'delall') {
+		}
+		else if ($allaction == 'delall') {
 			$message = "Deleted: $cnt Terms";
 			adjust_autoincr('words','WoID');
 			runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
-		}	else {
+		}
+		else {
 			$message = "$cnt Terms changed";
 		}
 	}
@@ -337,14 +339,14 @@ if (isset($_REQUEST['allaction'])) {
 		}
 		$cnt = 0;
 		$list = '(';
-		$res = do_mysql_query($sql);
-		while ($record = mysql_fetch_assoc($res)) {
+		$res = do_mysqli_query($sql);
+		while ($record = mysqli_fetch_assoc($res)) {
 			$cnt++;
 			$id = $record['WoID'];
 			$list .= ($cnt==1 ? '' : ',') . $id;
 		}	
 		$list .= ")";
-		mysql_free_result($res);
+		mysqli_free_result($res);
 		$_SESSION['testsql'] = ' ' . $tbpref . 'words where WoID in ' . $list . ' ';
 		header("Location: do_test.php?selection=1");
 		exit();
@@ -357,8 +359,8 @@ if (isset($_REQUEST['allaction'])) {
 elseif (isset($_REQUEST['del'])) {
 	$message = runsql('delete from ' . $tbpref . 'words where WoID = ' . $_REQUEST['del'], "Deleted");
 	adjust_autoincr('words','WoID');
-	mysql_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $_REQUEST['del']);
-	mysql_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $_REQUEST['del']);
+	do_mysqli_query ('update ' . $tbpref . 'textitems2 set Ti2WoID = 0 where Ti2WordCount = 1 and Ti2WoID = ' . $_REQUEST['del']);
+	do_mysqli_query ('delete from ' . $tbpref . 'textitems2 where Ti2WoID  = ' . $_REQUEST['del']);
 	runsql("DELETE " . $tbpref . "wordtags FROM (" . $tbpref . "wordtags LEFT JOIN " . $tbpref . "words on WtWoID = WoID) WHERE WoID IS NULL",'');
 }
 
@@ -376,59 +378,24 @@ elseif (isset($_REQUEST['op'])) {
 	
 		$message = runsql('insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
 			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
-			$_REQUEST["WoLgID"] . ', ' .
-			convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
-			$_REQUEST["WoStatus"] . ', ' .
-			convert_string_to_sqlsyntax($translation) . ', ' .
-			convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
-make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
+		$_REQUEST["WoLgID"] . ', ' .
+		convert_string_to_sqlsyntax(mb_strtolower($_REQUEST["WoText"], 'UTF-8')) . ', ' .
+		convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
+		$_REQUEST["WoStatus"] . ', ' .
+		convert_string_to_sqlsyntax($translation) . ', ' .
+		convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', ' .
+		convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
+		make_score_random_insert_update('id') . ')', "Saved", $sqlerrdie = FALSE);
+
 		$wid = get_last_key();
 		set_word_count();
-		$wis = mb_strtolower($_REQUEST["WoText"], 'UTF-8');
-		$lid=$_REQUEST["WoLgID"];
-		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
-		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
-		$termchar = $record['LgRegexpWordCharacters'];
-		$splitEachChar = $record['LgSplitEachChar'];
-		$rtlScript = $record['LgRightToLeft'];
-		mysql_free_result($res);
-		$textlc = $splitEachChar?preg_replace('/([^\s])/u', "$1 ", $wis):$wis;
-		$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
-
-			$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
-			$res=do_mysql_query ($sql);
-			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
-			while($record = mysql_fetch_assoc($res)){
-				$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
-				$txtid =$record['SeTxID'];
-				$sentid =$record['SeID'];
-				$last_pos = strripos ( $string , $textlc );
-				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
-				while($last_pos!==false){
-					$matches=array();
-					if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
-						$string = substr ( $string, 0, $last_pos );
-						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
-						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
-						$txt='';
-						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
-						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
-						$last_pos = strripos ( $string , $textlc );
-					}
-					else{
-						$string = substr ( $string, 0, $last_pos );
-						$last_pos = strripos ( $string , $textlc );
-					}
-				}
-			}
-		mysql_free_result($res);
-		if(isset($sqlarr)){	
-			$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
-			$sqltext .= rtrim(implode(',', $sqlarr),',');
-			mysql_query ($sqltext);
+		$len = get_first_value('select WoWordCount as value from ' . $tbpref . 'words where WoID = ' . $wid);
+		$textlc = mb_strtolower($_REQUEST["WoText"], 'UTF-8');
+		if($len > 1){
+			insertExpressions ($textlc,$_REQUEST["WoLgID"],$wid,$len,1);
+		}
+		else {
+			do_mysqli_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) = ' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
 		}
 	}	
 	
@@ -469,7 +436,7 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Language:</td>
-	<td class="td1" style="border-top-right-radius:inherit;"><?php echo tohtml(getLanguage($_REQUEST['lang'])); ?></td>
+	<td class="td1"><?php echo tohtml(getLanguage($_REQUEST['lang'])); ?></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Term:</td>
@@ -519,8 +486,8 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
 elseif (isset($_REQUEST['chg'])) {
 	
 	$sql = 'select * from ' . $tbpref . 'words, ' . $tbpref . 'languages where LgID = WoLgID and WoID = ' . $_REQUEST['chg'];
-	$res = do_mysql_query($sql);
-	if ($record = mysql_fetch_assoc($res)) {
+	$res = do_mysqli_query($sql);
+	if ($record = mysqli_fetch_assoc($res)) {
 		
 		$wordlc = $record['WoTextLC'];
 		$transl = repl_tab_nl($record['WoTranslation']);
@@ -538,7 +505,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Language:</td>
-		<td class="td1" style="border-top-right-radius:inherit;"><?php echo tohtml($record['LgName']); ?></td>
+		<td class="td1"><?php echo tohtml($record['LgName']); ?></td>
 		</tr>
 		<tr title="Normally only change uppercase/lowercase here!">
 		<td class="td1 right">Term:</td>
@@ -582,7 +549,7 @@ elseif (isset($_REQUEST['chg'])) {
 		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $_REQUEST['chg']; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
 <?php
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 }
 
 // DISPLAY
@@ -767,8 +734,8 @@ $sql = 'select WoID, WoText, WoTranslation, WoRomanization, WoSentence,  SentOK,
 
 if ($debug) echo $sql;
 flush();
-$res = do_mysql_query($sql);
-while ($record = mysql_fetch_assoc($res)) {
+$res = do_mysqli_query($sql);
+while ($record = mysqli_fetch_assoc($res)) {
 	$days = $record['Days'];
 	if ( $record['WoStatus'] > 5 ) $days="-";
 	$score = $record['Score'];
@@ -779,7 +746,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['WoID'] . '"><img src="icn/sticky-note--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['WoID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
 	echo '<td class="td1"><span';
-	if(!empty($record['LgGoogleTranslateURI']) && strpos($record['LgGoogleTranslateURI'],'&sl=') !== false) echo ' class="tts_' . preg_replace('/.*&sl=([a-zA-Z\-]*)&.*/','$1',$record['LgGoogleTranslateURI']) . '"';
+	if(!empty($record['LgGoogleTranslateURI']) && strpos($record['LgGoogleTranslateURI'],'&sl=') !== false) echo ' class="tts_' . preg_replace('/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/','$1',$record['LgGoogleTranslateURI']) . '"';
 	echo ($record['LgRightToLeft'] ? ' dir="rtl" ' : '') . '>' . tohtml($record['WoText']) . '</span>' . ($record['WoRomanization'] != '' ? (' / <span id="roman' . $record['WoID'] . '" class="edit_area clickedit">' . tohtml(repl_tab_nl($record['WoRomanization'])) . '</span>') : (' / <span id="roman' . $record['WoID'] . '" class="edit_area clickedit">*</span>')) . '</td>';
 	echo '<td class="td1"><span id="trans' . $record['WoID'] . '" class="edit_area clickedit">' . tohtml(repl_tab_nl($record['WoTranslation'])) . '</span> <span class="smallgray2">' . tohtml($record['taglist']) . '</span></td>';
 	echo '<td class="td1 center"><b>' . ($record['SentOK']!=0 ? '<img src="icn/status.png" title="' . tohtml($record['WoSentence']) . '" alt="Yes" />' : '<img src="icn/status-busy.png" title="(No valid sentence)" alt="No" />') . '</b></td>';
@@ -790,7 +757,7 @@ while ($record = mysql_fetch_assoc($res)) {
 	}
 	echo "</tr>\n";
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 
 ?>
 </table>

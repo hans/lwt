@@ -80,11 +80,14 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-test-r-frameheight-percent',
 		$_REQUEST['set-test-r-frameheight-percent']);
 	
-		saveSetting('set-player-skin-name',
-		$_REQUEST['set-player-skin-name']);
-	
 		saveSetting('set-words-to-do-buttons',
 		$_REQUEST['set-words-to-do-buttons']);
+	
+		saveSetting('set-tooltip-mode',
+		$_REQUEST['set-tooltip-mode']);
+	
+		saveSetting('set-ggl-translation-per-page',
+		$_REQUEST['set-ggl-translation-per-page']);
 	
 		saveSetting('set-test-main-frame-waiting-time',
 		$_REQUEST['set-test-main-frame-waiting-time']);
@@ -131,12 +134,15 @@ if (isset($_REQUEST['op'])) {
 		saveSetting('set-max-texts-per-feed',
 		$_REQUEST['set-max-texts-per-feed']);
 	
-		saveSetting('set-show-text-word-counts',
-		$_REQUEST['set-show-text-word-counts']);
-	
 		saveSetting('set-text-visit-statuses-via-key',
 		$_REQUEST['set-text-visit-statuses-via-key']);
 	
+		saveSetting('set-display-text-frame-term-translation',
+		$_REQUEST['set-display-text-frame-term-translation']);
+
+		saveSetting('set-text-frame-annotation-position',
+		$_REQUEST['set-text-frame-annotation-position']);
+		
 		saveSetting('set-term-translation-delimiters',
 		$_REQUEST['set-term-translation-delimiters']);
 		
@@ -184,7 +190,7 @@ getSettingWithDefault('set-theme-dir'));
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="6">Read Text<br />Screen</th>
+<th class="th1 center" rowspan="7">Read Text<br />Screen</th>
 <td class="td1 center">Height of left top frame<br /><b>without</b> audioplayer</td>
 <td class="td1 center">
 <input class="notempty posintnumber right setfocus" type="text" 
@@ -220,19 +226,6 @@ value="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<td class="td1 center">Audioplayer Skin</td>
-<td class="td1 center">
-<select name="set-player-skin-name" class="notempty">
-<?php
-echo get_audioplayer_selectoptions(
-getSettingWithDefault('set-player-skin-name'));
-?>
-</select>
-</td>
-<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-</tr>
-<!-- ******************************************************* -->
-<tr>
 <td class="td1 center">Button(s) for "words to do"</td>
 <td class="td1 center">
 <select name="set-words-to-do-buttons" class="notempty">
@@ -242,6 +235,28 @@ getSettingWithDefault('set-words-to-do-buttons'));
 ?>
 </select>
 </td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Tooltips</td>
+<td class="td1 center">
+<select name="set-tooltip-mode" class="notempty">
+<?php
+echo get_tooltip_selectoptions(
+getSettingWithDefault('set-tooltip-mode'));
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">New Term Translations per Page</td>
+<td class="td1 center">
+<input class="notempty posintnumber right" type="text" 
+name="set-ggl-translation-per-page"  data_info="New Term Translations per Page" 
+value="<?php echo tohtml(getSettingWithDefault('set-ggl-translation-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->
@@ -306,13 +321,39 @@ getSettingWithDefault('set-mobile-display-mode'), true, true, true);
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center">Reading</th>
+<th class="th1 center" rowspan="3">Reading</th>
 <td class="td1 center">Visit only saved terms with status(es)...<br />(via keystrokes RIGHT, SPACE, LEFT, etc.)</td>
 <td class="td1 center">
 <select name="set-text-visit-statuses-via-key">
 <?php
 echo get_wordstatus_selectoptions(
 getSettingWithDefault('set-text-visit-statuses-via-key'), true, true, true);
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Display translations of terms with status(es)</td>
+<td class="td1 center">
+<select name="set-display-text-frame-term-translation">
+<?php
+echo get_wordstatus_selectoptions(
+getSettingWithDefault('set-display-text-frame-term-translation'), true, true, true);
+?>
+</select>
+</td>
+<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+</tr>
+<!-- ******************************************************* -->
+<tr>
+<td class="td1 center">Position of translations</td>
+<td class="td1 center">
+<select name="set-text-frame-annotation-position" class="notempty">
+<?php
+echo get_annotation_position_selectoptions(
+getSettingWithDefault('set-text-frame-annotation-position'));
 ?>
 </select>
 </td>
@@ -382,25 +423,12 @@ getSettingWithDefault('set-tts'));
 </tr>
 <!-- ******************************************************* -->
 <tr>
-<th class="th1 center" rowspan="8">Text, Term,<br />Newsfeed &amp;<br />Tag Tables</th>
+<th class="th1 center" rowspan="7">Text, Term,<br />Newsfeed &amp;<br />Tag Tables</th>
 <td class="td1 center">Texts per Page</td>
 <td class="td1 center">
 <input class="notempty posintnumber right" type="text" 
 name="set-texts-per-page"  data_info="Texts per Page" 
 value="<?php echo tohtml(getSettingWithDefault('set-texts-per-page')); ?>" maxlength="4" size="4" /> </td>
-<td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-</tr>
-<!-- ******************************************************* -->
-<tr>
-<td class="td1 center">Show Word Counts of Texts immediately<br />(<b>"No"</b> loads a long text table faster)</td>
-<td class="td1 center">
-<select name="set-show-text-word-counts" class="notempty">
-<?php
-echo get_yesno_selectoptions(
-getSettingWithDefault('set-show-text-word-counts'));
-?>
-</select>
-</td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
 <!-- ******************************************************* -->
@@ -434,8 +462,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-tags-per-page')); ?>" maxlen
 <tr>
 <td class="td1 center">Feed Articles per Page</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
-name="set-articles-per-page" 
+<input class="notempty posintnumber right" type="text" 
+name="set-articles-per-page" data_info="Feed Articles per Page" 
 value="<?php echo tohtml(getSettingWithDefault('set-articles-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
@@ -443,8 +471,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-articles-per-page')); ?>" ma
 <tr>
 <td class="td1 center">Feeds per Page</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
-name="set-feeds-per-page" 
+<input class="notempty posintnumber right" type="text" 
+name="set-feeds-per-page" data_info="Feeds per Page" 
 value="<?php echo tohtml(getSettingWithDefault('set-feeds-per-page')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
@@ -465,8 +493,8 @@ getSettingWithDefault('set-regex-mode'));
 <th class="th1 center" rowspan="3">Newsfeeds</th>
 <td class="td1 center">Max Articles per Feed <b>with</b> cached text</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
-name="set-max-articles-with-text" 
+<input class="notempty posintnumber right" type="text" 
+name="set-max-articles-with-text" data_info="Max Articles per Feed with cached text" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-articles-with-text')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
@@ -474,8 +502,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-max-articles-with-text')); ?
 <tr>
 <td class="td1 center">Max Articles per Feed <b>without</b> cached text</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
-name="set-max-articles-without-text" 
+<input class="notempty posintnumber right" type="text" 
+name="set-max-articles-without-text" data_info="Max Articles per Feed without cached text" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-articles-without-text')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>
@@ -483,8 +511,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-max-articles-without-text'))
 <tr>
 <td class="td1 center">Max Texts per Feed<br />(older Texts are moved into "Text Archive")</td>
 <td class="td1 center">
-<input class="notempty right" type="text" 
-name="set-max-texts-per-feed" 
+<input class="notempty posintnumber right" type="text" 
+name="set-max-texts-per-feed" data_info="Max Texts per Feed" 
 value="<?php echo tohtml(getSettingWithDefault('set-max-texts-per-feed')); ?>" maxlength="4" size="4" /></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 </tr>

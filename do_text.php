@@ -31,8 +31,10 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: do_text.php?start=[textid]
-Start Reading a text (frameset)
+ * \file
+ * \brief Start Reading a text (frameset) 
+ * Call: do_text.php?start=[textid]
+ * Create the main window when reading texts.
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -132,7 +134,7 @@ $(document).ready(init);
 	
 ?>
 
-<frameset cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
+<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
 	<frameset rows="<?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio') ); ?>,*">
 		<frame src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="h" />			
 		<frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />

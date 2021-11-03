@@ -31,43 +31,43 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Language Settings for Wizard
+ * \file
+ * \brief Language Settings for Wizard
 ***************************************************************/
 
+/// All the supported languages
 // "Name" => ("glosbeIso", "googleIso", biggerFont, "wordCharRegExp",
-//           "sentSplRegExp", makeCharacterWord, removeSpaces, rightToLeft)
-
+//            "sentSplRegExp", makeCharacterWord, removeSpaces, rightToLeft)
 $langDefs = array(
 
 "Afrikaans" => 
 	array("af", "af", false, 
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ",	
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ",	
 	".!?:;", 
 	false, false, false),
 
 "Arabic" => 
 	array("ar", "ar", true, 
-	"\\x{0600}-\\x{061A}\\x{0620}-\\x{06FF}" .
-	"\\x{0750}-\\x{077F}\\x{FB50}-\\x{FDFF}" .
-	"\\x{FE70}-\\x{FEFF}", 
+	"\\x{610}-\\x{614}\\x{621}-\\x{65F}" .
+	"\\x{671}-\\x{6D3}\\x{6DE}-\\x{6FF}", 
 	".!?:;\\x{061B}\\x{061F}", 
 	false, false, true),
 
 "Belarusian" => 
 	array("be", "be", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Bulgarian" => 
 	array("bg", "bg", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Catalan" => 
 	array("ca", "ca", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
@@ -86,61 +86,61 @@ $langDefs = array(
 
 "Croatian" => 
 	array("hr", "hr", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Czech" => 
 	array("cs", "cs", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Danish" => 
 	array("da", "da", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Dutch" => 
 	array("nl", "nl", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "English" => 
 	array("en", "en", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Esperanto" => 
 	array("eo", "eo", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Estonian" => 
 	array("et", "et", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Finnish" => 
 	array("fi", "fi", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "French" => 
 	array("fr", "fr", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "German" => 
 	array("de", "de", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
@@ -158,20 +158,20 @@ $langDefs = array(
 
 "Hungarian" => 
 	array("hu", "hu", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Italian" => 
 	array("it", "it", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Japanese" => 
 	array("ja", "ja", true, 
-	"\\x{4E00}-\\x{9FFF}\\x{F900}-\\x{FAFF}" . 
-	"\\x{3040}-\\x{30FF}\\x{31F0}-\\x{31FF}", 
+	//"\\x{4E00}-\\x{9FFF}\\x{F900}-\\x{FAFF}\\x{3040}-\\x{30FF}\\x{31F0}-\\x{31FF}",
+	"mecab",
 	".!?:;。！？：；", 
 	true, true, false),
 
@@ -184,79 +184,79 @@ $langDefs = array(
 
 "Latin" => 
 	array("la", "la", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Latvian" => 
 	array("lv", "lv", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Lithuanian" => 
 	array("lt", "lt", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Macedonian" => 
 	array("mk", "mk", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Norwegian Bokmål" => 
 	array("nb", "no", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Polish" => 
 	array("pl", "pl", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Portuguese" => 
 	array("pt", "pt", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Romanian" => 
 	array("ro", "ro", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Russian" => 
 	array("ru", "ru", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Serbian" => 
 	array("sr", "sr", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Slovak" => 
 	array("sk", "sk", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Spanish" => 
 	array("es", "es", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Swedish" => 
 	array("sv", "sv", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
@@ -268,13 +268,13 @@ $langDefs = array(
 
 "Turkish" => 
 	array("tr", "tr", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false),
 
 "Ukrainian" => 
 	array("uk", "uk", false,
-	"\\-\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
+	"\\'a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ", 
 	".!?:;", 
 	false, false, false)
 

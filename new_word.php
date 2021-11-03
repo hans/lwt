@@ -77,73 +77,15 @@ make_score_random_insert_update('id') . ')', "Term saved", $sqlerrdie = FALSE);
 		
 		$wid = get_last_key();
 
-		$hex = strToClassName(prepare_textdata($textlc));
-
 		saveWordTags($wid);
 		set_word_count();
-		$showAll = getSettingZeroOrOne('showallwords',1);
+//		$showAll = getSettingZeroOrOne('showallwords',1);
 ?>
 
 <p><?php echo $message; ?></p>
 
 <?php
-		if (substr($message,0,5) != 'Error') {
-
-		$lid=$_REQUEST["WoLgID"];
-		$sql = "select * from " . $tbpref . "languages where LgID=" . $lid;
-		$res = do_mysql_query($sql);
-		$record = mysql_fetch_assoc($res);
-		$termchar = $record['LgRegexpWordCharacters'];
-		$splitEachChar = $record['LgSplitEachChar'];
-		$rtlScript = $record['LgRightToLeft'];
-		mysql_free_result($res);
-		$appendtext=array();
-		if ($splitEachChar) {
-			$textlc = preg_replace('/([^\s])/u', "$1 ", $textlc);
-		}
-		$len = preg_match_all('/([' . $termchar . ']+)/u',$textlc,$ma);
-
-			$ti=array();
-			$sql = "SELECT * FROM " . $tbpref . "sentences where SeLgID = " . $lid . " and SeText like '%" . mysql_real_escape_string($wis) . "%'";
-			$res=do_mysql_query ($sql);
-			$notermchar='/[^' . $termchar . '](' . $textlc . ')[^' . $termchar . ']/ui';
-			while($record = mysql_fetch_assoc($res)){
-				$string= ' ' . ($splitEachChar?preg_replace('/([^\s])/u', "$1 ", $record['SeText']):$record['SeText']) . ' ';
-				$txtid =$record['SeTxID'];
-				$sentid =$record['SeID'];
-				$last_pos = strripos ( $string , $textlc );
-				$sentoffset = preg_match('/[^' . $termchar . ']/ui', mb_substr($string,1,1, 'UTF-8'));
-				while($last_pos!==false){
-					$matches=array();
-					if($splitEachChar || preg_match ( $notermchar, $string, $matches, 0, $last_pos - 1)==1){
-						$string = substr ( $string, 0, $last_pos );
-						$cnt = preg_match_all('/([' . $termchar . ']+)/u',$string,$ma);
-						$pos=2*$cnt+$record['SeFirstPos'] + $sentoffset;
-						$txt='';
-						if($len==1 || !($matches[1]==$textlc))$txt=$splitEachChar?$wis:$matches[1];
-						$sqlarr[] = '(' . $wid . ',' . $lid . ',' . $txtid . ',' . $sentid . ',' . $pos . ',' . $len . ',' . convert_string_to_sqlsyntax_notrim_nonull($txt) . ')';
-						if($txtid==$_REQUEST["tid"]){
-							$sid[$pos]=$record['SeID'];
-							if(getSettingZeroOrOne('showallwords', 1)){
-								$appendtext[$pos]='&nbsp;' . $len . '&nbsp';
-							}
-							else $appendtext[$pos]=$splitEachChar?$wis:$matches[1];
-						}
-						$last_pos = strripos ( $string , $textlc );
-					}
-					else{
-						$string = substr ( $string, 0, $last_pos );
-						$last_pos = strripos ( $string , $textlc );
-					}
-				}
-			}
-	mysql_free_result($res);	
-	$sqltext = 'REPLACE INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) VALUES ';
-	$sqltext .= rtrim(implode(',', $sqlarr),',');
-	mysql_query ($sqltext);
-
-?>
-	
+		if (substr($message,0,5) != 'Error') {?>
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;
@@ -152,53 +94,33 @@ var woid = <?php echo prepare_textdata_js($wid); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
 var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-var title = make_tooltip(<?php echo prepare_textdata_js($text); ?>,trans,roman,status);
-var obj = <?php echo json_encode($appendtext); ?>;
-var sid = <?php echo json_encode($sid); ?>;
-var attrs = ' class="click <?php echo $len>1?'m':''; ?>word <?php echo (getSettingZeroOrOne('showallwords', 1) && $len>1)?'m':''; ?>wsty TERM<?php echo $hex; ?> word' + woid + ' status' + status + '" data_trans="' + trans + '" data_rom="' + roman + '" data_code="<?php echo $len; ?>" data_status="' + status + '" data_wid="' + woid + '" title="' + title + '"';
-
-for( key in obj ) {
-
-	var ord_class='order' + key;
-	var text_refresh = 0;
-	if($('span[id^="ID-'+ key +'-"]', context).not(".hide").length ){if(!($('span[id^="ID-'+ key +'-"]', context).not(".hide").attr('data_code')><?php echo $len; ?>)){text_refresh = 1;}}
-	<?php if($len>1){ ?>	
-	$('#ID-' + key + '-' + <?php
-		echo prepare_textdata_js($len); ?>, context).remove();
-	var i = '';
-	for(j=<?php echo $len - 1; ?>;j>0;j=j-1){
-		if(j==1)i='#ID-' + key + '-1';
-		if($('#ID-' + key + '-' + j,context).length){
-			i = '#ID-' + key + '-' + j;
-			break;
-		}
-	}
-	$(i, context).before('<span id="ID-' + key + '-' + <?php
-	echo prepare_textdata_js($len); ?> + '"' + attrs + '>' + obj[ key ] + '</span>');
-	<?php }
-	else{ ?>
-	$('#ID-' + key + '-1', context).replaceWith('<span id="ID-' + key + '-1"' + attrs + '>' + obj[ key ] + '</span>');
-	<?php } ?>
-	el = $('#ID-' + key + '-' + <?php
-	echo prepare_textdata_js($len); ?>, context);
-	el.addClass(ord_class).attr('data_order',key);
-	var txt = el.nextUntil($('#ID-' + (parseInt(key) + <?php echo $len * 2 -1; ?>) + '-1', context),'[id$="-1"]').map(function() {return $( this ).text();}).get().join( "" );
-	var pos = $('#ID-' + key + '-1', context).attr('data_pos');
-	el.attr('data_text',txt).attr('data_pos',pos).attr('data_sid',sid[ key ]);
-<?php if(!$showAll){ ?>
-		if(text_refresh == 1){
-refresh_text(el,sid[ key ]);
-		}else el.addClass('hide');
-<?php } ?>
-}
-<?php if(!empty($sid) && $len==1){ ?>
-	$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['tid']); ?>');
-<?php } ?>
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
+var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 //]]>
 </script>
-	
+<?php
+		$len = get_first_value('select WoWordCount as value from ' . $tbpref . 'words where WoID = ' . $wid);
+		if($len > 1) {
+			insertExpressions ($textlc,$_REQUEST["WoLgID"],$wid,$len,0);
+		}
+		else if($len == 1) {
+			$hex = strToClassName(prepare_textdata($textlc));
+			do_mysqli_query ('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) = ' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
+?>
+<script type="text/javascript">
+//<![CDATA[
+if($('.TERM<?php echo $hex; ?>', context).length){
+	$('.TERM<?php echo $hex; ?>', context).removeClass('status0').addClass('word' + woid + ' ' + 'status' + status).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status).attr('data_wid',woid).attr('title',title);
+	$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
+}
+//]]>
+</script>
+<?php
+			flush();
+		} ?>
+<script type="text/javascript">
+window.parent.frames['l'].focus();
+window.parent.frames['l'].setTimeout('cClick()', 100);
+</script>
 <?php
 		} // (substr($message,0,5) != 'Error')
 
@@ -221,6 +143,11 @@ else {  // if (! isset($_REQUEST['op']))
 	$scrdir = getScriptDirectionTag($lang);
 	
 ?>
+	<script type="text/javascript">
+	$(window).on('beforeunload',function() {
+		setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
+	});
+	</script>
 	
 	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
@@ -228,7 +155,7 @@ else {  // if (! isset($_REQUEST['op']))
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right"><b>New Term:</b></td>
-	<td class="td1" style="border-top-right-radius:inherit;"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<?php print_similar_terms_tabrow(); ?>
 	<tr>

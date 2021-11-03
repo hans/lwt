@@ -48,8 +48,8 @@ $ann = stripTheSlashesIfNeeded($_REQUEST["ann"]);
 if ($wid == '') my_die ('Word not found in show_word.php');
 
 $sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-$res = do_mysql_query($sql);
-if ($record = mysql_fetch_assoc($res)) {
+$res = do_mysqli_query($sql);
+if ($record = mysqli_fetch_assoc($res)) {
 
 	$transl = repl_tab_nl($record['WoTranslation']);
 	if($transl == '*') $transl='';
@@ -110,7 +110,7 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 <?php
 }
 
-mysql_free_result($res);
+mysqli_free_result($res);
 
 pageend();
 

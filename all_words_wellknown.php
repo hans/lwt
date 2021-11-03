@@ -49,11 +49,12 @@ if($status==99)
 	pagestart("Setting all blue words to Well-known",false);
 
 $sql = 'select Ti2Text, lower(Ti2Text) as  WoTextLC from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2WoID = 0 and Ti2WordCount = 1 and Ti2TxID = ' . $_REQUEST['text'] . ' group by lower(Ti2Text) order by Ti2Order';
-$res = do_mysql_query($sql);
+$res = do_mysqli_query($sql);
+$tooltip_mode = getSettingWithDefault('set-tooltip-mode');
 $count = 0;
 $javascript = "var title='';";
 $sqlarr = array();
-while ($record = mysql_fetch_assoc($res)) {
+while ($record = mysqli_fetch_assoc($res)) {
 	$term = $record['Ti2Text'];	
 	$termlc = $record['WoTextLC'];
 	$count1 = 0 + runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoWordCount, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
@@ -63,15 +64,16 @@ while ($record = mysql_fetch_assoc($res)) {
 make_score_random_insert_update('id') . ')','');
 	$wid = get_last_key();
 	$sqlarr[]= ' WHEN ' . convert_string_to_sqlsyntax_notrim_nonull($termlc) . ' THEN ' . $wid;
-	if ($count1 > 0 ) 
-		$javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'*','','".$status."');";
-		$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status".$status." word" . $wid . "').attr('data_status','".$status."').attr('data_wid','" . $wid . "').attr('title',title);";
+	if($tooltip_mode == 1)
+		if ($count1 > 0 ) 
+			$javascript .= "title = make_tooltip(" . prepare_textdata_js($term) . ",'*','','".$status."');";
+	$javascript .= "$('.TERM" . strToClassName($termlc) . "', context).removeClass('status0').addClass('status".$status." word" . $wid . "').attr('data_status','".$status."').attr('data_wid','" . $wid . "').attr('title',title);";
 	$count += $count1;
 }
-mysql_free_result($res);
+mysqli_free_result($res);
 $sqltext = "UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = CASE lower(Ti2Text)";
 $sqltext .= implode(' ', $sqlarr) . ' END where Ti2WordCount=1 and Ti2WoID  = 0 and Ti2LgID=' . $langid;
-mysql_query ($sqltext);
+do_mysqli_query( $sqltext);
 
 if($status==98)
 	echo "<p>OK, you ignore all " . $count . " word(s)!</p>";
@@ -84,7 +86,7 @@ if($status==99)
 var context = window.parent.frames['l'].document;
 var contexth = window.parent.frames['h'].document;
 <?php echo $javascript; ?> 
-$('#learnstatus', contexth).html('<?php echo texttodocount2($_REQUEST['text']); ?>');
+$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['text'])); ?>');
 window.parent.frames['l'].setTimeout('cClick()', 1000);
 //]]>
 </script>

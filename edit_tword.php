@@ -127,7 +127,7 @@ if(window.parent.frames['l'].location.href.indexOf('do_test_table') !== -1) {
 	var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid,' ',1,0)); ?>;
 	var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 	$('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
-}
+}  
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
@@ -146,8 +146,8 @@ else {  // if (! isset($_REQUEST['op']))
 	if ($wid == '') my_die("Term ID missing in edit_tword.php");
 	
 	$sql = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-	$res = do_mysql_query($sql);
-	$record = mysql_fetch_assoc($res);
+	$res = do_mysqli_query($sql);
+	$record = mysqli_fetch_assoc($res);
 	if ( $record ) {
 		$term = $record['WoText'];
 		$lang = $record['WoLgID'];
@@ -159,7 +159,7 @@ else {  // if (! isset($_REQUEST['op']))
 	} else {
 		my_die("Term data not found in edit_tword.php");
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	
 	$termlc =	mb_strtolower($term, 'UTF-8');
 	$titletext = "Edit Term: " . tohtml($term);
@@ -168,6 +168,11 @@ else {  // if (! isset($_REQUEST['op']))
 
 ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+<script type="text/javascript">
+	$(window).on('beforeunload',function() {
+		setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
+	});
+</script>
 	
 <form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
@@ -183,7 +188,7 @@ else {  // if (! isset($_REQUEST['op']))
 <tr>
 <td class="td1 right">Translation:</td>
 <td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
-</tr>
+></tr>
 <tr>
 <td class="td1 right">Tags:</td>
 <td class="td1">
@@ -196,8 +201,8 @@ else {  // if (! isset($_REQUEST['op']))
 </tr>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
-<td class="td1"><input <?php echo $scrdir; ?> class="notempty" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-</td></tr>
+<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea></td>
+</tr>
 <?php print_similar_terms_tabrow(); ?>
 <tr>
 <td class="td1 right">Status:</td>

@@ -52,14 +52,13 @@ LWT Information / Help
 		<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png" />
 		<link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
 		<style type="text/css">
-  		
+		@import url(css/styles.css);
 		</style>
 		<script type="text/javascript" src="js/jquery.js"></script>  
 		<script type="text/javascript" src="js/floating.js"></script>
  <script type="text/javascript">
-$.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/styles.css' }, success:function (data) {$('style').text( "@import url(" + data + ");" );
+$.ajax({type: 'POST',url:'ajax_get_theme.php',async: false, data: { file:'css/styles.css' }, success:function (data) {if(data.match(/styles.css$/g))$('style').text( "@import url(" + data + ");" );
 }});
-if(!$.trim($('style').text().length)){$('style').text('@import url(css/styles.css);');}
 </script>
     <title>
       Learning with Texts :: Help/Information
@@ -73,6 +72,7 @@ if(!$.trim($('style').text().length)){$('style').text('@import url(css/styles.cs
 		<a href="#links">Links</a><br />
 		<a href="#abstract">Abstract</a><br />
 		<a href="#features">Features</a><br />
+		<a href="#new_features">New Features</a><br />
 		<a href="#screencasts">Screencasts</a><br />
 		<a href="#license">(Un-) License</a><br />
 		<a href="#disclaimer">Disclaimer</a><br /><br />
@@ -118,8 +118,8 @@ $(document).ready( function() {
 
 <script type="text/javascript">
 $.ajax({type: 'POST',url:'ajax_get_theme.php', data: { file:'img/lwt_icon_big.png' }, success:function (data) {
-$('.lwtlogoright').attr( "src", data );}});
-if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/lwt_icon_big.png' );}
+	if(data.match(/lwt_icon_big.png$/g))$('.lwtlogoright').attr( "src", data );}});
+if(!$('.lwtlogoright[src]').length){$('.lwtlogoright').attr( "src", 'img/lwt_icon_big.png' );}
 </script>
 
     <p class="inline">
@@ -142,6 +142,9 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
         </option>
         <option value="features">
           Features
+        </option>
+        <option value="new_features">
+          New  in this Version
         </option>
         <option value="screencasts">
           Screencasts
@@ -213,6 +216,10 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 
       <dd>
         <ul>
+			 <li><b><strong>THIS IS A THIRD PARTY VERSION - 
+IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_features">here</a>)</strong></b>
+			 </li>
+ 
           <li>I started this software application in 2010 as a hobby project for my personal learning (reading &amp; listening to foreign texts, saving &amp; reviewing new words and expressions). 
           </li>
 
@@ -242,7 +249,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 
       <dd>
         <ul>
-          <li>The current version is <b>1.5.20 (September 22 2014)</b>.
+          <li>The current version is <b>1.6.31 (October 03 2016)</b>.
           </li>
 
           <li>
@@ -262,15 +269,23 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
           </li>
 
           <li>
-            <a href="http://sourceforge.net/projects/lwt/files/" target="_blank"><b>Download Page</b> @ Sourceforge</a>
+            <a href="https://github.com/andreask7/lwt/releases/latest" target="_blank"><b>Download Page (THIS VERSION)</b> @ GitHub</a>
           </li>
 
           <li>
-            <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497" target="_blank"><b>Help Forum</b> @ Sourceforge</a>
+            <a href="http://sourceforge.net/projects/lwt/files/" target="_blank"><b>Download Page (OFFICIAL LWT)</b> @ Sourceforge</a>
           </li>
 
           <li>
-            <a href="https://github.com/lwt-project/lwt" target="_blank"><b>Source Code</b> @ GitHub</a>
+            <a href="http://sourceforge.net/p/lwt/discussion/1813497" target="_blank"><b>Help Forum</b> @ Sourceforge</a>
+          </li>
+
+          <li>
+            <a href="https://github.com/andreask7/lwt" target="_blank"><b>Source Code (THIS VERSION)</b> @ GitHub</a>
+          </li>
+
+          <li>
+            <a href="https://github.com/lwt-project/lwt" target="_blank"><b>Source Code (OFFICIAL LWT)</b> @ GitHub</a>
           </li>
 
           <li>
@@ -299,9 +314,11 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 								<li>Only one LWT table set is available - the multiple table set feature has been deactivated.</li>
 								<li>You may "reset" the demo by going to "Backup/Restore", and by clicking on "Install LWT Demo Database".</li>
 							</ul>
-							<li><a href="http://lwt.allalla.com" target="_blank"><b>START ONLINE DEMO #1</b></a> (at 1freehosting.com, quite fast, User ID = <b>lwt</b>, Password = <b>pw4lwt</b>)
+							<li><a href="http://lwtexp.allalla.com" target="_blank"><b>START ONLINE DEMO #1 (THIS VERSION)</b></a> (at 1freehosting.com, User ID = <b>lwt</b>, Password = <b>pw4lwt</b>)
 							</li>
-							<li><a href="http://lwt.sourceforge.net/testdb/" target="_blank"><b>START ONLINE DEMO #2</b></a> (at sourceforge.net, quite slow sometimes, User ID = <b>lwt</b>, Password = <b>lwt</b>)
+							<li><a href="http://lwt.allalla.com" target="_blank"><b>START ONLINE DEMO #2 (OFFICIAL LWT)</b></a> (at 1freehosting.com, quite fast, User ID = <b>lwt</b>, Password = <b>pw4lwt</b>)
+							</li>
+							<li><a href="http://lwt.sourceforge.net/testdb/" target="_blank"><b>START ONLINE DEMO #3 (OFFICIAL LWT)</b></a> (at sourceforge.net, quite slow sometimes, User ID = <b>lwt</b>, Password = <b>lwt</b>)
 							</li>
 						</ul>
             <br />
@@ -500,9 +517,6 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
           <li><b>New since Version 1.5.0:</b> Create and edit an improved annotated text version (a <a target="_blank" href="http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations">hyperliteral translation</a> as <a target="_blank" href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>.
           </li>
           
-         <li><b>New since Version 1.5.17:</b> Import texts from newsfeeds 
-         </li>
-         
           <li>The application is 100 % free, open source, and in the Public Domain. Do with it what you like!
           </li>
           
@@ -510,6 +524,55 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
           </li>
           
           <li>Enjoy your language learning!
+          </li>
+        </ul>
+      </dd>
+
+      <dt>
+        ▶ <b><a name="new_features" id="new_features">New in this Version (not available in the OFFICIAL LWT)</a></b> - <a href="#">[↑]</a>
+      </dt>
+
+      <dd>
+       <ul>
+          <li>Database improvements (db size is much smaller now)
+          </li>
+          <li>Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)
+          </li>
+          <li>Support for different themes
+          </li>
+          <li>Longer (>9) expressions can now be saved (up to 250 characters)
+          </li>
+          <li>Display translations of terms with status(es) in the reading frame
+          </li>
+          <li>Save text/audio position in the reading frame
+          </li>
+          <li>Multiwords selection (click and hold on a word -> move to another word -> release mouse button)
+          </li>
+          <li>Key bindings work when you hover over a word
+          </li>
+          <li>Bulk translate new words in the reading frame
+          </li>
+          <li>Google api (use 'ggl.php' instead of '*http://translate.google.com' for Google Translate)
+          </li>
+          <li>Text to speech support (only words)
+          </li>
+          <li>Optional "ignore all" button in read texts
+          </li>
+          <li>New key bindings in the reading frame:
+		<ul><li>T (translate sentence),</li>
+		  <li>P (pronounce term),</li>
+		  <li>G (edit term with Google Translate)</li>
+		</ul>
+          </li>
+          <li>Ability to change audio playback speed (doesn't work when using the flash plugin)
+          </li>
+          <li>Improved Search/Query for Words/Texts
+          </li>
+          <li>Selecting terms according to a text tag
+          </li>
+          <li>Term import with more options (i.e.: combine translations, multiple tag import,...)
+          </li>
+          <li>Two database backup modes (new or old structure)
           </li>
         </ul>
       </dd>
@@ -640,6 +703,11 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
             <li>
             Query.Xpath - Copyright © Sergey Ilinsky, <a href="https://github.com/ilinsky/jquery-xpath" target="_blank">https://github.com/ilinsky/jquery-xpath</a> (js/jquery.xpath.js)
             </li>
+
+            <li>
+            hoverIntent - Copyright © Brian Cherne, <a href="http://cherne.net/brian/resources/jquery.hoverIntent.html" target="_blank">http://cherne.net/brian/resources/jquery.hoverIntent.html</a> (js/jquery.hoverIntent.js)
+            </li>
+
             </ul>
             <br />
           </li>
@@ -2143,8 +2211,16 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 					<td class="td1">Set status of marked term to "Well Known"</td></tr>
 					<tr class="tr1"><td class="td1">E</td>
 					<td class="td1">Edit marked term</td></tr>
+					<tr class="tr1"><td class="td1">G</td>
+					<td class="td1">Edit marked term and open Google Translate</td></tr>
+					<tr class="tr1"><td class="td1">J</td>
+					<td class="td1">Edit marked term and open Google Image Search</td></tr>
 					<tr class="tr1"><td class="td1">A</td>
 					<td class="td1">Set audio position according to position of marked term.</td></tr>
+					<tr class="tr1"><td class="td1">T</td>
+					<td class="td1">Translate sentence</td></tr>
+					<tr class="tr1"><td class="td1">P</td>
+					<td class="td1">Pronounce term</td></tr>
 					<tr class="tr1"><td class="td1">ESC</td>
 					<td class="td1">Reset marked term(s)</td></tr>
 					</table>
@@ -2216,7 +2292,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
       <dd>
         <ul>
         	<li>
-        		The following sixteen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
+			The following seventeen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
         		<br />
         		<br />
         		Additional table sets have its "table set name" plus an underscore "_" as a table name prefix: "setname_settings", "setname_languages", etc.
@@ -2295,7 +2371,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
             <br />
             TxSourceURI varchar(1000) DEFAULT NULL,
             <br />
-            TxPosition int(6) NOT NULL DEFAULT '0',
+            TxPosition smallint(5) NOT NULL DEFAULT '0',
             <br />
             TxAudioPosition float NOT NULL DEFAULT '0',
             <br />
@@ -2355,8 +2431,6 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
             <br />
 						PRIMARY KEY (TtTxID,TtT2ID),
             <br />
-						KEY TtTxID (TtTxID),
-            <br />
 						KEY TtT2ID (TtT2ID)
   					<br />
   					<br />
@@ -2371,8 +2445,6 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
             <br />
 						PRIMARY KEY (AgAtID,AgT2ID),
             <br />
-						KEY AgAtID (AgAtID),
-            <br />
 						KEY AgT2ID (AgT2ID)
   					<br />
   					<br />
@@ -2381,7 +2453,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
           <li>
             <b>Table "words" (the words and expressions you have saved):</b>
             <br />
-            WoID int(11) unsigned NOT NULL AUTO_INCREMENT,
+            WoID mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
             <br />
             WoLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
             <br />
@@ -2425,12 +2497,14 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
             <br />
             KEY WoStatusChanged (WoStatusChanged),
             <br />
-  					KEY WoTodayScore (WoTodayScore),
+	    KEY WoWordCount (WoWordCount),
             <br />
-  					KEY WoTomorrowScore (WoTomorrowScore),
+	    KEY WoTodayScore (WoTodayScore),
             <br />
-  					KEY WoRandom (WoRandom)
-  					<br />
+  	    KEY WoTomorrowScore (WoTomorrowScore),
+            <br />
+  	    KEY WoRandom (WoRandom)
+  	    <br />
             <br />
           </li>
 
@@ -2459,14 +2533,38 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
             <br />
   					PRIMARY KEY (WtWoID,WtTgID),
             <br />
-  					KEY WtTgID (WtTgID),
-            <br />
-  					KEY WtWoID (WtWoID)
+  					KEY WtTgID (WtTgID)
   					<br />
   					<br />
           </li>
 
->          <li>
+          <li>
+            <b>Table "sentences" (Sentences cache, no backup needed):</b>
+            <br />
+            SeID mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+            <br />
+            SeLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
+            <br />
+            SeTxID smallint(5) unsigned NOT NULL, -- TEXT FOREIGN KEY --
+            <br />
+            SeOrder smallint(5) unsigned NOT NULL,
+            <br />
+            SeText text,
+            <br />
+            SeFirstPos smallint(5) unsigned NOT NULL,
+            <br />
+            PRIMARY KEY (SeID),
+            <br />
+            KEY SeLgID (SeLgID),
+            <br />
+            KEY SeTxID (SeTxID),
+            <br />
+            KEY SeOrder (SeOrder)
+            <br />
+            <br />
+          </li>
+
+          <li>
             <b>Table "textitems2" (Text items cache, no backup needed):</b>
             <br />
             Ti2WoID mediumint(8) unsigned NOT NULL,
@@ -2493,9 +2591,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
           <li>
             <b>Table "temptextitems" (memory table only used when creating texts, otherwise empty):</b>
             <br />
-				  TiLgID tinyint(3) unsigned NOT NULL,
-				<br />
-				  TiTxID smallint(5) unsigned NOT NULL,
+				  TiCount smallint(5) unsigned NOT NULL,
 				<br />
 				  TiSeID mediumint(8) unsigned NOT NULL,
 				<br />
@@ -2503,9 +2599,7 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 				<br />
 				  TiWordCount tinyint(3) unsigned NOT NULL,
 				<br />
-				  TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-				<br />
-				  TiTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+				  TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
   					<br />
   					<br />
           </li>
@@ -2586,6 +2680,8 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
             KEY NfLgID (NfLgID),
             <br />
             KEY NfUpdate (NfUpdate)
+            <br />
+            <br />
          </li>
         </ul>
       </dd>
@@ -2596,6 +2692,249 @@ if(!$('.lwtlogoright').attr('src').length){$('.lwtlogoright').attr( "src", 'img/
 
       <dd>
         <ul>
+
+	<li>1.6.31 (October 03 2016):<br />
+		Bugfix: Multibyte character parsing fixed (i.e. chinese).<br />
+		<br />
+	</li>
+	<li>1.6.30 (July 28 2016):<br />
+		Bugfix: google translate API updated.<br />
+		New Feature: MeCab support (in development).<br />
+		<br />
+	</li>
+
+	<li>1.6.29 (April 21 2016):<br />
+		Bugfix: ggl.php API doesn't work (Token generation fixed).<br />
+		Bugfix: Dictionary doesn't open.<br />
+		Bugfix: Negative/uncorrect WordCount in 'edit_texts_php'.<br />
+		In appreviations like 'Mr.' the dot is now part of the term. A reparse of texts is needed to take effect.<br />
+		Wizard Language: Arabic 'RegExp Word Characters' changed.<br />
+		<br />
+	</li>
+
+	<li>1.6.28 (April 07 2016):<br />
+		DB collation check added.<br />
+		Bugfix: Access denied, LOAD DATA INFILE error (text parsing on a server).<br />
+		Bugfix: 'remove spaces' not working.<br />
+		Wizard Language Defaults changed.<br />
+		<br />
+	</li>
+
+	<li>1.6.27 (February 21 2016):<br />
+		Bugfix: DB backup/import errors.<br />
+		RegExp Word Characters are checked for correct syntax when creating/updating language.<br />
+		thumbnail/image support removed.<br />
+		<br />
+	</li>
+
+	<li>1.6.26 (February 11 2016):<br />
+		Some bugfixes: errors when emptying database and installing Demo database, added 'follow redirect' to feed.<br />
+		Demo Database updated.<br />
+		mysqli changes from orig. LWT.<br />
+		php-mobile-detect updated.<br />
+		<br />
+	</li>
+
+	<li>1.6.25 (January 31 2016):<br />
+		SplitCheckText rewritten.<br />
+		Added saved expressions to CheckText.<br />
+		Bugfix: No Word Counts displayed when text has no saved words.<br />
+		Added German Feed 'NachDenkSeiten'(url:'http://www.nachdenkseiten.de/?feed=audiopodcast', Article Section:'//encoded/p', Options:'Article Source:encoded') to DemoDatabase.<br />
+		Database changes (table 'temptextitems'): added: TiCount, dropped: TiLgID, TiTxID, TiTextLC and index TiTextLC<br />
+		Database changes : dropped: index WtWoID, index TtTxID, index AgAtID<br />
+		<br />
+	</li>
+
+	<li>1.6.24 (January 11 2016):<br />
+		HTML lang attribute added in testing frame.<br />
+		Speed improvements in 'My Texts' screen.<br />
+		Replaced precentage of 'unknown words' by 'word charts' in 'My Texts' screen.<br />
+		Added possibility to switch between 'unique' and 'total' word count by clicking on 'u'/'t'-button.<br />
+		Deleted Setting: Show Word Counts of Texts immediately<br />
+		<br />
+	</li>
+
+	<li>1.6.23 (December 13 2015):<br />
+		HTML lang attribute added in reading frame.<br />
+		Jplayer, Jquery, JqueryUI updated.<br />
+		Google Translate API changes: random google domain access added (domain can be changed in googleTranslateClass.php), updated generateToken.<br />
+		<br />
+	</li>
+
+	<li>1.6.22 (November 11 2015):<br />
+		Google Translate API(ggl.php): added headers and corrected token.<br />
+		<br />
+	</li>
+
+	<li>1.6.21 (October 16 2015):<br />
+		Google Translate API(ggl.php): added token to URL.<br />
+		<br />
+	</li>
+
+	<li>1.6.20 (September 26 2015):<br />
+		Bugfix: Google TextToSpeech callback fixed.<br />
+		Jquery Changes in the reading frame for hover_over/highlight words.<br />
+		<br />
+	</li>
+
+	<li>1.6.19 (August 29 2015):<br />
+		Bugfix: Mysql login process changed.<br />
+		JPlayer CSS and Skin changes. Skin are now integrated into 'Themes'.<br />
+		New default settings: 'Tooltips' (new Default: 'JqueryUI') and 'Position of translations' (new Default: 'below').<br />
+		<br />
+	</li>
+
+	<li>1.6.18 (June 11 2015):<br />
+		New Setting: Position of translation<br />
+		Translations can now be displayed 'behind', 'in front of', 'above' or 'below' the term in the reading frame.<br />
+		Improved encoding detection in 'newsfeed import'.<br />
+		Bugfix: Words that are created by 'bulk import' are not updated in the reading frame (i.e. when new translations are added afterwards).<br />
+		Bugfix: mysql error 'duplicate entry' in 'newsfeed import'.<br />
+		<br />
+	</li>
+
+        <li>1.6.17 (May 09 2015):<br />
+		Bugfix: Newsfeed Import doesn't load new links if WordPress is used for multiple users.<br />
+		<br />
+	</li>
+
+        <li>1.6.16 (May 01 2015):<br />
+		Improved Sentence Bondary Detection when parsing texts.<br />
+		User ID is saved in the PHP Session Variable (instead of a Cookie) if wordpress is used to log in.<br />
+		Switch to mysqli extension for database connection.<br />
+		Minified CSS and Javascript files; the uncompressed files can be found in the directory 'src'.<br />
+		<br />
+	</li>
+
+        <li>1.6.15 (April 10 2015):<br />
+		Ggl API retrieval error fixed.<br />
+		Some CSS changes.<br />
+		<br />
+	</li>
+
+        <li>1.6.14 (March 28 2015):<br />
+		Glosbe API now uses javascript(browser based) instead of php(server based) to prevent possible retrieval errors when LWT is installed on a webhoster for multiple users.<br />
+		<br />
+		</li>
+
+		<li>1.6.13 (March 23 2015):<br />
+		Bugfix: 'error when making backup' fixed<br />
+		New Setting: Tooltips (JQueryUI will show images in Tooltips in the Read Text Screen)<br />
+		New Feature: You can now add thumbnail images to your terms. If you click on the icon at the left of the translation field in the new_term/edit_term frame/window you can select an thumbnail from 'google image search'. In order to display the images in the Read Text Screen you must set 'Tooltips' to 'JQueryUI'. The thumbnail images are not included in the backup at the moment.<br />
+		New Feature: Key binding J for edit term with Google Image Search added<br />
+		<br />
+		</li>
+
+		<li>1.6.12 (March 01 2015):<br />
+		CSS/jquery fixes when selecting multiple word expressions in text frame<br />
+		Bugfix: new or imported multiple word expressions are not show in the text with 'remove Spaces' is 1 and 'split Each Char' is 0<br />
+        	Jquery, JqueryUI updated<br /><br />
+        	</li>
+
+        	<li>1.6.11 (February 09 2015):<br />
+		Bugfix: 'Show term sentences' and 'Create term sentences' fixed<br />
+		<br />
+		</li>
+
+		<li>1.6.10 (January 25 2015):<br />
+		Bugfixes in bulk import terms<br />
+		CSS changes for firefox (version >= 35) in dark themes<br />
+		<br />
+		</li>
+
+		<li>1.6.9 (December 21 2014):<br />
+		Bugfix: getting article from feed even if there is no link<br />
+		<br />
+		</li>
+
+		<li>1.6.8 (December 19 2014):<br />
+		Google API can now do a requery<br />
+		Dict Lookup from bulk import terms frame is now possible<br />
+		<br />
+		</li>
+
+		<li>1.6.7 (December 18 2014):<br />
+		Bugfix: db error in newsfeeds<br />
+		<br />
+		</li>
+
+		<li>1.6.6 (December 16 2014):<br />
+		New Feature: Ability to change audio playback speed (doesn't work when using the flash plugin)<br />
+        	New Feature: Combine translation field option when importing words ('Merge translation fields' or 'Update existing translations')<br />
+		<br />
+		</li>
+
+		<li>1.6.5 (December 01 2014):<br />
+		Bugfix: error in 'upload_words.php'<br />
+		<br />
+		</li>
+
+		<li>1.6.4 (November 29 2014):<br />
+		Bugfix: wrong dict links for sentence translate<br />
+		<br />
+		</li>
+
+		<li>1.6.3 (October 12 2014):<br />
+		Google api rewritten (works on webhoster with cURL-plugin)<br />
+		New Feature: Key binding G for edit term with Google Translate added<br />
+		<br />
+		</li>
+
+		<li>1.6.2 (October 06 2014):<br />
+		Database Changes: indexes changed in table words<br />
+		New Feature: Key binding T for translating sentence added<br />
+		New Backup Option: official LWT backup added<br />
+		<br />
+		</li>
+
+      	<li>1.6.1 (September 28 2014):<br />
+        	New Feature: translations of terms can now be display in the reading frame<br />
+        	New Feature: key bindings when hovering over words in the reading frame<br />
+        	New Feature: bulk translate new words in the reading frame<br />
+        	Changes from official LWT version 1.5.20 imported:<br />
+         	<ul><li><b>New Feature:</b> Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense.</br /></li>
+        	<li>"https://" dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved. </li>
+        	<li>The Glosbe dictionary page has been improved with a simple form to change the term and do a requery if you are unhappy with the query results.</br /></li>
+ 		 	<li>The jQuery and jPlayer libraries have been updated to v1.11.1 and v2.7.0, respectively. The jQuery.ScrollTo package has been updated to v1.4.13. The Floating Menu package has been updated to v1.12.<br /></li>
+       	<li>Broken links corrected or deleted. From now on, only the installation with EasyPHP for Windows and MAMP for Mac OS X will be explained in detail and is recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).</li>
+       	<li>"Mobile_Detect.php" updated to v2.8.3.</li>
+       	</ul>
+       	Documentation updated.<br />
+        	<br />
+        	</li>
+
+ 		 	<li>1.6.0 (September 12 2014):<br />
+        	Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added<br />
+        	New Feature: Longer (>9) expressions can now be saved<br />
+        	New Feature: TextToSpeech support for words added<br />
+        	New Feature: experimental google api (use 'ggl.php' instead of '*http://translate.google.com' for google translate)<br />
+        	New Feature: new word select mode in read texts (hold down mouse button)<br />
+        	statistics.php, upload_words.php rewritten<br />
+        	<br />
+        	</li>
+        
+			<li>1.5.17 (June 08 2014):<br />
+			New Feature: Selecting terms according to a text tag<br />
+			New Feature: Start a document where you left off (only "Read Text Screen")<br />
+			New Feature: Improved Search/Query for Words/Texts<br />
+			New Feature: Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)<br />
+			JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated<br />
+			Database table optimization: first check, only optimize if (Overhead >10% of table and > 100KB) or (Overhead > 1,0MB)<br />
+			Database table optimization: data types changed.<br />
+			New Setting: Button(s) for "words to do" "IGNORE ALL"/"I KNOW ALL" <br />
+			New Setting: Theme<br />
+			New Setting: term/word query with standard/regexp/regexp CS<br />
+			New Sort option "Oldest First"<br />
+			New option "Set Active Term(1-5) Sentences" in My Texts<br />
+			Bugfix: importing multiple words with the same tag causes an error<br />
+			Bugfix: can't select media in Archived Texts<br />
+			Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)<br />
+			Bugfix: bottom page select doesn't work in firefox (edit_texts.php, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php)<br />
+			Bugfix: setting a tag where tag already exists causes an error<br />
+			Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)<br />
+        	Documentation updated.<br />
+			<br />
+			</li>
 
         	<li>1.5.20 (September 22 2014):</br />
         	Missing volume controls in audio player (only on mobile devices) fixed.<br />

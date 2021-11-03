@@ -49,8 +49,8 @@ $t = stripTheSlashesIfNeeded($_REQUEST["t"]);
 
 if ( $x == 1 ) {
 	$sql = 'select SeText, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 where Ti2SeID = SeID and Ti2LgID = LgID and Ti2TxID = ' . $t . ' and Ti2Order = ' . $i;
-	$res = do_mysql_query($sql);
-	$record = mysql_fetch_assoc($res);
+	$res = do_mysqli_query($sql);
+	$record = mysqli_fetch_assoc($res);
 	if ($record) {
 		$satz = $record['SeText'];
 		$trans = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
@@ -58,7 +58,7 @@ if ( $x == 1 ) {
 	} else {
 		my_die("No results: $sql"); 
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 	if ($trans != '') {
 		/*
 		echo "{" . $i . "}<br />";
@@ -69,9 +69,9 @@ if ( $x == 1 ) {
 			$trans = str_replace ('?','?sent=1&',$trans);
 		}
 		header("Location: " . createTheDictLink($trans,$satz));
-	}	
+	}
 	exit();
-}	
+}
 
 if ( $x == 2 ) {
 	/*
