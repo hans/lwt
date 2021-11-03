@@ -530,7 +530,7 @@ $HTMLString=str_replace(array('<br />','<br>','</br>','</h','</p'),array("\n","\
 
 function get_version() {
 	global $debug;
-	return '1.6.1 (September 18 2014)'  . 
+	return '1.5.20 (September 22 2014)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -3709,6 +3709,7 @@ $(document).ready(function(){
       $(this).jPlayer("pause",<?php echo $offset; ?>);
     },
     swfPath: "js",
+    noVolume: {ipad: /^no$/, iphone: /^no$/, ipod: /^no$/, android_pad: /^no$/, android_phone: /^no$/, blackberry: /^no$/, windows_ce: /^no$/, iemobile: /^no$/, webos: /^no$/, playbook: /^no$/}
   });
   
   $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
