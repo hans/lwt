@@ -39,7 +39,7 @@ Plus (at end): Database Connect, .. Select, .. Updates
 
 function get_version() {
 	global $debug;
-	return '2.0.1 (October 07 2020)'  . 
+	return '2.0.2 (September 07 2021)'  . 
 	($debug ? ' <span class="red">DEBUG</span>' : '');
 }
 
@@ -71,10 +71,14 @@ function my_die($text) {
 // -------------------------------------------------------------
 
 function stripTheSlashesIfNeeded($s) {
-	if(get_magic_quotes_gpc())
-		return stripslashes($s);
-	else
+	if (function_exists("get_magic_quotes_gpc")) {
+		if(get_magic_quotes_gpc())
+			return stripslashes($s);
+		else 
+			return $s;
+	} else {
 		return $s;
+	}
 }
 
 // -------------------------------------------------------------
@@ -963,7 +967,12 @@ function showRequest() {
 	echo "<pre>** DEBUGGING **********************************\n";
 	echo '$GLOBALS...'; print_r($GLOBALS);
 	echo 'get_version_number()...'; echo get_version_number() . "\n";
-	echo 'get_magic_quotes_gpc()...'; echo get_magic_quotes_gpc() . "\n";
+	echo 'get_magic_quotes_gpc()...'; 
+	if (function_exists("get_magic_quotes_gpc")) {
+		echo (get_magic_quotes_gpc() ? "TRUE" : "FALSE") . "\n";
+	} else {
+		echo "NOT EXISTS (FALSE)\n";
+	}
 	echo "********************************** DEBUGGING **</pre>";
 	error_reporting($olderr);
 }
