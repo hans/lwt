@@ -271,9 +271,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a272e6920bd0ac3690730a62edebae42d"><td class="memItemLeft" align="right" valign="top"><a id="a272e6920bd0ac3690730a62edebae42d" name="a272e6920bd0ac3690730a62edebae42d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getSettingWithDefault</b> ($key)</td></tr>
 <tr class="separator:a272e6920bd0ac3690730a62edebae42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49b31681295cdc3f5693a6dbab87a8fd"><td class="memItemLeft" align="right" valign="top"><a id="a49b31681295cdc3f5693a6dbab87a8fd" name="a49b31681295cdc3f5693a6dbab87a8fd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>get_audioplayer_selectoptions</b> ($v)</td></tr>
-<tr class="separator:a49b31681295cdc3f5693a6dbab87a8fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2585776ef324ff905c97c29bea07f791"><td class="memItemLeft" align="right" valign="top"><a id="a2585776ef324ff905c97c29bea07f791" name="a2585776ef324ff905c97c29bea07f791"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>get_mobile_display_mode_selectoptions</b> ($v)</td></tr>
 <tr class="separator:a2585776ef324ff905c97c29bea07f791"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -515,8 +512,7 @@ Functions</h2></td></tr>
 <tr class="separator:a5edb8c9b03a9aee63d8a0384f71be280"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a633dd2f52d8d78f57da6d46d2e45dba9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#a633dd2f52d8d78f57da6d46d2e45dba9">echodebug</a> ($var, $text)</td></tr>
 <tr class="separator:a633dd2f52d8d78f57da6d46d2e45dba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46e8e1270bdf2caa528fee2b393c919c"><td class="memItemLeft" align="right" valign="top"><a id="a46e8e1270bdf2caa528fee2b393c919c" name="a46e8e1270bdf2caa528fee2b393c919c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>splitCheckText</b> ($text, $lid, $id)</td></tr>
+<tr class="memitem:a46e8e1270bdf2caa528fee2b393c919c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#a46e8e1270bdf2caa528fee2b393c919c">splitCheckText</a> ($text, $lid, $id)</td></tr>
 <tr class="separator:a46e8e1270bdf2caa528fee2b393c919c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf5cd59b8e5a5c380238c3bfc2eec1f5"><td class="memItemLeft" align="right" valign="top"><a id="aaf5cd59b8e5a5c380238c3bfc2eec1f5" name="aaf5cd59b8e5a5c380238c3bfc2eec1f5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>insertExpressions</b> ($textlc, $lid, $wid, $len, $mode)</td></tr>
@@ -805,6 +801,49 @@ start MySQL and or correct file connect inc php Please read the SET&#160;</td><t
       </table>
 </div><div class="memdoc">
 <p >Output string</p>
+
+</div>
+</div>
+<a id="a46e8e1270bdf2caa528fee2b393c919c" name="a46e8e1270bdf2caa528fee2b393c919c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46e8e1270bdf2caa528fee2b393c919c">&#9670;&nbsp;</a></span>splitCheckText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">splitCheckText </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Parse the input text.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">String</td><td class="paramname">$text</td><td>Text to parse </td></tr>
+    <tr><td class="paramtype">String</td><td class="paramname">$lid</td><td>Language id (LgID from languages table) </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td>References whether the text is new to the database </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

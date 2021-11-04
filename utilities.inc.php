@@ -2971,7 +2971,9 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) {
 		if('MECAB'== strtoupper(trim($record["LgRegexpWordCharacters"]))){
 			$mecab_file = sys_get_temp_dir() . "/" . $tbpref . "mecab_to_db.txt";
 			//$mecab_args = ' -F þ%mÿ%F-[0,1,2,3]\\t -U þ%mÿ%F-[0,1,2,3]\\t -E \\n ';
-			$mecab_args = ' -F {%m%t\\t -U {%m%t\\t -E \\n ';
+			//$mecab_args = ' -F {%m%t\\t -U {%m%t\\t -E \\n ';
+			// For instance, "このラーメン" becomes "この	6	68\nラーメン	7	38"
+			$mecab_args = ' -F %m\\t%t\\t%h\\n -U %m\\t%t\\t%h\\n -E EOS\\t3\\t7\\n ';
 			if(file_exists($mecab_file)) unlink($mecab_file);
 			$fp = fopen($mecab_file, 'w');
 			fwrite($fp, $wordlc . "\n");
@@ -2981,7 +2983,21 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) {
 			if (!feof($handle)) {
 				$row = fgets($handle,256);
 				//$mecab_str = "\t" . str_replace(array('þ',"\n"),array('',''),preg_replace(array('$ÿ記号[^\t]*\t$u','$ÿ名詞-数\t$u','$[0-9a-zA-Z]ÿ[^\t]*\t$u','$ÿ[^\t]*\t$u'),array('','','',"\t"), $row));
-				$mecab_str = "\t" . str_replace(array('{',"\n"),array('',''),preg_replace_callback('$(([267])|[0-9])\t$u', function($matches){if(isset($matches[2])) return "\t"; else return "";}, $row));
+				/*$mecab_str = "\t" . str_replace(
+					array('{',"\n"), array('',''),
+					preg_replace_callback(
+						'$(([267])|[0-9])\t$u', 
+						function ($matches){
+							if(isset($matches[2])) return "\t"; else return "";
+						}, 
+						$row)
+				);*/
+				// Format string removing numbers. 
+				// MeCab tip: 2 = hiragana, 6 = kanji, 7 = katakana
+				$meacab_str = "\t" . preg_replace_callback(
+					'$([267]?)\t[0-9]+\t$u', 
+					function ($matches) {return isset($matches[1]) ? "\t" : "";}, 
+					$row); 
 			}
 			pclose($handle);
 			unlink($mecab_file);
@@ -3198,7 +3214,6 @@ function getScriptDirectionTag($lid) {
  * @param Any $var A printed variable to debug
  * @param String $text Echoed text in HTML page
  */
-
 function echodebug($var,$text) {
 	global $debug;
 	if (! $debug ) return;
@@ -3207,12 +3222,17 @@ function echodebug($var,$text) {
 	echo "]]]\n--------------</pre>";
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Parse the input text.
+ * 
+ * @param String $text Text to parse
+ * @param String $lid Language id (LgID from languages table)
+ * @param int $id References whether the text is new to the database
+ *  $id = -1     => Check, return protocol
+ *	$id = -2     => Only return sentence array
+ * 	$id = TextID => Split: insert sentences/textitems entries in DB
+ */
 function splitCheckText($text, $lid, $id) {
-	// $id = -1     => Check, return protocol
-	// $id = -2     => Only return sentence array
-	// $id = TextID => Split: insert sentences/textitems entries in DB
 	global $tbpref;
 	$wo = $nw = $mw = $wl = array();
 	$wl_max = 0;
@@ -3413,7 +3433,8 @@ function insertExpressions ($textlc,$lid,$wid,$len,$mode) {
 		$db_to_mecab = sys_get_temp_dir() . "/lwt/" . $tbpref . "db_to_mecab.txt";
 		$mecab_to_db = sys_get_temp_dir() . "/" . $tbpref . "mecab_to_db.txt";
 		//$mecab_args = ' -F þ%mÿ%F-[0,1,2,3]\\t -U þ%mÿ%F-[0,1,2,3]\\t -E \\n ';
-		$mecab_args = ' -F {%m%t\\t -U {%m%t\\t -E \\n ';
+		//$mecab_args = ' -F {%m%t\\t -U {%m%t\\t -E \\n ';
+		$mecab_args = ' -F %m\\t%t\\t%h\\n -U %m\\t%t\\t%h\\n -E EOS\\t3\\t7\\n ';
 		$mecab_expr = '';
 		if(!is_dir(sys_get_temp_dir() . "/lwt")){
 			mkdir(sys_get_temp_dir() . "/lwt",0777);
@@ -3430,7 +3451,12 @@ function insertExpressions ($textlc,$lid,$wid,$len,$mode) {
 				//$arr  = explode("ÿ名詞-数\t",$row , 4);
 				//if(!empty($arr[3])) $sent = preg_replace(array('$ÿ記号[^\t]*\t$u','$ÿ名詞-数\t$u','$[0-9a-zA-Z]ÿ[^\t]*\t$u','$ÿ[^\t]*\t$u'),array('','','',"\t"), $arr[3]);
 				$arr  = explode("4\t",$row , 4);
-				if(!empty($arr[3])) $sent = preg_replace_callback('$(([267])|[0-9])\t$u', function($matches){if(isset($matches[2])) return "\t"; else return "";}, $arr[3]);
+				if(!empty($arr[3])) 
+					$sent = preg_replace_callback(
+						'$([267])?\t[0-9]+\t$u', 
+						function ($matches) {
+							return isset($matches[1]) ? "\t" : "";
+						}, $arr[3]);
 				if(empty($mecab_expr)) {
 					$mecab_expr = trim($sent) . "\t";
 				}
@@ -3967,23 +3993,7 @@ function makeAudioPlayer($audio,$offset=0) {
 							</div>
 						</div>
 					</div>
-<!--
-Try also
-<div id="jp_container_1" class="jp-audio">
-	<div class="jp-type-single">
-		<div class="jp-gui jp-interface">
-			<ul class="jp-controls">
-				<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-				<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-				<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
-				<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-				<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
-			</ul>
-			<div class="jp-progress">
-				<div class="jp-seek-bar">
-					<div class="jp-play-bar"></div>
 				</div>
--->
 				<div class="jp-volume-bar-container">
 					<div class="jp-volume-bar">
 						<div class="jp-volume-bar-value">
