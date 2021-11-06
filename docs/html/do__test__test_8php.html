@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -78,12 +78,15 @@ Variables</h2></td></tr>
 <tr class="memitem:ab0ed46ece3f8d301125a0f2728d90d7b"><td class="memItemLeft" align="right" valign="top"><a id="ab0ed46ece3f8d301125a0f2728d90d7b" name="ab0ed46ece3f8d301125a0f2728d90d7b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$p</b> = ''</td></tr>
 <tr class="separator:ab0ed46ece3f8d301125a0f2728d90d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2da975a8c74aa547010bf1ed579b6b1d"><td class="memItemLeft" align="right" valign="top"><a id="a2da975a8c74aa547010bf1ed579b6b1d" name="a2da975a8c74aa547010bf1ed579b6b1d"></a>
+if(isset($_REQUEST['selection']) &amp;&amp;isset($_SESSION['testsql'])) elseif(isset( $_REQUEST[ 'lang'])) elseif(isset($_REQUEST['text']))&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { <a class="el" href="utilities_8inc_8php.html#a66b15236d14629cb1bc2f6ed300bd38e">my_die</a>(&quot;do_test_test.php called with wrong parameters&quot;)</td></tr>
+<tr class="separator:a2da975a8c74aa547010bf1ed579b6b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa26e601be1ae7cebda5313544d26829"><td class="memItemLeft" align="right" valign="top"><a id="afa26e601be1ae7cebda5313544d26829" name="afa26e601be1ae7cebda5313544d26829"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$testtype</b> = getreq('type') + 0</td></tr>
 <tr class="separator:afa26e601be1ae7cebda5313544d26829"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8441c2483b0361049cff8f9e9d92989d"><td class="memItemLeft" align="right" valign="top"><a id="a8441c2483b0361049cff8f9e9d92989d" name="a8441c2483b0361049cff8f9e9d92989d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$nosent</b> = 0</td></tr>
-<tr class="separator:a8441c2483b0361049cff8f9e9d92989d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea5d805de20a8292e06416e58839df02"><td class="memItemLeft" align="right" valign="top"><a id="aea5d805de20a8292e06416e58839df02" name="aea5d805de20a8292e06416e58839df02"></a>
+if( $testtype&lt; 1) if($testtype &gt; 5)&#160;</td><td class="memItemRight" valign="bottom"><b>$nosent</b> = 0</td></tr>
+<tr class="separator:aea5d805de20a8292e06416e58839df02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc32183c89ff1b113ba04bfa963bd90c"><td class="memItemLeft" align="right" valign="top"><a id="abc32183c89ff1b113ba04bfa963bd90c" name="abc32183c89ff1b113ba04bfa963bd90c"></a>
 if($testtype &gt; 3)&#160;</td><td class="memItemRight" valign="bottom"><b>$totaltests</b> = $_SESSION['testtotal']</td></tr>
 <tr class="separator:abc32183c89ff1b113ba04bfa963bd90c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -96,11 +99,12 @@ if($testtype &gt; 3)&#160;</td><td class="memItemRight" valign="bottom"><b>$tota
 <tr class="memitem:aad1cb49941ea462bdc1c2e045aad1313"><td class="memItemLeft" align="right" valign="top"><a id="aad1cb49941ea462bdc1c2e045aad1313" name="aad1cb49941ea462bdc1c2e045aad1313"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$cntlang</b> = <a class="el" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('select count(distinct WoLgID) as value from ' . $testsql)</td></tr>
 <tr class="separator:aad1cb49941ea462bdc1c2e045aad1313"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af789423037bbc89dc7c850e761177570"><td class="memItemLeft" align="right" valign="top"><a id="af789423037bbc89dc7c850e761177570" name="af789423037bbc89dc7c850e761177570"></a>
+<tr class="memitem:a2f48fbb3abafd0fff5a54b09fdfe1be1"><td class="memItemLeft" align="right" valign="top"><a id="a2f48fbb3abafd0fff5a54b09fdfe1be1" name="a2f48fbb3abafd0fff5a54b09fdfe1be1"></a>
 if($cntlang &gt; 1)&#160;</td><td class="memItemRight" valign="bottom"><b>$count</b> = <a class="el" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore &lt; 0')</td></tr>
-<tr class="separator:af789423037bbc89dc7c850e761177570"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2da975a8c74aa547010bf1ed579b6b1d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#a2da975a8c74aa547010bf1ed579b6b1d">else</a></td></tr>
-<tr class="separator:a2da975a8c74aa547010bf1ed579b6b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a2f48fbb3abafd0fff5a54b09fdfe1be1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04ab1249b1858c7581d246fe47e05569"><td class="memItemLeft" align="right" valign="top"><a id="a04ab1249b1858c7581d246fe47e05569" name="a04ab1249b1858c7581d246fe47e05569"></a>
+if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$notyettested</b> = $count</td></tr>
+<tr class="separator:a04ab1249b1858c7581d246fe47e05569"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a047170d6020a882807665812a27e2525"><td class="memItemLeft" align="right" valign="top"><a id="a047170d6020a882807665812a27e2525" name="a047170d6020a882807665812a27e2525"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang</td></tr>
 <tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +145,7 @@ if($cntlang &gt; 1)&#160;</td><td class="memItemRight" valign="bottom"><b>$count
 &#160;</td><td class="memItemRight" valign="bottom"><b>$num</b> = 0</td></tr>
 <tr class="separator:a606c9dff2aade84f01338c3c4cd8016b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fc62fd062300c58c188533cbe23e1e5"><td class="memItemLeft" align="right" valign="top"><a id="a3fc62fd062300c58c188533cbe23e1e5" name="a3fc62fd062300c58c188533cbe23e1e5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$l</b> = mb_strlen($sent,'utf-8')</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$l</b> = mb_strlen($sent, 'utf-8')</td></tr>
 <tr class="separator:a3fc62fd062300c58c188533cbe23e1e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8abe176bc41afd728f32ba8c506cbd98"><td class="memItemLeft" align="right" valign="top"><a id="a8abe176bc41afd728f32ba8c506cbd98" name="a8abe176bc41afd728f32ba8c506cbd98"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$r</b> = ''</td></tr>
@@ -158,20 +162,20 @@ if($cntlang &gt; 1)&#160;</td><td class="memItemRight" valign="bottom"><b>$count
 <tr class="memitem:abac256efc885ca75d05d729cc923db95"><td class="memItemLeft" align="right" valign="top"><a id="abac256efc885ca75d05d729cc923db95" name="abac256efc885ca75d05d729cc923db95"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$totaltestsdiv</b> = 1</td></tr>
 <tr class="separator:abac256efc885ca75d05d729cc923db95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a144a4d6a1cdb20190468e5b36bc77aeb"><td class="memItemLeft" align="right" valign="top"><a id="a144a4d6a1cdb20190468e5b36bc77aeb" name="a144a4d6a1cdb20190468e5b36bc77aeb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$l_notyet</b> = round(($notyettested * $totaltestsdiv)*100,0)</td></tr>
-<tr class="separator:a144a4d6a1cdb20190468e5b36bc77aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2d2de693ef1e6c5a421deec516b4ac9"><td class="memItemLeft" align="right" valign="top"><a id="ab2d2de693ef1e6c5a421deec516b4ac9" name="ab2d2de693ef1e6c5a421deec516b4ac9"></a>
+if($totaltests &gt; 0)&#160;</td><td class="memItemRight" valign="bottom"><b>$l_notyet</b> = round(($notyettested * $totaltestsdiv)*100, 0)</td></tr>
+<tr class="separator:ab2d2de693ef1e6c5a421deec516b4ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab93baca5152ce800e4a1334a1eb663b9"><td class="memItemLeft" align="right" valign="top"><a id="ab93baca5152ce800e4a1334a1eb663b9" name="ab93baca5152ce800e4a1334a1eb663b9"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$b_notyet</b> = ($l_notyet == 0) ? '' : 'borderl'</td></tr>
 <tr class="separator:ab93baca5152ce800e4a1334a1eb663b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51e80220f8e1f241ec8a10299af1be20"><td class="memItemLeft" align="right" valign="top"><a id="a51e80220f8e1f241ec8a10299af1be20" name="a51e80220f8e1f241ec8a10299af1be20"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$l_wrong</b> = round(($wrong * $totaltestsdiv)*100,0)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$l_wrong</b> = round(($wrong * $totaltestsdiv)*100, 0)</td></tr>
 <tr class="separator:a51e80220f8e1f241ec8a10299af1be20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add1f3b00491b088041952213cada088f"><td class="memItemLeft" align="right" valign="top"><a id="add1f3b00491b088041952213cada088f" name="add1f3b00491b088041952213cada088f"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$b_wrong</b> = ($l_wrong == 0) ? '' : 'borderl'</td></tr>
 <tr class="separator:add1f3b00491b088041952213cada088f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af73fd96a9db964c0f3aef6a4924a65e2"><td class="memItemLeft" align="right" valign="top"><a id="af73fd96a9db964c0f3aef6a4924a65e2" name="af73fd96a9db964c0f3aef6a4924a65e2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$l_correct</b> = round(($correct * $totaltestsdiv)*100,0)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$l_correct</b> = round(($correct * $totaltestsdiv)*100, 0)</td></tr>
 <tr class="separator:af73fd96a9db964c0f3aef6a4924a65e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d13ff84a1c8bd1249308ea371891eee"><td class="memItemLeft" align="right" valign="top"><a id="a0d13ff84a1c8bd1249308ea371891eee" name="a0d13ff84a1c8bd1249308ea371891eee"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$b_correct</b> = ($l_correct == 0) ? 'borderr' : 'borderl borderr'</td></tr>
@@ -189,26 +193,7 @@ if($cntlang &gt; 1)&#160;</td><td class="memItemRight" valign="bottom"><b>$count
 <p >For more information, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
 <p >Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;lang=[langid] Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;text=[textid] Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;selection=1 <br  />
  (SQL via $_SESSION['testsql']) </p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a2da975a8c74aa547010bf1ed579b6b1d" name="a2da975a8c74aa547010bf1ed579b6b1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2da975a8c74aa547010bf1ed579b6b1d">&#9670;&nbsp;</a></span>else</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">if ( $waittime&lt;=0) else</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line"> </div>
-<div class="line">    $lang = <a class="code hl_function" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>(<span class="stringliteral">&#39;select WoLgID as value from &#39;</span> . $testsql . <span class="stringliteral">&#39; limit 1&#39;</span>)</div>
-<div class="ttc" id="adbutils_8inc_8php_html_a9c4a52b3d9b10360dce64ad0464bfad5"><div class="ttname"><a href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a></div><div class="ttdeci">get_first_value($sql)</div><div class="ttdef"><b>Definition:</b> dbutils.inc.php:89</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3

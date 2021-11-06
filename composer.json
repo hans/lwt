@@ -49,7 +49,8 @@
         "aehlke/tag-it": "^2.0",
         "happyworm/jplayer": "^2.9",
         "ilinsky/jquery-xpath": "^0.3",
-        "briancherne/jquery-hoverintent": "^1.10"
+        "briancherne/jquery-hoverintent": "^1.10",
+        "mobiledetect/mobiledetectlib": "^2.8"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.2"

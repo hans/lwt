@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['changelog_0',['Changelog',['../md_docs__c_h_a_n_g_e_l_o_g.html',1,'']]],
-  ['check_5fupdate_5fdb_1',['check_update_db',['../utilities_8inc_8php.html#a201634201ef9816c61455bc380811459',1,'utilities.inc.php']]],
-  ['checkhttpheadersformobile_2',['checkHttpHeadersForMobile',['../class_mobile___detect.html#a77fbe93fb463c525d3c2fe3e98cf8030',1,'Mobile_Detect']]]
+  ['dbutils_2einc_2ephp_0',['dbutils.inc.php',['../dbutils_8inc_8php.html',1,'']]],
+  ['do_5fmysqli_5fquery_1',['do_mysqli_query',['../dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d',1,'dbutils.inc.php']]],
+  ['do_5ftest_5ftable_2ephp_2',['do_test_table.php',['../do__test__table_8php.html',1,'']]],
+  ['do_5ftest_5ftest_2ephp_3',['do_test_test.php',['../do__test__test_8php.html',1,'']]],
+  ['do_5ftext_2ephp_4',['do_text.php',['../do__text_8php.html',1,'']]],
+  ['do_5ftext_5fheader_2ephp_5',['do_text_header.php',['../do__text__header_8php.html',1,'']]]
 ];

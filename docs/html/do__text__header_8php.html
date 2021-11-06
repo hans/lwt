@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -86,9 +86,9 @@ Variables</h2></td></tr>
 <tr class="memitem:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memItemLeft" align="right" valign="top"><a id="acbcb6dcb11c8755d5ffab0b45aac7a22" name="acbcb6dcb11c8755d5ffab0b45aac7a22"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$record</b> = mysqli_fetch_assoc($res)</td></tr>
 <tr class="separator:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fb2612950adbc6b9174f78b69cb1c78"><td class="memItemLeft" align="right" valign="top"><a id="a7fb2612950adbc6b9174f78b69cb1c78" name="a7fb2612950adbc6b9174f78b69cb1c78"></a>
+<tr class="memitem:aa20321910db204c5ece282202ef8bfa0"><td class="memItemLeft" align="right" valign="top"><a id="aa20321910db204c5ece282202ef8bfa0" name="aa20321910db204c5ece282202ef8bfa0"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$audio</b> = $record['TxAudioURI']</td></tr>
-<tr class="separator:a7fb2612950adbc6b9174f78b69cb1c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:aa20321910db204c5ece282202ef8bfa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada57e7bb7c152edad18fe2f166188691"><td class="memItemLeft" align="right" valign="top"><a id="ada57e7bb7c152edad18fe2f166188691" name="ada57e7bb7c152edad18fe2f166188691"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$title</b> = $record['TxTitle']</td></tr>
 <tr class="separator:ada57e7bb7c152edad18fe2f166188691"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,11 +132,10 @@ global&#160;</td><td class="memItemRight" valign="bottom"><b>$langDefs</b></td><
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= <span class="stringliteral">&#39;select LgName, TxLgID, TxText, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition </span></div>
-<div class="line"><span class="stringliteral">from &#39;</span> . <a class="code hl_variable" href="utilities_8inc_8php.html#ad2071c730b3755cc900bc31a4479bebf">$tbpref</a> . <span class="stringliteral">&#39;texts </span></div>
-<div class="line"><span class="stringliteral">join &#39;</span> . <a class="code hl_variable" href="utilities_8inc_8php.html#ad2071c730b3755cc900bc31a4479bebf">$tbpref</a> . <span class="stringliteral">&#39;languages </span></div>
+<div class="line"><span class="stringliteral">from &#39;</span> . $tbpref . <span class="stringliteral">&#39;texts </span></div>
+<div class="line"><span class="stringliteral">join &#39;</span> . $tbpref . <span class="stringliteral">&#39;languages </span></div>
 <div class="line"><span class="stringliteral">on TxLgID = LgID </span></div>
 <div class="line"><span class="stringliteral">where TxID = &#39;</span> . $textid</div>
-<div class="ttc" id="autilities_8inc_8php_html_ad2071c730b3755cc900bc31a4479bebf"><div class="ttname"><a href="utilities_8inc_8php.html#ad2071c730b3755cc900bc31a4479bebf">$tbpref</a></div><div class="ttdeci">if( $len_tbpref &gt; 0) if(! $fixed_tbpref) LWTTableSet(&quot;current_table_prefix&quot; $tbpref</div><div class="ttdef"><b>Definition:</b> utilities.inc.php:4633</div></div>
 </div><!-- fragment -->
 </div>
 </div>

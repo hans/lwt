@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -76,45 +76,43 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a5aa4fc1f2b62bde86af501cedb7707c8"><td class="memItemLeft" align="right" valign="top"><a id="a5aa4fc1f2b62bde86af501cedb7707c8" name="a5aa4fc1f2b62bde86af501cedb7707c8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentlang</b> = validateLang(processDBParam(&quot;filterlang&quot;,'currentlanguage','',0))</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currentlang</b> = validateLang(processDBParam(&quot;filterlang&quot;, 'currentlanguage', '', 0))</td></tr>
 <tr class="separator:a5aa4fc1f2b62bde86af501cedb7707c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a592001c6b0a088ee3768be629bc3ae17"><td class="memItemLeft" align="right" valign="top"><a id="a592001c6b0a088ee3768be629bc3ae17" name="a592001c6b0a088ee3768be629bc3ae17"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentsort</b> = processDBParam(&quot;sort&quot;,'currenttextsort','1',1)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currentsort</b> = processDBParam(&quot;sort&quot;, 'currenttextsort', '1', 1)</td></tr>
 <tr class="separator:a592001c6b0a088ee3768be629bc3ae17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cf6eb6f2c4d1e6204209a5341ccb537"><td class="memItemLeft" align="right" valign="top"><a id="a2cf6eb6f2c4d1e6204209a5341ccb537" name="a2cf6eb6f2c4d1e6204209a5341ccb537"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentpage</b> = processSessParam(&quot;page&quot;,&quot;currenttextpage&quot;,'1',1)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currentpage</b> = processSessParam(&quot;page&quot;, &quot;currenttextpage&quot;, '1', 1)</td></tr>
 <tr class="separator:a2cf6eb6f2c4d1e6204209a5341ccb537"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04318951a009e0355d0df46ad512fd75"><td class="memItemLeft" align="right" valign="top"><a id="a04318951a009e0355d0df46ad512fd75" name="a04318951a009e0355d0df46ad512fd75"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentquery</b> = processSessParam(&quot;query&quot;,&quot;currenttextquery&quot;,'',0)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currentquery</b> = processSessParam(&quot;query&quot;, &quot;currenttextquery&quot;, '', 0)</td></tr>
 <tr class="separator:a04318951a009e0355d0df46ad512fd75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c7c3b6ef879756cb217336efab71878"><td class="memItemLeft" align="right" valign="top"><a id="a0c7c3b6ef879756cb217336efab71878" name="a0c7c3b6ef879756cb217336efab71878"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentquerymode</b> = processSessParam(&quot;query_mode&quot;,&quot;currenttextquerymode&quot;,'title,text',0)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currentquerymode</b> = processSessParam(&quot;query_mode&quot;, &quot;currenttextquerymode&quot;, 'title,text', 0)</td></tr>
 <tr class="separator:a0c7c3b6ef879756cb217336efab71878"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54d99d8b400d86d0e61d2b9dbb6748f1"><td class="memItemLeft" align="right" valign="top"><a id="a54d99d8b400d86d0e61d2b9dbb6748f1" name="a54d99d8b400d86d0e61d2b9dbb6748f1"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$currentregexmode</b> = getSettingWithDefault(&quot;set-regex-mode&quot;)</td></tr>
 <tr class="separator:a54d99d8b400d86d0e61d2b9dbb6748f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e6c5c0f7a6564b7fa71b6d445d7e093"><td class="memItemLeft" align="right" valign="top"><a id="a7e6c5c0f7a6564b7fa71b6d445d7e093" name="a7e6c5c0f7a6564b7fa71b6d445d7e093"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag1</b> = validateTextTag(processSessParam(&quot;tag1&quot;,&quot;currenttexttag1&quot;,'',0),$currentlang)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag1</b> = validateTextTag(processSessParam(&quot;tag1&quot;, &quot;currenttexttag1&quot;, '', 0), $currentlang)</td></tr>
 <tr class="separator:a7e6c5c0f7a6564b7fa71b6d445d7e093"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6787987cbb1ee700d35dcbde1be98fb"><td class="memItemLeft" align="right" valign="top"><a id="ad6787987cbb1ee700d35dcbde1be98fb" name="ad6787987cbb1ee700d35dcbde1be98fb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag2</b> = validateTextTag(processSessParam(&quot;tag2&quot;,&quot;currenttexttag2&quot;,'',0),$currentlang)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag2</b> = validateTextTag(processSessParam(&quot;tag2&quot;, &quot;currenttexttag2&quot;, '', 0), $currentlang)</td></tr>
 <tr class="separator:ad6787987cbb1ee700d35dcbde1be98fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afce2133f4ef4cf3a0e54181809382128"><td class="memItemLeft" align="right" valign="top"><a id="afce2133f4ef4cf3a0e54181809382128" name="afce2133f4ef4cf3a0e54181809382128"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag12</b> = processSessParam(&quot;tag12&quot;,&quot;currenttexttag12&quot;,'',0)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag12</b> = processSessParam(&quot;tag12&quot;, &quot;currenttexttag12&quot;, '', 0)</td></tr>
 <tr class="separator:afce2133f4ef4cf3a0e54181809382128"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bdf56b14b0e27e65ca948601be7035a"><td class="memItemLeft" align="right" valign="top"><a id="a9bdf56b14b0e27e65ca948601be7035a" name="a9bdf56b14b0e27e65ca948601be7035a"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$wh_lang</b> = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : ''</td></tr>
 <tr class="separator:a9bdf56b14b0e27e65ca948601be7035a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09da1076408bc12b68758781feb7277d"><td class="memItemLeft" align="right" valign="top"><a id="a09da1076408bc12b68758781feb7277d" name="a09da1076408bc12b68758781feb7277d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_query</b> = $currentregexmode . 'like ' . convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace(&quot;*&quot;,&quot;%&quot;,mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery))</td></tr>
-<tr class="separator:a09da1076408bc12b68758781feb7277d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13246651649328ba9f054d5ef0ea8c59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a13246651649328ba9f054d5ef0ea8c59">else</a></td></tr>
+<tr class="memitem:adfceb82dc7f82e957c5fae24b1dcb71c"><td class="memItemLeft" align="right" valign="top"><a id="adfceb82dc7f82e957c5fae24b1dcb71c" name="adfceb82dc7f82e957c5fae24b1dcb71c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_query</b> = $currentregexmode . 'like ' . convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace(&quot;*&quot;, &quot;%&quot;, mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery))</td></tr>
+<tr class="separator:adfceb82dc7f82e957c5fae24b1dcb71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13246651649328ba9f054d5ef0ea8c59"><td class="memItemLeft" align="right" valign="top"><a id="a13246651649328ba9f054d5ef0ea8c59" name="a13246651649328ba9f054d5ef0ea8c59"></a>
+switch( $currentquerymode) if($currentquery!=='')&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { $wh_query = ''</td></tr>
 <tr class="separator:a13246651649328ba9f054d5ef0ea8c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad41d27650262c8fdeeaefeca4fa7b678"><td class="memItemLeft" align="right" valign="top"><a id="ad41d27650262c8fdeeaefeca4fa7b678" name="ad41d27650262c8fdeeaefeca4fa7b678"></a>
-else&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_tag</b> = &quot; having ((&quot; . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) '</td></tr>
-<tr class="separator:ad41d27650262c8fdeeaefeca4fa7b678"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af68f41297c9cc9911f7277b58e58ca73"><td class="memItemLeft" align="right" valign="top"><a id="af68f41297c9cc9911f7277b58e58ca73" name="af68f41297c9cc9911f7277b58e58ca73"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$no_pagestart</b> = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'),-8) == 'and Open')</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$no_pagestart</b> = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'), -8) == 'and Open')</td></tr>
 <tr class="separator:af68f41297c9cc9911f7277b58e58ca73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77a527ecfe2c7b7e721e11f61c82f100"><td class="memItemLeft" align="right" valign="top"><a id="a77a527ecfe2c7b7e721e11f61c82f100" name="a77a527ecfe2c7b7e721e11f61c82f100"></a>
 if(! $no_pagestart)&#160;</td><td class="memItemRight" valign="bottom"><b>$message</b> = ''</td></tr>
@@ -125,20 +123,27 @@ if(! $no_pagestart)&#160;</td><td class="memItemRight" valign="bottom"><b>$messa
 <tr class="memitem:aa1b8d0109388103549a18088bccc9b82"><td class="memItemLeft" align="right" valign="top"><a id="aa1b8d0109388103549a18088bccc9b82" name="aa1b8d0109388103549a18088bccc9b82"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$recno</b> = <a class="el" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>($sql)</td></tr>
 <tr class="separator:aa1b8d0109388103549a18088bccc9b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a303113dcd8392312a81dc638e55b08d6"><td class="memItemLeft" align="right" valign="top"><a id="a303113dcd8392312a81dc638e55b08d6" name="a303113dcd8392312a81dc638e55b08d6"></a>
-set texts per page&#160;</td><td class="memItemRight" valign="bottom"><b>LIMIT</b></td></tr>
-<tr class="separator:a303113dcd8392312a81dc638e55b08d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2879567b836f466fe9708fbd8bb8972e"><td class="memItemLeft" align="right" valign="top"><a id="a2879567b836f466fe9708fbd8bb8972e" name="a2879567b836f466fe9708fbd8bb8972e"></a>
-set texts per page TxTitle TxID desc TxID asc css css_charts css PHP_SELF edit_texts php edit_texts php[Filter off] edit_texts php&#160;</td><td class="memItemRight" valign="bottom"><b>page</b> =1&amp;amp</td></tr>
-<tr class="separator:a2879567b836f466fe9708fbd8bb8972e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c84ba0942252fbf3bc9f20120a12ad1"><td class="memItemLeft" align="right" valign="top"><a id="a6c84ba0942252fbf3bc9f20120a12ad1" name="a6c84ba0942252fbf3bc9f20120a12ad1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>query</b> =' + val + '&amp;amp</td></tr>
-<tr class="separator:a6c84ba0942252fbf3bc9f20120a12ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19e0e657eb71900e11b8f2c15cf76ab7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a19e0e657eb71900e11b8f2c15cf76ab7">query_mode</a></td></tr>
-<tr class="separator:a19e0e657eb71900e11b8f2c15cf76ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83018d9153d17d91fbcf3bc10158d34f"><td class="memItemLeft" align="right" valign="top"><a id="a83018d9153d17d91fbcf3bc10158d34f" name="a83018d9153d17d91fbcf3bc10158d34f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$i</b> = array(0,1,2,3,4,5,99,98)</td></tr>
-<tr class="separator:a83018d9153d17d91fbcf3bc10158d34f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0683b9e8dafa5ab1c0f1d6fa4fa23ee"><td class="memItemLeft" align="right" valign="top"><a id="af0683b9e8dafa5ab1c0f1d6fa4fa23ee" name="af0683b9e8dafa5ab1c0f1d6fa4fa23ee"></a>
+if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$maxperpage</b> = getSettingWithDefault('set-texts-per-page')</td></tr>
+<tr class="separator:af0683b9e8dafa5ab1c0f1d6fa4fa23ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a263621399c53f2952c2329ee13ad8e4e"><td class="memItemLeft" align="right" valign="top"><a id="a263621399c53f2952c2329ee13ad8e4e" name="a263621399c53f2952c2329ee13ad8e4e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$pages</b> = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1)</td></tr>
+<tr class="separator:a263621399c53f2952c2329ee13ad8e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad84bdbdacae6af920368246394625d59"><td class="memItemLeft" align="right" valign="top"><a id="ad84bdbdacae6af920368246394625d59" name="ad84bdbdacae6af920368246394625d59"></a>
+if( $currentpage&lt; 1) if($currentpage &gt; $pages)&#160;</td><td class="memItemRight" valign="bottom"><b>$limit</b> = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage</td></tr>
+<tr class="separator:ad84bdbdacae6af920368246394625d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3d6c93a0f1da5990c551be9a731780c"><td class="memItemLeft" align="right" valign="top"><a id="ab3d6c93a0f1da5990c551be9a731780c" name="ab3d6c93a0f1da5990c551be9a731780c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$sorts</b> = array('TxTitle','TxID desc','TxID asc')</td></tr>
+<tr class="separator:ab3d6c93a0f1da5990c551be9a731780c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa952fc9d6d65b76fa5995789746d7a4a"><td class="memItemLeft" align="right" valign="top"><a id="aa952fc9d6d65b76fa5995789746d7a4a" name="aa952fc9d6d65b76fa5995789746d7a4a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$lsorts</b> = count($sorts)</td></tr>
+<tr class="separator:aa952fc9d6d65b76fa5995789746d7a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f1854daee285243be950e38afb84663"><td class="memItemLeft" align="right" valign="top"><a id="a7f1854daee285243be950e38afb84663" name="a7f1854daee285243be950e38afb84663"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>if</b> (strlen( $showCounts)!=5)</td></tr>
+<tr class="separator:a7f1854daee285243be950e38afb84663"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7062a9a2af0e4e9764277bfdb31e823a"><td class="memItemLeft" align="right" valign="top"><a id="a7062a9a2af0e4e9764277bfdb31e823a" name="a7062a9a2af0e4e9764277bfdb31e823a"></a>
+if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$i</b> = array(0,1,2,3,4,5,99,98)</td></tr>
+<tr class="separator:a7062a9a2af0e4e9764277bfdb31e823a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fad8a59e7089d17007bebad83a45394"><td class="memItemLeft" align="right" valign="top"><a id="a1fad8a59e7089d17007bebad83a45394" name="a1fad8a59e7089d17007bebad83a45394"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$statuses</b> = <a class="el" href="utilities_8inc_8php.html#ae533c8340a3b6d706992106509262b7a">get_statuses</a>()</td></tr>
 <tr class="separator:a1fad8a59e7089d17007bebad83a45394"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,53 +168,7 @@ set texts per page TxTitle TxID desc TxID asc css css_charts css PHP_SELF edit_t
 <p >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <p >For more information, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
 <p >Call: <a class="el" href="edit__texts_8php.html" title="Manage active texts.">edit_texts.php</a>?.... ... markaction=[opcode] ... do actions on marked texts ... del=[textid] ... do delete ... arch=[textid] ... do archive ... op=Check ... do check ... op=Save ... do insert new ... op=Change ... do update ... op=Save+and+Open ... do insert new and open ... op=Change+and+Open ... do update and open ... new=1 ... display new text screen ... chg=[textid] ... display edit screen ... filterlang=[langid] ... language filter ... sort=[sortcode] ... sort ... page=[pageno] ... page ... query=[titlefilter] ... title filter </p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a13246651649328ba9f054d5ef0ea8c59" name="a13246651649328ba9f054d5ef0ea8c59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13246651649328ba9f054d5ef0ea8c59">&#9670;&nbsp;</a></span>else</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">if($recno &gt; 0) if ( $recno==0) else</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">    <span class="keywordflow">if</span> ($currenttag1 != <span class="stringliteral">&#39;&#39;</span>) {</div>
-<div class="line">        <span class="keywordflow">if</span> ($currenttag1 == -1)</div>
-<div class="line">            $wh_tag1 = <span class="stringliteral">&quot;group_concat(TtT2ID) IS NULL&quot;</span>;</div>
-<div class="line">        <span class="keywordflow">else</span></div>
-<div class="line">            $wh_tag1 = <span class="stringliteral">&quot;concat(&#39;/&#39;,group_concat(TtT2ID separator &#39;/&#39;),&#39;/&#39;) like &#39;%/&quot;</span> . $currenttag1 . <span class="stringliteral">&quot;/%&#39;&quot;</span>;</div>
-<div class="line">    }</div>
-<div class="line">    <span class="keywordflow">if</span> ($currenttag2 != <span class="stringliteral">&#39;&#39;</span>) {</div>
-<div class="line">        <span class="keywordflow">if</span> ($currenttag2 == -1)</div>
-<div class="line">            $wh_tag2 = <span class="stringliteral">&quot;group_concat(TtT2ID) IS NULL&quot;</span>;</div>
-<div class="line">        <span class="keywordflow">else</span></div>
-<div class="line">            $wh_tag2 = <span class="stringliteral">&quot;concat(&#39;/&#39;,group_concat(TtT2ID separator &#39;/&#39;),&#39;/&#39;) like &#39;%/&quot;</span> . $currenttag2 . <span class="stringliteral">&quot;/%&#39;&quot;</span>;</div>
-<div class="line">    }</div>
-<div class="line">    <span class="keywordflow">if</span> ($currenttag1 != <span class="stringliteral">&#39;&#39;</span> &amp;&amp; $currenttag2 == <span class="stringliteral">&#39;&#39;</span>)</div>
-<div class="line">        $wh_tag = <span class="stringliteral">&quot; having (&quot;</span> . $wh_tag1 . <span class="stringliteral">&#39;) &#39;</span></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a19e0e657eb71900e11b8f2c15cf76ab7" name="a19e0e657eb71900e11b8f2c15cf76ab7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19e0e657eb71900e11b8f2c15cf76ab7">&#9670;&nbsp;</a></span>query_mode</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">query_mode</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=<span class="stringliteral">&#39; + mode;}&quot;&gt;</span></div>
-<div class="line"><span class="stringliteral">&lt;option value=&quot;title,text&quot;&lt;?php if($currentquerymode==&quot;title,text&quot;)echo &#39;</span> selected=<span class="stringliteral">&quot;selected&quot;</span><span class="stringliteral">&#39;</span></div>
-</div><!-- fragment -->
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3

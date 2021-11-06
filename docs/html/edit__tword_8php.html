@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -78,14 +78,12 @@ Variables</h2></td></tr>
 <tr class="memitem:ab532864a04ddf7f1964806d6f1755ef6"><td class="memItemLeft" align="right" valign="top"><a id="ab532864a04ddf7f1964806d6f1755ef6" name="ab532864a04ddf7f1964806d6f1755ef6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$translation_raw</b> = repl_tab_nl(getreq(&quot;WoTranslation&quot;))</td></tr>
 <tr class="separator:ab532864a04ddf7f1964806d6f1755ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa91147359804682c08f2bc03970c5476"><td class="memItemLeft" align="right" valign="top"><a id="aa91147359804682c08f2bc03970c5476" name="aa91147359804682c08f2bc03970c5476"></a>
-else&#160;</td><td class="memItemRight" valign="bottom"><b>$translation</b> = $translation_raw</td></tr>
-<tr class="separator:aa91147359804682c08f2bc03970c5476"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34a757df9cfc7aaeae3b140ddbe1cd6b"><td class="memItemLeft" align="right" valign="top">if(isset($_REQUEST['op']))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__tword_8php.html#a34a757df9cfc7aaeae3b140ddbe1cd6b">else</a></td></tr>
-<tr class="separator:a34a757df9cfc7aaeae3b140ddbe1cd6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a047170d6020a882807665812a27e2525"><td class="memItemLeft" align="right" valign="top"><a id="a047170d6020a882807665812a27e2525" name="a047170d6020a882807665812a27e2525"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid</td></tr>
-<tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a752e75cbc935da9ce9617773d84ec0cf"><td class="memItemLeft" align="right" valign="top"><a id="a752e75cbc935da9ce9617773d84ec0cf" name="a752e75cbc935da9ce9617773d84ec0cf"></a>
+if($translation_raw=='')&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { $translation = $translation_raw</td></tr>
+<tr class="separator:a752e75cbc935da9ce9617773d84ec0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5949648d603330b926af87a002edd6f7"><td class="memItemLeft" align="right" valign="top"><a id="a5949648d603330b926af87a002edd6f7" name="a5949648d603330b926af87a002edd6f7"></a>
+if($wid=='')&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select WoText, WoLgID, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid</td></tr>
+<tr class="separator:a5949648d603330b926af87a002edd6f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
 <tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,25 +108,7 @@ else&#160;</td><td class="memItemRight" valign="bottom"><b>$translation</b> = $t
 <p >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <p >For more information, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
 <p >Call: <a class="el" href="edit__tword_8php.html" title="Edit term while testing.">edit_tword.php</a>?.... ... op=Change ... do update ... wid=[wordid] ... display edit screen </p>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a34a757df9cfc7aaeae3b140ddbe1cd6b" name="a34a757df9cfc7aaeae3b140ddbe1cd6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34a757df9cfc7aaeae3b140ddbe1cd6b">&#9670;&nbsp;</a></span>else</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">if ($record) else</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{  </div>
-<div class="line"> </div>
-<div class="line">    $wid = getreq(<span class="stringliteral">&#39;wid&#39;</span>)</div>
-</div><!-- fragment -->
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3

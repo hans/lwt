@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -78,6 +78,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ab0ed46ece3f8d301125a0f2728d90d7b"><td class="memItemLeft" align="right" valign="top"><a id="ab0ed46ece3f8d301125a0f2728d90d7b" name="ab0ed46ece3f8d301125a0f2728d90d7b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$p</b> = ''</td></tr>
 <tr class="separator:ab0ed46ece3f8d301125a0f2728d90d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c27cd53e5364d7cc7f64634774b8ee1"><td class="memItemLeft" align="right" valign="top"><a id="a4c27cd53e5364d7cc7f64634774b8ee1" name="a4c27cd53e5364d7cc7f64634774b8ee1"></a>
+if(isset($_REQUEST['selection']) &amp;&amp;isset($_SESSION['testsql'])) elseif(isset( $_REQUEST[ 'lang'])) elseif(isset($_REQUEST['text']))&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { <a class="el" href="utilities_8inc_8php.html#a66b15236d14629cb1bc2f6ed300bd38e">my_die</a>(&quot;do_test_table.php called with wrong parameters&quot;)</td></tr>
+<tr class="separator:a4c27cd53e5364d7cc7f64634774b8ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad1cb49941ea462bdc1c2e045aad1313"><td class="memItemLeft" align="right" valign="top"><a id="aad1cb49941ea462bdc1c2e045aad1313" name="aad1cb49941ea462bdc1c2e045aad1313"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$cntlang</b> = <a class="el" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('select count(distinct WoLgID) as value from ' . $testsql)</td></tr>
 <tr class="separator:aad1cb49941ea462bdc1c2e045aad1313"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -87,14 +90,14 @@ if($cntlang &gt; 1)&#160;</td><td class="memItemRight" valign="bottom"><b>$lang<
 <tr class="memitem:a047170d6020a882807665812a27e2525"><td class="memItemLeft" align="right" valign="top"><a id="a047170d6020a882807665812a27e2525" name="a047170d6020a882807665812a27e2525"></a>
 if(! isset($lang))&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select LgTextSize, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang</td></tr>
 <tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
+<tr class="memitem:a94c90ff36de3a3139158861a3e462eac"><td class="memItemLeft" align="right" valign="top"><a id="a94c90ff36de3a3139158861a3e462eac" name="a94c90ff36de3a3139158861a3e462eac"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
-<tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a94c90ff36de3a3139158861a3e462eac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memItemLeft" align="right" valign="top"><a id="acbcb6dcb11c8755d5ffab0b45aac7a22" name="acbcb6dcb11c8755d5ffab0b45aac7a22"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$record</b> = mysqli_fetch_assoc($res)</td></tr>
 <tr class="separator:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bc08cf5dc5c12ec1928274e3b9989b2"><td class="memItemLeft" align="right" valign="top"><a id="a1bc08cf5dc5c12ec1928274e3b9989b2" name="a1bc08cf5dc5c12ec1928274e3b9989b2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$textsize</b> = round(($record['LgTextSize']-100)/2,0)+100</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$textsize</b> = round(($record['LgTextSize']-100)/2, 0)+100</td></tr>
 <tr class="separator:a1bc08cf5dc5c12ec1928274e3b9989b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2b5b0a9358adc5a80213253353cf345"><td class="memItemLeft" align="right" valign="top"><a id="ac2b5b0a9358adc5a80213253353cf345" name="ac2b5b0a9358adc5a80213253353cf345"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$regexword</b> = $record['LgRegexpWordCharacters']</td></tr>
@@ -109,22 +112,22 @@ if(! isset($lang))&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b
 &#160;</td><td class="memItemRight" valign="bottom"><b>$span2</b> = ($rtlScript ? '&lt;/span&gt;' : '')</td></tr>
 <tr class="separator:a41313e0d53085d1deb42ea8b51372e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb0882e8f975232a52665d80ddfd898a"><td class="memItemLeft" align="right" valign="top"><a id="afb0882e8f975232a52665d80ddfd898a" name="afb0882e8f975232a52665d80ddfd898a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting1</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting1',1)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting1</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting1', 1)</td></tr>
 <tr class="separator:afb0882e8f975232a52665d80ddfd898a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b65132ecf725ffb8129878f035d2891"><td class="memItemLeft" align="right" valign="top"><a id="a8b65132ecf725ffb8129878f035d2891" name="a8b65132ecf725ffb8129878f035d2891"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting2</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting2',1)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting2</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting2', 1)</td></tr>
 <tr class="separator:a8b65132ecf725ffb8129878f035d2891"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fc1fc29246a1c6ff7f644d3cdb70c4e"><td class="memItemLeft" align="right" valign="top"><a id="a4fc1fc29246a1c6ff7f644d3cdb70c4e" name="a4fc1fc29246a1c6ff7f644d3cdb70c4e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting3</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting3',0)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting3</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting3', 0)</td></tr>
 <tr class="separator:a4fc1fc29246a1c6ff7f644d3cdb70c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f7cda3f3561a3615af5f4c37230904b"><td class="memItemLeft" align="right" valign="top"><a id="a3f7cda3f3561a3615af5f4c37230904b" name="a3f7cda3f3561a3615af5f4c37230904b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting4</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting4',1)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting4</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting4', 1)</td></tr>
 <tr class="separator:a3f7cda3f3561a3615af5f4c37230904b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f429d9e58f1dfc47c611bc3658c2cdb"><td class="memItemLeft" align="right" valign="top"><a id="a7f429d9e58f1dfc47c611bc3658c2cdb" name="a7f429d9e58f1dfc47c611bc3658c2cdb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting5</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting5',0)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting5</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting5', 0)</td></tr>
 <tr class="separator:a7f429d9e58f1dfc47c611bc3658c2cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5da389b92f4fab69b1523c182312ab0"><td class="memItemLeft" align="right" valign="top"><a id="ae5da389b92f4fab69b1523c182312ab0" name="ae5da389b92f4fab69b1523c182312ab0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting6</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting6',1)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttabletestsetting6</b> = <a class="el" href="utilities_8inc_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('currenttabletestsetting6', 1)</td></tr>
 <tr class="separator:ae5da389b92f4fab69b1523c182312ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

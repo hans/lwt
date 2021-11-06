@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['is_0',['is',['../class_mobile___detect.html#a3d9e8e689865fa353c3a46575a5fcde6',1,'Mobile_Detect']]],
-  ['ismobile_1',['isMobile',['../class_mobile___detect.html#ac69e2b242994a3b54e83aca9fac17daa',1,'Mobile_Detect']]],
-  ['istablet_2',['isTablet',['../class_mobile___detect.html#aab1bf669ed7f80d52467006e0aaef314',1,'Mobile_Detect']]]
+  ['phonetic_5freading_0',['phonetic_reading',['../utilities_8inc_8php.html#a1c05bfcd7542596ade6e8e0604a4c0a7',1,'utilities.inc.php']]]
 ];

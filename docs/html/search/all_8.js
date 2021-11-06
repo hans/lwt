@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['langdefs_2einc_2ephp_0',['langdefs.inc.php',['../langdefs_8inc_8php.html',1,'']]],
-  ['learning_20with_20texts_1',['Learning with Texts',['../index.html',1,'']]],
-  ['license_2',['License',['../md__u_n_l_i_c_e_n_s_e.html',1,'']]]
+  ['phonetic_5freading_0',['phonetic_reading',['../utilities_8inc_8php.html#a1c05bfcd7542596ade6e8e0604a4c0a7',1,'utilities.inc.php']]],
+  ['print_5fimpr_5ftext_2ephp_1',['print_impr_text.php',['../print__impr__text_8php.html',1,'']]]
 ];

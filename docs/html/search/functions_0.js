@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_5f_5fcall_0',['__call',['../class_mobile___detect.html#a3815af62ed9d37b2dcaa175379bbfeca',1,'Mobile_Detect']]],
-  ['_5f_5fconstruct_1',['__construct',['../class_mobile___detect.html#ac0aa4d52808f104c9b723095ed11b3d8',1,'Mobile_Detect']]]
+  ['check_5fupdate_5fdb_0',['check_update_db',['../utilities_8inc_8php.html#a201634201ef9816c61455bc380811459',1,'utilities.inc.php']]]
 ];

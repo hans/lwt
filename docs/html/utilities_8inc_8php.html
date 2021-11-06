@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.2</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -100,9 +100,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aecb1fcccaad37d3508887b76b6321a87"><td class="memItemLeft" align="right" valign="top"><a id="aecb1fcccaad37d3508887b76b6321a87" name="aecb1fcccaad37d3508887b76b6321a87"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>get_links_from_rss</b> ($NfSourceURI, $NfArticleSection)</td></tr>
 <tr class="separator:aecb1fcccaad37d3508887b76b6321a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bc6ea85c4275b6fc46f07bb0853f28e"><td class="memItemLeft" align="right" valign="top"><a id="a4bc6ea85c4275b6fc46f07bb0853f28e" name="a4bc6ea85c4275b6fc46f07bb0853f28e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>get_text_from_rsslink</b> ($feed_data, $NfArticleSection, $NfFilterTags, $NfCharset=NULL)</td></tr>
-<tr class="separator:a4bc6ea85c4275b6fc46f07bb0853f28e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3da20e2a9fb225b9dc7d6486078a6cb"><td class="memItemLeft" align="right" valign="top"><a id="ae3da20e2a9fb225b9dc7d6486078a6cb" name="ae3da20e2a9fb225b9dc7d6486078a6cb"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>get_text_from_rsslink</b> ($feed_data, $NfArticleSection, $NfFilterTags, $NfCharset=null)</td></tr>
+<tr class="separator:ae3da20e2a9fb225b9dc7d6486078a6cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac98751ebc84d07e592aaf8133ac23cc5"><td class="memItemLeft" align="right" valign="top"><a id="ac98751ebc84d07e592aaf8133ac23cc5" name="ac98751ebc84d07e592aaf8133ac23cc5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>stripTheSlashesIfNeeded</b> ($s)</td></tr>
 <tr class="separator:ac98751ebc84d07e592aaf8133ac23cc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -588,22 +588,14 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a84c3eb1bab9d7e3b2366f90cf9beec1c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#a84c3eb1bab9d7e3b2366f90cf9beec1c">$DBCONNECTION</a> = @mysqli_connect($server, $userid, $passwd, $dbname)</td></tr>
-<tr class="memdesc:a84c3eb1bab9d7e3b2366f90cf9beec1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connection to database.  <a href="utilities_8inc_8php.html#a84c3eb1bab9d7e3b2366f90cf9beec1c">More...</a><br /></td></tr>
+<tr class="memitem:a84c3eb1bab9d7e3b2366f90cf9beec1c"><td class="memItemLeft" align="right" valign="top"><a id="a84c3eb1bab9d7e3b2366f90cf9beec1c" name="a84c3eb1bab9d7e3b2366f90cf9beec1c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$DBCONNECTION</b> = @mysqli_connect($server, $userid, $passwd, $dbname)</td></tr>
 <tr class="separator:a84c3eb1bab9d7e3b2366f90cf9beec1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf45ebd49061cd9c367b4dfe7ec49123"><td class="memItemLeft" align="right" valign="top"><a id="acf45ebd49061cd9c367b4dfe7ec49123" name="acf45ebd49061cd9c367b4dfe7ec49123"></a>
-start MySQL and or correct file connect inc php Please read the&#160;</td><td class="memItemRight" valign="bottom"><b>documentation</b></td></tr>
-<tr class="separator:acf45ebd49061cd9c367b4dfe7ec49123"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea1faaa6ecbfe3266a4855d03b4c2ca0"><td class="memItemLeft" align="right" valign="top"><a id="aea1faaa6ecbfe3266a4855d03b4c2ca0" name="aea1faaa6ecbfe3266a4855d03b4c2ca0"></a>
-start MySQL and or correct file connect inc php Please read the SET&#160;</td><td class="memItemRight" valign="bottom"><b>NAMES</b></td></tr>
-<tr class="separator:aea1faaa6ecbfe3266a4855d03b4c2ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3bb3737cb6aed4cc709b36e46e4d046"><td class="memItemLeft" align="right" valign="top">if(! isset($tbpref)) else&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#ad3bb3737cb6aed4cc709b36e46e4d046">$fixed_tbpref</a> = 1</td></tr>
-<tr class="separator:ad3bb3737cb6aed4cc709b36e46e4d046"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3913746f54b55a6769ff9c71d75dcfe"><td class="memItemLeft" align="right" valign="top">if(! isset($tbpref))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#ad3913746f54b55a6769ff9c71d75dcfe">else</a></td></tr>
+<tr class="separator:ad3913746f54b55a6769ff9c71d75dcfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93cfe7f1aa30a5f4a98a2d4439e54d1d"><td class="memItemLeft" align="right" valign="top"><a id="a93cfe7f1aa30a5f4a98a2d4439e54d1d" name="a93cfe7f1aa30a5f4a98a2d4439e54d1d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$len_tbpref</b> = strlen($tbpref)</td></tr>
 <tr class="separator:a93cfe7f1aa30a5f4a98a2d4439e54d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2071c730b3755cc900bc31a4479bebf"><td class="memItemLeft" align="right" valign="top">if( $len_tbpref &gt; 0) if(! $fixed_tbpref) LWTTableSet(&quot;current_table_prefix&quot;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#ad2071c730b3755cc900bc31a4479bebf">$tbpref</a></td></tr>
-<tr class="separator:ad2071c730b3755cc900bc31a4479bebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >PHP Utility Functions. </p>
@@ -852,7 +844,7 @@ start MySQL and or correct file connect inc php Please read the SET&#160;</td><t
   <table class="params">
     <tr><td class="paramtype">String</td><td class="paramname">$text</td><td>Text to parse </td></tr>
     <tr><td class="paramtype">String</td><td class="paramname">$lid</td><td>Language id (LgID from languages table) </td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td>References whether the text is new to the database $id = -1 =&gt; Check, return protocol $id = -2 =&gt; Only return sentence array $id = TextID =&gt; Split: insert sentences/textitems entries in DB </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td>References whether the text is new to the database $id = -1 =&gt; Check, return protocol $id = -2 =&gt; Only return sentence array $id = TextID =&gt; Split: insert sentences/textitems entries in DB $id = -1 =&gt; Check, return protocol $id = -2 =&gt; Only return sentence array $id = TextID =&gt; Split: insert sentences/textitems entries in DB $id = -1 =&gt; Check, return protocol $id = -2 =&gt; Only return sentence array $id = TextID =&gt; Split: insert sentences/textitems entries in DB </td></tr>
   </table>
   </dd>
 </dl>
@@ -875,7 +867,8 @@ start MySQL and or correct file connect inc php Please read the SET&#160;</td><t
       </table>
 </div><div class="memdoc">
 <p >Compute the word statistics about a specific text ID.</p>
-<p >It is useful for unknown percent with this fork. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >It is useful for unknown percent with this fork.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">String</td><td>textID identifier for this text </td></tr>
   </table>
@@ -886,51 +879,20 @@ start MySQL and or correct file connect inc php Please read the SET&#160;</td><t
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a84c3eb1bab9d7e3b2366f90cf9beec1c" name="a84c3eb1bab9d7e3b2366f90cf9beec1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84c3eb1bab9d7e3b2366f90cf9beec1c">&#9670;&nbsp;</a></span>$DBCONNECTION</h2>
+<a id="ad3913746f54b55a6769ff9c71d75dcfe" name="ad3913746f54b55a6769ff9c71d75dcfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3913746f54b55a6769ff9c71d75dcfe">&#9670;&nbsp;</a></span>else</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">$DBCONNECTION = @mysqli_connect($server, $userid, $passwd, $dbname)</td>
+          <td class="memname">if (! isset( $tbpref)) else</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Connection to database. </p>
-<p >Connect to the database. </p>
-
-</div>
-</div>
-<a id="ad3bb3737cb6aed4cc709b36e46e4d046" name="ad3bb3737cb6aed4cc709b36e46e4d046"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3bb3737cb6aed4cc709b36e46e4d046">&#9670;&nbsp;</a></span>$fixed_tbpref</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">$fixed_tbpref = 1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Table Prefix is fixed, no changes possible </p>
-
-</div>
-</div>
-<a id="ad2071c730b3755cc900bc31a4479bebf" name="ad2071c730b3755cc900bc31a4479bebf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2071c730b3755cc900bc31a4479bebf">&#9670;&nbsp;</a></span>$tbpref</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">$tbpref</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Current Table Prefix </p>
-
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    $fixed_tbpref = 1</div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
