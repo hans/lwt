@@ -51,76 +51,85 @@ For more information, please refer to [http://unlicense.org/].
  *     ... query=[titlefilter] ... title filter
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 // Page, Sort, etc.
 
-$currentlang = validateLang(processDBParam("filterlang",'currentlanguage','',0));
-$currentsort = processDBParam("sort",'currenttextsort','1',1);
+$currentlang = validateLang(processDBParam("filterlang", 'currentlanguage', '', 0));
+$currentsort = processDBParam("sort", 'currenttextsort', '1', 1);
 
-$currentpage = processSessParam("page","currenttextpage",'1',1);
-$currentquery = processSessParam("query","currenttextquery",'',0);
-$currentquerymode = processSessParam("query_mode","currenttextquerymode",'title,text',0);
+$currentpage = processSessParam("page", "currenttextpage", '1', 1);
+$currentquery = processSessParam("query", "currenttextquery", '', 0);
+$currentquerymode = processSessParam("query_mode", "currenttextquerymode", 'title,text', 0);
 $currentregexmode = getSettingWithDefault("set-regex-mode");
-$currenttag1 = validateTextTag(processSessParam("tag1","currenttexttag1",'',0),$currentlang);
-$currenttag2 = validateTextTag(processSessParam("tag2","currenttexttag2",'',0),$currentlang);
-$currenttag12 = processSessParam("tag12","currenttexttag12",'',0);
+$currenttag1 = validateTextTag(processSessParam("tag1", "currenttexttag1", '', 0), $currentlang);
+$currenttag2 = validateTextTag(processSessParam("tag2", "currenttexttag2", '', 0), $currentlang);
+$currenttag12 = processSessParam("tag12", "currenttexttag12", '', 0);
 
 $wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
-$wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace("*","%",mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery));
+$wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace("*", "%", mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery));
 switch($currentquerymode){
-	case 'title,text':
-		$wh_query=' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query . ')';
-		break;
-	case 'title':
-		$wh_query=' and (TxTitle ' . $wh_query . ')';
-		break;
-	case 'text':
-		$wh_query=' and (TxText ' . $wh_query . ')';
-		break;
+case 'title,text':
+    $wh_query=' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query . ')';
+    break;
+case 'title':
+    $wh_query=' and (TxTitle ' . $wh_query . ')';
+    break;
+case 'text':
+    $wh_query=' and (TxText ' . $wh_query . ')';
+    break;
 }
-if($currentquery!==''){
-	if($currentregexmode!==''){
-		if(@mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false){
-			$currentquery='';
-			$wh_query = '';
-			unset($_SESSION['currentwordquery']);
-			if(isset($_REQUEST['query']))echo '<p id="hide3" style="color:red;text-align:center;">+++ Warning: Invalid Search +++</p>';
-		}
-	}
+if($currentquery!=='') {
+    if($currentregexmode!=='') {
+        if(@mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false) {
+            $currentquery='';
+            $wh_query = '';
+            unset($_SESSION['currentwordquery']);
+            if(isset($_REQUEST['query'])) { echo '<p id="hide3" style="color:red;text-align:center;">+++ Warning: Invalid Search +++</p>'; 
+            }
+        }
+    }
 }
-else $wh_query = '';
+else { $wh_query = ''; 
+}
 
-if ($currenttag1 == '' && $currenttag2 == '')
-	$wh_tag = '';
+if ($currenttag1 == '' && $currenttag2 == '') {
+    $wh_tag = ''; 
+}
 else {
-	if ($currenttag1 != '') {
-		if ($currenttag1 == -1)
-			$wh_tag1 = "group_concat(TtT2ID) IS NULL";
-		else
-			$wh_tag1 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'";
-	}
-	if ($currenttag2 != '') {
-		if ($currenttag2 == -1)
-			$wh_tag2 = "group_concat(TtT2ID) IS NULL";
-		else
-			$wh_tag2 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'";
-	}
-	if ($currenttag1 != '' && $currenttag2 == '')
-		$wh_tag = " having (" . $wh_tag1 . ') ';
-	elseif ($currenttag2 != '' && $currenttag1 == '')
-		$wh_tag = " having (" . $wh_tag2 . ') ';
-	else
-		$wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) ';
+    if ($currenttag1 != '') {
+        if ($currenttag1 == -1) {
+            $wh_tag1 = "group_concat(TtT2ID) IS NULL"; 
+        }
+        else {
+            $wh_tag1 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag1 . "/%'"; 
+        }
+    }
+    if ($currenttag2 != '') {
+        if ($currenttag2 == -1) {
+            $wh_tag2 = "group_concat(TtT2ID) IS NULL"; 
+        }
+        else {
+            $wh_tag2 = "concat('/',group_concat(TtT2ID separator '/'),'/') like '%/" . $currenttag2 . "/%'"; 
+        }
+    }
+    if ($currenttag1 != '' && $currenttag2 == '') {
+        $wh_tag = " having (" . $wh_tag1 . ') '; 
+    }
+    elseif ($currenttag2 != '' && $currenttag1 == '')
+    $wh_tag = " having (" . $wh_tag2 . ') ';
+    else {
+        $wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) '; 
+    }
 }
 
-$no_pagestart = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'),-8) == 'and Open');
+$no_pagestart = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'), -8) == 'and Open');
 
 if (! $no_pagestart) {
-	pagestart('My ' . getLanguage($currentlang) . ' Texts',true);
+    pagestart('My ' . getLanguage($currentlang) . ' Texts', true);
 }
 
 $message = '';
@@ -128,222 +137,246 @@ $message = '';
 // MARK ACTIONS
 
 if (isset($_REQUEST['markaction'])) {
-	$markaction = $_REQUEST['markaction'];
-	$actiondata = stripTheSlashesIfNeeded(getreq('data'));
-	$message = "Multiple Actions: 0";
-	if (isset($_REQUEST['marked'])) {
-		if (is_array($_REQUEST['marked'])) {
-			$l = count($_REQUEST['marked']);
-			if ($l > 0 ) {
-				$list = "(" . $_REQUEST['marked'][0];
-				for ($i=1; $i<$l; $i++) $list .= "," . $_REQUEST['marked'][$i];
-				$list .= ")";
+    $markaction = $_REQUEST['markaction'];
+    $actiondata = stripTheSlashesIfNeeded(getreq('data'));
+    $message = "Multiple Actions: 0";
+    if (isset($_REQUEST['marked'])) {
+        if (is_array($_REQUEST['marked'])) {
+            $l = count($_REQUEST['marked']);
+            if ($l > 0 ) {
+                $list = "(" . $_REQUEST['marked'][0];
+                for ($i=1; $i<$l; $i++) { $list .= "," . $_REQUEST['marked'][$i]; 
+                }
+                $list .= ")";
 
-				if ($markaction == 'del') {
-					$message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID in ' . $list, "Text items deleted");
-					$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID in ' . $list, "Sentences deleted");
-					$message1 = runsql('delete from ' . $tbpref . 'texts where TxID in ' . $list, "Texts deleted");
-					$message = $message1 . " / " . $message2 . " / " . $message3;
-					adjust_autoincr('texts','TxID');
-					adjust_autoincr('sentences','SeID');
-					runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
-				}
+                if ($markaction == 'del') {
+                    $message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID in ' . $list, "Text items deleted");
+                    $message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID in ' . $list, "Sentences deleted");
+                    $message1 = runsql('delete from ' . $tbpref . 'texts where TxID in ' . $list, "Texts deleted");
+                    $message = $message1 . " / " . $message2 . " / " . $message3;
+                    adjust_autoincr('texts', 'TxID');
+                    adjust_autoincr('sentences', 'SeID');
+                    runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL", '');
+                }
 
-				elseif ($markaction == 'arch') {
-					runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID in ' . $list, "");
-					runsql('delete from ' . $tbpref . 'sentences where SeTxID in ' . $list, "");
-					$count = 0;
-					$sql = "select TxID from " . $tbpref . "texts where TxID in " . $list;
-					$res = do_mysqli_query($sql);
-					while ($record = mysqli_fetch_assoc($res)) {
-						$id = $record['TxID'];
-						$count += (0 + runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $id, ""));
-						$aid = get_last_key();
-						runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $id, "");
-					}
-					mysqli_free_result($res);
-					$message = 'Text(s) archived: ' . $count;
-					runsql('delete from ' . $tbpref . 'texts where TxID in ' . $list, "");
-					runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
-					adjust_autoincr('texts','TxID');
-					adjust_autoincr('sentences','SeID');
-				}
+                elseif ($markaction == 'arch') {
+                    runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID in ' . $list, "");
+                    runsql('delete from ' . $tbpref . 'sentences where SeTxID in ' . $list, "");
+                    $count = 0;
+                    $sql = "select TxID from " . $tbpref . "texts where TxID in " . $list;
+                    $res = do_mysqli_query($sql);
+                    while ($record = mysqli_fetch_assoc($res)) {
+                        $id = $record['TxID'];
+                        $count += (0 + runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $id, ""));
+                        $aid = get_last_key();
+                        runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $id, "");
+                    }
+                    mysqli_free_result($res);
+                    $message = 'Text(s) archived: ' . $count;
+                    runsql('delete from ' . $tbpref . 'texts where TxID in ' . $list, "");
+                    runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL", '');
+                    adjust_autoincr('texts', 'TxID');
+                    adjust_autoincr('sentences', 'SeID');
+                }
 
-				elseif ($markaction == 'addtag' ) {
-					$message = addtexttaglist($actiondata,$list);
-				}
+                elseif ($markaction == 'addtag' ) {
+                    $message = addtexttaglist($actiondata, $list);
+                }
 
-				elseif ($markaction == 'deltag' ) {
-					$message = removetexttaglist($actiondata,$list);
-					header("Location: edit_texts.php");
-					exit();
-				}
+                elseif ($markaction == 'deltag' ) {
+                    $message = removetexttaglist($actiondata, $list);
+                    header("Location: edit_texts.php");
+                    exit();
+                }
 
-				elseif ($markaction == 'setsent') {
-					$count = 0;
-					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
+                elseif ($markaction == 'setsent') {
+                    $count = 0;
+                    $sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
 
-					$res = do_mysqli_query($sql);
-					while ($record = mysqli_fetch_assoc($res)) {
-						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
-						$count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
-					}
-					mysqli_free_result($res);
-					$message = 'Term Sentences set from Text(s): ' . $count;
-				}
+                    $res = do_mysqli_query($sql);
+                    while ($record = mysqli_fetch_assoc($res)) {
+                        $sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
+                        $count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
+                    }
+                    mysqli_free_result($res);
+                    $message = 'Term Sentences set from Text(s): ' . $count;
+                }
 
-				elseif ($markaction == 'setactsent') {
-					$count = 0;
-					$sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and WoStatus != 98 and WoStatus != 99 and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
+                elseif ($markaction == 'setactsent') {
+                    $count = 0;
+                    $sql = "select WoID, WoTextLC, min(Ti2SeID) as SeID from " . $tbpref . "words, " . $tbpref . "textitems2 where Ti2LgID = WoLgID and WoStatus != 98 and WoStatus != 99 and Ti2WoID = WoID and Ti2TxID in " . $list . " and ifnull(WoSentence,'') not like concat('%{',WoText,'}%') group by WoID order by WoID, min(Ti2SeID)";
 
-					$res = do_mysqli_query($sql);
-					while ($record = mysqli_fetch_assoc($res)) {
-						$sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
-						$count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
-					}
-					mysqli_free_result($res);
-					$message = 'Term Sentences set from Text(s): ' . $count;
-				}
+                    $res = do_mysqli_query($sql);
+                    while ($record = mysqli_fetch_assoc($res)) {
+                        $sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
+                        $count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
+                    }
+                    mysqli_free_result($res);
+                    $message = 'Term Sentences set from Text(s): ' . $count;
+                }
 
-				elseif ($markaction == 'rebuild') {
-					$count = 0;
-					$sql = "select TxID, TxLgID from " . $tbpref . "texts where TxID in " . $list;
-					$res = do_mysqli_query($sql);
-					while ($record = mysqli_fetch_assoc($res)) {
-						$id = $record['TxID'];
-						$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
-						$message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id, "Text items deleted");
-						adjust_autoincr('sentences','SeID');
-						splitCheckText(
-							get_first_value(
-								'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id),
-								$record['TxLgID'], $id );
-						$count++;
-					}
-					mysqli_free_result($res);
-					$message = 'Text(s) reparsed: ' . $count;
-				}
+                elseif ($markaction == 'rebuild') {
+                    $count = 0;
+                    $sql = "select TxID, TxLgID from " . $tbpref . "texts where TxID in " . $list;
+                    $res = do_mysqli_query($sql);
+                    while ($record = mysqli_fetch_assoc($res)) {
+                        $id = $record['TxID'];
+                        $message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
+                        $message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id, "Text items deleted");
+                        adjust_autoincr('sentences', 'SeID');
+                        splitCheckText(
+                            get_first_value(
+                                'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id
+                            ),
+                            $record['TxLgID'], $id 
+                        );
+                        $count++;
+                    }
+                    mysqli_free_result($res);
+                    $message = 'Text(s) reparsed: ' . $count;
+                }
 
-				elseif ($markaction == 'test' ) {
-					$_SESSION['testsql'] = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID in ' . $list . ' ';
-					header("Location: do_test.php?selection=1");
-					exit();
-				}
+                elseif ($markaction == 'test' ) {
+                    $_SESSION['testsql'] = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID in ' . $list . ' ';
+                    header("Location: do_test.php?selection=1");
+                    exit();
+                }
 
-			}
-		}
-	}
+            }
+        }
+    }
 }
 
 // DEL
 
 if (isset($_REQUEST['del'])) {
-	$message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['del'],
-		"Text items deleted");
-	$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $_REQUEST['del'],
-		"Sentences deleted");
-	$message1 = runsql('delete from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['del'],
-		"Texts deleted");
-	$message = $message1 . " / " . $message2 . " / " . $message3;
-	adjust_autoincr('texts','TxID');
-	adjust_autoincr('sentences','SeID');
-	runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
+    $message3 = runsql(
+        'delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['del'],
+        "Text items deleted"
+    );
+    $message2 = runsql(
+        'delete from ' . $tbpref . 'sentences where SeTxID = ' . $_REQUEST['del'],
+        "Sentences deleted"
+    );
+    $message1 = runsql(
+        'delete from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['del'],
+        "Texts deleted"
+    );
+    $message = $message1 . " / " . $message2 . " / " . $message3;
+    adjust_autoincr('texts', 'TxID');
+    adjust_autoincr('sentences', 'SeID');
+    runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL", '');
 }
 
 // ARCH
 
 elseif (isset($_REQUEST['arch'])) {
-	$message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['arch'],
-		"Text items deleted");
-	$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $_REQUEST['arch'],
-		"Sentences deleted");
-	$message4 = runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
-	$id = get_last_key();
-	runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $_REQUEST['arch'], "");
-	$message1 = runsql('delete from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['arch'], "Texts deleted");
-	$message = $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
-	adjust_autoincr('texts','TxID');
-	adjust_autoincr('sentences','SeID');
-	runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL",'');
+    $message3 = runsql(
+        'delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['arch'],
+        "Text items deleted"
+    );
+    $message2 = runsql(
+        'delete from ' . $tbpref . 'sentences where SeTxID = ' . $_REQUEST['arch'],
+        "Sentences deleted"
+    );
+    $message4 = runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
+    $id = get_last_key();
+    runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $_REQUEST['arch'], "");
+    $message1 = runsql('delete from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['arch'], "Texts deleted");
+    $message = $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
+    adjust_autoincr('texts', 'TxID');
+    adjust_autoincr('sentences', 'SeID');
+    runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL", '');
 }
 
 // INS/UPD
 
 elseif (isset($_REQUEST['op'])) {
 
-	if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000) {
-		$message = "Error: Text too long, must be below 65000 Bytes";
-		if ($no_pagestart) pagestart('My ' . getLanguage($currentlang) . ' Texts',true);
-	}
+    if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000) {
+        $message = "Error: Text too long, must be below 65000 Bytes";
+        if ($no_pagestart) { pagestart('My ' . getLanguage($currentlang) . ' Texts', true); 
+        }
+    }
 
-	else {
+    else {
 
-		// CHECK
+        // CHECK
 
-		if ($_REQUEST['op'] == 'Check') {
-			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
-			echo splitCheckText(remove_soft_hyphens($_REQUEST['TxText']), $_REQUEST['TxLgID'], -1);
-			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
-			pageend();
-			exit();
-		}
+        if ($_REQUEST['op'] == 'Check') {
+            echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
+            echo splitCheckText(remove_soft_hyphens($_REQUEST['TxText']), $_REQUEST['TxLgID'], -1);
+            echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
+            pageend();
+            exit();
+        }
 
-		// INSERT
+        // INSERT
 
-		elseif (substr($_REQUEST['op'],0,4) == 'Save') {
-			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
-			$_REQUEST["TxLgID"] . ', ' . 
-			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
-			convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) . ", '', " .
-			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ')', "Saved");
-			$id = get_last_key();
-			saveTextTags($id);
-		}
+        elseif (substr($_REQUEST['op'], 0, 4) == 'Save') {
+            $message1 = runsql(
+                'insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
+                $_REQUEST["TxLgID"] . ', ' . 
+                convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
+                convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) . ", '', " .
+                convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
+                convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ')', "Saved"
+            );
+            $id = get_last_key();
+            saveTextTags($id);
+        }
 
-		// UPDATE
+        // UPDATE
 
-		elseif (substr($_REQUEST['op'],0,6) == 'Change') {
-			$oldtext = get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST["TxID"]);
-			$textsdiffer = (convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) != convert_string_to_sqlsyntax($oldtext));
-			$message1 = runsql('update ' . $tbpref . 'texts set ' .
-			'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
-			'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
-			'TxText = ' . convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) . ', ' .
-			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
-			'TxSourceURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ' ' .
-			'where TxID = ' . $_REQUEST["TxID"], "Updated");
-			$id = $_REQUEST["TxID"];
-			saveTextTags($id);
-		}
+        elseif (substr($_REQUEST['op'], 0, 6) == 'Change') {
+            $oldtext = get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST["TxID"]);
+            $textsdiffer = (convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) != convert_string_to_sqlsyntax($oldtext));
+            $message1 = runsql(
+                'update ' . $tbpref . 'texts set ' .
+                'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
+                'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
+                'TxText = ' . convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) . ', ' .
+                'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
+                'TxSourceURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ' ' .
+                'where TxID = ' . $_REQUEST["TxID"], "Updated"
+            );
+            $id = $_REQUEST["TxID"];
+            saveTextTags($id);
+        }
 
-		$message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id,
-			"Sentences deleted");
-		$message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id,
-			"Textitems deleted");
-		adjust_autoincr('sentences','SeID');
+        $message2 = runsql(
+            'delete from ' . $tbpref . 'sentences where SeTxID = ' . $id,
+            "Sentences deleted"
+        );
+        $message3 = runsql(
+            'delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id,
+            "Textitems deleted"
+        );
+        adjust_autoincr('sentences', 'SeID');
 
-		splitCheckText(
-			get_first_value(
-				'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id),
-			$_REQUEST["TxLgID"], $id );
+        splitCheckText(
+            get_first_value(
+                'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id
+            ),
+            $_REQUEST["TxLgID"], $id 
+        );
 
-		$message = $message1 . " / " . $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from ' . $tbpref . 'sentences where SeTxID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id);
+        $message = $message1 . " / " . $message2 . " / " . $message3 . " / Sentences added: " . get_first_value('select count(*) as value from ' . $tbpref . 'sentences where SeTxID = ' . $id) . " / Text items added: " . get_first_value('select count(*) as value from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id);
 
-		if(substr($_REQUEST['op'],-8) == "and Open") {
-			header('Location: do_text.php?start=' . $id);
-			exit();
-		}
+        if(substr($_REQUEST['op'], -8) == "and Open") {
+            header('Location: do_text.php?start=' . $id);
+            exit();
+        }
 
-	}
+    }
 
 }
 
 if (isset($_REQUEST['new'])) {
 
-// NEW
+    // NEW
 
-	?>
+    ?>
 
 	<h4>New Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
@@ -353,9 +386,9 @@ if (isset($_REQUEST['new'])) {
 	<td class="td1 right">Language:</td>
 	<td class="td1">
 	<select name="TxLgID" class="notempty setfocus">
-	<?php
-	echo get_languages_selectoptions($currentlang,'[Choose...]');
-	?>
+    <?php
+    echo get_languages_selectoptions($currentlang, '[Choose...]');
+    ?>
 	</select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 	</td>
 	</tr>
@@ -376,7 +409,7 @@ if (isset($_REQUEST['new'])) {
 	<tr>
 	<td class="td1 right">Tags:</td>
 	<td class="td1">
-	<?php echo getTextTags(0); ?>
+    <?php echo getTextTags(0); ?>
 	</td>
 	</tr>
 	<tr>
@@ -385,7 +418,8 @@ if (isset($_REQUEST['new'])) {
 	<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
 	</td>
 	</tr>
-	<?php if (isset($YT_API_KEY)) {require_once('text_from_yt.php');} ?>
+    <?php if (isset($YT_API_KEY)) {include_once'text_from_yt.php';
+} ?>
 	<tr>
 	<td class="td1 right" colspan="2">
 	<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php';}" />
@@ -400,7 +434,7 @@ if (isset($_REQUEST['new'])) {
 	<p class="smallgray">Import of a <b>long text</b>, without audio, with splitting it up into smaller texts:</p><p><input type="button" value="Long Text Import" onclick="location.href='long_text_import.php';" /> </p>
 
 
-	<?php
+    <?php
 
 }
 
@@ -408,74 +442,74 @@ if (isset($_REQUEST['new'])) {
 
 elseif (isset($_REQUEST['chg'])) {
 
-	$sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
-	$res = do_mysqli_query($sql);
-	if ($record = mysqli_fetch_assoc($res)) {
+    $sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
+    $res = do_mysqli_query($sql);
+    if ($record = mysqli_fetch_assoc($res)) {
 
-		?>
+        ?>
 
-		<h4>Edit Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
-		<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
-		<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
-		<input type="hidden" name="TxID" value="<?php echo $_REQUEST['chg']; ?>" />
-		<table class="tab3" cellspacing="0" cellpadding="5">
-		<tr>
-		<td class="td1 right">Language:</td>
-		<td class="td1">
-		<select name="TxLgID" class="notempty setfocus">
-		<?php
-		echo get_languages_selectoptions($record['TxLgID'],"[Choose...]");
-		?>
-		</select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-		</td>
-		</tr>
-		<tr>
-		<td class="td1 right">Title:</td>
-		<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="<?php echo tohtml($record['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-		</tr>
-		<tr>
-		<td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
-		<td class="td1">
-		<textarea <?php echo getScriptDirectionTag($record['TxLgID']); ?> name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-		</td>
-		</tr>
-		<tr>
-		<td class="td1 right">Ann.Text:</td>
-		<td class="td1">
-		<?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> Exists - May be partially or fully lost if you change the text!<br /><input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Improved Annotation" alt="No Improved Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
-		</td>
-		</tr>
-		<tr>
-		<td class="td1 right">Source URI:</td>
-		<td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="<?php echo tohtml($record['TxSourceURI']); ?>" maxlength="1000" size="60" /></td>
-		</tr>
-		<tr>
-		<td class="td1 right">Tags:</td>
-		<td class="td1">
-		<?php echo getTextTags($_REQUEST['chg']); ?>
-		</td>
-		</tr>
-		<tr>
-		<td class="td1 right">Audio-URI:</td>
-		<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
-		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
-		</td>
-		</tr>
-		<tr>
-		<td class="td1 right" colspan="2">
-		<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php#rec<?php echo $_REQUEST['chg']; ?>';}" />
-		<input type="submit" name="op" value="Check" />
-		<input type="submit" name="op" value="Change" />
-		<input type="submit" name="op" value="Change and Open" />
-		</td>
-		</tr>
-		</table>
-		</form>
+     <h4>Edit Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
+     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+     <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
+     <input type="hidden" name="TxID" value="<?php echo $_REQUEST['chg']; ?>" />
+     <table class="tab3" cellspacing="0" cellpadding="5">
+     <tr>
+     <td class="td1 right">Language:</td>
+     <td class="td1">
+     <select name="TxLgID" class="notempty setfocus">
+        <?php
+        echo get_languages_selectoptions($record['TxLgID'], "[Choose...]");
+        ?>
+     </select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+     </td>
+     </tr>
+     <tr>
+     <td class="td1 right">Title:</td>
+     <td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="<?php echo tohtml($record['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+     </tr>
+     <tr>
+     <td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
+     <td class="td1">
+     <textarea <?php echo getScriptDirectionTag($record['TxLgID']); ?> name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+     </td>
+     </tr>
+     <tr>
+     <td class="td1 right">Ann.Text:</td>
+     <td class="td1">
+        <?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> Exists - May be partially or fully lost if you change the text!<br /><input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Improved Annotation" alt="No Improved Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
+     </td>
+     </tr>
+     <tr>
+     <td class="td1 right">Source URI:</td>
+     <td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="<?php echo tohtml($record['TxSourceURI']); ?>" maxlength="1000" size="60" /></td>
+     </tr>
+     <tr>
+     <td class="td1 right">Tags:</td>
+     <td class="td1">
+        <?php echo getTextTags($_REQUEST['chg']); ?>
+     </td>
+     </tr>
+     <tr>
+     <td class="td1 right">Audio-URI:</td>
+     <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
+     <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
+     </td>
+     </tr>
+     <tr>
+     <td class="td1 right" colspan="2">
+     <input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php#rec<?php echo $_REQUEST['chg']; ?>';}" />
+     <input type="submit" name="op" value="Check" />
+     <input type="submit" name="op" value="Change" />
+     <input type="submit" name="op" value="Change and Open" />
+     </td>
+     </tr>
+     </table>
+     </form>
 
-		<?php
+        <?php
 
-	}
-	mysqli_free_result($res);
+    }
+    mysqli_free_result($res);
 
 }
 
@@ -483,24 +517,29 @@ elseif (isset($_REQUEST['chg'])) {
 
 else {
 
-	echo error_message_with_hide($message,0);
+    echo error_message_with_hide($message, 0);
 
-	$sql = 'select count(*) as value from (select TxID from (' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
-	$recno = get_first_value($sql);
-	if ($debug) echo $sql . ' ===&gt; ' . $recno;
+    $sql = 'select count(*) as value from (select TxID from (' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
+    $recno = get_first_value($sql);
+    if ($debug) { echo $sql . ' ===&gt; ' . $recno; 
+    }
 
-	$maxperpage = getSettingWithDefault('set-texts-per-page');
+    $maxperpage = getSettingWithDefault('set-texts-per-page');
 
-	$pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
+    $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
 
-	if ($currentpage < 1) $currentpage = 1;
-	if ($currentpage > $pages) $currentpage = $pages;
-	$limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
+    if ($currentpage < 1) { $currentpage = 1; 
+    }
+    if ($currentpage > $pages) { $currentpage = $pages; 
+    }
+    $limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
 
-	$sorts = array('TxTitle','TxID desc','TxID asc');
-	$lsorts = count($sorts);
-	if ($currentsort < 1) $currentsort = 1;
-	if ($currentsort > $lsorts) $currentsort = $lsorts;
+    $sorts = array('TxTitle','TxID desc','TxID asc');
+    $lsorts = count($sorts);
+    if ($currentsort < 1) { $currentsort = 1; 
+    }
+    if ($currentsort > $lsorts) { $currentsort = $lsorts; 
+    }
 
 ?>
 
@@ -520,18 +559,23 @@ else {
 <tr>
 <td class="td1 center" colspan="2">
 Language:
-<select name="filterlang" onchange="{setLang(document.form1.filterlang,'edit_texts.php');}"><?php	echo get_languages_selectoptions($currentlang,'[Filter off]'); ?></select>
+<select name="filterlang" onchange="{setLang(document.form1.filterlang,'edit_texts.php');}"><?php	echo get_languages_selectoptions($currentlang, '[Filter off]'); ?></select>
 </td>
 <td class="td1 center" colspan="2">
 <select name="query_mode" onchange="{val=document.form1.query.value;mode=document.form1.query_mode.value; location.href='edit_texts.php?page=1&amp;query=' + val + '&amp;query_mode=' + mode;}">
-<option value="title,text"<?php if($currentquerymode=="title,text")echo ' selected="selected"'; ?>>Title &amp; Text</option>
+<option value="title,text"<?php if($currentquerymode=="title,text") { echo ' selected="selected"'; 
+} ?>>Title &amp; Text</option>
 <option disabled="disabled">------------</option>
-<option value="title"<?php if($currentquerymode=="title")echo ' selected="selected"'; ?>>Title</option>
-<option value="text"<?php if($currentquerymode=="text")echo ' selected="selected"'; ?>>Text</option>
+<option value="title"<?php if($currentquerymode=="title") { echo ' selected="selected"'; 
+} ?>>Title</option>
+<option value="text"<?php if($currentquerymode=="text") { echo ' selected="selected"'; 
+} ?>>Text</option>
 </select><?php
-if($currentregexmode=='')echo '<span style="vertical-align: middle"> (Wildc.=*): </span>';
+if($currentregexmode=='') { echo '<span style="vertical-align: middle"> (Wildc.=*): </span>'; 
+}
 elseif($currentregexmode=='r') echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
-else echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>';?>
+else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
+}?>
 <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value;val=encodeURIComponent(val); location.href='edit_texts.php?page=1&amp;query=' + val;}" />&nbsp;
 <input type="button" value="Clear" onclick="{location.href='edit_texts.php?page=1&amp;query=';}" />
@@ -540,14 +584,14 @@ else echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>';?>
 <tr>
 <td class="td1 center" colspan="2" nowrap="nowrap">
 Tag #1:
-<select name="tag1" onchange="{val=document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag1=' + val;}"><?php echo get_texttag_selectoptions($currenttag1,$currentlang); ?></select>
+<select name="tag1" onchange="{val=document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag1=' + val;}"><?php echo get_texttag_selectoptions($currenttag1, $currentlang); ?></select>
 </td>
 <td class="td1 center" nowrap="nowrap">
 Tag #1 .. <select name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag12=' + val;}"><?php echo get_andor_selectoptions($currenttag12); ?></select> .. Tag #2
 </td>
 <td class="td1 center" nowrap="nowrap">
 Tag #2:
-<select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag2=' + val;}"><?php echo get_texttag_selectoptions($currenttag2,$currentlang); ?></select>
+<select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag2=' + val;}"><?php echo get_texttag_selectoptions($currenttag2, $currentlang); ?></select>
 </td>
 </tr>
 <?php if($recno > 0) { ?>
@@ -555,12 +599,13 @@ Tag #2:
 <th class="th1" colspan="2" nowrap="nowrap">
 <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" colspan="1" nowrap="nowrap">
-<?php makePager ($currentpage, $pages, 'edit_texts.php', 'form1'); ?>
+<?php makePager($currentpage, $pages, 'edit_texts.php', 'form1'); ?>
 </th><th class="th1" colspan="1" nowrap="nowrap">
 Sort Order:
 <select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='edit_texts.php?page=1&amp;sort=' + val;}"><?php echo get_textssort_selectoptions($currentsort); ?></select>
 </th></tr>
-<?php } ?>
+<?php 
+} ?>
 </table>
 </form>
 
@@ -570,8 +615,9 @@ if ($recno==0) {
 <p>No texts found.</p>
 <?php
 } else {
-	$showCounts = getSettingWithDefault('set-show-text-word-counts');
-	if(strlen($showCounts)!=5) $showCounts = "11111";
+    $showCounts = getSettingWithDefault('set-show-text-word-counts');
+    if(strlen($showCounts)!=5) { $showCounts = "11111"; 
+    }
 ?>
 <form name="form2" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="data" value="" />
@@ -590,18 +636,19 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Mark</th>
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
 <th class="th1 sorttable_nosort">Actions</th>
-<?php if ($currentlang == '') echo '<th class="th1 clickable">Lang.</th>'; ?>
+<?php if ($currentlang == '') { echo '<th class="th1 clickable">Lang.</th>'; 
+} ?>
 <th class="th1 clickable">Title [Tags] / Audio:&nbsp;<img src="<?php print_file_path('icn/speaker-volume.png'); ?>" title="With Audio" alt="With Audio" />, Src.Link:&nbsp;<img src="<?php print_file_path('icn/chain.png'); ?>" title="Source Link available" alt="Source Link available" />, Ann.Text:&nbsp;<img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></th>
 
-<th class="th1 sorttable_numeric clickable">Total<br />Words<br /><div class="wc_cont"><span id="total" data_wo_cnt="<?php echo substr($showCounts,0,1); ?>"></span></div></th>
+<th class="th1 sorttable_numeric clickable">Total<br />Words<br /><div class="wc_cont"><span id="total" data_wo_cnt="<?php echo substr($showCounts, 0, 1); ?>"></span></div></th>
 
-<th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex<br /><div class="wc_cont"><span id="saved" data_wo_cnt="<?php echo substr($showCounts,1,1); ?>"></span></div></th>
+<th class="th1 sorttable_numeric clickable">Saved<br />Wo+Ex<br /><div class="wc_cont"><span id="saved" data_wo_cnt="<?php echo substr($showCounts, 1, 1); ?>"></span></div></th>
 
-<th class="th1 sorttable_numeric clickable">Unkn.<br />Words<br /><div class="wc_cont"><span id="unknown" data_wo_cnt="<?php echo substr($showCounts,2,1); ?>"></span></div></th>
+<th class="th1 sorttable_numeric clickable">Unkn.<br />Words<br /><div class="wc_cont"><span id="unknown" data_wo_cnt="<?php echo substr($showCounts, 2, 1); ?>"></span></div></th>
 
-<th class="th1 sorttable_numeric clickable">Unkn.<br />Perc.<br /><div class="wc_cont"><span id="unknownpercent" data_wo_cnt="<?php echo substr($showCounts,3,1); ?>"></span></div></th>
+<th class="th1 sorttable_numeric clickable">Unkn.<br />Perc.<br /><div class="wc_cont"><span id="unknownpercent" data_wo_cnt="<?php echo substr($showCounts, 3, 1); ?>"></span></div></th>
 
-<th class="th1 sorttable_numeric clickable">Status<br />Charts<br /><div class="wc_cont"><span id="chart" data_wo_cnt="<?php echo substr($showCounts,4,1); ?>"></span></div></th>
+<th class="th1 sorttable_numeric clickable">Status<br />Charts<br /><div class="wc_cont"><span id="chart" data_wo_cnt="<?php echo substr($showCounts, 4, 1); ?>"></span></div></th>
 </tr>
 </thead>
 <tbody>
@@ -617,7 +664,8 @@ select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) a
  where LgID=TxLgID ' . $wh_lang . $wh_query . ' 
  group by TxID ' . $wh_tag . '
   order by ' . $sorts[$currentsort-1] . ' ' . $limit;
-if ($debug) echo $sql;
+if ($debug) { echo $sql; 
+}
 $i = array(0,1,2,3,4,5,99,98);
 $statuses = get_statuses();
 $statuses[0]["name"]='Unknown';
@@ -625,55 +673,59 @@ $statuses[0]["$showCounts"]='Ukn';
 $res = do_mysqli_query($sql);
 $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
 while ($record = mysqli_fetch_assoc($res)) {
-	/*
-	Added by merge and makes statistics crash. To be removed?
-	if ($showCounts) {
-		flush();
-		echo "ID" . $record['TxID'];
-		$txttotalwords = textwordcount($record['TxID']);
-		$txtworkedwords = textworkcount($record['TxID']);
-		$txtworkedexpr = textexprcount($record['TxID']);
-		$txtworkedall = $txtworkedwords + $txtworkedexpr;
-		$txttodowords = $txttotalwords - $txtworkedwords;
-		$percentunknown = 0;
-		if ($txttotalwords != 0) {
-			$percentunknown = 
+    /*
+    Added by merge and makes statistics crash. To be removed?
+    if ($showCounts) {
+    flush();
+    echo "ID" . $record['TxID'];
+    $txttotalwords = textwordcount($record['TxID']);
+    $txtworkedwords = textworkcount($record['TxID']);
+    $txtworkedexpr = textexprcount($record['TxID']);
+    $txtworkedall = $txtworkedwords + $txtworkedexpr;
+    $txttodowords = $txttotalwords - $txtworkedwords;
+    $percentunknown = 0;
+    if ($txttotalwords != 0) {
+    $percentunknown = 
 				round(100*$txttodowords/$txttotalwords,0);
-			if ($percentunknown > 100) $percentunknown = 100;
-			if ($percentunknown < 0) $percentunknown = 0;
-		}
-	}
-	*/
-	$audio = $record['TxAudioURI'];
-	if(!isset($audio)) $audio='';
-	$audio=trim($audio);
-	echo '<tr>';
-	echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
-	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
-	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
-	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
+    if ($percentunknown > 100) $percentunknown = 100;
+    if ($percentunknown < 0) $percentunknown = 0;
+    }
+    }
+    */
+    $audio = $record['TxAudioURI'];
+    if(!isset($audio)) { $audio=''; 
+    }
+    $audio=trim($audio);
+    echo '<tr>';
+    echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
+    echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
+    echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
+    if ($currentlang == '') { echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>'; 
+    }
 
-	// title
-	echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' ; if($audio != ''){ echo '<img src="';print_file_path('icn/speaker-volume.png');echo '" title="With Audio" alt="With Audio" />';} else echo ''; echo (isset($record['TxSourceURI']) && substr(trim($record['TxSourceURI']),0,1)!='#' ? ' <a href="' . $record['TxSourceURI'] . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <a href="print_impr_text.php?text=' . $record['TxID'] . '"><img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></a>' : '') . '</td>';
-	
-	// total + composition
-	echo '<td class="td1 center"><span title="Total" id="total_' . $record['TxID'] . '"></span></td>
+    // title
+    echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' ; if($audio != '') { echo '<img src="';print_file_path('icn/speaker-volume.png');echo '" title="With Audio" alt="With Audio" />';
+    } else { echo ''; 
+    } echo (isset($record['TxSourceURI']) && substr(trim($record['TxSourceURI']), 0, 1)!='#' ? ' <a href="' . $record['TxSourceURI'] . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <a href="print_impr_text.php?text=' . $record['TxID'] . '"><img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></a>' : '') . '</td>';
+    
+    // total + composition
+    echo '<td class="td1 center"><span title="Total" id="total_' . $record['TxID'] . '"></span></td>
 	
 	<td class="td1 center"><span title="Saved" data_id="' . $record['TxID'] . '"><a class="status4" id="saved_' . $record['TxID'] . '" href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text_mode=0&amp;text=' . $record['TxID'] . '"></a></td>';
 
-	// unknown count
-	echo '<td class="td1 center"><span title="Unknown" class="status0" id="todo_' . $record['TxID'] . '"></span></td>';
+    // unknown count
+    echo '<td class="td1 center"><span title="Unknown" class="status0" id="todo_' . $record['TxID'] . '"></span></td>';
 
-	// unknown percent (added)
-	echo '<td class="td1 center"><span title="Unknown (%)" id="unknownpercent_' . $record['TxID'] . '"></span></td>';
+    // unknown percent (added)
+    echo '<td class="td1 center"><span title="Unknown (%)" id="unknownpercent_' . $record['TxID'] . '"></span></td>';
 
-	// chart
-	echo '<td class="td1 center"><ul class="barchart">';
+    // chart
+    echo '<td class="td1 center"><ul class="barchart">';
 
-	foreach($i as $cnt){
-		echo '<li class="bc' . $cnt . ' "title="' . $statuses[$cnt]["name"] . ' (' . $statuses[$cnt]["abbr"] . ')" style="border-top-width: 25px;"><span id="stat_' . $cnt . '_' . $record['TxID'] .'">0</span></li>';
-	}
-	echo '</ul></td></tr>';
+    foreach($i as $cnt){
+        echo '<li class="bc' . $cnt . ' "title="' . $statuses[$cnt]["name"] . ' (' . $statuses[$cnt]["abbr"] . ')" style="border-top-width: 25px;"><span id="stat_' . $cnt . '_' . $record['TxID'] .'">0</span></li>';
+    }
+    echo '</ul></td></tr>';
 }
 mysqli_free_result($res);
 
@@ -682,7 +734,7 @@ mysqli_free_result($res);
 </table>
 
 <script type="text/javascript">
-var WORDCOUNTS = '', SUW = SHOWUNIQUE = <?php echo intval($showCounts,2); ?>;
+var WORDCOUNTS = '', SUW = SHOWUNIQUE = <?php echo intval($showCounts, 2); ?>;
 $(document).ready( function() {
 	$('#total,#saved,#unknown,#chart,#unknownpercent').click(function( event ) {
 		$(this).attr('data_wo_cnt',parseInt($(this).attr('data_wo_cnt'))^1);
@@ -699,13 +751,13 @@ $(window).on('beforeunload',function() {
 });
 </script>
 
-<?php if( $pages > 1) { ?>
+<?php if($pages > 1) { ?>
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1" nowrap="nowrap">
 <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" nowrap="nowrap">
-<?php makePager ($currentpage, $pages, 'edit_texts.php', 'form2'); ?>
+<?php makePager($currentpage, $pages, 'edit_texts.php', 'form2'); ?>
 </th></tr></table></form>
 <?php
 }

@@ -35,61 +35,61 @@ Call: table_set_management.php
 Analyse DB tables, and manage Table Sets
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $message = "";
 
 if (isset($_REQUEST['delpref'])) {
-	if($_REQUEST['delpref'] !== '-') {
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archivedtexts','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archtexttags','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_languages','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_sentences','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags2','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_temptextitems','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tempwords','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_textitems2','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texts','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texttags','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_words','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_newsfeeds','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_feedlinks','');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_wordtags', '');
-		$dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_settings', '');
-		$message = 'Table Set "' . $_REQUEST['delpref'] . '" deleted';
-		if ($_REQUEST['delpref'] == substr($tbpref, 0, -1)) {
-			$tbpref = "";
-			LWTTableSet ("current_table_prefix", $tbpref);
-		}
-	}
+    if($_REQUEST['delpref'] !== '-') {
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archivedtexts', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archtexttags', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_languages', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_sentences', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags2', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_temptextitems', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tempwords', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_textitems2', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texts', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texttags', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_words', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_newsfeeds', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_feedlinks', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_wordtags', '');
+        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_settings', '');
+        $message = 'Table Set "' . $_REQUEST['delpref'] . '" deleted';
+        if ($_REQUEST['delpref'] == substr($tbpref, 0, -1)) {
+            $tbpref = "";
+            LWTTableSet("current_table_prefix", $tbpref);
+        }
+    }
 }
 
 elseif (isset($_REQUEST['newpref'])) {
-	if (in_array($_REQUEST['newpref'], getprefixes())) {
-		$message = 'Table Set "' . $_REQUEST['newpref'] . '" already exists';
-	} else {
-		$tbpref = $_REQUEST['newpref'];
-		LWTTableSet ("current_table_prefix", $tbpref);
-		header("Location: index.php");
-		exit(); 
-	}
+    if (in_array($_REQUEST['newpref'], getprefixes())) {
+        $message = 'Table Set "' . $_REQUEST['newpref'] . '" already exists';
+    } else {
+        $tbpref = $_REQUEST['newpref'];
+        LWTTableSet("current_table_prefix", $tbpref);
+        header("Location: index.php");
+        exit(); 
+    }
 }
 
 elseif (isset($_REQUEST['prefix'])) {
-	if($_REQUEST['prefix'] !== '-') {
-		$tbpref = $_REQUEST['prefix'];
-		LWTTableSet ("current_table_prefix", $tbpref);
-		header("Location: index.php");
-		exit(); 
-	}
+    if($_REQUEST['prefix'] !== '-') {
+        $tbpref = $_REQUEST['prefix'];
+        LWTTableSet("current_table_prefix", $tbpref);
+        header("Location: index.php");
+        exit(); 
+    }
 }
 
-pagestart('Select, Create or Delete a Table Set',false);
-echo error_message_with_hide($message,0);
+pagestart('Select, Create or Delete a Table Set', false);
+echo error_message_with_hide($message, 0);
 
 if ($fixed_tbpref) {
 
@@ -108,7 +108,7 @@ if ($fixed_tbpref) {
 
 } else {
 
-$prefix = getprefixes();
+    $prefix = getprefixes();
 
 ?>
 
@@ -156,11 +156,11 @@ foreach ($prefix as $value) {
 <option value="-" selected="selected">[Choose...]</option>
 <?php
 foreach ($prefix as $value) {
-	if ( $value != '') {
-?>
-<option value="<?php echo tohtml($value); ?>"><?php echo tohtml($value); ?></option>
+    if ($value != '') {
+    ?>
+   <option value="<?php echo tohtml($value); ?>"><?php echo tohtml($value); ?></option>
 <?php
-	}
+    }
 }
 ?>
 </select>

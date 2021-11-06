@@ -35,35 +35,35 @@ Call: start.php
 Analyse DB tables, select Table Set, start LWT
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 if ($fixed_tbpref) {
-	header("Location: index.php");
-	exit(); 
+    header("Location: index.php");
+    exit(); 
 }
 
 if (isset($_REQUEST['prefix'])) {
-	if($_REQUEST['prefix'] !== '-') {
-		$tbpref = $_REQUEST['prefix'];
-		LWTTableSet ("current_table_prefix", $tbpref);
-		header("Location: index.php");
-		exit(); 
-	}
+    if($_REQUEST['prefix'] !== '-') {
+        $tbpref = $_REQUEST['prefix'];
+        LWTTableSet("current_table_prefix", $tbpref);
+        header("Location: index.php");
+        exit(); 
+    }
 }
 
 $prefix = getprefixes();
 
 if (count($prefix) == 0) {
-	$tbpref = '';
-	LWTTableSet ("current_table_prefix", $tbpref);
-	header("Location: index.php");
-	exit(); 
+    $tbpref = '';
+    LWTTableSet("current_table_prefix", $tbpref);
+    header("Location: index.php");
+    exit(); 
 }
 
-pagestart('Select Table Set',false);
+pagestart('Select Table Set', false);
 
 ?>
 
@@ -77,7 +77,7 @@ pagestart('Select Table Set',false);
 <?php
 foreach ($prefix as $value) {
 ?>
-<option value="<?php echo tohtml($value); ?>" <?php echo (substr($tbpref,0,-1) == $value ? 'selected="selected"': ''); ?>><?php echo tohtml($value); ?></option>
+<option value="<?php echo tohtml($value); ?>" <?php echo (substr($tbpref, 0, -1) == $value ? 'selected="selected"': ''); ?>><?php echo tohtml($value); ?></option>
 <?php
 }
 ?>

@@ -35,18 +35,18 @@ Call: display_impr_text_text.php?text=[textid]
 Display an improved annotated text (text frame)
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $textid = getreq('text')+0;
 $ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 
 if(($textid==0) || (! $ann_exists)) {
-	header("Location: edit_texts.php");
-	exit();
+    header("Location: edit_texts.php");
+    exit();
 }
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
@@ -64,7 +64,7 @@ $removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
 mysqli_free_result($res);
 
-saveSetting('currenttext',$textid);
+saveSetting('currenttext', $textid);
 
 pagestart_nobody('Display');
 
@@ -109,28 +109,32 @@ echo '<p style="font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 1
 $items = preg_split('/[\n]/u', $ann);
 
 foreach ($items as $item) {
-	$vals = preg_split('/[\t]/u', $item);
-	if ($vals[0] > -1) {
-		$trans = '';
-		$c = count($vals);
-		$rom = '';
-		if ($c > 2) {
-			if ($vals[2] !== '') {
-				$wid = $vals[2] + 0;
-				$rom = get_first_value("select WoRomanization as value from " . $tbpref . "words where WoID = " . $wid);
-				if (! isset($rom)) $rom = '';
-			}
-		}
-		if ($c > 3) $trans = $vals[3];
-		if ($trans == '*') $trans = $vals[1] . " "; // <- U+200A HAIR SPACE
-		echo ' <ruby><rb><span class="click anntermruby" style="color:black;"' . ($rom == '' ? '' : (' title="' . tohtml($rom) . '"')) . '>' . tohtml($vals[1]) . '</span></rb><rt><span class="click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
-	} else {
-		if (count($vals) >= 2) 
-			echo str_replace(
-			"¶",
-			'</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
-			" " . tohtml($vals[1]));
-	}
+    $vals = preg_split('/[\t]/u', $item);
+    if ($vals[0] > -1) {
+        $trans = '';
+        $c = count($vals);
+        $rom = '';
+        if ($c > 2) {
+            if ($vals[2] !== '') {
+                $wid = $vals[2] + 0;
+                $rom = get_first_value("select WoRomanization as value from " . $tbpref . "words where WoID = " . $wid);
+                if (! isset($rom)) { $rom = ''; 
+                }
+            }
+        }
+        if ($c > 3) { $trans = $vals[3]; 
+        }
+        if ($trans == '*') { $trans = $vals[1] . " "; // <- U+200A HAIR SPACE
+        }     echo ' <ruby><rb><span class="click anntermruby" style="color:black;"' . ($rom == '' ? '' : (' title="' . tohtml($rom) . '"')) . '>' . tohtml($vals[1]) . '</span></rb><rt><span class="click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
+    } else {
+        if (count($vals) >= 2) { 
+            echo str_replace(
+                "¶",
+                '</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
+                " " . tohtml($vals[1])
+            ); 
+        }
+    }
 }
 
 echo "</p></div>";

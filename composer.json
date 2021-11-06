@@ -46,9 +46,12 @@
     "require": {
         "components/jquery": "^3.6",
         "flesler/jquery.scrollto": "^2.1",
-        "aehlke/tag-it": "*",
+        "aehlke/tag-it": "^2.0",
         "happyworm/jplayer": "^2.9",
         "ilinsky/jquery-xpath": "^0.3",
         "briancherne/jquery-hoverintent": "^1.10"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.2"
     }
 }

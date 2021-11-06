@@ -41,60 +41,68 @@ For more information, please refer to [http://unlicense.org/].
  * Do a SQL query to the database. 
  * It is a wrapper for "mysqli_query" function
  */ 
-function do_mysqli_query($sql) {
-	$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
-	if ($res == FALSE) {
-		echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
-			'<p><b>Fatal Error in SQL Query:</b> ' . 
-			tohtml($sql) . 
-			'</p>' . 
-			'<p><b>Error Code &amp; Message:</b> [' . 
-			mysqli_errno($GLOBALS['DBCONNECTION']) . 
-			'] ' . 
-			tohtml(mysqli_error($GLOBALS['DBCONNECTION'])) . 
-			"</p></div><hr /><pre>Backtrace:\n\n";
-		debug_print_backtrace ();
-		echo '</pre><hr />';
-		die('</body></html>');
-	}
-	else
-		return $res;
+function do_mysqli_query($sql) 
+{
+    $res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
+    if ($res == false) {
+        echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
+        '<p><b>Fatal Error in SQL Query:</b> ' . 
+        tohtml($sql) . 
+        '</p>' . 
+        '<p><b>Error Code &amp; Message:</b> [' . 
+        mysqli_errno($GLOBALS['DBCONNECTION']) . 
+        '] ' . 
+        tohtml(mysqli_error($GLOBALS['DBCONNECTION'])) . 
+        "</p></div><hr /><pre>Backtrace:\n\n";
+        debug_print_backtrace();
+        echo '</pre><hr />';
+        die('</body></html>');
+    }
+    else {
+        return $res; 
+    }
 }
 
 /**
  * Run a SQL query, you can specify its behavior and error message.
  * 
- * @param String $sql MySQL query
- * @param String $m Error message ('' to return the number of affected rows)
- * @param Bool $sqlerrdie To die on errors (default = TRUE)
+ * @param String $sql       MySQL query
+ * @param String $m         Error message ('' to return the number of affected rows)
+ * @param Bool   $sqlerrdie To die on errors (default = TRUE)
  */
-function runsql($sql, $m, $sqlerrdie = TRUE) {
-	if ($sqlerrdie)
-		$res = do_mysqli_query($sql);
-	else
-		$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);		
-	if ($res == FALSE) {
-		$message = "Error: " . mysqli_error($GLOBALS['DBCONNECTION']);
-	} else {
-		$num = mysqli_affected_rows($GLOBALS['DBCONNECTION']);
-		$message = (($m == '') ? $num : ($m . ": " . $num));
-	}
-	return $message;
+function runsql($sql, $m, $sqlerrdie = true) 
+{
+    if ($sqlerrdie) {
+        $res = do_mysqli_query($sql); 
+    }
+    else {
+        $res = mysqli_query($GLOBALS['DBCONNECTION'], $sql); 
+    }        
+    if ($res == false) {
+        $message = "Error: " . mysqli_error($GLOBALS['DBCONNECTION']);
+    } else {
+        $num = mysqli_affected_rows($GLOBALS['DBCONNECTION']);
+        $message = (($m == '') ? $num : ($m . ": " . $num));
+    }
+    return $message;
 }
 
 /**
  * Returns the first line from the database 
  * @param String $sql MySQL query
  */
-function get_first_value($sql) {
-	$res = do_mysqli_query($sql);		
-	$record = mysqli_fetch_assoc($res);
-	if ($record) 
-		$d = $record["value"];
-	else
-		$d = NULL;
-	mysqli_free_result($res);
-	return $d;
+function get_first_value($sql) 
+{
+    $res = do_mysqli_query($sql);        
+    $record = mysqli_fetch_assoc($res);
+    if ($record) { 
+        $d = $record["value"]; 
+    }
+    else {
+        $d = null; 
+    }
+    mysqli_free_result($res);
+    return $d;
 }
 
 // -------------------------------------------------------------

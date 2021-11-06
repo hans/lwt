@@ -1,69 +1,72 @@
 <?php
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $tid=$_REQUEST['tid'];
-if(isset($_REQUEST["sl"])){
-	$sl=$_REQUEST["sl"];
-	$tl=$_REQUEST["tl"];
-	setcookie("googtrans", '/'.$sl.'/'.$tl, time() + 60, "/");
+if(isset($_REQUEST["sl"])) {
+    $sl=$_REQUEST["sl"];
+    $tl=$_REQUEST["tl"];
+    setcookie("googtrans", '/'.$sl.'/'.$tl, time() + 60, "/");
 }
-if(isset ($_REQUEST["offset"]))$pos = $_REQUEST["offset"];
+if(isset ($_REQUEST["offset"])) { $pos = $_REQUEST["offset"]; 
+}
 if (isset($_REQUEST['term'])) {
-	$cnt=0;
-	$sqltext='insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
-			'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ';
-	$sqlarr=array();
-	foreach($_REQUEST['term'] as $row){
-		$sqlarr[]= '(' . convert_string_to_sqlsyntax($row['lg']) . ',' . convert_string_to_sqlsyntax(mb_strtolower($row['text'], 'UTF-8')) . ',' . convert_string_to_sqlsyntax($row['text']) . ',' . convert_string_to_sqlsyntax($row['status']) . ',' . (($row['trans']=='')?'"*"': convert_string_to_sqlsyntax($row['trans'])) . ', "", ""' . ', NOW(), ' . make_score_random_insert_update('id') . ')';
-		$cnt++;
-	}
-	if(isset($pos)){
-		$pos-=$cnt;
-	}
-	$sqltext .= rtrim(implode(',', $sqlarr),',');
-	$max = get_first_value('select max(WoID) as value from ' . $tbpref . 'words');
-	runsql($sqltext,'');
-	pagestart($cnt . ' New Word' . ($cnt!=1?'s':'') . ' Saved',false);
-	echo '<p id="displ_message"><img src="icn/waiting2.gif" /> Updating Texts</p>';
-	flush();
-	$res = do_mysqli_query('select WoID, WoTextLC, WoStatus, WoTranslation from ' . $tbpref . 'words where WoID > ' . $max);
-	echo '<script type="text/javascript">var context = window.parent.frames[\'l\'].document;';
-	$tooltip_mode = getSettingWithDefault('set-tooltip-mode');
-	while($record = mysqli_fetch_assoc($res)){
-		$hex = strToClassName(prepare_textdata($record["WoTextLC"]));
-		echo '$(".TERM',$hex,'",context).removeClass("status0").addClass("status',$record["WoStatus"],'").addClass("word',$record["WoID"],'").attr("data_wid","',$record["WoID"],'").attr("data_status","',$record["WoStatus"],'").attr("data_trans",',prepare_textdata_js($record["WoTranslation"]),')',"\n";
-		if($tooltip_mode == 1) echo '.each(function(){this.title = make_tooltip($(this).text(), $(this).attr(\'data_trans\'), $(this).attr(\'data_rom\'), $(this).attr(\'data_status\'));})';
-		else echo ".attr('title','')";
-		echo ";\n";
-	}
-	mysqli_free_result($res);
-	echo "</script>";
-	flush();
-	do_mysqli_query('UPDATE ' . $tbpref . 'textitems2 join ' . $tbpref . 'words on lower(Ti2Text)=WoTextLC AND Ti2WordCount =1 and Ti2LgID=WoLgID and WoID > ' . $max . ' set Ti2WoID = WoID');
-	echo "<script type=\"text/javascript\">$('#learnstatus', window.parent.frames['h'].document).html('",addslashes(texttodocount2($tid)),"');$('#displ_message').remove();";
-	if(!isset($pos)){
-		echo "window.parent.frames['l'].focus();window.parent.frames['l'].setTimeout('cClick()', 100);";
-	}
-	echo "</script>";
-	flush();
+    $cnt=0;
+    $sqltext='insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
+    'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values ';
+    $sqlarr=array();
+    foreach($_REQUEST['term'] as $row){
+        $sqlarr[]= '(' . convert_string_to_sqlsyntax($row['lg']) . ',' . convert_string_to_sqlsyntax(mb_strtolower($row['text'], 'UTF-8')) . ',' . convert_string_to_sqlsyntax($row['text']) . ',' . convert_string_to_sqlsyntax($row['status']) . ',' . (($row['trans']=='')?'"*"': convert_string_to_sqlsyntax($row['trans'])) . ', "", ""' . ', NOW(), ' . make_score_random_insert_update('id') . ')';
+        $cnt++;
+    }
+    if(isset($pos)) {
+        $pos-=$cnt;
+    }
+    $sqltext .= rtrim(implode(',', $sqlarr), ',');
+    $max = get_first_value('select max(WoID) as value from ' . $tbpref . 'words');
+    runsql($sqltext, '');
+    pagestart($cnt . ' New Word' . ($cnt!=1?'s':'') . ' Saved', false);
+    echo '<p id="displ_message"><img src="icn/waiting2.gif" /> Updating Texts</p>';
+    flush();
+    $res = do_mysqli_query('select WoID, WoTextLC, WoStatus, WoTranslation from ' . $tbpref . 'words where WoID > ' . $max);
+    echo '<script type="text/javascript">var context = window.parent.frames[\'l\'].document;';
+    $tooltip_mode = getSettingWithDefault('set-tooltip-mode');
+    while($record = mysqli_fetch_assoc($res)){
+        $hex = strToClassName(prepare_textdata($record["WoTextLC"]));
+        echo '$(".TERM',$hex,'",context).removeClass("status0").addClass("status',$record["WoStatus"],'").addClass("word',$record["WoID"],'").attr("data_wid","',$record["WoID"],'").attr("data_status","',$record["WoStatus"],'").attr("data_trans",',prepare_textdata_js($record["WoTranslation"]),')',"\n";
+        if($tooltip_mode == 1) { echo '.each(function(){this.title = make_tooltip($(this).text(), $(this).attr(\'data_trans\'), $(this).attr(\'data_rom\'), $(this).attr(\'data_status\'));})'; 
+        }
+        else { echo ".attr('title','')"; 
+        }
+        echo ";\n";
+    }
+    mysqli_free_result($res);
+    echo "</script>";
+    flush();
+    do_mysqli_query('UPDATE ' . $tbpref . 'textitems2 join ' . $tbpref . 'words on lower(Ti2Text)=WoTextLC AND Ti2WordCount =1 and Ti2LgID=WoLgID and WoID > ' . $max . ' set Ti2WoID = WoID');
+    echo "<script type=\"text/javascript\">$('#learnstatus', window.parent.frames['h'].document).html('",addslashes(texttodocount2($tid)),"');$('#displ_message').remove();";
+    if(!isset($pos)) {
+        echo "window.parent.frames['l'].focus();window.parent.frames['l'].setTimeout('cClick()', 100);";
+    }
+    echo "</script>";
+    flush();
 }
 else {
-	pagestart_nobody('Translate New Words');
+    pagestart_nobody('Translate New Words');
 }
-if(isset($pos)){
-$cnt = 0;
-$offset = '';
-$limit = getSettingWithDefault('set-ggl-translation-per-page') + 1;
-$sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $tid;
-$res = do_mysqli_query($sql);
-$record = mysqli_fetch_assoc($res);
-$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
-$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
-$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
+if(isset($pos)) {
+    $cnt = 0;
+    $offset = '';
+    $limit = getSettingWithDefault('set-ggl-translation-per-page') + 1;
+    $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $tid;
+    $res = do_mysqli_query($sql);
+    $record = mysqli_fetch_assoc($res);
+    $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
+    $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
+    $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
 ?>
 <style>
 body {top:0px ! important;}
@@ -117,9 +120,12 @@ $('td').on('click','span.dict1, span.dict2, span.dict3',function(){
 			$('.term').each(function(){
 				txt=$(this).text();
 				$(this).parent().css('position','relative');
-				$(this).after('<div class="dict"><?php if(!empty($wb1)){ echo '<span class="dict1">D1</span>'; }
-if(!empty($wb2)){ echo '<span class="dict2">D2</span>'; }
-if(!empty($wb1)){ echo '<span class="dict3">GTr</span>'; } ?></div>');
+				$(this).after('<div class="dict"><?php if(!empty($wb1)) { echo '<span class="dict1">D1</span>'; 
+}
+if(!empty($wb2)) { echo '<span class="dict2">D2</span>'; 
+}
+if(!empty($wb1)) { echo '<span class="dict3">GTr</span>'; 
+} ?></div>');
 			});
 			$('iframe,#google_translate_element').remove();
 			selectToggle(true,'form1');
@@ -149,19 +155,20 @@ function googleTranslateElementInit() {
 }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <?php
-	echo '<form name="form1" action="', $_SERVER['PHP_SELF'], '" method="post"><span class="notranslate"><div id="google_translate_element"></div><table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1 center" colspan="3"><input type="button" value="Mark All" onclick="$(\'input[type^=submit]\').val(\'Save\');selectToggle(true,\'form1\');$(\'[name^=term]\').prop(\'disabled\', false);" />
+    echo '<form name="form1" action="', $_SERVER['PHP_SELF'], '" method="post"><span class="notranslate"><div id="google_translate_element"></div><table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1 center" colspan="3"><input type="button" value="Mark All" onclick="$(\'input[type^=submit]\').val(\'Save\');selectToggle(true,\'form1\');$(\'[name^=term]\').prop(\'disabled\', false);" />
 <input type="button" value="Mark None" onclick="if(!$(\'input[name^=offset]\').length)v=\'End\';else v=\'Next\';$(\'input[type^=submit]\').val(v);selectToggle(false,\'form1\');$(\'[name^=term]\').prop(\'disabled\', true);" /><br /></th></tr><tr class="notranslate"><td class="td1">
 Marked Terms: </td><td class="td1">
 <select onchange="v=$(this).val();if(v==6){$(\'.markcheck:checked\').each(function(){e=$(\'#Term_\' + $(this).val()).children(\'.term\');e.text(e.text().toLowerCase());$(\'#Text_\' + $(this).val()).val(e.text().toLowerCase());});$(this).prop(\'selectedIndex\',0);return false;}if(v==7){$(\'.markcheck:checked\').each(function(){$(\'#Trans_\' + $(this).val() + \' input\').val(\'*\');});$(this).prop(\'selectedIndex\',0);return false;}$(\'.markcheck:checked\').each(function(){$(\'#Stat_\' + $(this).val()).val(v);});$(this).prop(\'selectedIndex\',0);return false;"><option value="0" selected="selected">[Choose...]</option><option value="1">Set Status To [1]</option><option value="2">Set Status To [2]</option><option value="3">Set Status To [3]</option><option value="4">Set Status To [4]</option><option value="5">Set Status To [5]</option><option value="99">Set Status To [WKn]</option><option value="98">Set Status To [Ign]</option><option value="6">Set To Lowercase</option><option value="7">Delete Translation</option></select></td><td class="td1" style="min-width: 45px;"><input  type="submit" value="Save" /></td></tr></table></span>
 <table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1">Mark</th><th class="th1" style="min-width:5em;">Term</th><th class="th1">Translation</th><th class="th1">Status</th></tr>';
 
-$res = do_mysqli_query ('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from ' . $tbpref . 'textitems2 where Ti2WoID = 0 and Ti2TxID = ' . $tid . ' AND Ti2WordCount =1 group by LOWER(Ti2Text) order by pos limit ' . $pos . ',' . $limit);
+$res = do_mysqli_query('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from ' . $tbpref . 'textitems2 where Ti2WoID = 0 and Ti2TxID = ' . $tid . ' AND Ti2WordCount =1 group by LOWER(Ti2Text) order by pos limit ' . $pos . ',' . $limit);
 while($record = mysqli_fetch_assoc($res)){
-	if(++$cnt<$limit){
-		$value=tohtml($record['word']);
-		echo '<tr><td class="td1 center notranslate"><input name="marked[', $cnt ,']" type="checkbox" class="markcheck" checked="checked" value="', $cnt , '" /></td><td id="Term_', $cnt ,'" class="td1 left notranslate"><span class="term">',$value,'</span></td><td class="td1 right trans" id="Trans_', $cnt ,'">',mb_strtolower($value, 'UTF-8'),'</td><td class="td1 center notranslate"><select id="Stat_', $cnt ,'" name="term[', $cnt ,'][status]"><option value="1" selected="selected">[1]</option><option value="2">[2]</option><option value="3">[3]</option><option value="4">[4]</option><option value="5">[5]</option><option value="99">[WKn]</option><option value="98">[Ign]</option></select><input type="hidden" id="Text_', $cnt ,'" name="term[', $cnt ,'][text]" value="',$value,'" /><input type="hidden" name="term[', $cnt ,'][lg]" value="',tohtml($record['Ti2LgID']),'" /></td></tr>',"\n";
-	}
-	else $offset='<input type="hidden" name="offset" value="' . ($pos + $limit - 1) . '" /><input type="hidden" name="sl" value="' . $sl . '" /><input type="hidden" name="tl" value="' . $tl . '" />';
+    if(++$cnt<$limit) {
+        $value=tohtml($record['word']);
+        echo '<tr><td class="td1 center notranslate"><input name="marked[', $cnt ,']" type="checkbox" class="markcheck" checked="checked" value="', $cnt , '" /></td><td id="Term_', $cnt ,'" class="td1 left notranslate"><span class="term">',$value,'</span></td><td class="td1 right trans" id="Trans_', $cnt ,'">',mb_strtolower($value, 'UTF-8'),'</td><td class="td1 center notranslate"><select id="Stat_', $cnt ,'" name="term[', $cnt ,'][status]"><option value="1" selected="selected">[1]</option><option value="2">[2]</option><option value="3">[3]</option><option value="4">[4]</option><option value="5">[5]</option><option value="99">[WKn]</option><option value="98">[Ign]</option></select><input type="hidden" id="Text_', $cnt ,'" name="term[', $cnt ,'][text]" value="',$value,'" /><input type="hidden" name="term[', $cnt ,'][lg]" value="',tohtml($record['Ti2LgID']),'" /></td></tr>',"\n";
+    }
+    else { $offset='<input type="hidden" name="offset" value="' . ($pos + $limit - 1) . '" /><input type="hidden" name="sl" value="' . $sl . '" /><input type="hidden" name="tl" value="' . $tl . '" />'; 
+    }
 }
 mysqli_free_result($res);
 echo '</table><input type="hidden" name="tid" value="',$tid,'" />', $offset ,'</form>';

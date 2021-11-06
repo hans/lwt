@@ -36,10 +36,10 @@ Call: set_test_status.php?wid=[wordid]&stchange=+1/-1
 Change status of term while testing
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $stchange = getreq('stchange');
 $status = getreq('status');
@@ -51,32 +51,40 @@ $oldscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value f
 
 if ($stchange == '') {
 
-	$status = $status + 0;
-	$stchange = $status - $oldstatus;
-	if ($stchange <= 0) $stchange=-1;
-	if ($stchange > 0) $stchange=1;
-	
+    $status = $status + 0;
+    $stchange = $status - $oldstatus;
+    if ($stchange <= 0) { $stchange=-1; 
+    }
+    if ($stchange > 0) { $stchange=1; 
+    }
+    
 } else {
 
-	$stchange = $stchange + 0;
-	$status = $oldstatus + $stchange;
-	if ($status < 1) $status=1;
-	if ($status > 5) $status=5;
-	
+    $stchange = $stchange + 0;
+    $status = $oldstatus + $stchange;
+    if ($status < 1) { $status=1; 
+    }
+    if ($status > 5) { $status=5; 
+    }
+    
 }
 
 $word = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid);
 pagestart("Term: " . $word, false);
 
-$m1 = runsql('update ' . $tbpref . 'words set WoStatus = ' . 
-	$status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed');
-	
+$m1 = runsql(
+    'update ' . $tbpref . 'words set WoStatus = ' . 
+    $status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed'
+);
+    
 $newscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from ' . $tbpref . 'words where WoID = ' . $wid) + 0;
 
-if ($oldstatus == $status)
-	echo '<p>Status ' . get_colored_status_msg($status) . ' not changed.</p>';
-else
-	echo '<p>Status changed from ' . get_colored_status_msg($oldstatus) . ' to ' . get_colored_status_msg($status) . '.</p>';
+if ($oldstatus == $status) {
+    echo '<p>Status ' . get_colored_status_msg($status) . ' not changed.</p>'; 
+}
+else {
+    echo '<p>Status changed from ' . get_colored_status_msg($oldstatus) . ' to ' . get_colored_status_msg($status) . '.</p>'; 
+}
 
 echo "<p>Old score was " . $oldscore . ", new score is now " . $newscore . ".</p>";
 
@@ -84,12 +92,14 @@ $totaltests = $_SESSION['testtotal'];
 $wrong = $_SESSION['testwrong'];
 $correct = $_SESSION['testcorrect'];
 $notyettested = $totaltests - $correct - $wrong;
-if ( $notyettested > 0 ) {
-	if ( $stchange >= 0 ) 
-		$_SESSION['testcorrect']++;
-	else
-		$_SESSION['testwrong']++;
-}		
+if ($notyettested > 0 ) {
+    if ($stchange >= 0 ) { 
+        $_SESSION['testcorrect']++; 
+    }
+    else {
+        $_SESSION['testwrong']++; 
+    }
+}        
 
 ?>
 <script type="text/javascript">

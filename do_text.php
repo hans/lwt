@@ -37,48 +37,48 @@ For more information, please refer to [http://unlicense.org/].
  * Create the main window when reading texts.
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' ); 
-require_once( 'php-mobile-detect/Mobile_Detect.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ; 
+require_once 'php-mobile-detect/Mobile_Detect.php' ;
 
 $detect = new Mobile_Detect;
 $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
 $mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
 
 if (isset($_REQUEST['start'])) {
-	
-	$audio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['start']);
-	
-	framesetheader('Read');
-	
-	if ( $mobile ) {
+    
+    $audio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['start']);
+    
+    framesetheader('Read');
+    
+    if ($mobile ) {
 
-?>
+    ?>
 
-	<style type="text/css"> 
-	body {
-		background-color: #cccccc;
-		margin: 0;
-		overflow: hidden;
-	}
-	#frame-h, #frame-l, #frame-ro, #frame-ru {
-		position:absolute; 
-		overflow:scroll; 
-		-webkit-overflow-scrolling: touch;
-	}
-	#frame-h-2, #frame-l-2, #frame-ro-2, #frame-ru-2 {
-		display:inline-block;	
-	}
-	</style>
+    <style type="text/css"> 
+    body {
+     background-color: #cccccc;
+     margin: 0;
+     overflow: hidden;
+    }
+    #frame-h, #frame-l, #frame-ro, #frame-ru {
+     position:absolute; 
+     overflow:scroll; 
+     -webkit-overflow-scrolling: touch;
+    }
+    #frame-h-2, #frame-l-2, #frame-ro-2, #frame-ru-2 {
+     display:inline-block;	
+    }
+    </style>
 	 
-	<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 
-	<script type="text/javascript">
-//<![CDATA[
-function rsizeIframes() {
-	var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> + 10;
+    <script type="text/javascript">
+   //<![CDATA[
+   function rsizeIframes() {
+    var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> + 10;
 	var lr_perc = <?php echo getSettingWithDefault('set-text-l-framewidth-percent'); ?>;
 	var r_perc = <?php echo getSettingWithDefault('set-text-r-frameheight-percent'); ?>;
 	var w = $(window).width();
@@ -130,11 +130,11 @@ $(document).ready(init);
 
 <?php 
 
-	} else {
-	
-?>
+    } else {
+    
+    ?>
 
-<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
+   <frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
 	<frameset rows="<?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio') ); ?>,*">
 		<frame src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="h" />			
 		<frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />
@@ -148,14 +148,14 @@ $(document).ready(init);
 </html>
 <?php
 
-	}
+    }
 
 }
 
 else {
 
-	header("Location: edit_texts.php");
-	exit();
+    header("Location: edit_texts.php");
+    exit();
 
 }
 

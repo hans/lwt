@@ -36,24 +36,25 @@ For more information, please refer to [http://unlicense.org/].
  * Call: select_lang_pair.php
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
-require_once( 'langdefs.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
+require_once 'langdefs.inc.php' ;
 
 /// Returns a dropdown menu of the different languages
-function get_wizard_selectoptions($v) {
-	global $langDefs;
-	$r = "<option value=\"\"" . get_selected($v,"") . ">[Choose...]</option>";
-	$keys = array_keys($langDefs);
-	foreach ($keys as $item) {
-		$r .= "<option value=\"" . $item . "\"" . get_selected($v,$item) . ">" . $item . "</option>";
-	}
-	return $r;
+function get_wizard_selectoptions($v) 
+{
+    global $langDefs;
+    $r = "<option value=\"\"" . get_selected($v, "") . ">[Choose...]</option>";
+    $keys = array_keys($langDefs);
+    foreach ($keys as $item) {
+        $r .= "<option value=\"" . $item . "\"" . get_selected($v, $item) . ">" . $item . "</option>";
+    }
+    return $r;
 }
 
-pagestart_nobody('Language Settings Wizard','html{background-color: rgba(0, 0, 0, 0);}');
+pagestart_nobody('Language Settings Wizard', 'html{background-color: rgba(0, 0, 0, 0);}');
 
 $currentnativelanguage = getSetting('currentnativelanguage');
 

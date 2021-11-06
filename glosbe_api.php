@@ -41,16 +41,16 @@ Call Glosbe Translation API, analyze and present JSON results
 for easily filling the "new word form"
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $from = trim(stripTheSlashesIfNeeded($_REQUEST["from"]));
 $dest = trim(stripTheSlashesIfNeeded($_REQUEST["dest"]));
 $destorig = $dest;
 $phrase = mb_strtolower(trim(stripTheSlashesIfNeeded($_REQUEST["phrase"])), 'UTF-8');
-$ok = FALSE;
+$ok = false;
 
 pagestart_nobody('');
 $titletext = '<a href="http://glosbe.com/' . $from . '/' . $dest . '/' . $phrase . '">Glosbe Dictionary (' . tohtml($from) . "-" . tohtml($dest) . "):  &nbsp; <span class=\"red2\">" . tohtml($phrase) . "</span></a>";
@@ -63,11 +63,11 @@ echo '<p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" />
 //<![CDATA[
 $(document).ready( function() {
 <?php
-if($from=='' or $dest==''){
-	echo '$("body").html("<p class=\"red\">There seems to be something wrong with the Glosbe API!</p><p class=\"red\">Please check the dictionaries in the Language Settings!</p>"); ';
+if($from=='' or $dest=='') {
+    echo '$("body").html("<p class=\"red\">There seems to be something wrong with the Glosbe API!</p><p class=\"red\">Please check the dictionaries in the Language Settings!</p>"); ';
 }
-else if($phrase==''){
-	echo '$("body").html("<p class=\"msgblue\">Term is not set!</p>");';
+else if($phrase=='') {
+    echo '$("body").html("<p class=\"msgblue\">Term is not set!</p>");';
 }
 else{
 ?>
@@ -75,7 +75,8 @@ else{
 	if (typeof w == 'undefined') w = window.opener;
 	if (typeof w == 'undefined')$('#del_translation').remove();
 	getGlosbeTranslation(<?php echo "'" ,urlencode($phrase) ,"','",$from,"','",$dest,"'"; ?>);
-<?php }	 ?>
+<?php 
+}     ?>
 });
 //]]>
 </script>

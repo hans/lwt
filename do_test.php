@@ -37,11 +37,11 @@ Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
 Start a test (frameset)
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
-require_once( 'php-mobile-detect/Mobile_Detect.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
+require_once 'php-mobile-detect/Mobile_Detect.php' ;
 
 
 $detect = new Mobile_Detect;
@@ -49,43 +49,46 @@ $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
 $mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
 
 $p = '';
-if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) 
-	$p = "selection=" . $_REQUEST['selection']; 
-if (isset($_REQUEST['lang'])) 
-	$p = "lang=" . $_REQUEST['lang']; 
-if (isset($_REQUEST['text'])) 
-	$p = "text=" . $_REQUEST['text']; 
+if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) { 
+    $p = "selection=" . $_REQUEST['selection']; 
+} 
+if (isset($_REQUEST['lang'])) { 
+    $p = "lang=" . $_REQUEST['lang']; 
+} 
+if (isset($_REQUEST['text'])) { 
+    $p = "text=" . $_REQUEST['text']; 
+} 
 
 if ($p != '') {
 
-	framesetheader('Test');
-	
-	if ( $mobile ) {
+    framesetheader('Test');
+    
+    if ($mobile ) {
 
-?>
+    ?>
 
-	<style type="text/css"> 
-	body {
-		background-color: #cccccc;
-		margin: 0;
-		overflow: hidden;
-	}
-	#frame-h, #frame-l, #frame-ro, #frame-ru {
-		position:absolute; 
-		overflow:scroll; 
-		-webkit-overflow-scrolling: touch;
-	}
-	#frame-h-2, #frame-l-2, #frame-ro-2, #frame-ru-2 {
-		display:inline-block;	
-	}
-	</style>
+    <style type="text/css"> 
+    body {
+     background-color: #cccccc;
+     margin: 0;
+     overflow: hidden;
+    }
+    #frame-h, #frame-l, #frame-ro, #frame-ru {
+     position:absolute; 
+     overflow:scroll; 
+     -webkit-overflow-scrolling: touch;
+    }
+    #frame-h-2, #frame-l-2, #frame-ro-2, #frame-ru-2 {
+     display:inline-block;	
+    }
+    </style>
 	
-	<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 	
-	<script type="text/javascript">
-//<![CDATA[
-function rsizeIframes() {
-	var h_height = <?php echo getSettingWithDefault('set-test-h-frameheight'); ?> + 10;
+    <script type="text/javascript">
+   //<![CDATA[
+   function rsizeIframes() {
+    var h_height = <?php echo getSettingWithDefault('set-test-h-frameheight'); ?> + 10;
 	var lr_perc = <?php echo getSettingWithDefault('set-test-l-framewidth-percent'); ?>;
 	var r_perc = <?php echo getSettingWithDefault('set-test-r-frameheight-percent'); ?>;
 	var w = $(window).width();
@@ -137,11 +140,11 @@ $(document).ready(init);
 
 <?php 
 
-	} else {
-	
-?>
+    } else {
+    
+    ?>
 
-<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
+   <frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
 	<frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
 		<frame src="do_test_header.php?<?php echo $p; ?>" scrolling="auto" name="h" />			
 		<frame src="empty.htm" scrolling="auto" name="l" />
@@ -155,14 +158,14 @@ $(document).ready(init);
 </html>
 <?php
 
-	}
+    }
 
 }
 
 else {
 
-	header("Location: edit_texts.php");
-	exit();
+    header("Location: edit_texts.php");
+    exit();
 
 }
 ?>

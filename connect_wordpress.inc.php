@@ -39,6 +39,6 @@ $userid = "....";  // database userid
 $passwd = "....";  // database password
 $dbname = "....";  // database name
 
-require_once( 'wp_logincheck.inc.php' );   
+require_once 'wp_logincheck.inc.php' ;   
 
 ?>

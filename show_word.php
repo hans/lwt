@@ -35,28 +35,30 @@ Call: show_word.php?wid=...&ann=...
 Show term
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 pagestart_nobody('Term');
 
 $wid = getreq('wid');
 $ann = stripTheSlashesIfNeeded($_REQUEST["ann"]);
 
-if ($wid == '') my_die ('Word not found in show_word.php');
+if ($wid == '') { my_die('Word not found in show_word.php'); 
+}
 
 $sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
 $res = do_mysqli_query($sql);
 if ($record = mysqli_fetch_assoc($res)) {
 
-	$transl = repl_tab_nl($record['WoTranslation']);
-	if($transl == '*') $transl='';
-	
-	$tags = getWordTagList($wid, '', 0, 0);
-	$rom = $record['WoRomanization'];
-	$scrdir = getScriptDirectionTag($record['WoLgID']);
+    $transl = repl_tab_nl($record['WoTranslation']);
+    if($transl == '*') { $transl=''; 
+    }
+    
+    $tags = getWordTagList($wid, '', 0, 0);
+    $rom = $record['WoRomanization'];
+    $scrdir = getScriptDirectionTag($record['WoLgID']);
 
 ?>
 
@@ -69,12 +71,15 @@ if ($record = mysqli_fetch_assoc($res)) {
 <tr>
 <td class="td1 right">Translation:</td>
 <td class="td1" style="font-size:120%;"><b><?php
-	if(!empty($ann)){
-		echo 
-		str_replace_first(tohtml($ann), '<span style="color:red">' . tohtml($ann) . 
-		'</span>', tohtml($transl));
-	}
-	else echo tohtml($transl);
+if(!empty($ann)) {
+    echo 
+    str_replace_first(
+        tohtml($ann), '<span style="color:red">' . tohtml($ann) . 
+        '</span>', tohtml($transl)
+    );
+}
+else { echo tohtml($transl); 
+}
 ?></b></td>
 </tr>
 <?php if ($tags != '') { ?>
@@ -82,13 +87,15 @@ if ($record = mysqli_fetch_assoc($res)) {
 <td class="td1 right">Tags:</td>
 <td class="td1" style="font-size:120%;"><b><?php echo tohtml($tags); ?></b></td>
 </tr>
-<?php } ?>
+<?php 
+} ?>
 <?php if ($rom != '') { ?>
 <tr>
 <td class="td1 right">Romaniz.:</td>
 <td class="td1" style="font-size:120%;"><b><?php echo tohtml($rom); ?></b></td>
 </tr>
-<?php } ?>
+<?php 
+} ?>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
 <td class="td1" <?php echo $scrdir; ?>><?php echo tohtml($record['WoSentence']); ?></td>

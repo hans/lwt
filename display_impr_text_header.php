@@ -35,10 +35,10 @@ Call: display_impr_text_header.php?text=[textid]
 Display an improved annotated text (top frame)
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $textid = getreq('text');
 $sql = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;
@@ -46,7 +46,8 @@ $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 
 $audio = $record['TxAudioURI'];
-if(!isset($audio)) $audio='';
+if(!isset($audio)) { $audio=''; 
+}
 $audio=trim($audio);
 
 $title = $record['TxTitle'];
@@ -54,7 +55,7 @@ $sourceURI = $record['TxSourceURI'];
 $langid = $record['TxLgID'];
 mysqli_free_result($res); 
 
-saveSetting('currenttext',$textid);
+saveSetting('currenttext', $textid);
 
 pagestart_nobody(tohtml($title));
 echo '<h2 class="center" style="margin:5px;margin-top:-10px;">';
@@ -95,7 +96,7 @@ echo '<img id="show" style="display:none; margin-bottom:-5px;" class="click" src
 echo ' &nbsp; &nbsp; ';
 echo tohtml($title);
 echo (isset($sourceURI) ? ' <a href="' . $sourceURI . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Text Source" alt="Text Source" /></a>' : '');
-echo getPreviousAndNextTextLinks($textid, 'display_impr_text.php?text=', TRUE, ' &nbsp; &nbsp; ');
+echo getPreviousAndNextTextLinks($textid, 'display_impr_text.php?text=', true, ' &nbsp; &nbsp; ');
 echo ' <img class="click" src="icn/cross.png" title="Close Window" alt="Close Window" onclick="top.close();" /></span></h2>';
 
 makeAudioPlayer($audio);

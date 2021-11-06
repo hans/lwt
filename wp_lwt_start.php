@@ -45,30 +45,33 @@ To properly log out from both WordPress and LWT, use:
 http://...path-to-wp-blog.../lwt/wp_lwt_stop.php
 ***************************************************************/
 
-require_once( '../wp-load.php' );
+require_once '../wp-load.php' ;
 
-if (is_user_logged_in()){
-	global $current_user;
+if (is_user_logged_in()) {
+    global $current_user;
 
-	get_currentuserinfo();
-	$wpuser = $current_user->ID;
+    get_currentuserinfo();
+    $wpuser = $current_user->ID;
 
-	$err = @session_start();
-	if ($err === FALSE) 
-		my_die('SESSION error (Impossible to start a PHP session)');
-	if(session_id() == '')
-		my_die('SESSION ID empty (Impossible to start a PHP session)');
-	if (! isset($_SESSION))
-		my_die('SESSION array not set (Impossible to start a PHP session)');
+    $err = @session_start();
+    if ($err === false) { 
+        my_die('SESSION error (Impossible to start a PHP session)'); 
+    }
+    if(session_id() == '') {
+        my_die('SESSION ID empty (Impossible to start a PHP session)'); 
+    }
+    if (! isset($_SESSION)) {
+        my_die('SESSION array not set (Impossible to start a PHP session)'); 
+    }
 
-		$_SESSION['LWT-WP-User']=$wpuser;
-	$url = (!empty($_REQUEST["rd"]) && file_exists(preg_replace('/^([^?]+).*/','./$1',$_REQUEST["rd"])))?$_REQUEST["rd"]:'index.php';
-	header("Location: ./" . $url);
-	exit;
+    $_SESSION['LWT-WP-User']=$wpuser;
+    $url = (!empty($_REQUEST["rd"]) && file_exists(preg_replace('/^([^?]+).*/', './$1', $_REQUEST["rd"])))?$_REQUEST["rd"]:'index.php';
+    header("Location: ./" . $url);
+    exit;
 }
 else { 
-	header("Location: ../wp-login.php?redirect_to=./lwt/wp_lwt_start.php");
-	exit;
+    header("Location: ../wp-login.php?redirect_to=./lwt/wp_lwt_start.php");
+    exit;
 }
 
 ?>

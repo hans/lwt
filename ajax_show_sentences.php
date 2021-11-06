@@ -38,16 +38,16 @@ Call: ajax_show_sentences.php?...
 Show sentences in edit_texts.php, etc.
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $lang = $_POST['lang'] + 0;
 $word = stripTheSlashesIfNeeded($_POST['word']);
 $wid = stripTheSlashesIfNeeded($_POST['woid']);
 $ctl = stripTheSlashesIfNeeded($_POST['ctl']);
 
-echo get20Sentences($lang,$word,$wid,$ctl, (int) getSettingWithDefault('set-term-sentence-count'));
+echo get20Sentences($lang, $word, $wid, $ctl, (int) getSettingWithDefault('set-term-sentence-count'));
 
 ?>

@@ -37,14 +37,14 @@ For more information, please refer to [http://unlicense.org/].
  * Call: set_text_mode.php?text=[textid]&mode=0/1&showLeaning=0/1
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $tid = getreq('text') + 0;
 $showAll = getreq('mode') + 0;
-saveSetting('showallwords',$showAll);
+saveSetting('showallwords', $showAll);
 $previousShowLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 $showLearning = getreq('showLearning');
 saveSetting('showlearningtranslations', $showLearning);
@@ -130,17 +130,21 @@ $('#waiting').html('<b>OK -- </b>');
 
 <?php
 
-if ($showAll == 1)
-	echo '<b><i>Show All</i></b> is set to <b>ON</b>.<br /><br />ALL terms are now shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.<br /><br />To concentrate more on the multi-word terms and to display them without superscript, set <i>Show All</i> to OFF.</p>';
-else
-	echo '<b><i>Show All</i></b> is set to <b>OFF</b>.<br /><br />Multi-word terms now hide single words and shorter or overlapping multi-word terms. The creation and deletion of multi-word terms can be a bit slow in long texts.<br /><br />To  manipulate ALL terms, set <i>Show All</i> to ON.</p>';
+if ($showAll == 1) {
+    echo '<b><i>Show All</i></b> is set to <b>ON</b>.<br /><br />ALL terms are now shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.<br /><br />To concentrate more on the multi-word terms and to display them without superscript, set <i>Show All</i> to OFF.</p>'; 
+}
+else {
+    echo '<b><i>Show All</i></b> is set to <b>OFF</b>.<br /><br />Multi-word terms now hide single words and shorter or overlapping multi-word terms. The creation and deletion of multi-word terms can be a bit slow in long texts.<br /><br />To  manipulate ALL terms, set <i>Show All</i> to ON.</p>'; 
+}
 
 echo "<br /><br />";
 
-if ($showLearning == 1)
-	echo '<b><i>Learning Translations</i></b> is set to <b>ON</b>.<br /><br />Terms that have Learning Level&nbsp;1 will show their translations beneath the term in the reading mode.<br /><br />To hide the translations, set <i>Learning Translations</i> to OFF.</p>';
-else
-	echo '<b><i>Learning Translations</i></b> is set to <b>OFF</b>.<br /><br />No translations will be shown directly in the reading window.<br /><br />To see translations for terms with Learning Level&nbsp;1 underneath the terms in the reading window, set <i>Learning Translations</i> to ON.</p>';
+if ($showLearning == 1) {
+    echo '<b><i>Learning Translations</i></b> is set to <b>ON</b>.<br /><br />Terms that have Learning Level&nbsp;1 will show their translations beneath the term in the reading mode.<br /><br />To hide the translations, set <i>Learning Translations</i> to OFF.</p>'; 
+}
+else {
+    echo '<b><i>Learning Translations</i></b> is set to <b>OFF</b>.<br /><br />No translations will be shown directly in the reading window.<br /><br />To see translations for terms with Learning Level&nbsp;1 underneath the terms in the reading window, set <i>Learning Translations</i> to ON.</p>'; 
+}
 
 pageend();
 

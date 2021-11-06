@@ -41,13 +41,13 @@ $dsplerrors = 0;   // 1 = display all errors on, 0 = .. off
 $dspltime = 0;     // 1 = display time on, 0 = .. off
 
 if ($dsplerrors) {
-	@error_reporting(E_ALL);
-	@ini_set('display_errors','1');
-	@ini_set('display_startup_errors','1');
+    @error_reporting(E_ALL);
+    @ini_set('display_errors', '1');
+    @ini_set('display_startup_errors', '1');
 } else {
-	@error_reporting(0);
-	@ini_set('display_errors','0');
-	@ini_set('display_startup_errors','0');
+    @error_reporting(0);
+    @ini_set('display_errors', '0');
+    @ini_set('display_startup_errors', '0');
 }
 
 @ini_set('max_execution_time', '600');  // 10 min.
@@ -56,14 +56,17 @@ if ($dsplerrors) {
 @ini_set('memory_limit', '999M');  
 
 if(session_id() == '') {
-	// session isn't started
-	$err = @session_start();
-	if ($err === FALSE) 
-		my_die('SESSION error (Impossible to start a PHP session)');
-	if(session_id() == '')
-		my_die('SESSION ID empty (Impossible to start a PHP session)');
-	if (! isset($_SESSION))
-		my_die('SESSION array not set (Impossible to start a PHP session)');
+    // session isn't started
+    $err = @session_start();
+    if ($err === false) { 
+        my_die('SESSION error (Impossible to start a PHP session)'); 
+    }
+    if(session_id() == '') {
+        my_die('SESSION ID empty (Impossible to start a PHP session)'); 
+    }
+    if (! isset($_SESSION)) {
+        my_die('SESSION array not set (Impossible to start a PHP session)'); 
+    }
 }
 
 ?>

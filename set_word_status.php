@@ -36,10 +36,10 @@ Call: set_word_status.php?...
 Change status of term while reading
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
@@ -49,18 +49,20 @@ $sql = 'SELECT WoText, WoTranslation, WoRomanization FROM ' . $tbpref . 'words w
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 if ($record) {
-	$word = $record['WoText'];
-	$trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid,' ',1,0);
-	$roman = $record['WoRomanization'];
+    $word = $record['WoText'];
+    $trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid, ' ', 1, 0);
+    $roman = $record['WoRomanization'];
 } else {
-	my_die("Word not found in set_word_status.php"); 
+    my_die("Word not found in set_word_status.php"); 
 }
 mysqli_free_result($res);
 
 pagestart("Term: " . $word, false);
 
-$m1 = runsql('update ' . $tbpref . 'words set WoStatus = ' . 
-	$_REQUEST['status'] . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed');
+$m1 = runsql(
+    'update ' . $tbpref . 'words set WoStatus = ' . 
+    $_REQUEST['status'] . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed'
+);
 
 echo '<p>OK, this term has status ' . get_colored_status_msg($status) . ' from now!</p>';
 

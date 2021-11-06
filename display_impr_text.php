@@ -35,48 +35,48 @@ Call: display_impr_text.php?text=[textid]
 Display an improved annotated text (frame set)
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' ); 
-require_once( 'php-mobile-detect/Mobile_Detect.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ; 
+require_once 'php-mobile-detect/Mobile_Detect.php' ;
 
 $detect = new Mobile_Detect;
 $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
 $mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
 
 if (isset($_REQUEST['text'])) {
-	
-	$audio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text']);
-	
-	framesetheader('Display');
+    
+    $audio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text']);
+    
+    framesetheader('Display');
 
-	if ( $mobile ) {
+    if ($mobile ) {
 
-?>
+    ?>
 
-	<style type="text/css"> 
-	body {
-		background-color: #cccccc;
-		margin: 0;
-		overflow: hidden;
-	}
-	#frame-h, #frame-l {
-		position:absolute; 
-		overflow:scroll; 
-		-webkit-overflow-scrolling: touch;
-	}
-	#frame-h-2, #frame-l-2 {
-		display:inline-block;	
-	}
-	</style> 
+    <style type="text/css"> 
+    body {
+     background-color: #cccccc;
+     margin: 0;
+     overflow: hidden;
+    }
+    #frame-h, #frame-l {
+     position:absolute; 
+     overflow:scroll; 
+     -webkit-overflow-scrolling: touch;
+    }
+    #frame-h-2, #frame-l-2 {
+     display:inline-block;	
+    }
+    </style> 
 	
-	<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 	
-	<script type="text/javascript">
-//<![CDATA[
-function rsizeIframes() {
-	var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> - 80;
+    <script type="text/javascript">
+   //<![CDATA[
+   function rsizeIframes() {
+    var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> - 80;
 	var w = $(window).width();
 	var h = $(window).height();
 	var l_height = h - h_height;
@@ -108,11 +108,11 @@ $(document).ready(init);
 
 <?php 
 
-	} else {
-	
-?>
+    } else {
+    
+    ?>
 
-<frameset border="3" bordercolor="" rows="<?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio')-90 : getSettingWithDefault('set-text-h-frameheight-no-audio')-90 ); ?>,*">
+   <frameset border="3" bordercolor="" rows="<?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio')-90 : getSettingWithDefault('set-text-h-frameheight-no-audio')-90 ); ?>,*">
 	<frame src="display_impr_text_header.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="no" name="header" />			
 	<frame src="display_impr_text_text.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="auto" name="text" />
 </frameset>
@@ -121,14 +121,14 @@ $(document).ready(init);
 </html>
 <?php
 
-	}
+    }
 
 }
 
 else {
 
-	header("Location: edit_texts.php");
-	exit();
+    header("Location: edit_texts.php");
+    exit();
 
 }
 

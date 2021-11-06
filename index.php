@@ -35,31 +35,33 @@ Call: index.php
 LWT Start Screen / Main Menu / Home
 ***************************************************************/
 
-if (! file_exists ('connect.inc.php')) {
-	echo '<div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;"><p><b>Fatal Error:</b> Cannot find file: "connect.inc.php". Please rename the correct file "connect_[servertype].inc.php" to "connect.inc.php" ([servertype] is the name of your server: xampp, mamp, or easyphp). Please read the documentation: https://learning-with-texts.sourceforge.io</p></div></body></html>';
-	die('');
+if (! file_exists('connect.inc.php')) {
+    echo '<div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;"><p><b>Fatal Error:</b> Cannot find file: "connect.inc.php". Please rename the correct file "connect_[servertype].inc.php" to "connect.inc.php" ([servertype] is the name of your server: xampp, mamp, or easyphp). Please read the documentation: https://learning-with-texts.sourceforge.io</p></div></body></html>';
+    die('');
 }
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 if ($tbpref == '') {
-	$span2 = "<i>Default</i> Table Set</span>";
+    $span2 = "<i>Default</i> Table Set</span>";
 } else {
-	$span2 = "Table Set: <i>" . tohtml(substr($tbpref,0,-1)) . "</i></span>";
+    $span2 = "Table Set: <i>" . tohtml(substr($tbpref, 0, -1)) . "</i></span>";
 }
 
 if ($fixed_tbpref) {
-	$span1 = '<span>';
-	$span3 = '<span>';
+    $span1 = '<span>';
+    $span3 = '<span>';
 } else {
-	$span1 = '<span title="Manage Table Sets" onclick="location.href=\'table_set_management.php\';" class="click">';
-	if (count(getprefixes()) > 0)
-		$span3 = '<span title="Select Table Set" onclick="location.href=\'start.php\';" class="click">';
-	else
-		$span3 = '<span>';	
+    $span1 = '<span title="Manage Table Sets" onclick="location.href=\'table_set_management.php\';" class="click">';
+    if (count(getprefixes()) > 0) {
+        $span3 = '<span title="Select Table Set" onclick="location.href=\'start.php\';" class="click">'; 
+    }
+    else {
+        $span3 = '<span>'; 
+    }    
 }
 
 pagestart_nobody("Home");
@@ -75,7 +77,7 @@ $currenttext = getSetting('currenttext');
 $langcnt = get_first_value('select count(*) as value from ' . $tbpref . 'languages');
 
 if ($langcnt == 0) {
-echo '<table class="tab3" cellspacing="0" cellpadding="5"><tr><th class="th1">Hint: The database seems to be empty.<br /><a href="install_demo.php">You may install the LWT demo database, </a><br />or<br /><a href="edit_languages.php?new=1">define the first language you want to learn.</a></th></tr></table>';
+    echo '<table class="tab3" cellspacing="0" cellpadding="5"><tr><th class="th1">Hint: The database seems to be empty.<br /><a href="install_demo.php">You may install the LWT demo database, </a><br />or<br /><a href="edit_languages.php?new=1">define the first language you want to learn.</a></th></tr></table>';
 }
 
 ?>
@@ -90,37 +92,37 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <?php if ($langcnt > 0 ) { ?>
 
 <ul>
-<li>Language: <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}"><?php echo get_languages_selectoptions($currentlang,'[Select...]'); ?></select></li>
+<li>Language: <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}"><?php echo get_languages_selectoptions($currentlang, '[Select...]'); ?></select></li>
 </ul>
 	
 <?php
-	if ($currenttext != '') {
-		$txttit = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
-		if (isset($txttit)) {	
-			$txtlng = get_first_value('select TxLgID as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
-			$lngname = getLanguage($txtlng);
-	?>
-			<ul>
-			<li>My last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
-			<br />
-			<a href="do_text.php?start=<?php echo $currenttext; ?>"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read</a>
-			&nbsp; &nbsp; 
-			<a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
-			&nbsp; &nbsp; 
-			<a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
+if ($currenttext != '') {
+    $txttit = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
+    if (isset($txttit)) {    
+        $txtlng = get_first_value('select TxLgID as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
+        $lngname = getLanguage($txtlng);
+    ?>
+     <ul>
+     <li>My last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
+     <br />
+     <a href="do_text.php?start=<?php echo $currenttext; ?>"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read</a>
+     &nbsp; &nbsp; 
+     <a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
+     &nbsp; &nbsp; 
+     <a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
+    <?php
+    if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . (int)$currenttext) + 0) > 0) {
+    ?>
+    &nbsp; &nbsp; 
+    <a href="print_impr_text.php?text=<?php echo $currenttext; ?>"><img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text</a>
 <?php
-			if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . (int)$currenttext) + 0) > 0) {
-?>
-			&nbsp; &nbsp; 
-			<a href="print_impr_text.php?text=<?php echo $currenttext; ?>"><img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text</a>
-<?php
-			}
-?>
-			</li>
-			</ul>
-<?php
-		}
-	}
+    }
+    ?>
+     </li>
+     </ul>
+    <?php
+    }
+}
 }
 ?>
 
@@ -168,27 +170,31 @@ if (isset($_SESSION['LWT-WP-User'])) {
 flush();
 
 $p = convert_string_to_sqlsyntax_nonull($tbpref);
-$mb = get_first_value("SELECT round(sum(data_length+index_length)/1024/1024,1) as value FROM information_schema.TABLES where table_schema = " . convert_string_to_sqlsyntax($dbname) . " and table_name in (" .
-	"CONCAT(" . $p . ",'archivedtexts')," .
-	"CONCAT(" . $p . ",'archtexttags')," .
-	"CONCAT(" . $p . ",'feedlinks')," .
-	"CONCAT(" . $p . ",'languages')," .
-	"CONCAT(" . $p . ",'newsfeeds')," .
-	"CONCAT(" . $p . ",'sentences')," .
-	"CONCAT(" . $p . ",'settings')," .
-	"CONCAT(" . $p . ",'tags')," .
-	"CONCAT(" . $p . ",'tags2')," .
-	"CONCAT(" . $p . ",'textitems2')," .
-	"CONCAT(" . $p . ",'texts')," .
-	"CONCAT(" . $p . ",'texttags')," .
-	"CONCAT(" . $p . ",'words')," .
-	"CONCAT(" . $p . ",'wordtags'))");
-if (! isset($mb)) $mb = '0.0';
+$mb = get_first_value(
+    "SELECT round(sum(data_length+index_length)/1024/1024,1) as value FROM information_schema.TABLES where table_schema = " . convert_string_to_sqlsyntax($dbname) . " and table_name in (" .
+    "CONCAT(" . $p . ",'archivedtexts')," .
+    "CONCAT(" . $p . ",'archtexttags')," .
+    "CONCAT(" . $p . ",'feedlinks')," .
+    "CONCAT(" . $p . ",'languages')," .
+    "CONCAT(" . $p . ",'newsfeeds')," .
+    "CONCAT(" . $p . ",'sentences')," .
+    "CONCAT(" . $p . ",'settings')," .
+    "CONCAT(" . $p . ",'tags')," .
+    "CONCAT(" . $p . ",'tags2')," .
+    "CONCAT(" . $p . ",'textitems2')," .
+    "CONCAT(" . $p . ",'texts')," .
+    "CONCAT(" . $p . ",'texttags')," .
+    "CONCAT(" . $p . ",'words')," .
+    "CONCAT(" . $p . ",'wordtags'))"
+);
+if (! isset($mb)) { $mb = '0.0'; 
+}
 
-$serversoft = explode(' ',$_SERVER['SERVER_SOFTWARE']);
+$serversoft = explode(' ', $_SERVER['SERVER_SOFTWARE']);
 $apache = "Apache/?";
 if (count($serversoft) >= 1) {
-	if (substr($serversoft[0],0,7) == "Apache/") $apache = $serversoft[0];
+    if (substr($serversoft[0], 0, 7) == "Apache/") { $apache = $serversoft[0]; 
+    }
 }
 $php = "PHP/" . phpversion();
 $mysql = "MySQL/" . get_first_value("SELECT VERSION() as value");

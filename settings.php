@@ -37,132 +37,196 @@ Call: settings.php?....
 Preferences / Settings 
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 if (isset($_REQUEST['op'])) {
 
-	if ($_REQUEST['op'] == 'Save') {
+    if ($_REQUEST['op'] == 'Save') {
 
-		saveSetting('set-theme-dir',
-		$_REQUEST['set-theme-dir']);
-	}
-	else {	
-		$dummy = runsql("delete from " . $tbpref . "settings where StKey like 'set-%'",'');
-	}
+        saveSetting(
+            'set-theme-dir',
+            $_REQUEST['set-theme-dir']
+        );
+    }
+    else {    
+        $dummy = runsql("delete from " . $tbpref . "settings where StKey like 'set-%'", '');
+    }
 }
-pagestart('Settings/Preferences',true);
+pagestart('Settings/Preferences', true);
 $message = '';
 
 if (isset($_REQUEST['op'])) {
 
-	if ($_REQUEST['op'] == 'Save') {
+    if ($_REQUEST['op'] == 'Save') {
 
-		saveSetting('set-text-h-frameheight-no-audio',
-		$_REQUEST['set-text-h-frameheight-no-audio']);
-	
-		saveSetting('set-text-h-frameheight-with-audio',
-		$_REQUEST['set-text-h-frameheight-with-audio']);
-	
-		saveSetting('set-text-l-framewidth-percent',
-		$_REQUEST['set-text-l-framewidth-percent']);
-	
-		saveSetting('set-text-r-frameheight-percent',
-		$_REQUEST['set-text-r-frameheight-percent']);
-	
-		saveSetting('set-test-h-frameheight',
-		$_REQUEST['set-test-h-frameheight']);
-		
-		saveSetting('set-test-l-framewidth-percent',
-		$_REQUEST['set-test-l-framewidth-percent']);
-	
-		saveSetting('set-test-r-frameheight-percent',
-		$_REQUEST['set-test-r-frameheight-percent']);
-	
-		saveSetting('set-words-to-do-buttons',
-		$_REQUEST['set-words-to-do-buttons']);
-	
-		saveSetting('set-tooltip-mode',
-		$_REQUEST['set-tooltip-mode']);
-	
-		saveSetting('set-ggl-translation-per-page',
-		$_REQUEST['set-ggl-translation-per-page']);
-	
-		saveSetting('set-test-main-frame-waiting-time',
-		$_REQUEST['set-test-main-frame-waiting-time']);
-	
-		saveSetting('set-test-edit-frame-waiting-time',
-		$_REQUEST['set-test-edit-frame-waiting-time']);
+        saveSetting(
+            'set-text-h-frameheight-no-audio',
+            $_REQUEST['set-text-h-frameheight-no-audio']
+        );
+    
+        saveSetting(
+            'set-text-h-frameheight-with-audio',
+            $_REQUEST['set-text-h-frameheight-with-audio']
+        );
+    
+        saveSetting(
+            'set-text-l-framewidth-percent',
+            $_REQUEST['set-text-l-framewidth-percent']
+        );
+    
+        saveSetting(
+            'set-text-r-frameheight-percent',
+            $_REQUEST['set-text-r-frameheight-percent']
+        );
+    
+        saveSetting(
+            'set-test-h-frameheight',
+            $_REQUEST['set-test-h-frameheight']
+        );
+        
+        saveSetting(
+            'set-test-l-framewidth-percent',
+            $_REQUEST['set-test-l-framewidth-percent']
+        );
+    
+        saveSetting(
+            'set-test-r-frameheight-percent',
+            $_REQUEST['set-test-r-frameheight-percent']
+        );
+    
+        saveSetting(
+            'set-words-to-do-buttons',
+            $_REQUEST['set-words-to-do-buttons']
+        );
+    
+        saveSetting(
+            'set-tooltip-mode',
+            $_REQUEST['set-tooltip-mode']
+        );
+    
+        saveSetting(
+            'set-ggl-translation-per-page',
+            $_REQUEST['set-ggl-translation-per-page']
+        );
+    
+        saveSetting(
+            'set-test-main-frame-waiting-time',
+            $_REQUEST['set-test-main-frame-waiting-time']
+        );
+    
+        saveSetting(
+            'set-test-edit-frame-waiting-time',
+            $_REQUEST['set-test-edit-frame-waiting-time']
+        );
 
-		saveSetting('set-test-sentence-count',
-		$_REQUEST['set-test-sentence-count']);
-	
-		saveSetting('set-term-sentence-count',
-		$_REQUEST['set-term-sentence-count']);
-	
-		saveSetting('set-tts',
-		$_REQUEST['set-tts']);
-	
-		saveSetting('set-archivedtexts-per-page',
-		$_REQUEST['set-archivedtexts-per-page']);
-	
-		saveSetting('set-texts-per-page',
-		$_REQUEST['set-texts-per-page']);
-	
-		saveSetting('set-terms-per-page',
-		$_REQUEST['set-terms-per-page']);
-	
-		saveSetting('set-regex-mode',
-		$_REQUEST['set-regex-mode']);
-	
-		saveSetting('set-tags-per-page',
-		$_REQUEST['set-tags-per-page']);
-	
-		saveSetting('set-articles-per-page',
-		$_REQUEST['set-articles-per-page']);
-	
-		saveSetting('set-feeds-per-page',
-		$_REQUEST['set-feeds-per-page']);
-	
-		saveSetting('set-max-articles-with-text',
-		$_REQUEST['set-max-articles-with-text']);
-	
-		saveSetting('set-max-articles-without-text',
-		$_REQUEST['set-max-articles-without-text']);
-	
-		saveSetting('set-max-texts-per-feed',
-		$_REQUEST['set-max-texts-per-feed']);
-	
-		saveSetting('set-text-visit-statuses-via-key',
-		$_REQUEST['set-text-visit-statuses-via-key']);
-	
-		saveSetting('set-display-text-frame-term-translation',
-		$_REQUEST['set-display-text-frame-term-translation']);
+        saveSetting(
+            'set-test-sentence-count',
+            $_REQUEST['set-test-sentence-count']
+        );
+    
+        saveSetting(
+            'set-term-sentence-count',
+            $_REQUEST['set-term-sentence-count']
+        );
+    
+        saveSetting(
+            'set-tts',
+            $_REQUEST['set-tts']
+        );
+    
+        saveSetting(
+            'set-archivedtexts-per-page',
+            $_REQUEST['set-archivedtexts-per-page']
+        );
+    
+        saveSetting(
+            'set-texts-per-page',
+            $_REQUEST['set-texts-per-page']
+        );
+    
+        saveSetting(
+            'set-terms-per-page',
+            $_REQUEST['set-terms-per-page']
+        );
+    
+        saveSetting(
+            'set-regex-mode',
+            $_REQUEST['set-regex-mode']
+        );
+    
+        saveSetting(
+            'set-tags-per-page',
+            $_REQUEST['set-tags-per-page']
+        );
+    
+        saveSetting(
+            'set-articles-per-page',
+            $_REQUEST['set-articles-per-page']
+        );
+    
+        saveSetting(
+            'set-feeds-per-page',
+            $_REQUEST['set-feeds-per-page']
+        );
+    
+        saveSetting(
+            'set-max-articles-with-text',
+            $_REQUEST['set-max-articles-with-text']
+        );
+    
+        saveSetting(
+            'set-max-articles-without-text',
+            $_REQUEST['set-max-articles-without-text']
+        );
+    
+        saveSetting(
+            'set-max-texts-per-feed',
+            $_REQUEST['set-max-texts-per-feed']
+        );
+    
+        saveSetting(
+            'set-text-visit-statuses-via-key',
+            $_REQUEST['set-text-visit-statuses-via-key']
+        );
+    
+        saveSetting(
+            'set-display-text-frame-term-translation',
+            $_REQUEST['set-display-text-frame-term-translation']
+        );
 
-		saveSetting('set-text-frame-annotation-position',
-		$_REQUEST['set-text-frame-annotation-position']);
-		
-		saveSetting('set-term-translation-delimiters',
-		$_REQUEST['set-term-translation-delimiters']);
-		
-		saveSetting('set-mobile-display-mode',
-		$_REQUEST['set-mobile-display-mode']);
+        saveSetting(
+            'set-text-frame-annotation-position',
+            $_REQUEST['set-text-frame-annotation-position']
+        );
+        
+        saveSetting(
+            'set-term-translation-delimiters',
+            $_REQUEST['set-term-translation-delimiters']
+        );
+        
+        saveSetting(
+            'set-mobile-display-mode',
+            $_REQUEST['set-mobile-display-mode']
+        );
 
-		saveSetting('set-similar-terms-count',
-		$_REQUEST['set-similar-terms-count']);
-	
-		$message = 'Settings saved';
-	
-	} else {
-		
-		$message = 'All Settings reset to default values';
-	
-	}
+        saveSetting(
+            'set-similar-terms-count',
+            $_REQUEST['set-similar-terms-count']
+        );
+    
+        $message = 'Settings saved';
+    
+    } else {
+        
+        $message = 'All Settings reset to default values';
+    
+    }
 
 }
 
-echo error_message_with_hide($message,1);
+echo error_message_with_hide($message, 1);
 
 ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
@@ -182,7 +246,8 @@ echo error_message_with_hide($message,1);
 <select name="set-theme-dir" class="notempty">
 <?php
 echo get_themes_selectoptions(
-getSettingWithDefault('set-theme-dir'));
+    getSettingWithDefault('set-theme-dir')
+);
 ?>
 </select>
 </td>
@@ -231,7 +296,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')
 <select name="set-words-to-do-buttons" class="notempty">
 <?php 
 echo get_words_to_do_buttons_selectoptions(
-getSettingWithDefault('set-words-to-do-buttons'));
+    getSettingWithDefault('set-words-to-do-buttons')
+);
 ?>
 </select>
 </td>
@@ -244,7 +310,8 @@ getSettingWithDefault('set-words-to-do-buttons'));
 <select name="set-tooltip-mode" class="notempty">
 <?php
 echo get_tooltip_selectoptions(
-getSettingWithDefault('set-tooltip-mode'));
+    getSettingWithDefault('set-tooltip-mode')
+);
 ?>
 </select>
 </td>
@@ -313,7 +380,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-test-edit-frame-waiting-time
 <select name="set-mobile-display-mode">
 <?php
 echo get_mobile_display_mode_selectoptions(
-getSettingWithDefault('set-mobile-display-mode'), true, true, true);
+    getSettingWithDefault('set-mobile-display-mode'), true, true, true
+);
 ?>
 </select>
 </td>
@@ -327,7 +395,8 @@ getSettingWithDefault('set-mobile-display-mode'), true, true, true);
 <select name="set-text-visit-statuses-via-key">
 <?php
 echo get_wordstatus_selectoptions(
-getSettingWithDefault('set-text-visit-statuses-via-key'), true, true, true);
+    getSettingWithDefault('set-text-visit-statuses-via-key'), true, true, true
+);
 ?>
 </select>
 </td>
@@ -340,7 +409,8 @@ getSettingWithDefault('set-text-visit-statuses-via-key'), true, true, true);
 <select name="set-display-text-frame-term-translation">
 <?php
 echo get_wordstatus_selectoptions(
-getSettingWithDefault('set-display-text-frame-term-translation'), true, true, true);
+    getSettingWithDefault('set-display-text-frame-term-translation'), true, true, true
+);
 ?>
 </select>
 </td>
@@ -353,7 +423,8 @@ getSettingWithDefault('set-display-text-frame-term-translation'), true, true, tr
 <select name="set-text-frame-annotation-position" class="notempty">
 <?php
 echo get_annotation_position_selectoptions(
-getSettingWithDefault('set-text-frame-annotation-position'));
+    getSettingWithDefault('set-text-frame-annotation-position')
+);
 ?>
 </select>
 </td>
@@ -367,7 +438,8 @@ getSettingWithDefault('set-text-frame-annotation-position'));
 <select name="set-test-sentence-count" class="notempty">
 <?php
 echo get_sentence_count_selectoptions(
-getSettingWithDefault('set-test-sentence-count'));
+    getSettingWithDefault('set-test-sentence-count')
+);
 ?>
 </select>
 </td>
@@ -381,7 +453,8 @@ getSettingWithDefault('set-test-sentence-count'));
 <select name="set-term-sentence-count" class="notempty">
 <?php
 echo get_sentence_count_selectoptions(
-getSettingWithDefault('set-term-sentence-count'));
+    getSettingWithDefault('set-term-sentence-count')
+);
 ?>
 </select>
 </td>
@@ -415,7 +488,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-term-translation-delimiters'
 <select name="set-tts" class="notempty">
 <?php
 echo get_yesno_selectoptions(
-getSettingWithDefault('set-tts'));
+    getSettingWithDefault('set-tts')
+);
 ?>
 </select>
 </td>
@@ -483,7 +557,8 @@ value="<?php echo tohtml(getSettingWithDefault('set-feeds-per-page')); ?>" maxle
 <select name="set-regex-mode">
 <?php
 echo get_regex_selectoptions(
-getSettingWithDefault('set-regex-mode'));
+    getSettingWithDefault('set-regex-mode')
+);
 ?>
 </select></td>
 <td class="td1 center"><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>

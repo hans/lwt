@@ -36,21 +36,23 @@ Call: check_text.php?...
 Check (parse & split) a Text (into sentences/words)
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
-pagestart('Check a Text',true);
+pagestart('Check a Text', true);
 
 if (isset($_REQUEST['op'])) {
 
-	echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
-	if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000)
-		echo "<p>Error: Text too long, must be below 65000 Bytes.</p>";
-	else
-		echo splitCheckText($_REQUEST['TxText'], $_REQUEST['TxLgID'], -1);
-	echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
+    echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
+    if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000) {
+        echo "<p>Error: Text too long, must be below 65000 Bytes.</p>"; 
+    }
+    else {
+        echo splitCheckText($_REQUEST['TxText'], $_REQUEST['TxLgID'], -1); 
+    }
+    echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
 
 } else {
 
@@ -62,7 +64,7 @@ if (isset($_REQUEST['op'])) {
 <td class="td1">
 <select name="TxLgID" class="notempty setfocus">
 <?php
-echo get_languages_selectoptions(getSetting('currentlanguage'),'[Choose...]');
+echo get_languages_selectoptions(getSetting('currentlanguage'), '[Choose...]');
 ?>
 </select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 </td>

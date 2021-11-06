@@ -35,17 +35,17 @@ Call: delete_word.php?wid=[wordid]&tid=[textid]
 Delete a word
 ***************************************************************/
 
-require_once( 'settings.inc.php' );
-require_once( 'connect.inc.php' );
-require_once( 'dbutils.inc.php' );
-require_once( 'utilities.inc.php' );
+require_once 'settings.inc.php' ;
+require_once 'connect.inc.php' ;
+require_once 'dbutils.inc.php' ;
+require_once 'utilities.inc.php' ;
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
 $term = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid);
 pagestart("Term: " . $term, false);
 $m1 = runsql('delete from ' . $tbpref . 'words where WoID = ' . $wid, '');
-adjust_autoincr('words','WoID');
+adjust_autoincr('words', 'WoID');
 runsql("UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = 0 WHERE Ti2WordCount=1 AND Ti2WoID  = " .$wid, '');
 echo "<p>OK, term deleted, now unknown (" . $m1 . ").</p>";
 
