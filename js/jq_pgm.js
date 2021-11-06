@@ -41,10 +41,11 @@ var WBLINK2 = '';
 var WBLINK3 = '';
 var SOLUTION = '';
 var ADDFILTER = '';
+/// True if this language is right-to-left
 var RTL = 0;
 var ANN_ARRAY = {};
 var DELIMITER = '';
-var JQ_TOOLTIP = true; // translations won't show when false or 0
+var JQ_TOOLTIP = 0;
 
 /**************************************************************
 LWT jQuery functions
@@ -420,29 +421,24 @@ function word_click_event_do_text_text() {
 	 hints = make_tooltip($(this).text(), $(this).attr('data_trans'), $(this).attr('data_rom'), status);
 	else 
 	 hints = $(this).attr("title");
+	var multi_words = Array(7);
+	for (var i = 0; i < 7; i++)
+		multi_words[i] = $(this).attr('data_mw' + (i + 2));
 	if ( status < 1 ) {
 		run_overlib_status_unknown(WBLINK1,WBLINK2,WBLINK3, hints,
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL);
+			TID,$(this).attr('data_order'),$(this).text(),multi_words,RTL);
 		top.frames['ro'].location.href='edit_word.php?tid=' + TID + '&ord=' +
 			$(this).attr('data_order') + '&wid=';
 	}
 	else if ( status == 99 )
 		run_overlib_status_99(WBLINK1,WBLINK2,WBLINK3,hints,
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL,ann);
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),multi_words,RTL,ann);
 	else if ( status == 98 )
 		run_overlib_status_98(WBLINK1,WBLINK2,WBLINK3,hints,
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'),RTL,ann);
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),multi_words,RTL,ann);
 	else
 		run_overlib_status_1_to_5(WBLINK1,WBLINK2,WBLINK3,hints,
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),$(this).attr('data_mw2'),$(this).attr('data_mw3'),$(this).attr('data_mw4'),
-			$(this).attr('data_mw5'),$(this).attr('data_mw6'),$(this).attr('data_mw7'),
-			$(this).attr('data_mw8'),$(this).attr('data_mw9'),status,RTL,ann);
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,multi_words,RTL,ann);
 	return false;
 }
 

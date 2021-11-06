@@ -1,12 +1,14 @@
 # Learning with Texts
 
-> [Learning with Texts](https://sourceforge.net/projects/learning-with-texts) (LWT) is a tool for Language Learning.
+> [Learning with Texts](https://sourceforge.net/projects/learning-with-texts) (LWT) is a tool for Language Learning using texts.
 
-This is @chaosarium's fork of [@PirtleShell's fork](https://github.com/pirtleshell/lwt) of [@andreask7's fork](https://github.com/andreask7/lwt). Its altered database structure makes it quicker, and it has many features not found in the original. It also looks more likely to develop communally, whereas the original is fairly stagnant and not open for contributions.
+This is an intricated fork by [@HugoFara](https://github.com/pirtleshell/lwt-fork). As a GitHub fork, it comes from [@chaosarium's fork (archived)](https://github.com/chaosarium/lwt-fork)  of [@PirtleShell's fork](https://github.com/pirtleshell/lwt) of [@andreask7's fork](https://github.com/andreask7/lwt). It was also merged from the official LWT (as least until version 2.0.2), and many contributions from the community.
+
+This version is quicker than this official, has many features not found in the original. It also looks more likely to develop communally, whereas the original is not open for contributions.
 
 If the reading page displays a database error, try downgrading to PHP version 5.4.45.
 
-[@gustavklopp's LingL](https://github.com/gustavklopp/LingL) is a wonderful alternative written in python.
+[@gustavklopp's LingL](https://github.com/gustavklopp/LingL) is a wonderful alternative written in Python.
 
 **THIS IS A THIRD PARTY VERSION**
 IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
@@ -32,14 +34,14 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
 * Term import with more options (i.e.: combine translations, multiple tag import)
 * Two database backup modes (new or old structure)
 * My custom theme
-* Support for MeCaB for Japanese word-by-word automatic translation
+* Support for MeCab for Japanese word-by-word automatic translation
 
----
-## Original README from LWT
+## Useful links
+* General documentation at [info.html](info.html).
+* Please find more help at [docs/index.html](docs/index.html).
+* You can also contact the community by GitHub.
 
-PLEASE READ MORE ...
-Either open ... info.htm (within the distribution)
-or     open ... http://lwt.sf.net (official LWT)
+## License
 
 "Learning with Texts" (LWT) is free and unencumbered software
 released into the PUBLIC DOMAIN.
@@ -68,3 +70,5 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 For more information, please refer to [http://unlicense.org/].
+
+**Let's learn new languages!**

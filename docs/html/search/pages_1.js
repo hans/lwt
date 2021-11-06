@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['learning_20with_20texts_0',['Learning with Texts',['../index.html',1,'']]]
+  ['deprecated_20list_0',['Deprecated List',['../deprecated.html',1,'']]]
 ];

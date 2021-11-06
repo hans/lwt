@@ -56,15 +56,15 @@ LWT Information / Help
 		<script type="text/javascript" src="js/jquery.js"></script>  
 		<script type="text/javascript" src="js/floating.js"></script>
  		<script type="text/javascript">
-$.ajax(
-	{
-		type: 'POST',
-		url:'ajax_get_theme.php',
-		async: false, 
-		data: { file:'css/styles.css' }, 
-		success: function (data) {if (data.match(/styles.css$/g)) $('style').text( "@import url(" + data + ");" );
-	}
-});
+		$.ajax(
+			{
+				type: 'POST',
+				url:'ajax_get_theme.php',
+				async: false, 
+				data: { file:'css/styles.css' }, 
+				success: function (data) {if (data.match(/styles.css$/g)) $('style').text( "@import url(" + data + ");" );
+			}
+		});
 		</script>
     <title>
       Learning with Texts :: Help/Information
@@ -257,6 +257,10 @@ $(document).ready( function() {
 						<br /><br />
 					</li>
 
+					<li>
+						<a href="https://github.com/HugoFara/lwt-fork" target="_blank"><b>Community Maintained Version</b> @ GitHub</a>
+						<br /><br />
+					</li>
 <!--
 					<li>
 						<a href="http://sourceforge.net/projects/lwt/forums/forum/1813497" target="_blank"><b>Help Forum</b> @ Sourceforge</a><br /><br />
@@ -419,10 +423,30 @@ $(document).ready( function() {
 					</li>
 
 					<li><b><u>MOST IMPORTANT:</u><br /><br /> To run LWT, you'll need: </b><br /><br />
-					<b>(1) A modern web browser.</b><br />I recommend (in this order) <ul><li><a href="http://www.google.com/chrome/" target="_blank">Chrome</a>, </li><li><a href="http://www.mozilla.org/firefox/" target="_blank">Firefox</a>, </li><li><a href="http://www.apple.com/safari/" target="_blank">Safari</a>, or </li><li><a href="https://www.microsoft.com/en-us/windows/microsoft-edge" target="_blank">Microsoft Edge</a>.</li></ul><br />
-					<b>(2) A local web server.</b><br />An easy way to install a local web server are preconfigured packages like<ul><li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> or <a href="https://www.apachefriends.org/download.html" target="_blank">XAMPP</a> (Windows), or </li><li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (macOS), or</li><li>a <a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29" target="_blank">LAMP (Linux-Apache-MySQL-PHP) server</a> (Linux).</li></ul><br />
-					<b>(3) The LWT Application.</b><br />The ZIP Archive <i>lwt_v_x_y.zip</i> can be downloaded <a href="http://sourceforge.net/projects/learning-with-texts/files/" target="_blank">here</a>.<br />The installation is explained <a href="#install">here</a>.<br />
-					</li>
+					<ol>
+						<li><b>A modern web browser.</b><br />I recommend (in this order) 
+							<ul>
+								<li><a href="http://www.google.com/chrome/" target="_blank">Chrome</a>, </li>
+								<li><a href="http://www.mozilla.org/firefox/" target="_blank">Firefox</a>, </li>
+								<li><a href="http://www.apple.com/safari/" target="_blank">Safari</a>, or </li>
+								<li><a href="https://www.microsoft.com/en-us/windows/microsoft-edge" target="_blank">Microsoft Edge</a>.</li>
+							</ul>
+						</li>
+						<li><b>A local web server.</b><br />An easy way to install a local web server are preconfigured packages like
+							<ul>
+								<li><a href="http://www.easyphp.org/" target="_blank">EasyPHP</a> or <a href="https://www.apachefriends.org/download.html" target="_blank">XAMPP</a> (Windows), or </li>
+								<li><a href="http://mamp.info/en/index.html" target="_blank">MAMP</a> (macOS), or</li>
+								<li>a <a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29" target="_blank">LAMP (Linux-Apache-MySQL-PHP) server</a> (Linux).</li>
+							</ul>
+						</li>
+						<li><b>The LWT Application.</b>
+							<ul>
+								<li>The ZIP Archive <i>lwt_v_x_y.zip</i> can be downloaded <a href="http://sourceforge.net/projects/learning-with-texts/files/" target="_blank">here</a>.<br />The installation is explained <a href="#install">here</a>.</li>
+								<li>Use GitHub, clone or fork <a href="https://github.com/HugoFara/lwt-fork">HugoFara/lwt-fork</a> on master.</li>
+							</ul>
+						</li>
+					</ol>
+				</li>
 					
 				</ul>
 			</dd>
