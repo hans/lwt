@@ -1,0 +1,404 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3924610983fcd6018a5a3cb9bc65aa8a",
+    "packages": [
+        {
+            "name": "aehlke/tag-it",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aehlke/tag-it",
+                "reference": "master"
+            },
+            "type": "library"
+        },
+        {
+            "name": "briancherne/jquery-hoverintent",
+            "version": "1.10.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/briancherne/jquery-hoverIntent",
+                "reference": "master"
+            },
+            "type": "library"
+        },
+        {
+            "name": "components/jquery",
+            "version": "3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery.git",
+                "reference": "6cf38ee1fd04b6adf8e7dda161283aa35be818c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery/zipball/6cf38ee1fd04b6adf8e7dda161283aa35be818c3",
+                "reference": "6cf38ee1fd04b6adf8e7dda161283aa35be818c3",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.js"
+                    ],
+                    "files": [
+                        "jquery.min.js",
+                        "jquery.min.map",
+                        "jquery.slim.js",
+                        "jquery.slim.min.js",
+                        "jquery.slim.min.map"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "JS Foundation and other contributors"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "support": {
+                "forum": "http://forum.jquery.com",
+                "irc": "irc://irc.freenode.org/jquery",
+                "issues": "https://github.com/jquery/jquery/issues",
+                "source": "https://github.com/jquery/jquery",
+                "wiki": "http://docs.jquery.com/"
+            },
+            "time": "2021-03-20T19:13:42+00:00"
+        },
+        {
+            "name": "flesler/jquery.scrollto",
+            "version": "v2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/flesler/jquery.scrollTo.git",
+                "reference": "1c2c07df1ca00f6be6e476d7fb64dd800a4ebfe2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/flesler/jquery.scrollTo/zipball/1c2c07df1ca00f6be6e476d7fb64dd800a4ebfe2",
+                "reference": "1c2c07df1ca00f6be6e476d7fb64dd800a4ebfe2",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": ">=1.8"
+            },
+            "type": "library",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.scrollTo.js"
+                    ],
+                    "files": [
+                        "jquery.scrollTo.min.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Ariel Flesler"
+                }
+            ],
+            "description": "Lightweight, cross-browser and highly customizable animated scrolling with jQuery",
+            "homepage": "https://github.com/flesler/jquery.scrollTo",
+            "keywords": [
+                "anchors",
+                "animated",
+                "animation",
+                "browser",
+                "jquery",
+                "links",
+                "scroll",
+                "scrolling"
+            ],
+            "support": {
+                "issues": "https://github.com/flesler/jquery.scrollTo/issues",
+                "source": "https://github.com/flesler/jquery.scrollTo"
+            },
+            "time": "2021-02-16T20:00:36+00:00"
+        },
+        {
+            "name": "happyworm/jplayer",
+            "version": "2.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/happyworm/jPlayer.git",
+                "reference": "34e55cd7694552447bd0dbc38d886fdc96df0d06"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/happyworm/jPlayer/zipball/34e55cd7694552447bd0dbc38d886fdc96df0d06",
+                "reference": "34e55cd7694552447bd0dbc38d886fdc96df0d06",
+                "shasum": ""
+            },
+            "require": {
+                "robloach/component-installer": "*"
+            },
+            "suggest": {
+                "components/jquery": ">=1.7.2"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "dist/jplayer/jquery.jplayer.js"
+                    ],
+                    "files": [
+                        "dist"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ]
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark J Panaghiston",
+                    "email": "markp@happyworm.com"
+                }
+            ],
+            "description": "jPlayer allows you to create a media player with a consistent interface and experience across all browsers.",
+            "homepage": "http://jplayer.org/",
+            "keywords": [
+                "HTML5",
+                "audio",
+                "jplayer",
+                "media",
+                "player",
+                "streaming",
+                "video"
+            ],
+            "support": {
+                "issues": "https://github.com/happyworm/jPlayer/issues",
+                "source": "https://github.com/happyworm/jPlayer/tree/master"
+            },
+            "time": "2014-12-15T00:55:35+00:00"
+        },
+        {
+            "name": "ilinsky/jquery-xpath",
+            "version": "0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ilinsky/jquery-xpath",
+                "reference": "master"
+            },
+            "type": "library"
+        },
+        {
+            "name": "kriswallsmith/assetic",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kriswallsmith/assetic.git",
+                "reference": "e911c437dbdf006a8f62c2f59b15b2d69a5e0aa1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/e911c437dbdf006a8f62c2f59b15b2d69a5e0aa1",
+                "reference": "e911c437dbdf006a8f62c2f59b15b2d69a5e0aa1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1",
+                "symfony/process": "~2.1|~3.0"
+            },
+            "conflict": {
+                "twig/twig": "<1.27"
+            },
+            "require-dev": {
+                "leafo/lessphp": "^0.3.7",
+                "leafo/scssphp": "~0.1",
+                "meenie/javascript-packer": "^1.1",
+                "mrclay/minify": "<2.3",
+                "natxet/cssmin": "3.0.4",
+                "patchwork/jsqueeze": "~1.0|~2.0",
+                "phpunit/phpunit": "~4.8 || ^5.6",
+                "psr/log": "~1.0",
+                "ptachoire/cssembed": "~1.0",
+                "symfony/phpunit-bridge": "~2.7|~3.0",
+                "twig/twig": "~1.23|~2.0",
+                "yfix/packager": "dev-master"
+            },
+            "suggest": {
+                "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
+                "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler",
+                "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin",
+                "patchwork/jsqueeze": "Assetic provides the integration with the JSqueeze JavaScript compressor",
+                "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
+                "twig/twig": "Assetic provides the integration with the Twig templating engine"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Assetic": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                }
+            ],
+            "description": "Asset Management for PHP",
+            "homepage": "https://github.com/kriswallsmith/assetic",
+            "keywords": [
+                "assets",
+                "compression",
+                "minification"
+            ],
+            "support": {
+                "issues": "https://github.com/kriswallsmith/assetic/issues",
+                "source": "https://github.com/kriswallsmith/assetic/tree/master"
+            },
+            "time": "2016-11-11T18:43:20+00:00"
+        },
+        {
+            "name": "robloach/component-installer",
+            "version": "0.0.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RobLoach/component-installer.git",
+                "reference": "1864f25db21fc173e02a359f646acd596c1b0460"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RobLoach/component-installer/zipball/1864f25db21fc173e02a359f646acd596c1b0460",
+                "reference": "1864f25db21fc173e02a359f646acd596c1b0460",
+                "shasum": ""
+            },
+            "require": {
+                "kriswallsmith/assetic": "1.*",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "composer/composer": "1.*"
+            },
+            "type": "composer-installer",
+            "extra": {
+                "class": "ComponentInstaller\\Installer"
+            },
+            "autoload": {
+                "psr-0": {
+                    "ComponentInstaller": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Loach",
+                    "email": "robloach@gmail.com",
+                    "homepage": "http://robloach.net"
+                }
+            ],
+            "description": "Allows installation of Components via Composer.",
+            "support": {
+                "issues": "https://github.com/RobLoach/component-installer/issues",
+                "source": "https://github.com/RobLoach/component-installer/tree/master"
+            },
+            "abandoned": "oomphinc/composer-installers-extender",
+            "time": "2013-08-31T23:46:48+00:00"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v3.4.47",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "b8648cf1d5af12a44a51d07ef9bf980921f15fca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/b8648cf1d5af12a44a51d07ef9bf980921f15fca",
+                "reference": "b8648cf1d5af12a44a51d07ef9bf980921f15fca",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Process Component",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/process/tree/v3.4.47"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-24T10:57:07+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}

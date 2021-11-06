@@ -8,3 +8,5 @@ error.log
 access.log
 plugins
 *.bak
+
+/vendor/

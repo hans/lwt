@@ -1,0 +1,54 @@
+{
+    "name": "hugofara/lwt-fork",
+    "description": "Learn languages by reading, unofficial version.",
+    "type": "library",
+    "homepage": "https://github.com/HugoFara/lwt-fork",
+    "license": "UNLICENSE",
+    "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "aehlke/tag-it",
+                "version": "2.0",
+                "source":{
+                    "type": "git",
+                    "url": "https://github.com/aehlke/tag-it",
+                    "reference": "master"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "ilinsky/jquery-xpath",
+                "version": "0.3.1",
+                "source":{
+                    "type": "git",
+                    "url": "https://github.com/ilinsky/jquery-xpath",
+                    "reference": "master"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "briancherne/jquery-hoverintent",
+                "version": "1.10.1",
+                "source":{
+                    "type": "git",
+                    "url": "https://github.com/briancherne/jquery-hoverIntent",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
+    "require": {
+        "components/jquery": "^3.6",
+        "flesler/jquery.scrollto": "^2.1",
+        "aehlke/tag-it": "*",
+        "happyworm/jplayer": "^2.9",
+        "ilinsky/jquery-xpath": "^0.3",
+        "briancherne/jquery-hoverintent": "^1.10"
+    }
+}
