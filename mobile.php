@@ -31,13 +31,16 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: mobile.php?...
+ * \file
+ * \brief LWT Mobile
+ * 
+ * Call: mobile.php?...
 			...action=1&lang=[langid] ... Language menu
 			...action=2&lang=[langid] ... Texts in a language
 			...action=3&lang=[langid]&text=[textid] ... Sentences of a text
 			...action=4&lang=[langid]&text=[textid]&sent=[sentid] ... Terms of a sentence
 			...action=5&lang=[langid]&text=[textid]&sent=[sentid] ... Terms of a sentence (next sent)
-LWT Mobile 
+
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -167,6 +170,7 @@ if (isset($_REQUEST["action"])) {  // Action
 		$senttext = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID = ' . $sent);
 		$nextsent = get_first_value('select SeID as value from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' and trim(SeText) != \'¶\' and SeID > ' . $sent . ' order by SeID limit 1');
 		$sql = 'select CASE WHEN Ti2WordCount>0 THEN Ti2WordCount ELSE 1 END as Code, CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN Ti2Text ELSE WoText END as TiText, Ti2Order, CASE WHEN Ti2WordCount > 0 THEN 0 ELSE 1 END as TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2SeID = ' . $sent . ' order by Ti2Order asc, Ti2WordCount desc';
+		// $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = ' . $sent . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
 		$res = do_mysqli_query($sql);
 		
 		if ($action == 4) {

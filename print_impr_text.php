@@ -31,10 +31,12 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: print_impr_text.php?text=[textid]&...
+ * \file
+ * \brief Print/Edit an improved annotated text
+ * 
+ * Call: print_impr_text.php?text=[textid]&...
 			... edit=1 ... edit own annotation 
-			... del=1  ... delete own annotation 
-Print/Edit an improved annotated text
+			... del=1  ... delete own annotation
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -43,8 +45,10 @@ require_once( 'dbutils.inc.php' );
 require_once( 'utilities.inc.php' );
 
 $textid = getreq('text')+0;
-$editmode = getreq('edit')+0;
-$delmode = getreq('del')+0;
+$editmode = getreq('edit');
+$editmode = ($editmode == '' ? 0 : ($editmode+0));
+$delmode = getreq('del');
+$delmode = ($delmode == '' ? 0 : ($delmode+0));
 $ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 if ($ann_exists) {
@@ -169,13 +173,14 @@ else {  // Print Mode
 		if ($vals[0] > -1) {
 			$trans = '';
 			if (count($vals) > 3) $trans = $vals[3];
-			if ($trans == '*') $trans = $vals[1];
+			if ($trans == '*') $trans = $vals[1] . " "; // <- U+200A HAIR SPACE
 			echo ' <ruby><rb><span class="'.$ttsClass.'anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class="anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
 		} else {
-			echo str_replace(
-			"¶",
-			'</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
-			" " . tohtml($vals[1]) . " ");
+			if (count($vals) >= 2) 
+				echo str_replace(
+				"¶",
+				'</p><p style="font-size:' . $textsize . '%;line-height: 1.3; margin-bottom: 10px;">',
+				" " . tohtml($vals[1]) . " ");
 		}
 	}
 	

@@ -255,20 +255,20 @@ if (isset($_REQUEST['new'])) {
 	
 	<table class="tab1" cellspacing="0" cellpadding="5">
 	<tr>
-	<td class="td1 right backlightyellow" style="border-top-left-radius:inherit;">Study Language "L2":</td>
-	<td class="td1"><input type="text" class="notempty setfocus" name="LgName" id="LgName" value="" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1 right backlightyellow">Study Language "L2":</td>
+	<td class="td1"><input type="text" class="notempty setfocus checkoutsidebmp" data_info="Study Language" name="LgName" id="LgName" value="" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">Dictionary 1 URI:</td>
-	<td class="td1"><input type="text" class="checkdicturl notempty" name="LgDict1URI" value="glosbe_api.php?from=••&dest=••&phrase=###" maxlength="200" size="60" data_info="Dictionary 1 URI" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="checkdicturl notempty checkoutsidebmp" name="LgDict1URI" value="" maxlength="200" size="60" data_info="Dictionary 1 URI" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Dictionary 2 URI:</td>
-	<td class="td1"><input type="text" class="checkdicturl" name="LgDict2URI" value="" maxlength="200" size="60" data_info="Dictionary 2 URI" /></td>
+	<td class="td1"><input type="text" class="checkdicturl checkoutsidebmp" name="LgDict2URI" value="" maxlength="200" size="60" data_info="Dictionary 2 URI" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">GoogleTranslate URI:</td>
-	<td class="td1"><input type="text" class="checkdicturl" name="LgGoogleTranslateURI" value="*http://translate.google.com/?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" data_info="GoogleTranslate URI" /></td>
+	<td class="td1"><input type="text" class="checkdicturl checkoutsidebmp" name="LgGoogleTranslateURI" value="*http://translate.google.com/?ie=UTF-8&sl=••&tl=••&text=###" maxlength="200" size="60" data_info="GoogleTranslate URI" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">Text Size:</td>
@@ -276,19 +276,19 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Character Substitutions:</td>
-	<td class="td1"><input type="text" name="LgCharacterSubstitutions" value="´='|`='|’='|‘='|...=…|..=‥" maxlength="500" size="60" /></td>
+	<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Character Substitutions" name="LgCharacterSubstitutions" value="´='|`='|’='|‘='|...=…|..=‥" maxlength="500" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">RegExp Split Sentences:</td>
-	<td class="td1"><input type="text" class="notempty" name="LgRegexpSplitSentences" value=".!?:;" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="notempty checkoutsidebmp" name="LgRegexpSplitSentences" value=".!?:;" maxlength="500" size="60" data_info="RegExp Split Sentences" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Exceptions Split Sentences:</td>
-	<td class="td1"><input type="text" name="LgExceptionsSplitSentences" value="Mr.|Dr.|[A-Z].|Vd.|Vds." maxlength="500" size="60" /></td>
+	<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Exceptions Split Sentences" name="LgExceptionsSplitSentences" value="Mr.|Dr.|[A-Z].|Vd.|Vds." maxlength="500" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">RegExp Word Characters:</td>
-	<td class="td1"><input type="text" class="notempty checkregexp" name="LgRegexpWordCharacters" value="a-zA-ZÀ-ÖØ-öø-ȳ" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="RegExp Word Characters" name="LgRegexpWordCharacters" value="a-zA-ZÀ-ÖØ-öø-ȳ" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right backlightyellow">Make each character a word:</td>
@@ -304,7 +304,7 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Export Template <img class="click" src="icn/question-frame.png" title="Help" alt="Help" onclick="oewin('info_export_template.htm');" /> :</td>
-	<td class="td1"><input type="text" name="LgExportTemplate" value="$y\t$t\n" maxlength="1000" size="60" /></td>
+	<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Export Template" name="LgExportTemplate" value="$y\t$t\n" maxlength="1000" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_languages.php';}" /> 
@@ -335,19 +335,19 @@ elseif (isset($_REQUEST['chg'])) {
 		<table class="tab1" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Study Language "L2":</td>
-		<td class="td1"><input type="text" class="notempty setfocus" name="LgName" id="LgName" value="<?php echo tohtml($record['LgName']); ?>" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty setfocus checkoutsidebmp" data_info="Study Language" name="LgName" id="LgName" value="<?php echo tohtml($record['LgName']); ?>" maxlength="40" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Dictionary 1 URI:</td>
-		<td class="td1"><input type="text" class="notempty checkdicturl" name="LgDict1URI" value="<?php echo tohtml($record['LgDict1URI']); ?>"  maxlength="200" size="60" data_info="Dictionary 1 URI" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty checkdicturl checkoutsidebmp" name="LgDict1URI" value="<?php echo tohtml($record['LgDict1URI']); ?>"  maxlength="200" size="60" data_info="Dictionary 1 URI" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Dictionary 2 URI:</td>
-		<td class="td1"><input type="text" class="checkdicturl" name="LgDict2URI" value="<?php echo tohtml($record['LgDict2URI']); ?>" maxlength="200" size="60" data_info="Dictionary 2 URI" /></td>
+		<td class="td1"><input type="text" class="checkdicturl checkoutsidebmp" name="LgDict2URI" value="<?php echo tohtml($record['LgDict2URI']); ?>" maxlength="200" size="60" data_info="Dictionary 2 URI" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">GoogleTranslate URI:</td>
-		<td class="td1"><input type="text" class="checkdicturl" name="LgGoogleTranslateURI" value="<?php echo tohtml($record['LgGoogleTranslateURI']); ?>" maxlength="200" size="60" data_info="GoogleTranslate URI" /></td>
+		<td class="td1"><input type="text" class="checkdicturl checkoutsidebmp" name="LgGoogleTranslateURI" value="<?php echo tohtml($record['LgGoogleTranslateURI']); ?>" maxlength="200" size="60" data_info="GoogleTranslate URI" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Text Size:</td>
@@ -355,19 +355,19 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Character Substitutions:</td>
-		<td class="td1"><input type="text" name="LgCharacterSubstitutions" value="<?php echo tohtml($record['LgCharacterSubstitutions']); ?>" maxlength="500" size="60" /></td>
+		<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Character Substitutions" name="LgCharacterSubstitutions" value="<?php echo tohtml($record['LgCharacterSubstitutions']); ?>" maxlength="500" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">RegExp Split Sentences:</td>
-		<td class="td1"><input type="text" class="notempty" name="LgRegexpSplitSentences" value="<?php echo tohtml($record['LgRegexpSplitSentences']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty checkoutsidebmp" name="LgRegexpSplitSentences" value="<?php echo tohtml($record['LgRegexpSplitSentences']); ?>" maxlength="500" size="60" data_info="RegExp Split Sentences" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Exceptions Split Sentences:</td>
-		<td class="td1"><input type="text" name="LgExceptionsSplitSentences" value="<?php echo tohtml($record['LgExceptionsSplitSentences']); ?>" maxlength="500" size="60" /></td>
+		<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Exceptions Split Sentences" name="LgExceptionsSplitSentences" value="<?php echo tohtml($record['LgExceptionsSplitSentences']); ?>" maxlength="500" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">RegExp Word Characters:</td>
-		<td class="td1"><input type="text" class="notempty checkregexp" name="LgRegexpWordCharacters" value="<?php echo tohtml($record['LgRegexpWordCharacters']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="RegExp Word Characters" name="LgRegexpWordCharacters" value="<?php echo tohtml($record['LgRegexpWordCharacters']); ?>" maxlength="500" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Make each character a word:</td>
@@ -383,7 +383,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Export Template <img class="click" src="icn/question-frame.png" title="Help" alt="Help" onclick="oewin('info_export_template.htm');" /> :</td>
-		<td class="td1"><input type="text" name="LgExportTemplate" value="<?php echo tohtml($record['LgExportTemplate']); ?>" maxlength="1000" size="60" /></td>
+		<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Export Template" name="LgExportTemplate" value="<?php echo tohtml($record['LgExportTemplate']); ?>" maxlength="1000" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_languages.php';}" /> 
@@ -437,32 +437,21 @@ if ($recno==0) {
 
 $sql = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages where LgName<>"" order by LgName';
 if ($debug) echo $sql;
-$res = do_mysqli_query('select TxLgID,count(*) as value from ' . $tbpref . 'texts group by TxLgID');
-while ($record = mysqli_fetch_assoc($res)) {
-	$textcount[$record['TxLgID']]=$record['value'];
-}
-$res = do_mysqli_query('select AtLgID,count(*) as value from ' . $tbpref . 'archivedtexts group by AtLgID');
-while ($record = mysqli_fetch_assoc($res)) {
-	$archtextcount[$record['AtLgID']]=$record['value'];
-}
+// May be refactored with KISS principle
 $res = do_mysqli_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds group by NfLgID');
 while ($record = mysqli_fetch_assoc($res)) {
 	$newsfeedcount[$record['NfLgID']]=$record['value'];
 }
+// May be refactored with KISS principle
 $res = do_mysqli_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds,' . $tbpref . 'feedlinks WHERE NfID=FlNfID group by NfLgID');
 while ($record = mysqli_fetch_assoc($res)) {
 	$feedarticlescount[$record['NfLgID']]=$record['value'];
 }
-$res = do_mysqli_query('select WoLgID,count(*) as value from ' . $tbpref . 'words group by WoLgID');
-while ($record = mysqli_fetch_assoc($res)) {
-	$wordcount[$record['WoLgID']]=$record['value'];
-}
 $res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
-	if(!isset($textcount[$record['LgID']]))$textcount[$record['LgID']]=0;
-	if(!isset($archtextcount[$record['LgID']]))$archtextcount[$record['LgID']]=0;
-	if(!isset($newsfeedcount[$record['LgID']]))$newsfeedcount[$record['LgID']]=0;
-	if(!isset($wordcount[$record['LgID']]))$wordcount[$record['LgID']]=0;
+	$textcount = get_first_value('select count(TxID) as value from ' . $tbpref . 'texts where TxLgID=' . $record['LgID']);
+	$archtextcount = get_first_value('select count(AtID) as value from ' . $tbpref . 'archivedtexts where AtLgID=' . $record['LgID']);
+	$wordcount = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID=' . $record['LgID']);
 	echo '<tr>';
 	if ( $current == $record['LgID'] ) {
 		$tdth = 'th';
@@ -473,11 +462,10 @@ while ($record = mysqli_fetch_assoc($res)) {
 	}
 	echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="do_test.php?lang=' . $record['LgID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a></' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['LgID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>';
-	if ($textcount[$record['LgID']] == 0 && $archtextcount[$record['LgID']] == 0 && $newsfeedcount[$record['LgID']] == 0 && $wordcount[$record['LgID']] == 0) 
-		echo '&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['LgID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>';
-	else {
-		echo '&nbsp; <img src="';print_file_path('icn/placeholder.png');echo'" title="Delete not possible" alt="Delete not possible" />';
-	}
+	if ($textcount == 0 && $archtextcount == 0 && $wordcount == 0 && $newsfeedcount[$record['LgID']] == 0) 
+		echo '&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['LgID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>';
+	else 
+		echo '&nbsp; <img src="icn/placeholder.png" title="Delete not possible" alt="Delete not possible" />';
 	echo '&nbsp;</' . $tdth . '>';
 	echo '<' . $tdth . ' class="' . $tdth . '1 center">' . tohtml($record['LgName']) . '</' . $tdth . '>';
 	if ($textcount[$record['LgID']] > 0) 

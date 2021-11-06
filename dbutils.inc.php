@@ -72,7 +72,7 @@ function runsql($sql, $m, $sqlerrdie = TRUE) {
 	if ($sqlerrdie)
 		$res = do_mysqli_query($sql);
 	else
-		$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);
+		$res = mysqli_query($GLOBALS['DBCONNECTION'], $sql);		
 	if ($res == FALSE) {
 		$message = "Error: " . mysqli_error($GLOBALS['DBCONNECTION']);
 	} else {

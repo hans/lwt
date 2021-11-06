@@ -70,7 +70,7 @@ echo get_languages_selectoptions(getSetting('currentlanguage'),'[Choose...]');
 <tr>
 <td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
 <td class="td1">
-<textarea name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+<textarea name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 </td>
 </tr>
 <tr>

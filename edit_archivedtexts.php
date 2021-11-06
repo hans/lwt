@@ -253,12 +253,12 @@ if (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Title:</td>
-		<td class="td1"><input type="text" class="notempty" name="AtTitle" value="<?php echo tohtml($record['AtTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="AtTitle" value="<?php echo tohtml($record['AtTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Text:</td>
 		<td class="td1">
-		<textarea name="AtText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['AtText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<textarea name="AtText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['AtText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td>
 		</tr>
 		<tr>
@@ -269,7 +269,7 @@ if (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Source URI:</td>
-		<td class="td1"><input type="text" class="checkurl" data_info="Source URI" name="AtSourceURI" value="<?php echo tohtml($record['AtSourceURI']); ?>" maxlength="1000" size="60" /></td>
+		<td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="AtSourceURI" value="<?php echo tohtml($record['AtSourceURI']); ?>" maxlength="1000" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Tags:</td>
@@ -279,7 +279,7 @@ if (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Audio-URI:</td>
-		<td class="td1"><input type="text" name="AtAudioURI" value="<?php echo tohtml($record['AtAudioURI']); ?>" maxlength="200" size="60" />
+		<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="AtAudioURI" value="<?php echo tohtml($record['AtAudioURI']); ?>" maxlength="200" size="60" />
 		<span id="mediaselect"><?php echo selectmediapath('AtAudioURI'); ?></span>		
 		</td>
 		</tr>
@@ -415,7 +415,7 @@ $res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['AtID'] . '"><input name="marked[]" class="markcheck"  type="checkbox" value="' . $record['AtID'] . '" ' . checkTest($record['AtID'], 'marked') . ' /></a></td>';
-	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?unarch=' . $record['AtID'] . '"><img src="icn/inbox-upload.png" title="Unarchive" alt="Unarchive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['AtID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['AtID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
+	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?unarch=' . $record['AtID'] . '"><img src="icn/inbox-upload.png" title="Unarchive" alt="Unarchive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['AtID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['AtID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
 	echo '<td class="td1 center">' . tohtml($record['AtTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;'; if(isset($record['AtAudioURI'])){echo '<img src="';print_file_path('icn/speaker-volume.png');echo'" title="With Audio" alt="With Audio" />';} else echo '' ;echo (isset($record['AtSourceURI']) ? ' <a href="' . $record['AtSourceURI'] . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" />' : '') . '</td>';
 	echo '</tr>';

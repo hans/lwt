@@ -145,11 +145,11 @@ if (isset($_REQUEST['new'])) {
 	<table class="tab3" cellspacing="0" cellpadding="5">
 	<tr>
 	<td class="td1 right">Tag:</td>
-	<td class="td1"><input class="notempty setfocus noblanksnocomma" type="text" name="T2Text" data_info="Tag" value="" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input class="notempty setfocus noblanksnocomma checkoutsidebmp" type="text" name="T2Text" data_info="Tag" value="" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Comment:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="200" data_info="Comment" name="T2Comment" cols="40" rows="3"></textarea></td>
+	<td class="td1"><textarea class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="200" data_info="Comment" name="T2Comment" cols="40" rows="3"></textarea></td>
 	</tr>
 	<tr>
 	<td class="td1 right" colspan="2">
@@ -178,11 +178,11 @@ elseif (isset($_REQUEST['chg'])) {
 		<table class="tab3" cellspacing="0" cellpadding="5">
 		<tr>
 		<td class="td1 right">Tag:</td>
-		<td class="td1"><input data_info="Tag" class="notempty setfocus noblanksnocomma" type="text" name="T2Text" value="<?php echo tohtml($record['T2Text']); ?>" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input data_info="Tag" class="notempty setfocus noblanksnocomma checkoutsidebmp" type="text" name="T2Text" value="<?php echo tohtml($record['T2Text']); ?>" maxlength="20" size="20" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Comment:</td>
-		<td class="td1"><textarea class="textarea-noreturn checklength" data_maxlength="200" data_info="Comment" name="T2Comment" cols="40" rows="3"><?php echo tohtml($record['T2Comment']); ?></textarea></td>
+		<td class="td1"><textarea class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="200" data_info="Comment" name="T2Comment" cols="40" rows="3"><?php echo tohtml($record['T2Comment']); ?></textarea></td>
 		</tr>
 		<tr>
 		<td class="td1 right" colspan="2">
@@ -302,7 +302,7 @@ while ($record = mysqli_fetch_assoc($res)) {
 	$ca = get_first_value('select count(*) as value from ' . $tbpref . 'archtexttags where AgT2ID=' . $record['T2ID']);
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['T2ID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $record['T2ID'] . '" ' . checkTest($record['T2ID'], 'marked') . ' /></a></td>';
-	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['T2ID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['T2ID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
+	echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['T2ID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a class="confirmdelete" href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['T2ID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
 	echo '<td class="td1 center">' . tohtml($record['T2Text']) . '</td>';
 	echo '<td class="td1 center">' . tohtml($record['T2Comment']) . '</td>';
 	echo '<td class="td1 center">' . ($c > 0 ? '<a href="edit_texts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $c . '</a>' : '0' ) . '</td>';

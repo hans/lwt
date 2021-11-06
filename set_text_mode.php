@@ -31,8 +31,10 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: set_text_mode.php?text=[textid]&mode=0/1&showLeaning=0/1
-Change the text display mode
+ * \file
+ * \brief Change the text display mode
+ * 
+ * Call: set_text_mode.php?text=[textid]&mode=0/1&showLeaning=0/1
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -60,27 +62,66 @@ if (method) window.parent.frames['l'].location.reload();
 else {
 var context = window.parent.frames['l'].document;
 <?php
-if($showAll == 1){
-?>
-$('.mword',context).removeClass('wsty').addClass('mwsty').each(function(){
-	var c = '&nbsp;' + $(this).attr('data_code') + '&nbsp;';
-	$(this).html(c);
-});
-$('span',context).not('#totalcharcount').removeClass('hide');
-<?php
-}
-else{
-?>
-$('.mword',context).removeClass('mwsty').addClass('wsty').each(function(){
-	var c = $(this).attr('data_text');
-	$(this).text(c);
-	if($(this).not('.hide').length){
-		u= parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;
-		$(this).nextUntil('[id^="ID-' + u + '-"]',context).addClass('hide');
+/**************************************************************
+(jquery, deact.)
+
+$sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
+
+$res = do_mysqli_query($sql);
+$hideuntil = -1;
+$hidetag = "removeClass('hide');";
+
+while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
+	$actcode = $record['Code'] + 0;
+	$t = $record['TiText'];
+	$order = $record['TiOrder'] + 0;
+	$notword = $record['TiIsNotWord'] + 0;
+	$termex = isset($record['WoID']);
+	$spanid = 'ID-' . $order . '-' . $actcode;
+
+	if ( $hideuntil > 0 ) {
+		if ( $order <= $hideuntil )
+			$hidetag = "addClass('hide');";
+		else {
+			$hideuntil = -1;
+			$hidetag = "removeClass('hide');";
+		}
 	}
-});
-<?php
-}
+	
+	if ($notword != 0) {  // NOT A TERM
+		echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
+	}  
+	
+	else {   // A TERM
+		if ($actcode > 1) {   // A MULTIWORD FOUND
+			if ($termex) {  // MULTIWORD FOUND - DISPLAY
+				if (! $showAll) {
+					if ($hideuntil == -1) {
+						$hideuntil = $order + ($actcode - 1) * 2;
+					}
+				}
+				echo "$('#" . $spanid . "',context)." .
+					($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
+					".removeClass('mwsty wsty').addClass('" .
+					($showAll ? 'mwsty' : 'wsty') . "')." . 
+					$hidetag . "\n";
+			}
+			else {  // MULTIWORD PLACEHOLDER - NO DISPLAY 
+				echo "$('#" . $spanid . "',context)." .
+					($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
+					".removeClass('mwsty wsty').addClass('" .
+					($showAll ? 'mwsty' : 'wsty') . " hide');\n";
+			}  
+		} // ($actcode > 1) -- A MULTIWORD FOUND
+		else {  // ($actcode == 1)  -- A WORD FOUND
+			echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
+		}  // ($actcode == 1)  -- A WORD FOUND
+	} // $record['TiIsNotWord'] == 0  -- A TERM
+} // while ($record = mysqli_fetch_assoc($res))  -- MAIN LOOP
+mysqli_free_result($res);
+
+(jquery, deact.) 
+***************************************************************/
 ?>
 }
 $('#waiting').html('<b>OK -- </b>');

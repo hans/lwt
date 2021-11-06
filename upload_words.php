@@ -131,6 +131,21 @@ if (isset($_REQUEST['op'])) {
 						break;
 				}
 			}
+		
+		/* Not merge from official
+		$protokoll = '<h4>Import Report (Language: ' . getLanguage($lang) . ', Status: ' . $status . ')</h4><table class="tab1" cellspacing="0" cellpadding="5"><tr><th class="th1">Line</th><th class="th1">Term</th><th class="th1">Translation</th><th class="th1">Romanization</th><th class="th1">Sentence</th><th class="th1">Tag List</th><th class="th1">Message</th></tr>';
+		
+		if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
+			$lines = file($_FILES["thefile"]["tmp_name"], FILE_IGNORE_NEW_LINES);
+			$l = count($lines);
+			for ($i=0; $i<$l; $i++) {
+				$lines[$i] = replace_supp_unicode_planes_char($lines[$i]);
+			}
+		} 
+		else {
+			$lines = explode("\n",replace_supp_unicode_planes_char(
+			prepare_textdata($_REQUEST["Upload"])));
+		*/
 		}
 		if ($fields["txt"]>0){
 			$columns='(' . rtrim(implode(',', $col),',') . ')';
@@ -407,7 +422,7 @@ $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $l
 	Either specify a <b>File to upload</b>:<br />
 	<input name="thefile" type="file" /><br /><br />
 	<b>Or</b> type in or paste from clipboard (do <b>NOT</b> specify file):<br />
-	<textarea name="Upload" cols="60" rows="30"></textarea>
+	<textarea class="checkoutsidebmp" data_info="Upload" name="Upload" cols="60" rows="25"></textarea>
 	</td>
 	</tr>
 	<tr>
