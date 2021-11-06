@@ -32,7 +32,7 @@ For more information, please refer to [http://unlicense.org/].
 
 /**************************************************************
  * \file
- * \brief Provides an interface to edit texts.
+ * \brief Manage active texts
  * 
  * Call: edit_texts.php?....
  * 	... markaction=[opcode] ... do actions on marked texts
@@ -49,8 +49,6 @@ For more information, please refer to [http://unlicense.org/].
  *     ... sort=[sortcode] ... sort
  *     ... page=[pageno] ... page
  *     ... query=[titlefilter] ... title filter
- * 
- * Manage active texts
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -284,7 +282,7 @@ elseif (isset($_REQUEST['op'])) {
 
 		if ($_REQUEST['op'] == 'Check') {
 			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
-			echo splitCheckText($_REQUEST['TxText'], $_REQUEST['TxLgID'], -1);
+			echo splitCheckText(remove_soft_hyphens($_REQUEST['TxText']), $_REQUEST['TxLgID'], -1);
 			echo '<p><input type="button" value="&lt;&lt; Back" onclick="history.back();" /></p>';
 			pageend();
 			exit();
@@ -293,10 +291,10 @@ elseif (isset($_REQUEST['op'])) {
 		// INSERT
 
 		elseif (substr($_REQUEST['op'],0,4) == 'Save') {
-			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' .
-			$_REQUEST["TxLgID"] . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
-			convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ", '', " .
+			$message1 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
+			$_REQUEST["TxLgID"] . ', ' . 
+			convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
+			convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) . ", '', " .
 			convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
 			convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ')', "Saved");
 			$id = get_last_key();
@@ -307,11 +305,11 @@ elseif (isset($_REQUEST['op'])) {
 
 		elseif (substr($_REQUEST['op'],0,6) == 'Change') {
 			$oldtext = get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST["TxID"]);
-			$textsdiffer = (convert_string_to_sqlsyntax($_REQUEST["TxText"]) != convert_string_to_sqlsyntax($oldtext));
+			$textsdiffer = (convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) != convert_string_to_sqlsyntax($oldtext));
 			$message1 = runsql('update ' . $tbpref . 'texts set ' .
 			'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
 			'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .
-			'TxText = ' . convert_string_to_sqlsyntax($_REQUEST["TxText"]) . ', ' .
+			'TxText = ' . convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) . ', ' .
 			'TxAudioURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxAudioURI"]) . ', ' .
 			'TxSourceURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ' ' .
 			'where TxID = ' . $_REQUEST["TxID"], "Updated");
@@ -363,17 +361,17 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Title:</td>
-	<td class="td1"><input type="text" class="notempty" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+	<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
 	<td class="td1">
-	<textarea name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+	<textarea name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 	</td>
 	</tr>
 	<tr>
 	<td class="td1 right">Source URI:</td>
-	<td class="td1"><input type="text" class="checkurl" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
+	<td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
 	</tr>
 	<tr>
 	<td class="td1 right">Tags:</td>
@@ -383,8 +381,8 @@ if (isset($_REQUEST['new'])) {
 	</tr>
 	<tr>
 	<td class="td1 right">Audio-URI:</td>
-	<td class="td1"><input type="text" name="TxAudioURI" value="" maxlength="200" size="60" />
-	<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>
+	<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="" maxlength="200" size="60" />		
+	<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
 	</td>
 	</tr>
 	<?php if (isset($YT_API_KEY)) {require_once('text_from_yt.php');} ?>
@@ -433,12 +431,12 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Title:</td>
-		<td class="td1"><input type="text" class="notempty" name="TxTitle" value="<?php echo tohtml($record['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+		<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="<?php echo tohtml($record['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
 		<td class="td1">
-		<textarea <?php echo getScriptDirectionTag($record['TxLgID']); ?> name="TxText" class="notempty checkbytes" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+		<textarea <?php echo getScriptDirectionTag($record['TxLgID']); ?> name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 		</td>
 		</tr>
 		<tr>
@@ -449,7 +447,7 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Source URI:</td>
-		<td class="td1"><input type="text" class="checkurl" data_info="Source URI" name="TxSourceURI" value="<?php echo tohtml($record['TxSourceURI']); ?>" maxlength="1000" size="60" /></td>
+		<td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="<?php echo tohtml($record['TxSourceURI']); ?>" maxlength="1000" size="60" /></td>
 		</tr>
 		<tr>
 		<td class="td1 right">Tags:</td>
@@ -459,8 +457,8 @@ elseif (isset($_REQUEST['chg'])) {
 		</tr>
 		<tr>
 		<td class="td1 right">Audio-URI:</td>
-		<td class="td1"><input type="text" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" />
-		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>
+		<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
+		<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
 		</td>
 		</tr>
 		<tr>
@@ -586,8 +584,8 @@ if ($recno==0) {
 Marked Texts:&nbsp;
 <select name="markaction" id="markaction" disabled="disabled" onchange="multiActionGo(document.form2, document.form2.markaction);"><?php echo get_multipletextactions_selectoptions(); ?></select>
 </td></tr></table>
-
 <table class="sortable tab1" cellspacing="0" cellpadding="5">
+<thead class="test_class_to_delete">
 <tr>
 <th class="th1 sorttable_nosort">Mark</th>
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
@@ -605,25 +603,54 @@ Marked Texts:&nbsp;
 
 <th class="th1 sorttable_numeric clickable">Status<br />Charts<br /><div class="wc_cont"><span id="chart" data_wo_cnt="<?php echo substr($showCounts,4,1); ?>"></span></div></th>
 </tr>
-
+</thead>
+<tbody>
 <?php
 
-$sql = 'select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen, ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID=TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+$sql = '
+select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen,
+ ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist
+ from (
+ 		(' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) 
+		left join ' . $tbpref . 'tags2 on T2ID = TtT2ID
+ ), ' . $tbpref . 'languages
+ where LgID=TxLgID ' . $wh_lang . $wh_query . ' 
+ group by TxID ' . $wh_tag . '
+  order by ' . $sorts[$currentsort-1] . ' ' . $limit;
 if ($debug) echo $sql;
 $i = array(0,1,2,3,4,5,99,98);
 $statuses = get_statuses();
 $statuses[0]["name"]='Unknown';
 $statuses[0]["$showCounts"]='Ukn';
 $res = do_mysqli_query($sql);
+$showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
 while ($record = mysqli_fetch_assoc($res)) {
-
+	/*
+	Added by merge and makes statistics crash. To be removed?
+	if ($showCounts) {
+		flush();
+		echo "ID" . $record['TxID'];
+		$txttotalwords = textwordcount($record['TxID']);
+		$txtworkedwords = textworkcount($record['TxID']);
+		$txtworkedexpr = textexprcount($record['TxID']);
+		$txtworkedall = $txtworkedwords + $txtworkedexpr;
+		$txttodowords = $txttotalwords - $txtworkedwords;
+		$percentunknown = 0;
+		if ($txttotalwords != 0) {
+			$percentunknown = 
+				round(100*$txttodowords/$txttotalwords,0);
+			if ($percentunknown > 100) $percentunknown = 100;
+			if ($percentunknown < 0) $percentunknown = 0;
+		}
+	}
+	*/
 	$audio = $record['TxAudioURI'];
 	if(!isset($audio)) $audio='';
 	$audio=trim($audio);
 	echo '<tr>';
 	echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
 	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
-	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirm (\'Are you sure?\')) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
+	echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
 	if ($currentlang == '') echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>';
 
 	// title
@@ -651,7 +678,9 @@ while ($record = mysqli_fetch_assoc($res)) {
 mysqli_free_result($res);
 
 ?>
+</tbody>
 </table>
+
 <script type="text/javascript">
 var WORDCOUNTS = '', SUW = SHOWUNIQUE = <?php echo intval($showCounts,2); ?>;
 $(document).ready( function() {

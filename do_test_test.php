@@ -31,11 +31,13 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: do_test_test.php?type=[testtype]&lang=[langid]
-Call: do_test_test.php?type=[testtype]&text=[textid]
-Call: do_test_test.php?type=[testtype]&selection=1  
+ * \file
+ * \brief Show test frame
+ * 
+ * Call: do_test_test.php?type=[testtype]&lang=[langid]
+ * Call: do_test_test.php?type=[testtype]&text=[textid]
+ * Call: do_test_test.php?type=[testtype]&selection=1  
 			(SQL via $_SESSION['testsql'])
-Show test frame
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
@@ -159,6 +161,8 @@ if ($count <= 0) {
 				$pass++;
 				if ($debug) echo "DEBUG search sent: pass: $pass <br />";
 				$sql = 'SELECT DISTINCT SeID FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 WHERE Ti2WoID = ' . $wid . $sentexcl . ' AND SeID = Ti2SeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
+				// This may work (merge conflict)
+				// $sql = 'SELECT DISTINCT SeID FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems WHERE TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . $sentexcl . ' AND SeID = TiSeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
 				$res = do_mysqli_query($sql);
 				$record = mysqli_fetch_assoc($res);
 				if ( $record ) {  // random sent found

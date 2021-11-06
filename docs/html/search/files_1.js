@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['edit_5flanguages_2ephp_0',['edit_languages.php',['../edit__languages_8php.html',1,'']]],
-  ['edit_5ftexts_2ephp_1',['edit_texts.php',['../edit__texts_8php.html',1,'']]]
+  ['dbutils_2einc_2ephp_0',['dbutils.inc.php',['../dbutils_8inc_8php.html',1,'']]],
+  ['do_5ftest_5ftable_2ephp_1',['do_test_table.php',['../do__test__table_8php.html',1,'']]],
+  ['do_5ftest_5ftest_2ephp_2',['do_test_test.php',['../do__test__test_8php.html',1,'']]],
+  ['do_5ftext_2ephp_3',['do_text.php',['../do__text_8php.html',1,'']]],
+  ['do_5ftext_5fheader_2ephp_4',['do_text_header.php',['../do__text__header_8php.html',1,'']]]
 ];

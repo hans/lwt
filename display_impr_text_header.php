@@ -52,7 +52,7 @@ $audio=trim($audio);
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
 $langid = $record['TxLgID'];
-mysqli_free_result($res);
+mysqli_free_result($res); 
 
 saveSetting('currenttext',$textid);
 

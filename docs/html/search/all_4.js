@@ -1,6 +1,12 @@
 var searchData=
 [
-  ['echodebug_0',['echodebug',['../utilities_8inc_8php.html#a633dd2f52d8d78f57da6d46d2e45dba9',1,'utilities.inc.php']]],
-  ['edit_5flanguages_2ephp_1',['edit_languages.php',['../edit__languages_8php.html',1,'']]],
-  ['edit_5ftexts_2ephp_2',['edit_texts.php',['../edit__texts_8php.html',1,'']]]
+  ['dbutils_2einc_2ephp_0',['dbutils.inc.php',['../dbutils_8inc_8php.html',1,'']]],
+  ['deprecated_20list_1',['Deprecated List',['../deprecated.html',1,'']]],
+  ['detection_5ftype_5fextended_2',['DETECTION_TYPE_EXTENDED',['../class_mobile___detect.html#af949ae35f36ab51fde8b82c8523dcbae',1,'Mobile_Detect']]],
+  ['detection_5ftype_5fmobile_3',['DETECTION_TYPE_MOBILE',['../class_mobile___detect.html#afe068cdf3502c30b9b9686ee9d5ca13a',1,'Mobile_Detect']]],
+  ['do_5fmysqli_5fquery_4',['do_mysqli_query',['../dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d',1,'dbutils.inc.php']]],
+  ['do_5ftest_5ftable_2ephp_5',['do_test_table.php',['../do__test__table_8php.html',1,'']]],
+  ['do_5ftest_5ftest_2ephp_6',['do_test_test.php',['../do__test__test_8php.html',1,'']]],
+  ['do_5ftext_2ephp_7',['do_text.php',['../do__text_8php.html',1,'']]],
+  ['do_5ftext_5fheader_2ephp_8',['do_text_header.php',['../do__text__header_8php.html',1,'']]]
 ];

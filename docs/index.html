@@ -33,15 +33,44 @@ THE SOFTWARE.
 
 For more information, please refer to [http://unlicense.org/].
 ************************************************************ -->
+	<meta http-equiv="content-language" content="en-US" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta name="keywords" content="Language Learning Texts LWT Software Freeware LingQ Alternative AJATT Khatzumoto MCD MCDs Massive Context Cloze Deletion Cards Tool Stephen Krashen Second Language Acquisition Steve Kaufmann Documentation Code Reference" />
+	<meta name="description" content="Documentation for Learning with Texts (LWT), index, help and code reference." />
+	<meta name="revisit-after" content="2 days" />
+	<meta name="viewport" content="width=1280, user-scalable=yes" />
+	<link rel="apple-touch-icon" href="../img/apple-touch-icon-57x57.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png" />
+	<link rel="apple-touch-startup-image" href="../img/apple-touch-startup.png" />
+	<style type="text/css">
+	@import url(../css/styles.css);
+	</style>
+	<script type="text/javascript" src="../js/jquery.js"></script>  
+	<script type="text/javascript" src="../js/floating.js"></script>
+		<script type="text/javascript">
+	$.ajax(
+		{
+			type: 'POST',
+			url:'ajax_get_theme.php',
+			async: false, 
+			data: { file:'../css/styles.css' }, 
+			success: function (data) {if (data.match(/styles.css$/g)) $('style').text( "@import url(" + data + ");" );
+		}
+	});
+	</script>
 
-<!-- ***********************************************************
-Display empty screen
-************************************************************ -->
 	<title> 
-		Learning with Texts
+		Learning with Texts :: Documentation Index
 	</title> 
 </head>
 <body>
-    <p>Please see the code documentation <a href="./html/index.html">here</a>.</p>
-    <p>Database documentation is <a href="./database.html">here</a>.</p>
+	<p>Welcome to Learning with Texts documentation pages!<br />Documentation is splitted in different parts due to the diversity of the sources.</p>
+	<ul>
+		<li>General Documentation is <a href="../info.html">here</a>.</li>
+    	<li>Please see the Code Documentation <a href="html/index.html">here</a>.</li>
+    	<!--<li>Database documentation is <a href="database.html">here</a>.</li>-->
+    </ul>
 </body>

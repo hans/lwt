@@ -41,6 +41,7 @@ var WBLINK2 = '';
 var WBLINK3 = '';
 var SOLUTION = '';
 var ADDFILTER = '';
+/// True if this language is right-to-left
 var RTL = 0;
 var ANN_ARRAY = {};
 var DELIMITER = '';
@@ -58,21 +59,22 @@ function setTransRoman(tra, rom) {
 	makeDirty();
 }
 
-function getUTF8Length(string) {
-	var utf8length = 0;
-	for (var n = 0; n < string.length; n++) {
-		var c = string.charCodeAt(n);
-		if (c < 128) {
-			utf8length++;
-		}
-		else if((c > 127) && (c < 2048)) {
-			utf8length = utf8length+2;
-		}
-		else {
-			utf8length = utf8length+3;
-		}
+function containsCharacterOutsideBasicMultilingualPlane(s) {
+  return /[\uD800-\uDFFF]/.test(s);
+}
+
+function alertFirstCharacterOutsideBasicMultilingualPlane(s,info) {
+	var match = /[\uD800-\uDFFF]/.exec(s);
+	if (match) {
+		alert('ERROR\n\nText "' + info + '" contains invalid character(s) (in the Unicode Supplementary Multilingual Planes, > U+FFFF) like emojis or very rare characters.\n\nFirst invalid character: "' + s.substring(match.index, match.index+2) + '" at position ' + (match.index+1) + '.\n\nMore info: https://en.wikipedia.org/wiki/Plane_(Unicode)\n\nPlease remove this/these character(s) and try again.');
+    return 1;
+	} else {
+		return 0;
 	}
-	return utf8length;
+}
+
+function getUTF8Length(s) {
+	return (new Blob([String(s)]).size);
 }
 
 function scrollToAnchor(aid){
@@ -83,24 +85,30 @@ function changeImprAnnText() {
 	var textid = $('#editimprtextdata').attr('data_id');
 	$(this).prev('input:radio').attr('checked', 'checked');
 	var elem = $(this).attr('name');
+	var idwait = '#wait' + elem.substring(2);
+	$(idwait).html('<img src="icn/waiting2.gif" />');
 	var thedata = JSON.stringify($('form').serializeObject());
 	$.post('ajax_save_impr_text.php', { id: textid, elem: elem, data : thedata }
-		, function(d) {
-				if(d != 'OK')
-					alert('Saving your changes failed, please reload page and try again!');
-			}
+		, function(d) { 
+				$(idwait).html('<img src="icn/empty.gif" />');
+				if(d != 'OK') 
+					alert('Saving your changes failed, please reload page and try again!'); 
+			} 
 	);
 }
 
 function changeImprAnnRadio() {
 	var textid = $('#editimprtextdata').attr('data_id');
 	var elem = $(this).attr('name');
+	var idwait = '#wait' + elem.substring(2);
+	$(idwait).html('<img src="icn/waiting2.gif" />');
 	var thedata = JSON.stringify($('form').serializeObject());
 	$.post('ajax_save_impr_text.php', { id: textid, elem: elem, data : thedata }
-		, function(d) {
-				if(d != 'OK')
-					alert('Saving your changes failed, please reload page and try again!');
-			}
+		, function(d) { 
+				$(idwait).html('<img src="icn/empty.gif" />');
+				if(d != 'OK') 
+					alert('Saving your changes failed, please reload page and try again!'); 
+			} 
 	);
 }
 
@@ -163,7 +171,8 @@ function check() {
 			});
 		}
 	});
-//to enable limits of custom feed texts/articl. change the following «input[class*="max_int_"]» into «input[class*="maxint_"]»
+	// To enable limits of custom feed texts/articl. 
+	// change the following «input[class*="max_int_"]» into «input[class*="maxint_"]»
 	$('input[class*="max_int_"]').each( function(n) {
 		var maxvalue = parseInt($(this).attr("class").replace(/.*maxint_([0-9]+).*/, '$1'));
 		if ($(this).val().trim().length > 0) {
@@ -197,10 +206,22 @@ function check() {
 			}
 		}
 	} );
+	$('input.checkoutsidebmp').each( function(n) {
+		if ($(this).val().trim().length > 0) {
+			if (containsCharacterOutsideBasicMultilingualPlane($(this).val())) {
+				count += alertFirstCharacterOutsideBasicMultilingualPlane($(this).val(), $(this).attr('data_info'));
+			}
+		}
+	} );
 	$('textarea.checklength').each( function(n) {
 		if($(this).val().trim().length > (0 + $(this).attr('data_maxlength'))) {
 			alert('ERROR\n\nText is too long in field "' + $(this).attr('data_info') + '", please make it shorter! (Maximum length: ' + $(this).attr('data_maxlength') + ' char.)');
 			count++;
+		}
+	} );
+	$('textarea.checkoutsidebmp').each( function(n) {
+		if(containsCharacterOutsideBasicMultilingualPlane($(this).val())) {
+			count += alertFirstCharacterOutsideBasicMultilingualPlane($(this).val(), $(this).attr('data_info'));
 		}
 	} );
 	$('textarea.checkbytes').each( function(n) {
@@ -235,9 +256,12 @@ function markClick() {
 	}
 }
 
-function textModeChangeClick() {
-	var showAll = $('#showallwords:checked').length;
-	var showLeaning = $('#showlearningtranslations:checked').length;
+function confirmDelete() {
+	return confirm('CONFIRM\n\nAre you sure you want to delete?');
+}
+
+function showallwordsClick() {
+	var option = $('#showallwords:checked').length;
 	var text = $('#thetextid').text();
 	window.parent.frames['ro'].location.href =
 		'set_text_mode.php?mode=' + showAll +
@@ -341,8 +365,10 @@ function word_each_do_text_text(i) {
 			}
 		}
 	}
-	if(!JQ_TOOLTIP)this.title = make_tooltip($(this).text(), $(this).attr('data_trans'),
-		$(this).attr('data_rom'), $(this).attr('data_status'));
+	if (!JQ_TOOLTIP)
+		this.title = make_tooltip(
+			$(this).text(), $(this).attr('data_trans'),$(this).attr('data_rom'), $(this).attr('data_status')
+		);
 }
 
 function mword_each_do_text_text(i) {
@@ -366,9 +392,12 @@ function mword_each_do_text_text(i) {
 				}
 			}
 		}
-		if(!JQ_TOOLTIP)this.title = make_tooltip($(this).attr('data_text'),
-		$(this).attr('data_trans'), $(this).attr('data_rom'),
-		$(this).attr('data_status'));
+		if(!JQ_TOOLTIP)
+			this.title = make_tooltip(
+				$(this).attr('data_text'), 
+				$(this).attr('data_trans'), $(this).attr('data_rom'),
+				$(this).attr('data_status')
+			);
 	}
 }
 
@@ -384,24 +413,32 @@ function word_dblclick_event_do_text_text() {
 function word_click_event_do_text_text() {
 	var status = $(this).attr('data_status');
 	var ann = '';
-	if ((typeof $(this).attr('data_ann')) != 'undefined')
+	if ($(this).attr('data_ann') !== undefined)
 		ann = $(this).attr('data_ann');
 
+	var hints; 
+	if (JQ_TOOLTIP)
+	 hints = make_tooltip($(this).text(), $(this).attr('data_trans'), $(this).attr('data_rom'), status);
+	else 
+	 hints = $(this).attr("title");
+	var multi_words = Array(7);
+	for (var i = 0; i < 7; i++)
+		multi_words[i] = $(this).attr('data_mw' + (i + 2));
 	if ( status < 1 ) {
-		run_overlib_status_unknown(WBLINK1,WBLINK2,WBLINK3,JQ_TOOLTIP?make_tooltip($(this).text(),$(this).attr('data_trans'),$(this).attr('data_rom'),status):$(this).attr("title"),
-			TID,$(this).attr('data_order'),$(this).text(),RTL);
+		run_overlib_status_unknown(WBLINK1,WBLINK2,WBLINK3, hints,
+			TID,$(this).attr('data_order'),$(this).text(),multi_words,RTL);
 		top.frames['ro'].location.href='edit_word.php?tid=' + TID + '&ord=' +
 			$(this).attr('data_order') + '&wid=';
 	}
 	else if ( status == 99 )
-		run_overlib_status_99(WBLINK1,WBLINK2,WBLINK3,JQ_TOOLTIP?make_tooltip($(this).text(),$(this).attr('data_trans'),$(this).attr('data_rom'),status):$(this).attr("title"),
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),RTL,ann);
+		run_overlib_status_99(WBLINK1,WBLINK2,WBLINK3,hints,
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),multi_words,RTL,ann);
 	else if ( status == 98 )
-		run_overlib_status_98(WBLINK1,WBLINK2,WBLINK3,JQ_TOOLTIP?make_tooltip($(this).text(),$(this).attr('data_trans'),$(this).attr('data_rom'),status):$(this).attr("title"),
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),RTL,ann);
+		run_overlib_status_98(WBLINK1,WBLINK2,WBLINK3,hints,
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),multi_words,RTL,ann);
 	else
-		run_overlib_status_1_to_5(WBLINK1,WBLINK2,WBLINK3,JQ_TOOLTIP?make_tooltip($(this).text(),$(this).attr('data_trans'),$(this).attr('data_rom'),status):$(this).attr("title"),
-			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,RTL,ann);
+		run_overlib_status_1_to_5(WBLINK1,WBLINK2,WBLINK3,hints,
+			TID,$(this).attr('data_order'),$(this).text(),$(this).attr('data_wid'),status,multi_words,RTL,ann);
 	return false;
 }
 
@@ -569,6 +606,12 @@ jQuery.fn.extend({
 	 }
 });
 
+function get_position_from_id(id_string) {
+	if ((typeof id_string) == 'undefined') return -1;
+	var arr = id_string.split('-');
+	return parseInt(arr[1]) * 10 + 10 - parseInt(arr[2]);
+}
+
 function keydown_event_do_text_text(e) {
 
 	if (e.which == 27) {  // esc = reset all
@@ -591,8 +634,9 @@ function keydown_event_do_text_text(e) {
 
 	var knownwordlist = $('span.word:not(.hide):not(.status0)' + ADDFILTER + ',span.mword:not(.hide)' + ADDFILTER);
 	var l_knownwordlist = knownwordlist.size();
-	if (l_knownwordlist == 0 && e.which < 40) return true;
-
+	// console.log(knownwordlist);
+	if (l_knownwordlist == 0) return true;
+	
 	// the following only for a non-zero known words list
 	if (e.which == 36) {  // home : known word navigation -> first
 		$('span.kwordmarked').removeClass('kwordmarked');
@@ -619,9 +663,22 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 	if (e.which == 37) {  // left : known word navigation
+		var marked = $('span.kwordmarked');
+		var currid = (marked.length == 0) ? (100000000) : 
+			get_position_from_id(marked.attr('id'));
 		$('span.kwordmarked').removeClass('kwordmarked');
-		TEXTPOS--;
-		if (TEXTPOS < 0) TEXTPOS = l_knownwordlist - 1;
+		// console.log(currid);
+		TEXTPOS = l_knownwordlist - 1;
+		for (var i = l_knownwordlist - 1; i >= 0; i--) {
+			var iid = get_position_from_id(knownwordlist.eq(i).attr('id'));
+			// console.log(iid);
+			if(iid < currid) {
+				TEXTPOS = i;
+				break;
+			};
+		}
+		// TEXTPOS--;
+		// if (TEXTPOS < 0) TEXTPOS = l_knownwordlist - 1;
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
 		$(window).scrollTo(curr,{axis:'y', offset:-150});
@@ -632,9 +689,22 @@ function keydown_event_do_text_text(e) {
 		return false;
 	}
 	if (e.which == 39 || e.which == 32) {  // space /right : known word navigation
+		var marked = $('span.kwordmarked');
+		var currid = (marked.length == 0) ? (-1) : 
+			get_position_from_id(marked.attr('id'));
 		$('span.kwordmarked').removeClass('kwordmarked');
-		TEXTPOS++;
-		if (TEXTPOS >= l_knownwordlist) TEXTPOS = 0;
+		// console.log(currid);
+		TEXTPOS = 0;
+		for (var i = 0; i < l_knownwordlist; i++) {
+			var iid = get_position_from_id(knownwordlist.eq(i).attr('id'));
+			// console.log(iid);
+			if(iid > currid) {
+				TEXTPOS = i;
+				break;
+			};
+		}
+		// TEXTPOS++;
+		// if (TEXTPOS >= l_knownwordlist) TEXTPOS = 0;
 		curr = knownwordlist.eq(TEXTPOS);
 		curr.addClass('kwordmarked');
 		$(window).scrollTo(curr,{axis:'y', offset:-150});
@@ -948,18 +1018,24 @@ $(document).ready( function() {
 	$('input.impr-ann-radio').change(changeImprAnnRadio);
 	$('form.validate').submit(check);
 	$('input.markcheck').click(markClick);
-	$('#showallwords').click(textModeChangeClick);
-	$('#showlearningtranslations').click(textModeChangeClick);
+	$('.confirmdelete').click(confirmDelete);
+	$('#showallwords').click(showallwordsClick);
 	$('textarea.textarea-noreturn').keydown(textareaKeydown);
 	$('#termtags').tagit(
 		{
-			availableTags : TAGS,
-			fieldName : 'TermTags[TagList][]'
+			beforeTagAdded: function(event, ui) {
+				return ! (containsCharacterOutsideBasicMultilingualPlane(ui.tag.text())); 
+			},
+			availableTags : TAGS, 
+			fieldName : 'TermTags[TagList][]' 
 		}
 	);
 	$('#texttags').tagit(
-		{
-			availableTags : TEXTTAGS,
+		{ 
+			beforeTagAdded: function(event, ui) {
+				return ! (containsCharacterOutsideBasicMultilingualPlane(ui.tag.text())); 
+			},
+			availableTags : TEXTTAGS, 
 			fieldName : 'TextTags[TagList][]'
 		}
 	);

@@ -48,16 +48,14 @@ if($status==98)
 if($status==99)
 	pagestart("Setting all blue words to Well-known",false);
 
-$sql = 'select Ti2Text, lower(Ti2Text) as  WoTextLC from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2WoID = 0 and Ti2WordCount = 1 and Ti2TxID = ' . $_REQUEST['text'] . ' group by lower(Ti2Text) order by Ti2Order';
+$sql = 'select distinct TiText, TiTextLC from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiIsNotWord = 0 and WoID is null and TiWordCount = 1 and TiTxID = ' . $_REQUEST['text'] . ' order by TiOrder';
 $res = do_mysqli_query($sql);
-$tooltip_mode = getSettingWithDefault('set-tooltip-mode');
 $count = 0;
 $javascript = "var title='';";
-$sqlarr = array();
 while ($record = mysqli_fetch_assoc($res)) {
-	$term = $record['Ti2Text'];	
-	$termlc = $record['WoTextLC'];
-	$count1 = 0 + runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoWordCount, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
+	$term = $record['TiText'];	
+	$termlc = $record['TiTextLC'];	
+	$count1 = 0 + runsql('insert into ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
 	$langid . ', ' . 
 	convert_string_to_sqlsyntax($term) . ', ' . 
 	convert_string_to_sqlsyntax($termlc) . ', 1, '.$status.' , NOW(), ' .  
@@ -71,9 +69,6 @@ make_score_random_insert_update('id') . ')','');
 	$count += $count1;
 }
 mysqli_free_result($res);
-$sqltext = "UPDATE  " . $tbpref . "textitems2 SET Ti2WoID  = CASE lower(Ti2Text)";
-$sqltext .= implode(' ', $sqlarr) . ' END where Ti2WordCount=1 and Ti2WoID  = 0 and Ti2LgID=' . $langid;
-do_mysqli_query( $sqltext);
 
 if($status==98)
 	echo "<p>OK, you ignore all " . $count . " word(s)!</p>";

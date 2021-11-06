@@ -90,7 +90,7 @@ Variables</h2></td></tr>
 if($recno==0) else&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages where LgName&lt;&gt;&quot;&quot; order by LgName'</td></tr>
 <tr class="separator:aa1f8e8cc9964970fda707a846e0dc630"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a197acfe3388e7bc4c2e832a49bc5805e"><td class="memItemLeft" align="right" valign="top"><a id="a197acfe3388e7bc4c2e832a49bc5805e" name="a197acfe3388e7bc4c2e832a49bc5805e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>('select TxLgID,count(*) as value from ' . $tbpref . 'texts group by TxLgID')</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds group by NfLgID')</td></tr>
 <tr class="separator:a197acfe3388e7bc4c2e832a49bc5805e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

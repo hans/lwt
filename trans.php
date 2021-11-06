@@ -31,11 +31,13 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call 1: trans.php?x=1&t=[textid]&i=[textpos]
-				GTr translates sentence in Text t, Pos i
-Call 2: trans.php?x=2&t=[text]&i=[dictURI]
-				translates text t with dict via dict-url i
-Get a translation from Web Dictionary
+ * \file
+ * \brief Get a translation from Web Dictionary
+ * 
+ * Call 1: trans.php?x=1&t=[textid]&i=[textpos]
+ * 		GTr translates sentence in Text t, Pos i
+ * Call 2: trans.php?x=2&t=[text]&i=[dictURI]
+ * 		translates text t with dict via dict-url i
 ***************************************************************/
 
 require_once( 'settings.inc.php' );

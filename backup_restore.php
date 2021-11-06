@@ -31,11 +31,13 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: backup_restore.php?....
+ * \file
+ * \brief Backup/Restore/Empty LWT Database
+ * 
+ * Call: backup_restore.php?....
       ... restore=xxx ... do restore 
       ... backup=xxx ... do backup 
       ... empty=xxx ... do truncate
-Backup/Restore/Empty LWT Database
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
