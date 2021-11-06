@@ -53,6 +53,7 @@ var ol_closecolor = '#FFFFFF';
 Helper functions for overlib
 ***************************************************************/
 
+/// Handle click event on ignored words
 function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
 {
 	return overlib(
@@ -64,6 +65,7 @@ function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid
 		CAPTION, 'Word');
 }
 
+/// Handle click event on well-known words
 function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
 {
 	return overlib(
@@ -75,6 +77,7 @@ function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid
 		CAPTION, 'Word');
 }
 
+/// Handle click event on learning words (levels 1 to 5)
 function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,stat,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl,ann)
 {
 	return overlib(
@@ -89,6 +92,7 @@ function run_overlib_status_1_to_5(wblink1,wblink2,wblink3,hints,txid,torder,txt
 		'Word &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;',txid,torder,wid));
 }
 
+/// Handle click event on unknown workds
 function run_overlib_status_unknown(wblink1,wblink2,wblink3,hints,txid,torder,txt,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl)
 {
 	return overlib(
@@ -143,25 +147,26 @@ function run_overlib_test(wblink1,wblink2,wblink3,wid,txt,trans,roman,stat,sent,
 }
 
 function make_overlib_link_new_multiword(txid,torder,mw2,mw3,mw4,mw5,mw6,mw7,mw8,mw9,rtl) {
-	if (mw2=='' && mw3=='' && mw4=='' && mw5=='' && mw6 =='' && mw7 =='' && mw8 =='' && mw9 =='') return '';
+	// Quit if all multiwords are '' or undefined
+	if (!(mw2 || mw3 || mw4 || mw5 || mw6 || mw7 || mw8 || mw9)) return '';
 	if (rtl) return ' <br />Expr: ' +
-	(mw9 != '' ? make_overlib_link_create_edit_multiword_rtl(9,txid,torder,mw9) + ' ' : '') + 
-	(mw8 != '' ? make_overlib_link_create_edit_multiword_rtl(8,txid,torder,mw8) + ' ' : '') + 
-	(mw7 != '' ? make_overlib_link_create_edit_multiword_rtl(7,txid,torder,mw7) + ' ' : '') + 
-	(mw6 != '' ? make_overlib_link_create_edit_multiword_rtl(6,txid,torder,mw6) + ' ' : '') + 
-	(mw5 != '' ? make_overlib_link_create_edit_multiword_rtl(5,txid,torder,mw5) + ' ' : '') + 
-	(mw4 != '' ? make_overlib_link_create_edit_multiword_rtl(4,txid,torder,mw4) + ' ' : '') + 
-	(mw3 != '' ? make_overlib_link_create_edit_multiword_rtl(3,txid,torder,mw3) + ' ' : '') + 
-	(mw2 != '' ? make_overlib_link_create_edit_multiword_rtl(2,txid,torder,mw2) : '') + ' ';
+	(mw9 ? make_overlib_link_create_edit_multiword_rtl(9,txid,torder,mw9) + ' ' : '') + 
+	(mw8 ? make_overlib_link_create_edit_multiword_rtl(8,txid,torder,mw8) + ' ' : '') + 
+	(mw7 ? make_overlib_link_create_edit_multiword_rtl(7,txid,torder,mw7) + ' ' : '') + 
+	(mw6 ? make_overlib_link_create_edit_multiword_rtl(6,txid,torder,mw6) + ' ' : '') + 
+	(mw5 ? make_overlib_link_create_edit_multiword_rtl(5,txid,torder,mw5) + ' ' : '') + 
+	(mw4 ? make_overlib_link_create_edit_multiword_rtl(4,txid,torder,mw4) + ' ' : '') + 
+	(mw3 ? make_overlib_link_create_edit_multiword_rtl(3,txid,torder,mw3) + ' ' : '') + 
+	(mw2 ? make_overlib_link_create_edit_multiword_rtl(2,txid,torder,mw2) : '') + ' ';
 	else return ' <br />Expr: ' +
-	(mw2 != '' ? make_overlib_link_create_edit_multiword(2,txid,torder,mw2) + ' ' : '') + 
-	(mw3 != '' ? make_overlib_link_create_edit_multiword(3,txid,torder,mw3) + ' ' : '') + 
-	(mw4 != '' ? make_overlib_link_create_edit_multiword(4,txid,torder,mw4) + ' ' : '') + 
-	(mw5 != '' ? make_overlib_link_create_edit_multiword(5,txid,torder,mw5) + ' ' : '') + 
-	(mw6 != '' ? make_overlib_link_create_edit_multiword(6,txid,torder,mw6) + ' ' : '') + 
-	(mw7 != '' ? make_overlib_link_create_edit_multiword(7,txid,torder,mw7) + ' ' : '') + 
-	(mw8 != '' ? make_overlib_link_create_edit_multiword(8,txid,torder,mw8) + ' ' : '') + 
-	(mw9 != '' ? make_overlib_link_create_edit_multiword(9,txid,torder,mw9) : '') + ' ';
+	(mw2 ? make_overlib_link_create_edit_multiword(2,txid,torder,mw2) + ' ' : '') + 
+	(mw3 ? make_overlib_link_create_edit_multiword(3,txid,torder,mw3) + ' ' : '') + 
+	(mw4 ? make_overlib_link_create_edit_multiword(4,txid,torder,mw4) + ' ' : '') + 
+	(mw5 ? make_overlib_link_create_edit_multiword(5,txid,torder,mw5) + ' ' : '') + 
+	(mw6 ? make_overlib_link_create_edit_multiword(6,txid,torder,mw6) + ' ' : '') + 
+	(mw7 ? make_overlib_link_create_edit_multiword(7,txid,torder,mw7) + ' ' : '') + 
+	(mw8 ? make_overlib_link_create_edit_multiword(8,txid,torder,mw8) + ' ' : '') + 
+	(mw9 ? make_overlib_link_create_edit_multiword(9,txid,torder,mw9) : '') + ' ';
 }
 
 function make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder) {
@@ -486,7 +491,7 @@ function selectToggle(toggle, form) {
 }
 
 function multiActionGo(f,sel) {
-	if ((typeof f != 'undefined') && (typeof sel != 'undefined')) {
+	if (f !== undefined && sel !== undefined) {
 		var v = sel.value;
 		var t = sel.options[sel.selectedIndex].text;
 		if (typeof v == 'string') {

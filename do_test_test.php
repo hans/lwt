@@ -31,11 +31,13 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Call: do_test_test.php?type=[testtype]&lang=[langid]
-Call: do_test_test.php?type=[testtype]&text=[textid]
-Call: do_test_test.php?type=[testtype]&selection=1  
+ * \file
+ * \brief Show test frame
+ * 
+ * Call: do_test_test.php?type=[testtype]&lang=[langid]
+ * Call: do_test_test.php?type=[testtype]&text=[textid]
+ * Call: do_test_test.php?type=[testtype]&selection=1  
 			(SQL via $_SESSION['testsql'])
-Show test frame
 ***************************************************************/
 
 require_once( 'settings.inc.php' );
