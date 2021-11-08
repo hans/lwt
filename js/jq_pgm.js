@@ -29,23 +29,27 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
+ * \file
+ * \brief Interaction between LWT and jQuery
+ */
+
+/**************************************************************
 Global variables used in LWT jQuery functions
 ***************************************************************/
 
-let TEXTPOS = -1;
-let OPENED = 0;
-const WID = 0;
-const TID = 0;
-const WBLINK1 = '';
-const WBLINK2 = '';
-const WBLINK3 = '';
-const SOLUTION = '';
-const ADDFILTER = '';
-/// True if this language is right-to-left
-const RTL = 0;
-const ANN_ARRAY = {};
-const DELIMITER = '';
-const JQ_TOOLTIP = 0;
+var TEXTPOS = -1;
+var OPENED = 0;
+var WID = 0;      /// Word ID
+var TID = 0;      /// Text ID
+var WBLINK1 = ''; /// First dictionary URL
+var WBLINK2 = ''; /// Second dictionary URL
+var WBLINK3 = ''; /// Google Translate
+var SOLUTION = '';
+var ADDFILTER = '';
+var RTL = 0;      /// Right-to-left indicator
+var ANN_ARRAY = {};
+var DELIMITER = '';
+var JQ_TOOLTIP = 0;
 
 /**************************************************************
 LWT jQuery functions

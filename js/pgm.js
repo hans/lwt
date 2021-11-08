@@ -37,17 +37,17 @@ For more information, please refer to [http://unlicense.org/].
 Global variables for OVERLIB
 ***************************************************************/
 
-const ol_textfont = '"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';
-const ol_textsize = 3;
-const ol_sticky = 1;
-const ol_captionfont = '"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';
-const ol_captionsize = 3;
-const ol_width = 260;
-const ol_close = 'Close';
-const ol_offsety = 30;
-const ol_offsetx = 3;
-const ol_fgcolor = '#FFFFE8';
-const ol_closecolor = '#FFFFFF';
+var ol_textfont = '"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';
+var ol_textsize = 3;
+var ol_sticky = 1;
+var ol_captionfont = '"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';
+var ol_captionsize = 3;
+var ol_width = 260;
+var ol_close = 'Close';
+var ol_offsety = 30;
+var ol_offsetx = 3;
+var ol_fgcolor = '#FFFFE8';
+var ol_closecolor = '#FFFFFF';
 
 /**************************************************************
 Helper functions for overlib

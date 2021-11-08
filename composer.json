@@ -1,8 +1,8 @@
 {
-    "name": "hugofara/lwt-fork",
+    "name": "hugofara/lwt",
     "description": "Learn languages by reading, unofficial version.",
     "type": "library",
-    "homepage": "https://github.com/HugoFara/lwt-fork",
+    "homepage": "https://github.com/HugoFara/lwt",
     "license": "UNLICENSE",
     "minimum-stability": "stable",
     "repositories": [
@@ -50,7 +50,8 @@
         "happyworm/jplayer": "^2.9",
         "ilinsky/jquery-xpath": "^0.3",
         "briancherne/jquery-hoverintent": "^1.10",
-        "mobiledetect/mobiledetectlib": "^2.8"
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "league/commonmark": "^2.0.2"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.2"

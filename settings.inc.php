@@ -31,14 +31,15 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
-Debug switch / Display PHP error settings
-Set script time limit
-Start a PHP session if not one already exists
+ * \file
+ * \brief Proceed to the general settings
 ***************************************************************/
 
-$debug = 0;        // 1 = debugging on, 0 = .. off
-$dsplerrors = 0;   // 1 = display all errors on, 0 = .. off
-$dspltime = 0;     // 1 = display time on, 0 = .. off
+// Debug switch / Display PHP error settings
+
+$debug = 0;        /// 1 = debugging on, 0 = .. off
+$dsplerrors = 0;   /// 1 = display all errors on, 0 = .. off
+$dspltime = 0;     /// 1 = display time on, 0 = .. off
 
 if ($dsplerrors) {
     @error_reporting(E_ALL);
@@ -49,23 +50,24 @@ if ($dsplerrors) {
     @ini_set('display_errors', '0');
     @ini_set('display_startup_errors', '0');
 }
-
+// Set script time limit
 @ini_set('max_execution_time', '600');  // 10 min.
 @set_time_limit(600);  // 10 min.
 
 @ini_set('memory_limit', '999M');  
 
+// Start a PHP session if not one already exists
 if(session_id() == '') {
     // session isn't started
     $err = @session_start();
     if ($err === false) { 
-        my_die('SESSION error (Impossible to start a PHP session)'); 
+        die('SESSION error (Impossible to start a PHP session)'); 
     }
     if(session_id() == '') {
-        my_die('SESSION ID empty (Impossible to start a PHP session)'); 
+        die('SESSION ID empty (Impossible to start a PHP session)'); 
     }
     if (! isset($_SESSION)) {
-        my_die('SESSION array not set (Impossible to start a PHP session)'); 
+        die('SESSION array not set (Impossible to start a PHP session)'); 
     }
 }
 
