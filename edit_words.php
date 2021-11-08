@@ -135,9 +135,9 @@ else {
     if ($currenttag1 != '' && $currenttag2 == '') {    
         $wh_tag = " having (" . $wh_tag1 . ') '; 
     }
-    elseif ($currenttag2 != '' && $currenttag1 == '')    
-    $wh_tag = " having (" . $wh_tag2 . ') ';
-    else {
+    elseif ($currenttag2 != '' && $currenttag1 == '') {    
+        $wh_tag = " having (" . $wh_tag2 . ') ';
+    } else {
         $wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) '; 
     }
 }
@@ -446,54 +446,54 @@ if (isset($_REQUEST['new']) && isset($_REQUEST['lang'])) {
     
     ?>
 
-	<h4>New Term</h4>
-	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
-	<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $_REQUEST['lang']; ?>" />
-	<table class="tab3" cellspacing="0" cellpadding="5">
-	<tr>
-	<td class="td1 right">Language:</td>
-	<td class="td1"><?php echo tohtml(getLanguage($_REQUEST['lang'])); ?></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Term:</td>
-	<td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus checkoutsidebmp" data_info="Term" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-	</tr>
-    <?php print_similar_terms_tabrow(); ?>	
-	<tr>
-	<td class="td1 right">Translation:</td>
-	<td class="td1"><textarea class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Tags:</td>
-	<td class="td1">
+    <h4>New Term</h4>
+    <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>    
+    <form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $_REQUEST['lang']; ?>" />
+    <table class="tab3" cellspacing="0" cellpadding="5">
+    <tr>
+    <td class="td1 right">Language:</td>
+    <td class="td1"><?php echo tohtml(getLanguage($_REQUEST['lang'])); ?></td>
+    </tr>
+    <tr>
+    <td class="td1 right">Term:</td>
+    <td class="td1"><input <?php echo $scrdir; ?> class="notempty setfocus checkoutsidebmp" data_info="Term" type="text" name="WoText" id="wordfield" value="" maxlength="250" size="40" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+    </tr>
+    <?php print_similar_terms_tabrow(); ?>    
+    <tr>
+    <td class="td1 right">Translation:</td>
+    <td class="td1"><textarea class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="500" data_info="Translation" name="WoTranslation" cols="40" rows="3"></textarea></td>
+    </tr>
+    <tr>
+    <td class="td1 right">Tags:</td>
+    <td class="td1">
     <?php echo getWordTags(0); ?>
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right">Romaniz.:</td>
-	<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Romanization" name="WoRomanization" value="" maxlength="100" size="40" /></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Sentence<br />Term in {...}:</td>
-	<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" cols="40" rows="3" class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="1000" data_info="Sentence"></textarea></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Status:</td>
-	<td class="td1">
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right">Romaniz.:</td>
+    <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Romanization" name="WoRomanization" value="" maxlength="100" size="40" /></td>
+    </tr>
+    <tr>
+    <td class="td1 right">Sentence<br />Term in {...}:</td>
+    <td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" cols="40" rows="3" class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="1000" data_info="Sentence"></textarea></td>
+    </tr>
+    <tr>
+    <td class="td1 right">Status:</td>
+    <td class="td1">
     <?php echo get_wordstatus_radiooptions(1); ?>
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right" colspan="2">  &nbsp;
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right" colspan="2">  &nbsp;
     <?php echo createDictLinksInEditWin2($_REQUEST['lang'], 'document.forms[\'newword\'].WoSentence', 'document.forms[\'newword\'].WoText'); ?>
-		&nbsp; &nbsp;
-	<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_words.php';}" /> 
-	<input type="submit" name="op" value="Save" /></td>
-	</tr>
-	</table>
-	</form>
-	
+        &nbsp; &nbsp;
+    <input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_words.php';}" /> 
+    <input type="submit" name="op" value="Save" /></td>
+    </tr>
+    </table>
+    </form>
+    
     <?php
     
 }
@@ -513,9 +513,9 @@ elseif (isset($_REQUEST['chg'])) {
         $scrdir = ($record['LgRightToLeft'] ? ' dir="rtl" ' : '');
     
         ?>
-	
+    
      <h4>Edit Term</h4>
-     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
+     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>    
      <form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
      <input type="hidden" name="WoID" value="<?php echo $record['WoID']; ?>" />
      <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $record['WoLgID']; ?>" />
@@ -564,7 +564,7 @@ elseif (isset($_REQUEST['chg'])) {
      </tr>
      </table>
      </form>
-     <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $_REQUEST['chg']; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+     <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $record['LgID']; ?>, <?php echo prepare_textdata_js($wordlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $_REQUEST['chg']; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>    
     <?php
     }
     mysqli_free_result($res);
@@ -668,8 +668,8 @@ Status:
 </select><?php
 if($currentregexmode=='') { echo '<span style="vertical-align: middle"> (Wildc.=*): </span>'; 
 }
-elseif($currentregexmode=='r') echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
-else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
+elseif($currentregexmode=='r') { echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
+} else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
 }?>
 <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value;val=encodeURIComponent(val);mode=document.form1.query_mode.value; location.href='edit_words.php?page=1&amp;query=' + val + '&amp;query_mode=' + mode;}" />&nbsp;

@@ -133,9 +133,9 @@ if (isset($_REQUEST['op'])) {
     }
         
     ?>
-	
-	<p>OK: <?php echo tohtml($message); ?></p>
-	
+    
+    <p>OK: <?php echo tohtml($message); ?></p>
+    
 <script type="text/javascript">
 //<![CDATA[
 <?php
@@ -171,7 +171,7 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 ?>
 //]]>
 </script>
-	
+    
 <?php
 
 } // if (isset($_REQUEST['op']))
@@ -225,7 +225,7 @@ else {  // if (! isset($_REQUEST['op']))
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <script type="text/javascript">
 $(window).on('beforeunload',function() {
-	setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
+    setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
 });
 </script>
 <?php
@@ -239,7 +239,7 @@ if ($new) {
     $sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
             
 ?>
-	
+    
  <form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
  <input type="hidden" name="fromAnn" value="<?php echo $fromAnn; ?>" />
  <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
@@ -285,7 +285,7 @@ if ($new) {
  </tr>
  </table>
  </form>
- <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', 0'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+ <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', 0'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>    
     <?php
         
 }
@@ -313,7 +313,7 @@ else {
         if($transl == '*') { $transl=''; 
         }
         ?>
-		
+        
      <form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
      <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
      <input type="hidden" name="fromAnn" value="<?php echo $fromAnn; ?>" />
@@ -363,7 +363,7 @@ else {
      </tr>
      </table>
      </form>
-     <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+     <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>    
         <?php
     }
     mysqli_free_result($res);

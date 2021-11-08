@@ -89,6 +89,7 @@ function runsql($sql, $m, $sqlerrdie = true)
 
 /**
  * Returns the first line from the database 
+ *
  * @param String $sql MySQL query
  */
 function get_first_value($sql) 

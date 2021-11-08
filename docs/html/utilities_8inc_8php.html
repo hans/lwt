@@ -523,8 +523,11 @@ Functions</h2></td></tr>
 <tr class="separator:a633dd2f52d8d78f57da6d46d2e45dba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46e8e1270bdf2caa528fee2b393c919c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#a46e8e1270bdf2caa528fee2b393c919c">splitCheckText</a> ($text, $lid, $id)</td></tr>
 <tr class="separator:a46e8e1270bdf2caa528fee2b393c919c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf5cd59b8e5a5c380238c3bfc2eec1f5"><td class="memItemLeft" align="right" valign="top"><a id="aaf5cd59b8e5a5c380238c3bfc2eec1f5" name="aaf5cd59b8e5a5c380238c3bfc2eec1f5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>insertExpressions</b> ($textlc, $lid, $wid, $len, $mode)</td></tr>
+<tr class="memitem:ae7acd2a0e7e9f74c8308c87554d80e30"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#ae7acd2a0e7e9f74c8308c87554d80e30">insertExpressionFromMeCab</a> ($textlc, $lid, $wid)</td></tr>
+<tr class="separator:ae7acd2a0e7e9f74c8308c87554d80e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e4deefa61f330312d63ae92d5d3379a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#a0e4deefa61f330312d63ae92d5d3379a">new_expression_interactable</a> ($hex, $appendtext, $sid, $len)</td></tr>
+<tr class="separator:a0e4deefa61f330312d63ae92d5d3379a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf5cd59b8e5a5c380238c3bfc2eec1f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utilities_8inc_8php.html#aaf5cd59b8e5a5c380238c3bfc2eec1f5">insertExpressions</a> ($textlc, $lid, $wid, $len, $mode)</td></tr>
 <tr class="separator:aaf5cd59b8e5a5c380238c3bfc2eec1f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc54300f39eca3740804099bb93fd9eb"><td class="memItemLeft" align="right" valign="top"><a id="afc54300f39eca3740804099bb93fd9eb" name="afc54300f39eca3740804099bb93fd9eb"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>restore_file</b> ($handle, $title)</td></tr>
@@ -576,6 +579,7 @@ Functions</h2></td></tr>
 <tr class="separator:a1c05bfcd7542596ade6e8e0604a4c0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0ee983a50524bad932d9db1b867dc80"><td class="memItemLeft" align="right" valign="top"><a id="ac0ee983a50524bad932d9db1b867dc80" name="ac0ee983a50524bad932d9db1b867dc80"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>makeAudioPlayer</b> ($audio, $offset=0)</td></tr>
+<tr class="memdesc:ac0ee983a50524bad932d9db1b867dc80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an HTML audio player. <br /></td></tr>
 <tr class="separator:ac0ee983a50524bad932d9db1b867dc80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1cd0b4b12e02b4b17f979afdcbd2240"><td class="memItemLeft" align="right" valign="top"><a id="ac1cd0b4b12e02b4b17f979afdcbd2240" name="ac1cd0b4b12e02b4b17f979afdcbd2240"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>make_score_random_insert_update</b> ($type)</td></tr>
@@ -649,7 +653,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Debug function </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Debug function</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">Any</td><td class="paramname">$var</td><td>A printed variable to debug </td></tr>
     <tr><td class="paramtype">String</td><td class="paramname">$text</td><td>Echoed text in HTML page </td></tr>
@@ -674,7 +679,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Returns path to the MeCab application. MeCab can split Japanese text word by word </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Returns path to the MeCab application. MeCab can split Japanese text word by word</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">String</td><td class="paramname">$mecab_args</td><td>Arguments to add </td></tr>
   </table>
@@ -745,10 +751,116 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Convert a setting to 0 or 1 </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Convert a setting to 0 or 1</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">type</td><td class="paramname">$key</td><td>The input value </td></tr>
     <tr><td class="paramtype">type</td><td class="paramname">$dft</td><td>Default value to use </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae7acd2a0e7e9f74c8308c87554d80e30" name="ae7acd2a0e7e9f74c8308c87554d80e30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7acd2a0e7e9f74c8308c87554d80e30">&#9670;&nbsp;</a></span>insertExpressionFromMeCab()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">insertExpressionFromMeCab </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$textlc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wid</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Insert an expression to the database using MeCab.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">String</td><td class="paramname">$textlc</td><td></td></tr>
+    <tr><td class="paramtype">String</td><td class="paramname">$lid</td><td>Language ID </td></tr>
+    <tr><td class="paramtype">String</td><td class="paramname">$wid</td><td>Word ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aaf5cd59b8e5a5c380238c3bfc2eec1f5" name="aaf5cd59b8e5a5c380238c3bfc2eec1f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf5cd59b8e5a5c380238c3bfc2eec1f5">&#9670;&nbsp;</a></span>insertExpressions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">insertExpressions </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$textlc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Alter the database when to add a new word</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">String</td><td class="paramname">$textlc</td><td></td></tr>
+    <tr><td class="paramtype">String</td><td class="paramname">$lid</td><td>Language ID </td></tr>
+    <tr><td class="paramtype">String</td><td class="paramname">$len</td><td></td></tr>
+    <tr><td class="paramtype">Int</td><td class="paramname">$mode</td><td>Function mode<ul>
+<li>0: <br  />
+</li>
+<li>1: Output a javascript function</li>
+<li>2: </li>
+</ul>
+</td></tr>
   </table>
   </dd>
 </dl>
@@ -770,12 +882,54 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Make the script crash and returns an error message </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Make the script crash and returns an error message</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">any</td><td class="paramname">$text</td><td>Error text to output </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a0e4deefa61f330312d63ae92d5d3379a" name="a0e4deefa61f330312d63ae92d5d3379a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e4deefa61f330312d63ae92d5d3379a">&#9670;&nbsp;</a></span>new_expression_interactable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">new_expression_interactable </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$hex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$appendtext</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$sid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Prapare a JavAScript dialog for inserting a new expression </p>
 
 </div>
 </div>

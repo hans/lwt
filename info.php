@@ -257,11 +257,11 @@ $(document).ready( function() {
 					</li>
 
 					<li>
-						<a href="https://github.com/HugoFara/lwt-fork" target="_blank"><b>Community Maintained Version</b> @ GitHub</a>
+						<a href="https://github.com/HugoFara/lwt" target="_blank"><b>Community Maintained Version</b> @ GitHub</a>
 					</li>
 
 					<li>
-						Documentation: try either <a href="docs/index.html">local link</a> or <a href="https://hugofara.github.io/lwt-fork/docs/index.html">absolute link</a>.
+						Documentation: try either <a href="docs/index.html">local link</a> or <a href="https://hugofara.github.io/lwt/docs/index.html">absolute link</a>.
 					</li>
 <!--
 					<li>
@@ -446,7 +446,7 @@ $(document).ready( function() {
 						<li><b>The LWT Application.</b>
 							<ul>
 								<li>The ZIP Archive <i>lwt_v_x_y.zip</i> can be downloaded <a href="http://sourceforge.net/projects/learning-with-texts/files/" target="_blank">here</a>.<br />The installation is explained <a href="#install">here</a>.</li>
-								<li>Use GitHub, clone or fork <a href="https://github.com/HugoFara/lwt-fork">HugoFara/lwt-fork</a> on master.</li>
+								<li>Use GitHub, clone or fork <a href="https://github.com/HugoFara/lwt">HugoFara/lwt</a> on master.</li>
 							</ul>
 						</li>
 					</ol>
@@ -2620,38 +2620,38 @@ $(document).ready( function() {
       <dd>
 		  <p>See the CHANGELOG in docs/CHANGELOG.md (<a href="docs/CHANGELOG.md">local link</a>, <a href="https://github.com/HugoFara/lwt/blob/master/docs/CHANGELOG.md">online version</a>).</p>
 		  <?php 
-		  require __DIR__ . '/vendor/autoload.php';
+          require __DIR__ . '/vendor/autoload.php';
 
-		  use League\CommonMark\GithubFlavoredMarkdownConverter;
-		  
-		  $converter = new GithubFlavoredMarkdownConverter();
-		  $markdown = file_get_contents("docs/CHANGELOG.md");
-		  echo $converter->convertToHtml($markdown);
-		  ?>
+          use League\CommonMark\GithubFlavoredMarkdownConverter;
+          
+          $converter = new GithubFlavoredMarkdownConverter();
+          $markdown = file_get_contents("docs/CHANGELOG.md");
+          echo $converter->convertToHtml($markdown);
+            ?>
       </dd>
     </dl>
 
-		<p class="smallgray graydotted">
-			&nbsp;
-		</p>
+        <p class="smallgray graydotted">
+            &nbsp;
+        </p>
 
-		<table>
-			<tr>
-				<td class="width50px">
-					<a target="_blank" href="http://en.wikipedia.org/wiki/Public_domain_software"><img src="img/public_domain.png" alt="Public Domain" /></a>
-				</td>
-				<td>
-					<p class="smallgray">
-						<a href="http://sourceforge.net/projects/learning-with-texts/" target="_blank">"Learning with Texts" (LWT)</a> is released into the Public Domain. This applies worldwide.
-						<br />
-						In case this is not legally possible, any entity is granted the right to use this work for any purpose,
-						<br />
-						without any conditions, unless such conditions are required by law.
+        <table>
+            <tr>
+                <td class="width50px">
+                    <a target="_blank" href="http://en.wikipedia.org/wiki/Public_domain_software"><img src="img/public_domain.png" alt="Public Domain" /></a>
+                </td>
+                <td>
+                    <p class="smallgray">
+                        <a href="http://sourceforge.net/projects/learning-with-texts/" target="_blank">"Learning with Texts" (LWT)</a> is released into the Public Domain. This applies worldwide.
+                        <br />
+                        In case this is not legally possible, any entity is granted the right to use this work for any purpose,
+                        <br />
+                        without any conditions, unless such conditions are required by law.
 
-					</p>
-				</td>
-			</tr>
-		</table>
-		</div>
-	</body>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        </div>
+    </body>
 </html>

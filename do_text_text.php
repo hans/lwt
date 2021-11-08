@@ -85,8 +85,8 @@ ADDFILTER = '<?php echo makeStatusClassFilter(getSettingWithDefault('set-text-vi
 <?php if(getSettingWithDefault('set-tooltip-mode') == 2) { ?>
 JQ_TOOLTIP = 1;
 $(function() {
-	$( '#overDiv' ).tooltip();
-	$( "#thetext" ).tooltip_wsty_init();
+    $( '#overDiv' ).tooltip();
+    $( "#thetext" ).tooltip_wsty_init();
 });
 <?php 
 }
@@ -95,18 +95,18 @@ else { echo 'JQ_TOOLTIP = 0;';
 $mode_trans=getSettingWithDefault('set-text-frame-annotation-position');
     ?>
 $(document).ready( function() {
-	$('.word').each(word_each_do_text_text);
-	$('.mword').each(mword_each_do_text_text);
-	$('.word').click(word_click_event_do_text_text);
-	$('#thetext').on('selectstart','span',false).on('mousedown','.wsty',{annotation: <?php echo $mode_trans; ?>},mword_drag_n_drop_select);
-	$('#thetext').on('click','.mword',mword_click_event_do_text_text);
-	$('.word').dblclick(word_dblclick_event_do_text_text);
-	$('#thetext').on('dblclick','.mword',word_dblclick_event_do_text_text);
-	$(document).keydown(keydown_event_do_text_text);
-	$('#thetext').hoverIntent({over: word_hover_over, out: word_hover_out, interval: 150,selector:".wsty,.mwsty"});
+    $('.word').each(word_each_do_text_text);
+    $('.mword').each(mword_each_do_text_text);
+    $('.word').click(word_click_event_do_text_text);
+    $('#thetext').on('selectstart','span',false).on('mousedown','.wsty',{annotation: <?php echo $mode_trans; ?>},mword_drag_n_drop_select);
+    $('#thetext').on('click','.mword',mword_click_event_do_text_text);
+    $('.word').dblclick(word_dblclick_event_do_text_text);
+    $('#thetext').on('dblclick','.mword',word_dblclick_event_do_text_text);
+    $(document).keydown(keydown_event_do_text_text);
+    $('#thetext').hoverIntent({over: word_hover_over, out: word_hover_out, interval: 150,selector:".wsty,.mwsty"});
 });
 $(document).ready( function() {
-	var pos = <?php
+    var pos = <?php
     if($pos>0) {
         echo '$(".wsty';
         echo "[data_pos='$pos']";
@@ -116,21 +116,21 @@ $(document).ready( function() {
     else { echo '0;'; 
     }
 ?>
-	$(document).scrollTo(pos);
-	window.focus();
-	window.setTimeout('overlib()', 10);
-	window.setTimeout('cClick()', 100);
+    $(document).scrollTo(pos);
+    window.focus();
+    window.setTimeout('overlib()', 10);
+    window.setTimeout('cClick()', 100);
 });
 $(window).on('beforeunload',function() {
-	var pos=0;
-	var top=$(window).scrollTop()-$('.wsty').not('.hide').eq(0).height();
-	$('.wsty').not('.hide').each(function() {
-		if ($(this).offset().top>=top){
-			pos=$(this).attr('data_pos');
-			return false;
-		}
-	});
-	$.ajax({type: "POST",url:'ajax_save_text_position.php', data: { id: '<?php echo $_REQUEST['text']; ?>', position: pos }, async:false});
+    var pos=0;
+    var top=$(window).scrollTop()-$('.wsty').not('.hide').eq(0).height();
+    $('.wsty').not('.hide').each(function() {
+        if ($(this).offset().top>=top){
+            pos=$(this).attr('data_pos');
+            return false;
+        }
+    });
+    $.ajax({type: "POST",url:'ajax_save_text_position.php', data: { id: '<?php echo $_REQUEST['text']; ?>', position: pos }, async:false});
 });
 //]]>
 </script>

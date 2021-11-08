@@ -119,9 +119,9 @@ else {
     if ($currenttag1 != '' && $currenttag2 == '') {
         $wh_tag = " having (" . $wh_tag1 . ') '; 
     }
-    elseif ($currenttag2 != '' && $currenttag1 == '')
-    $wh_tag = " having (" . $wh_tag2 . ') ';
-    else {
+    elseif ($currenttag2 != '' && $currenttag1 == '') {
+        $wh_tag = " having (" . $wh_tag2 . ') ';
+    } else {
         $wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) '; 
     }
 }
@@ -378,60 +378,60 @@ if (isset($_REQUEST['new'])) {
 
     ?>
 
-	<h4>New Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
-	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
-	<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<table class="tab3" cellspacing="0" cellpadding="5">
-	<tr>
-	<td class="td1 right">Language:</td>
-	<td class="td1">
-	<select name="TxLgID" class="notempty setfocus">
+    <h4>New Text <a target="_blank" href="ingo.php#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+    <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+    <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <table class="tab3" cellspacing="0" cellpadding="5">
+    <tr>
+    <td class="td1 right">Language:</td>
+    <td class="td1">
+    <select name="TxLgID" class="notempty setfocus">
     <?php
     echo get_languages_selectoptions($currentlang, '[Choose...]');
     ?>
-	</select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right">Title:</td>
-	<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
-	<td class="td1">
-	<textarea name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right">Source URI:</td>
-	<td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Tags:</td>
-	<td class="td1">
+    </select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right">Title:</td>
+    <td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+    </tr>
+    <tr>
+    <td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
+    <td class="td1">
+    <textarea name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right">Source URI:</td>
+    <td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
+    </tr>
+    <tr>
+    <td class="td1 right">Tags:</td>
+    <td class="td1">
     <?php echo getTextTags(0); ?>
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right">Audio-URI:</td>
-	<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="" maxlength="200" size="60" />		
-	<span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
-	</td>
-	</tr>
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right">Audio-URI:</td>
+    <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="" maxlength="200" size="60" />        
+    <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>        
+    </td>
+    </tr>
     <?php if (isset($YT_API_KEY)) {include_once'text_from_yt.php';
 } ?>
-	<tr>
-	<td class="td1 right" colspan="2">
-	<input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php';}" />
-	<input type="submit" name="op" value="Check" />
-	<input type="submit" name="op" value="Save" />
-	<input type="submit" name="op" value="Save and Open" />
-	</td>
-	</tr>
-	</table>
-	</form>
+    <tr>
+    <td class="td1 right" colspan="2">
+    <input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php';}" />
+    <input type="submit" name="op" value="Check" />
+    <input type="submit" name="op" value="Save" />
+    <input type="submit" name="op" value="Save and Open" />
+    </td>
+    </tr>
+    </table>
+    </form>
 
-	<p class="smallgray">Import of a <b>long text</b>, without audio, with splitting it up into smaller texts:</p><p><input type="button" value="Long Text Import" onclick="location.href='long_text_import.php';" /> </p>
+    <p class="smallgray">Import of a <b>long text</b>, without audio, with splitting it up into smaller texts:</p><p><input type="button" value="Long Text Import" onclick="location.href='long_text_import.php';" /> </p>
 
 
     <?php
@@ -448,7 +448,7 @@ elseif (isset($_REQUEST['chg'])) {
 
         ?>
 
-     <h4>Edit Text <a target="_blank" href="info.htm#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
+     <h4>Edit Text <a target="_blank" href="ingo.php#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
      <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
      <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
      <input type="hidden" name="TxID" value="<?php echo $_REQUEST['chg']; ?>" />
@@ -492,7 +492,7 @@ elseif (isset($_REQUEST['chg'])) {
      <tr>
      <td class="td1 right">Audio-URI:</td>
      <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
-     <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>		
+     <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>        
      </td>
      </tr>
      <tr>
@@ -573,8 +573,8 @@ Language:
 </select><?php
 if($currentregexmode=='') { echo '<span style="vertical-align: middle"> (Wildc.=*): </span>'; 
 }
-elseif($currentregexmode=='r') echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
-else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
+elseif($currentregexmode=='r') { echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
+} else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
 }?>
 <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value;val=encodeURIComponent(val); location.href='edit_texts.php?page=1&amp;query=' + val;}" />&nbsp;
@@ -736,18 +736,18 @@ mysqli_free_result($res);
 <script type="text/javascript">
 var WORDCOUNTS = '', SUW = SHOWUNIQUE = <?php echo intval($showCounts, 2); ?>;
 $(document).ready( function() {
-	$('#total,#saved,#unknown,#chart,#unknownpercent').click(function( event ) {
-		$(this).attr('data_wo_cnt',parseInt($(this).attr('data_wo_cnt'))^1);
-		word_count_click();
-		event.stopImmediatePropagation();
-	}).attr('title',"u: Unique Word Counts\nt: Total  Word  Counts");
-	do_ajax_word_counts();
+    $('#total,#saved,#unknown,#chart,#unknownpercent').click(function( event ) {
+        $(this).attr('data_wo_cnt',parseInt($(this).attr('data_wo_cnt'))^1);
+        word_count_click();
+        event.stopImmediatePropagation();
+    }).attr('title',"u: Unique Word Counts\nt: Total  Word  Counts");
+    do_ajax_word_counts();
 });
 $(window).on('beforeunload',function() {
-	if(SUW != SHOWUNIQUE){
-		var a =$('#total').attr('data_wo_cnt') + $('#saved').attr('data_wo_cnt') + $('#unknown').attr('data_wo_cnt') + $('#unknownpercent').attr('data_wo_cnt') + $('#chart').attr('data_wo_cnt');
-		$.ajax({type: "POST",url:'ajax_save_setting.php', data: { k: 'set-show-text-word-counts', v:  a}, async:false});
-	}
+    if(SUW != SHOWUNIQUE){
+        var a =$('#total').attr('data_wo_cnt') + $('#saved').attr('data_wo_cnt') + $('#unknown').attr('data_wo_cnt') + $('#unknownpercent').attr('data_wo_cnt') + $('#chart').attr('data_wo_cnt');
+        $.ajax({type: "POST",url:'ajax_save_setting.php', data: { k: 'set-show-text-word-counts', v:  a}, async:false});
+    }
 });
 </script>
 

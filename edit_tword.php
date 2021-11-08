@@ -101,7 +101,7 @@ if (isset($_REQUEST['op'])) {
     }
 
 ?>
-	
+    
 <p>OK: <?php echo tohtml($message); ?></p>
 
 <?php
@@ -127,25 +127,25 @@ if (! isset($regexword) ) { my_die('Cannot retrieve language data in edit_tword.
 var context = window.parent.frames['l'].document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
 if(window.parent.frames['l'].location.href.indexOf('do_test_table') !== -1) {
-	// Table Test
-	$('#STAT' + woid, context).html(<?php echo prepare_textdata_js(make_status_controls_test_table(1, $_REQUEST["WoStatus"], $wid)); ?>);
-	$('#TERM' + woid, context).html(<?php echo prepare_textdata_js(tohtml($_REQUEST["WoText"])); ?>);
-	$('#TRAN' + woid, context).html(<?php echo prepare_textdata_js(tohtml($translation)); ?>);
-	$('#ROMA' + woid, context).html(<?php echo prepare_textdata_js(tohtml($_REQUEST["WoRomanization"])); ?>);
-	$('#SENT' + woid, context).html(<?php echo prepare_textdata_js($sent1); ?>);
+    // Table Test
+    $('#STAT' + woid, context).html(<?php echo prepare_textdata_js(make_status_controls_test_table(1, $_REQUEST["WoStatus"], $wid)); ?>);
+    $('#TERM' + woid, context).html(<?php echo prepare_textdata_js(tohtml($_REQUEST["WoText"])); ?>);
+    $('#TRAN' + woid, context).html(<?php echo prepare_textdata_js(tohtml($translation)); ?>);
+    $('#ROMA' + woid, context).html(<?php echo prepare_textdata_js(tohtml($_REQUEST["WoRomanization"])); ?>);
+    $('#SENT' + woid, context).html(<?php echo prepare_textdata_js($sent1); ?>);
 } else {
-	// Normal Test
-	var wotext = <?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>;
-	var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
-	var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid, ' ', 1, 0)); ?>;
-	var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-	$('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
+    // Normal Test
+    var wotext = <?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>;
+    var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
+    var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid, ' ', 1, 0)); ?>;
+    var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
+    $('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
 }  
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
 </script>
-	
+    
 <?php
 
 } // if (isset($_REQUEST['op']))
@@ -184,11 +184,11 @@ else {  // if (! isset($_REQUEST['op']))
 ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <script type="text/javascript">
-	$(window).on('beforeunload',function() {
-		setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
-	});
+    $(window).on('beforeunload',function() {
+        setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
+    });
 </script>
-	
+    
 <form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
 <input type="hidden" name="WoID" value="<?php echo $wid; ?>" />
@@ -233,7 +233,7 @@ else {  // if (! isset($_REQUEST['op']))
 </tr>
 </table>
 </form>
-<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>	
+<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>    
 <?php
 } // if (! isset($_REQUEST['op']))
 

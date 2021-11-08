@@ -149,7 +149,7 @@ if ($_REQUEST['op'] == 'Save') {
     ?>
 <script type="text/javascript">
 //<![CDATA[
-		$('.word' + woid, context).attr('data_trans',trans).attr('data_rom',roman).attr('title',title).removeClass('status<?php echo $_REQUEST['WoOldStatus']; ?>').addClass('status' + status).attr('data_status',status);
+        $('.word' + woid, context).attr('data_trans',trans).attr('data_rom',roman).attr('title',title).removeClass('status<?php echo $_REQUEST['WoOldStatus']; ?>').addClass('status' + status).attr('data_status',status);
 //]]>
 </script>
     <?php
@@ -206,9 +206,9 @@ else {  // if (! isset($_REQUEST['op']))
 ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <script type="text/javascript">
-	$(window).on('beforeunload',function() {
-		setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
-	});
+    $(window).on('beforeunload',function() {
+        setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
+    });
 </script>
 <?php
     $scrdir = getScriptDirectionTag($lang);
@@ -221,52 +221,52 @@ if ($new) {
 
     ?>
 
-		<form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-		<input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
-		<input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
-		<input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
-		<input type="hidden" name="ord" value="<?php echo $_REQUEST['ord']; ?>" />
-		<input type="hidden" name="len" value="<?php echo $_REQUEST['len']; ?>" />
-		<table class="tab2" cellspacing="0" cellpadding="5">
-		<tr title="Only change uppercase/lowercase!">
-		<td class="td1 right"><b>New Term:</b></td>
-		<td class="td1"><input <?php echo $scrdir; ?> class="notempty checkoutsidebmp" data_info="New Term" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-		</td></tr>
+        <form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
+        <input type="hidden" name="WoTextLC" value="<?php echo tohtml($termlc); ?>" />
+        <input type="hidden" name="tid" value="<?php echo $_REQUEST['tid']; ?>" />
+        <input type="hidden" name="ord" value="<?php echo $_REQUEST['ord']; ?>" />
+        <input type="hidden" name="len" value="<?php echo $_REQUEST['len']; ?>" />
+        <table class="tab2" cellspacing="0" cellpadding="5">
+        <tr title="Only change uppercase/lowercase!">
+        <td class="td1 right"><b>New Term:</b></td>
+        <td class="td1"><input <?php echo $scrdir; ?> class="notempty checkoutsidebmp" data_info="New Term" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+        </td></tr>
     <?php print_similar_terms_tabrow(); ?>
-		<tr>
-		<td class="td1 right">Translation:</td>
-		<td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength checkoutsidebmp" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea></td>
-		</tr>
-		<tr>
-		<td class="td1 right">Tags:</td>
-		<td class="td1">
+        <tr>
+        <td class="td1 right">Translation:</td>
+        <td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength checkoutsidebmp" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea></td>
+        </tr>
+        <tr>
+        <td class="td1 right">Tags:</td>
+        <td class="td1">
     <?php echo getWordTags(0); ?>
-		</td>
-		</tr>
-		<tr>
-		<td class="td1 right">Romaniz.:</td>
-		<td class="td1"><input type="text" class="checkoutsidebmp" data_info="Romanization" name="WoRomanization" value="" maxlength="100" size="35" /></td>
-		</tr>
-		<tr>
-		<td class="td1 right">Sentence<br />Term in {...}:</td>
-		<td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml(repl_tab_nl($sent[1])); ?></textarea></td>
-		</tr>
-		<tr>
-		<td class="td1 right">Status:</td>
-		<td class="td1">
+        </td>
+        </tr>
+        <tr>
+        <td class="td1 right">Romaniz.:</td>
+        <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Romanization" name="WoRomanization" value="" maxlength="100" size="35" /></td>
+        </tr>
+        <tr>
+        <td class="td1 right">Sentence<br />Term in {...}:</td>
+        <td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml(repl_tab_nl($sent[1])); ?></textarea></td>
+        </tr>
+        <tr>
+        <td class="td1 right">Status:</td>
+        <td class="td1">
     <?php echo get_wordstatus_radiooptions(1); ?>
-		</td>
-		</tr>
-		<tr>
-		<tr>
-		<td class="td1 right" colspan="2">
+        </td>
+        </tr>
+        <tr>
+        <tr>
+        <td class="td1 right" colspan="2">
     <?php echo createDictLinksInEditWin($lang, $term, 'document.forms[0].WoSentence', isset($_GET['nodict'])?0:1); ?>
-		&nbsp; &nbsp; &nbsp; 
-		<input type="submit" name="op" value="Save" /></td>
-		</tr>
-		</table>
-		</form>
-		<div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', -1'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>
+        &nbsp; &nbsp; &nbsp; 
+        <input type="submit" name="op" value="Save" /></td>
+        </tr>
+        </table>
+        </form>
+        <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', -1'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>
     <?php
 }
 

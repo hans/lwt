@@ -94,7 +94,7 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <ul>
 <li>Language: <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}"><?php echo get_languages_selectoptions($currentlang, '[Select...]'); ?></select></li>
 </ul>
-	
+    
 <?php
 if ($currenttext != '') {
     $txttit = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
@@ -130,35 +130,35 @@ if ($currenttext != '') {
 <li><a href="edit_texts.php">My Texts</a></li>
 <li><a href="edit_archivedtexts.php">My Text Archive</a></li>
 <li><a href="edit_texttags.php">My Text Tags</a>
-	<br /><br /></li>
+    <br /><br /></li>
 <li><a href="edit_languages.php">My Languages</a>
-	<br /><br /></li>
+    <br /><br /></li>
 <li><a href="edit_words.php">My Terms (Words and Expressions)</a></li>
 <li><a href="edit_tags.php">My Term Tags</a>
-	<br /><br /></li>
+    <br /><br /></li>
 <li><a href="statistics.php">My Statistics</a>
-	<br /><br /></li>
+    <br /><br /></li>
 <li><a href="check_text.php">Check a Text</a></li>
 <li><a href="long_text_import.php">Long Text Import</a></li>
 <li><a href="do_feeds.php?check_autoupdate=1">Newsfeed Import</a></li>
 <li><a href="upload_words.php">Import Terms</a></li>
 <li><a href="backup_restore.php">Backup/Restore/Empty Database</a>
-	<br /><br /></li>
+    <br /><br /></li>
 <li><a href="settings.php">Settings/Preferences</a>
 
 <?php
 // ********* WORDPRESS LOGOUT *********
 if (isset($_SESSION['LWT-WP-User'])) {
 ?>
-	<br /><br /></li>
+    <br /><br /></li>
 <li><a href="wp_lwt_stop.php"><span style="font-size:115%; font-weight:bold; color:red;">LOGOUT</span></a> (from WordPress and LWT)
 <?php
 }
 // ********* WORDPRESS LOGOUT *********
 ?>
 
-	<br /><br /></li>
-<li><a href="info.htm">Help/Information</a></li>
+    <br /><br /></li>
+<li><a href="ingo.php">Help/Information</a></li>
 <li><a href="mobile.php">Mobile LWT (Experimental)</a></li>
 </ul>
 

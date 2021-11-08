@@ -2,7 +2,7 @@
 
 > [Learning with Texts](https://sourceforge.net/projects/learning-with-texts) (LWT) is a tool for Language Learning using texts.
 
-This is an intricated fork by [@HugoFara](https://github.com/pirtleshell/lwt-fork). As a GitHub fork, it comes from [@chaosarium's fork (archived)](https://github.com/chaosarium/lwt-fork)  of [@PirtleShell's fork](https://github.com/pirtleshell/lwt) of [@andreask7's fork](https://github.com/andreask7/lwt). It was also merged from the official LWT (as least until version 2.0.2), and many contributions from the community.
+This is an intricated fork by [@HugoFara](https://github.com/hugofara/lwt). As a GitHub fork, it comes from [@chaosarium's fork (archived)](https://github.com/chaosarium/lwt-fork)  of [@PirtleShell's fork](https://github.com/pirtleshell/lwt) of [@andreask7's fork](https://github.com/andreask7/lwt). It was also merged from the official LWT (as least until version 2.0.2), and many contributions from the community.
 
 This version is quicker than this official, has many features not found in the original. It also looks more likely to develop communally, whereas the original is not open for contributions.
 
@@ -37,7 +37,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
 * Support for MeCab for Japanese word-by-word automatic translation
 
 ## Useful links
-* General documentation at [info.html](info.html).
+* General documentation at [ingo.phpl](ingo.phpl).
 * Please find more help at [docs/index.html](docs/index.html).
 * You can also contact the community by GitHub.
 

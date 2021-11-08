@@ -83,48 +83,48 @@ $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 
 ?>
 <script type="text/javascript">
-	/// Main object for text-to-speech interaction with SpeechSynthesisUtterance
-	var text_reader = {
-		/// The text to read
-		text: `<?php echo htmlentities(phonetic_reading($record["TxText"], $langDefs[$record["LgName"]][1])); ?>`,
+    /// Main object for text-to-speech interaction with SpeechSynthesisUtterance
+    var text_reader = {
+        /// The text to read
+        text: `<?php echo htmlentities(phonetic_reading($record["TxText"], $langDefs[$record["LgName"]][1])); ?>`,
 
-		/// {string} ISO code for the language
-		lang: '<?php global $langDefs; echo htmlentities($langDefs[$record["LgName"]][1]); ?>',
+        /// {string} ISO code for the language
+        lang: '<?php global $langDefs; echo htmlentities($langDefs[$record["LgName"]][1]); ?>',
 
-		/// {string} Rate at wich the speech is done
-		rate: 0.8,
+        /// {string} Rate at wich the speech is done
+        rate: 0.8,
 
-		/**
-		 * Reads a text using the browser text reader
-		 */
-		readTextAloud: function () {
-			var msg = new SpeechSynthesisUtterance();
-			msg.text = this.text;
-			msg.lang = this.lang;
-			msg.rate = this.rate;
-			window.speechSynthesis.speak(msg);
-		},
+        /**
+         * Reads a text using the browser text reader
+         */
+        readTextAloud: function () {
+            var msg = new SpeechSynthesisUtterance();
+            msg.text = this.text;
+            msg.lang = this.lang;
+            msg.rate = this.rate;
+            window.speechSynthesis.speak(msg);
+        },
 
-	};
+    };
 
-	/// Check browser compatibility before reading
-	function init_reading() {
-		if (!'speechSynthesis' in window) {
-			alert('Your browser is not compatible with speechSynthesis!');
-		} else {
-			text_reader.readTextAloud();
-		}
-	}
+    /// Check browser compatibility before reading
+    function init_reading() {
+        if (!'speechSynthesis' in window) {
+            alert('Your browser is not compatible with speechSynthesis!');
+        } else {
+            text_reader.readTextAloud();
+        }
+    }
 </script>
 <table class="width99pc">
-	<tr>
-		<td>TO DO:<span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span></td>
-		<td title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.
+    <tr>
+        <td>TO DO:<span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span></td>
+        <td title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.
 [Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">Show All&nbsp;<input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> /></td>
-		<td title="[Learning Translations] = ON: Terms with Learning Level&nbsp;1 display their translations under the term.
+        <td title="[Learning Translations] = ON: Terms with Learning Level&nbsp;1 display their translations under the term.
 [Learning Translations] = OFF: No translations are shown in the reading mode.">Learning Translations&nbsp;<input type="checkbox" id="showlearningtranslations" <?php echo get_checked($showLearning); ?> /></td>
-	<td id="thetextid" class="hide"><?php echo $textid; ?></td>
-	<td><button id="readTextButton">Read in browser</button></td>
+    <td id="thetextid" class="hide"><?php echo $textid; ?></td>
+    <td><button id="readTextButton">Read in browser</button></td>
 </tr>
 
 <?php
@@ -136,15 +136,15 @@ makeAudioPlayer($audio, $pos);
 <script type="text/javascript">
 <?php if ($audio != '') { ?>
 $(window).on('beforeunload',function() {
-	var pos=$("#jquery_jplayer_1").data("jPlayer").status.currentTime;
-	$.ajax({type: "POST",url:'ajax_save_text_position.php', data: { id: '<?php echo $_REQUEST['text']; ?>', audioposition: pos }, async:false});
+    var pos=$("#jquery_jplayer_1").data("jPlayer").status.currentTime;
+    $.ajax({type: "POST",url:'ajax_save_text_position.php', data: { id: '<?php echo $_REQUEST['text']; ?>', audioposition: pos }, async:false});
 });
 <?php 
 } ?>
-	// We need to capture the event manually for Chrome
-	$(document).ready(function(){
-		$('#readTextButton').click(init_reading)
-	});
+    // We need to capture the event manually for Chrome
+    $(document).ready(function(){
+        $('#readTextButton').click(init_reading)
+    });
 </script>
 <?php
 pageend();

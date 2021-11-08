@@ -64,26 +64,26 @@ echo '<h2 class="center" style="margin:5px;margin-top:-10px;">';
 
 <script type="text/javascript">
 //<![CDATA[
-	function do_hide_t() {
-		$('#showt').show(); 
-		$('#hidet').hide();
-		$('.anntermruby', window.parent.frames['text'].document).css('color','#E5E4E2').css('background-color', '#E5E4E2');
-	}
-	function do_show_t() {
-		$('#showt').hide(); 
-		$('#hidet').show();
-		$('.anntermruby', window.parent.frames['text'].document).css('color','inherit').css('background-color', '');
-	}
-	function do_hide_a() {
-		$('#show').show(); 
-		$('#hide').hide(); 
-		$('.anntransruby2', window.parent.frames['text'].document).css('color','#C8DCF0').css('background-color', '#C8DCF0');
-	}
-	function do_show_a() {
-		$('#show').hide(); 
-		$('#hide').show();
-		$('.anntransruby2', window.parent.frames['text'].document).css('color','').css('background-color', '');
-	}
+    function do_hide_t() {
+        $('#showt').show(); 
+        $('#hidet').hide();
+        $('.anntermruby', window.parent.frames['text'].document).css('color','#E5E4E2').css('background-color', '#E5E4E2');
+    }
+    function do_show_t() {
+        $('#showt').hide(); 
+        $('#hidet').show();
+        $('.anntermruby', window.parent.frames['text'].document).css('color','inherit').css('background-color', '');
+    }
+    function do_hide_a() {
+        $('#show').show(); 
+        $('#hide').hide(); 
+        $('.anntransruby2', window.parent.frames['text'].document).css('color','#C8DCF0').css('background-color', '#C8DCF0');
+    }
+    function do_show_a() {
+        $('#show').hide(); 
+        $('#hide').show();
+        $('.anntransruby2', window.parent.frames['text'].document).css('color','').css('background-color', '');
+    }
 //]]>
 </script>
 

@@ -82,26 +82,26 @@ Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text"
 if(<?php if(isset($_SESSION['wizard']['edit_feed'])) { echo $_SESSION['wizard']['edit_feed']; 
 }else { echo '0'; 
 } ?>){$('input[name="save_feed"]').attr('name','update_feed');$('input[type="submit"]').val('Update');}
-$('h3').eq(-1).html('Feed Wizard | Step 4 - Edit Options <a href="info.htm#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
+$('h3').eq(-1).html('Feed Wizard | Step 4 - Edit Options <a href="ingo.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
 $('[name^="c_"]').change(function(){
-	if(this.checked){
-		$(this).parent().children('input[type="text"]').removeAttr('disabled').addClass("notempty");
-		$(this).parent().find('select').removeAttr('disabled');
-	}
-	else{
-		$(this).parent().children('input[type="text"]').attr('disabled','disabled').removeClass("notempty");
-		$(this).parent().find('select').attr('disabled','disabled');
-	}
+    if(this.checked){
+        $(this).parent().children('input[type="text"]').removeAttr('disabled').addClass("notempty");
+        $(this).parent().find('select').removeAttr('disabled');
+    }
+    else{
+        $(this).parent().children('input[type="text"]').attr('disabled','disabled').removeClass("notempty");
+        $(this).parent().find('select').attr('disabled','disabled');
+    }
 });
 $('[type="submit"]').click(function(){
-	var str;
-	str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
-	$('[name^="c_"]').each(function(){		
-		str+=this.checked ? $(this).parent().children('input[type="text"]').attr('name') + '='
-		+ $(this).parent().children('input[type="text"]').val()
-		+  ($(this).attr('name')=='c_autoupdate' ? $(this).parent().find('select').val() + ',' : ','): '';
-	});if($('input[name="article_source"]').val()!='')str=str+'article_source='+ $('input[name="article_source"]').val();
-	$('input[name="NfOptions"]').val(str);
+    var str;
+    str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
+    $('[name^="c_"]').each(function(){        
+        str+=this.checked ? $(this).parent().children('input[type="text"]').attr('name') + '='
+        + $(this).parent().children('input[type="text"]').val()
+        +  ($(this).attr('name')=='c_autoupdate' ? $(this).parent().find('select').val() + ',' : ','): '';
+    });if($('input[name="article_source"]').val()!='')str=str+'article_source='+ $('input[name="article_source"]').val();
+    $('input[name="NfOptions"]').val(str);
 });
 </script>
 <?php
@@ -149,7 +149,7 @@ elseif($_REQUEST['step']==3) {
     $feed_len=count($_SESSION['wizard']['feed'])-2;
     ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -175,19 +175,19 @@ border-style:dashed ! important;
 cursor:crosshair;
 }
 #lwt_last ~ *{
-	color:#000000;
-	position:static ! important;
-	cursor: pointer;
+    color:#000000;
+    position:static ! important;
+    cursor: pointer;
 }
 #lwt_last ~ * *{
-	color:#000000;
-	position:static ! important;
-	cursor: pointer;
+    color:#000000;
+    position:static ! important;
+    cursor: pointer;
 }
 .lwt_filtered_text
 {
 background-color:#FFFFFF ! important;color:#DDDDDD ! important;
-	cursor: default ! important;
+    cursor: default ! important;
 }
 
 </style>
@@ -199,9 +199,9 @@ background-color:#FFFFFF ! important;color:#DDDDDD ! important;
 }?>
 });filter_Array = [];
 $(function(){ArticleSection='<?php echo str_replace("'", "\'", $_SESSION['wizard']['article_selector']); ?>';
-	$('#lwt_header').nextAll().find('*').addBack().not($(document).xpath(ArticleSection).find('*').addBack()).not($('#lwt_header').find('*').addBack()).each(function(){
-		$(this).addClass('lwt_filtered_text');filter_Array.push(this);
-	});
+    $('#lwt_header').nextAll().find('*').addBack().not($(document).xpath(ArticleSection).find('*').addBack()).not($('#lwt_header').find('*').addBack()).each(function(){
+        $(this).addClass('lwt_filtered_text');filter_Array.push(this);
+    });
 });
 </script>
 <div id="lwt_header"><form name="lwt_form1" class="validate" action="feed_wizard.php" method="post">
@@ -225,7 +225,7 @@ Hide Images: <select name="hide_images" onchange="if($(this).val()=='no')$('img'
 }?>>No</option>
 </select></div>
 <button style="position:relative;left:150px;" onclick="$('#settings').hide();return false;">OK</button></div>
-<div  id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 3 - Filter Text</b> <a href="info.htm#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
+<div  id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 3 - Filter Text</b> <a href="ingo.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
 <ol id="lwt_sel" style="margin-left:77px"><?php echo $_SESSION['wizard']['filter_tags']; ?></ol>
 <table class="tab1" style="margin-left:77px" cellspacing="0" cellpadding="5">
 <tr><td class="td1" style="text-align:left">
@@ -295,10 +295,10 @@ echo $_SESSION['wizard']['feed'][$i]['html'];
 if($_SESSION['wizard']['maxim']==0) {
 ?>
 $(function(){
-	$('#lwt_container').hide();
-	$('#lwt_last').css('margin-top',$('#lwt_header').height());
-	if($('#lwt_container').css('display')=='none'){$('input[name=\'maxim\']').val(0);}
-	else{$('input[name=\'maxim\']').val(1);}
+    $('#lwt_container').hide();
+    $('#lwt_last').css('margin-top',$('#lwt_header').height());
+    if($('#lwt_container').css('display')=='none'){$('input[name=\'maxim\']').val(0);}
+    else{$('input[name=\'maxim\']').val(1);}
 });
 <?php
 }
@@ -421,7 +421,7 @@ elseif($_REQUEST['step']==2) {
         $_SESSION['wizard']['host']='';
     }
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -446,12 +446,12 @@ border-style:dashed ! important;
 cursor:crosshair;
 }
 #lwt_last ~ *{
-	position:static ! important;
-	cursor: pointer;
+    position:static ! important;
+    cursor: pointer;
 }
 #lwt_last ~ * *{
-	position:static ! important;
-	cursor: pointer;
+    position:static ! important;
+    cursor: pointer;
 }
 
 </style>
@@ -485,7 +485,7 @@ Hide Images: <select name="hide_images" onchange="if($(this).val()=='no')$('img'
 }?>>No</option>
 </select></div>
 <button style="position:relative;left:150px;" onclick="$('#settings').hide();return false;">OK</button></div>
-<div id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 2 - Select Article Text</b> <a href="info.htm#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
+<div id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 2 - Select Article Text</b> <a href="ingo.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
 <ol id="lwt_sel" style="margin-left:77px"><?php if(isset($_REQUEST['html'])) { echo $_REQUEST['html']; 
 }if(isset($_REQUEST['article_tags']) || isset($_REQUEST['edit_feed'])) { echo $_SESSION['wizard']['article_tags']; 
 } ?></ol>
@@ -560,9 +560,9 @@ echo $_SESSION['wizard']['feed'][$i]['html'];
 if($_SESSION['wizard']['maxim']==0) {
 ?>
 $(function(){
-	$('#lwt_container').hide();$('#lwt_last').css('margin-top',$('#lwt_header').height());
-	if($('#lwt_container').css('display')=='none'){$('input[name=\'maxim\']').val(0);}
-	else{$('input[name=\'maxim\']').val(1);}
+    $('#lwt_container').hide();$('#lwt_last').css('margin-top',$('#lwt_header').height());
+    if($('#lwt_container').css('display')=='none'){$('input[name=\'maxim\']').val(0);}
+    else{$('input[name=\'maxim\']').val(1);}
 });
 <?php
 }
@@ -593,7 +593,7 @@ else{
 <button>Next</button>
 </form>
 <script type="text/javascript">
-$('h3').eq(-1).html('Feed Wizard | Step 1 - Insert Newsfeed URI <a href="info.htm#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
+$('h3').eq(-1).html('Feed Wizard | Step 1 - Insert Newsfeed URI <a href="ingo.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
 </script>
 <?php
 }

@@ -138,7 +138,8 @@ foreach ($items as $item) {
                 if(get_first_value(
                     "select count(WoID) as value from " . $tbpref . "words where WoID = "
                     . $id
-                ) < 1) { $id = ''; 
+                ) < 1
+                ) { $id = ''; 
                 }
             }
         }

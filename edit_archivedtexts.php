@@ -110,9 +110,9 @@ else {
     if ($currenttag1 != '' && $currenttag2 == '') {    
         $wh_tag = " having (" . $wh_tag1 . ') '; 
     }
-    elseif ($currenttag2 != '' && $currenttag1 == '')    
-    $wh_tag = " having (" . $wh_tag2 . ') ';
-    else {
+    elseif ($currenttag2 != '' && $currenttag1 == '') {    
+        $wh_tag = " having (" . $wh_tag2 . ') ';
+    } else {
         $wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) '; 
     }
 }
@@ -254,9 +254,9 @@ if (isset($_REQUEST['chg'])) {
     if ($record = mysqli_fetch_assoc($res)) {
 
         ?>
-	
+    
      <h4>Edit Archived Text</h4>
-     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
+     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>    
      <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
      <input type="hidden" name="AtID" value="<?php echo $_REQUEST['chg']; ?>" />
      <table class="tab3" cellspacing="0" cellpadding="5">
@@ -299,7 +299,7 @@ if (isset($_REQUEST['chg'])) {
      <tr>
      <td class="td1 right">Audio-URI:</td>
      <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="AtAudioURI" value="<?php echo tohtml($record['AtAudioURI']); ?>" maxlength="200" size="60" />
-     <span id="mediaselect"><?php echo selectmediapath('AtAudioURI'); ?></span>		
+     <span id="mediaselect"><?php echo selectmediapath('AtAudioURI'); ?></span>        
      </td>
      </tr>
      <tr>
@@ -309,7 +309,7 @@ if (isset($_REQUEST['chg'])) {
      </tr>
      </table>
      </form>
-		
+        
         <?php
 
     }
@@ -370,8 +370,8 @@ Language:
 </select><?php
 if($currentregexmode=='') { echo '<span style="vertical-align: middle"> (Wildc.=*): </span>'; 
 }
-elseif($currentregexmode=='r') echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
-else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
+elseif($currentregexmode=='r') { echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
+} else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
 }?>
 <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value;val=encodeURIComponent(val); location.href='edit_archivedtexts.php?page=1&amp;query=' + val;}" />&nbsp;

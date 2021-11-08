@@ -73,6 +73,7 @@ function get_version_number()
 
 /**
  * Make the script crash and returns an error message
+ *
  * @param any $text Error text to output
  */
 function my_die($text) 
@@ -719,9 +720,9 @@ function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add)
         if ($currenttag1 != '' && $currenttag2 == '') {    
             $wh_tag = " having (" . $wh_tag1 . ') '; 
         }
-        elseif ($currenttag2 != '' && $currenttag1 == '')    
-        $wh_tag = " having (" . $wh_tag2 . ') ';
-        else {
+        elseif ($currenttag2 != '' && $currenttag1 == '') {    
+            $wh_tag = " having (" . $wh_tag2 . ') ';
+        } else {
             $wh_tag = " having ((" . $wh_tag1 . ($currenttag12 ? ') AND (' : ') OR (') . $wh_tag2 . ')) '; 
         }
     }
@@ -827,7 +828,7 @@ function get_texttags($refresh = 0)
 
 // -------------------------------------------------------------
 
-function getTextTitle ($textid) 
+function getTextTitle($textid) 
 {
     global $tbpref;
     $text = get_first_value("select TxTitle as value from " . $tbpref . "texts where TxID=" . $textid);
@@ -1102,7 +1103,7 @@ function getArchivedTextTags($tid)
 
 // -------------------------------------------------------------
 
-function addtaglist ($item, $list) 
+function addtaglist($item, $list) 
 {
     global $tbpref;
     $tagid = get_first_value('select TgID as value from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item));
@@ -1123,7 +1124,7 @@ function addtaglist ($item, $list)
 
 // -------------------------------------------------------------
 
-function addarchtexttaglist ($item, $list) 
+function addarchtexttaglist($item, $list) 
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
@@ -1144,7 +1145,7 @@ function addarchtexttaglist ($item, $list)
 
 // -------------------------------------------------------------
 
-function addtexttaglist ($item, $list) 
+function addtexttaglist($item, $list) 
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
@@ -1165,7 +1166,7 @@ function addtexttaglist ($item, $list)
 
 // -------------------------------------------------------------
 
-function removetaglist ($item, $list) 
+function removetaglist($item, $list) 
 {
     global $tbpref;
     $tagid = get_first_value('select TgID as value from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item));
@@ -1184,7 +1185,7 @@ function removetaglist ($item, $list)
 
 // -------------------------------------------------------------
 
-function removearchtexttaglist ($item, $list) 
+function removearchtexttaglist($item, $list) 
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
@@ -1203,7 +1204,7 @@ function removearchtexttaglist ($item, $list)
 
 // -------------------------------------------------------------
 
-function removetexttaglist ($item, $list) 
+function removetexttaglist($item, $list) 
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
@@ -1229,12 +1230,12 @@ function framesetheader($title)
     @header('Cache-Control: no-cache, must-revalidate, max-age=0');
     @header('Pragma: no-cache');
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 
 <!-- ***********************************************************
 "Learning with Texts" (LWT) is free and unencumbered software 
@@ -1266,7 +1267,7 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ************************************************************ -->
 
-	<title>LWT :: <?php echo tohtml($title); ?></title>
+    <title>LWT :: <?php echo tohtml($title); ?></title>
 </head>
 <?php
 }
@@ -1282,11 +1283,11 @@ function pagestart_nobody($titletext, $addcss='')
     @header('Cache-Control: no-cache, must-revalidate, max-age=0');
     @header('Pragma: no-cache');
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
 <!-- ***********************************************************
 "Learning with Texts" (LWT) is free and unencumbered software 
 released into the PUBLIC DOMAIN.
@@ -1317,42 +1318,42 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ************************************************************ -->
 
-	<meta name="viewport" content="width=900" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-	<link rel="apple-touch-icon" href="<?php print_file_path('img/apple-touch-icon-57x57.png');?>" />
-	<link rel="apple-touch-icon" sizes="72x72" href="<?php print_file_path('img/apple-touch-icon-72x72.png');?>" />
-	<link rel="apple-touch-icon" sizes="114x114" href="<?php print_file_path('img/apple-touch-icon-114x114.png');?>" />
-	<link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	
-	<link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery-ui.css');?>" />
-	<link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery.tagit.css');?>" />
-	<link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
-	<style type="text/css">
+    <meta name="viewport" content="width=900" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="<?php print_file_path('img/apple-touch-icon-57x57.png');?>" />
+    <link rel="apple-touch-icon" sizes="72x72" href="<?php print_file_path('img/apple-touch-icon-72x72.png');?>" />
+    <link rel="apple-touch-icon" sizes="114x114" href="<?php print_file_path('img/apple-touch-icon-114x114.png');?>" />
+    <link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery-ui.css');?>" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery.tagit.css');?>" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
+    <style type="text/css">
     <?php echo $addcss . "\n"; ?>
-	</style>
-	
-	<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
-	<script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/jquery.jeditable.mini.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/sorttable/sorttable.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
-	<!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
-	<!-- TBPREF  : "<?php echo tohtml($tbpref); ?>" -->
-	<script type="text/javascript">
-	//<![CDATA[
+    </style>
+    
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
+    <script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.jeditable.mini.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/sorttable/sorttable.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
+    <!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
+    <!-- TBPREF  : "<?php echo tohtml($tbpref); ?>" -->
+    <script type="text/javascript">
+    //<![CDATA[
     <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
     <?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
     <?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
-	//]]>
-	</script>
-	<script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
-	<script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
-	
-	<title>LWT :: <?php echo $titletext; ?></title>
+    //]]>
+    </script>
+    <script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
+    
+    <title>LWT :: <?php echo $titletext; ?></title>
 </head>
 <body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
@@ -1541,7 +1542,7 @@ function get_playbackrate_selectoptions($v)
 /// Displays the main menu of navigation as a dropdown
 function quickMenu() 
 {
-?><select id="quickmenu" onchange="{var qm = document.getElementById('quickmenu'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { if (val == 'INFO') {top.location.href='info.htm';}else if (val == 'rss_import'){top.location.href = 'do_feeds.php?check_autoupdate=1';} else {top.location.href = val + '.php';}}}">
+?><select id="quickmenu" onchange="{var qm = document.getElementById('quickmenu'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { if (val == 'INFO') {top.location.href='ingo.php';}else if (val == 'rss_import'){top.location.href = 'do_feeds.php?check_autoupdate=1';} else {top.location.href = val + '.php';}}}">
 <option value="" selected="selected">[Menu]</option>
 <option value="index">Home</option>
 <option value="edit_texts">Texts</option>
@@ -1682,7 +1683,7 @@ function tohtml($s)
 
 // -------------------------------------------------------------
 
-function makeCounterWithTotal ($max, $num) 
+function makeCounterWithTotal($max, $num) 
 {
     if ($max == 1) { return ''; 
     }
@@ -1759,7 +1760,7 @@ function convert_string_to_sqlsyntax_notrim_nonull($data)
 
 // -------------------------------------------------------------
 
-function convert_regexp_to_sqlsyntax ($input) 
+function convert_regexp_to_sqlsyntax($input) 
 {
     $output = preg_replace_callback(
         "/\\\\x\{([\da-z]+)\}/ui", function ($a) {
@@ -1831,6 +1832,7 @@ function get_first_sepa()
 
 /** 
  * Convert a setting to 0 or 1
+ *
  * @param type $key The input value
  * @param type $dft Default value to use
  */
@@ -2634,7 +2636,7 @@ function get_file_path($filename)
 
 // -------------------------------------------------------------
 
-function makePager ($currentpage, $pages, $script, $formname) 
+function makePager($currentpage, $pages, $script, $formname) 
 {
     if ($currentpage > 1) { 
     ?>
@@ -3405,6 +3407,7 @@ function getSentence($seid, $wordlc,$mode)
 /** 
  * Returns path to the MeCab application.
  * MeCab can split Japanese text word by word
+ *
  * @param String $mecab_args Arguments to add
  */
 function get_mecab_path($mecab_args = '') 
@@ -3502,7 +3505,7 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode)
 
 // -------------------------------------------------------------
 
-function getsqlscoreformula ($method) 
+function getsqlscoreformula($method) 
 {
     // $method = 2 (today)
     // $method = 3 (tomorrow)
@@ -3511,16 +3514,16 @@ function getsqlscoreformula ($method)
     if ($method == 3) { return 'GREATEST(-125, CASE WHEN WoStatus > 5 THEN 100 WHEN WoStatus = 1 THEN ROUND(-7 -7 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 2 THEN ROUND(3.4 - 3.5 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 3 THEN ROUND(17.7 - 2.3 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 4 THEN ROUND(44.65 - 1.75 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 5 THEN ROUND(98.6 - 1.4 * DATEDIFF(NOW(),WoStatusChanged)) END)'; 
     }
 
-    elseif ($method == 2) return 'GREATEST(-125, CASE WHEN WoStatus > 5 THEN 100 WHEN WoStatus = 1 THEN ROUND(-7 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 2 THEN ROUND(6.9 - 3.5 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 3 THEN ROUND(20 - 2.3 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 4 THEN ROUND(46.4 - 1.75 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 5 THEN ROUND(100 - 1.4 * DATEDIFF(NOW(),WoStatusChanged)) END)';
+    elseif ($method == 2) { return 'GREATEST(-125, CASE WHEN WoStatus > 5 THEN 100 WHEN WoStatus = 1 THEN ROUND(-7 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 2 THEN ROUND(6.9 - 3.5 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 3 THEN ROUND(20 - 2.3 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 4 THEN ROUND(46.4 - 1.75 * DATEDIFF(NOW(),WoStatusChanged)) WHEN WoStatus = 5 THEN ROUND(100 - 1.4 * DATEDIFF(NOW(),WoStatusChanged)) END)';
     
-    else { return '0'; 
+    } else { return '0'; 
     }
     
 }
 
 // -------------------------------------------------------------
 
-function AreUnknownWordsInSentence ($sentno) 
+function AreUnknownWordsInSentence($sentno) 
 {
     global $tbpref;
     $x = get_first_value("SELECT distinct Ti2Text as value FROM " . $tbpref . "textitems2 where Ti2SeID = " . $sentno . " AND Ti2WordCount = 1 and Ti2WoID = 0 limit 1");
@@ -3698,6 +3701,7 @@ function getScriptDirectionTag($lid)
 
 /**
  * Debug function
+ *
  * @param Any    $var  A printed variable to debug
  * @param String $text Echoed text in HTML page
  */
@@ -3909,10 +3913,11 @@ function splitCheckText($text, $lid, $id)
  * Insert an expression to the database using MeCab.
  * 
  * @param String $textlc 
- * @param String $lid Language ID
- * @param String $wid Word ID
+ * @param String $lid    Language ID
+ * @param String $wid    Word ID
  */
-function insertExpressionFromMeCab($textlc, $lid, $wid) {
+function insertExpressionFromMeCab($textlc, $lid, $wid) 
+{
     global $tbpref;
 
     $db_to_mecab = sys_get_temp_dir() . "/lwt/" . $tbpref . "db_to_mecab.txt";
@@ -3937,8 +3942,9 @@ function insertExpressionFromMeCab($textlc, $lid, $wid) {
     );
     $handle = popen($mecab . $db_to_mecab, "r");
     $fp = fopen($mecab_to_db, 'w');
-    if(!feof($handle))
+    if(!feof($handle)) {
         return;
+    }
 
     while (!feof($handle)) {
         $row = fgets($handle, 4096);
@@ -3950,7 +3956,8 @@ function insertExpressionFromMeCab($textlc, $lid, $wid) {
                 '$([267])?\t[0-9]+\t$u', 
                 function ($matches) {
                     return isset($matches[1]) ? "\t" : "";
-                }, $arr[3]);
+                }, $arr[3]
+            );
             if(empty($mecab_expr)) {
                 $mecab_expr = trim($sent) . "\t";
             }
@@ -4001,7 +4008,8 @@ function insertExpressionFromMeCab($textlc, $lid, $wid) {
 /**
  * Prapare a JavAScript dialog for inserting a new expression
  */
-function new_expression_interactable($hex, $appendtext, $sid, $len) {
+function new_expression_interactable($hex, $appendtext, $sid, $len) 
+{
     ?>
 <script type="text/javascript">
  var obj = <?php echo json_encode($appendtext); ?>;
@@ -4042,17 +4050,17 @@ function new_expression_interactable($hex, $appendtext, $sid, $len) {
 }
 
 /**
- * This functino alters the database when adding a new word
+ * Alter the database when to add a new word
  * 
  * @param String $textlc 
- * @param String $lid Language ID
+ * @param String $lid    Language ID
  * @param String $len
- * @param Int $mode The way it shoudl be inserted
- *  - 0: 
- *  - 1: Output a javascript function
- *  - 2: 
+ * @param Int    $mode   Function mode
+ *                       - 0:  
+ *                       - 1: Output a javascript function 
+ *                       - 2: 
  */
-function insertExpressions ($textlc, $lid, $wid, $len, $mode) 
+function insertExpressions($textlc, $lid, $wid, $len, $mode) 
 {
     global $tbpref;
     $wis = $textlc;
@@ -4196,8 +4204,9 @@ function restore_file($handle, $title)
                     $ok++;
                     if (substr($sql_line, 0, 11) == "INSERT INTO") { $inserts++; 
                     }
-                    elseif (substr($sql_line, 0, 10) == "DROP TABLE") $drops++;
-                    elseif (substr($sql_line, 0, 12) == "CREATE TABLE") $creates++;
+                    elseif (substr($sql_line, 0, 10) == "DROP TABLE") { $drops++;
+                    } elseif (substr($sql_line, 0, 12) == "CREATE TABLE") { $creates++;
+                    }
                 }
                 // echo $ok . " / " . tohtml(insert_prefix_in_sql($sql_line)) . "<br />";
             }
@@ -4225,7 +4234,7 @@ function restore_file($handle, $title)
 
 // -------------------------------------------------------------
 
-function set_word_count () 
+function set_word_count() 
 {
     global $tbpref;
     $sqlarr = array();
@@ -4391,7 +4400,7 @@ function create_ann($textid)
 }
 
 // -------------------------------------------------------------
-function str_replace_first ($needle, $replace, $haystack) 
+function str_replace_first($needle, $replace, $haystack) 
 {
     if ($needle === '') {
         return $haystack; 
@@ -4405,7 +4414,7 @@ function str_replace_first ($needle, $replace, $haystack)
 
 // -------------------------------------------------------------
 
-function annotation_to_json ($ann) 
+function annotation_to_json($ann) 
 {
     if ($ann == '') { return "{}"; 
     }
@@ -4422,7 +4431,7 @@ function annotation_to_json ($ann)
 
 // -------------------------------------------------------------
 
-function LWTTableCheck () 
+function LWTTableCheck() 
 {
     if (mysqli_num_rows(do_mysqli_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) {
         runsql("CREATE TABLE IF NOT EXISTS _lwtgeneral ( LWTKey varchar(40) NOT NULL, LWTValue varchar(40) DEFAULT NULL, PRIMARY KEY (LWTKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8", '');
@@ -4433,7 +4442,7 @@ function LWTTableCheck ()
 
 // -------------------------------------------------------------
 
-function LWTTableSet ($key, $val) 
+function LWTTableSet($key, $val) 
 {
     LWTTableCheck();
     runsql("INSERT INTO _lwtgeneral (LWTKey, LWTValue) VALUES (" . convert_string_to_sqlsyntax($key) . ", " . convert_string_to_sqlsyntax($val) . ") ON DUPLICATE KEY UPDATE LWTValue = " . convert_string_to_sqlsyntax($val), '');
@@ -4441,7 +4450,7 @@ function LWTTableSet ($key, $val)
 
 // -------------------------------------------------------------
 
-function LWTTableGet ($key) 
+function LWTTableGet($key) 
 {
     LWTTableCheck();
     return get_first_value("SELECT LWTValue as value FROM _lwtgeneral WHERE LWTKey = " . convert_string_to_sqlsyntax($key));
@@ -4449,20 +4458,20 @@ function LWTTableGet ($key)
 
 // -------------------------------------------------------------
 
-function insert_prefix_in_sql ($sql_line) 
+function insert_prefix_in_sql($sql_line) 
 {
     global $tbpref;
     //                                 123456789012345678901
     if     (substr($sql_line, 0, 12) == "INSERT INTO ") {
         return substr($sql_line, 0, 12) . $tbpref . substr($sql_line, 12); 
     }
-    elseif (substr($sql_line, 0, 21) == "DROP TABLE IF EXISTS ")
-    return substr($sql_line, 0, 21) . $tbpref . substr($sql_line, 21);
-    elseif (substr($sql_line, 0, 14) == "CREATE TABLE `")
-    return substr($sql_line, 0, 14) . $tbpref . substr($sql_line, 14);
-    elseif (substr($sql_line, 0, 13) == "CREATE TABLE ")
-    return substr($sql_line, 0, 13) . $tbpref . substr($sql_line, 13);
-    else {
+    elseif (substr($sql_line, 0, 21) == "DROP TABLE IF EXISTS ") {
+        return substr($sql_line, 0, 21) . $tbpref . substr($sql_line, 21);
+    } elseif (substr($sql_line, 0, 14) == "CREATE TABLE `") {
+        return substr($sql_line, 0, 14) . $tbpref . substr($sql_line, 14);
+    } elseif (substr($sql_line, 0, 13) == "CREATE TABLE ") {
+        return substr($sql_line, 0, 13) . $tbpref . substr($sql_line, 13);
+    } else {
         return $sql_line; 
     }
 }
@@ -4587,40 +4596,40 @@ function makeAudioPlayer($audio,$offset=0)
 <div id="jquery_jplayer_1" class="jp-jplayer">
 </div>
 <div class="jp-audio-container">
-	<div id="jp_container_1" class="jp-audio">
-		<div class="jp-type-single">
-			<div id="jp_interface_1" class="jp-interface">
-				<ul class="jp-controls">
-					<li><a href="#" class="jp-play">play</a></li>
-					<li><a href="#" class="jp-pause">pause</a></li>
-					<li><a href="#" class="jp-stop">stop</a></li>
-					<li><a href="#" class="jp-mute">mute</a></li>
-					<li><a href="#" class="jp-unmute">unmute</a></li>
-				</ul>
-				<div class="jp-progress-container">
-					<div class="jp-progress">
-						<div class="jp-seek-bar">
-							<div class="jp-play-bar">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="jp-volume-bar-container">
-					<div class="jp-volume-bar">
-						<div class="jp-volume-bar-value">
-						</div>
-					</div>
-				</div>
-				<div class="jp-current-time">
-				</div>
-				<div class="jp-duration">
-				</div>
+    <div id="jp_container_1" class="jp-audio">
+        <div class="jp-type-single">
+            <div id="jp_interface_1" class="jp-interface">
+                <ul class="jp-controls">
+                    <li><a href="#" class="jp-play">play</a></li>
+                    <li><a href="#" class="jp-pause">pause</a></li>
+                    <li><a href="#" class="jp-stop">stop</a></li>
+                    <li><a href="#" class="jp-mute">mute</a></li>
+                    <li><a href="#" class="jp-unmute">unmute</a></li>
+                </ul>
+                <div class="jp-progress-container">
+                    <div class="jp-progress">
+                        <div class="jp-seek-bar">
+                            <div class="jp-play-bar">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="jp-volume-bar-container">
+                    <div class="jp-volume-bar">
+                        <div class="jp-volume-bar-value">
+                        </div>
+                    </div>
+                </div>
+                <div class="jp-current-time">
+                </div>
+                <div class="jp-duration">
+                </div>
 
-			</div>
-			<div id="jp_playlist_1" class="jp-playlist">
-			</div>
-		</div>
-	</div>
+            </div>
+            <div id="jp_playlist_1" class="jp-playlist">
+            </div>
+        </div>
+    </div>
 </div>
 </td>
 <td class="center bordermiddle">&nbsp;</td>
@@ -4653,106 +4662,106 @@ if($currentplaybackrate == '') { $currentplaybackrate = 10;
 //<![CDATA[
 
 function new_pos(p) {
-	$("#jquery_jplayer_1").jPlayer("playHead", p);
+    $("#jquery_jplayer_1").jPlayer("playHead", p);
 }
 
 function set_new_playerseconds() {
-	var newval = ($("#backtime :selected").val());
-	do_ajax_save_setting('currentplayerseconds',newval); 
-	// console.log("set_new_playerseconds="+newval);
+    var newval = ($("#backtime :selected").val());
+    do_ajax_save_setting('currentplayerseconds',newval); 
+    // console.log("set_new_playerseconds="+newval);
 }
 
 function set_new_playbackrate() {
-	var newval = ($("#playbackrate :selected").val());
-	do_ajax_save_setting('currentplaybackrate',newval); 
-	$("#jquery_jplayer_1").jPlayer("option","playbackRate", newval*0.1);
-	// console.log("set_new_playbackrate="+newval);
+    var newval = ($("#playbackrate :selected").val());
+    do_ajax_save_setting('currentplaybackrate',newval); 
+    $("#jquery_jplayer_1").jPlayer("option","playbackRate", newval*0.1);
+    // console.log("set_new_playbackrate="+newval);
 }
 
 function set_current_playbackrate() {
-	var val = ($("#playbackrate :selected").val());
-	$("#jquery_jplayer_1").jPlayer("option","playbackRate", val*0.1);
-	// console.log("set_current_playbackrate="+val);
+    var val = ($("#playbackrate :selected").val());
+    $("#jquery_jplayer_1").jPlayer("option","playbackRate", val*0.1);
+    // console.log("set_current_playbackrate="+val);
 }
 
 function click_single() {
-	$("#jquery_jplayer_1").unbind($.jPlayer.event.ended + ".jp-repeat");
-	$("#do-single").addClass('hide');
-	$("#do-repeat").removeClass('hide');
-	do_ajax_save_setting('currentplayerrepeatmode','0');
-	return false;
+    $("#jquery_jplayer_1").unbind($.jPlayer.event.ended + ".jp-repeat");
+    $("#do-single").addClass('hide');
+    $("#do-repeat").removeClass('hide');
+    do_ajax_save_setting('currentplayerrepeatmode','0');
+    return false;
 }
 
 function click_repeat() {
-	$("#jquery_jplayer_1").bind($.jPlayer.event.ended + ".jp-repeat", function(event) { 
-		$(this).jPlayer("play"); 
-	});
-	$("#do-repeat").addClass('hide');
-	$("#do-single").removeClass('hide');
-	do_ajax_save_setting('currentplayerrepeatmode','1');
-	return false;
+    $("#jquery_jplayer_1").bind($.jPlayer.event.ended + ".jp-repeat", function(event) { 
+        $(this).jPlayer("play"); 
+    });
+    $("#do-repeat").addClass('hide');
+    $("#do-single").removeClass('hide');
+    do_ajax_save_setting('currentplayerrepeatmode','1');
+    return false;
 }
 
 function click_back() {
-	var t = parseInt($("#playTime").text(),10);
-	var b = parseInt($("#backtime").val(),10);
-	var nt = t - b;
-	var st = 'pause';
-	if (nt < 0) nt = 0;
-	if(!$('#jquery_jplayer_1').data().jPlayer.status.paused)st = 'play';
-	$("#jquery_jplayer_1").jPlayer(st, nt);
+    var t = parseInt($("#playTime").text(),10);
+    var b = parseInt($("#backtime").val(),10);
+    var nt = t - b;
+    var st = 'pause';
+    if (nt < 0) nt = 0;
+    if(!$('#jquery_jplayer_1').data().jPlayer.status.paused)st = 'play';
+    $("#jquery_jplayer_1").jPlayer(st, nt);
 }
 
 function click_forw() {
-	var t = parseInt($("#playTime").text(),10);
-	var b = parseInt($("#backtime").val(),10);
-	var nt = t + b;
-	var st = 'pause';
-	if(!$('#jquery_jplayer_1').data().jPlayer.status.paused)st = 'play';
-	$("#jquery_jplayer_1").jPlayer(st, nt);
+    var t = parseInt($("#playTime").text(),10);
+    var b = parseInt($("#backtime").val(),10);
+    var nt = t + b;
+    var st = 'pause';
+    if(!$('#jquery_jplayer_1').data().jPlayer.status.paused)st = 'play';
+    $("#jquery_jplayer_1").jPlayer(st, nt);
 }
 
 function click_slower() {
-	val=parseFloat($("#pbvalue").text()) - 0.1;
-	if(val>=0.5){
-		$("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
-		$("#jquery_jplayer_1").jPlayer("playbackRate",val);
-	}
+    val=parseFloat($("#pbvalue").text()) - 0.1;
+    if(val>=0.5){
+        $("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
+        $("#jquery_jplayer_1").jPlayer("playbackRate",val);
+    }
 }
 
 function click_faster() {
-	val=parseFloat($("#pbvalue").text()) + 0.1;
-	if(val<=4.0){
-		$("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
-		$("#jquery_jplayer_1").jPlayer("playbackRate",val);
-	}
+    val=parseFloat($("#pbvalue").text()) + 0.1;
+    if(val<=4.0){
+        $("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
+        $("#jquery_jplayer_1").jPlayer("playbackRate",val);
+    }
 }
 
 function click_stdspeed() {
-	$("#playbackrate").val(10);
-	set_new_playbackrate();
+    $("#playbackrate").val(10);
+    set_new_playbackrate();
 }
 
 function click_slower() {
-	var val = ($("#playbackrate :selected").val());
-	if (val > 5) {
-		val--;
-		$("#playbackrate").val(val);
-		set_new_playbackrate();
-	}
+    var val = ($("#playbackrate :selected").val());
+    if (val > 5) {
+        val--;
+        $("#playbackrate").val(val);
+        set_new_playbackrate();
+    }
 }
 
 function click_faster() {
-	var val = ($("#playbackrate :selected").val());
-	if (val < 15) {
-		val++;
-		$("#playbackrate").val(val);
-		set_new_playbackrate();
-	}
+    var val = ($("#playbackrate :selected").val());
+    if (val < 15) {
+        val++;
+        $("#playbackrate").val(val);
+        set_new_playbackrate();
+    }
 }
 
 $(document).ready(function(){
-	  $("#jquery_jplayer_1").jPlayer({
+      $("#jquery_jplayer_1").jPlayer({
     ready: function () {
       $(this).jPlayer("setMedia", { <?php 
         $audio = trim($audio);
@@ -4775,13 +4784,13 @@ $(document).ready(function(){
   });
 
   $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
-  	$("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
-	});
+      $("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
+    });
   
   $("#jquery_jplayer_1").bind($.jPlayer.event.play, function(event) { 
-  	set_current_playbackrate();
-  	// console.log("play");
-	});
+      set_current_playbackrate();
+      // console.log("play");
+    });
   
   $("#slower").click(click_slower);
   $("#faster").click(click_faster);

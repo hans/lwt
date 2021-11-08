@@ -64,10 +64,10 @@ $(this).remove();
 if (! $showAll) { ?>
 $('*',sid).removeClass('hide');
 $('.mword', sid).each(function(){
-	if($(this).not('.hide').length){
-		u= parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;
-		$(this).nextUntil('[id^="ID-' + u + '-"]',sid).addClass('hide');
-	}
+    if($(this).not('.hide').length){
+        u= parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;
+        $(this).nextUntil('[id^="ID-' + u + '-"]',sid).addClass('hide');
+    }
 });
 <?php
 }

@@ -121,7 +121,7 @@ if (isset($_REQUEST['marked_items'])) {
         </tr>
           <tr>
           <td class="td1 right">Audio-URI:</td>
-          <td class="td1"><input type="text" name="feed[<?php echo $count; ?>][TxAudioURI]" value="<?php echo $text['TxAudioURI']; ?>" maxlength="200" size="60" />		
+          <td class="td1"><input type="text" name="feed[<?php echo $count; ?>][TxAudioURI]" value="<?php echo $text['TxAudioURI']; ?>" maxlength="200" size="60" />        
           </td>
           </tr>
           </table>
@@ -253,7 +253,7 @@ if(isset($_SESSION['feed_loaded'])) {
 $(".hide_message").delay(2500).slideUp(1000);
 </script>
 <?php
-    unset ($_SESSION['feed_loaded']);
+    unset($_SESSION['feed_loaded']);
 
 }
 echo error_message_with_hide($message, 0);
@@ -283,8 +283,8 @@ Language:&nbsp;<select name="filterlang" onchange="{setLang(document.form1.filte
 </select><?php
 if($currentregexmode=='') { echo '<span style="vertical-align: middle"> (Wildc.=*): </span>'; 
 }
-elseif($currentregexmode=='r') echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
-else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
+elseif($currentregexmode=='r') { echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
+} else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
 }?>
 <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
 <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value;val=encodeURIComponent(val); location.href='do_feeds.php?page=1&amp;query=' + val;return false;}" />&nbsp;
@@ -370,13 +370,13 @@ if($recno) {
   Marked Texts:&nbsp; 
   <input id="markaction" type="submit" value="Get Marked Texts" />&nbsp;&nbsp;
   </td></tr></table>
-  <table  class="tab1 sortable" cellspacing="0" cellpadding="5">	
+  <table  class="tab1 sortable" cellspacing="0" cellpadding="5">    
   <tr>
   <th class="th1 sorttable_nosort">Mark</th>
   <th class="th1 clickable">Articles</th>
   <th class="th1 sorttable_nosort">Link</th>
   <th class="th1 clickable" style="min-width:90px;">Date</th>
-  </tr>	
+  </tr>    
     <?php
     $result = do_mysqli_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on TxSourceURI=trim(FlLink) left join " . $tbpref . "archivedtexts on AtSourceURI=trim(FlLink) WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);
     while($row = mysqli_fetch_assoc($result)){
@@ -384,11 +384,11 @@ if($recno) {
         if ($row['TxID']) {
             echo '<td class="td1 center"><a href="do_text.php?start=' . $row['TxID'] . '" ><img src="icn/book-open-bookmark.png" title="Read" alt="-" /></a>'; 
         }
-        elseif ($row['AtID'])
-        echo '<td class="td1 center"><span title="archived"><img src="icn/status-busy.png" alt="-" /></span>';
-        elseif(!empty($row['FlLink']) && $row['FlLink'][0]==' ')
-        echo '<td class="td1 center"><img class="not_found" name="' . $row['FlID'] . '" title="download error" src="icn/exclamation-button.png" alt="-" />';
-        else {
+        elseif ($row['AtID']) {
+            echo '<td class="td1 center"><span title="archived"><img src="icn/status-busy.png" alt="-" /></span>';
+        } elseif(!empty($row['FlLink']) && $row['FlLink'][0]==' ') {
+            echo '<td class="td1 center"><img class="not_found" name="' . $row['FlID'] . '" title="download error" src="icn/exclamation-button.png" alt="-" />';
+        } else {
             echo '<td class="td1 center"><input type="checkbox" class="markcheck" name="marked_items[]" value="' . $row['FlID'] . '" />'; 
         }
         echo '</td>';
@@ -421,10 +421,10 @@ else { echo '</table></form>';
 ?>
 <script type="text/javascript">
 $('img.not_found').click(function () {
-	var id = $(this).attr('name');
-	$(this).after('<label class="wrap_checkbox" for="'+id+'"><span></span></label>');
-	$(this).replaceWith( '<input type="checkbox" class="markcheck" onchange="markClick()" id=' + id +' value=' + id +' name="marked_items[]" />' );
-	$(":input,.wrap_checkbox span,a:not([name^=rec]),select").each(function (i) { $(this).attr('tabindex', i + 1); });
+    var id = $(this).attr('name');
+    $(this).after('<label class="wrap_checkbox" for="'+id+'"><span></span></label>');
+    $(this).replaceWith( '<input type="checkbox" class="markcheck" onchange="markClick()" id=' + id +' value=' + id +' name="marked_items[]" />' );
+    $(":input,.wrap_checkbox span,a:not([name^=rec]),select").each(function (i) { $(this).attr('tabindex', i + 1); });
 });
 </script>
 <?php

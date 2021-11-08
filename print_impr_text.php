@@ -65,7 +65,7 @@ if ($delmode ) {  // Delete
     if ($ann_exists ) { $dummy = runsql(
         'update ' . $tbpref . 'texts set ' .
         'TxAnnotatedText = ' . convert_string_to_sqlsyntax("") . ' where TxID = ' . $textid, ""
-    ); 
+        ); 
     }
     $ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . $textid) + 0) > 0);
     if (! $ann_exists ) {
@@ -123,7 +123,7 @@ echo '</h4><h3>ANN.TEXT&nbsp;▶ ' . tohtml($title) . (isset($sourceURI) && subs
 echo "<p id=\"printoptions\"><b>Improved Annotated Text";
 
 if($editmode) {
-    echo " (Edit Mode)</b> <img src=\"icn/question-frame.png\" title=\"Help\" alt=\"Help\" class=\"click\" onclick=\"window.open('info.htm#il');\" /><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />\n";
+    echo " (Edit Mode)</b> <img src=\"icn/question-frame.png\" title=\"Help\" alt=\"Help\" class=\"click\" onclick=\"window.open('ingo.php#il');\" /><br /><input type=\"button\" value=\"Display/Print Mode\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" />\n";
 } else {
     echo " (Display/Print Mode)</b><br /><input type=\"button\" value=\"Edit\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" />";
     echo " &nbsp; | &nbsp; ";

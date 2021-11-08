@@ -85,7 +85,7 @@ The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will
 <?php 
 if ($langcnt > 0 ) { 
     ?>
-	<br />The existent database will be <b>overwritten!</b>
+    <br />The existent database will be <b>overwritten!</b>
     <?php 
 } 
 ?>

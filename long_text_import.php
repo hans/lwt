@@ -121,7 +121,7 @@ if (isset($_REQUEST['op'])) {
             else {
 
             ?>
-           <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>	
+           <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>    
            <script type="text/javascript">
            //<![CDATA[
            makeDirty();
@@ -149,7 +149,7 @@ if (isset($_REQUEST['op'])) {
             $textno++;
             $textstring = str_replace("¶", "\n", implode(" ", $item));
             $bytes = strlen($textstring);
-        ?>			
+        ?>            
         <tr>
         <td class="td1 right"><b>Text <?php echo $textno+1; ?>:</b><br /><br /><br />Length:<br /><?php echo $bytes; ?><br />Bytes</td>
      <td class="td1">
@@ -202,7 +202,7 @@ if (isset($_REQUEST['op'])) {
         
         echo error_message_with_hide($message, 0);
 
-    ?>		
+    ?>        
      <p>&nbsp;<br /><input type="button" value="Show Texts" onclick="location.href='edit_texts.php';" /></p>
     <?php
         
@@ -212,74 +212,74 @@ if (isset($_REQUEST['op'])) {
 
 ?>
 
-	<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>			
+    <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>            
 
-	<form enctype="multipart/form-data" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-	<table class="tab3" cellspacing="0" cellpadding="5">
-	<tr>
-	<td class="td1 right">Language:</td>
-	<td class="td1">
-	<select name="LgID" class="notempty setfocus">
+    <form enctype="multipart/form-data" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    <table class="tab3" cellspacing="0" cellpadding="5">
+    <tr>
+    <td class="td1 right">Language:</td>
+    <td class="td1">
+    <select name="LgID" class="notempty setfocus">
     <?php
     echo get_languages_selectoptions(getSetting('currentlanguage'), '[Choose...]');
     ?>
-	</select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /> 
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right">Title:</td>
-	<td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-	</tr>
-	<tr>
-	<td class="td1 right">
-		Text:
-	</td>
-	<td class="td1">
-	Either specify a <b>File to upload</b>:<br />
-	<input name="thefile" type="file" /><br /><br />
-	<b>Or</b> paste a text from the clipboard (and do <b>NOT</b> specify file):<br />
-	<textarea class="checkoutsidebmp" data_info="Upload" name="Upload" cols="60" rows="15"></textarea>
-	
-	<p class="smallgray">
-	If the text is too long, the import may not be possible.<br />
-	Current upload limits (in bytes):<br />
-	<b>post_max_size = <?php echo ini_get('post_max_size'); ?> / 
-	upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
-	If needed, increase in <br />"<?php echo tohtml(php_ini_loaded_file()); ?>" <br />and restart server.</p>
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right">NEWLINES and<br />Paragraphs:</td>
-	<td class="td1">
-	<select name="paragraph_handling">
-	<option value="1" selected="selected">ONE NEWLINE: Paragraph ends</option>
-	<option value="2">TWO NEWLINEs: Paragraph ends. Single NEWLINE converted to SPACE</option>
-	</select>
-	<img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right">Maximum<br />Sentences<br />per Text:</td>
-	<td class="td1"><input type="text" class="notempty posintnumber"  data_info="Maximum Sentences per Text" name="maxsent" value="50" maxlength="3" size="3" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /><br /><span class="smallgray">Values higher than 100 may slow down text display.<br />Very low values (< 5) may result in too many texts.<br />The maximum number of new texts must not exceed <?php echo ($max_input_vars-20); ?>.<br />A single new text will never exceed the length of 65,000 bytes.</span></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Source URI:</td>
-	<td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
-	</tr>
-	<tr>
-	<td class="td1 right">Tags:</td>
-	<td class="td1">
+    </select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /> 
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right">Title:</td>
+    <td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+    </tr>
+    <tr>
+    <td class="td1 right">
+        Text:
+    </td>
+    <td class="td1">
+    Either specify a <b>File to upload</b>:<br />
+    <input name="thefile" type="file" /><br /><br />
+    <b>Or</b> paste a text from the clipboard (and do <b>NOT</b> specify file):<br />
+    <textarea class="checkoutsidebmp" data_info="Upload" name="Upload" cols="60" rows="15"></textarea>
+    
+    <p class="smallgray">
+    If the text is too long, the import may not be possible.<br />
+    Current upload limits (in bytes):<br />
+    <b>post_max_size = <?php echo ini_get('post_max_size'); ?> / 
+    upload_max_filesize = <?php echo ini_get('upload_max_filesize'); ?></b><br />
+    If needed, increase in <br />"<?php echo tohtml(php_ini_loaded_file()); ?>" <br />and restart server.</p>
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right">NEWLINES and<br />Paragraphs:</td>
+    <td class="td1">
+    <select name="paragraph_handling">
+    <option value="1" selected="selected">ONE NEWLINE: Paragraph ends</option>
+    <option value="2">TWO NEWLINEs: Paragraph ends. Single NEWLINE converted to SPACE</option>
+    </select>
+    <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right">Maximum<br />Sentences<br />per Text:</td>
+    <td class="td1"><input type="text" class="notempty posintnumber"  data_info="Maximum Sentences per Text" name="maxsent" value="50" maxlength="3" size="3" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /><br /><span class="smallgray">Values higher than 100 may slow down text display.<br />Very low values (< 5) may result in too many texts.<br />The maximum number of new texts must not exceed <?php echo ($max_input_vars-20); ?>.<br />A single new text will never exceed the length of 65,000 bytes.</span></td>
+    </tr>
+    <tr>
+    <td class="td1 right">Source URI:</td>
+    <td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
+    </tr>
+    <tr>
+    <td class="td1 right">Tags:</td>
+    <td class="td1">
     <?php echo getTextTags(0); ?>
-	</td>
-	</tr>
-	<tr>
-	<td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='index.php';}" /> &nbsp; | &nbsp; <input type="submit" name="op" value="NEXT STEP: Check the Texts" />
-	</td>
-	</tr>
-	</table>
-	</form>
-	
-	<p class="smallgray">Import of a <b>single text</b>, max. 65,000 bytes long, with optional audio:</p><p><input type="button" value="Standard Text Import" onclick="location.href='edit_texts.php?new=1';" /> </p>
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='index.php';}" /> &nbsp; | &nbsp; <input type="submit" name="op" value="NEXT STEP: Check the Texts" />
+    </td>
+    </tr>
+    </table>
+    </form>
+    
+    <p class="smallgray">Import of a <b>single text</b>, max. 65,000 bytes long, with optional audio:</p><p><input type="button" value="Standard Text Import" onclick="location.href='edit_texts.php?new=1';" /> </p>
 
 
 <?php

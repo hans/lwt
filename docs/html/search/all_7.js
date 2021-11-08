@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['mobile_2ephp_0',['mobile.php',['../mobile_8php.html',1,'']]],
-  ['my_5fdie_1',['my_die',['../utilities_8inc_8php.html#a66b15236d14629cb1bc2f6ed300bd38e',1,'utilities.inc.php']]]
+  ['langdefs_2einc_2ephp_0',['langdefs.inc.php',['../langdefs_8inc_8php.html',1,'']]],
+  ['learning_20with_20texts_1',['Learning with Texts',['../index.html',1,'']]],
+  ['license_2',['License',['../md__u_n_l_i_c_e_n_s_e.html',1,'']]]
 ];

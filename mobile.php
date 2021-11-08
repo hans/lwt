@@ -62,16 +62,16 @@ if (isset($_REQUEST["action"])) {  // Action
         $langname = getLanguage($lang);
 
         ?>
-		
+        
      <ul id="<?php echo $action . '-' . $lang; ?>" title="<?php echo tohtml($langname); ?>">
       <li class="group"><?php echo tohtml($langname); ?> Texts</li>
-      <li><a href="mobile.php?action=2&amp;lang=<?php echo $lang; ?>">All <?php echo tohtml($langname); ?> Texts</a></li>					
-      <li><a href="mobile.php#notyetimpl">Text Tags</a></li>					
+      <li><a href="mobile.php?action=2&amp;lang=<?php echo $lang; ?>">All <?php echo tohtml($langname); ?> Texts</a></li>                    
+      <li><a href="mobile.php#notyetimpl">Text Tags</a></li>                    
       <li class="group"><?php echo tohtml($langname); ?> Terms</li>
-      <li><a href="mobile.php#notyetimpl">All <?php echo tohtml($langname); ?> Terms</a></li>					
-      <li><a href="mobile.php#notyetimpl">Term Tags</a></li>					
+      <li><a href="mobile.php#notyetimpl">All <?php echo tohtml($langname); ?> Terms</a></li>                    
+      <li><a href="mobile.php#notyetimpl">Term Tags</a></li>                    
      </ul>
-		
+        
         <?php
     
     } // $action == 1
@@ -152,7 +152,7 @@ if (isset($_REQUEST["action"])) {  // Action
         }
 
         ?>
-		
+        
      </ul>
 
         <?php
@@ -178,13 +178,13 @@ if (isset($_REQUEST["action"])) {  // Action
         ?>
 
         <ul id="<?php echo $action . '-' . $sent; ?>" title="<?php echo tohtml($senttext); ?>">
-		
+        
         <?php
         
         }
         
         ?>
-		
+        
      <li class="group">Sentence</li>
      <li><?php echo tohtml($senttext); ?></li>
      <li class="group">Terms</li>
@@ -250,7 +250,7 @@ if (isset($_REQUEST["action"])) {  // Action
         if ($action == 4) {
         
         ?>
-		
+        
         </ul>
 
         <?php
@@ -284,19 +284,19 @@ else {  // No Action = Start screen
 <style type="text/css" media="screen">
 @import "./iui/iui.css";
 span.status1 {
-	background-color: #F5B8A9;
+    background-color: #F5B8A9;
 }
 span.status2 {
-	background-color: #F5CCA9;
+    background-color: #F5CCA9;
 }
 span.status3 {
-	background-color: #F5E1A9;
+    background-color: #F5E1A9;
 }
 span.status4 {
-	background-color: #F5F3A9;
+    background-color: #F5F3A9;
 }
 span.status5 {
-	background-color: #DDFFDD;
+    background-color: #DDFFDD;
 }
 </style>
 <script type="text/javascript" src="./iui/iui.js" charset="utf-8"></script>
@@ -304,13 +304,13 @@ span.status5 {
 <body>
 
 <div class="toolbar">
-	<h1 id="pageTitle"></h1>
-	<a id="backButton" class="button" href="#"></a>
-	<a class="button" href="mobile.php" target="_self">Home</a>
+    <h1 id="pageTitle"></h1>
+    <a id="backButton" class="button" href="#"></a>
+    <a class="button" href="mobile.php" target="_self">Home</a>
 </div>
 
 <ul id="home" title="Mobile LWT" selected="true">
-	<li class="group">Languages</li>
+    <li class="group">Languages</li>
 <?php
     $sql = 'select LgID, LgName from ' . $tbpref . 'languages where LgName<>"" order by LgName';
     $res = do_mysqli_query($sql);
@@ -320,19 +320,19 @@ while ($record = mysqli_fetch_assoc($res)) {
 }
     mysqli_free_result($res);
 ?>
-	<li class="group">Other</li>
-	<li><a href="#about">About</a></li>
-	<li><a href="index.php" target="_self">LWT Standard Version</a></li>
+    <li class="group">Other</li>
+    <li><a href="#about">About</a></li>
+    <li><a href="index.php" target="_self">LWT Standard Version</a></li>
 </ul>
 
 <div id="about" title="About">
-	<p style="text-align:center; margin-top:50px;">
+    <p style="text-align:center; margin-top:50px;">
 This is "Learning With Texts" (LWT) for Mobile Devices<br />Version <?php echo get_version(); ?><br /><br />"Learning with Texts" (LWT) is released into the Public Domain. This applies worldwide. In case this is not legally possible, any entity is granted the right to use this work for any purpose, without any conditions, unless such conditions are required by law.<br /><br /> Developed with the <a href="http://iui-js.org" target="_self">iUI Framework</a>.<br /><br /><b>Back to<br/><a href="index.php" target="_self">LWT Standard Version</a></b>
-	</p>
+    </p>
 </div>
 
 <div id="notyetimpl" title="Sorry...">
-	<p style="text-align:center; margin-top:50px;">Not yet implemented!</p>
+    <p style="text-align:center; margin-top:50px;">Not yet implemented!</p>
 </div>
 
 </body>

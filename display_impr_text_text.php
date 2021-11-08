@@ -73,24 +73,24 @@ pagestart_nobody('Display');
 //<![CDATA[
 
 function click_ann() {var attr = $(this).attr('style');
-	if(typeof attr !== 'undefined' && attr !== false && attr !== '') {
-		$(this).removeAttr( 'style' );
-	}
-	else {
-		$(this).css('color','#C8DCF0');
-		$(this).css('background-color','#C8DCF0');
-	}
+    if(typeof attr !== 'undefined' && attr !== false && attr !== '') {
+        $(this).removeAttr( 'style' );
+    }
+    else {
+        $(this).css('color','#C8DCF0');
+        $(this).css('background-color','#C8DCF0');
+    }
 }
 
 function click_text() {bc=$('body').css('color');
-	if($(this).css('color') != bc) {
-		$(this).css('color','inherit');
-		$(this).css('background-color','');
-	}
-	else {
-		$(this).css('color','#E5E4E2');
-		$(this).css('background-color','#E5E4E2');
-	}
+    if($(this).css('color') != bc) {
+        $(this).css('color','inherit');
+        $(this).css('background-color','');
+    }
+    else {
+        $(this).css('color','#E5E4E2');
+        $(this).css('background-color','#E5E4E2');
+    }
 }
 
 $(document).ready(function(){

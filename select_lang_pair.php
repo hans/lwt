@@ -67,55 +67,55 @@ $currentnativelanguage = getSetting('currentnativelanguage');
 
 /// Execute the wizard
 function wizard_go() {
-	var l1 = $('#l1').val();
-	var l2 = $('#l2').val();
-	if (l1 == '') {
-		alert ('Please choose your native language (L1)!');
-		return;
-	}
-	if (l2 == '') {
-		alert ('Please choose your language you want to read/study (L2)!');
-		return;
-	}
-	if (l2 == l1) {
-		alert ('L1 L2 Languages must not be equal!');
-		return;
-	}
-	var w = window.opener;
-	if (typeof w == 'undefined') {
-		alert ('Language setting cannot be set. Please try again.');
-		wizard_exit();
-	}
-	var context = w.document;
-	$('input[name="LgName"]',context).val(l2);	
-	$('input[name="LgDict1URI"]',context).val(
-		'*https://de.glosbe.com/' + LANGDEFS[l2][0] + '/' + 
-		LANGDEFS[l1][0] + '/###'
-		);	
-	$('input[name="LgGoogleTranslateURI"]',context).val(
-		'*http://translate.google.com/?ie=UTF-8&sl=' + 
-		LANGDEFS[l2][1] + '&tl=' + LANGDEFS[l1][1] + '&text=###'
-		);	
-	$('select[name="LgTextSize"]',context).val(LANGDEFS[l2][2] ? 200 : 150);	
-	$('input[name="LgRegexpSplitSentences"]',context).val(LANGDEFS[l2][4]);	
-	$('input[name="LgRegexpWordCharacters"]',context).val(LANGDEFS[l2][3]);	
-	$('select[name="LgSplitEachChar"]',context).val(LANGDEFS[l2][5] ? 1 : 0);	
-	$('select[name="LgRemoveSpaces"]',context).val(LANGDEFS[l2][6] ? 1 : 0);	
-	$('select[name="LgRightToLeft"]',context).val(LANGDEFS[l2][7] ? 1 : 0);	
-	wizard_exit();
+    var l1 = $('#l1').val();
+    var l2 = $('#l2').val();
+    if (l1 == '') {
+        alert ('Please choose your native language (L1)!');
+        return;
+    }
+    if (l2 == '') {
+        alert ('Please choose your language you want to read/study (L2)!');
+        return;
+    }
+    if (l2 == l1) {
+        alert ('L1 L2 Languages must not be equal!');
+        return;
+    }
+    var w = window.opener;
+    if (typeof w == 'undefined') {
+        alert ('Language setting cannot be set. Please try again.');
+        wizard_exit();
+    }
+    var context = w.document;
+    $('input[name="LgName"]',context).val(l2);    
+    $('input[name="LgDict1URI"]',context).val(
+        '*https://de.glosbe.com/' + LANGDEFS[l2][0] + '/' + 
+        LANGDEFS[l1][0] + '/###'
+        );    
+    $('input[name="LgGoogleTranslateURI"]',context).val(
+        '*http://translate.google.com/?ie=UTF-8&sl=' + 
+        LANGDEFS[l2][1] + '&tl=' + LANGDEFS[l1][1] + '&text=###'
+        );    
+    $('select[name="LgTextSize"]',context).val(LANGDEFS[l2][2] ? 200 : 150);    
+    $('input[name="LgRegexpSplitSentences"]',context).val(LANGDEFS[l2][4]);    
+    $('input[name="LgRegexpWordCharacters"]',context).val(LANGDEFS[l2][3]);    
+    $('select[name="LgSplitEachChar"]',context).val(LANGDEFS[l2][5] ? 1 : 0);    
+    $('select[name="LgRemoveSpaces"]',context).val(LANGDEFS[l2][6] ? 1 : 0);    
+    $('select[name="LgRightToLeft"]',context).val(LANGDEFS[l2][7] ? 1 : 0);    
+    wizard_exit();
 }
 
 /// Closes the wizard
 function wizard_exit() {
-	window.close();
+    window.close();
 }
 
 //]]>
 $(function(){
-	$('.center').addClass('backlightyellow');
-	bg=$('.center').css('background-color');
-	$('body').css('background-color',bg);
-	$('.center').removeClass('backlightyellow');
+    $('.center').addClass('backlightyellow');
+    bg=$('.center').css('background-color');
+    $('body').css('background-color',bg);
+    $('.center').removeClass('backlightyellow');
 });
 </script>
 

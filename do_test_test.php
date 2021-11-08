@@ -229,19 +229,19 @@ if ($count <= 0) {
                     else { $r .= '<span dir="ltr">[' . tohtml($trans) . ']</span>'; 
                     }
                 }
-                elseif ($testtype == 3) 
-                $r .= tohtml(
-                    str_replace(
-                        "{", '[', str_replace(
-                            "}", ']', 
-                            mask_term_in_sentence(
-                                '{' . $save . '}',
-                                $regexword
-                            )    
+                elseif ($testtype == 3) { 
+                    $r .= tohtml(
+                        str_replace(
+                            "{", '[', str_replace(
+                                "}", ']', 
+                                mask_term_in_sentence(
+                                    '{' . $save . '}',
+                                    $regexword
+                                )    
+                            )
                         )
-                    )
-                );
-                else { 
+                    );
+                } else { 
                     $r .= tohtml($save); 
                 }
                 $r .= '</span> ';
@@ -275,8 +275,8 @@ SOLUTION = <?php echo prepare_textdata_js($testtype==1 ? ( $nosent ? ($trans) : 
 OPENED = 0;
 WID = <?php echo $wid; ?>;
 $(document).ready( function() {
-	$(document).keydown(keydown_event_do_test_test);
-	$('.word').click(word_click_event_do_test_test);
+    $(document).keydown(keydown_event_do_test_test);
+    $('.word').click(word_click_event_do_test_test);
 });
 //]]>
 </script>
@@ -320,21 +320,21 @@ $b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready( function() {
-	window.parent.frames['ru'].location.href='empty.htm';
+    window.parent.frames['ru'].location.href='empty.htm';
 <?php
 $waittime = getSettingWithDefault('set-test-edit-frame-waiting-time') + 0;
 if ($waittime <= 0 ) {
 ?>
-	window.parent.frames['ro'].location.href='empty.htm';
+    window.parent.frames['ro'].location.href='empty.htm';
 <?php
 } else {
 ?>
-	setTimeout('window.parent.frames[\'ro\'].location.href=\'empty.htm\';', <?php echo $waittime; ?>);
+    setTimeout('window.parent.frames[\'ro\'].location.href=\'empty.htm\';', <?php echo $waittime; ?>);
 <?php
 }
 ?>
-	new CountUp(<?php echo time() . ', ' . $_SESSION['teststart']; ?>, 
-		'timer', <?php echo ($count ? 0 : 1); ?>);
+    new CountUp(<?php echo time() . ', ' . $_SESSION['teststart']; ?>, 
+        'timer', <?php echo ($count ? 0 : 1); ?>);
 });
 //]]>
 </script>

@@ -71,10 +71,10 @@ else if($phrase=='') {
 }
 else{
 ?>
-	var w = window.parent.frames['ro'];
-	if (typeof w == 'undefined') w = window.opener;
-	if (typeof w == 'undefined')$('#del_translation').remove();
-	getGlosbeTranslation(<?php echo "'" ,urlencode($phrase) ,"','",$from,"','",$dest,"'"; ?>);
+    var w = window.parent.frames['ro'];
+    if (typeof w == 'undefined') w = window.opener;
+    if (typeof w == 'undefined')$('#del_translation').remove();
+    getGlosbeTranslation(<?php echo "'" ,urlencode($phrase) ,"','",$from,"','",$dest,"'"; ?>);
 <?php 
 }     ?>
 });

@@ -51,7 +51,7 @@ if(isset($_SESSION['feed_loaded'])) {
 $(".hide_message").delay(2500).slideUp(1000);
 </script>
 <?php
-    unset ($_SESSION['feed_loaded']);
+    unset($_SESSION['feed_loaded']);
 }
 
 if(isset($_REQUEST['update_feed'])) {
@@ -69,7 +69,7 @@ if(isset($_REQUEST['load_feed']) || isset($_REQUEST['check_autoupdate']) || (iss
 elseif(isset($_REQUEST['new_feed'])) {
     $result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
-<h4>New Feed <a target="_blank" href="info.htm#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+<h4>New Feed <a target="_blank" href="info.php#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 <a href="do_feeds.php?page=1"> My Feeds</a> &nbsp; | &nbsp;
 <a href="feed_wizard.php?step=1"><img src="icn/wizard.png" title="new_feed_wizard" alt="new_feed_wizard" /> New Feed Wizard</a>
 <br></br>
@@ -85,7 +85,7 @@ while($row_l = mysqli_fetch_assoc($result)){
     echo '>' . $row_l['LgName'] . '</option>';
 }
     mysqli_free_result($result);
-?>	</select></td></tr>
+?>    </select></td></tr>
 <tr><td class="td1">
 Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text" name="NfName" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 </td></tr>
@@ -108,24 +108,24 @@ Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text"
 </form>
 <script type="text/javascript">
 $('[name^="c_"]').change(function(){
-	if(this.checked){
-		$(this).parent().children('input[type="text"]').removeAttr('disabled').addClass("notempty");
-		$(this).parent().find('select').removeAttr('disabled');
-	}
-	else{
-		$(this).parent().children('input[type="text"]').attr('disabled','disabled').removeClass("notempty");
-		$(this).parent().find('select').attr('disabled','disabled');
-	}
+    if(this.checked){
+        $(this).parent().children('input[type="text"]').removeAttr('disabled').addClass("notempty");
+        $(this).parent().find('select').removeAttr('disabled');
+    }
+    else{
+        $(this).parent().children('input[type="text"]').attr('disabled','disabled').removeClass("notempty");
+        $(this).parent().find('select').attr('disabled','disabled');
+    }
 });
 $('[type="submit"]').click(function(){
-	var str;
-	str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
-	$('[name^="c_"]').each(function(){		
-		str+=this.checked ? $(this).parent().children('input[type="text"]').attr('name') + '='
-		+ $(this).parent().children('input[type="text"]').val()
-		+  ($(this).attr('name')=='c_autoupdate' ? $(this).parent().find('select').val() + ',' : ','): '';
-	});
-	$('input[name="NfOptions"]').val(str);
+    var str;
+    str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
+    $('[name^="c_"]').each(function(){        
+        str+=this.checked ? $(this).parent().children('input[type="text"]').attr('name') + '='
+        + $(this).parent().children('input[type="text"]').val()
+        +  ($(this).attr('name')=='c_autoupdate' ? $(this).parent().find('select').val() + ',' : ','): '';
+    });
+    $('input[name="NfOptions"]').val(str);
 });
 </script>
 <?php
@@ -136,7 +136,7 @@ elseif(isset($_REQUEST['edit_feed'])) {
     $row = mysqli_fetch_assoc($result);
     $result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
-<h4>Edit Feed <a target="_blank" href="info.htm#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+<h4>Edit Feed <a target="_blank" href="info.php#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 <a href="do_feeds.php?page=1"> My Feeds</a> &nbsp; | &nbsp;
 <a href="feed_wizard.php?step=2&amp;edit_feed=<?php echo $currentfeed;?>"><img src="icn/wizard.png" title="feed_wizard" alt="feed_wizard" /> Feed Wizard</a>
 <form class="validate" action="edit_feeds.php" method="post">
@@ -206,24 +206,24 @@ Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text"
 </form>
 <script type="text/javascript">
 $('[name^="c_"]').change(function(){
-	if(this.checked){
-		$(this).parent().children('input[type="text"]').removeAttr('disabled').addClass("notempty");
-		$(this).parent().find('select').removeAttr('disabled');
-	}
-	else{
-		$(this).parent().children('input[type="text"]').attr('disabled','disabled').removeClass("notempty");
-		$(this).parent().find('select').attr('disabled','disabled');
-	}
+    if(this.checked){
+        $(this).parent().children('input[type="text"]').removeAttr('disabled').addClass("notempty");
+        $(this).parent().find('select').removeAttr('disabled');
+    }
+    else{
+        $(this).parent().children('input[type="text"]').attr('disabled','disabled').removeClass("notempty");
+        $(this).parent().find('select').attr('disabled','disabled');
+    }
 });
 $('[type="submit"]').click(function(){
-	var str;
-	str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
-	$('[name^="c_"]').each(function(){		
-		str+=this.checked ? $(this).parent().children('input[type="text"]').attr('name') + '='
-		+ $(this).parent().children('input[type="text"]').val()
-		+ ($(this).attr('name')=='c_autoupdate' ? $(this).parent().find('select').val() + ',' : ','): '';
-	});
-	$('input[name="NfOptions"]').val(str);
+    var str;
+    str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
+    $('[name^="c_"]').each(function(){        
+        str+=this.checked ? $(this).parent().children('input[type="text"]').attr('name') + '='
+        + $(this).parent().children('input[type="text"]').val()
+        + ($(this).attr('name')=='c_autoupdate' ? $(this).parent().find('select').val() + ',' : ','): '';
+    });
+    $('input[name="NfOptions"]').val(str);
 });
 </script>
 <?php	
@@ -278,9 +278,9 @@ while($row = mysqli_fetch_assoc($result)){
 
 <script type="text/javascript">
 $( "button" ).click(function() {
-	$("#map").val( $('input[type="checkbox"]:checked').map(function(){
-		return $(this).val();
-	}).get().join(", ") );
+    $("#map").val( $('input[type="checkbox"]:checked').map(function(){
+        return $(this).val();
+    }).get().join(", ") );
 });
 
 </script>

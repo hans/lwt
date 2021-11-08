@@ -215,7 +215,7 @@ This project's changelog. Version marked with "-fork" come from the community, o
     Some missing confirmation dialogues (when deleting a single text, text tag, term, term tag, or language) added.  
       
     
-*   1.6.2 (March 10 2018, this page "info.htm" last updated August 12 2019):  
+*   1.6.2 (March 10 2018, this page "ingo.php" last updated August 12 2019):  
     New features:  
     Audio playback speed can now be set between 0.5x and 1.5x.  
     Waiting wheel (to indicate saving data to database in the background) added in "Edit Improved Annotated Text".  
@@ -229,7 +229,7 @@ This project's changelog. Version marked with "-fork" come from the community, o
     Glosbe API calls via "glosbe\_api.php" in demo database and language settings wizard removed - they often did not work due to API restrictions. The file "glosbe\_api.php" is still supplied as an example of a close integration of a dictionary API into LWT.  
       
     
-*   1.6.1 (February 01 2016, this page "info.htm" last updated January 13 2018):  
+*   1.6.1 (February 01 2016, this page "ingo.php" last updated January 13 2018):  
     The jQuery and jPlayer libraries have been updated to v1.12.0 and v2.9.2, respectively. The jQuery.ScrollTo package has been updated to v2.1.2.  
     [Link](#links) to Chinese text segmentation "Jieba" added in documentation (Important Links - Additional Resources - For learners of Chinese).  
       

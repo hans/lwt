@@ -1,7 +1,7 @@
 Learning with Texts (LWT) is a tool for Language Learning.
 
 PLEASE READ MORE ... 
-Either open ... info.htm (within the distribution)
+Either open ... info.php (within the distribution)
 or     open ... https://learning-with-texts.sourceforge.io
 
 MOST UP-TO-DATE INSTALLATION INSTRUCTIONS can be found online: 

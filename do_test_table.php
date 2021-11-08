@@ -99,91 +99,91 @@ $currenttabletestsetting6 = getSettingZeroOrOne('currenttabletestsetting6', 1);
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready( function() {
-	$('#cbEdit').change(function() {
-		if($('#cbEdit').is(':checked')) {
-			$('td:nth-child(1),th:nth-child(1)').show();
-			do_ajax_save_setting('currenttabletestsetting1','1');
-		} else { 
-			$('td:nth-child(1),th:nth-child(1)').hide();
-			do_ajax_save_setting('currenttabletestsetting1','0');
-		}
-		$('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
-		$('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
-		$('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');					
-	});
-	
-	$('#cbStatus').change(function() {
-		if($('#cbStatus').is(':checked')) {
-			$('td:nth-child(2),th:nth-child(2)').show();
-			do_ajax_save_setting('currenttabletestsetting2','1');
-		} else { 
-			$('td:nth-child(2),th:nth-child(2)').hide();
-			do_ajax_save_setting('currenttabletestsetting2','0');
-		}
-		$('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
-		$('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
-		$('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');					
-	});
-	
-	$('#cbTerm').change(function() {
-		if($('#cbTerm').is(':checked')) {
-			$('td:nth-child(3)').css('color', 'black').css('cursor', 'auto');
-			do_ajax_save_setting('currenttabletestsetting3','1');
-		} else { 
-			$('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
-			do_ajax_save_setting('currenttabletestsetting3','0');
-		}
-	});
-	
-	$('#cbTrans').change(function() {
-		if($('#cbTrans').is(':checked')) {
-			$('td:nth-child(4)').css('color', 'black').css('cursor', 'auto');
-			do_ajax_save_setting('currenttabletestsetting4','1');
-		} else {
-			$('td:nth-child(4)').css('color', 'white').css('cursor', 'pointer');
-			do_ajax_save_setting('currenttabletestsetting4','0');
-		}
-	});
-	
-	$('#cbRom').change(function() {
-		if($('#cbRom').is(':checked')) {
-			$('td:nth-child(5),th:nth-child(5)').show();
-			do_ajax_save_setting('currenttabletestsetting5','1');
-		} else {
-			$('td:nth-child(5),th:nth-child(5)').hide();
-			do_ajax_save_setting('currenttabletestsetting5','0');
-		}
-		$('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
-		$('th:visible:last').css('border-top-right-radius','inherit');
-		$('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');					
-	});
-	
-	$('#cbSentence').change(function() {
-		if($('#cbSentence').is(':checked')) {
-			$('td:nth-child(6),th:nth-child(6)').show();
-			do_ajax_save_setting('currenttabletestsetting6','1');
-		} else {
-			$('td:nth-child(6),th:nth-child(6)').hide();
-			do_ajax_save_setting('currenttabletestsetting6','0');
-		}
-		$('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
-		$('th:visible:last').css('border-top-right-radius','inherit');
-		$('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');					
-	});
-	
-	$('td').click(function() {
-		$(this).css('color', 'black').css('cursor', 'auto');
-	});
-	
-	$('td').css('background-color', 'white');
-	
-	$('#cbEdit').change();
-	$('#cbStatus').change();
-	$('#cbTerm').change();
-	$('#cbTrans').change();
-	$('#cbRom').change();
-	$('#cbSentence').change();
-	 
+    $('#cbEdit').change(function() {
+        if($('#cbEdit').is(':checked')) {
+            $('td:nth-child(1),th:nth-child(1)').show();
+            do_ajax_save_setting('currenttabletestsetting1','1');
+        } else { 
+            $('td:nth-child(1),th:nth-child(1)').hide();
+            do_ajax_save_setting('currenttabletestsetting1','0');
+        }
+        $('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
+        $('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
+        $('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');                    
+    });
+    
+    $('#cbStatus').change(function() {
+        if($('#cbStatus').is(':checked')) {
+            $('td:nth-child(2),th:nth-child(2)').show();
+            do_ajax_save_setting('currenttabletestsetting2','1');
+        } else { 
+            $('td:nth-child(2),th:nth-child(2)').hide();
+            do_ajax_save_setting('currenttabletestsetting2','0');
+        }
+        $('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
+        $('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
+        $('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');                    
+    });
+    
+    $('#cbTerm').change(function() {
+        if($('#cbTerm').is(':checked')) {
+            $('td:nth-child(3)').css('color', 'black').css('cursor', 'auto');
+            do_ajax_save_setting('currenttabletestsetting3','1');
+        } else { 
+            $('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
+            do_ajax_save_setting('currenttabletestsetting3','0');
+        }
+    });
+    
+    $('#cbTrans').change(function() {
+        if($('#cbTrans').is(':checked')) {
+            $('td:nth-child(4)').css('color', 'black').css('cursor', 'auto');
+            do_ajax_save_setting('currenttabletestsetting4','1');
+        } else {
+            $('td:nth-child(4)').css('color', 'white').css('cursor', 'pointer');
+            do_ajax_save_setting('currenttabletestsetting4','0');
+        }
+    });
+    
+    $('#cbRom').change(function() {
+        if($('#cbRom').is(':checked')) {
+            $('td:nth-child(5),th:nth-child(5)').show();
+            do_ajax_save_setting('currenttabletestsetting5','1');
+        } else {
+            $('td:nth-child(5),th:nth-child(5)').hide();
+            do_ajax_save_setting('currenttabletestsetting5','0');
+        }
+        $('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
+        $('th:visible:last').css('border-top-right-radius','inherit');
+        $('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');                    
+    });
+    
+    $('#cbSentence').change(function() {
+        if($('#cbSentence').is(':checked')) {
+            $('td:nth-child(6),th:nth-child(6)').show();
+            do_ajax_save_setting('currenttabletestsetting6','1');
+        } else {
+            $('td:nth-child(6),th:nth-child(6)').hide();
+            do_ajax_save_setting('currenttabletestsetting6','0');
+        }
+        $('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
+        $('th:visible:last').css('border-top-right-radius','inherit');
+        $('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');                    
+    });
+    
+    $('td').click(function() {
+        $(this).css('color', 'black').css('cursor', 'auto');
+    });
+    
+    $('td').css('background-color', 'white');
+    
+    $('#cbEdit').change();
+    $('#cbStatus').change();
+    $('#cbTerm').change();
+    $('#cbTrans').change();
+    $('#cbRom').change();
+    $('#cbSentence').change();
+     
 });
 //]]>
 </script>
