@@ -330,7 +330,7 @@ if (isset($_REQUEST['new'])) {
     <input type="submit" name="op" value="Save" /></td>
     </tr>
     </table>
-    <p class="smallgray"><b>Important:</b><br />The placeholders "••" for the from/sl and dest/tl language codes in the URIs must be <b>replaced</b> by the actual source and target language codes!<br /><a href="ingo.php#howtolang" target="_blank">Please read the documentation</a>. Languages with a <b>non-Latin alphabet need special attention</b>, <a href="ingo.php#langsetup" target="_blank">see also here</a>.</p>    
+    <p class="smallgray"><b>Important:</b><br />The placeholders "••" for the from/sl and dest/tl language codes in the URIs must be <b>replaced</b> by the actual source and target language codes!<br /><a href="info.php#howtolang" target="_blank">Please read the documentation</a>. Languages with a <b>non-Latin alphabet need special attention</b>, <a href="info.php#langsetup" target="_blank">see also here</a>.</p>    
     </form>
     
     <?php
@@ -347,7 +347,7 @@ elseif (isset($_REQUEST['chg'])) {
     
         ?>
     
-     <h4>Edit Language <a target="_blank" href="ingo.php#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+     <h4>Edit Language <a target="_blank" href="info.php#howtolang"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
      <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>    
      <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return check_dupl_lang(<?php echo $_REQUEST['chg']; ?>);">
      <input type="hidden" name="LgID" value="<?php echo $_REQUEST['chg']; ?>" />

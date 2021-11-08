@@ -82,7 +82,7 @@ Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text"
 if(<?php if(isset($_SESSION['wizard']['edit_feed'])) { echo $_SESSION['wizard']['edit_feed']; 
 }else { echo '0'; 
 } ?>){$('input[name="save_feed"]').attr('name','update_feed');$('input[type="submit"]').val('Update');}
-$('h3').eq(-1).html('Feed Wizard | Step 4 - Edit Options <a href="ingo.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
+$('h3').eq(-1).html('Feed Wizard | Step 4 - Edit Options <a href="info.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
 $('[name^="c_"]').change(function(){
     if(this.checked){
         $(this).parent().children('input[type="text"]').removeAttr('disabled').addClass("notempty");
@@ -225,7 +225,7 @@ Hide Images: <select name="hide_images" onchange="if($(this).val()=='no')$('img'
 }?>>No</option>
 </select></div>
 <button style="position:relative;left:150px;" onclick="$('#settings').hide();return false;">OK</button></div>
-<div  id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 3 - Filter Text</b> <a href="ingo.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
+<div  id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 3 - Filter Text</b> <a href="info.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
 <ol id="lwt_sel" style="margin-left:77px"><?php echo $_SESSION['wizard']['filter_tags']; ?></ol>
 <table class="tab1" style="margin-left:77px" cellspacing="0" cellpadding="5">
 <tr><td class="td1" style="text-align:left">
@@ -485,7 +485,7 @@ Hide Images: <select name="hide_images" onchange="if($(this).val()=='no')$('img'
 }?>>No</option>
 </select></div>
 <button style="position:relative;left:150px;" onclick="$('#settings').hide();return false;">OK</button></div>
-<div id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 2 - Select Article Text</b> <a href="ingo.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
+<div id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 2 - Select Article Text</b> <a href="info.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
 <ol id="lwt_sel" style="margin-left:77px"><?php if(isset($_REQUEST['html'])) { echo $_REQUEST['html']; 
 }if(isset($_REQUEST['article_tags']) || isset($_REQUEST['edit_feed'])) { echo $_SESSION['wizard']['article_tags']; 
 } ?></ol>
@@ -593,7 +593,7 @@ else{
 <button>Next</button>
 </form>
 <script type="text/javascript">
-$('h3').eq(-1).html('Feed Wizard | Step 1 - Insert Newsfeed URI <a href="ingo.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
+$('h3').eq(-1).html('Feed Wizard | Step 1 - Insert Newsfeed URI <a href="info.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
 </script>
 <?php
 }

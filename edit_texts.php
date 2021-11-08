@@ -378,7 +378,7 @@ if (isset($_REQUEST['new'])) {
 
     ?>
 
-    <h4>New Text <a target="_blank" href="ingo.php#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+    <h4>New Text <a target="_blank" href="info.php#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
     <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <table class="tab3" cellspacing="0" cellpadding="5">
@@ -448,7 +448,7 @@ elseif (isset($_REQUEST['chg'])) {
 
         ?>
 
-     <h4>Edit Text <a target="_blank" href="ingo.php#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
+     <h4>Edit Text <a target="_blank" href="info.php#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
      <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
      <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
      <input type="hidden" name="TxID" value="<?php echo $_REQUEST['chg']; ?>" />

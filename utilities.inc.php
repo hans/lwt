@@ -1542,7 +1542,7 @@ function get_playbackrate_selectoptions($v)
 /// Displays the main menu of navigation as a dropdown
 function quickMenu() 
 {
-?><select id="quickmenu" onchange="{var qm = document.getElementById('quickmenu'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { if (val == 'INFO') {top.location.href='ingo.php';}else if (val == 'rss_import'){top.location.href = 'do_feeds.php?check_autoupdate=1';} else {top.location.href = val + '.php';}}}">
+?><select id="quickmenu" onchange="{var qm = document.getElementById('quickmenu'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { if (val == 'INFO') {top.location.href='info.php';}else if (val == 'rss_import'){top.location.href = 'do_feeds.php?check_autoupdate=1';} else {top.location.href = val + '.php';}}}">
 <option value="" selected="selected">[Menu]</option>
 <option value="index">Home</option>
 <option value="edit_texts">Texts</option>

@@ -158,7 +158,7 @@ if (isset($_SESSION['LWT-WP-User'])) {
 ?>
 
     <br /><br /></li>
-<li><a href="ingo.php">Help/Information</a></li>
+<li><a href="info.php">Help/Information</a></li>
 <li><a href="mobile.php">Mobile LWT (Experimental)</a></li>
 </ul>
 
