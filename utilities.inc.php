@@ -1687,19 +1687,24 @@ function prepare_textdata($s)
 function prepare_textdata_js($s) 
 {
     $s = convert_string_to_sqlsyntax($s);
-    if($s == "NULL") { return "''"; 
+    if ($s == "NULL") { 
+        return "''"; 
     }
     return str_replace("''", "\\'", $s);
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Escape special HTML characters.
+ * 
+ * @param string $s String to escape.
+ * @return string htmlspecialchars($s, ENT_COMPAT, "UTF-8");
+ */
 function tohtml($s) 
 {
-    if (isset($s)) { return htmlspecialchars($s, ENT_COMPAT, "UTF-8"); 
+    if (!isset($s)) {
+        return ''; 
     }
-    else { return ''; 
-    }
+    return htmlspecialchars($s, ENT_COMPAT, "UTF-8");
 }
 
 // -------------------------------------------------------------
@@ -4646,7 +4651,11 @@ function get_annotation_link($textid)
     }
 }
 
-/// Like trim, but in place (modify variable)
+/**
+ * Like trim, but in place (modify variable)
+ * 
+ * @param string $value Value to be trimmed
+ */
 function trim_value(&$value) 
 { 
     $value = trim($value); 
@@ -4657,9 +4666,9 @@ function trim_value(&$value)
  * 
  * Some non-phonetic alphabet will need this, currently only Japanese
  * is supported, using MeCaB.
- * @param String $text Text to be converted
- * @param String $lang Language code (usually BCP 47 or ISO 639-1)
- * @return String Parsed text in a phonetic format.
+ * @param string $text Text to be converted
+ * @param string $lang Language code (usually BCP 47 or ISO 639-1)
+ * @return string Parsed text in a phonetic format.
  */
 function phonetic_reading($text, $lang) 
 {
@@ -4693,18 +4702,50 @@ function phonetic_reading($text, $lang)
     return $mecab_str;
 }
 
-/// Create an HTML audio player
-function makeAudioPlayer($audio,$offset=0) 
-{
-    if ($audio != '') {
-        $repeatMode = getSettingZeroOrOne('currentplayerrepeatmode', 0);
+/** 
+ * Create an HTML media player, audio or video.
+ * 
+ * @param string $path URL or local file path
+ * @param int $offset Offset from the beginning of the video
+ */ 
+function makeMediaPlayer($path, $offset=0) {
+    if ($path == '') {
+        return;
+    }
+    /** @var string File extesion (if exists) */
+    $extension = substr($path, -4);
+    if ($extension == '.mp3' || $extension == '.wav' || $extension == '.ogg') {
+        makeAudioPlayer($path, $offset);
+    } else {
+        makeVideoPlayer($path, $offset);
+    }
+}
+
+/** 
+ * Create an HTML audio player.
+ * 
+ * @param string $audio Audio URL
+ * @param int $offset Offset from the beginning of the video
+ */ 
+function makeAudioPlayer($audio, $offset=0) {
+    if ($audio == '') {
+        return;
+    }
+    $repeatMode = getSettingZeroOrOne('currentplayerrepeatmode', 0);
     ?>
-   <link type="text/css" href="<?php print_file_path('css/jplayer.css');?>" rel="stylesheet" />
+<link type="text/css" href="<?php print_file_path('css/jplayer.css');?>" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 <table align="center" style="margin-top:5px;" cellspacing="0" cellpadding="0">
 <tr>
 <td class="center borderleft" style="padding-left:10px;">
-<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>" style="color:#09F;font-weight: bold;" title="Toggle Repeat (Now ON)">↻</span><span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>" style="color:grey;font-weight: bold;" title="Toggle Repeat (Now OFF)">↻</span><div id="playbackrateContainer" style="font-size: 80%;position:relative;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"></div>
+<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>" 
+    style="color:#09F;font-weight: bold;" title="Toggle Repeat (Now ON)">↻
+</span>
+<span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>"
+    style="color:grey;font-weight: bold;" title="Toggle Repeat (Now OFF)">↻</span>
+<div id="playbackrateContainer" 
+    style="font-size: 80%;position:relative;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;">
+</div>
 </td>
 <td class="center bordermiddle">&nbsp;</td>
 <td class="bordermiddle">
@@ -4751,131 +4792,51 @@ function makeAudioPlayer($audio,$offset=0)
 <td class="center bordermiddle">
 <?php
 $currentplayerseconds = getSetting('currentplayerseconds');
-if($currentplayerseconds == '') { $currentplayerseconds = 5; 
+if ($currentplayerseconds == '') { 
+    $currentplayerseconds = 5; 
 }
 ?>
 <!-- Not merge from master branch (with official)
 <select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
 <span id="backbutt" class="click" title="Rewind n seconds">⇤</span>&nbsp;&nbsp;<span id="forwbutt" class="click" title="Forward n seconds">⇥</span>
 -->
-<select id="backtime" name="backtime"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
-<span id="backbutt" class="click"><img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" /></span>&nbsp;&nbsp;<span id="forwbutt" class="click"><img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" /></span>
+<select id="backtime" name="backtime">
+    <?php echo get_seconds_selectoptions($currentplayerseconds); ?>
+</select><br />
+<span id="backbutt" class="click">
+    <img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" />
+</span>&nbsp;&nbsp;
+<span id="forwbutt" class="click">
+    <img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" />
+</span>
 <span id="playTime" class="hide"></span>
 </td>
 <td class="center bordermiddle">&nbsp;</td>
 <td class="center borderright" style="padding-right:10px;">
 <?php
 $currentplaybackrate = getSetting('currentplaybackrate');
-if($currentplaybackrate == '') { $currentplaybackrate = 10; 
+if ($currentplaybackrate == '') { 
+    $currentplaybackrate = 10; 
 }
 ?>
-<select id="playbackrate" name="playbackrate"><?php echo get_playbackrate_selectoptions($currentplaybackrate); ?></select><br />
-<span id="slower" class="click"><img src="icn/minus.png" alt="Slower" title="Slower" style="margin-top:3px" /></span>&nbsp;<span id="stdspeed" class="click"><img src="icn/status-away.png" alt="Normal" title="Normal" style="margin-top:3px" /></span>&nbsp;<span id="faster" class="click"><img src="icn/plus.png" alt="Faster" title="Faster" style="margin-top:3px" /></span>
+<select id="playbackrate" name="playbackrate">
+    <?php echo get_playbackrate_selectoptions($currentplaybackrate); ?>
+</select><br />
+<span id="slower" class="click">
+    <img src="icn/minus.png" alt="Slower" title="Slower" style="margin-top:3px" />
+</span>&nbsp;<span id="stdspeed" class="click">
+    <img src="icn/status-away.png" alt="Normal" title="Normal" style="margin-top:3px" />
+</span>&nbsp;<span id="faster" class="click">
+    <img src="icn/plus.png" alt="Faster" title="Faster" style="margin-top:3px" />
+</span>
 </td>
 </tr>
+<!-- Audio controls before page loading -->
+<script type="text/javascript" src="src/js/audio_controller.js"></script>
+<!-- Audio controls once that page was loaded -->
 <script type="text/javascript">
 //<![CDATA[
-
-function new_pos(p) {
-    $("#jquery_jplayer_1").jPlayer("playHead", p);
-}
-
-function set_new_playerseconds() {
-    var newval = ($("#backtime :selected").val());
-    do_ajax_save_setting('currentplayerseconds',newval); 
-    // console.log("set_new_playerseconds="+newval);
-}
-
-function set_new_playbackrate() {
-    var newval = ($("#playbackrate :selected").val());
-    do_ajax_save_setting('currentplaybackrate',newval); 
-    $("#jquery_jplayer_1").jPlayer("option","playbackRate", newval*0.1);
-    // console.log("set_new_playbackrate="+newval);
-}
-
-function set_current_playbackrate() {
-    var val = ($("#playbackrate :selected").val());
-    $("#jquery_jplayer_1").jPlayer("option","playbackRate", val*0.1);
-    // console.log("set_current_playbackrate="+val);
-}
-
-function click_single() {
-    $("#jquery_jplayer_1").unbind($.jPlayer.event.ended + ".jp-repeat");
-    $("#do-single").addClass('hide');
-    $("#do-repeat").removeClass('hide');
-    do_ajax_save_setting('currentplayerrepeatmode','0');
-    return false;
-}
-
-function click_repeat() {
-    $("#jquery_jplayer_1").bind($.jPlayer.event.ended + ".jp-repeat", function(event) { 
-        $(this).jPlayer("play"); 
-    });
-    $("#do-repeat").addClass('hide');
-    $("#do-single").removeClass('hide');
-    do_ajax_save_setting('currentplayerrepeatmode','1');
-    return false;
-}
-
-function click_back() {
-    var t = parseInt($("#playTime").text(),10);
-    var b = parseInt($("#backtime").val(),10);
-    var nt = t - b;
-    var st = 'pause';
-    if (nt < 0) nt = 0;
-    if(!$('#jquery_jplayer_1').data().jPlayer.status.paused)st = 'play';
-    $("#jquery_jplayer_1").jPlayer(st, nt);
-}
-
-function click_forw() {
-    var t = parseInt($("#playTime").text(),10);
-    var b = parseInt($("#backtime").val(),10);
-    var nt = t + b;
-    var st = 'pause';
-    if(!$('#jquery_jplayer_1').data().jPlayer.status.paused)st = 'play';
-    $("#jquery_jplayer_1").jPlayer(st, nt);
-}
-
-function click_slower() {
-    val=parseFloat($("#pbvalue").text()) - 0.1;
-    if(val>=0.5){
-        $("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
-        $("#jquery_jplayer_1").jPlayer("playbackRate",val);
-    }
-}
-
-function click_faster() {
-    val=parseFloat($("#pbvalue").text()) + 0.1;
-    if(val<=4.0){
-        $("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
-        $("#jquery_jplayer_1").jPlayer("playbackRate",val);
-    }
-}
-
-function click_stdspeed() {
-    $("#playbackrate").val(10);
-    set_new_playbackrate();
-}
-
-function click_slower() {
-    var val = ($("#playbackrate :selected").val());
-    if (val > 5) {
-        val--;
-        $("#playbackrate").val(val);
-        set_new_playbackrate();
-    }
-}
-
-function click_faster() {
-    var val = ($("#playbackrate :selected").val());
-    if (val < 15) {
-        val++;
-        $("#playbackrate").val(val);
-        set_new_playbackrate();
-    }
-}
-
-$(document).ready(function(){
+    $(document).ready(function(){
       $("#jquery_jplayer_1").jPlayer({
     ready: function () {
       $(this).jPlayer("setMedia", { <?php 
@@ -4892,10 +4853,19 @@ $(document).ready(function(){
             echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
         }
     ?> }).jPlayer("pause",<?php echo $offset; ?>);
-      if($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled)$("#playbackrateContainer").css("margin-top",".2em").html('<span id="pbSlower" style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" title="Slower" onclick="click_slower();">&nbsp;</span><span id="pbFaster" style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" title="Faster" onclick="click_faster();">&nbsp;</span><span class="ui-widget ui-state-default ui-corner-all" style="padding-left: 0.2em;padding-right: 0.2em;color:grey"><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></span>').css("cursor","pointer");
+      if ($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled) {
+          $("#playbackrateContainer").css("margin-top",".2em")
+          .html('<span id="pbSlower" style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" title="Slower" onclick="click_slower();">&nbsp;</span><span id="pbFaster" style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" title="Faster" onclick="click_faster();">&nbsp;</span><span class="ui-widget ui-state-default ui-corner-all" style="padding-left: 0.2em;padding-right: 0.2em;color:grey"><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></span>')
+          .css("cursor","pointer");
+      }
     },
     swfPath: "js",
-    noVolume: {ipad: /^no$/, iphone: /^no$/, ipod: /^no$/, android_pad: /^no$/, android_phone: /^no$/, blackberry: /^no$/, windows_ce: /^no$/, iemobile: /^no$/, webos: /^no$/, playbook: /^no$/}
+    noVolume: {
+        ipad: /^no$/, iphone: /^no$/, ipod: /^no$/, 
+        android_pad: /^no$/, android_phone: /^no$/, 
+        blackberry: /^no$/, windows_ce: /^no$/, iemobile: /^no$/, webos: /^no$/, 
+        playbook: /^no$/
+    }
   });
 
   $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
@@ -4922,7 +4892,56 @@ $(document).ready(function(){
 //]]>
 </script>
 <?php
-    } // if (isset($audio))
+}
+
+/** 
+ * Create an embed video player
+ * 
+ * @param string $path URL or local file path
+ * @param int $offset Offset from the beginning of the video
+ */ 
+function makeVideoPlayer($path, $offset=0) {
+    if (preg_match(
+        "/(?:https:\/\/)?www\.youtube\.com\/watch\?v=([\d\w]+)/iu", 
+        $path, $matches)) {
+        // Youtbe video
+        $domain = "https://www.youtube.com/embed/";
+        $id = $matches[1];
+        $url = $domain . $id . "?t=" . $offset;
+    } if (preg_match(
+        "/(?:https:\/\/)?youtu\.be\/([\d\w]+)/iu", 
+        $path, $matches)) {
+        // Youtbe video
+        $domain = "https://www.youtube.com/embed/";
+        $id = $matches[1];
+        $url = $domain . $id . "?t=" . $offset;
+    } else if (preg_match(
+        "/(?:https:\/\/)?dai\.ly\/([^\?]+)/iu", 
+        $path, $matches)) {
+        // Dailymotion
+        $domain = "https://www.dailymotion.com/embed/video/";
+        $id = $matches[1];
+        $url = $domain . $id;
+    } else if (preg_match(
+        "/(?:https:\/\/)?vimeo\.com\/(\d+)/iu",
+        // Vimeo 
+        $path, $matches)) {
+        $domain = "https://player.vimeo.com/video/";
+        $id = $matches[1];
+        $url = $domain . $id . "#t=" . $offset . "s";
+    } else {
+        $url = $path;
+    }
+    ?> 
+<iframe style="width: 75%; height: 30%;" 
+src="<?php echo $url ?>" 
+title="Video player"
+frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+allowfullscreen type="text/html">
+    iframes are not allowed on your computer!
+</iframe>
+    <?php
 }
 
 // -------------------------------------------------------------

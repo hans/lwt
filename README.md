@@ -37,7 +37,7 @@ IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION
 * Support for MeCab for Japanese word-by-word automatic translation
 
 ## Useful links
-* General documentation at [info.php](info.php).
+* General documentation at [docs/info.html](docs/info.html).
 * Please find more help at [docs/index.html](docs/index.html).
 * You can also contact the community by GitHub.
 

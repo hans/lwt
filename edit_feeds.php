@@ -69,7 +69,7 @@ if(isset($_REQUEST['load_feed']) || isset($_REQUEST['check_autoupdate']) || (iss
 elseif(isset($_REQUEST['new_feed'])) {
     $result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
-<h4>New Feed <a target="_blank" href="info.php#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+<h4>New Feed <a target="_blank" href="docs/info.html#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 <a href="do_feeds.php?page=1"> My Feeds</a> &nbsp; | &nbsp;
 <a href="feed_wizard.php?step=1"><img src="icn/wizard.png" title="new_feed_wizard" alt="new_feed_wizard" /> New Feed Wizard</a>
 <br></br>
@@ -136,7 +136,7 @@ elseif(isset($_REQUEST['edit_feed'])) {
     $row = mysqli_fetch_assoc($result);
     $result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
 ?>
-<h4>Edit Feed <a target="_blank" href="info.php#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+<h4>Edit Feed <a target="_blank" href="docs/info.html#new_feed"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
 <a href="do_feeds.php?page=1"> My Feeds</a> &nbsp; | &nbsp;
 <a href="feed_wizard.php?step=2&amp;edit_feed=<?php echo $currentfeed;?>"><img src="icn/wizard.png" title="feed_wizard" alt="feed_wizard" /> Feed Wizard</a>
 <form class="validate" action="edit_feeds.php" method="post">

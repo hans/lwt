@@ -378,7 +378,7 @@ if (isset($_REQUEST['new'])) {
 
     ?>
 
-    <h4>New Text <a target="_blank" href="info.php#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
+    <h4>New Text <a target="_blank" href="docs/info.html#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
     <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <table class="tab3" cellspacing="0" cellpadding="5">
@@ -413,7 +413,7 @@ if (isset($_REQUEST['new'])) {
     </td>
     </tr>
     <tr>
-    <td class="td1 right">Audio-URI:</td>
+    <td class="td1 right">Audio/Video-URI:</td>
     <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="" maxlength="200" size="60" />        
     <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>        
     </td>
@@ -448,7 +448,7 @@ elseif (isset($_REQUEST['chg'])) {
 
         ?>
 
-     <h4>Edit Text <a target="_blank" href="info.php#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
+     <h4>Edit Text <a target="_blank" href="docs/info.html#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
      <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
      <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
      <input type="hidden" name="TxID" value="<?php echo $_REQUEST['chg']; ?>" />
@@ -490,7 +490,7 @@ elseif (isset($_REQUEST['chg'])) {
      </td>
      </tr>
      <tr>
-     <td class="td1 right">Audio-URI:</td>
+     <td class="td1 right">Audio/Video-URI:</td>
      <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
      <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>        
      </td>
