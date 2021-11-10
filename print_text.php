@@ -37,7 +37,7 @@ Call: print_text.php?text=[textid]&...
 Print a text
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 function output_text($saveterm,$saverom,$savetrans,$savetags,
     $show_rom,$show_trans,$show_tags,$annplcmnt

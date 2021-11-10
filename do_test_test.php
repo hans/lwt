@@ -40,7 +40,7 @@ For more information, please refer to [http://unlicense.org/].
 			(SQL via $_SESSION['testsql'])
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $p = '';
 
@@ -317,16 +317,16 @@ $b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
 <script type="text/javascript">
 //<![CDATA[
 $(document).ready( function() {
-    window.parent.frames['ru'].location.href='empty.htm';
+    window.parent.frames['ru'].location.href='empty.html';
 <?php
 $waittime = getSettingWithDefault('set-test-edit-frame-waiting-time') + 0;
 if ($waittime <= 0 ) {
 ?>
-    window.parent.frames['ro'].location.href='empty.htm';
+    window.parent.frames['ro'].location.href='empty.html';
 <?php
 } else {
 ?>
-    setTimeout('window.parent.frames[\'ro\'].location.href=\'empty.htm\';', <?php echo $waittime; ?>);
+    setTimeout('window.parent.frames[\'ro\'].location.href=\'empty.html\';', <?php echo $waittime; ?>);
 <?php
 }
 ?>

@@ -45,7 +45,7 @@ Call: edit_tags.php?....
 Manage tags
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $currentsort = processDBParam("sort", 'currenttagsort', '1', 1);
 

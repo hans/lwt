@@ -1,6 +1,6 @@
 <?php
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $currentlang = validateLang(processDBParam("filterlang", 'currentlanguage', '', 0));
 $currentsort = processDBParam("sort", 'currentrsssort', '2', 1);

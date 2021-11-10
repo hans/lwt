@@ -45,7 +45,7 @@ Call: edit_texttags.php?....
 Manage tags
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $currentsort = processDBParam("sort", 'currenttexttagsort', '1', 1);
 

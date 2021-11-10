@@ -3,9 +3,11 @@
  * Database Utility Functions
  * 
  * This file is responsible for interacting with the database.
+ * 
+ * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
  */
 
-require_once 'inc/database_connect.php';
+require_once __DIR__ . '/database_connect.php';
 
 /**
  * Do a SQL query to the database. 

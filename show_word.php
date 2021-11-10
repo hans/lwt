@@ -35,7 +35,7 @@ Call: show_word.php?wid=...&ann=...
 Show term
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 pagestart_nobody('Term');
 

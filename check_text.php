@@ -36,7 +36,7 @@ Call: check_text.php?...
 Check (parse & split) a Text (into sentences/words)
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 pagestart('Check a Text', true);
 

@@ -35,7 +35,7 @@ Call: delete_word.php?wid=[wordid]&tid=[textid]
 Delete a word
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];

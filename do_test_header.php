@@ -38,7 +38,7 @@ Call: do_test_header.php?selection=1
 Show test header frame
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $p = '';
 $message = '';
@@ -104,12 +104,12 @@ else {  // OK
 
 ?>
 <p style="margin-bottom:0;">
-<input type="button" value="..[L2].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=1&amp;<?php echo $p; ?>';}" />
-<input type="button" value="..[L1].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm';  parent.frames['l'].location.href='do_test_test.php?type=2&amp;<?php echo $p; ?>';}" />
-<input type="button" value="..[••].." onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm';   parent.frames['l'].location.href='do_test_test.php?type=3&amp;<?php echo $p; ?>';}" /> &nbsp; | &nbsp; 
-<input type="button" value="[L2]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_test.php?type=4&amp;<?php echo $p; ?>';}" />
-<input type="button" value="[L1]" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm';   parent.frames['l'].location.href='do_test_test.php?type=5&amp;<?php echo $p; ?>';}" /> &nbsp; | &nbsp; 
-<input type="button" value="Table" onclick="{parent.frames['ro'].location.href='empty.htm'; parent.frames['ru'].location.href='empty.htm'; parent.frames['l'].location.href='do_test_table.php?<?php echo $p; ?>';}" />
+<input type="button" value="..[L2].." onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html'; parent.frames['l'].location.href='do_test_test.php?type=1&amp;<?php echo $p; ?>';}" />
+<input type="button" value="..[L1].." onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html';  parent.frames['l'].location.href='do_test_test.php?type=2&amp;<?php echo $p; ?>';}" />
+<input type="button" value="..[••].." onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html';   parent.frames['l'].location.href='do_test_test.php?type=3&amp;<?php echo $p; ?>';}" /> &nbsp; | &nbsp; 
+<input type="button" value="[L2]" onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html'; parent.frames['l'].location.href='do_test_test.php?type=4&amp;<?php echo $p; ?>';}" />
+<input type="button" value="[L1]" onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html';   parent.frames['l'].location.href='do_test_test.php?type=5&amp;<?php echo $p; ?>';}" /> &nbsp; | &nbsp; 
+<input type="button" value="Table" onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html'; parent.frames['l'].location.href='do_test_table.php?<?php echo $p; ?>';}" />
 </p></td></tr></table>
 <?php
 

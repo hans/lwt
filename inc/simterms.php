@@ -1,38 +1,12 @@
 <?php
 
-/**************************************************************
-"Learning with Texts" (LWT) is free and unencumbered software 
-released into the PUBLIC DOMAIN.
+/**
+ * PHP Utility Functions to calculate similar terms of a term.
+ * 
+ * @author LWT Project
+ */
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the 
-detriment of our heirs and successors. We intend this 
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-***************************************************************/
-
-/**************************************************************
-PHP Utility Functions to calculate similar terms of a term
-***************************************************************/
+ require_once 'session_utility.php';
 
 // -------------------------------------------------------------
 
@@ -59,9 +33,13 @@ function wordLetterPairs($str)
     return array_values($allPairs);
 }
 
+/**
+ * Similarity ranking of two UTF-8 strings $str1 and $str2
+ * 
+ * @return int SimilarityRanking
+ */
 function getSimilarityRanking($str1, $str2) 
 {
-    // Returns SimilarityRanking of two UTF-8 strings $str1 and $str2
     // Source http://www.catalysoft.com/articles/StrikeAMatch.html
     // Source http://stackoverflow.com/questions/653157
     $pairs1 = wordLetterPairs($str1);
@@ -73,15 +51,17 @@ function getSimilarityRanking($str1, $str2)
     return (2.0 * $intersection) / $union;
 }
 
-// -------------------------------------------------------------
-
-function get_similar_terms($lang_id, $compared_term, $max_count, 
-    $min_ranking
-) {
-    // For a language $lang_id and a term $compared_term (UTF-8), 
-    // return an array with $max_count wordids with a similarity ranking 
-    // > $min_ranking, sorted decending. 
-    // If string is already in database, it will be excluded in results.
+/**
+ * For a language $lang_id and a term $compared_term (UTF-8).
+ * If string is already in database, it will be excluded in results.
+ * 
+ * @return array All $max_count wordids with a similarity ranking > $min_ranking, 
+ * sorted decending
+ */
+function get_similar_terms(
+    $lang_id, $compared_term, $max_count, $min_ranking
+    ) 
+{
     global $tbpref;
     $compared_term_lc = mb_strtolower($compared_term, 'UTF-8');
     $sql = "select WoID, WoTextLC from " . $tbpref . "words where WoLgID = " . $lang_id . " AND WoTextLC <> " . convert_string_to_sqlsyntax($compared_term_lc);
@@ -95,9 +75,8 @@ function get_similar_terms($lang_id, $compared_term, $max_count,
     $r = array();
     $i = 0;
     foreach ($termlsd as $key => $val) {
-        if ($i >= $max_count) { break; 
-        }
-        if ($val < $min_ranking) { break; 
+        if ($i >= $max_count || $val < $min_ranking) { 
+            break; 
         }
         $i++;
         $r[$i] = $key;
@@ -105,20 +84,22 @@ function get_similar_terms($lang_id, $compared_term, $max_count,
     return $r;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Get Term and translation of terms in termid array (calculated 
+ * in function get_similar_terms(...)) as string for echo
+ */
 function print_similar_terms($lang_id, $compared_term) 
 {
-    // Get Term and translation of terms in termid array (calculated 
-    // in function get_similar_terms(...)) as string for echo
     global $tbpref;
     $max_count = (int)getSettingWithDefault("set-similar-terms-count");
-    if ($max_count <= 0) { return ''; 
+    if ($max_count <= 0) { 
+        return ''; 
     }
-    if (trim($compared_term) == '') { return '&nbsp;'; 
+    if (trim($compared_term) == '') { 
+        return '&nbsp;'; 
     } 
     $compare = tohtml($compared_term);
-    $termarr = get_similar_terms($lang_id, $compared_term, $max_count, 0.33);
+    $termarr = get_similar_terms($lang_id, $compared_term, $max_count, 0.33, $tbpref);
     $rarr = array();
     foreach ($termarr as $termid) {
         $sql = "select WoText, WoTranslation, WoRomanization from " . $tbpref . "words where WoID = " . $termid;
@@ -163,6 +144,5 @@ function print_similar_terms_tabrow()
     }
 } 
 
-// -------------------------------------------------------------
 
 ?>

@@ -37,7 +37,7 @@ For more information, please refer to [http://unlicense.org/].
  * Create the main window when reading texts.
 ***************************************************************/
 
-require_once 'utilities.inc.php'; 
+require_once 'inc/session_utility.php'; 
 require_once 'php-mobile-detect/Mobile_Detect.php' ;
 
 $detect = new Mobile_Detect;
@@ -116,13 +116,13 @@ $(document).ready(init);
     <iframe id="frame-h-2" src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="h"></iframe>
 </div>
 <div id="frame-ro">
-<iframe id="frame-ro-2" src="empty.htm" scrolling="yes" name="ro"></iframe>
+<iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
 </div>
 <div id="frame-l">
     <iframe id="frame-l-2" src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l"></iframe>
 </div>
 <div id="frame-ru">
-    <iframe id="frame-ru-2" src="empty.htm" scrolling="yes" name="ru"></iframe>
+    <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
 </div>
 
 <?php 
@@ -137,8 +137,8 @@ $(document).ready(init);
         <frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />
     </frameset>
     <frameset rows="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')); ?>%,*">
-        <frame src="empty.htm" scrolling="auto" name="ro" />
-        <frame src="empty.htm" scrolling="auto" name="ru" />
+        <frame src="empty.html" scrolling="auto" name="ro" />
+        <frame src="empty.html" scrolling="auto" name="ru" />
     </frameset>
     <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
 </frameset>

@@ -4,13 +4,12 @@
  * \file
  * Responsible for drawing the header when reading texts
  * 
- * @author https://github.com/HugoFara/lwt/graphs/contributors
- * @license Unlicense
+ * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
  * 
  * Call: do_text_header.php?text=[textid]
  */
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 // To get the BCP 47 language tag
 require_once 'langdefs.inc.php' ;
 

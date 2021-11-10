@@ -35,7 +35,7 @@ Call: save_setting_redirect.php?k=[key]&v=[value]&u=[RedirURI]
 Save a Setting (k/v) and redirect to URI u
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $k = getreq('k');
 $v = getreq('v');

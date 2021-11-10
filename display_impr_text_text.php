@@ -35,7 +35,7 @@ Call: display_impr_text_text.php?text=[textid]
 Display an improved annotated text (text frame)
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $textid = getreq('text')+0;
 $ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);

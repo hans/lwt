@@ -1,6 +1,6 @@
 <?php
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $tid=$_REQUEST['tid'];
 if(isset($_REQUEST["sl"])) {
@@ -86,7 +86,7 @@ $('h3,h4,title').addClass('notranslate');
 $(window).load(function() {
 $('[name="form1"]').submit(function() {
     $('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
-    window.parent.frames['ru'].location.href = 'empty.htm';
+    window.parent.frames['ru'].location.href = 'empty.html';
     return true;
 });
 $('td').hoverIntent({over: function() {$( this ).addClass('hover');}, out: function() {$( this ).removeClass('hover');}, interval: 150,selector:"span.dict1, span.dict2, span.dict3"});
@@ -132,7 +132,7 @@ if(!empty($wb1)) { echo '<span class="dict3">GTr</span>';
     }, 300);
 });
 $(document).ready( function() {
-    window.parent.frames['ru'].location.href = 'empty.htm';
+    window.parent.frames['ru'].location.href = 'empty.html';
     $('input[type="checkbox"]').change(function(){
         var v = parseInt($(this).val());
         var e = '[name=term\\[' + v + '\\]\\[text\\]],[name=term\\[' + v + '\\]\\[lg\\]],[name=term\\[' + v + '\\]\\[status\\]]';

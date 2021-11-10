@@ -51,7 +51,7 @@ For more information, please refer to [http://unlicense.org/].
  *     ... query=[titlefilter] ... title filter
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 // Page, Sort, etc.
 

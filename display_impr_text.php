@@ -35,7 +35,7 @@ Call: display_impr_text.php?text=[textid]
 Display an improved annotated text (frame set)
 ***************************************************************/
 
-require_once 'utilities.inc.php'; 
+require_once 'inc/session_utility.php'; 
 require_once 'php-mobile-detect/Mobile_Detect.php' ;
 
 $detect = new Mobile_Detect;

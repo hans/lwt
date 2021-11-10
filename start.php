@@ -35,7 +35,7 @@ Call: start.php
 Analyse DB tables, select Table Set, start LWT
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 if ($fixed_tbpref) {
     header("Location: index.php");

@@ -36,7 +36,7 @@ Call: set_word_status.php?...
 Change status of term while reading
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];

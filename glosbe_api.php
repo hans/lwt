@@ -41,7 +41,7 @@ Call Glosbe Translation API, analyze and present JSON results
 for easily filling the "new word form"
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $from = trim(stripTheSlashesIfNeeded($_REQUEST["from"]));
 $dest = trim(stripTheSlashesIfNeeded($_REQUEST["dest"]));

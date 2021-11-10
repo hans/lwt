@@ -35,7 +35,7 @@ Call: inline_edit.php?...
 ...
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $value = (isset($_POST['value'])) ? $_POST['value'] : "";
 $value = trim($value);

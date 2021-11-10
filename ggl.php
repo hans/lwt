@@ -1,6 +1,6 @@
 <?php
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 require_once 'googleTimeToken.php' ;
 require_once 'googleTranslateClass.php' ;
 

@@ -35,7 +35,7 @@ Call: ajax_add_term_transl.php
 Add a translation to term
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $wid = $_POST['id'] + 0;
 $data = trim(stripTheSlashesIfNeeded($_POST['data'])); // translation

@@ -1,14 +1,16 @@
 <?php
 
 /**
- * PHP Utility Functions
+ * All the files needed for a LWT session.
  * 
- * This file contains all the useful functions that 
- * require a complete session.
+ * By requiring this file, you start a session, connect to the 
+ * database and declare a lot of useful functions.
+ * 
+ * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
  */
 
-require 'inc/kernel_utility.php';
-require_once "dbutils.inc.php";
+require 'kernel_utility.php';
+require_once "db_accessors.php";
 
 
 // -------------------------------------------------------------

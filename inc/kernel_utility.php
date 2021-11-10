@@ -3,7 +3,7 @@
  * Core utility functions that do not require a complete session.
  */
 
- require __DIR__ . '/../settings.inc.php';
+ require __DIR__ . '/settings.php';
 
 
 /** 

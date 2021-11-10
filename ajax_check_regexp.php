@@ -36,7 +36,7 @@ Call: ajax_check_regexp.php?....
 returns error message or empty string
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 
 $regex = $_REQUEST['regex'];

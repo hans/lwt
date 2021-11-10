@@ -9,7 +9,7 @@
  * Call: do_text_text.php?text=[textid]
 */
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $sql 
     = '

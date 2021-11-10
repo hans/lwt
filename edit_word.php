@@ -40,8 +40,8 @@ Call: edit_word.php?....
 New/Edit single word
 ***************************************************************/
 
-require_once 'utilities.inc.php';
-require_once 'simterms.inc.php' ;
+require_once 'inc/session_utility.php';
+require_once 'inc/simterms.php';
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));
 if ($translation_raw == '' ) { $translation = '*'; 
@@ -222,7 +222,7 @@ else {  // if (! isset($_REQUEST['op']))
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <script type="text/javascript">
 $(window).on('beforeunload',function() {
-    setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.htm';}, 0);
+    setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.html';}, 0);
 });
 </script>
 <?php

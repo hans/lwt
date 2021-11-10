@@ -36,7 +36,7 @@ Call: upload_words.php?....
 Import terms from file or Text area
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 function my_str_getcsv($input) 
 {

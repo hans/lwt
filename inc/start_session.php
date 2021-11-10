@@ -1,6 +1,8 @@
 <?php
 /** 
  * Start a PHP session.
+ * 
+ * @author https://github.com/HugoFara/ HugoFara
 */
 
 // Get globals
@@ -40,7 +42,7 @@ function start_session() {
     }
 }
 
-function main() {
+function start_session_main() {
     set_error_reporting($GLOBALS['$dsplerrors']);
     set_configuration_options();
     // Start a PHP session if not one already exists
@@ -49,6 +51,6 @@ function main() {
     }
 }
 
-main();
+start_session_main();
 
 ?>

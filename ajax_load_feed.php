@@ -30,7 +30,7 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 session_write_close();
 $imported_feed=0;

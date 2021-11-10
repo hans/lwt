@@ -1,6 +1,8 @@
 <?php
 /**
- * Proceed to the general settings and start a session.
+ * Proceed to the general settings.
+ * 
+ * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
  */
 
 // Debug switch / Display PHP error settings

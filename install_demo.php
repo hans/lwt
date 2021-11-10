@@ -35,7 +35,7 @@ Call: install_demo.php
 Install LWT Demo Database
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $message = '';
 

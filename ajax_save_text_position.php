@@ -35,7 +35,7 @@ Call: ajax_save_text_position.php
 Save text and/or audio position (Read Text Screen)
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $textid = $_REQUEST['id'];
 $position = (isset($_REQUEST['position']))?$_REQUEST['position']:null;

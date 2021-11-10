@@ -36,7 +36,7 @@ Call: long_text_import.php?...
 Long Text Import
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 pagestart('Long Text Import', true);
 

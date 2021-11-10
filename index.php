@@ -38,7 +38,7 @@ if (!file_exists('connect.inc.php')) {
     die('');
 }
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 if ($tbpref == '') {
     $span2 = "<i>Default</i> Table Set</span>";

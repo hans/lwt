@@ -5,7 +5,7 @@
  * Connects to the database and check its state.
  */
 
-require __DIR__ . "/../settings.inc.php";
+require __DIR__ . "/settings.php";
 require __DIR__ . "/../connect.inc.php";
 
 /**
@@ -445,7 +445,7 @@ function get_database_prefixes($tbpref) {
 // *******************************************************************
 
 
-function main() {
+function start_database_connection() {
     global $DBCONNECTION, $server, $userid, $passwd, $dbname, 
     $debug, $tbpref, $fixed_tbpref, $dspltime;
     // Start Timer
@@ -460,6 +460,6 @@ function main() {
     check_update_db($debug, $tbpref, $dbname);
 }
 
-main();
+start_database_connection();
 
 ?>

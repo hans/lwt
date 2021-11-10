@@ -35,7 +35,7 @@ Call: delete_mword.php?wid=[wordid]&tid=[textid]
 Delete an expression 
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $showAll = getSettingZeroOrOne('showallwords', 1);
 

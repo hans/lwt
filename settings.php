@@ -37,7 +37,7 @@ Call: settings.php?....
 Preferences / Settings 
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 if (isset($_REQUEST['op'])) {
 
     if ($_REQUEST['op'] == 'Save') {

@@ -35,7 +35,7 @@ Call: ajax_save_impr_text.php
 Save Improved Annotation
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $textid = $_POST['id'] + 0;
 $elem = $_POST['elem'];

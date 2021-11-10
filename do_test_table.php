@@ -38,7 +38,7 @@ For more information, please refer to [http://unlicense.org/].
  * Call: do_test_test.php?&selection=1 (SQL via $_SESSION['testsql'])
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $p = '';
 

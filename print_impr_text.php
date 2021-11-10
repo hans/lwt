@@ -39,7 +39,7 @@ For more information, please refer to [http://unlicense.org/].
 			... del=1  ... delete own annotation
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $textid = getreq('text')+0;
 $editmode = getreq('edit');

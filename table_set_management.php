@@ -35,7 +35,7 @@ Call: table_set_management.php
 Analyse DB tables, and manage Table Sets
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $message = "";
 

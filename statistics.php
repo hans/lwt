@@ -35,7 +35,7 @@ Call: statistics.php
 Display statistics
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 pagestart('My Statistics', true);
 

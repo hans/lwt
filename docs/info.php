@@ -885,7 +885,7 @@ $(document).ready( function() {
 							<li>"Right-To-Left Script" must be set to "Yes" if the language/script is written from right to left, like Arabic, Hebrew, Farsi, Urdu, etc. <br /> <br />
 							</li>
 							
-							<li><a name="extmpl"></a>"Export Template". The export template controls "Flexible" Term Exports for the terms of that language. It consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, <a target="_blank" href="info_export_template.htm">see this table</a>. For each term (word or expression), that has been selected for export, the placeholders of the export template will be replaced by the term data and the string will be written to the export file. If the export template is empty, nothing will be exported.
+							<li><a name="extmpl"></a>"Export Template". The export template controls "Flexible" Term Exports for the terms of that language. It consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, <a target="_blank" href="export_template.html">see this table</a>. For each term (word or expression), that has been selected for export, the placeholders of the export template will be replaced by the term data and the string will be written to the export file. If the export template is empty, nothing will be exported.
 							</li>
 						</ul>
 
@@ -1026,7 +1026,7 @@ $(document).ready( function() {
               <li>"Right-To-Left Script" must be set to "Yes" if the language/script is written from right to left, like Arabic, Hebrew, Farsi, Urdu, etc. <br /> <br />
               </li>
               
-              <li><a name="extmpl"></a>"Export Template". The export template controls "Flexible" Term Exports for the terms of that language. It consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, <a target="_blank" href="info_export_template.htm">see this table</a>. For each term (word or expression), that has been selected for export, the placeholders of the export template will be replaced by the term data and the string will be written to the export file. If the export template is empty, nothing will be exported.
+              <li><a name="extmpl"></a>"Export Template". The export template controls "Flexible" Term Exports for the terms of that language. It consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, <a target="_blank" href="export_template.html">see this table</a>. For each term (word or expression), that has been selected for export, the placeholders of the export template will be replaced by the term data and the string will be written to the export file. If the export template is empty, nothing will be exported.
               </li>
             </ul>
 

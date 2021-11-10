@@ -35,7 +35,7 @@ Call: all_words_wellknown.php?text=[textid]
 Setting all unknown words to Well Known (99)
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 $status=$_REQUEST['stat'];
 $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['text']);

@@ -51,8 +51,8 @@ Call: edit_words.php?....
 Manage terms
 ***************************************************************/
 
-require_once 'utilities.inc.php';
-require_once 'simterms.inc.php' ;
+require_once 'inc/session_utility.php';
+require_once 'inc/simterms.php';
 
 $currentlang = validateLang(processDBParam("filterlang", 'currentlanguage', '', 0));
 $currentsort = processDBParam("sort", 'currentwordsort', '1', 1);

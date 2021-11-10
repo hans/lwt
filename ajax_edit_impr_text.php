@@ -36,7 +36,7 @@ Display table for Improved Annotation (Edit Mode),
 Ajax call in print_impr_text.php
 ***************************************************************/
 
-require_once 'utilities.inc.php';
+require_once 'inc/session_utility.php';
 
 function make_trans($i, $wid, $trans, $word, $lang) 
 {
