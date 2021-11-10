@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['check_5fupdate_5fdb_0',['check_update_db',['../utilities_8inc_8php.html#a201634201ef9816c61455bc380811459',1,'utilities.inc.php']]]
+  ['do_5fmysqli_5fquery_0',['do_mysqli_query',['../dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d',1,'dbutils.inc.php']]]
 ];

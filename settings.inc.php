@@ -1,45 +1,25 @@
 <?php
-
-/**************************************************************
-"Learning with Texts" (LWT) is free and unencumbered software 
-released into the PUBLIC DOMAIN.
-
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the 
-detriment of our heirs and successors. We intend this 
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-***************************************************************/
-
-/**************************************************************
- * \file
- * \brief Proceed to the general settings
-***************************************************************/
+/**
+ * Proceed to the general settings and start a session.
+ */
 
 // Debug switch / Display PHP error settings
 
-$debug = 0;        /// 1 = debugging on, 0 = .. off
-$dsplerrors = 0;   /// 1 = display all errors on, 0 = .. off
-$dspltime = 0;     /// 1 = display time on, 0 = .. off
+/** 
+ * @var int $debug 
+ * 1 = debugging on, 0 = .. off 
+ */
+$debug = 0;     
+/** 
+ * @var int $dsplerrors 
+ * 1 = display all errors on, 0 = .. off 
+ */   
+$dsplerrors = 0;
+/** 
+ * @var int $dspltime 
+ * 1 = display time on, 0 = .. off 
+ */
+$dspltime = 0;
 
 if ($dsplerrors) {
     @error_reporting(E_ALL);
@@ -57,7 +37,7 @@ if ($dsplerrors) {
 @ini_set('memory_limit', '999M');  
 
 // Start a PHP session if not one already exists
-if(session_id() == '') {
+if (session_id() == '') {
     // session isn't started
     $err = @session_start();
     if ($err === false) { 
@@ -66,7 +46,7 @@ if(session_id() == '') {
     if(session_id() == '') {
         die('SESSION ID empty (Impossible to start a PHP session)'); 
     }
-    if (! isset($_SESSION)) {
+    if (!isset($_SESSION)) {
         die('SESSION array not set (Impossible to start a PHP session)'); 
     }
 }

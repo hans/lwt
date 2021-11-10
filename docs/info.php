@@ -1,42 +1,18 @@
+<?php
+/**
+ * LWT Information / Help
+ *
+ * @author     LWT Project
+ * @since      2012
+ */
+
+require_once __DIR__ . '/../src/php/markdown_converter.php';
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-
-<!-- ***********************************************************
-"Learning with Texts" (LWT) is free and unencumbered software 
-released into the PUBLIC DOMAIN.
-
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the 
-detriment of our heirs and successors. We intend this 
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-************************************************************ -->
-
-<!-- ***********************************************************
-LWT Information / Help
-************************************************************ -->
 
 		<meta http-equiv="content-language" content="en-US" />
 		<meta http-equiv="cache-control" content="no-cache" />
@@ -46,32 +22,36 @@ LWT Information / Help
 		<meta name="description" content="Learning with Texts (LWT) is a tool for Language Learning, inspired by Stephen Krashen's principles in Second Language Acquisition, Steve Kaufmann's LingQ System and ideas (e. g. Massive-Context Cloze Deletion Cards = MCDs) from Khatzumoto, published at AJATT - All Japanese All The Time. It is an Alternative to LingQ, 100 % free, Open Source, and in the Public Domain." />
 		<meta name="revisit-after" content="2 days" />
 		<meta name="viewport" content="width=1280, user-scalable=yes" />
-		<link rel="apple-touch-icon" href="img/apple-touch-icon-57x57.png" />
-		<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png" />
-		<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png" />
-		<link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
+		<link rel="apple-touch-icon" href="../img/apple-touch-icon-57x57.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png" />
+		<link rel="apple-touch-startup-image" href="../img/apple-touch-startup.png" />
 		<style type="text/css">
-		@import url(css/styles.css);
+		@import url(../css/styles.css);
 		</style>
-		<script type="text/javascript" src="js/jquery.js"></script>  
-		<script type="text/javascript" src="js/floating.js"></script>
- 		<script type="text/javascript">
+		<script type="text/javascript" src="../js/jquery.js"></script>  
+		<script type="text/javascript" src="../js/floating.js"></script>
+ 		<!--<script type="text/javascript">
 		$.ajax(
 			{
 				type: 'POST',
 				url:'ajax_get_theme.php',
 				async: false, 
-				data: { file:'css/styles.css' }, 
-				success: function (data) {if (data.match(/styles.css$/g)) $('style').text( "@import url(" + data + ");" );
+				data: { file:'../css/styles.css' }, 
+				success: function (data) {
+					if (data.match(/styles.css$/g)) 
+						$('style').text( "@import url(" + data + ");" );
 			}
 		});
-		</script>
+		</script>-->
     <title>
       Learning with Texts :: Help/Information
     </title>
   </head>
   <body>
-	<div id="floatdiv" style="position:absolute; width:auto; height:auto; top:10px; right:10px; padding:5px;  z-index:100;  font-size: 10pt; text-align:center;">
+	<div id="floatdivv" 
+	style="position:absolute; width:auto; height:auto; top:10px; right:10px; 
+	padding:5px; z-index:2; font-size: 10pt; text-align:center;">
 		<a href="#">↑ TOP ↑</a><br /><br />
 		<a href="#preface">Preface</a><br />
 		<a href="#current">Curr. Version </a><br />
@@ -109,7 +89,7 @@ $(document).ready( function() {
 		<div style="margin-right:100px;">
 
 		<h4>
-			<a href="index.php" target="_top"><img src="img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
+			<a href="index.php" target="_top"><img src="../img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
 			<br />
 			<br />
 			<span class="bigger">Help/Information</span>
@@ -231,7 +211,10 @@ $(document).ready( function() {
 
 			<dd>
 				<ul>
-					<li>The current version is <b>2.0.2</b> (September 07 2021).
+					<li>The current version is <?php 
+					// require __DIR__ . '/../utilities.inc.php'; 
+					// echo get_version(); 
+					echo '2.0.2';?>-->.
 					</li>
 
 					<li>
@@ -261,7 +244,7 @@ $(document).ready( function() {
 					</li>
 
 					<li>
-						Documentation: try either <a href="docs/index.html">local link</a> or <a href="https://hugofara.github.io/lwt/docs/index.html">absolute link</a>.
+						Documentation: try either <a href="index.html">local link</a> or <a href="https://hugofara.github.io/lwt/index.html">absolute link</a>.
 					</li>
 <!--
 					<li>
@@ -662,39 +645,39 @@ $(document).ready( function() {
 						<ul>
 						
 						<li>
-						jQuery, jQueryUI - Copyright © John Resig et.al., <a href="http://jquery.org/license" target="_blank">http://jquery.org/license</a> (js/jquery.js, js/jquery-ui.min.js)
+						jQuery, jQueryUI - Copyright © John Resig et.al., <a href="http://jquery.org/license" target="_blank">http://jquery.org/license</a> (../js/jquery.js, ../js/jquery-ui.min.js)
 						</li>
 						
 						<li>
-						jQuery.ScrollTo - Copyright © Ariel Flesler, <a href="http://flesler.blogspot.com" target="_blank">http://flesler.blogspot.com</a>	(js/jquery.scrollTo.min.js)
+						jQuery.ScrollTo - Copyright © Ariel Flesler, <a href="http://flesler.blogspot.com" target="_blank">http://flesler.blogspot.com</a>	(../js/jquery.scrollTo.min.js)
 						</li>
 						
 						<li>
-						Jeditable - jQuery in-place edit plugin - Copyright © Mika Tuupola, Dylan Verheul, <a href="http://www.appelsiini.net/projects/jeditable" target="_blank">http://www.appelsiini.net/projects/jeditable</a>	(js/jquery.jeditable.mini.js)
+						Jeditable - jQuery in-place edit plugin - Copyright © Mika Tuupola, Dylan Verheul, <a href="http://www.appelsiini.net/projects/jeditable" target="_blank">http://www.appelsiini.net/projects/jeditable</a>	(../js/jquery.jeditable.mini.js)
 						</li>
 						
 						<li>
-						jQueryUI Tag-it! - Copyright © Levy Carneiro Jr., <a href="http://aehlke.github.com/tag-it/" target="_blank">http://aehlke.github.com/tag-it/</a>	(js/tag-it.js)
+						jQueryUI Tag-it! - Copyright © Levy Carneiro Jr., <a href="http://aehlke.github.com/tag-it/" target="_blank">http://aehlke.github.com/tag-it/</a>	(../js/tag-it.js)
 						</li>
 						
 						<li>
-						оverLIB 4.22 - Copyright © Erik Bоsrup, <a href="http://www.bosrup.com/" target="_blank">http://www.bosrup.com/</a> (js/overlib/...)
+						оverLIB 4.22 - Copyright © Erik Bоsrup, <a href="http://www.bosrup.com/" target="_blank">http://www.bosrup.com/</a> (../js/overlib/...)
 						</li>
 						
 						<li>
-						sorttable - Copyright © Stuart Langridge, <a href="http://www.kryogenix.org/code/browser/sorttable/" target="_blank">http://www.kryogenix.org/code/browser/sorttable/</a> (js/sorttable/...)
+						sorttable - Copyright © Stuart Langridge, <a href="http://www.kryogenix.org/code/browser/sorttable/" target="_blank">http://www.kryogenix.org/code/browser/sorttable/</a> (../js/sorttable/...)
 						</li>
 					
 						<li>
-						CountUp - Copyright © Praveen Lobo, <a href="http://PraveenLobo.com/techblog/javascript-countup-timer/" target="_blank">http://PraveenLobo.com/techblog/javascript-countup-timer/</a> (js/countuptimer.js)
+						CountUp - Copyright © Praveen Lobo, <a href="http://PraveenLobo.com/techblog/javascript-countup-timer/" target="_blank">http://PraveenLobo.com/techblog/javascript-countup-timer/</a> (../js/countuptimer.js)
 						</li>
 						
 						<li>
-						jPlayer - Copyright © Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (js/jquery.jplayer.min.js, js/Jplayer.swf, css/jplayer_skin/...)
+						jPlayer - Copyright © Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (../js/jquery.jplayer.min.js, ../js/Jplayer.swf, ../css/jplayer_skin/...)
 						</li>
 						
 						<li>
-						Floating Menu - Copyright © JTricks.com, <a href="http://www.jtricks.com/licensing.html" target="_blank">http://www.jtricks.com/licensing.html</a> (js/floating.js)
+						Floating Menu - Copyright © JTricks.com, <a href="http://www.jtricks.com/licensing.html" target="_blank">http://www.jtricks.com/licensing.html</a> (../js/floating.js)
 						</li>
 
 						<li>
@@ -706,11 +689,11 @@ $(document).ready( function() {
 						</li>
 
 						<li>
-						Query.Xpath - Copyright © Sergey Ilinsky, <a href="https://github.com/ilinsky/jquery-xpath" target="_blank">https://github.com/ilinsky/jquery-xpath</a> (js/jquery.xpath.js)
+						Query.Xpath - Copyright © Sergey Ilinsky, <a href="https://github.com/ilinsky/jquery-xpath" target="_blank">https://github.com/ilinsky/jquery-xpath</a> (../js/jquery.xpath.js)
 						</li>
 			
 						<li>
-						hoverIntent - Copyright © Brian Cherne, <a href="https://github.com/briancherne/jquery-hoverIntent" target="_blank">http://cherne.net/brian/resources/jquery.hoverIntent.html</a> (js/jquery.hoverIntent.js)
+						hoverIntent - Copyright © Brian Cherne, <a href="https://github.com/briancherne/jquery-hoverIntent" target="_blank">http://cherne.net/brian/resources/jquery.hoverIntent.html</a> (../js/jquery.hoverIntent.js)
 						</li>
 						</ul>
 						<br />
@@ -821,7 +804,7 @@ $(document).ready( function() {
 						This is home screen of LWT if the database is empty. Please install the demo database or start with the definition of a language you want to learn.
 						<br />
 						<br />
-						<img class="grayborder" src="img/23.jpg" alt="Image" />
+						<img class="grayborder" src="../img/23.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -833,7 +816,7 @@ $(document).ready( function() {
 						This is normal home screen of LWT. You may choose a language here, but you can do this also later. If you you choose a language, the language filter is pre-set to that language in some other screens. The last text you've read or tested is shown, and you may jump directly into reading, testing or printing of this last text.
 						<br />
 						<br />
-						<img class="grayborder" src="img/01.jpg" alt="Image" />
+						<img class="grayborder" src="../img/01.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -845,7 +828,7 @@ $(document).ready( function() {
 						The list of languages. Here you can add a new or edit an existent language. If no texts and no saved terms in a language exist, you can delete a language. If you change a language, all texts may be	be automatically reparsed to refresh (and correct) the cache of sentences and text items (depends on what language settings you have changed). You can do this also manually by clicking on the yellow flash icon. You can also test all (due) terms of a language or set a language as "current" language.
 						<br />
 						<br />
-						<img class="grayborder" src="img/02.jpg" alt="Image" />
+						<img class="grayborder" src="../img/02.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -910,7 +893,7 @@ $(document).ready( function() {
 						To understand all these options, please study also <a href="#langsetup">this</a>, look at the examples and play around with different settings and different texts.
 						<br />
 						<br />
-						<img class="grayborder" src="img/03.jpg" alt="Image" />
+						<img class="grayborder" src="../img/03.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -960,7 +943,7 @@ $(document).ready( function() {
             This is home screen of LWT if the database is empty. Please install the demo database or start with the definition of a language you want to learn.
             <br />
             <br />
-            <img class="grayborder" src="img/23.jpg" alt="Image" />
+            <img class="grayborder" src="../img/23.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -972,7 +955,7 @@ $(document).ready( function() {
             This is normal home screen of LWT. You may choose a language here, but you can do this also later. If you you choose a language, the language filter is pre-set to that language in some other screens. The last text you've read or tested is shown, and you may jump directly into reading, testing or printing of this last text.
             <br />
             <br />
-            <img class="grayborder" src="img/01.jpg" alt="Image" />
+            <img class="grayborder" src="../img/01.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -984,7 +967,7 @@ $(document).ready( function() {
             The list of languages. Here you can add a new or edit an existent language. If no texts and no saved terms in a language exist, you can delete a language. If you change a language, all texts may be  be automatically reparsed to refresh (and correct) the cache of sentences and text items (depends on what language settings you have changed). You can do this also manually by clicking on the yellow flash icon. You can also test all (due) terms of a language or set a language as "current" language.
             <br />
             <br />
-            <img class="grayborder" src="img/02.jpg" alt="Image" />
+            <img class="grayborder" src="../img/02.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1051,7 +1034,7 @@ $(document).ready( function() {
             To understand all these options, please study also <a href="#langsetup">this</a>, look at the examples and play around with different settings and different texts.
             <br />
             <br />
-            <img class="grayborder" src="img/03.jpg" alt="Image" />
+            <img class="grayborder" src="../img/03.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1063,7 +1046,7 @@ $(document).ready( function() {
             The list of texts. You can filter this list according to language, title (wildcard = *) or text tag(s) (see also below). The most important links for each text are "Read" and "Test" - that's the place to read, to listen, to save terms and to review and test your terms in sentence context. To see all terms of a text that you have saved, click on the numbers in column "Saved Wo+Ex". To print, archive, edit (and reparse), or to  delete a text, click on the icons in column "Actions". There are more actions available, see "Multi Actions".
             <br />
             <br />
-            <img class="grayborder" src="img/04.jpg" alt="Image" />
+            <img class="grayborder" src="../img/04.jpg" alt="Image" />
             <br />
             <br />
             <b>Multi Actions for marked texts</b>
@@ -1072,7 +1055,7 @@ $(document).ready( function() {
             You can test the terms of the marked texts, delete or archive the marked texts. "Reparse Texts" rebuilds the sentence and the text item cache for all marked texts. "Set Term Sentences" sets a valid sentence (with the term in {..}) for all those saved or imported terms that occur in the text and that do not have a sentence at all or none with {term}. This makes it easy to "create" sentence examples for imported terms.
             <br />
             <br />
-            <img class="grayborder" src="img/14.jpg" alt="Image" />
+            <img class="grayborder" src="../img/14.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1084,7 +1067,7 @@ $(document).ready( function() {
             The list of your text tags. You can manage your text tags here. With text tags, it will be easier to categorize and organize your texts. The tags are case sensitive, have 1 to 20 characters, and must not contain any spaces or commas.
             <br />
             <br />
-            <img class="grayborder" src="img/25.jpg" alt="Image" />
+            <img class="grayborder" src="../img/25.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1096,13 +1079,13 @@ $(document).ready( function() {
             This is the screen to input, check or edit a single text. Try to store not too long texts (the maximum length is 65,000 Bytes). If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be quite slow. An audio URI and a link to the text source can also be defined. The best place to store your audios is the "media" subdirectory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files, but be aware that not all browsers and/or operating systems support all media types! If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
             <br />
             <br />
-            <img class="grayborder" src="img/05.jpg" alt="Image" />
+            <img class="grayborder" src="../img/05.jpg" alt="Image" />
             <br />
             <br />
             You can also import a longer text into LWT with the possibility to split it up into several smaller texts. Click on "Long Text Import". You must specify the maximum number of sentences per text, and the handling of newlines for paragraph detection. It is not possible to specify audio files or URIs.
             <br />
             <br />
-            <img class="grayborder" src="img/33.jpg" alt="Image" />
+            <img class="grayborder" src="../img/33.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1114,7 +1097,7 @@ $(document).ready( function() {
 				Here you can download the articles of your newsfeeds (HowTo add a new newsfeed see <a href="#new_feed">here</a>). If you've set up multiple newsfeeds for your selected language, the link "update multiple feeds" will appear. By clicking that link you can update one or more feeds at once. If you've selected a newsfeed, a blue circle-arrow will appear as well as the date of your last update. A click on the circle-arrow will update your selected newsfeed. All downloaded articles will be marked by a bookmark-icon instead of the checkbox, so you can access them immediately. If a downloaded article is archived, a red mark will appear. An error may occur, when you try to download an article and the link or the text-section of the article is not found. Then a yellow warning sign appears, which can be removed temporarily by clicking on it or permanently in <a href="#man_feed">Manage Feeds</a>. If you hover over an article title, a description of the article will be shown. You can open the article and, if available, the audio in a new window.
 				<br />
 				<br />
-				<img class="grayborder" src="img/37.jpg" alt="Image" />
+				<img class="grayborder" src="../img/37.jpg" alt="Image" />
 				<br />
 				<br />
 			 </li>
@@ -1127,7 +1110,7 @@ $(document).ready( function() {
 				Actions: You can edit, update, delete a feed or follow the link to the newsfeed.
 			 <br />
 			 <br />
-			 <img class="grayborder" src="img/38.jpg" alt="Image" />
+			 <img class="grayborder" src="../img/38.jpg" alt="Image" />
 			 <br />
 			 <br />
 			 </li>
@@ -1182,7 +1165,7 @@ $(document).ready( function() {
 				</ul>
 			 <br />
 			 <br />
-			 <img class="grayborder" src="img/41.jpg" alt="Image" />
+			 <img class="grayborder" src="../img/41.jpg" alt="Image" />
 			 <br />
 			 <br />
 			 </li>
@@ -1223,7 +1206,7 @@ $(document).ready( function() {
 				<br />
 				<br />
 
-			 <img class="grayborder" src="img/39.jpg" alt="Image" />
+			 <img class="grayborder" src="../img/39.jpg" alt="Image" />
 			 <br />
 			 <br /></li>
 			 <li><b>Step 3</b>
@@ -1233,7 +1216,7 @@ $(document).ready( function() {
 				<br />
 				<br />
 
-			 <img class="grayborder" src="img/40.jpg" alt="Image" />
+			 <img class="grayborder" src="../img/40.jpg" alt="Image" />
 			 <br />
 			 <br />
 			 </li>
@@ -1254,13 +1237,13 @@ $(document).ready( function() {
             This is your "working area": Reading (and listening to) a text, saving/editing words and expressions, looking up words, expressions, sentences in external dictionaries or Google Translate. To create an expression, click on the first word. You see "Exp: 2..xx 3..yy 4..zz ...". Just click on the number of words (2..9) of the desired expression you want to save. The dictionary links for multi word expressions are always in the edit frame! You can also use the Keyboard in the text frame, see <a href="#keybind">Key Bindings</a>. Double clicking on a word sets the audio position approximately to the text position, if an audio was defined. The other audio controls are self-explanatory: automatic repeat, rewind and move forward n seconds, etc.). 
             <br />
             <br />
-            <img class="grayborder" src="img/06.jpg" alt="Image" />
+            <img class="grayborder" src="../img/06.jpg" alt="Image" />
             <br />
             <br />
             Reading a Right-To-Left Script (Hebrew):
             <br />
             <br />
-            <img class="grayborder" src="img/26.jpg" alt="Image" />
+            <img class="grayborder" src="../img/26.jpg" alt="Image" />
             <br />
             <br />
             With the checkbox [Show All] you can switch the display of text:
@@ -1269,13 +1252,13 @@ $(document).ready( function() {
             [Show All] = ON (see below): All terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
             <br />
             <br />
-            <img class="grayborder" src="img/22.jpg" alt="Image" />
+            <img class="grayborder" src="../img/22.jpg" alt="Image" />
             <br />
             <br />
         		[Show All] = OFF (see below): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts. 
         		<br />
             <br />
-            <img class="grayborder" src="img/30.jpg" alt="Image" />
+            <img class="grayborder" src="../img/30.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1302,7 +1285,7 @@ $(document).ready( function() {
             This is Test #1 or #4: L2 -&gt; L1 (recognition) - to train your ability to recognize a L2 term. You may test within sentence context (Button "..[L2].."), or just the term (Button "[L2]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
-            <img class="grayborder" src="img/07.jpg" alt="Image" />
+            <img class="grayborder" src="../img/07.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1314,7 +1297,7 @@ $(document).ready( function() {
             This is Test #2 or #5: L1 -&gt; L2 (recall) - to train your ability to produce a term from L1. You may test within sentence context (Button "..[L1].."), or just the term (Button "[L1]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
-            <img class="grayborder" src="img/11.jpg" alt="Image" />
+            <img class="grayborder" src="../img/11.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1326,7 +1309,7 @@ $(document).ready( function() {
             This is test #3: ••• -&gt; L2 (recall) - to train your ability to produce a term only from the sentence context (Button "..[••].."). If you hover over "[•••]", a tooltip displays the translation of the term. You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
             <br />
             <br />
-            <img class="grayborder" src="img/12.jpg" alt="Image" />
+            <img class="grayborder" src="../img/12.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1338,7 +1321,7 @@ $(document).ready( function() {
             This is test #6: The selected terms and expressions are presented as a table. You can make invisible either the columns "Term" or "Translation", and you can hide or show the columns "Sentence", "Romanization", "Status" and "Ed" (Edit). To reveal the invisible solution ("Term" or "Translation"), you just click into the empty table cell. You can review or test yourself with or without changing the status by clicking "+" or "-" in the "Status" column. A status in red signifies that the term is due for testing. You can also edit the term by clicking the yellow "Edit" icon. Columns 2 to 6 may also my sorted by clicking on the header row. The initial sort order is according to term score.
             <br />
             <br />
-            <img class="grayborder" src="img/32.jpg" alt="Image" />
+            <img class="grayborder" src="../img/32.jpg" alt="Image" />
             <br />
             <br />
           </li>
@@ -1353,13 +1336,13 @@ $(document).ready( function() {
             Chinese Text with annotation (Romanization/Pinyin and translation):
             <br />
             <br />
-            <img class="grayborder" src="img/20.jpg" alt="Image" />
+            <img class="grayborder" src="../img/20.jpg" alt="Image" />
             <br />
             <br />
             Chinese Text with annotation (only Romanization/Pinyin):
             <br />
             <br />
-            <img class="grayborder" src="img/21.jpg" alt="Image" />
+            <img class="grayborder" src="../img/21.jpg" alt="Image" />
             <br />
             <br />
            	<a name="il"></a><b>How to create, edit, and use an <i>Improved Annotated Text</i>:</b>
@@ -1374,7 +1357,7 @@ $(document).ready( function() {
             <br /><br />
             <b>Edit Mode:</b>
             <br /><br />
-            <img class="grayborder" src="img/28.jpg" alt="Image" />
+            <img class="grayborder" src="../img/28.jpg" alt="Image" />
             <br /><br />
             Within the "Improved Annotated Text - Edit Mode", you can select the best term translation by clicking on one of the radio buttons. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT Settings (currently: /;|). You can also type in a new translation into the text box at the end (this does not change your saved term translation), or you may change your term by clicking on the yellow icon or add a translation by clicking on the green "+" icon (this does change your saved term translation), and select it afterwards. The "Star" icon indicated that you want the term itself as annotation. <b>Important:</b> It's not possible to create new terms here - please do this in the "Read text" screen. Changing the language settings (e.g. the word characters) may have the effect that you have to start from scratch. The best time for the creation of an improved annotated text is after you have read the text completely and created all terms and expressions in the "Read text" screen.
             <br /><br />
@@ -1384,7 +1367,7 @@ $(document).ready( function() {
 						The list of texts. You can filter this list according to language, title (wildcard = *) or text tag(s) (see also below). The most important links for each text are "Read" and "Test" - that's the place to read, to listen, to save terms and to review and test your terms in sentence context. To see all terms of a text that you have saved, click on the numbers in column "Saved Wo+Ex". To print, archive, edit (and reparse), or to	delete a text, click on the icons in column "Actions". There are more actions available, see "Multi Actions".
 						<br />
 						<br />
-						<img class="grayborder" src="img/04.jpg" alt="Image" />
+						<img class="grayborder" src="../img/04.jpg" alt="Image" />
 						<br />
 						<br />
 						<b>Multi Actions for marked texts</b>
@@ -1393,7 +1376,7 @@ $(document).ready( function() {
 						You can test the terms of the marked texts, delete or archive the marked texts. "Reparse Texts" rebuilds the sentence and the text item cache for all marked texts. "Set Term Sentences" sets a valid sentence (with the term in {..}) for all those saved or imported terms that occur in the text and that do not have a sentence at all or none with {term}. This makes it easy to "create" sentence examples for imported terms.
 						<br />
 						<br />
-						<img class="grayborder" src="img/14.jpg" alt="Image" />
+						<img class="grayborder" src="../img/14.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1405,7 +1388,7 @@ $(document).ready( function() {
 						The list of your text tags. You can manage your text tags here. With text tags, it will be easier to categorize and organize your texts. The tags are case sensitive, have 1 to 20 characters, and must not contain any spaces or commas.
 						<br />
 						<br />
-						<img class="grayborder" src="img/25.jpg" alt="Image" />
+						<img class="grayborder" src="../img/25.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1417,13 +1400,13 @@ $(document).ready( function() {
 						This is the screen to input, check or edit a single text. Try to store not too long texts (the maximum length is 65,000 Bytes). If texts are very long (> 1000 words), certain operations (e.g. loading a text for reading, calculation of known/unknown words) may be quite slow. An audio URI and a link to the text source can also be defined. The best place to store your audios is the "media" subdirectory below the installation directory "lwt" (you have to create it yourself, and you have to copy the audio files into this directory; click Refresh if you don't see just copied media). But a cloud webspace service like DropBox is also possible. In the moment there is no possibility to import/upload an audio file within the LWT application. By the way, you can use MP3, WAV, or OGG media files, but be aware that not all browsers and/or operating systems support all media types! If you click "Check", the text will be parsed and split into sentences and words according to your language settings. Nothing will be stored if you check a text. You can see whether your text needs some editing, or whether your language settings (especially the ones that influence parsing/splitting) need an adjustment. Words (not expressions) that are already in your word list are displayed in red, and the translation is displayed. The Non-Word List shows all stuff between words. The "Check a Text" function can also be started directly from the main menu. If you click on "Change" or "Save", the text will be only saved. If you click on "Change and Open" or "Save and Open", the text will be saved and opened right away.
 						<br />
 						<br />
-						<img class="grayborder" src="img/05.jpg" alt="Image" />
+						<img class="grayborder" src="../img/05.jpg" alt="Image" />
 						<br />
 						<br />
 						You can also import a longer text into LWT with the possibility to split it up into several smaller texts. Click on "Long Text Import". You must specify the maximum number of sentences per text, and the handling of newlines for paragraph detection. It is not possible to specify audio files or URIs.
 						<br />
 						<br />
-						<img class="grayborder" src="img/33.jpg" alt="Image" />
+						<img class="grayborder" src="../img/33.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1435,13 +1418,13 @@ $(document).ready( function() {
 						This is your "working area": Reading (and listening to) a text, saving/editing words and expressions, looking up words, expressions, sentences in external dictionaries or Google Translate. To create an expression, click on the first word. You see "Exp: 2..xx 3..yy 4..zz ...". Just click on the number of words (2..9) of the desired expression you want to save. The dictionary links for multi word expressions are always in the edit frame! You can also use the Keyboard in the text frame, see <a href="#keybind">Key Bindings</a>. Double clicking on a word sets the audio position approximately to the text position, if an audio was defined. The other audio controls are self-explanatory: automatic repeat, rewind and move forward n seconds, etc.). 
 						<br />
 						<br />
-						<img class="grayborder" src="img/06.jpg" alt="Image" />
+						<img class="grayborder" src="../img/06.jpg" alt="Image" />
 						<br />
 						<br />
 						Reading a Right-To-Left Script (Hebrew):
 						<br />
 						<br />
-						<img class="grayborder" src="img/26.jpg" alt="Image" />
+						<img class="grayborder" src="../img/26.jpg" alt="Image" />
 						<br />
 						<br />
 						With the checkbox [Show All] you can switch the display of text:
@@ -1450,13 +1433,13 @@ $(document).ready( function() {
 						[Show All] = ON (see below): All terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
 						<br />
 						<br />
-						<img class="grayborder" src="img/22.jpg" alt="Image" />
+						<img class="grayborder" src="../img/22.jpg" alt="Image" />
 						<br />
 						<br />
 						[Show All] = OFF (see below): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts. 
 						<br />
 						<br />
-						<img class="grayborder" src="img/30.jpg" alt="Image" />
+						<img class="grayborder" src="../img/30.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1483,7 +1466,7 @@ $(document).ready( function() {
 						This is Test #1 or #4: L2 -&gt; L1 (recognition) - to train your ability to recognize a L2 term. You may test within sentence context (Button "..[L2].."), or just the term (Button "[L2]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
 						<br />
 						<br />
-						<img class="grayborder" src="img/07.jpg" alt="Image" />
+						<img class="grayborder" src="../img/07.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1495,7 +1478,7 @@ $(document).ready( function() {
 						This is Test #2 or #5: L1 -&gt; L2 (recall) - to train your ability to produce a term from L1. You may test within sentence context (Button "..[L1].."), or just the term (Button "[L1]"). You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
 						<br />
 						<br />
-						<img class="grayborder" src="img/11.jpg" alt="Image" />
+						<img class="grayborder" src="../img/11.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1507,7 +1490,7 @@ $(document).ready( function() {
 						This is test #3: ••• -&gt; L2 (recall) - to train your ability to produce a term only from the sentence context (Button "..[••].."). If you hover over "[•••]", a tooltip displays the translation of the term. You can also use the Keyboard in the test frame, see <a href="#keybind">Key Bindings</a>.
 						<br />
 						<br />
-						<img class="grayborder" src="img/12.jpg" alt="Image" />
+						<img class="grayborder" src="../img/12.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1519,7 +1502,7 @@ $(document).ready( function() {
 						This is test #6: The selected terms and expressions are presented as a table. You can make invisible either the columns "Term" or "Translation", and you can hide or show the columns "Sentence", "Romanization", "Status" and "Ed" (Edit). To reveal the invisible solution ("Term" or "Translation"), you just click into the empty table cell. You can review or test yourself with or without changing the status by clicking "+" or "-" in the "Status" column. A status in red signifies that the term is due for testing. You can also edit the term by clicking the yellow "Edit" icon. Columns 2 to 6 may also my sorted by clicking on the header row. The initial sort order is according to term score.
 						<br />
 						<br />
-						<img class="grayborder" src="img/32.jpg" alt="Image" />
+						<img class="grayborder" src="../img/32.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1534,13 +1517,13 @@ $(document).ready( function() {
 						Chinese Text with annotation (Romanization/Pinyin and translation):
 						<br />
 						<br />
-						<img class="grayborder" src="img/20.jpg" alt="Image" />
+						<img class="grayborder" src="../img/20.jpg" alt="Image" />
 						<br />
 						<br />
 						Chinese Text with annotation (only Romanization/Pinyin):
 						<br />
 						<br />
-						<img class="grayborder" src="img/21.jpg" alt="Image" />
+						<img class="grayborder" src="../img/21.jpg" alt="Image" />
 						<br />
 						<br />
 						<a name="il"></a><b>How to create, edit, and use an <i>Improved Annotated Text</i>:</b>
@@ -1555,7 +1538,7 @@ $(document).ready( function() {
 						<br /><br />
 						<b>Edit Mode:</b>
 						<br /><br />
-						<img class="grayborder" src="img/28.jpg" alt="Image" />
+						<img class="grayborder" src="../img/28.jpg" alt="Image" />
 						<br /><br />
 						Within the "Improved Annotated Text - Edit Mode", you can select the best term translation by clicking on one of the radio buttons. To be able to do this, multiple translations must be delimited by one of the delimiters specified in the LWT Settings (currently: /;|). You can also type in a new translation into the text box at the end (this does not change your saved term translation), or you may change your term by clicking on the yellow icon or add a translation by clicking on the green "+" icon (this does change your saved term translation), and select it afterwards. The "Star" icon indicated that you want the term itself as annotation. <b>Important:</b> It's not possible to create new terms here - please do this in the "Read text" screen. Changing the language settings (e.g. the word characters) may have the effect that you have to start from scratch. The best time for the creation of an improved annotated text is after you have read the text completely and created all terms and expressions in the "Read text" screen.
 						<br /><br />
@@ -1567,11 +1550,11 @@ $(document).ready( function() {
 						<br /><br />
 						<b>Print Mode:</b>
 						<br /><br />
-						<img class="grayborder" src="img/27.jpg" alt="Image" />
+						<img class="grayborder" src="../img/27.jpg" alt="Image" />
 						<br /><br />
 						<b>Display Mode</b> (with audio player) in a separate window. Clicking the "T" or "A" lightbulb icons hides/shows the text or the blue annotations. You may also click on a single term or a single annotation to show or to hide it. This enables you to test yourself or to concentrate on one text only. Romanizations, if available, appear while hovering over a term.
 						<br /><br />
-						<img class="grayborder" src="img/29.jpg" alt="Image" />
+						<img class="grayborder" src="../img/29.jpg" alt="Image" />
 						<br /><br />
 					</li>
 
@@ -1582,7 +1565,7 @@ $(document).ready( function() {
 						The list of your saved words or expressions (= terms). You may filter the list of terms by language, text, status, term/romanization/translation (wildcard * possible) or term tag(s). Different sort orders are possible. You can do "multi actions" only on the marked or on all terms (on all pages!). "Se?" displays a green dot if a valid sentences with {term} exists. "Stat/Days" displays the status and the number of days since the last status change. The score of a term is a rough measure (in percent) how well you know a term. Read more about term scores <a href="#termscores">here</a>. Terms with zero score are displayed red and should be tested today.
 						<br />
 						<br />
-						<img class="grayborder" src="img/08.jpg" alt="Image" />
+						<img class="grayborder" src="../img/08.jpg" alt="Image" />
 						<br />
 						<br />
 						<b>Multi Actions for marked terms</b>
@@ -1597,7 +1580,7 @@ $(document).ready( function() {
 						"Export Marked Texts (TSV)" exports all terms that have been marked. The export is tab-delimited: (1) term, (2) translation, (3) sentence, (4) romanization, (5) status, (6) language, (7) ID Number, (8) tag list.
 						<br />
 						<br />
-						<img class="grayborder" src="img/16.jpg" alt="Image" />
+						<img class="grayborder" src="../img/16.jpg" alt="Image" />
 						<br />
 						<br />
 						<b>Multi Actions for all terms on all pages of the current query</b>
@@ -1606,7 +1589,7 @@ $(document).ready( function() {
 						Explanations see above.
 						<br />
 						<br />
-						<img class="grayborder" src="img/17.jpg" alt="Image" />
+						<img class="grayborder" src="../img/17.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1618,7 +1601,7 @@ $(document).ready( function() {
 						The list of your term tags. You can manage your term tags here. With term tags, it will be easier to categorize and organize your terms. The tags are case sensitive, have 1 to 20 characters, and must not contain any spaces or commas.
 						<br />
 						<br />
-						<img class="grayborder" src="img/24.jpg" alt="Image" />
+						<img class="grayborder" src="../img/24.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1655,13 +1638,13 @@ $(document).ready( function() {
 						</ul>
 						<br />
 						<br />
-						<img class="grayborder" src="img/13.jpg" alt="Image" />
+						<img class="grayborder" src="../img/13.jpg" alt="Image" />
 						<br />
 						<br />
 						<b>Multi Actions for marked archived texts</b>
 						<br />
 						<br />
-						<img class="grayborder" src="img/15.jpg" alt="Image" />
+						<img class="grayborder" src="../img/15.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1673,7 +1656,7 @@ $(document).ready( function() {
 						It's self-explanatory and shows your performance. The numbers in the first table are links, by clicking on them you jump to the table of all terms in that status and language.
 						<br />
 						<br />
-						<img class="grayborder" src="img/09.jpg" alt="Image" />
+						<img class="grayborder" src="../img/09.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1685,7 +1668,7 @@ $(document).ready( function() {
 						Import a list of terms for a language, and set the status for all to a specified value. You can specify a file to upload or type/paste the data directly into the textbox. Format: one term per line, fields (columns) are separated either by comma ("CSV" file, e.g. used in LingQ as export format), TAB ("TSV" file, e.g. copy and paste from a spreadsheet program, not possible if you type in data manually) or # (if you type in data manually). The field/column assignment must be specified on the left. Important: You must import a term. The translation can be omitted if the status should be set to 98 or 99 (ignore/well known). Translation, romanization and sentence are all optional, but please understand that tests are only possible if terms have a translation. If a term already exists in the database (comparison is NOT case sensitive), it will not be overwritten; the line will be ignored. You can change this by setting "Overwrite existent terms" to "Yes". Be careful using this screen, a database backup before the import and double-checking everything is always advisable!
 						<br />
 						<br />
-						<img class="grayborder" src="img/10.jpg" alt="Image" />
+						<img class="grayborder" src="../img/10.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1697,7 +1680,7 @@ $(document).ready( function() {
 						This screen offers a possibility to save, restore or empty the LWT database (ONLY the current table set!). This makes it easy to try out new things or just to make regular backups. "Restore" only accepts files that have been created with the "Backup" function above. "Empty Database" deletes the data of all tables (except the settings) of the current table set, and you can start from scratch afterwards. Be careful: you may lose valuable data!
 						<br />
 						<br />
-						<img class="grayborder" src="img/18.jpg" alt="Image" />
+						<img class="grayborder" src="../img/18.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1709,7 +1692,7 @@ $(document).ready( function() {
 						In this screen you can adjust the program according to your needs. The geometric properties of the <i>Read Text</i> and <i>Test</i> screens can be changed. This is important because different browsers and font sizes may result in an unpleasant viewing experience. The waiting time to display the next test and to hide the old message after a test assessment can also be changed. The number of sentences displayed during testing and generated during term creation can be set to 1 (default), 2 or 3; if set to 2 or 3 you are able to do "MCD" (Massive-Context Cloze Deletion) testing, proposed by Khatzumoto @ AJATT. The number of items per page on different screens can be set, and you can decide whether you want to see the word counts on the textpage immediately (page may load slow) or later (faster initial loading).
 						<br />
 						<br />
-						<img class="grayborder" src="img/19.jpg" alt="Image" />
+						<img class="grayborder" src="../img/19.jpg" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -1730,7 +1713,7 @@ $(document).ready( function() {
 						Just click on the link at the bottom of the LWT home screen where the current table set name (or "Default") is displayed. In a new screen "Select, Create or Delete a Table Set" you may switch and manage table sets. A table set name is max. 20 characters long. Allowed characters are only: a-z, A-Z, 0-9, and the underscore "_".	
 						<br />
 						<br />
-						<img class="grayborder" src="img/31.jpg" alt="Image" />
+						<img class="grayborder" src="../img/31.jpg" alt="Image" />
 						<br />
 						<br />
 						If you want "switch off" this feature, and use just one table set, you may define the name in the file "connect.inc.php":
@@ -1767,7 +1750,7 @@ $(document).ready( function() {
 					<li>I want to use LWT, and I see something like this:
 						<br />
 						<br />
-						<img class="grayborder" src="img/prob1.png" alt="Image" />
+						<img class="grayborder" src="../img/prob1.png" alt="Image" />
 						<br />
 						<br />
 						Answer: Your local webserver (Apache) is not running. Please start it via EasyPHP or MAMP control program/panel.
@@ -1778,7 +1761,7 @@ $(document).ready( function() {
 					<li>I want to use LWT, and I see something like this:
 						<br />
 						<br />
-						<img class="grayborder" src="img/prob2.png" alt="Image" />
+						<img class="grayborder" src="../img/prob2.png" alt="Image" />
 						<br />
 						<br />
 						Answer: The server is running, but the application is not found. Maybe the Uniform Resource Identifier (URI) is wrong or misspelled. Please check/correct it. Or the URI is correct, and the application is installed, but not in the correct directory <i>lwt</i> below <i>htdocs</i>. Please install/copy/move it into the correct directory.
@@ -1789,10 +1772,10 @@ $(document).ready( function() {
 					<li>I want to use LWT, and I see this:
 						<br />
 						<br />
-						<img class="grayborder" src="img/prob3.png" alt="Image" />
+						<img class="grayborder" src="../img/prob3.png" alt="Image" />
 						<br />
 						<br />
-						Answer: Either the database (MySQL) is not running, or the database connection parameters in <i>../htdocs/lwt/connect.inc.php</i> are wrong. Please check/correct the database connection parameters and/or start MySQL via the MAMP or EasyPHP control program/panel.
+						Answer: Either the database (MySQL) is not running, or the database connection parameters in <i>../htlwt/connect.inc.php</i> are wrong. Please check/correct the database connection parameters and/or start MySQL via the MAMP or EasyPHP control program/panel.
 						<br />
 						<br />
 					</li>
@@ -1800,10 +1783,10 @@ $(document).ready( function() {
 					<li>I want to use LWT, and I see this:
 						<br />
 						<br />
-						<img class="grayborder" src="img/prob4.png" alt="Image" />
+						<img class="grayborder" src="../img/prob4.png" alt="Image" />
 						<br />
 						<br />
-						Answer: The Webserver and the database is running, but the database connection parameter file <i>../htdocs/lwt/connect.inc.php</i> is not found. Please rename one of the connection files (according to your server) to <i>../htdocs/lwt/connect.inc.php</i>.
+						Answer: The Webserver and the database is running, but the database connection parameter file <i>../htlwt/connect.inc.php</i> is not found. Please rename one of the connection files (according to your server) to <i>../htlwt/connect.inc.php</i>.
 						<br />
 						<br />
 					</li>
@@ -2084,7 +2067,7 @@ $(document).ready( function() {
 					<li>The score is calculated as follows:
 						<br />
 						<br />
-						<img class="grayborder" src="img/score1full.png" alt="Image" />
+						<img class="grayborder" src="../img/score1full.png" alt="Image" />
 						<br />
 						<br />
 						Terms with status 1 are tested either today (if not created today) or tomorrow (if created today, or a test failed today). Terms set to status 2 should be retested after 2 days. Terms set to status 3 should be retested after 9 days. Terms set to status 4 should be retested after 27 days. Terms set to status 5 should be retested after 72 days.
@@ -2095,7 +2078,7 @@ $(document).ready( function() {
 					<li>Example 1: Five terms were tested today; they are now in status 1, 2, 3, 4, and 5. The term with status 1 is still unknown (failed the test, so the score is still 0 %). The term with status 5 is well known (score: 100 %).
 						<br />
 						<br />
-						<img class="grayborder" src="img/score2.png" alt="Image" />
+						<img class="grayborder" src="../img/score2.png" alt="Image" />
 						<br />
 						<br />
 					</li>
@@ -2103,7 +2086,7 @@ $(document).ready( function() {
 					<li>Example 2: Five terms were not tested for some time; they are in status 1, 2, 3, 4, and 5. All of them have a score of 0, because the number of days indicate that you may have forgotten them. Therefore all should be retested today.
 						<br />
 						<br />
-						<img class="grayborder" src="img/score3.png" alt="Image" />
+						<img class="grayborder" src="../img/score3.png" alt="Image" />
 					</li>
 				</ul>
 			</dd>
@@ -2217,400 +2200,9 @@ $(document).ready( function() {
       </dt>
 
       <dd>
-        <ul>
-        	<li>
-			The following seventeen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.
-        		<br />
-        		<br />
-        		Additional table sets have its "table set name" plus an underscore "_" as a table name prefix: "setname_settings", "setname_languages", etc.
-        		The "table set name" is max. 20 characters long. Allowed characters are only: a-z, A-Z, 0-9, and the underscore "_".
-            <br />
-            <br />
-            Only if the table set is not set in "connect.inc.php", the currently used table set is saved in a global table "_lwtgeneral", in column LWTValue of row with LWTKey = "current_table_prefix". If such a row does not exist, the default table set will be used, or will be automatically created and used.
-            <br />
-            <br />
-        	</li>
-        
-          <li>
-            <b>Table "settings" (Settings as Key-Value Pairs):</b>
-            <br />
-            StKey varchar(40) NOT NULL,
-            <br />
-            StValue varchar(40) DEFAULT NULL,
-            <br />
-            PRIMARY KEY (StKey)
-            <br />
-            <br />
-          </li>
-
-          <li>
-            <b>Table "languages" (Defined languages):</b>
-            <br />
-            LgID tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            LgName varchar(40) NOT NULL,
-            <br />
-            LgDict1URI varchar(200) NOT NULL,
-            <br />
-            LgDict2URI varchar(200) DEFAULT NULL,
-            <br />
-            LgGoogleTranslateURI varchar(200) DEFAULT NULL,
-            <br />
-            LgExportTemplate varchar(1000) DEFAULT NULL,
-            <br />
-            LgTextSize smallint(5) unsigned NOT NULL DEFAULT '100',
-            <br />
-            LgCharacterSubstitutions varchar(500) NOT NULL,
-            <br />
-            LgRegexpSplitSentences varchar(500) NOT NULL,
-            <br />
-            LgExceptionsSplitSentences varchar(500) NOT NULL,
-            <br />
-            LgRegexpWordCharacters varchar(500) NOT NULL,
-            <br />
-            LgRemoveSpaces tinyint(1) unsigned NOT NULL DEFAULT '0',
-            <br />
-            LgSplitEachChar tinyint(1) unsigned NOT NULL DEFAULT '0',
-            <br />
-            LgRightToLeft tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
-            <br />
-            PRIMARY KEY (LgID),
-            <br />
-            UNIQUE KEY LgName (LgName)
-            <br />
-            <br />
-          </li>
-
-          <li>
-            <b>Table "texts" (Active texts, parsed and cached in sentences and textitems):</b>
-            <br />
-            TxID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            TxLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
-            <br />
-            TxTitle varchar(200) NOT NULL,
-            <br />
-            TxText text NOT NULL,
-            <br />
-            TxAnnotatedText longtext NOT NULL,
-            <br />
-            TxAudioURI varchar(200) DEFAULT NULL,
-            <br />
-            TxSourceURI varchar(1000) DEFAULT NULL,
-            <br />
-            TxPosition smallint(5) NOT NULL DEFAULT '0',
-            <br />
-            TxAudioPosition float NOT NULL DEFAULT '0',
-            <br />
-            PRIMARY KEY (TxID),
-            <br />
-            KEY TxLgID (TxLgID)
-            <br />
-            <br />
-          </li>
-          
-          <li>
-            <b>Table "archivedtexts" (Text Archive, not parsed and cached):</b>
-            <br />
-            AtID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            AtLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
-            <br />
-            AtTitle varchar(200) NOT NULL,
-            <br />
-            AtText text NOT NULL,
-            <br />
-            AtAnnotatedText longtext NOT NULL,
-            <br />
-            AtAudioURI varchar(200) DEFAULT NULL,
-            <br />
-            AtSourceURI varchar(1000) DEFAULT NULL,
-            <br />
-            PRIMARY KEY (AtID),
-            <br />
-            KEY AtLgID (AtLgID)
-            <br />
-            <br />
-          </li>
-
-          <li>
-          	<b>Table "tags2" (Text tags and comments):</b>
-            <br />
-  					T2ID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-  					T2Text varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-            <br />
-  					T2Comment varchar(200) NOT NULL DEFAULT '',
-            <br />
-  					PRIMARY KEY (T2ID),
-            <br />
-  					UNIQUE KEY T2Text (T2Text)
-            <br />
-            <br />
-          </li>
-
-          <li>
-            <b>Table "texttags" (Text tags relations):</b>
-            <br />
-						TtTxID smallint(5) unsigned NOT NULL, -- TEXT FOREIGN KEY --
-            <br />
-						TtT2ID smallint(5) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
-            <br />
-						PRIMARY KEY (TtTxID,TtT2ID),
-            <br />
-						KEY TtT2ID (TtT2ID)
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table "archtexttags" (Archived text tags relations):</b>
-            <br />
-						AgAtID smallint(5) unsigned NOT NULL, -- ARCHIVED TEXT FOREIGN KEY --
-            <br />
-						AgT2ID smallint(5) unsigned NOT NULL, -- TEXT TAG FOREIGN KEY --
-            <br />
-						PRIMARY KEY (AgAtID,AgT2ID),
-            <br />
-						KEY AgT2ID (AgT2ID)
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table "words" (the words and expressions you have saved):</b>
-            <br />
-            WoID mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            WoLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
-            <br />
-            WoText varchar(250) NOT NULL,
-            <br />
-            WoTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-            <br />
-            WoStatus tinyint(4) NOT NULL,
-            <br />
-            WoTranslation varchar(500) NOT NULL DEFAULT '*',
-            <br />
-            WoRomanization varchar(100) DEFAULT NULL,
-            <br />
-            WoSentence varchar(1000) DEFAULT NULL,
-            <br />
-            WoWordCount tinyint(3) unsigned NOT NULL DEFAULT '0',
-            <br />
-            WoCreated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            <br />
-            WoStatusChanged timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-            <br />
-  					WoTodayScore double NOT NULL DEFAULT '0',
-            <br />
-  					WoTomorrowScore double NOT NULL DEFAULT '0',
-            <br />
-  					WoRandom double NOT NULL DEFAULT '0',            
-            <br />
-  					PRIMARY KEY (WoID),
-            <br />
-            UNIQUE KEY WoLgIDTextLC (WoLgID,WoTextLC),
-            <br />
-            KEY WoLgID (WoLgID),
-            <br />
-            KEY WoStatus (WoStatus),
-            <br />
-            KEY WoTextLC (WoTextLC),
-            <br />
-            KEY WoTranslation (WoTranslation),
-            <br />
-            KEY WoCreated (WoCreated),
-            <br />
-            KEY WoStatusChanged (WoStatusChanged),
-            <br />
-	    KEY WoWordCount (WoWordCount),
-            <br />
-	    KEY WoTodayScore (WoTodayScore),
-            <br />
-  	    KEY WoTomorrowScore (WoTomorrowScore),
-            <br />
-  	    KEY WoRandom (WoRandom)
-  	    <br />
-            <br />
-          </li>
-
-          <li>
-            <b>Table "tags" (Term tags and comments):</b>
-            <br />
-            TgID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  					<br />
-						TgText varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  					<br />
-  					TgComment varchar(200) NOT NULL DEFAULT '',
-  					<br />
-  					PRIMARY KEY (TgID),
-  					<br />
-  					UNIQUE KEY TgText (TgText)
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table "wordtags" (Term tags relations):</b>
-            <br />
-						WtWoID int(11) unsigned NOT NULL, -- TERM FOREIGN KEY --
-            <br />
-  					WtTgID smallint(5) unsigned NOT NULL, -- TERM TAG FOREIGN KEY --
-            <br />
-  					PRIMARY KEY (WtWoID,WtTgID),
-            <br />
-  					KEY WtTgID (WtTgID)
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table "sentences" (Sentences cache, no backup needed):</b>
-            <br />
-            SeID mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            SeLgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
-            <br />
-            SeTxID smallint(5) unsigned NOT NULL, -- TEXT FOREIGN KEY --
-            <br />
-            SeOrder smallint(5) unsigned NOT NULL,
-            <br />
-            SeText text,
-            <br />
-            SeFirstPos smallint(5) unsigned NOT NULL,
-            <br />
-            PRIMARY KEY (SeID),
-            <br />
-            KEY SeLgID (SeLgID),
-            <br />
-            KEY SeTxID (SeTxID),
-            <br />
-            KEY SeOrder (SeOrder)
-            <br />
-            <br />
-          </li>
-
-          <li>
-            <b>Table "textitems2" (Text items cache, no backup needed):</b>
-            <br />
-            Ti2WoID mediumint(8) unsigned NOT NULL,
-            <br />
-            Ti2LgID tinyint(3) unsigned NOT NULL, -- LANGUAGE FOREIGN KEY --
-            <br />
-            Ti2TxID smallint(5) unsigned NOT NULL, -- TEXT FOREIGN KEY --
-            <br />
-            Ti2SeID mediumint(8) unsigned NOT NULL, -- SENTENCE FOREIGN KEY --
-            <br />
-            Ti2Order smallint(5) unsigned NOT NULL,
-            <br />
-            Ti2WordCount tinyint(3) unsigned NOT NULL,
-            <br />
-            Ti2Text varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-            <br />
-            PRIMARY KEY (Ti2TxID,Ti2Order,Ti2WordCount),
-            <br />
-            KEY Ti2WoID (Ti2WoID)
-            <br />
-            <br />
-          </li>
-
-          <li>
-            <b>Table "temptextitems" (memory table only used when creating texts, otherwise empty):</b>
-            <br />
-				  TiCount smallint(5) unsigned NOT NULL,
-				<br />
-				  TiSeID mediumint(8) unsigned NOT NULL,
-				<br />
-				  TiOrder smallint(5) unsigned NOT NULL,
-				<br />
-				  TiWordCount tinyint(3) unsigned NOT NULL,
-				<br />
-				  TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
-  					<br />
-  					<br />
-          </li>
-
-          <li>
-            <b>Table "tempwords" (memory table only used when importing words, otherwise empty):</b>
-            <br />
-            WoText varchar(250) DEFAULT NULL,
-				<br />
-				  WoTextLC varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-				<br />
-				  WoTranslation varchar(500) NOT NULL DEFAULT '*',
-				<br />
-				  WoRomanization varchar(100) DEFAULT NULL,
-				<br />
-				  WoSentence varchar(1000) DEFAULT NULL,
-				<br />
-				  WoTaglist varchar(255) DEFAULT NULL,
-  					<br />
-  					PRIMARY KEY (WoTextLC)
-  					<br />
-  					<br />
-          </li>
-
-          
-          <li>
-				<b>Table "feedlinks" (Newsfeed articles):</b>
-            <br />
-            FlID smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-            <br />
-            FlTitle varchar(200) NOT NULL,
-            <br />
-				FlLink varchar(400) NOT NULL,
-            <br />
-				FlDescription text NOT NULL,
-            <br />
-            FlDate datetime NOT NULL,
-            <br />
-            FlAudio varchar(200) NOT NULL,
-            <br />
-            FlText longtext NOT NULL,
-            <br />
-            FlNfID tinyint(3) unsigned NOT NULL,
-            <br />
-            PRIMARY KEY (FlID),
-            <br />
-            UNIQUE KEY FlTitle (FlTitle),
-            <br />
-            KEY FlLink (FlLink),
-            <br />
-            KEY FlDate (FlDate),
-            <br />
-            KEY FlNfID (FlNfID)
-            <br />
-            <br />
-          </li>
-          <li>
-				<b>Table "newsfeeds" (Newsfeed settings):</b>
-				<br />
-				NfID tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-				<br />
-				NfLgID tinyint(3) unsigned NOT NULL,
-				<br />
-				NfName varchar(40) NOT NULL,
-				<br />
-				NfSourceURI varchar(200) NOT NULL,
-				<br />
-				NfArticleSectionTags text NOT NULL,
-				<br />
-				NfFilterTags text NOT NULL,
-				<br />
-				NfUpdate int(12) unsigned NOT NULL,
-				<br />
-				NfOptions varchar(200) NOT NULL,
-				<br />
-				PRIMARY KEY (NfID),
-             <br />
-            KEY NfLgID (NfLgID),
-            <br />
-            KEY NfUpdate (NfUpdate)
-            <br />
-            <br />
-         </li>
-        </ul>
+			  <?php 
+			  echo markdown_converter(__DIR__ . "/database.md");
+			  ?>
       </dd>
 
       <dt>
@@ -2618,16 +2210,9 @@ $(document).ready( function() {
       </dt>
 
       <dd>
-		  <p>See the CHANGELOG in docs/CHANGELOG.md (<a href="docs/CHANGELOG.md">local link</a>, <a href="https://github.com/HugoFara/lwt/blob/master/docs/CHANGELOG.md">online version</a>).</p>
 		  <?php 
-          require __DIR__ . '/vendor/autoload.php';
-
-          use League\CommonMark\GithubFlavoredMarkdownConverter;
-          
-          $converter = new GithubFlavoredMarkdownConverter();
-          $markdown = file_get_contents("docs/CHANGELOG.md");
-          echo $converter->convertToHtml($markdown);
-            ?>
+		  	echo markdown_converter(__DIR__ . "/CHANGELOG.md");
+		  ?>
       </dd>
     </dl>
 
@@ -2638,7 +2223,7 @@ $(document).ready( function() {
         <table>
             <tr>
                 <td class="width50px">
-                    <a target="_blank" href="http://en.wikipedia.org/wiki/Public_domain_software"><img src="img/public_domain.png" alt="Public Domain" /></a>
+                    <a target="_blank" href="http://en.wikipedia.org/wiki/Public_domain_software"><img src="../img/public_domain.png" alt="Public Domain" /></a>
                 </td>
                 <td>
                     <p class="smallgray">

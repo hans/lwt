@@ -2,8 +2,6 @@
 
 /**
  * Utility for Google Translate Text-To-Speech API
- * 
- * @license Unlicense
  */
 require_once 'settings.inc.php' ;
 require_once 'connect.inc.php' ;
