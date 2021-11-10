@@ -3,7 +3,9 @@
 
 /**
  * \file
- * Connects to the database and check its state.
+ * \brief Connects to the database and check its state.
+ * 
+ * @author https://github.com/HugoFara/ HugoFara
  */
 
 require __DIR__ . "/settings.php";
@@ -117,7 +119,8 @@ function LWTTableGet($key)
 
 // -------------------------------------------------------------
 
-function check_update_db($debug, $tbpref, $dbname) {
+function check_update_db($debug, $tbpref, $dbname) 
+{
     $tables = array();
     
     $res = do_mysqli_query(str_replace('_', "\\_", "SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull($tbpref . '%')));
@@ -365,7 +368,8 @@ function check_update_db($debug, $tbpref, $dbname) {
 
 
 
-function connect_to_database($server, $userid, $passwd, $dbname) {
+function connect_to_database($server, $userid, $passwd, $dbname) 
+{
     /**
      * @var mysqli|false|null $DBCONNECTION
      * Connection to the database
@@ -393,7 +397,8 @@ function connect_to_database($server, $userid, $passwd, $dbname) {
     return $DBCONNECTION;
 }
 
-function get_database_prefixes($tbpref) {
+function get_database_prefixes($tbpref) 
+{
     // *** GLOBAL VARIABLES ***
     /**
      * @var string $tbpref 
@@ -446,7 +451,8 @@ function get_database_prefixes($tbpref) {
 // *******************************************************************
 
 
-function start_database_connection() {
+function start_database_connection() 
+{
     global $DBCONNECTION, $server, $userid, $passwd, $dbname, 
     $debug, $tbpref, $fixed_tbpref, $dspltime;
     // Start Timer

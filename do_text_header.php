@@ -2,17 +2,17 @@
 
 /**
  * \file
- * Responsible for drawing the header when reading texts
+ * \brief Responsible for drawing the header when reading texts
  * 
  * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
- * @since 1.0.3
+ * @since  1.0.3
  * 
  * Call: do_text_header.php?text=[textid]
  */
 
 require_once 'inc/session_utility.php';
 // To get the BCP 47 language tag
-require_once 'langdefs.inc.php' ;
+require_once 'inc/langdefs.php' ;
 
 $textid = getreq('text');
 $sql = 'select LgName, TxLgID, TxText, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition 

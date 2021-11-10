@@ -2,14 +2,16 @@
 
 /**
  * \file
- * Display Language Pair Selection Window for Wizard
+ * \brief Display Language Pair Selection Window for Wizard
+ * 
  * Call: select_lang_pair.php
  * 
- * @since 1.5.11
+ * @author https://sourceforge.net/projects/lwt/ LWT Project
+ * @since  1.5.11
  */
 
 require_once 'inc/session_utility.php';
-require_once 'langdefs.inc.php' ;
+require_once 'inc/langdefs.php' ;
 
 /// Returns a dropdown menu of the different languages
 function get_wizard_selectoptions($v) 
@@ -102,7 +104,7 @@ Language Settings Wizard
 <b>My Native language is:</b>
 <br />
 L1: 
-<select name="l1" id="l1" onchange= "{do_ajax_save_setting('currentnativelanguage',($('#l1').val()));}">
+<select name="l1" id="l1" onchange="{do_ajax_save_setting('currentnativelanguage',($('#l1').val()));}">
 <?php echo get_wizard_selectoptions($currentnativelanguage); ?>
 </select>
 </p>
