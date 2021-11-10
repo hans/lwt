@@ -37,10 +37,7 @@ Call: ajax_show_similar_terms?...
 Show similar terms
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 require_once 'simterms.inc.php' ;
 
 echo print_similar_terms($_POST['lang'] + 0, stripTheSlashesIfNeeded($_POST['word']));

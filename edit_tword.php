@@ -39,10 +39,7 @@ For more information, please refer to [http://unlicense.org/].
       ... wid=[wordid] ... display edit screen
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 require_once 'simterms.inc.php' ;
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));

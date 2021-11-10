@@ -3,10 +3,7 @@
 /**
  * Utility for Google Translate Text-To-Speech API
  */
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $q = convert_string_to_sqlsyntax($_GET["q"]);
 $tl = convert_string_to_sqlsyntax($_GET["tl"]);

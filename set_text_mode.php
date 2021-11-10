@@ -37,10 +37,7 @@ For more information, please refer to [http://unlicense.org/].
  * Call: set_text_mode.php?text=[textid]&mode=0/1&showLeaning=0/1
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $tid = getreq('text') + 0;
 $showAll = getreq('mode') + 0;

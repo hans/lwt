@@ -1,45 +1,17 @@
 <?php
-
-/**************************************************************
-"Learning with Texts" (LWT) is free and unencumbered software 
-released into the PUBLIC DOMAIN.
-
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the 
-detriment of our heirs and successors. We intend this 
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-***************************************************************/
-
-/**************************************************************
- * \file
- * \brief Database Utility Functions
+/**
+ * Database Utility Functions
  * 
  * This file is responsible for interacting with the database.
-***************************************************************/
+ */
+
+require_once 'inc/database_connect.php';
 
 /**
  * Do a SQL query to the database. 
- * It is a wrapper for "mysqli_query" function
+ * It is a wrapper for mysqli_query function.
+ * 
+ * @param string $sql Query using SQL syntax
  */ 
 function do_mysqli_query($sql) 
 {
@@ -66,9 +38,9 @@ function do_mysqli_query($sql)
 /**
  * Run a SQL query, you can specify its behavior and error message.
  * 
- * @param String $sql       MySQL query
- * @param String $m         Error message ('' to return the number of affected rows)
- * @param Bool   $sqlerrdie To die on errors (default = TRUE)
+ * @param string $sql       MySQL query
+ * @param string $m         Error message ('' to return the number of affected rows)
+ * @param bool   $sqlerrdie To die on errors (default = TRUE)
  */
 function runsql($sql, $m, $sqlerrdie = true) 
 {
@@ -87,25 +59,5 @@ function runsql($sql, $m, $sqlerrdie = true)
     return $message;
 }
 
-/**
- * Returns the first line from the database 
- *
- * @param String $sql MySQL query
- */
-function get_first_value($sql) 
-{
-    $res = do_mysqli_query($sql);        
-    $record = mysqli_fetch_assoc($res);
-    if ($record) { 
-        $d = $record["value"]; 
-    }
-    else {
-        $d = null; 
-    }
-    mysqli_free_result($res);
-    return $d;
-}
-
-// -------------------------------------------------------------
 
 ?>

@@ -37,10 +37,7 @@ Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
 Start a test (frameset)
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 require_once 'php-mobile-detect/Mobile_Detect.php' ;
 
 

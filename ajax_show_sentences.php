@@ -38,10 +38,7 @@ Call: ajax_show_sentences.php?...
 Show sentences in edit_texts.php, etc.
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $lang = $_POST['lang'] + 0;
 $word = stripTheSlashesIfNeeded($_POST['word']);

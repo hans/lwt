@@ -40,10 +40,7 @@ For more information, please refer to [http://unlicense.org/].
       ... empty=xxx ... do truncate
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $message = '';
 

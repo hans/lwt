@@ -37,10 +37,7 @@ For more information, please refer to [http://unlicense.org/].
  * Create the main window when reading texts.
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ; 
+require_once 'utilities.inc.php'; 
 require_once 'php-mobile-detect/Mobile_Detect.php' ;
 
 $detect = new Mobile_Detect;

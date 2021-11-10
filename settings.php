@@ -37,10 +37,7 @@ Call: settings.php?....
 Preferences / Settings 
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 if (isset($_REQUEST['op'])) {
 
     if ($_REQUEST['op'] == 'Save') {

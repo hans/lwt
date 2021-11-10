@@ -39,10 +39,7 @@ Call: edit_mword.php?....
 Edit/New Multi-word term (expression)
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 require_once 'simterms.inc.php' ;
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));

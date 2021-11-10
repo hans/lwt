@@ -35,10 +35,7 @@ Call: ajax_save_setting.php?k=[key]&v=[value]
 Save a Setting (k/v)
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $k = getreq('k');
 $v = getreq('v');

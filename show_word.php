@@ -35,10 +35,7 @@ Call: show_word.php?wid=...&ann=...
 Show term
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 pagestart_nobody('Term');
 

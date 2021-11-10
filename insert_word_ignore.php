@@ -35,10 +35,7 @@ Call: insert_word_ignore.php?tid=[textid]&ord=[textpos]
 Ignore single word (new term with status 98)
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $word = get_first_value("select Ti2Text as value from " . $tbpref . "textitems2 where Ti2WordCount = 1 and Ti2TxID = " . $_REQUEST['tid'] . " and Ti2Order = " . $_REQUEST['ord']);
 

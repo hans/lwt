@@ -38,10 +38,7 @@ Call: do_test_header.php?selection=1
 Show test header frame
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $p = '';
 $message = '';

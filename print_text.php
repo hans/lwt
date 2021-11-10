@@ -37,10 +37,7 @@ Call: print_text.php?text=[textid]&...
 Print a text
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 function output_text($saveterm,$saverom,$savetrans,$savetags,
     $show_rom,$show_trans,$show_tags,$annplcmnt

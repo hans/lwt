@@ -40,10 +40,7 @@ For more information, please refer to [http://unlicense.org/].
  * 		translates text t with dict via dict-url i
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $x = $_REQUEST["x"];
 $i = stripTheSlashesIfNeeded($_REQUEST["i"]);

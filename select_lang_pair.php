@@ -36,10 +36,7 @@ For more information, please refer to [http://unlicense.org/].
  * Call: select_lang_pair.php
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 require_once 'langdefs.inc.php' ;
 
 /// Returns a dropdown menu of the different languages

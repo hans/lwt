@@ -37,10 +37,7 @@ Call: new_word.php?...
 New word, created while reading or testing
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 require_once 'simterms.inc.php' ;
 
 // INSERT

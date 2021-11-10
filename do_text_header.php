@@ -10,10 +10,7 @@
  * Call: do_text_header.php?text=[textid]
  */
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 // To get the BCP 47 language tag
 require_once 'langdefs.inc.php' ;
 

@@ -212,9 +212,9 @@ $(document).ready( function() {
 			<dd>
 				<ul>
 					<li>The current version is <?php 
-					// require __DIR__ . '/../utilities.inc.php'; 
-					// echo get_version(); 
-					echo '2.0.2';?>-->.
+					require __DIR__ . '/../inc/kernel_utility.php'; 
+					echo get_version(); 
+					//echo '2.0.2';?>.
 					</li>
 
 					<li>

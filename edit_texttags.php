@@ -45,10 +45,7 @@ Call: edit_texttags.php?....
 Manage tags
 ***************************************************************/
 
-require_once 'settings.inc.php' ;
-require_once 'connect.inc.php' ;
-require_once 'dbutils.inc.php' ;
-require_once 'utilities.inc.php' ;
+require_once 'utilities.inc.php';
 
 $currentsort = processDBParam("sort", 'currenttexttagsort', '1', 1);
 
