@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['trans_2ephp_0',['trans.php',['../trans_8php.html',1,'']]]
+  ['langdefs_2ephp_0',['langdefs.php',['../langdefs_8php.html',1,'']]]
 ];

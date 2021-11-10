@@ -1,8 +1,12 @@
 <?php
 
 /**
- * LWT Start Screen / Main Menu / Home
+ * \file
+ * \brief LWT Start Screen / Main Menu / Home
+ * 
  * Call: index.php
+ * 
+ * @since 1.0.3
  * 
  * "Learning with Texts" (LWT) is free and unencumbered software 
  * released into the PUBLIC DOMAIN.

@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * \file
  * PHP Utility Functions to calculate similar terms of a term.
  * 
  * @author LWT Project

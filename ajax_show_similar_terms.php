@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * \file
  * Show similar terms
  * 
  * Call: ajax_show_similar_terms?...

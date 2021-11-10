@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Learning with Texts - Fork: dbutils.inc.php File Reference</title>
+<title>Learning with Texts - Fork: inc/db_accessors.php File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,34 +62,29 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_bfccd401955b95cf8c75461437045ac0.html">inc</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">dbutils.inc.php File Reference</div></div>
+  <div class="headertitle"><div class="title">db_accessors.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Database Utility Functions.  
-<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af092366f1596cc99b3552185b173a53d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a> ($sql)</td></tr>
+<tr class="memitem:af092366f1596cc99b3552185b173a53d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a> ($sql)</td></tr>
 <tr class="separator:af092366f1596cc99b3552185b173a53d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acba5ba1657b74c879fc17dd6f13c6bce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbutils_8inc_8php.html#acba5ba1657b74c879fc17dd6f13c6bce">runsql</a> ($sql, $m, $sqlerrdie=true)</td></tr>
+<tr class="memitem:acba5ba1657b74c879fc17dd6f13c6bce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="db__accessors_8php.html#acba5ba1657b74c879fc17dd6f13c6bce">runsql</a> ($sql, $m, $sqlerrdie=true)</td></tr>
 <tr class="separator:acba5ba1657b74c879fc17dd6f13c6bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c4a52b3d9b10360dce64ad0464bfad5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a> ($sql)</td></tr>
-<tr class="separator:a9c4a52b3d9b10360dce64ad0464bfad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Database Utility Functions. </p>
-<p >"Learning with Texts" (LWT) is free and unencumbered software released into the PUBLIC DOMAIN.</p>
-<p >Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.</p>
-<p >In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.</p>
-<p >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-<p >For more information, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
-<p >This file is responsible for interacting with the database. </p>
+<div class="textblock"><p >Database Utility Functions</p>
+<p >This file is responsible for interacting with the database.</p>
+<dl class="section author"><dt>Author</dt><dd><a href="https://github.com/HugoFara/lwt/graphs/contributors">https://github.com/HugoFara/lwt/graphs/contributors</a> GitHub contributors </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="af092366f1596cc99b3552185b173a53d" name="af092366f1596cc99b3552185b173a53d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af092366f1596cc99b3552185b173a53d">&#9670;&nbsp;</a></span>do_mysqli_query()</h2>
@@ -106,29 +101,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Do a SQL query to the database. It is a wrapper for "mysqli_query" function </p>
-
-</div>
-</div>
-<a id="a9c4a52b3d9b10360dce64ad0464bfad5" name="a9c4a52b3d9b10360dce64ad0464bfad5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c4a52b3d9b10360dce64ad0464bfad5">&#9670;&nbsp;</a></span>get_first_value()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">get_first_value </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$sql</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Returns the first line from the database</p>
+<p >Do a SQL query to the database. It is a wrapper for mysqli_query function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">String</td><td class="paramname">$sql</td><td>MySQL query </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$sql</td><td>Query using SQL syntax </td></tr>
   </table>
   </dd>
 </dl>
@@ -169,9 +145,9 @@ Functions</h2></td></tr>
 <p >Run a SQL query, you can specify its behavior and error message.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">String</td><td class="paramname">$sql</td><td>MySQL query </td></tr>
-    <tr><td class="paramtype">String</td><td class="paramname">$m</td><td>Error message ('' to return the number of affected rows) </td></tr>
-    <tr><td class="paramtype">Bool</td><td class="paramname">$sqlerrdie</td><td>To die on errors (default = TRUE) </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$sql</td><td>MySQL query </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$m</td><td>Error message ('' to return the number of affected rows) </td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$sqlerrdie</td><td>To die on errors (default = TRUE) </td></tr>
   </table>
   </dd>
 </dl>

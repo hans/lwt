@@ -1,9 +1,9 @@
 <?php
 /**
- * Display an improved annotated text (top frame)
+ * \file
+ * \brief Display an improved annotated text (top frame)
  * 
  * Call: display_impr_text_header.php?text=[textid]
- * @license Unlicense
  */
 
 require_once 'inc/session_utility.php';

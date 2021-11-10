@@ -2,9 +2,9 @@
 
 /**
  * \file
- * \brief Show text header frame
- *
- * @license Unlicense
+ * Show text header frame
+ * 
+ * @since 1.0.3
  * 
  * Call: do_text_text.php?text=[textid]
 */

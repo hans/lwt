@@ -1,5 +1,6 @@
 <?php
 /**
+ * \file
  * Core utility functions that do not require a complete session.
  */
 

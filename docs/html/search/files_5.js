@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['print_5fimpr_5ftext_2ephp_0',['print_impr_text.php',['../print__impr__text_8php.html',1,'']]]
+  ['index_2ephp_0',['index.php',['../index_8php.html',1,'']]],
+  ['info_2ephp_1',['info.php',['../info_8php.html',1,'']]]
 ];

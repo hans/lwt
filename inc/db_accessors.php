@@ -1,5 +1,6 @@
 <?php
 /**
+ * \file
  * Database Utility Functions
  * 
  * This file is responsible for interacting with the database.

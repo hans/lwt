@@ -69,9 +69,6 @@ $(function() {
   <div class="headertitle"><div class="title">edit_texts.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Manage active texts.  
-<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -118,7 +115,7 @@ if(! $no_pagestart)&#160;</td><td class="memItemRight" valign="bottom"><b>$messa
 &#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select count(*) as value from (select TxID from (' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy'</td></tr>
 <tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1b8d0109388103549a18088bccc9b82"><td class="memItemLeft" align="right" valign="top"><a id="aa1b8d0109388103549a18088bccc9b82" name="aa1b8d0109388103549a18088bccc9b82"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$recno</b> = <a class="el" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>($sql)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$recno</b> = <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>($sql)</td></tr>
 <tr class="separator:aa1b8d0109388103549a18088bccc9b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0683b9e8dafa5ab1c0f1d6fa4fa23ee"><td class="memItemLeft" align="right" valign="top"><a id="af0683b9e8dafa5ab1c0f1d6fa4fa23ee" name="af0683b9e8dafa5ab1c0f1d6fa4fa23ee"></a>
 if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$maxperpage</b> = getSettingWithDefault('set-texts-per-page')</td></tr>
@@ -142,7 +139,7 @@ if( $currentpage&lt; 1) if($currentpage &gt; $pages)&#160;</td><td class="memIte
 if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$i</b> = array(0,1,2,3,4,5,99,98)</td></tr>
 <tr class="separator:a7062a9a2af0e4e9764277bfdb31e823a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fad8a59e7089d17007bebad83a45394"><td class="memItemLeft" align="right" valign="top"><a id="a1fad8a59e7089d17007bebad83a45394" name="a1fad8a59e7089d17007bebad83a45394"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$statuses</b> = get_statuses()</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$statuses</b> = <a class="el" href="session__utility_8php.html#ae533c8340a3b6d706992106509262b7a">get_statuses</a>()</td></tr>
 <tr class="separator:a1fad8a59e7089d17007bebad83a45394"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14f7323783f5369b4acab50fde8a5b9f"><td class="memItemLeft" align="right" valign="top"><a id="a14f7323783f5369b4acab50fde8a5b9f" name="a14f7323783f5369b4acab50fde8a5b9f"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$statuses</b> [0][&quot;name&quot;] ='Unknown'</td></tr>
@@ -151,20 +148,16 @@ if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$i</b> = array(
 &#160;</td><td class="memItemRight" valign="bottom"><b>$statuses</b> [0][&quot;$showCounts&quot;] ='Ukn'</td></tr>
 <tr class="separator:a5b54ff9063b8140a652b0251d9aa47a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
 <tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b01194ac840a65cf229cdd172f3d235"><td class="memItemLeft" align="right" valign="top"><a id="a2b01194ac840a65cf229cdd172f3d235" name="a2b01194ac840a65cf229cdd172f3d235"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$showCounts</b> = getSettingWithDefault('set-show-text-word-counts')+0</td></tr>
 <tr class="separator:a2b01194ac840a65cf229cdd172f3d235"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Manage active texts. </p>
-<p >"Learning with Texts" (LWT) is free and unencumbered software released into the PUBLIC DOMAIN.</p>
-<p >Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.</p>
-<p >In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.</p>
-<p >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-<p >For more information, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
-<p >Call: <a class="el" href="edit__texts_8php.html" title="Manage active texts.">edit_texts.php</a>?.... ... markaction=[opcode] ... do actions on marked texts ... del=[textid] ... do delete ... arch=[textid] ... do archive ... op=Check ... do check ... op=Save ... do insert new ... op=Change ... do update ... op=Save+and+Open ... do insert new and open ... op=Change+and+Open ... do update and open ... new=1 ... display new text screen ... chg=[textid] ... display edit screen ... filterlang=[langid] ... language filter ... sort=[sortcode] ... sort ... page=[pageno] ... page ... query=[titlefilter] ... title filter </p>
+<div class="textblock"><p >Manage active texts</p>
+<p >Call: <a class="el" href="edit__texts_8php.html">edit_texts.php</a>?.... ... markaction=[opcode] ... do actions on marked texts ... del=[textid] ... do delete ... arch=[textid] ... do archive ... op=Check ... do check ... op=Save ... do insert new ... op=Change ... do update ... op=Save+and+Open ... do insert new and open ... op=Change+and+Open ... do update and open ... new=1 ... display new text screen ... chg=[textid] ... display edit screen ... filterlang=[langid] ... language filter ... sort=[sortcode] ... sort ... page=[pageno] ... page ... query=[titlefilter] ... title filter</p>
+<dl class="section since"><dt>Since</dt><dd>1.0.3 </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

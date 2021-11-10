@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['databse_20information_0',['Databse Information',['../md_docs_database.html',1,'']]],
-  ['dbutils_2einc_2ephp_1',['dbutils.inc.php',['../dbutils_8inc_8php.html',1,'']]],
-  ['do_5fmysqli_5fquery_2',['do_mysqli_query',['../dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d',1,'dbutils.inc.php']]],
-  ['do_5ftest_5ftable_2ephp_3',['do_test_table.php',['../do__test__table_8php.html',1,'']]],
-  ['do_5ftest_5ftest_2ephp_4',['do_test_test.php',['../do__test__test_8php.html',1,'']]],
-  ['do_5ftext_2ephp_5',['do_text.php',['../do__text_8php.html',1,'']]],
-  ['do_5ftext_5fheader_2ephp_6',['do_text_header.php',['../do__text__header_8php.html',1,'']]],
-  ['do_5ftext_5ftext_2ephp_7',['do_text_text.php',['../do__text__text_8php.html',1,'']]]
+  ['changelog_0',['Changelog',['../md_docs__c_h_a_n_g_e_l_o_g.html',1,'']]],
+  ['check_5ftext_2ephp_1',['check_text.php',['../check__text_8php.html',1,'']]],
+  ['check_5fupdate_5fdb_2',['check_update_db',['../database__connect_8php.html#a960bf3f2e9821f403140330ac38c27de',1,'database_connect.php']]],
+  ['connect_2einc_2ephp_3',['connect.inc.php',['../connect_8inc_8php.html',1,'']]],
+  ['connect_5feasyphp_2einc_2ephp_4',['connect_easyphp.inc.php',['../connect__easyphp_8inc_8php.html',1,'']]],
+  ['connect_5fwordpress_2einc_2ephp_5',['connect_wordpress.inc.php',['../connect__wordpress_8inc_8php.html',1,'']]],
+  ['createthedictlink_6',['createTheDictLink',['../session__utility_8php.html#adbd4355000bfd2a29b85befad555348a',1,'session_utility.php']]]
 ];

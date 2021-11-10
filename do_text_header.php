@@ -5,6 +5,7 @@
  * Responsible for drawing the header when reading texts
  * 
  * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
+ * @since 1.0.3
  * 
  * Call: do_text_header.php?text=[textid]
  */

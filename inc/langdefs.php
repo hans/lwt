@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * \file
  * Define all the supported languages.
  * 
  * @author LWT Project

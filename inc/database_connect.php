@@ -2,6 +2,7 @@
 <?php
 
 /**
+ * \file
  * Connects to the database and check its state.
  */
 

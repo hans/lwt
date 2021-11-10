@@ -1,7 +1,8 @@
 <?php
 
 /**
- * DB variables for EasyPHP.
+ * \file
+ * \brief DB variables for EasyPHP.
  * 
  * @author https://sourceforge.net/projects/lwt/ LWT Project
  * @since 1.0.3

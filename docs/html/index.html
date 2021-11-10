@@ -67,52 +67,78 @@ $(function() {
   <div class="headertitle"><div class="title">Learning with Texts </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_README"></a> </p><blockquote class="doxtable">
-<p ><a href="https://sourceforge.net/projects/learning-with-texts">Learning with Texts</a> (LWT) is a tool for Language Learning using texts. </p>
-</blockquote>
-<p>This is an intricated fork by <a href="https://github.com/hugofara/lwt">@HugoFara</a>. As a GitHub fork, it comes from <a href="https://github.com/chaosarium/lwt-fork">@chaosarium's fork (archived)</a> of <a href="https://github.com/pirtleshell/lwt">@PirtleShell's fork</a> of <a href="https://github.com/andreask7/lwt">@andreask7's fork</a>. It was also merged from the official LWT (as least until version 2.0.2), and many contributions from the community.</p>
-<p >This version is quicker than this official, has many features not found in the original. It also looks more likely to develop communally, whereas the original is not open for contributions.</p>
+<div class="textblock"><p ><a class="anchor" id="md_README"></a> <a href="https://sourceforge.net/projects/learning-with-texts">Learning with Texts</a> (LWT) is a tool for language learning by reading.</p>
+<p ><b>THIS IS A THIRD PARTY VERSION</b> This version is not the official one, and brings many improvements and new featuress. It is quicker, has smaller databse size, and is open for contributions.</p>
 <p >If the reading page displays a database error, try downgrading to PHP version 5.4.45.</p>
 <p ><a href="https://github.com/gustavklopp/LingL">@gustavklopp's LingL</a> is a wonderful alternative written in Python.</p>
-<p ><b>THIS IS A THIRD PARTY VERSION</b> IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
+Installation</h1>
+<p >Please see <a href="docs/info.html">docs/info.html</a> for detailed instructions. You will need a server, which can be your computer.</p><ol type="1">
+<li>Clone or fork this repo on your server.</li>
+<li>Edit <code><a class="el" href="connect_8inc_8php.html" title="Your own DB variables.">connect.inc.php</a></code> with an existing databse user.</li>
+<li>Run <code>make install</code>.</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Description</h1>
+<p >LWT is a language learning web application. To learn a language, you need to practice, and we guide you in reading exercices.</p>
+<p >First copy/paste any text you want to read. It can be raw text or an RSS feed. <img src="https://github.com/HugoFara/lwt/raw/master/img/05.jpg" alt="Adding French text" class="inline"/></p>
+<p >Then, we parse the text. Unkown words will be displayed with different colors, just click them to see it in a dictionary. <img src="https://github.com/HugoFara/lwt/raw/master/img/06.jpg" alt="Learning French text" class="inline"/></p>
+<p >Next, you can take review exercises to memorize new words. <img src="https://github.com/HugoFara/lwt/raw/master/img/07.jpg" alt="Reviewing French word" class="inline"/></p>
+<p >The difference with popular remembering software like Anki is that we keep track of the context to help you. By the way, we also ship an Anki exporter.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
 New in this Version (not available in the OFFICIAL LWT)</h1>
+<h2><a class="anchor" id="autotoc_md4"></a>
+New features</h2>
 <ul>
-<li>Database improvements (db size is much smaller now)</li>
 <li>Automatically import texts from RSS feeds</li>
 <li>Support for different themes</li>
-<li>Longer (&gt;9) expressions can now be saved (up to 250 characters)</li>
 <li>Display translations of terms with status(es) in the reading frame</li>
-<li>Save text/audio position in the reading frame</li>
-<li>Multiwords selection (click and hold on a word -&gt; move to another word -&gt; release mouse button)</li>
+<li>Multiwords selection (click and hold on a word → move to another word → release mouse button)</li>
 <li>Key bindings work when you hover over a word</li>
 <li>Bulk translate new words in the reading frame</li>
-<li>Google api (use 'ggl.php' instead of '*http://translate.google.com' for Google Translate)</li>
 <li>Text to speech support (only words)</li>
 <li>Optional "ignore all" button in read texts</li>
-<li>New key bindings in the reading frame: T (translate sentence), P (pronounce term), G (edit term with Google Translate)</li>
-<li>Ability to change audio playback speed (doesn't work when using the flash plugin)</li>
-<li>Improved Search/Query for Words/Texts</li>
-<li>Selecting terms according to a text tag</li>
-<li>Term import with more options (i.e.: combine translations, multiple tag import)</li>
-<li>Two database backup modes (new or old structure)</li>
-<li>My custom theme</li>
-<li>Support for MeCab for Japanese word-by-word automatic translation</li>
+<li>New key bindings in the reading frame:<ul>
+<li>T (translate sentence),</li>
+<li>P (pronounce term),</li>
+<li>G (edit term with Google Translate)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md2"></a>
+</li>
+<li>Selecting terms according to a text tag</li>
+<li>Two database backup modes (new or old structure)</li>
+<li>Support for text to speech with no provided audio.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Improvements</h2>
+<ul>
+<li>Database improvements (db size is much smaller now)</li>
+<li>Longer (&gt;9) expressions can now be saved (up to 250 characters)</li>
+<li>Save text/audio position in the reading frame* Google api (use 'ggl.php' instead of '*http://translate.google.com' for Google Translate)</li>
+<li>Improved Search/Query for Words/Texts</li>
+<li>Term import with more options (i.e.: combine translations, multiple tag import)</li>
+<li>Support for MeCab for Japanese word-by-word automatic translation.</li>
+<li>You can include video files from popular video platforms.</li>
+<li>Code documentation.</li>
+<li>Code is well organised, making debugging and contribution easier.</li>
+<li>Server caching improved.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md6"></a>
+Branches</h1>
+<ul>
+<li>The stable branch is <em>master</em>. Last commit on this branch is considered to be bug-free.</li>
+<li>The <em>dev</em> branch is for unstable versions.</li>
+<li>The <em>official</em> branch is for the official LWT Releases. Any other branch if considered under development.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Useful links</h1>
 <ul>
 <li>General documentation at <a href="docs/info.html">docs/info.html</a>.</li>
 <li>Please find more help at <a href="docs/index.html">docs/index.html</a>.</li>
 <li>You can also contact the community by GitHub.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md3"></a>
-License</h1>
-<p >"Learning with Texts" (LWT) is free and unencumbered software released into the PUBLIC DOMAIN.</p>
-<p >Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.</p>
-<p >In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.</p>
-<p >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-<p >For more information, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
+<h1><a class="anchor" id="autotoc_md8"></a>
+Unlicense</h1>
+<p >Under unlicense, view <a class="el" href="md__u_n_l_i_c_e_n_s_e.html">UNLICENSE.md</a>, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
 <p ><b>Let's learn new languages!</b> </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

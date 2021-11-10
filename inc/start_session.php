@@ -1,5 +1,6 @@
 <?php
 /** 
+ * \file
  * Start a PHP session.
  * 
  * @author https://github.com/HugoFara/ HugoFara

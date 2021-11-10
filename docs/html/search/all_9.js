@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['runsql_0',['runsql',['../dbutils_8inc_8php.html#acba5ba1657b74c879fc17dd6f13c6bce',1,'dbutils.inc.php']]]
+  ['langdefs_2ephp_0',['langdefs.php',['../langdefs_8php.html',1,'']]],
+  ['learning_20with_20texts_1',['Learning with Texts',['../index.html',1,'']]],
+  ['license_2',['License',['../md__u_n_l_i_c_e_n_s_e.html',1,'']]]
 ];

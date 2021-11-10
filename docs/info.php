@@ -1,9 +1,10 @@
 <?php
 /**
- * LWT Information / Help
+ * \file
+ * \brief LWT Information / Help
  *
  * @author     LWT Project
- * @since      2012
+ * @since      1.0.3
  */
 
 require_once __DIR__ . '/../src/php/markdown_converter.php';

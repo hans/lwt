@@ -79,7 +79,7 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$p</b> = ''</td></tr>
 <tr class="separator:ab0ed46ece3f8d301125a0f2728d90d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2da975a8c74aa547010bf1ed579b6b1d"><td class="memItemLeft" align="right" valign="top"><a id="a2da975a8c74aa547010bf1ed579b6b1d" name="a2da975a8c74aa547010bf1ed579b6b1d"></a>
-if(isset($_REQUEST['selection']) &amp;&amp;isset($_SESSION['testsql'])) elseif(isset( $_REQUEST[ 'lang'])) elseif(isset($_REQUEST['text']))&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { my_die(&quot;do_test_test.php called with wrong parameters&quot;)</td></tr>
+if(isset($_REQUEST['selection']) &amp;&amp;isset($_SESSION['testsql'])) elseif(isset( $_REQUEST[ 'lang'])) elseif(isset($_REQUEST['text']))&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { <a class="el" href="kernel__utility_8php.html#a66b15236d14629cb1bc2f6ed300bd38e">my_die</a>(&quot;do_test_test.php called with wrong parameters&quot;)</td></tr>
 <tr class="separator:a2da975a8c74aa547010bf1ed579b6b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa26e601be1ae7cebda5313544d26829"><td class="memItemLeft" align="right" valign="top"><a id="afa26e601be1ae7cebda5313544d26829" name="afa26e601be1ae7cebda5313544d26829"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$testtype</b> = getreq('type') + 0</td></tr>
@@ -97,10 +97,10 @@ if($testtype &gt; 3)&#160;</td><td class="memItemRight" valign="bottom"><b>$tota
 &#160;</td><td class="memItemRight" valign="bottom"><b>$correct</b> = $_SESSION['testcorrect']</td></tr>
 <tr class="separator:ac62a90afdb53dca02ebbdbe9345ea751"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad1cb49941ea462bdc1c2e045aad1313"><td class="memItemLeft" align="right" valign="top"><a id="aad1cb49941ea462bdc1c2e045aad1313" name="aad1cb49941ea462bdc1c2e045aad1313"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$cntlang</b> = <a class="el" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('select count(distinct WoLgID) as value from ' . $testsql)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$cntlang</b> = <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('select count(distinct WoLgID) as value from ' . $testsql)</td></tr>
 <tr class="separator:aad1cb49941ea462bdc1c2e045aad1313"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f48fbb3abafd0fff5a54b09fdfe1be1"><td class="memItemLeft" align="right" valign="top"><a id="a2f48fbb3abafd0fff5a54b09fdfe1be1" name="a2f48fbb3abafd0fff5a54b09fdfe1be1"></a>
-if($cntlang &gt; 1)&#160;</td><td class="memItemRight" valign="bottom"><b>$count</b> = <a class="el" href="dbutils_8inc_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore &lt; 0')</td></tr>
+if($cntlang &gt; 1)&#160;</td><td class="memItemRight" valign="bottom"><b>$count</b> = <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore &lt; 0')</td></tr>
 <tr class="separator:a2f48fbb3abafd0fff5a54b09fdfe1be1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04ab1249b1858c7581d246fe47e05569"><td class="memItemLeft" align="right" valign="top"><a id="a04ab1249b1858c7581d246fe47e05569" name="a04ab1249b1858c7581d246fe47e05569"></a>
 if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$notyettested</b> = $count</td></tr>
@@ -109,7 +109,7 @@ if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$notyettested</
 &#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang</td></tr>
 <tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="dbutils_8inc_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
 <tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memItemLeft" align="right" valign="top"><a id="acbcb6dcb11c8755d5ffab0b45aac7a22" name="acbcb6dcb11c8755d5ffab0b45aac7a22"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$record</b> = mysqli_fetch_assoc($res)</td></tr>
@@ -186,11 +186,6 @@ if($totaltests &gt; 0)&#160;</td><td class="memItemRight" valign="bottom"><b>$l_
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Show test frame. </p>
-<p >"Learning with Texts" (LWT) is free and unencumbered software released into the PUBLIC DOMAIN.</p>
-<p >Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.</p>
-<p >In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.</p>
-<p >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-<p >For more information, please refer to [<a href="http://unlicense.org/">http://unlicense.org/</a>].</p>
 <p >Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;lang=[langid] Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;text=[textid] Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;selection=1 <br  />
  (SQL via $_SESSION['testsql']) </p>
 </div></div><!-- contents -->

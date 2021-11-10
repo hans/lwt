@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Utility for Google Translate Text-To-Speech API
+ *\file
+ * \brief Utility for Google Translate Text-To-Speech API
  */
 require_once 'inc/session_utility.php';
 

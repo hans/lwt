@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Your own DB variables.
+ * \file
+ * \brief Your own DB variables.
  */
 
 $server = "localhost";

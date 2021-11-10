@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * \file
  * All the files needed for a LWT session.
  * 
  * By requiring this file, you start a session, connect to the 
