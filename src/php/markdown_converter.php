@@ -13,10 +13,10 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
  * 
  * @return string An HTML-formatted string
  */
-function markdown_converter($file_path) {
-
+function markdown_converter($file_path) 
+{
     $converter = new GithubFlavoredMarkdownConverter();
     $markdown = file_get_contents($file_path);
-    return $converter->convertToHtml($markdown);
+    return (string)$converter->convertToHtml($markdown);
 }
 ?>
