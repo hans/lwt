@@ -73,6 +73,9 @@ $(function() {
   <div class="headertitle"><div class="title">kernel_utility.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Core utility functions that do not require a complete session.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -128,11 +131,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Debug function</p>
+<p >Debug function only.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">Any</td><td class="paramname">$var</td><td>A printed variable to debug </td></tr>
-    <tr><td class="paramtype">String</td><td class="paramname">$text</td><td>Echoed text in HTML page </td></tr>
+    <tr><td class="paramtype">any</td><td class="paramname">$var</td><td>A printed variable to debug </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$text</td><td>Echoed text in HTML page @global bool $debug This functions doesn't do anything is $debug is false. </td></tr>
   </table>
   </dd>
 </dl>
@@ -154,7 +157,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Return LWT version for humans</p>
-<p >Version is hardcoded in this function. For instance 1.6.31 (October 03 2016) @global bool $debug </p>
+<p >Version is hardcoded in this function. For instance 1.6.31 (October 03 2016)</p>
+<p >@global bool $debug If true adds a red "DEBUG" </p>
 
 </div>
 </div>
@@ -192,10 +196,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Make the script crash and returns an error message</p>
+<p >Make the script crash and prints an error message</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">String</td><td class="paramname">$text</td><td>Error text to output </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$text</td><td>Error text to output </td></tr>
   </table>
   </dd>
 </dl>

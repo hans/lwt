@@ -1,7 +1,7 @@
 <?php
 /**
  * \file
- * Core utility functions that do not require a complete session.
+ * \brief Core utility functions that do not require a complete session.
  */
 
  require __DIR__ . '/settings.php';
@@ -12,7 +12,8 @@
  * 
  * Version is hardcoded in this function.
  * For instance 1.6.31 (October 03 2016)
- * @global bool $debug 
+ *
+ * @global bool $debug If true adds a red "DEBUG"
  */
 function get_version() 
 {
@@ -48,9 +49,9 @@ function get_version_number()
 }
 
 /**
- * Make the script crash and returns an error message
+ * Make the script crash and prints an error message
  *
- * @param String $text Error text to output
+ * @param string $text Error text to output
  */
 function my_die($text) 
 {
@@ -60,6 +61,7 @@ function my_die($text)
     "</p></div><hr /><pre>Backtrace:\n\n";
     debug_print_backtrace();
     echo '</pre><hr />';
+    echo '<a href="https://github.com/HugoFara/lwt/issues/new/choose">Signal this issue.</a>';
     die('</body></html>');
 }
 
@@ -70,7 +72,8 @@ function pagestart($titletext,$close)
     global $debug;
     pagestart_nobody($titletext);
     echo '<h4>';
-    if ($close) { echo '<a href="index.php" target="_top">'; 
+    if ($close) { 
+        echo '<a href="index.php" target="_top">'; 
     }
     echo_lwt_logo();
     echo "<span>LWT</span>";
@@ -100,20 +103,20 @@ function pageend()
 } 
 
 /**
- * Debug function
+ * Debug function only.
  *
- * @param Any    $var  A printed variable to debug
- * @param String $text Echoed text in HTML page
+ * @param  any    $var  A printed variable to debug
+ * @param  string $text Echoed text in HTML page
+ * @global bool $debug This functions doesn't do anything is $debug is false.
  */
 function echodebug($var,$text) 
 {
     global $debug;
-    if (! $debug ) { 
-        return; 
+    if ($debug) { 
+        echo "<pre> **DEBUGGING** " . tohtml($text) . ' = [[[';
+        print_r($var);
+        echo "]]]\n--------------</pre>";
     }
-    echo "<pre> **DEBUGGING** " . tohtml($text) . ' = [[[';
-    print_r($var);
-    echo "]]]\n--------------</pre>";
 }
 
 // -------------------------------------------------------------
@@ -186,7 +189,9 @@ For more information, please refer to [http://unlicense.org/].
     <script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
     <!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
-    <!-- TBPREF  : "<?php if (isset($tbpref)) {echo tohtml($tbpref);} ?>" -->
+    <!-- TBPREF  : "<?php if (isset($tbpref)) {
+        echo tohtml($tbpref); 
+   } ?>" -->
     <script type="text/javascript">
     //<![CDATA[
     <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
@@ -206,7 +211,8 @@ For more information, please refer to [http://unlicense.org/].
 if ($debug) { 
     showRequest(); 
 }
-} 
+}
+
 // -------------------------------------------------------------
 function str_replace_first($needle, $replace, $haystack) 
 {
@@ -224,7 +230,8 @@ function str_replace_first($needle, $replace, $haystack)
 
 function annotation_to_json($ann) 
 {
-    if ($ann == '') { return "{}"; 
+    if ($ann == '') {
+        return "{}"; 
     }
     $arr = array();
     $items = preg_split('/[\n]/u', $ann);
