@@ -72,7 +72,7 @@ function quickMenu()
 {
 ?>
 
-<script type="text/javascript" src="src/js/user_interactions.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
 <select id="quickmenu" onchange="quickMenuRedirection(value)">
 <option value="" selected="selected">[Menu]</option>
 <option value="index">Home</option>

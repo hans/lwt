@@ -4510,7 +4510,7 @@ if ($currentplaybackrate == '') {
 </td>
 </tr>
 <!-- Audio controls before page loading -->
-<script type="text/javascript" src="src/js/audio_controller.js"></script>
+<script type="text/javascript" src="js/audio_controller.js"></script>
 <!-- Audio controls once that page was loaded -->
 <script type="text/javascript">
 //<![CDATA[

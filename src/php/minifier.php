@@ -4,15 +4,19 @@
  * \brief JS and CSS minifier.
  * 
  * Use this script to minify JS and CSS files from src/js and src/css to js/ and css/.
- * 
  */
 require __DIR__ . '/../../vendor/autoload.php';
 use MatthiasMullie\Minify;
 
 /**
  * Minify a JavaScript file and outputs the result to js/
+ * 
+ * @param  string $path       Path of the file, with extension.
+ * @param  string $outputPath Path of the ouput file, with extension
+ * @return string Minified content 
  */
-function minifyJS($path, $outputPath) {
+function minifyJS($path, $outputPath) 
+{
     $minifier = new Minify\JS($path);
 
     // we can even add another file, they'll then be
@@ -27,9 +31,16 @@ function minifyJS($path, $outputPath) {
     return $minifier->minify();
 }
 
-function minifyCSS($path, $outputPath) {
+/**
+ * Minify a JavaScript file and outputs the result to css/
+ * 
+ * @param  string $path       Path of the file, with extension.
+ * @param  string $outputPath Path of the ouput file, with extension
+ * @return string Minified content 
+ */
+function minifyCSS($path, $outputPath) 
+{
     $minifier = new Minify\JS($path);
-    $name = basename($path);
 
     // we can even add another file, they'll then be
     // joined in 1 output file
@@ -43,7 +54,13 @@ function minifyCSS($path, $outputPath) {
     return $minifier->minify();
 }
 
-function minifyAllJS() {
+/**
+ * Minify all JavaScript files
+ * 
+ * @global array<string> $jsFiles All the file to be minified
+ */
+function minifyAllJS() 
+{
     global $jsFiles;
     foreach ($jsFiles as $path) {
         $name = basename($path);
@@ -51,7 +68,13 @@ function minifyAllJS() {
     }
 }
 
-function minifyAllCSS() {
+/**
+ * Minify all Cascading-Style Sheet files
+ * 
+ * @global array<string> $cssFiles All the file to be minified
+ */
+function minifyAllCSS() 
+{
     global $cssFiles;
     foreach ($cssFiles as $path) {
         $name = basename($path);
@@ -59,12 +82,22 @@ function minifyAllCSS() {
     }
 }
 
+/**
+ * @var array<string> All the paths of JS files to be minified
+ */
 $jsFiles = array(
-    'src/audio_controller.js', 'src/js/coutuptimer.js', 'src/js/floating.js', 
+    'src/js/audio_controller.js', 'src/js/countuptimer.js', 'src/js/floating.js', 
     'src/js/jq_feedwizard.js', 'src/js/jq_pgm.js', 'src/js/pgm.js', 
+    'src/js/translation_api.js', 'src/js/unloadformcheck.js',
     'src/js/user_interactions.js'
 );
+
+/**
+ * @var array<string> All the paths of CSS files to be minified
+ */
 $cssFiles = array(
-    'src/css/css_charts.css', 'src/css/feed_wizard.css', 'src/css/styles.css'
+    'src/css/css_charts.css', 'src/css/feed_wizard.css', 'src/css/gallery.css', 
+    'src/css/jplayer.css', 'src/css/jquery-ui.css', 'src/css/jquery.tagit.css',
+    'src/css/styles.css',
 );
 ?>
