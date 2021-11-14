@@ -71,25 +71,9 @@ function my_die($text)
 function quickMenu() 
 {
 ?>
-<script type="text/javascript">
-    function quickMenuRedirections(test) {
-        console.log("Quick menu redirection test");
-        console.log(test);
-        var qm = document.getElementById('quickmenu');
-        var val = qm.options[qm.selectedIndex].value;
-        qm.selectedIndex=0;
-        if (val == '')
-            return; 
-        if (val == 'INFO') {
-            top.location.href='info.php';
-        } else if (val == 'rss_import') {
-            top.location.href = 'do_feeds.php?check_autoupdate=1';
-        } else {
-            top.location.href = val + '.php';
-        }
-    }
-</script>
-<select id="quickmenu" onchange="quickMenuRedirection">
+
+<script type="text/javascript" src="src/js/user_interactions.js" charset="utf-8"></script>
+<select id="quickmenu" onchange="quickMenuRedirection(value)">
 <option value="" selected="selected">[Menu]</option>
 <option value="index">Home</option>
 <option value="edit_texts">Texts</option>
@@ -106,15 +90,16 @@ function quickMenu()
 <option value="backup_restore">Backup/Restore</option>
 <option value="settings">Settings</option>
 <option value="INFO">Help</option>
-</select><?php
+</select>
+<?php
 }
 
 
 /**
  * Write a page header and start writing its body.
  * 
- * @param string $titletext Title of the page
- * @param bool $close 
+ * @param  string $titletext Title of the page
+ * @param  bool   $close 
  * @global bool $debug Show a DEBUG span if true
  */
 function pagestart($titletext, $close) 
@@ -140,8 +125,8 @@ function pagestart($titletext, $close)
 /**
  * Add a closing body tag.
  * 
- * @param string $titletext Title of the page
- * @param string $addcss Some CSS to be embed in a style tag
+ * @param  string $titletext Title of the page
+ * @param  string $addcss    Some CSS to be embed in a style tag
  * @global bool $debug Show the requests if true
  * @global float $dspltime Total execution time since the PHP session started
  */
@@ -279,9 +264,9 @@ if ($debug) {
 /**
  * Replace the first occurence of $needle in $haystack by $replace
  * 
- * @param string $needle Text to replace
- * @param string $replace Text to replace by
- * @param string $haystack Input string
+ * @param  string $needle   Text to replace
+ * @param  string $replace  Text to replace by
+ * @param  string $haystack Input string
  * @return string String with replaced text
  */
 function str_replace_first($needle, $replace, $haystack) 
@@ -299,7 +284,7 @@ function str_replace_first($needle, $replace, $haystack)
 /**
  * Convert annotations in a JSON format.
  * 
- * @param string $ann Annotations.
+ * @param  string $ann Annotations.
  * @return string A JSON-encoded version of the annotations
  */
 function annotation_to_json($ann) 
