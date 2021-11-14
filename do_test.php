@@ -9,7 +9,7 @@ Start a test (frameset)
 ***************************************************************/
 
 require_once 'inc/session_utility.php';
-require_once 'php-mobile-detect/Mobile_Detect.php' ;
+require_once 'vendor/mobiledetect/mobildetectlib/Mobile_Detect.php' ;
 
 
 $detect = new Mobile_Detect;

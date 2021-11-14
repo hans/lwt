@@ -682,7 +682,7 @@ $(document).ready( function() {
 						</li>
 
 						<li>
-						mobiledetect - Copyright © Șerban Ghiță &amp; Victor Stanciu, <a href="http://mobiledetect.net/" target="_blank">http://mobiledetect.net</a> (php-mobile-detect/Mobile_Detect.php)
+						mobiledetect - Copyright © Șerban Ghiță &amp; Victor Stanciu, <a href="http://mobiledetect.net/" target="_blank">http://mobiledetect.net</a> (vendor/mobiledetect/mobildetectlib/Mobile_Detect.php)
 						</li>
 
 						<li>
