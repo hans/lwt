@@ -56,7 +56,8 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.2",
         "vimeo/psalm": "^4.12",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "matthiasmullie/minify": "^1.3"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"

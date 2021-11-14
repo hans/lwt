@@ -1,44 +1,14 @@
-/**************************************************************
-"Learning with Texts" (LWT) is free and unencumbered software 
-released into the PUBLIC DOMAIN.
+/**
+ * \file
+ * \brief Main stylesheet for the default theme.
+ */
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the 
-detriment of our heirs and successors. We intend this 
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-***************************************************************/
-
-/**************************************************************
-Stylesheet
-***************************************************************/
-
-body {
+ body {
 	background-color: #FFFFFF;
 	color: #000000;
 	font: 100%/1.25 "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
 	margin: 20px;
 	padding: 0px;
-	cursor: default;
 }
 input[type=text] {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
@@ -57,97 +27,70 @@ h4 {
 	margin: 5px 0 10px 0;
 	padding: 0;
 }
-.click {
-	cursor: pointer;
-	color: #C00000;
-}
-.status0 {
+span.status0 {
 	background-color: #ADDFFF;
 	color: #000000;
 }
-.status1 {
+span.status1 {
 	background-color: #F5B8A9;
 	color: #000000;
 }
-.status2 {
+span.status2 {
 	background-color: #F5CCA9;
 	color: #000000;
 }
-.status3 {
+span.status3 {
 	background-color: #F5E1A9;
 	color: #000000;
 }
-.status4 {
+span.status4 {
 	background-color: #F5F3A9;
 	color: #000000;
 }
-.status5 {
+span.status5 {
 	background-color: #DDFFDD;
 	color: #000000;
 }
-.status99 {
+span.status99 {
 	background-color: #F8F8F8;
 	border-bottom: solid 2px #CCFFCC;  
 	color: #000000;
 }
-.status98 {
+span.status98 {
 	background-color: #F8F8F8;
 	border-bottom: dashed 1px #000000; 
 	color: #000000;
 }
-.mwsty {
+span.mwsty {
 	margin-right: 2px;
 	font-size: 60%;
 	font-weight: bold;
 	color: #000000;
 	vertical-align: top; 
-	white-space: nowrap;
 }
-.wsty {
+span.wsty {
 	margin-right: 2px;
 	color: #000000;
 }
-.todosty {
+span.todosty {
 	background-color: #F5E1A9;
 }
-.doneoksty {
+span.doneoksty {
 	background-color: #A9F5A9;
 }
-.donewrongsty {
+span.donewrongsty {
 	background-color: #F5B8A9;
 }
-.status5stat {
+span.status5stat {
 	background-color: #BBFFBB;
 	color: #000000;
-}
-.tword.lword,.nword.lword{
-	background-color: #D57;
-	box-shadow: 2px 0 0 0 #D57, -1px 0 0 0 #D57;
-}
-.tword{
-	background-color: #C9B;
-	box-shadow: 0 0 0px 1px #FFF;
-}
-.nword{
-	background-color: #FFF;
-}
-#thetext {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 }
 textarea {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
 	border: 1px solid #C6C6C6;
 	padding: 3px;
 }
-.bgdis {
-	background-color: #EAEAE5 ! important;
-}
-.tab1 {
+table.tab1 {
 	background-color: #f8f8f8;
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -155,7 +98,7 @@ textarea {
 	border-left: 1px solid #808080;
 	width: 850px;
 }
-.tab2 {
+table.tab2 {
 	background-color: #f8f8f8;
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -163,7 +106,7 @@ textarea {
 	border-left: 1px solid #808080;
 	width: 100%;
 }
-.tab3 {
+table.tab3 {
 	background-color: #f8f8f8;
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -171,23 +114,30 @@ textarea {
 	border-left: 1px solid #808080;
 	width: auto;
 }
-.td1 {
+td.td1 {
 	border-bottom: 1px solid #808080;
 	border-right: 1px solid #808080;
 	vertical-align: top;
 }
-.td1bot {
+td.td1bot {
 	border-bottom: 1px solid #808080;
 	border-right: 1px solid #808080;
 	vertical-align: bottom;
 }
-.th1 {
+th.th1 {
 	border-bottom: 1px solid #808080;
 	border-right: 1px solid #808080;
 	background-color: #DDDDDD;
 	vertical-align: top;
 }
-th.clickable,.clickedit {
+th.clickable {
+	cursor: pointer;
+}
+.click {
+	cursor: pointer;
+	color: #C00000;
+}
+.clickedit {
 	cursor: pointer;
 }
 .hide {
@@ -196,7 +146,19 @@ th.clickable,.clickedit {
 a {
 	text-decoration: none;
 }
-a:link,a:visited,a:active,a:focus,a:hover {
+a:link {
+	color: #C00000;
+}
+a:visited {
+	color: #C00000;
+}
+a:active {
+	color: #C00000;
+}
+a:focus {
+	color: #C00000;
+}
+a:hover {
 	color: #C00000;
 } 
 img {
@@ -251,6 +213,10 @@ img {
 .backlightyellow {
 	background-color: #FFFACD;
 }
+.small { 
+	color: black;
+	font-size:60%;
+}
 .smallgray { 
 	color: gray;
 	font-size:60%;
@@ -278,17 +244,13 @@ img {
 	border: 1px solid #000000;
  	text-align: center;
 }
-.lwtlogo {
+img.lwtlogo {
 	margin-right: 15px;
 	float: left;
 }
-.lwtlogoright {
+img.lwtlogoright {
 	margin-left: 30px;
 	float: right;
-}
-#floatdiv {
-	background:#DDDDDD;
-	border:1px solid #888888;
 }
 .inline {
 	display: inline;
@@ -360,24 +322,6 @@ dt {
 	color: #006699;
 	font-size: 125%;
 	font-style: normal;
-}
-#thumbnail{
-	width: inherit;
-	height: 30px;
-	top: 0;
-	border-radius:2px;
-	cursor:pointer;
-	background-repeat: no-repeat;
-	background-size: contain;
-	background-position: center;
-	background-image: url('../icn/photo-album.png');
-}
-#thumbnail_container{
-	margin: 3px;
-	overflow: hidden;
-	width: 45px;
-	height: 30px;
-	display:inline-block;
 }
 #footer {
 	bottom: 0;

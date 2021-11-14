@@ -21,6 +21,13 @@ code_doc: $(DOC_DIRECTIONS)
 	echo "Regenerating documentation"
 	doxygen Doxyfile
 
+# Regenerate minified JS&CSS
+minify: src/js/ src/css/
+	echo "Minifying JS..."
+	php -r "require 'src/php/minifier.php'; minifyAllJS();"
+	echo "Minifying CSS..."
+	php -r "require 'src/php/minifier.php'; minifyAllCSS();"
+
 # Clear documentation
 clean: 
 	rm docs/info.html
