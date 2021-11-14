@@ -4412,7 +4412,7 @@ function makeAudioPlayer($audio, $offset=0) {
     $repeatMode = getSettingZeroOrOne('currentplayerrepeatmode', 0);
     ?>
 <link type="text/css" href="<?php print_file_path('css/jplayer.css');?>" rel="stylesheet" />
-<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="js/jquery.jplayer.js"></script>
 <table align="center" style="margin-top:5px;" cellspacing="0" cellpadding="0">
 <tr>
 <td class="center borderleft" style="padding-left:10px;">

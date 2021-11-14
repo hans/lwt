@@ -670,15 +670,15 @@ $(document).ready( function() {
 						</li>
 					
 						<li>
-						CountUp - Copyright © Praveen Lobo, <a href="http://PraveenLobo.com/techblog/javascript-countup-timer/" target="_blank">http://PraveenLobo.com/techblog/javascript-countup-timer/</a> (../js/countuptimer.js)
+						CountUp - Copyright © Praveen Lobo, <a href="http://PraveenLobo.com/techblog/javascript-countup-timer/" target="_blank">http://PraveenLobo.com/techblog/javascript-countup-timer/</a> (../js/third_party/countuptimer.js)
 						</li>
 						
 						<li>
-						jPlayer - Copyright © Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (../js/jquery.jplayer.min.js, ../js/Jplayer.swf, ../css/jplayer_skin/...)
+						jPlayer - Copyright © Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (../js/jquery.jplayer.js, ../js/Jplayer.swf)
 						</li>
 						
 						<li>
-						Floating Menu - Copyright © JTricks.com, <a href="http://www.jtricks.com/licensing.html" target="_blank">http://www.jtricks.com/licensing.html</a> (../js/floating.js)
+						Floating Menu - Copyright © JTricks.com, <a href="http://www.jtricks.com/licensing.html" target="_blank">http://www.jtricks.com/licensing.html</a> (../js/third_party/floating.js)
 						</li>
 
 						<li>

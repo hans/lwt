@@ -64,7 +64,9 @@ function minifyAllJS()
     global $jsFiles;
     foreach ($jsFiles as $path) {
         $name = basename($path);
-        minifyJS($path, 'js/' . $name);
+        if (file_exists($path)) {
+            minifyJS($path, 'js/' . $name);
+        }
     }
 }
 
@@ -78,7 +80,9 @@ function minifyAllCSS()
     global $cssFiles;
     foreach ($cssFiles as $path) {
         $name = basename($path);
-        minifyCSS($path, 'css/' . $name);
+        if (file_exists($path)) {
+            minifyCSS($path, 'css/' . $name);
+        }
     }
 }
 
@@ -86,10 +90,15 @@ function minifyAllCSS()
  * @var array<string> All the paths of JS files to be minified
  */
 $jsFiles = array(
-    'src/js/audio_controller.js', 'src/js/countuptimer.js', 'src/js/floating.js', 
-    'src/js/jq_feedwizard.js', 'src/js/jq_pgm.js', 'src/js/pgm.js', 
+    'src/js/audio_controller.js', 'src/js/third_party/countuptimer.js', 
+    'src/js/third_party/floating.js', 'src/js/jq_feedwizard.js', 
+    'src/js/jq_pgm.js', 'src/js/pgm.js', 
     'src/js/translation_api.js', 'src/js/unloadformcheck.js',
-    'src/js/user_interactions.js'
+    'src/js/third_party/sorttable.js', 'src/js/user_interactions.js', 
+
+    // Packages integrated by composer (dev mode)
+    'vendor/happyworm/jplayer/src/javascript/jplayer/jquery.jplayer.js',
+    'vendor/aehlke/tag-it/js/tag-it.js'
 );
 
 /**
