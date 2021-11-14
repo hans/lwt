@@ -4,7 +4,7 @@
  * DB variables for XAMPP.
  * 
  * @author https://sourceforge.net/projects/lwt/ LWT Project
- * @since 1.0.3
+ * @since  1.0.3
  */
 
 $server = "localhost";

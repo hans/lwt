@@ -2,7 +2,7 @@
 
 /**
  * \file
- * WordPress Login Check
+ * \brief WordPress Login Check
  * To be inserted in "connect.inc.php" when LWT used with WordPress
  */
 

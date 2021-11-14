@@ -1,103 +1,99 @@
-/**************************************************************
-"Learning with Texts" (LWT) is free and unencumbered software 
-released into the PUBLIC DOMAIN.
+/**
+ * \file
+ * \brief Stylesheet for google image search
+ */
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the 
-detriment of our heirs and successors. We intend this 
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-***************************************************************/
-
-/**************************************************************
-Stylesheet for google image search
-***************************************************************/
-
-#gallery{
-	margin: 0px;
-	padding: 0px;
-	position: relative;
-	list-style: none;
-	z-index: 1;
-	left: 0px;
-}
-.widget{
-	visibility: visible;
-	overflow: hidden;
-	position: relative;
-	z-index: 2;
-	left: 0px;
-}
-#gallery>li>div{
-	display:inline-block;
-	text-align:center;
-	width:inherit;
-}.shadow {
-    position: absolute;
-    width: inherit;
-    box-shadow: inset 0 0 8px 6px #444;
-    top: 0;
-    left: inherit;border-radius:4px;
-    cursor:pointer;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-	background-color: #333;
-}
-.shadow:hover{
-	box-shadow: inset 0 0 8px 6px #666;
-}
-.shadowred{
-	box-shadow: inset 0 0 8px 6px #B23 !important;
-}
-#gallery>li{
-	overflow:hidden;
-	float: left;
-	height: 122px;
-}
-div.prev, div.next {
-	position: absolute;
-	z-index: 6;
-	color: #EEE;
-    cursor:pointer;
-    line-height: 0px;
-	text-shadow: 0px 0px 1px #000,0px 0px 1px #000, 0px 0px 2px #000,0px 0px 3px #000;
-}
-div.arrowoverlay{
-	line-height: normal;
-	width: 24px;
-	top: 0px;
-	background-color: rgba(255, 255, 255, 0.1);
-}
-div.arrowoverlay.next{
-	right:0px;
-	border-top-right-radius: 3px;
-	border-bottom-right-radius: 3px;
-}
-div.arrowoverlay.prev{
-	left:0px;
-	border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-}
-#img_sel{
-	max-width: 300px;
-}
+ #gallery
+ {
+   margin: 0px;
+   padding: 0px;
+   position: relative;
+   list-style: none;
+   z-index: 1;
+   left: 0px;
+ }
+ 
+ .widget
+ {
+   visibility: visible;
+   overflow: hidden;
+   position: relative;
+   z-index: 2;
+   left: 0px;
+ }
+ 
+ #gallery>li>div
+ {
+   display: inline-block;
+   text-align: center;
+   width: inherit;
+ }
+ 
+ .shadow
+ {
+   position: absolute;
+   width: inherit;
+   box-shadow: inset 0 0 8px 6px #444;
+   top: 0;
+   left: inherit;
+   border-radius: 4px;
+   cursor: pointer;
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center;
+   background-color: #333;
+ }
+ 
+ .shadow:hover
+ {
+   box-shadow: inset 0 0 8px 6px #666;
+ }
+ 
+ .shadowred
+ {
+   box-shadow: inset 0 0 8px 6px #B23 !important;
+ }
+ 
+ #gallery>li
+ {
+   overflow: hidden;
+   float: left;
+   height: 122px;
+ }
+ 
+ div.prev, div.next
+ {
+   position: absolute;
+   z-index: 6;
+   color: #EEE;
+   cursor: pointer;
+   line-height: 0px;
+   text-shadow: 0px 0px 1px #000,0px 0px 1px #000, 0px 0px 2px #000,0px 0px 3px #000;
+ }
+ 
+ div.arrowoverlay
+ {
+   line-height: normal;
+   width: 24px;
+   top: 0px;
+   background-color: rgba(255, 255, 255, 0.1);
+ }
+ 
+ div.arrowoverlay.next
+ {
+   right: 0px;
+   border-top-right-radius: 3px;
+   border-bottom-right-radius: 3px;
+ }
+ 
+ div.arrowoverlay.prev
+ {
+   left: 0px;
+   border-top-left-radius: 3px;
+   border-bottom-left-radius: 3px;
+ }
+ 
+ #img_sel
+ {
+   max-width: 300px;
+ }

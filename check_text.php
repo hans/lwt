@@ -5,7 +5,7 @@
  * Check (parse & split) a Text (into sentences/words)
  * 
  * @author https://sourceforge.net/projects/lwt/ LWT Project
- * @since 1.0.3
+ * @since  1.0.3
  * Call: check_text.php?...
  *      op=Check ... do the check
  */

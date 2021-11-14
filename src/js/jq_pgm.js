@@ -28,7 +28,7 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
-/**************************************************************
+/**
  * \file
  * \brief Interaction between LWT and jQuery
  */
@@ -675,7 +675,7 @@ function keydown_event_do_text_text (e) {
       if (iid < currid) {
         TEXTPOS = i;
         break;
-      };
+      }
     }
     // TEXTPOS--;
     // if (TEXTPOS < 0) TEXTPOS = l_knownwordlist - 1;
@@ -701,7 +701,7 @@ function keydown_event_do_text_text (e) {
       if (iid > currid) {
         TEXTPOS = i;
         break;
-      };
+      }
     }
     // TEXTPOS++;
     // if (TEXTPOS >= l_knownwordlist) TEXTPOS = 0;

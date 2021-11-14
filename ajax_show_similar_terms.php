@@ -14,8 +14,8 @@
 require_once 'inc/simterms.php';
 
 echo print_similar_terms(
-      $_POST['lang'] + 0, 
-      stripTheSlashesIfNeeded($_POST['word'])
+    $_POST['lang'] + 0, 
+    stripTheSlashesIfNeeded($_POST['word'])
 );
 
 ?>

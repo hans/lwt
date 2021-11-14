@@ -1,4 +1,5 @@
-.barchart {
+.barchart
+{
   font-weight: bold;
   position: relative;
   width: 56px;
@@ -12,7 +13,9 @@
   border-radius: 3px;
   box-shadow: 0 0 1px 1px #999;
 }
-.barchart li {
+
+.barchart li
+{
   width: 7px;
   float: left;
   display: block;
@@ -24,7 +27,9 @@
   border-left: 0;
   border-bottom: 0;
 }
-.barchart li span {
+
+.barchart li span
+{
   position: absolute;
   left: -99999px;
   top: 0;
@@ -33,11 +38,15 @@
   margin: 0;
   pointer-events: none;
 }
-.barchart li:hover {
+
+.barchart li:hover
+{
   opacity: 0.9;
   border-color: #d1d1d1;
 }
-.barchart li:hover span {
+
+.barchart li:hover span
+{
   font-size: 15px;
   width: auto;
   background: transparent;
@@ -51,31 +60,49 @@
   top: 0;
   opacity: 0.9;
 }
-.bc0 {
+
+.bc0
+{
   background: #8bdadc;
 }
-.bc1 {
+
+.bc1
+{
   background: #f24e4e;
 }
-.bc2 {
+
+.bc2
+{
   background: #ffac80;
 }
-.bc3 {
+
+.bc3
+{
   background: #ffe199;
 }
-.bc4 {
+
+.bc4
+{
   background: #fffd77;
 }
-.bc5 {
+
+.bc5
+{
   background: #9f9;
 }
-.bc98 {
+
+.bc98
+{
   background: #aaa;
 }
-.bc99 {
+
+.bc99
+{
   background: #999;
 }
-.wc_cont {
+
+.wc_cont
+{
   border-radius: 50%;
   width: 1em;
   height: 1em;
@@ -83,11 +110,13 @@
   display: inline-block;
   position: relative;
 }
+
 #total,
 #saved,
 #unknown,
 #chart,
-#unknownpercent {
+#unknownpercent
+{
   position: relative;
   bottom: 15%;
   display: block;

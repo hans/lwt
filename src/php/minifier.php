@@ -106,7 +106,10 @@ $jsFiles = array(
  */
 $cssFiles = array(
     'src/css/css_charts.css', 'src/css/feed_wizard.css', 'src/css/gallery.css', 
-    'src/css/jplayer.css', 'src/css/jquery-ui.css', 'src/css/jquery.tagit.css',
+    'src/css/jplayer.css', 'src/css/jquery-ui.css',
     'src/css/styles.css',
+
+    // Packages integrated by composer (dev mode)
+    'vendor/aehlke/tag-it/css/jquery.tagit.css'
 );
 ?>

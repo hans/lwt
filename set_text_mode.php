@@ -7,7 +7,7 @@
  * Call: set_text_mode.php?text=[textid]&mode=0/1&showLeaning=0/1
  * 
  * @author https://sourceforge.net/projects/lwt/ LWT Project
- * @since 1.0.3.1
+ * @since  1.0.3.1
  */
 
 require_once 'inc/session_utility.php';
@@ -29,9 +29,9 @@ flush();
 //<![CDATA[
 var method = <?php echo ($showLearning != $previousShowLearning ? '1' : '0'); ?>;  // 0 (jquery) or 1 (reload)
 if (method) {
-	window.parent.frames['l'].location.reload();
+    window.parent.frames['l'].location.reload();
 } else {
-	var context = window.parent.frames['l'].document;
+    var context = window.parent.frames['l'].document;
 <?php
 /* 
 (jquery, deact.)

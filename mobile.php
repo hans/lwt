@@ -4,6 +4,7 @@
 /**
  * \file
  * LWT Mobile
+ *
  * @since 1.4.0
  * 
  * Call: mobile.php?...
@@ -12,7 +13,6 @@
  *      ...action=3&lang=[langid]&text=[textid] ... Sentences of a text
  *      ...action=4&lang=[langid]&text=[textid]&sent=[sentid] ... Terms of a sentence
  *      ...action=5&lang=[langid]&text=[textid]&sent=[sentid] ... Terms of a sentence (next sent)
-
  */
 
 require_once 'inc/session_utility.php';

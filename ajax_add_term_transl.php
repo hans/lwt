@@ -6,7 +6,7 @@
  * Call: ajax_add_term_transl.php
  * 
  * @author https://sourceforge.net/projects/lwt/ LWT Project
- * @since 1.5.0
+ * @since  1.5.0
  */
 
 require_once 'inc/session_utility.php';

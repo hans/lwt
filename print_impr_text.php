@@ -33,7 +33,7 @@ if ($delmode ) {  // Delete
     if ($ann_exists ) { $dummy = runsql(
         'update ' . $tbpref . 'texts set ' .
         'TxAnnotatedText = ' . convert_string_to_sqlsyntax("") . ' where TxID = ' . $textid, ""
-        ); 
+    ); 
     }
     $ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . $textid) + 0) > 0);
     if (! $ann_exists ) {

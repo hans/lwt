@@ -1,7 +1,7 @@
 <?php
 /** 
  * \file
- * Start a PHP session.
+ * \brief Start a PHP session.
  * 
  * @author https://github.com/HugoFara/ HugoFara
 */
@@ -9,7 +9,8 @@
 // Get globals
 require 'kernel_utility.php';
 
-function set_error_reporting($dsplerrors) {
+function set_error_reporting($dsplerrors) 
+{
     if ($dsplerrors) {
         @error_reporting(E_ALL);
         @ini_set('display_errors', '1');
@@ -21,7 +22,8 @@ function set_error_reporting($dsplerrors) {
     }
 }
 
-function set_configuration_options() {
+function set_configuration_options() 
+{
     // Set script time limit
     @ini_set('max_execution_time', '600');  // 10 min.
     @set_time_limit(600);  // 10 min.
@@ -29,7 +31,8 @@ function set_configuration_options() {
     @ini_set('memory_limit', '999M');
 }  
 
-function start_session() {
+function start_session() 
+{
     // session isn't started
     $err = @session_start();
     if ($err === false) { 
@@ -43,7 +46,8 @@ function start_session() {
     }
 }
 
-function start_session_main() {
+function start_session_main() 
+{
     set_error_reporting($GLOBALS['$dsplerrors']);
     set_configuration_options();
     // Start a PHP session if not one already exists

@@ -73,6 +73,9 @@ $(function() {
   <div class="headertitle"><div class="title">session_utility.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>All the files needed for a LWT session.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -528,7 +531,7 @@ Functions</h2></td></tr>
 <tr class="separator:aee9ee100264b8ab008c86fe82c0cbf37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >All the files needed for a LWT session.</p>
+<div class="textblock"><p >All the files needed for a LWT session. </p>
 <p >By requiring this file, you start a session, connect to the database and declare a lot of useful functions.</p>
 <dl class="section author"><dt>Author</dt><dd><a href="https://github.com/HugoFara/lwt/graphs/contributors">https://github.com/HugoFara/lwt/graphs/contributors</a> GitHub contributors </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -557,7 +560,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Create and verify a dictionary URL link </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Create and verify a dictionary URL link</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">String</td><td class="paramname">$u</td><td>Dictionary URL. It may contain ### that will get parsed </td></tr>
     <tr><td class="paramtype">String</td><td class="paramname">$t</td><td></td></tr>
@@ -750,14 +754,13 @@ Functions</h2></td></tr>
 <p >Alter the database when to add a new word</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">String</td><td class="paramname">$textlc</td><td></td></tr>
-    <tr><td class="paramtype">String</td><td class="paramname">$lid</td><td>Language ID </td></tr>
-    <tr><td class="paramtype">String</td><td class="paramname">$len</td><td></td></tr>
-    <tr><td class="paramtype">Int</td><td class="paramname">$mode</td><td>Function mode<ul>
-<li>0: <br  />
-</li>
-<li>1: Output a javascript function</li>
-<li>2: </li>
+    <tr><td class="paramtype">string</td><td class="paramname">$textlc</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$lid</td><td>Language ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$len</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$mode</td><td>Function mode<ul>
+<li>0: Default mode, do nothing special</li>
+<li>1: Runs an expresion inserter interactable</li>
+<li>2: Return the sql output </li>
 </ul>
 </td></tr>
   </table>
@@ -817,7 +820,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Adds HTML attributes to create a filter over words learning status. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Adds HTML attributes to create a filter over words learning status.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">Int</td><td class="paramname">$status</td><td>Word learning status ([1-5]|98|99|599)<ul>
 <li>599 is a special status combining 5 and 99 statuses</li>
@@ -940,7 +944,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Prapare a JavAScript dialog for inserting a new expression </p>
+<p >Prepare a JavaScript dialog to insert a new expression </p>
 
 </div>
 </div>
@@ -970,7 +974,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Parses text be read by an automatic audio player.</p>
-<p >Some non-phonetic alphabet will need this, currently only Japanese is supported, using MeCaB. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Some non-phonetic alphabet will need this, currently only Japanese is supported, using MeCaB.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$text</td><td>Text to be converted </td></tr>
     <tr><td class="paramtype">string</td><td class="paramname">$lang</td><td>Language code (usually BCP 47 or ISO 639-1) </td></tr>

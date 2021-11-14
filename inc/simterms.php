@@ -61,8 +61,8 @@ function getSimilarityRanking($str1, $str2)
  */
 function get_similar_terms(
     $lang_id, $compared_term, $max_count, $min_ranking
-    ) 
-{
+) { 
+
     global $tbpref;
     $compared_term_lc = mb_strtolower($compared_term, 'UTF-8');
     $sql = "select WoID, WoTextLC from " . $tbpref . "words where WoLgID = " . $lang_id . " AND WoTextLC <> " . convert_string_to_sqlsyntax($compared_term_lc);

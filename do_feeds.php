@@ -4,7 +4,7 @@
  * Prepare RSS feeds.
  * 
  * @author ttps://github.com/andreask7 andreask7
- * @since 1.6.0-fork
+ * @since  1.6.0-fork
  */
 
 require_once 'inc/session_utility.php';

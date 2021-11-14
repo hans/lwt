@@ -5,7 +5,7 @@
  * \brief DB variables when LWT is integrated with WordPress.
  * 
  * @author https://sourceforge.net/projects/lwt/ LWT Project
- * @since 1.5.5
+ * @since  1.5.5
  */
 
 $server = "....";  // database server 

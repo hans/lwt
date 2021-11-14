@@ -1,7 +1,7 @@
 <?php
 /**
  * \file
- * Proceed to the general settings.
+ * \brief Proceed to the general settings.
  * 
  * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
  */

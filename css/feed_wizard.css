@@ -1,7 +1,14 @@
-#lwt_header{position:fixed;top:0px;left:0px;right:0px;background:#fcfcfc;overflow:auto;text-align:center;padding:10px}
-#lwt_header img[title=Settings],li{cursor:pointer}
-img.lwtlogo{margin-right:15px;float:left}
-#lwt_container{max-height:150px;overflow:auto}
-#settings{position:fixed;top:0px;left:0px;right:0px;height:180px;background:#fcfcfc;overflow:auto;text-align:center;padding:10px;z-index:100}
-#adv{position:fixed;top:0px;left:0px;right:0px;height:180px;background:#fcfcfc;overflow:auto;text-align:center;padding:10px;z-index:200}
-input[type=text]{font:85%"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;border:1px solid #C6C6C6;padding:3px}
+#lwt_header
+{position:fixed;top:0px;left:0px;right:0px;background:#fcfcfc;overflow:auto;text-align:center;padding:10px}
+#lwt_header img[title=Settings],li
+{cursor:pointer}
+img.lwtlogo
+{margin-right:15px;float:left}
+#lwt_container
+{max-height:150px;overflow:auto}
+#settings
+{position:fixed;top:0px;left:0px;right:0px;height:180px;background:#fcfcfc;overflow:auto;text-align:center;padding:10px;z-index:100}
+#adv
+{position:fixed;top:0px;left:0px;right:0px;height:180px;background:#fcfcfc;overflow:auto;text-align:center;padding:10px;z-index:200}
+input[type=text]
+{font:85%"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;border:1px solid #C6C6C6;padding:3px}
