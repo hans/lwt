@@ -10,3 +10,4 @@ plugins
 *.bak
 
 /vendor/
+.phpunit.result.cache

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['splitchecktext_0',['splitCheckText',['../session__utility_8php.html#a46e8e1270bdf2caa528fee2b393c919c',1,'session_utility.php']]]
+  ['runsql_0',['runsql',['../db__accessors_8php.html#acba5ba1657b74c879fc17dd6f13c6bce',1,'db_accessors.php']]]
 ];

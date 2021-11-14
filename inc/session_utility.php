@@ -1391,30 +1391,6 @@ function get_playbackrate_selectoptions($v)
     return $r;
 }
 
-
-/// Displays the main menu of navigation as a dropdown
-function quickMenu() 
-{
-?><select id="quickmenu" onchange="{var qm = document.getElementById('quickmenu'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { if (val == 'INFO') {top.location.href='info.php';}else if (val == 'rss_import'){top.location.href = 'do_feeds.php?check_autoupdate=1';} else {top.location.href = val + '.php';}}}">
-<option value="" selected="selected">[Menu]</option>
-<option value="index">Home</option>
-<option value="edit_texts">Texts</option>
-<option value="edit_archivedtexts">Text Archive</option>
-<option value="edit_texttags">Text Tags</option>
-<option value="edit_languages">Languages</option>
-<option value="edit_words">Terms</option>
-<option value="edit_tags">Term Tags</option>
-<option value="statistics">Statistics</option>
-<option value="check_text">Text Check</option>
-<option value="long_text_import">Long Text Import</option>
-<option value="rss_import">Newsfeed Import</option>
-<option value="upload_words">Term Import</option>
-<option value="backup_restore">Backup/Restore</option>
-<option value="settings">Settings</option>
-<option value="INFO">Help</option>
-</select><?php
-}
-
 // -------------------------------------------------------------
 
 function error_message_with_hide($msg,$noback) 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['runsql_0',['runsql',['../db__accessors_8php.html#acba5ba1657b74c879fc17dd6f13c6bce',1,'db_accessors.php']]]
+  ['quickmenu_0',['quickMenu',['../kernel__utility_8php.html#a968ebfd30d4d63e55078ab5668e991ff',1,'kernel_utility.php']]]
 ];

@@ -45,7 +45,7 @@ function get_version_number()
     for ($i=0; $i<3; $i++) { 
         $r .= substr('000' . $vn[$i], -3); 
     }
-    return $r;  // 'vxxxyyyzzz' wenn version = x.y.z
+    return $r;  // 'vXXXYYYZZZ' when version = x.y.z
 }
 
 /**
@@ -65,9 +65,59 @@ function my_die($text)
     die('</body></html>');
 }
 
-// -------------------------------------------------------------
+/**
+ * Display the main menu of navigation as a dropdown
+ */
+function quickMenu() 
+{
+?>
+<script type="text/javascript">
+    function quickMenuRedirections(test) {
+        console.log("Quick menu redirection test");
+        console.log(test);
+        var qm = document.getElementById('quickmenu');
+        var val = qm.options[qm.selectedIndex].value;
+        qm.selectedIndex=0;
+        if (val == '')
+            return; 
+        if (val == 'INFO') {
+            top.location.href='info.php';
+        } else if (val == 'rss_import') {
+            top.location.href = 'do_feeds.php?check_autoupdate=1';
+        } else {
+            top.location.href = val + '.php';
+        }
+    }
+</script>
+<select id="quickmenu" onchange="quickMenuRedirection">
+<option value="" selected="selected">[Menu]</option>
+<option value="index">Home</option>
+<option value="edit_texts">Texts</option>
+<option value="edit_archivedtexts">Text Archive</option>
+<option value="edit_texttags">Text Tags</option>
+<option value="edit_languages">Languages</option>
+<option value="edit_words">Terms</option>
+<option value="edit_tags">Term Tags</option>
+<option value="statistics">Statistics</option>
+<option value="check_text">Text Check</option>
+<option value="long_text_import">Long Text Import</option>
+<option value="rss_import">Newsfeed Import</option>
+<option value="upload_words">Term Import</option>
+<option value="backup_restore">Backup/Restore</option>
+<option value="settings">Settings</option>
+<option value="INFO">Help</option>
+</select><?php
+}
 
-function pagestart($titletext,$close) 
+
+/**
+ * Write a page header and start writing its body.
+ * 
+ * @param string $titletext Title of the page
+ * @param bool $close 
+ * @global bool $debug Show a DEBUG span if true
+ */
+function pagestart($titletext, $close) 
 {
     global $debug;
     pagestart_nobody($titletext);
@@ -87,8 +137,14 @@ function pagestart($titletext,$close)
 } 
 
 
-// -------------------------------------------------------------
-
+/**
+ * Add a closing body tag.
+ * 
+ * @param string $titletext Title of the page
+ * @param string $addcss Some CSS to be embed in a style tag
+ * @global bool $debug Show the requests if true
+ * @global float $dspltime Total execution time since the PHP session started
+ */
 function pageend() 
 {
     global $debug, $dspltime;
@@ -99,7 +155,7 @@ function pageend()
         echo "\n<p class=\"smallgray2\">" . 
         round(get_execution_time(), 5) . " secs</p>\n"; 
     }
-?></body></html><?php
+    echo '</body></html>';
 } 
 
 /**
@@ -119,12 +175,19 @@ function echodebug($var,$text)
     }
 }
 
-// -------------------------------------------------------------
+/**
+ * Start a standard page with a complete header and a non-closed body.
+ * 
+ * @param string $titletext Title of the page
+ * @param string $addcss Some CSS to be embed in a style tag
+ * @global bool $debug Show the requests if true
+ * @global string $tbpref The database table prefix if true
+ */
 
 function pagestart_nobody($titletext, $addcss='') 
 {
     global $debug;
-    //global $tbpref;
+    global $tbpref;
     @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
     @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
     @header('Cache-Control: no-cache, must-revalidate, max-age=0');
@@ -213,7 +276,14 @@ if ($debug) {
 }
 }
 
-// -------------------------------------------------------------
+/**
+ * Replace the first occurence of $needle in $haystack by $replace
+ * 
+ * @param string $needle Text to replace
+ * @param string $replace Text to replace by
+ * @param string $haystack Input string
+ * @return string String with replaced text
+ */
 function str_replace_first($needle, $replace, $haystack) 
 {
     if ($needle === '') {
@@ -226,8 +296,12 @@ function str_replace_first($needle, $replace, $haystack)
     return $haystack;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Convert annotations in a JSON format.
+ * 
+ * @param string $ann Annotations.
+ * @return string A JSON-encoded version of the annotations
+ */
 function annotation_to_json($ann) 
 {
     if ($ann == '') {
@@ -238,7 +312,7 @@ function annotation_to_json($ann)
     foreach ($items as $item) {
         $vals = preg_split('/[\t]/u', $item);
         if (count($vals) > 3 && $vals[0] >= 0 && $vals[2] > 0) {
-            $arr[$vals[0]-1] = array($vals[1],$vals[2],$vals[3]);
+            $arr[$vals[0]-1] = array($vals[1], $vals[2], $vals[3]);
         }
     }
     return json_encode($arr);
