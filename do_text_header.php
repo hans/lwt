@@ -123,7 +123,7 @@ $(window).on('beforeunload', function() {
     var pos = $("#jquery_jplayer_1").data("jPlayer").status.currentTime;
     $.ajax({
         type: "POST",
-        url:'ajax_save_text_position.php', 
+        url:'inc/ajax_save_text_position.php', 
         data: { 
             id: '<?php echo $_REQUEST['text']; ?>', 
             audioposition: pos

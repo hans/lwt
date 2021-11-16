@@ -90,7 +90,7 @@ function changeImprAnnText () {
   const idwait = '#wait' + elem.substring(2);
   $(idwait).html('<img src="icn/waiting2.gif" />');
   const thedata = JSON.stringify($('form').serializeObject());
-  $.post('ajax_save_impr_text.php', { id: textid, elem: elem, data: thedata }
+  $.post('inc/ajax_save_impr_text.php', { id: textid, elem: elem, data: thedata }
     , function (d) {
       $(idwait).html('<img src="icn/empty.gif" />');
       if (d != 'OK') { alert('Saving your changes failed, please reload page and try again!'); }
@@ -104,7 +104,7 @@ function changeImprAnnRadio () {
   const idwait = '#wait' + elem.substring(2);
   $(idwait).html('<img src="icn/waiting2.gif" />');
   const thedata = JSON.stringify($('form').serializeObject());
-  $.post('ajax_save_impr_text.php', { id: textid, elem: elem, data: thedata }
+  $.post('inc/ajax_save_impr_text.php', { id: textid, elem: elem, data: thedata }
     , function (d) {
       $(idwait).html('<img src="icn/empty.gif" />');
       if (d != 'OK') { alert('Saving your changes failed, please reload page and try again!'); }
@@ -119,7 +119,7 @@ function addTermTranslation (wordid, txid, word, lang) {
     alert('Text Field is empty or = \'*\'!');
     return;
   }
-  $.post('ajax_add_term_transl.php', { id: wordid, data: thedata, text: word, lang: lang }
+  $.post('inc/ajax_add_term_transl.php', { id: wordid, data: thedata, text: word, lang: lang }
     , function (d) {
       if (d == '') {
         alert('Adding translation to term OR term creation failed, please reload page and try again!');
@@ -131,7 +131,7 @@ function addTermTranslation (wordid, txid, word, lang) {
 }
 
 function changeTableTestStatus (wordid, up) {
-  $.post('ajax_chg_term_status.php', { id: wordid, data: (up ? 1 : 0) }
+  $.post('inc/ajax_chg_term_status.php', { id: wordid, data: (up ? 1 : 0) }
     , function (data) {
       if (data != '') {
         $('#STAT' + wordid).html(data);
@@ -163,7 +163,7 @@ function check () {
     if (regexp.length > 0) {
       $.ajax({
         type: 'POST',
-        url: 'ajax_check_regexp.php',
+        url: 'inc/ajax_check_regexp.php',
         data: { regex: regexp },
 			 async: false
       }
@@ -811,33 +811,33 @@ function keydown_event_do_text_text (e) {
 }
 
 function do_ajax_save_setting (k, v) {
-  $.post('ajax_save_setting.php', { k: k, v: v });
+  $.post('inc/ajax_save_setting.php', { k: k, v: v });
 }
 
 function do_ajax_update_media_select () {
   $('#mediaselect').html('&nbsp; <img src="icn/waiting2.gif" />');
-  $.post('ajax_update_media_select.php',
+  $.post('inc/ajax_update_media_select.php',
     function (data) { $('#mediaselect').html(data); }
   );
 }
 
 function do_ajax_show_sentences (lang, word, ctl, woid) {
   $('#exsent').html('<img src="icn/waiting2.gif" />');
-  $.post('ajax_show_sentences.php', { lang: lang, word: word, ctl: ctl, woid: woid },
+  $.post('inc/ajax_show_sentences.php', { lang: lang, word: word, ctl: ctl, woid: woid },
     function (data) { $('#exsent').html(data); }
   );
 }
 
 function do_ajax_show_similar_terms () {
   $('#simwords').html('<img src="icn/waiting2.gif" />');
-  $.post('ajax_show_similar_terms.php', { lang: $('#langfield').val(), word: $('#wordfield').val() },
+  $.post('inc/ajax_show_similar_terms.php', { lang: $('#langfield').val(), word: $('#wordfield').val() },
     function (data) { $('#simwords').html(data); }
   );
 }
 
 function do_ajax_word_counts () {
   const t = $('.markcheck').map(function () { return $(this).val(); }).get().join(',');
-  $.post('ajax_word_counts.php', { id: t },
+  $.post('inc/ajax_word_counts.php', { id: t },
     function (data) {
       WORDCOUNTS = data;
       word_count_click();
@@ -906,7 +906,7 @@ function word_count_click () {
 function do_ajax_edit_impr_text (pagepos, word) {
   if (word == '') $('#editimprtextdata').html('<img src="icn/waiting2.gif" />');
   const textid = $('#editimprtextdata').attr('data_id');
-  $.post('ajax_edit_impr_text.php', { id: textid, word: word },
+  $.post('inc/ajax_edit_impr_text.php', { id: textid, word: word },
     function (data) {
       eval(data);
       $.scrollTo(pagepos);

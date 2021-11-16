@@ -716,7 +716,7 @@ $(document).ready( function() {
 $(window).on('beforeunload',function() {
     if(SUW != SHOWUNIQUE){
         var a =$('#total').attr('data_wo_cnt') + $('#saved').attr('data_wo_cnt') + $('#unknown').attr('data_wo_cnt') + $('#unknownpercent').attr('data_wo_cnt') + $('#chart').attr('data_wo_cnt');
-        $.ajax({type: "POST",url:'ajax_save_setting.php', data: { k: 'set-show-text-word-counts', v:  a}, async:false});
+        $.ajax({type: "POST",url:'inc/ajax_save_setting.php', data: { k: 'set-show-text-word-counts', v:  a}, async:false});
     }
 });
 </script>

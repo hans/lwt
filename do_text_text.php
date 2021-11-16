@@ -135,7 +135,7 @@ $(window).on('beforeunload',function() {
     $.ajax(
         {
             type: "POST",
-            url:'ajax_save_text_position.php', 
+            url:'inc/ajax_save_text_position.php', 
             data: { id: '<?php echo $_REQUEST['text']; ?>', position: pos }, 
             async: false
         }

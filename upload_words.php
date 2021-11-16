@@ -272,12 +272,12 @@ if (isset($_REQUEST['op'])) {
             }
             $recno = get_first_value('select count(*) as value from ' . $tbpref . 'words where WoStatusChanged > ' . convert_string_to_sqlsyntax($last_update));
         ?>
-      <form name="form1" action="#" onsubmit="$('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':document.form1.page.options[document.form1.page.selectedIndex].value}); return false;"><div id="res_data"><table class="tab1"  cellspacing="0" cellpadding="2">
+      <form name="form1" action="#" onsubmit="$('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':document.form1.page.options[document.form1.page.selectedIndex].value}); return false;"><div id="res_data"><table class="tab1"  cellspacing="0" cellpadding="2">
     <?php
     echo "</table></div></form>";
     ?>
    <script type="text/javascript">
-   $('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','rtl':'<?php echo $rtl; ?>','count':'<?php echo $recno; ?>','page':'1'});
+   $('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','rtl':'<?php echo $rtl; ?>','count':'<?php echo $recno; ?>','page':'1'});
 </script>
 <?php
 
