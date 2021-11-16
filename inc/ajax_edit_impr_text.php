@@ -1,13 +1,16 @@
 <?php
+/**
+ * \file
+ * \brief Display table for Improved Annotation (Edit Mode), 
+ * 
+ * Ajax call in print_impr_text.php
+ * Call: inc/ajax_edit_impr_text.php?id=[textid]
+ * 
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.5.0
+ */
 
-
-/**************************************************************
-Call: ajax_edit_impr_text.php?id=[textid]
-Display table for Improved Annotation (Edit Mode), 
-Ajax call in print_impr_text.php
-***************************************************************/
-
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 function make_trans($i, $wid, $trans, $word, $lang) 
 {

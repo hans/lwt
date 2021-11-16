@@ -1,15 +1,20 @@
 <?php
 
 
-/**************************************************************
-Call: do_test.php?lang=[langid]
-Call: do_test.php?text=[textid]
-Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
-Start a test (frameset)
-***************************************************************/
+/**
+ * \file
+ * \brief Start a test (frameset)
+ * 
+ * Call: do_test.php?lang=[langid]
+ * Call: do_test.php?text=[textid]
+ * Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
+ * 
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.0.3
+ */
 
 require_once 'inc/session_utility.php';
-require_once 'vendor/mobiledetect/mobildetectlib/Mobile_Detect.php' ;
+require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php' ;
 
 
 $detect = new Mobile_Detect;

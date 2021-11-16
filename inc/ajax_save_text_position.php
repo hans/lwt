@@ -1,12 +1,16 @@
 <?php
 
+/**
+ * \file
+ * \brief Save text and/or audio position (Read Text Screen)
+ * 
+ * Call: inc/ajax_save_text_position.php
+ *  
+ * @author andreask7 <andreask7@users.noreply.github.com>
+ * @since  1.6.0-fork
+ */
 
-/**************************************************************
-Call: ajax_save_text_position.php
-Save text and/or audio position (Read Text Screen)
-***************************************************************/
-
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 $textid = $_REQUEST['id'];
 $position = (isset($_REQUEST['position']))?$_REQUEST['position']:null;

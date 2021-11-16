@@ -1,7 +1,13 @@
 <?php
+/**
+ * \file
+ * \brief Load a RSS feed.
+ *  
+ * @author andreask7 <andreask7@users.noreply.github.com>
+ * @since  1.6.0-fork
+ */
 
-
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 session_write_close();
 $imported_feed=0;

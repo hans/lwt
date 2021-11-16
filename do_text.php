@@ -2,15 +2,17 @@
 
 /**
  * \file
- * Start Reading a text (frameset)
+ * \brief Start Reading a text (frameset)
  * 
- * @since 1.0.3
  * Call: do_text.php?start=[textid]
  *      Create the main window when reading texts.
+ * 
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.0.3
  */
 
 require_once 'inc/session_utility.php'; 
-require_once 'vendor/mobiledetect/mobildetectlib/Mobile_Detect.php' ;
+require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php';
 
 $detect = new Mobile_Detect;
 $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;

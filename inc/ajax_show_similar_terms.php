@@ -2,16 +2,17 @@
 
 /**
  * \file
- * Show similar terms
+ * \brief Show similar terms
  * 
  * Call: ajax_show_similar_terms?...
  *    ... lang=[langid] ... language
  *    ... word=[word] ... word
  * 
- * @since 1.5.18
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.5.18
  */
 
-require_once 'inc/simterms.php';
+require_once __DIR__ . '/simterms.php';
 
 echo print_similar_terms(
     $_POST['lang'] + 0, 

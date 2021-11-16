@@ -1,12 +1,15 @@
 <?php
+/**
+ * \file
+ * \brief Save Improved Annotation
+ * 
+ * Call: inc/ajax_save_impr_text.php
+ * 
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.5.0
+ */
 
-
-/**************************************************************
-Call: ajax_save_impr_text.php
-Save Improved Annotation
-***************************************************************/
-
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 $textid = $_POST['id'] + 0;
 $elem = $_POST['elem'];

@@ -54,7 +54,7 @@ For more information, please refer to [http://unlicense.org/].
 	$.ajax(
 		{
 			type: 'POST',
-			url:'ajax_get_theme.php',
+			url:'inc/ajax_get_theme.php',
 			async: false, 
 			data: { file:'../css/styles.css' }, 
 			success: function (data) {if (data.match(/styles.css$/g)) $('style').text( "@import url(" + data + ");" );

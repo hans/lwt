@@ -36,7 +36,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 		$.ajax(
 			{
 				type: 'POST',
-				url:'ajax_get_theme.php',
+				url:'inc/ajax_get_theme.php',
 				async: false, 
 				data: { file:'../css/styles.css' }, 
 				success: function (data) {
@@ -682,7 +682,7 @@ $(document).ready( function() {
 						</li>
 
 						<li>
-						mobiledetect - Copyright © Șerban Ghiță &amp; Victor Stanciu, <a href="http://mobiledetect.net/" target="_blank">http://mobiledetect.net</a> (vendor/mobiledetect/mobildetectlib/Mobile_Detect.php)
+						mobiledetect - Copyright © Șerban Ghiță &amp; Victor Stanciu, <a href="http://mobiledetect.net/" target="_blank">http://mobiledetect.net</a> (vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php)
 						</li>
 
 						<li>

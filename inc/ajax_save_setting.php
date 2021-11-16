@@ -1,11 +1,16 @@
 <?php
 
-/**************************************************************
-Call: ajax_save_setting.php?k=[key]&v=[value]
-Save a Setting (k/v)
-***************************************************************/
+/**
+ * \file
+ * \brief Save a Setting (k/v)
+ * 
+ * Call: inc/ajax_save_setting.php?k=[key]&v=[value]
+ * 
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.2.1
+ */
 
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 $k = getreq('k');
 $v = getreq('v');

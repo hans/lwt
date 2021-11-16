@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Learning with Texts - Fork: inc/ajax_show_similar_terms.php File Reference</title>
+<title>Learning with Texts - Fork: display_impr_text.php File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,23 +62,37 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_bfccd401955b95cf8c75461437045ac0.html">inc</a></li>  </ul>
-</div>
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">ajax_show_similar_terms.php File Reference</div></div>
+  <div class="summary">
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">display_impr_text.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Show similar terms.  
+<p>Display an improved annotated text (frame set)  
 <a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aa22eb5ff2d98387ff4272bc8492cfbc5"><td class="memItemLeft" align="right" valign="top"><a id="aa22eb5ff2d98387ff4272bc8492cfbc5" name="aa22eb5ff2d98387ff4272bc8492cfbc5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$detect</b> = new Mobile_Detect</td></tr>
+<tr class="separator:aa22eb5ff2d98387ff4272bc8492cfbc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e9ee449bf6c18792989d5cd65af2c68"><td class="memItemLeft" align="right" valign="top"><a id="a5e9ee449bf6c18792989d5cd65af2c68" name="a5e9ee449bf6c18792989d5cd65af2c68"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$mobileDisplayMode</b> = getSettingWithDefault('set-mobile-display-mode') + 0</td></tr>
+<tr class="separator:a5e9ee449bf6c18792989d5cd65af2c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4144d0c9c54f204811328b221f06fc3d"><td class="memItemLeft" align="right" valign="top"><a id="a4144d0c9c54f204811328b221f06fc3d" name="a4144d0c9c54f204811328b221f06fc3d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$mobile</b> = (($mobileDisplayMode == 0 &amp;&amp; $detect-&gt;isMobile()) || ($mobileDisplayMode == 2))</td></tr>
+<tr class="separator:a4144d0c9c54f204811328b221f06fc3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0544c3fe466e421738dae463968b70ba"><td class="memItemLeft" align="right" valign="top"><a id="a0544c3fe466e421738dae463968b70ba" name="a0544c3fe466e421738dae463968b70ba"></a>
+if(isset($_REQUEST['text']))&lt;/style &gt;&lt; script type=&quot;text/javascript&quot; src=&quot;js/jquery.js&quot; charset=&quot;utf-8&quot;&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> {</td></tr>
+<tr class="separator:a0544c3fe466e421738dae463968b70ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Show similar terms. </p>
-<p >Call: ajax_show_similar_terms?... ... lang=[langid] ... language ... word=[word] ... word</p>
+<div class="textblock"><p >Display an improved annotated text (frame set) </p>
+<p >Call: <a class="el" href="display__impr__text_8php.html" title="Display an improved annotated text (frame set)">display_impr_text.php</a>?text=[textid]</p>
 <dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@n'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@no<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.5.18 </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>1.5.0 </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

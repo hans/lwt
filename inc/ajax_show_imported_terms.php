@@ -1,6 +1,14 @@
 <?php
+/**
+ * \file
+ * \brief Launch an AJAX query to show imported terms
+ *  
+ * @author andreask7 <andreask7@users.noreply.github.com>
+ * @since  1.6.0-fork
+ */
 
-require_once 'inc/session_utility.php';
+
+require_once __DIR__ . '/session_utility.php';
 
 
 $last_update=$_REQUEST['last_update'];
@@ -24,8 +32,8 @@ if($recno > 0) { ?>
 <?php
 if ($currentpage > 1) { 
 ?>
-&nbsp; &nbsp;<img src="icn/control-stop-180.png" title="First Page" alt="First Page" onclick="$('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':'1'}); return false;" />&nbsp;
-<img  src="icn/control-180.png" title="Previous Page" alt="Previous Page" onclick="$('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':'<?php echo $currentpage-1; ?>'}); return false;" />&nbsp;
+&nbsp; &nbsp;<img src="icn/control-stop-180.png" title="First Page" alt="First Page" onclick="$('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':'1'}); return false;" />&nbsp;
+<img  src="icn/control-180.png" title="Previous Page" alt="Previous Page" onclick="$('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':'<?php echo $currentpage-1; ?>'}); return false;" />&nbsp;
 <?php
 } else {
 ?>
@@ -40,14 +48,14 @@ if ($pages==1) { echo '1';
 }
 else {
 ?>
-<select name="page" onchange="{val=document.form1.page.options[document.form1.page.selectedIndex].value;$('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':val}); return false;}"><?php echo get_paging_selectoptions($currentpage, $pages); ?></select>
+<select name="page" onchange="{val=document.form1.page.options[document.form1.page.selectedIndex].value;$('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':val}); return false;}"><?php echo get_paging_selectoptions($currentpage, $pages); ?></select>
 <?php
 }
     echo ' of ' . $pages . '&nbsp; ';
 if ($currentpage < $pages) { 
 ?>
-<img src="icn/control.png" title="Next Page" alt="Next Page" onclick="$('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':'<?php echo $currentpage+1; ?>'}); return false;" />&nbsp;
-<img src="icn/control-stop.png" title="Last Page" alt="Last Page" onclick="$('#res_data').load('ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':'<?php echo $pages; ?>'}); return false;" />&nbsp; &nbsp;
+<img src="icn/control.png" title="Next Page" alt="Next Page" onclick="$('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':'<?php echo $currentpage+1; ?>'}); return false;" />&nbsp;
+<img src="icn/control-stop.png" title="Last Page" alt="Last Page" onclick="$('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':'<?php echo $pages; ?>'}); return false;" />&nbsp; &nbsp;
 <?php 
 } else {
 ?>

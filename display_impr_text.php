@@ -1,12 +1,17 @@
 <?php
 
-/**************************************************************
-Call: display_impr_text.php?text=[textid]
-Display an improved annotated text (frame set)
-***************************************************************/
+/**
+ * \file
+ * \brief Display an improved annotated text (frame set)
+ * 
+ * Call: display_impr_text.php?text=[textid]
+ * 
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.5.0
+ */
 
 require_once 'inc/session_utility.php'; 
-require_once 'vendor/mobiledetect/mobildetectlib/Mobile_Detect.php' ;
+require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php' ;
 
 $detect = new Mobile_Detect;
 $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;

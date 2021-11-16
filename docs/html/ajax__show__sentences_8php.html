@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Learning with Texts - Fork: inc/ajax_show_similar_terms.php File Reference</title>
+<title>Learning with Texts - Fork: inc/ajax_show_sentences.php File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -68,17 +68,35 @@ $(function() {
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">ajax_show_similar_terms.php File Reference</div></div>
+  <div class="summary">
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">ajax_show_sentences.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Show similar terms.  
+<p>Show sentences in <a class="el" href="edit__texts_8php.html">edit_texts.php</a>, etc.  
 <a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a7714b111b644017933931ec69a154102"><td class="memItemLeft" align="right" valign="top"><a id="a7714b111b644017933931ec69a154102" name="a7714b111b644017933931ec69a154102"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$lang</b> = $_POST['lang'] + 0</td></tr>
+<tr class="separator:a7714b111b644017933931ec69a154102"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d7b6a696c068811c70679ceb91ecc93"><td class="memItemLeft" align="right" valign="top"><a id="a5d7b6a696c068811c70679ceb91ecc93" name="a5d7b6a696c068811c70679ceb91ecc93"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$word</b> = stripTheSlashesIfNeeded($_POST['word'])</td></tr>
+<tr class="separator:a5d7b6a696c068811c70679ceb91ecc93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a0680bb685ea7aa05526d97342ee209"><td class="memItemLeft" align="right" valign="top"><a id="a7a0680bb685ea7aa05526d97342ee209" name="a7a0680bb685ea7aa05526d97342ee209"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$wid</b> = stripTheSlashesIfNeeded($_POST['woid'])</td></tr>
+<tr class="separator:a7a0680bb685ea7aa05526d97342ee209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6be399e3515a5190efeb52d95b75f15e"><td class="memItemLeft" align="right" valign="top"><a id="a6be399e3515a5190efeb52d95b75f15e" name="a6be399e3515a5190efeb52d95b75f15e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$ctl</b> = stripTheSlashesIfNeeded($_POST['ctl'])</td></tr>
+<tr class="separator:a6be399e3515a5190efeb52d95b75f15e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Show similar terms. </p>
-<p >Call: ajax_show_similar_terms?... ... lang=[langid] ... language ... word=[word] ... word</p>
+<div class="textblock"><p >Show sentences in <a class="el" href="edit__texts_8php.html">edit_texts.php</a>, etc. </p>
+<p >Call: <a class="el" href="ajax__show__sentences_8php.html" title="Show sentences in edit_texts.php, etc.">inc/ajax_show_sentences.php</a>?... ... lang=[langid] ... language ... word=[word] ... word in lowercase ... sentctl=[sentctl] ... sentence js control</p>
 <dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@n'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@no<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.5.18 </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>1.2.0 </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

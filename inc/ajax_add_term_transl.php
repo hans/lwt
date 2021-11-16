@@ -1,15 +1,15 @@
 <?php
 /**
  * \file
- * Add a translation to term.
+ * \brief Add a translation to term.
  * 
- * Call: ajax_add_term_transl.php
+ * Call: inc/ajax_add_term_transl.php
  * 
- * @author https://sourceforge.net/projects/lwt/ LWT Project
+ * @author LWT Project <lwt-project@notmail.com>
  * @since  1.5.0
  */
 
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 $wid = $_POST['id'] + 0;
 $data = trim(stripTheSlashesIfNeeded($_POST['data'])); // translation

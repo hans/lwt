@@ -1,12 +1,15 @@
 <?php
+/**
+ * \file
+ * \brief Change term status (Table Test)
+ * 
+ * Call: inc/ajax_chg_term_status.php
+ * 
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.5.4
+ */
 
-
-/**************************************************************
-Call: ajax_chg_term_status.php
-Change term status (Table Test)
-***************************************************************/
-
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 $wid = $_REQUEST['id'];
 $up = $_REQUEST['data'];

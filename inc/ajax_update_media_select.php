@@ -1,12 +1,17 @@
 <?php
 
 
-/**************************************************************
-Call: ajax_update_media_select.php
-Updating media select in edit_texts.php
-***************************************************************/
+/**
+ * \file
+ * \brief Updating media select in edit_texts.php
+ * 
+ * Call: inc/ajax_update_media_select.php
+ * 
+ * @author LWT Project <lwt-project@notmail.com>
+ * @since  1.1.0
+ */
 
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 echo selectmediapath('TxAudioURI');
 

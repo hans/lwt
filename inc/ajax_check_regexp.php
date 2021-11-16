@@ -1,13 +1,16 @@
 <?php
+/**
+ * \file
+ * \brief Check whether a regexp is valid, returns error message or empty string
+ * 
+ * Call: inc/ajax_check_regexp.php?....
+ *      ... regex=regular_expression
+ *  
+ * @author andreask7 <andreask7@users.noreply.github.com>
+ * @since  1.6.27-fork
+ */
 
-
-/**************************************************************
-Call: ajax_check_regexp.php?....
-      ... regex=regular_expression
-returns error message or empty string
-***************************************************************/
-
-require_once 'inc/session_utility.php';
+require_once __DIR__ . '/session_utility.php';
 
 
 $regex = $_REQUEST['regex'];
