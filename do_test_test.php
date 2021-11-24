@@ -141,7 +141,7 @@ if ($count <= 0) {
                 if ($record ) {  // random sent found
                     $num = 1;
                     $seid = $record['SeID'];
-                    if (AreUnknownWordsInSentence($seid)) {
+                    if (areUnknownWordsInSentence($seid)) {
                         if ($debug) { echo "DEBUG sent: $seid has unknown words<br />"; 
                         }
                         $sentexcl = ' AND SeID != ' . $seid . ' ';

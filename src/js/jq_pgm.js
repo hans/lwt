@@ -264,18 +264,24 @@ function confirmDelete () {
   return confirm('CONFIRM\n\nAre you sure you want to delete?');
 }
 
-function showallwordsClick () {
-  const option = $('#showallwords:checked').length;
+/**
+ * Enable/disable words hint. 
+ * Function called when clicking on "Show All".
+ */
+function showAllwordsClick () {
+  const showAll = $('#showallwords').prop('checked');
+  const showLeaning = $('#showlearningtranslations').prop('checked');
   const text = $('#thetextid').text();
   window.parent.frames.ro.location.href =
-		'set_text_mode.php?mode=' + showAll +
-		'&showLearning=' + showLeaning +
+		'set_text_mode.php?mode=' + (showAll ? 1 : 0) +
+		'&showLearning=' + (showLeaning ? 1 : 0) +
 		'&text=' + text;
 }
 
 function textareaKeydown (event) {
   if (event.keyCode && event.keyCode == '13') {
-    if (check()) $('input:submit').last().click();
+    if (check()) 
+      $('input:submit').last().click();
     return false;
   } else {
     return true;
@@ -1008,7 +1014,7 @@ $(document).ready(function () {
   $('form.validate').submit(check);
   $('input.markcheck').click(markClick);
   $('.confirmdelete').click(confirmDelete);
-  $('#showallwords').click(showallwordsClick);
+  $('#showallwords').click(showAllwordsClick);
   $('textarea.textarea-noreturn').keydown(textareaKeydown);
   $('#termtags').tagit(
     {

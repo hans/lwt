@@ -1,13 +1,11 @@
-# File for Doxygen
-DOC_DIRECTIONS = Doxyfile
 # Files to generate info.html
-ONE_FILE_DOC = docs/info.php docs/CHANGELOG.md
+ONE_FILE_DOC = docs/info.php docs/CHANGELOG.md docs/database.md
 
 install: composer.phar
 	php composer.phar install
 
 # Regenerate all documentation
-doc: $(ONE_FILE_DOC) $(DOC_DIRECTIONS)
+doc: $(ONE_FILE_DOC) Doxyfile
 	php docs/info.php > docs/info.html
 	doxygen Doxyfile
 
@@ -17,7 +15,7 @@ info.html: $(ONE_FILE_DOC)
 	php docs/info.php > docs/info.html
 
 # Regenerate code documentation
-code_doc: $(DOC_DIRECTIONS)
+code_doc: Doxyfile
 	echo "Regenerating documentation"
 	doxygen Doxyfile
 
@@ -27,6 +25,13 @@ minify: src/js/ src/css/
 	php -r "require 'src/php/minifier.php'; minifyAllJS();"
 	echo "Minifying CSS..."
 	php -r "require 'src/php/minifier.php'; minifyAllCSS();"
+
+# Do not minify for development version!
+no-minify: src/js/ src/css/
+	cp -r src/js/ .
+	cp src/js/third_party/* js/
+	rm -rf js/third_party
+	cp -r src/css .
 
 # Clear documentation
 clean: 

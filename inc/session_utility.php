@@ -2801,14 +2801,16 @@ function strToHex($string)
     return strtoupper($hex);
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Escapes everything to "¤xx" but not 0-9, a-z, A-Z, and unicode >= (hex 00A5, dec 165)
+ * 
+ * @param string $string String to escape
+ */
 function strToClassName($string)
 {
-    // escapes everything to "¤xx" but not 0-9, a-z, A-Z, and unicode >= (hex 00A5, dec 165)
-    $l = mb_strlen($string, 'UTF-8');
+    $length = mb_strlen($string, 'UTF-8');
     $r = '';
-    for ($i=0; $i < $l; $i++)
+    for ($i=0; $i < $length; $i++)
     {
         $c = mb_substr($string, $i, 1, 'UTF-8');
         $o = ord($c);
@@ -2983,8 +2985,13 @@ function mask_term_in_sentence_v2($s)
     return $r;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Replace all white space characters by a simple space ' '.
+ * The output string is also trimmed.
+ * 
+ * @param string $s String to parse
+ * @return string String with only simple whitespaces.
+ */
 function repl_tab_nl($s) 
 {
     $s = str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $s);
@@ -3025,8 +3032,9 @@ function mask_term_in_sentence($s,$regexword)
  * 
  * It is useful for unknown percent with this fork.
  *
- * @param  String textID identifier for this text
- * @return array(total number of words, number of expression, statistics, total unique, number of unique expressions, unique statistics)
+ * @param  string  $textID identifier for this text
+ * @return array(int, int, int, int, int, int) Total number of words, number of expression, statistics, total unique, number of unique expressions, unique statistics
+ * @global string $tbpref Table name
  */
 function textwordcount($textID) 
 {
@@ -3374,15 +3382,19 @@ function getsqlscoreformula($method)
 
 // -------------------------------------------------------------
 
-function AreUnknownWordsInSentence($sentno) 
+function areUnknownWordsInSentence($sentno) 
 {
     global $tbpref;
-    $x = get_first_value("SELECT distinct Ti2Text as value FROM " . $tbpref . "textitems2 where Ti2SeID = " . $sentno . " AND Ti2WordCount = 1 and Ti2WoID = 0 limit 1");
+    $x = get_first_value(
+        "SELECT distinct Ti2Text AS value 
+        FROM " . $tbpref . "textitems2 
+        WHERE Ti2SeID = " . $sentno . " AND Ti2WordCount = 1 AND Ti2WoID = 0 
+        LIMIT 1"
+    );
     //	$x = get_first_value("SELECT distinct ifnull(WoTextLC,'') as value FROM (" . $tbpref . "textitems left join " . $tbpref . "words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = " . $sentno . " AND TiWordCount = 1 AND TiIsNotWord = 0 order by WoTextLC asc limit 1");
     // echo $sentno . '/' . isset($x) . '/' . $x . '/';
-    if (isset($x) ) {
-        if ($x == '' ) { return true; 
-        }
+    if (isset($x) && $x == '') {
+        return true;
     }
     return false;
 }
@@ -3410,7 +3422,7 @@ function get_languages()
 {
     global $tbpref;
     $langs = array();
-    $sql = "select LgID, LgName from " . $tbpref . "languages where LgName<>''";
+    $sql = "SELECT LgID, LgName FROM " . $tbpref . "languages WHERE LgName<>''";
     $res = do_mysqli_query($sql);
     while ($record = mysqli_fetch_assoc($res)) {
         $langs[$record['LgName']] = $record['LgID'];
@@ -3422,7 +3434,7 @@ function get_languages()
 /**
  * Reload $setting_data if necessary
  * 
- * @return Array $setting_data
+ * @return array $setting_data
  */
 function get_setting_data() 
 {
@@ -3518,18 +3530,26 @@ function reparse_all_texts()
     mysqli_free_result($res);
 }
 
-/// Returns a language name from its id
+/**
+ * Get language name from its ID 
+ * 
+ * @param  int $lid Language ID
+ * @return string Language name
+ * @global string $tbpref
+ */ 
 function getLanguage($lid) 
 {
     global $tbpref;
-    if (! isset($lid) ) { return ''; 
+    if (!isset($lid) || trim($lid) == '' || !is_numeric($lid)) { 
+        return ''; 
     }
-    if (trim($lid) == '' ) { return ''; 
-    }
-    if (! is_numeric($lid) ) { return ''; 
-    }
-    $r = get_first_value("select LgName as value from " . $tbpref . "languages where LgID='" . $lid . "'");
-    if (isset($r) ) { return $r; 
+    $r = get_first_value(
+        "SELECT LgName AS value 
+        FROM " . $tbpref . "languages 
+        WHERE LgID='" . $lid . "'"
+    );
+    if (isset($r)) { 
+        return $r; 
     }
     return '';
 }
@@ -3539,15 +3559,19 @@ function getLanguage($lid)
 function getScriptDirectionTag($lid) 
 {
     global $tbpref;
-    if (! isset($lid) ) { return ''; 
+    if (!isset($lid) ) { 
+        return ''; 
     }
-    if (trim($lid) == '' ) { return ''; 
+    if (trim($lid) == '' ) { 
+        return ''; 
     }
-    if (! is_numeric($lid) ) { return ''; 
+    if (!is_numeric($lid) ) {
+        return ''; 
     }
     $r = get_first_value("select LgRightToLeft as value from " . $tbpref . "languages where LgID='" . $lid . "'");
     if (isset($r) ) {
-        if ($r) { return ' dir="rtl" '; 
+        if ($r) { 
+            return ' dir="rtl" '; 
         } 
     }
     return '';
@@ -3556,12 +3580,12 @@ function getScriptDirectionTag($lid)
 /**
  * Parse the input text.
  * 
- * @param String $text Text to parse
- * @param String $lid  Language id (LgID from languages table)
- * @param int    $id   References whether the text is new to the database $id = -1     => Check, return protocol $id = -2     => Only return sentence array $id = TextID => Split: insert sentences/textitems entries in DB $id = -1     => Check, return protocol $id = -2     => Only return sentence array $id = TextID => Split: insert sentences/textitems entries in DB
+ * @param string $text Text to parse
+ * @param string $lid  Language ID (LgID from languages table)
+ * @param int    $id   References whether the text is new to the database
  *  $id = -1     => Check, return protocol
- *    $id = -2     => Only return sentence array
- *     $id = TextID => Split: insert sentences/textitems entries in DB
+ *  $id = -2     => Only return sentence array
+ *  $id = TextID => Split: insert sentences/textitems entries in DB
  */
 function splitCheckText($text, $lid, $id) 
 {
@@ -3655,19 +3679,24 @@ function splitCheckText($text, $lid, $id)
         $s = preg_replace_callback(
             "/(\S+)\s*((\.+)|([$splitSentence]))([]'`\"”)‘’‹›“„«»』」]*)(?=(\s*)(\S+|$))/u", function ($matches) use ($noSentenceEnd) {
                 //var_dump($matches);
-                if(!strlen($matches[6]) && strlen($matches[7]) && preg_match('/[a-zA-Z0-9]/', substr($matches[1], -1))) { return preg_replace("/[.]/", ".\t", $matches[0]); 
+                if (!strlen($matches[6]) && strlen($matches[7]) && preg_match('/[a-zA-Z0-9]/', substr($matches[1], -1))) { 
+                    return preg_replace("/[.]/", ".\t", $matches[0]); 
                 }
-                if(is_numeric($matches[1])) {
-                    if(strlen($matches[1])<3) { return $matches[0]; 
+                if (is_numeric($matches[1])) {
+                    if (strlen($matches[1])<3) { 
+                        return $matches[0]; 
                     }
                 }
-                else if($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u', $matches[1]) || preg_match('/^[AEIOUY]$/', $matches[1]))) { return $matches[0]; 
+                else if ($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u', $matches[1]) || preg_match('/^[AEIOUY]$/', $matches[1]))) { 
+                    return $matches[0]; 
                 }
-                if(preg_match('/[.:]/', $matches[2])) {
-                    if(preg_match('/^[a-z]/', $matches[7])) { return $matches[0]; 
+                if (preg_match('/[.:]/', $matches[2])) {
+                    if(preg_match('/^[a-z]/', $matches[7])) {
+                        return $matches[0]; 
                     }
                 }
-                if($noSentenceEnd != '' && preg_match('/^(' . $noSentenceEnd . ')$/', $matches[0])) { return $matches[0]; 
+                if ($noSentenceEnd != '' && preg_match('/^(' . $noSentenceEnd . ')$/', $matches[0])) {
+                    return $matches[0]; 
                 }
                 return $matches[0]."\r";
             }, $s
@@ -3687,7 +3716,7 @@ function splitCheckText($text, $lid, $id)
     }
     unlink($file_name);
 
-    if($id==-1) {//check text
+    if ($id==-1) {//check text
     
         $res = do_mysqli_query('SELECT GROUP_CONCAT(TiText order by TiOrder SEPARATOR "") Sent FROM ' . $tbpref . 'temptextitems group by TiSeID');
         echo '<h4>Sentences</h4><ol>';
@@ -3775,23 +3804,25 @@ function splitCheckText($text, $lid, $id)
 /**
  * Insert an expression to the database using MeCab.
  * 
- * @param String $textlc 
- * @param String $lid    Language ID
- * @param String $wid    Word ID
- * @param Int    $mode 
+ * @param string $textlc 
+ * @param string $lid    Language ID
+ * @param string $wid    Word ID
+ * @param int    $mode 
+ * 
+ * @global string $tbpref 
  */
 function insertExpressionFromMeCab($textlc, $lid, $wid, $len, $mode)
 {
     global $tbpref;
 
-    $db_to_mecab = sys_get_temp_dir() . "/lwt/" . $tbpref . "db_to_mecab.txt";
+    $db_to_mecab = sys_get_temp_dir() . "/" . $tbpref . "db_to_mecab.txt";
     $mecab_to_db = sys_get_temp_dir() . "/" . $tbpref . "mecab_to_db.txt";
     $mecab_args = ' -F %m\\t%t\\t%h\\n -U %m\\t%t\\t%h\\n -E EOS\\t3\\t7\\n ';
     $mecab_expr = '';
-    if(!is_dir(sys_get_temp_dir() . "/lwt")) {
+    /*if(!is_dir(sys_get_temp_dir() . "/lwt")) {
         mkdir(sys_get_temp_dir() . "/lwt", 0777);
         chmod(sys_get_temp_dir() . "/lwt", 0777);
-    }
+    }*/
     if(file_exists($db_to_mecab)) { 
         unlink($db_to_mecab); 
     }
@@ -4127,29 +4158,33 @@ function set_word_count()
     $min=0;
     $max=0;
 
-    if(get_first_value('SELECT (@m := group_concat(LgID)) value FROM ' . $tbpref . 'languages WHERE UPPER(LgRegexpWordCharacters)="MECAB"')) {
-        $db_to_mecab = sys_get_temp_dir() . "/lwt/" . $tbpref . "db_to_mecab.txt";
+    if (get_first_value('SELECT (@m := group_concat(LgID)) value FROM ' . $tbpref . 'languages WHERE UPPER(LgRegexpWordCharacters)="MECAB"')) {
+        $db_to_mecab = sys_get_temp_dir() . "/" . $tbpref . "db_to_mecab.txt";
         $mecab_to_db = sys_get_temp_dir() . "/" . $tbpref . "mecab_to_db.txt";
-        //$mecab_args = ' -F %m%F-[0,1,2,3]\\t -U %m%F-[0,1,2,3]\\t -E \\n ';
         $mecab_args = ' -F %m%t\\t -U %m%t\\t -E \\n ';
-        if(!is_dir(sys_get_temp_dir() . "/lwt")) {
+        /*if(!is_dir(sys_get_temp_dir() . "/lwt")) {
             mkdir(sys_get_temp_dir() . "/lwt", 0777);
             chmod(sys_get_temp_dir() . "/lwt", 0777);
-        }
-        if(file_exists($db_to_mecab)) { unlink($db_to_mecab); 
+        }*/
+        if (file_exists($db_to_mecab)) { 
+            unlink($db_to_mecab); 
         }
 
         $mecab = get_mecab_path($mecab_args);
 
-        do_mysqli_query('SELECT WoID, WoTextLC FROM ' . $tbpref . 'words WHERE WoLgID in(@m) AND WoWordCount = 0 into outfile ' . convert_string_to_sqlsyntax($db_to_mecab));
+        do_mysqli_query(
+            'SELECT WoID, WoTextLC FROM ' . $tbpref . 'words 
+            WHERE WoLgID in(@m) AND WoWordCount = 0 
+            into outfile ' . convert_string_to_sqlsyntax($db_to_mecab)
+        );
         $handle = popen($mecab . $db_to_mecab, "r");
         $fp = fopen($mecab_to_db, 'w');
-        if(!feof($handle)) {
+        if (!feof($handle)) {
             while (!feof($handle)) {
                 $row = fgets($handle, 1024);
                 $arr  = explode("4\t", $row, 2);
                 //var_dump($arr);
-                if(!empty($arr[1])) {
+                if (!empty($arr[1])) {
                     $cnt = substr_count(preg_replace('$[^267]\t$u', '', $arr[1]), "\t");
                     if(empty($cnt)) { $cnt =1; 
                     }
