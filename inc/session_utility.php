@@ -19,15 +19,14 @@ require_once "db_accessors.php";
 function get_tags($refresh = 0) 
 {
     global $tbpref;
-    if (isset($_SESSION['TAGS'])) {
-        if (is_array($_SESSION['TAGS'])) {
-            if (isset($_SESSION['TBPREF_TAGS'])) {
-                if($_SESSION['TBPREF_TAGS'] == $tbpref . url_base()) {
-                    if ($refresh == 0) { return $_SESSION['TAGS']; 
-                    }
-                }
-            }
-        }
+    if (
+        isset($_SESSION['TAGS']) &&
+        is_array($_SESSION['TAGS']) &&
+        isset($_SESSION['TBPREF_TAGS']) &&
+        $_SESSION['TBPREF_TAGS'] == $tbpref . url_base() &&
+        $refresh == 0
+        ) {
+            return $_SESSION['TAGS'];
     }
     $tags = array();
     $sql = 'select TgText from ' . $tbpref . 'tags order by TgText';
@@ -50,7 +49,8 @@ function get_texttags($refresh = 0)
         if (is_array($_SESSION['TEXTTAGS'])) {
             if (isset($_SESSION['TBPREF_TEXTTAGS'])) {
                 if($_SESSION['TBPREF_TEXTTAGS'] == $tbpref . url_base()) {
-                    if ($refresh == 0) { return $_SESSION['TEXTTAGS']; 
+                    if ($refresh == 0) { 
+                        return $_SESSION['TEXTTAGS']; 
                     }
                 }
             }
@@ -73,8 +73,13 @@ function get_texttags($refresh = 0)
 function getTextTitle($textid) 
 {
     global $tbpref;
-    $text = get_first_value("select TxTitle as value from " . $tbpref . "texts where TxID=" . $textid);
-    if (! isset($text)) { $text = "?"; 
+    $text = get_first_value(
+        "SELECT TxTitle AS value 
+        FROM " . $tbpref . "texts 
+        WHERE TxID=" . $textid
+    );
+    if (!isset($text)) { 
+        $text = "?"; 
     }
     return $text;
 }
@@ -114,7 +119,8 @@ function get_tag_selectoptions($v,$l)
 function get_texttag_selectoptions($v,$l) 
 {
     global $tbpref;
-    if (! isset($v) ) { $v = ''; 
+    if (!isset($v) ) {
+        $v = ''; 
     }
     $r = "<option value=\"\"" . get_selected($v, '');
     $r .= ">[Filter off]</option>";
@@ -145,7 +151,8 @@ function get_txtag_selectoptions($l,$v)
 {
     global $tbpref;
     $text_tags=array();
-    if (! isset($v) ) { $v = ''; 
+    if (!isset($v) ) { 
+        $v = ''; 
     }
     $u ='';
     $r = "<option value=\"&amp;texttag\"" . get_selected($v, '');
@@ -2373,7 +2380,7 @@ function get_multiplearchivedtextactions_selectoptions()
 
 // -------------------------------------------------------------
 
-function get_texts_selectoptions($lang,$v) 
+function get_texts_selectoptions($lang, $v) 
 {
     global $tbpref;
     if (! isset($v) ) { $v = ''; 
@@ -2498,10 +2505,10 @@ function checkStatusRange($currstatus, $statusrange)
 /**
  * Adds HTML attributes to create a filter over words learning status.
  *
- * @param  Int $status Word learning status ([1-5]|98|99|599) 
+ * @param  int $status Word learning status ([1-5]|98|99|599) 
  * - 599 is a special status combining 5 and 99 statuses
  * - '' return an empty string 
- * @return String CSS class filter to exclude $status
+ * @return string CSS class filter to exclude $status
  */
 function makeStatusClassFilter($status) 
 {
@@ -2534,8 +2541,8 @@ function makeStatusClassFilter($status)
 /**
  * Replace $status in $array by -1
  * 
- * @param Int   $status A value in $array
- * @param Array $array  Any array of values
+ * @param int   $status A value in $array
+ * @param Any[] $array  Any array of values
  */
 function makeStatusClassFilterHelper($status, &$array) 
 {
@@ -2548,8 +2555,8 @@ function makeStatusClassFilterHelper($status, &$array)
 /**
  * Create and verify a dictionary URL link
  *
- * @param String $u Dictionary URL. It may contain ### that will get parsed
- * @param String $t
+ * @param string $u Dictionary URL. It may contain ### that will get parsed
+ * @param string $t
  */
 
 function createTheDictLink($u, $t) 
@@ -2667,17 +2674,22 @@ function makeOpenDictStrDynSent($url, $sentctljs, $txt)
 function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs) 
 {
     global $tbpref;
-    $sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
+    $sql = 'SELECT LgDict1URI, LgDict2URI, LgGoogleTranslateURI 
+    FROM ' . $tbpref . 'languages 
+    WHERE LgID = ' . $lang;
     $res = do_mysqli_query($sql);
     $record = mysqli_fetch_assoc($res);
     $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
-    if(substr($wb1, 0, 1) == '*') { $wb1 = substr($wb1, 1); 
+    if (substr($wb1, 0, 1) == '*') { 
+        $wb1 = substr($wb1, 1); 
     }
     $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
-    if(substr($wb2, 0, 1) == '*') { $wb2 = substr($wb2, 1); 
+    if(substr($wb2, 0, 1) == '*') {
+        $wb2 = substr($wb2, 1); 
     }
     $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
-    if(substr($wb3, 0, 1) == '*') { $wb3 = substr($wb3, 1); 
+    if(substr($wb3, 0, 1) == '*') {
+        $wb3 = substr($wb3, 1); 
     }
     mysqli_free_result($res);
     $r ='';
@@ -3021,7 +3033,8 @@ function mask_term_in_sentence($s,$regexword)
         else {
             $r .= $c;
         }
-        if ($c == '{') { $on = 1; 
+        if ($c == '{') { 
+            $on = 1; 
         }
     }
     return $r;
@@ -3033,7 +3046,8 @@ function mask_term_in_sentence($s,$regexword)
  * It is useful for unknown percent with this fork.
  *
  * @param  string  $textID identifier for this text
- * @return array(int, int, int, int, int, int) Total number of words, number of expression, statistics, total unique, number of unique expressions, unique statistics
+ * @return int[6] Total number of words, number of expression, statistics, 
+ * total unique, number of unique expressions, unique statistics
  * @global string $tbpref Table name
  */
 function textwordcount($textID) 
@@ -3535,7 +3549,7 @@ function reparse_all_texts()
  * 
  * @param  int $lid Language ID
  * @return string Language name
- * @global string $tbpref
+ * @global string $tbpref Table name prefix
  */ 
 function getLanguage($lid) 
 {
@@ -3809,7 +3823,7 @@ function splitCheckText($text, $lid, $id)
  * @param string $wid    Word ID
  * @param int    $mode 
  * 
- * @global string $tbpref 
+ * @global string $tbpref Table name prefix
  */
 function insertExpressionFromMeCab($textlc, $lid, $wid, $len, $mode)
 {
@@ -3973,6 +3987,7 @@ function new_expression_interactable($hex, $appendtext, $sid, $len)
  *                       - 0: Default mode, do nothing special
  *                       - 1: Runs an expresion inserter interactable 
  *                       - 2: Return the sql output
+ * @global string $tbpref Table name prefix
  */
 function insertExpressions($textlc, $lid, $wid, $len, $mode) 
 {
@@ -4455,8 +4470,8 @@ function makeMediaPlayer($path, $offset=0)
         return;
     }
     /**
- * @var string File extesion (if exists) 
-*/
+    * @var string $extension File extension (if exists) 
+    */
     $extension = substr($path, -4);
     if ($extension == '.mp3' || $extension == '.wav' || $extension == '.ogg') {
         makeAudioPlayer($path, $offset);
@@ -4693,7 +4708,6 @@ title="Video player"
 frameborder="0" 
 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
 allowfullscreen type="text/html">
-    iframes are not allowed on your computer!
 </iframe>
     <?php
 }
