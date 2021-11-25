@@ -55,161 +55,6 @@ function getLanguagesSettings($langid) {
     return $record;
 }
 
-// Text settings
-$record = getTextData($_REQUEST['text']);
-$title = $record['TxTitle'];
-$langid = $record['TxLgID'];
-$ann = $record['TxAnnotatedText'];
-$ann_exists = (strlen($ann) > 0);
-$pos = $record['TxPosition'];
-
-// Language settings
-$record = getLanguagesSettings($langid);
-$wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
-$wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
-$wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
-$textsize = $record['LgTextSize'];
-$removeSpaces = $record['LgRemoveSpaces'];
-$rtlScript = $record['LgRightToLeft'];
-
-// User settings
-$showAll = getSettingZeroOrOne('showallwords', 1);
-$showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
-
-/**
- * @var int $mode_trans Annotation position between 0 and 4
- */
-$mode_trans = getSettingWithDefault('set-text-frame-annotation-position');
-/**
- * @var bool $ruby Ruby annotations
- */
-$ruby = $mode_trans==2 || $mode_trans==4;
-
-// Start the page
-pagestart_nobody(tohtml($title));
-
-?>
-<script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8">
-</script>
-<script type="text/javascript">
-//<![CDATA[
-ANN_ARRAY = <?php echo annotation_to_json($ann); ?>;
-DELIMITER = '<?php 
-echo tohtml(
-    str_replace(
-        array('\\',']','-','^'), 
-        array('\\\\','\\]','\\-','\\^'), 
-        getSettingWithDefault('set-term-translation-delimiters')
-    )
-); ?>';
-TEXTPOS = -1;
-OPENED = 0;
-WBLINK1 = '<?php echo $wb1; ?>';
-WBLINK2 = '<?php echo $wb2; ?>';
-WBLINK3 = '<?php echo $wb3; ?>';
-LANG = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
-if (LANG && LANG != WBLINK3) {
-    $("html").attr('lang', LANG);
-}
-RTL = <?php echo $rtlScript; ?>;
-TID = '<?php echo $_REQUEST['text']; ?>';
-ADDFILTER = '<?php 
-echo makeStatusClassFilter(
-    getSettingWithDefault('set-text-visit-statuses-via-key')
-); ?>';
-JQ_TOOLTIP = <?php echo getSettingWithDefault('set-tooltip-mode') == 2 ? 1 : 0 ?>;
-
-if (JQ_TOOLTIP) {
-    $(function () {
-        $('#overDiv').tooltip();
-        $('#thetext').tooltip_wsty_init();
-    });
-}
-
-/** 
- * Prepare the interaction events
- * @since 2.0.3-fork
- */
-function prepareInteractions() {
-    $('.word').each(word_each_do_text_text);
-    $('.mword').each(mword_each_do_text_text);
-    $('.word').click(word_click_event_do_text_text);
-    $('#thetext').on('selectstart','span',false).on(
-        'mousedown','.wsty',
-        {annotation: <?php echo $mode_trans; ?>}, 
-        mword_drag_n_drop_select);
-    $('#thetext').on('click', '.mword', mword_click_event_do_text_text);
-    $('.word').dblclick(word_dblclick_event_do_text_text);
-    $('#thetext').on('dblclick', '.mword', word_dblclick_event_do_text_text);
-    $(document).keydown(keydown_event_do_text_text);
-    $('#thetext').hoverIntent(
-        {
-            over: word_hover_over, 
-            out: word_hover_out, 
-            interval: 150, 
-            selector:".wsty,.mwsty"
-        }
-    );
-}
-
-
-/** 
- * Scroll to a specific reading position
- * @since 2.0.3-fork
- */
-function goToLastPosition() {
-    // Last registered position to go to
-    const lookPos = <?php echo $pos; ?>;
-    // Position to scroll to
-    let pos = 0;
-    if (lookPos > 0) {
-        let posObj = $(".wsty[data_pos=" + lookPos + "]").not(".hide").eq(0);
-        if (posObj.attr("data_pos") === undefined) {
-            pos = $(".wsty").not(".hide").filter(function() {
-                return $(this).attr("data_pos") <= lookPos;
-            }).eq(-1);
-        }
-    }
-    $(document).scrollTo(pos);
-    window.focus();
-    window.setTimeout('overlib()', 10);
-    window.setTimeout('cClick()', 100);
-}
-
-/**
- * Save the current reading position.
- * @since 2.0.3-fork
- */
-function saveCurrentPosition() {
-    var pos = 0;
-    var top = $(window).scrollTop()-$('.wsty').not('.hide').eq(0).height();
-    $('.wsty').not('.hide').each(function() {
-        if ($(this).offset().top >= top){
-            pos = $(this).attr('data_pos');
-            return false;
-        }
-    });
-    $.ajax(
-        {
-            type: "POST",
-            url:'inc/ajax_save_text_position.php', 
-            data: { 
-                id: '<?php echo $_REQUEST['text']; ?>', 
-                position: pos 
-            }, 
-            async: false
-        }
-    );
-}
-
-$(document).ready(prepareInteractions);
-$(document).ready(goToLastPosition);
-
-$(window).on('beforeunload', saveCurrentPosition);
-//]]>
-</script>
-<?php
-
 /**
  * Print the output when the word is a term.
  * 
@@ -354,7 +199,7 @@ function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharc
  * @global string $tbpref Table name prefix
  * @since 2.0.3-fork
  */
-function mainWordLoop($showAll) {
+function mainWordLoop($textid, $showAll) {
     global $tbpref;
     $currcharcount = 0;
     
@@ -376,7 +221,7 @@ function mainWordLoop($showAll) {
         LEFT JOIN ' . $tbpref . 'words
         ON (Ti2WoID = WoID)
      )
-     WHERE Ti2TxID = ' . $_REQUEST['text'] . '
+     WHERE Ti2TxID = ' . $textid . '
      ORDER BY Ti2Order asc, Ti2WordCount desc';
     
     $hideuntil = -1;
@@ -392,19 +237,23 @@ function mainWordLoop($showAll) {
     } // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
     
     mysqli_free_result($res);
+    echo '<span id="totalcharcount" class="hide">' . $currcharcount . '</span>';
 }
 
 /**
- * Prepare style for showing word status.
+ * Prepare style for showing word status. Write a now STYLE object
  * 
- * @return string CSS-formatted style
  * @since 2.0.3-fork
  */
-function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists, $ruby) {
+function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists) {
     $displaystattrans = getSettingWithDefault('set-display-text-frame-term-translation');
     $pseudo_element = ($mode_trans<3) ? 'after' : 'before';
     $data_trans = $ann_exists ? 'data_ann' : 'data_trans';
     $stat_arr = array(1, 2, 3, 4, 5, 98, 99);
+    /** @var bool $ruby Ruby annotations */
+    $ruby = $mode_trans==2 || $mode_trans==4;
+
+    echo '<style>';
     if ($showLearning) {
         foreach ($stat_arr as $value) {
             if (checkStatusRange($value, $displaystattrans)) {
@@ -452,26 +301,141 @@ function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists, $ruby)
     echo '.tword:',
     $pseudo_element, ($ruby?',.word:':',.wsty:'),
     $pseudo_element, '{max-width:15em;}';
+    echo '</style>';
 }
 
-echo "<style>\n";
-echo prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists, $ruby);
-echo '</style>';
+/**
+ * Print JavaScript-formatted content, to put in a SCRIPT tag
+ * 
+ * @since 2.0.3-fork
+ */
+function do_text_javascript($var_array) {
+?>
+<script type="text/javascript">
+    //<![CDATA[
 
-echo '<div 
-id="thetext" ' . 
-($rtlScript ? 'dir="rtl"' : '') . '>
-<p style="' . ($removeSpaces ? 'word-break:break-all;' : '') .
-'font-size:' . $textsize . '%;line-height: ',($ruby?'1':'1.4'),'; margin-bottom: 10px;">';
+    /// Map global variables as a JSON object
+    const vars = <?php echo json_encode($var_array); ?>;
 
-// Start displaying words
-mainWordLoop($showAll);
+    // Set global variables
+    for (const key in vars) {
+        window[key] = vars[key];
+    }
+    LANG = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
+    TEXTPOS = -1;
+    OPENED = 0;
+    // Change the language of the current frame
+    if (LANG && LANG != WBLINK3) {
+        $("html").attr('lang', LANG);
+    }
 
-echo '</span>
-    <span id="totalcharcount" class="hide">' . $currcharcount . '</span></p>
-    <p style="font-size:' . $textsize . '%;line-height: 1.4; margin-bottom: 300px;">&nbsp;</p>
-</div>';
+    if (JQ_TOOLTIP) {
+        $(function () {
+            $('#overDiv').tooltip();
+            $('#thetext').tooltip_wsty_init();
+        });
+    }
 
-pageend();
+    $(document).ready(prepareTextInteractions);
+    $(document).ready(goToLastPosition);
+    $(window).on('beforeunload', saveCurrentPosition);
+    //]]>
+</script>
+    <?php
+}
 
+/**
+ * Main function for displaying sentences. It will print HTML content.
+ * 
+ * @param string $textid ID of the requiered text
+ * @param bool $only_body If true, only show the inner body. If false, create a complete HTML document. 
+ */
+function do_text_text_content($textid, $only_body=true) {
+    // Text settings
+    $record = getTextData($textid);
+    $title = $record['TxTitle'];
+    $langid = $record['TxLgID'];
+    $ann = $record['TxAnnotatedText'];
+    $ann_exists = strlen($ann) > 0;
+    $pos = $record['TxPosition'];
+    
+    // Language settings
+    $record = getLanguagesSettings($langid);
+    $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
+    $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
+    $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
+    $textsize = $record['LgTextSize'];
+    $removeSpaces = $record['LgRemoveSpaces'];
+    $rtlScript = $record['LgRightToLeft'];
+    
+    // User settings
+    $showAll = getSettingZeroOrOne('showallwords', 1);
+    $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
+    
+    /**
+     * @var int $mode_trans Annotation position between 0 and 4
+     */
+    $mode_trans = getSettingWithDefault('set-text-frame-annotation-position');
+    /**
+     * @var bool $ruby Ruby annotations
+     */
+    $ruby = $mode_trans==2 || $mode_trans==4;
+
+    if (!$only_body) {
+        // Start the page with a HEAD and opens a BODY tag 
+        pagestart_nobody(tohtml($title));
+    }
+?>
+    <script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
+    <?php 
+    $var_array = array(
+        // Change globals from jQuery hover
+        'ANN_ARRAY' => json_decode(annotation_to_json($ann)),
+        'DELIMITER' => tohtml(
+            str_replace(
+                array('\\',']','-','^'), 
+                array('\\\\','\\]','\\-','\\^'), 
+                getSettingWithDefault('set-term-translation-delimiters')
+            )
+        ),
+        'WBLINK1' => $wb1,
+        'WBLINK2' => $wb2,
+        'WBLINK3' => $wb3,
+        'RTL' => $rtlScript,
+        'TID' => $textid,
+        'ADDFILTER' => makeStatusClassFilter(
+            getSettingWithDefault('set-text-visit-statuses-via-key')
+        ),
+        'JQ_TOOLTIP' => getSettingWithDefault('set-tooltip-mode') == 2 ? 1 : 0,
+        // Add new globals
+        'ANNOTATIONS_MODE' => $mode_trans,
+        'POS' => $pos
+    );
+    do_text_javascript($var_array);
+    ?>
+
+    <?php echo prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists); ?>
+    <div id="thetext" <?php echo ($rtlScript ? 'dir="rtl"' : '') ?>>
+        <p style="margin-bottom: 10px;
+            <?php echo $removeSpaces ? 'word-break:break-all;' : ''; ?>
+            font-size: <?php echo $textsize; ?>%; 
+            line-height: <?php echo $ruby?'1':'1.4'; ?>;"
+        >
+            <!-- Start displaying words -->
+            <?php mainWordLoop($textid, $showAll); ?></span>
+        </p>
+        <p style="font-size:<?php echo $textsize; ?>%;line-height: 1.4; margin-bottom: 300px;">&nbsp;</p>
+    </div>
+<?php 
+    if (!$only_body) { 
+        pageend(); 
+    }
+    flush();
+}
+
+// This code runs when calling this script, be careful!
+if (isset($_REQUEST['text'])) {
+    do_text_text_content($_REQUEST['text'], false);
+}
 ?>

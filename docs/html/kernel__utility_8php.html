@@ -93,12 +93,18 @@ Functions</h2></td></tr>
 <tr class="separator:a46df200f3bda724d43075130dfcc24ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a633dd2f52d8d78f57da6d46d2e45dba9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#a633dd2f52d8d78f57da6d46d2e45dba9">echodebug</a> ($var, $text)</td></tr>
 <tr class="separator:a633dd2f52d8d78f57da6d46d2e45dba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6090a9acaf6ee4befcdcb8bc438f98f8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#a6090a9acaf6ee4befcdcb8bc438f98f8">pagestart_nobody</a> ($titletext, $addcss='')</td></tr>
-<tr class="separator:a6090a9acaf6ee4befcdcb8bc438f98f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae533c8340a3b6d706992106509262b7a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#ae533c8340a3b6d706992106509262b7a">get_statuses</a> ()</td></tr>
+<tr class="separator:ae533c8340a3b6d706992106509262b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a663921c08c6e251b51ca06a34a796bb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#a663921c08c6e251b51ca06a34a796bb3">str_replace_first</a> ($needle, $replace, $haystack)</td></tr>
 <tr class="separator:a663921c08c6e251b51ca06a34a796bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7032b1f81635b990de6f210394d26b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#ad7032b1f81635b990de6f210394d26b9">annotation_to_json</a> ($ann)</td></tr>
 <tr class="separator:ad7032b1f81635b990de6f210394d26b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac115eb0ce0c99aef0bc68dc184a491d6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#ac115eb0ce0c99aef0bc68dc184a491d6">getreq</a> ($s)</td></tr>
+<tr class="separator:ac115eb0ce0c99aef0bc68dc184a491d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb3b93a049b1e60306bf47d2a7755df7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#aeb3b93a049b1e60306bf47d2a7755df7">getsess</a> ($s)</td></tr>
+<tr class="separator:aeb3b93a049b1e60306bf47d2a7755df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6090a9acaf6ee4befcdcb8bc438f98f8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#a6090a9acaf6ee4befcdcb8bc438f98f8">pagestart_nobody</a> ($titletext, $addcss='')</td></tr>
+<tr class="separator:a6090a9acaf6ee4befcdcb8bc438f98f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Core utility functions that do not require a complete session. </p>
@@ -165,6 +171,25 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae533c8340a3b6d706992106509262b7a" name="ae533c8340a3b6d706992106509262b7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae533c8340a3b6d706992106509262b7a">&#9670;&nbsp;</a></span>get_statuses()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_statuses </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Return an associative array of all possible statuses</p>
+<dl class="section return"><dt>Returns</dt><dd>array[] Statues, keys are 1, 2, 3, 4, 5, 98, 99. Values are associative arrays of keys abbr and name </dd></dl>
+
+</div>
+</div>
 <a id="a5724f2c1a8d9303e139195c3354af02a" name="a5724f2c1a8d9303e139195c3354af02a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5724f2c1a8d9303e139195c3354af02a">&#9670;&nbsp;</a></span>get_version()</h2>
 
@@ -201,6 +226,58 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p >Return a machine readable version number.</p>
 <p >For instance v001.006.031 </p>
+
+</div>
+</div>
+<a id="ac115eb0ce0c99aef0bc68dc184a491d6" name="ac115eb0ce0c99aef0bc68dc184a491d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac115eb0ce0c99aef0bc68dc184a491d6">&#9670;&nbsp;</a></span>getreq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getreq </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get a request when possible. Otherwise, return an empty string.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$s</td><td>Request key </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Trimmed request or empty string </dd></dl>
+
+</div>
+</div>
+<a id="aeb3b93a049b1e60306bf47d2a7755df7" name="aeb3b93a049b1e60306bf47d2a7755df7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb3b93a049b1e60306bf47d2a7755df7">&#9670;&nbsp;</a></span>getsess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getsess </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get a session variable when possible. Otherwise, return an empty string.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$s</td><td>Session variable key </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Trimmed sesseion variable or empty string </dd></dl>
 
 </div>
 </div>

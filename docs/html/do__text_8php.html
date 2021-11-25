@@ -79,10 +79,10 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$detect</b> = new Mobile_Detect</td></tr>
 <tr class="separator:aa22eb5ff2d98387ff4272bc8492cfbc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9ee449bf6c18792989d5cd65af2c68"><td class="memItemLeft" align="right" valign="top"><a id="a5e9ee449bf6c18792989d5cd65af2c68" name="a5e9ee449bf6c18792989d5cd65af2c68"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$mobileDisplayMode</b> = getSettingWithDefault('set-mobile-display-mode') + 0</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$mobileDisplayMode</b> = <a class="el" href="session__utility_8php.html#a272e6920bd0ac3690730a62edebae42d">getSettingWithDefault</a>('set-mobile-display-mode') + 0</td></tr>
 <tr class="separator:a5e9ee449bf6c18792989d5cd65af2c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4144d0c9c54f204811328b221f06fc3d"><td class="memItemLeft" align="right" valign="top"><a id="a4144d0c9c54f204811328b221f06fc3d" name="a4144d0c9c54f204811328b221f06fc3d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$mobile</b> = (($mobileDisplayMode == 0 &amp;&amp; $detect-&gt;isMobile()) || ($mobileDisplayMode == 2))</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$mobile</b> = ($mobileDisplayMode == 0 &amp;&amp; $detect-&gt;isMobile()) || $mobileDisplayMode == 2</td></tr>
 <tr class="separator:a4144d0c9c54f204811328b221f06fc3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0544c3fe466e421738dae463968b70ba"><td class="memItemLeft" align="right" valign="top">if(isset( $_REQUEST[ 'start']))&lt;/style &gt;&lt; script type=&quot;text/javascript&quot; src=&quot;js/jquery.js&quot; charset=&quot;utf-8&quot;&gt; if(isset($audio))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text_8php.html#a0544c3fe466e421738dae463968b70ba">else</a></td></tr>
 <tr class="separator:a0544c3fe466e421738dae463968b70ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -105,7 +105,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">            getSettingWithDefault(<span class="stringliteral">&#39;set-text-h-frameheight-no-audio&#39;</span>)</div>
+<div class="line">            <a class="code hl_function" href="session__utility_8php.html#a272e6920bd0ac3690730a62edebae42d">getSettingWithDefault</a>(<span class="stringliteral">&#39;set-text-h-frameheight-no-audio&#39;</span>)</div>
+<div class="ttc" id="asession__utility_8php_html_a272e6920bd0ac3690730a62edebae42d"><div class="ttname"><a href="session__utility_8php.html#a272e6920bd0ac3690730a62edebae42d">getSettingWithDefault</a></div><div class="ttdeci">getSettingWithDefault($key)</div><div class="ttdef"><b>Definition:</b> session_utility.php:1680</div></div>
 </div><!-- fragment -->
 </div>
 </div>

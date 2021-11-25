@@ -13,5 +13,6 @@ var searchData=
   ['do_5ftest_5ftest_2ephp_10',['do_test_test.php',['../do__test__test_8php.html',1,'']]],
   ['do_5ftext_2ephp_11',['do_text.php',['../do__text_8php.html',1,'']]],
   ['do_5ftext_5fheader_2ephp_12',['do_text_header.php',['../do__text__header_8php.html',1,'']]],
-  ['do_5ftext_5ftext_2ephp_13',['do_text_text.php',['../do__text__text_8php.html',1,'']]]
+  ['do_5ftext_5fjavascript_13',['do_text_javascript',['../do__text__text_8php.html#ae58010dca8bdbf061ec2c93823386b0b',1,'do_text_text.php']]],
+  ['do_5ftext_5ftext_2ephp_14',['do_text_text.php',['../do__text__text_8php.html',1,'']]]
 ];

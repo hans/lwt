@@ -16,11 +16,15 @@ require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php';
 
 $detect = new Mobile_Detect;
 $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
-$mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
+$mobile = ($mobileDisplayMode == 0 && $detect->isMobile()) || $mobileDisplayMode == 2;
 
 if (isset($_REQUEST['start'])) {
     
-    $audio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['start']);
+    $audio = get_first_value(
+        'SELECT TxAudioURI AS value 
+        FROM ' . $tbpref . 'texts 
+        WHERE TxID = ' . $_REQUEST['start']
+    );
     
     framesetheader('Read');
     
@@ -113,7 +117,12 @@ if (isset($_REQUEST['start'])) {
     ?>
 
    <frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
-    <frameset rows="<?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio') ); ?>,*">
+    <frameset rows="<?php 
+    if (isset($audio)) { 
+        echo getSettingWithDefault('set-text-h-frameheight-with-audio');
+     } else {
+        echo getSettingWithDefault('set-text-h-frameheight-no-audio'); 
+     } ?>,*">
         <frame src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="h" />            
         <frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />
     </frameset>

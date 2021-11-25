@@ -14,8 +14,13 @@ require 'kernel_utility.php';
 require_once "db_accessors.php";
 
 
-// -------------------------------------------------------------
-
+/**
+ * Return the list of all tags.
+ * 
+ * @param int $refresh If true, refresh all tags for session
+ * @global string $tbpref Table name prefix
+ * @return string[] All tags
+ */
 function get_tags($refresh = 0) 
 {
     global $tbpref;
@@ -29,7 +34,7 @@ function get_tags($refresh = 0)
             return $_SESSION['TAGS'];
     }
     $tags = array();
-    $sql = 'select TgText from ' . $tbpref . 'tags order by TgText';
+    $sql = 'SELECT TgText FROM ' . $tbpref . 'tags ORDER BY TgText';
     $res = do_mysqli_query($sql);
     while ($record = mysqli_fetch_assoc($res)) {
         $tags[] = $record["TgText"];
@@ -40,8 +45,13 @@ function get_tags($refresh = 0)
     return $_SESSION['TAGS'];
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Return the list of all text tags.
+ * 
+ * @param int $refresh If true, refresh all text tags for session
+ * @global string $tbpref Table name prefix
+ * @return string[] All text tags
+ */
 function get_texttags($refresh = 0) 
 {
     global $tbpref;
@@ -57,7 +67,7 @@ function get_texttags($refresh = 0)
         }
     }
     $tags = array();
-    $sql = 'select T2Text from ' . $tbpref . 'tags2 order by T2Text';
+    $sql = 'SELECT T2Text FROM ' . $tbpref . 'tags2 ORDER BY T2Text';
     $res = do_mysqli_query($sql);
     while ($record = mysqli_fetch_assoc($res)) {
         $tags[] = $record["T2Text"];
@@ -212,27 +222,31 @@ function saveWordTags($wid)
 {
     global $tbpref;
     runsql("DELETE from " . $tbpref . "wordtags WHERE WtWoID =" . $wid, '');
-    if (isset($_REQUEST['TermTags'])) {
-        if (is_array($_REQUEST['TermTags'])) {
-            if (isset($_REQUEST['TermTags']['TagList'])) {
-                if (is_array($_REQUEST['TermTags']['TagList'])) {
-                    $cnt = count($_REQUEST['TermTags']['TagList']);
-                    if ($cnt > 0 ) {
-                        for ($i=0; $i<$cnt; $i++) {
-                            $tag = $_REQUEST['TermTags']['TagList'][$i];
-                            if(! in_array($tag, $_SESSION['TAGS'])) {
-                                runsql(
-                                    'insert into ' . $tbpref . 'tags (TgText) values(' . 
-                                    convert_string_to_sqlsyntax($tag) . ')', ""
-                                );
-                            }
-                            runsql('insert into ' . $tbpref . 'wordtags (WtWoID, WtTgID) select ' . $wid . ', TgID from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($tag), "");
-                        }
-                        get_tags($refresh = 1);  // refresh tags cache
-                    }
-                }
+    if (
+        !isset($_REQUEST['TermTags']) || 
+        !is_array($_REQUEST['TermTags']) || 
+        !isset($_REQUEST['TermTags']['TagList']) || 
+        !is_array($_REQUEST['TermTags']['TagList'])
+     ) {
+         return;
+     }
+    $cnt = count($_REQUEST['TermTags']['TagList']);
+    if ($cnt > 0 ) {
+        for ($i=0; $i<$cnt; $i++) {
+            $tag = $_REQUEST['TermTags']['TagList'][$i];
+            if(!in_array($tag, $_SESSION['TAGS'])) {
+                runsql(
+                    'insert into ' . $tbpref . 'tags (TgText) values(' . 
+                    convert_string_to_sqlsyntax($tag) . ')', ""
+                );
             }
+            runsql(
+                'INSERT INTO ' . $tbpref . 'wordtags (WtWoID, WtTgID) 
+                SELECT ' . $wid . ', TgID 
+                FROM ' . $tbpref . 'tags 
+                WHERE TgText = ' . convert_string_to_sqlsyntax($tag), "");
         }
+        get_tags($refresh = 1);  // refresh tags cache
     }
 }
 
@@ -256,7 +270,13 @@ function saveTextTags($tid)
                                     convert_string_to_sqlsyntax($tag) . ')', ""
                                 );
                             }
-                            runsql('insert into ' . $tbpref . 'texttags (TtTxID, TtT2ID) select ' . $tid . ', T2ID from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($tag), "");
+                            runsql(
+                                'INSERT INTO ' . $tbpref . 'texttags (TtTxID, TtT2ID) 
+                                SELECT ' . $tid . ', T2ID 
+                                FROM ' . $tbpref . 'tags2 
+                                WHERE T2Text = ' . convert_string_to_sqlsyntax($tag), 
+                                ""
+                            );
                         }
                         get_texttags($refresh = 1);  // refresh tags cache
                     }
@@ -286,7 +306,13 @@ function saveArchivedTextTags($tid)
                                     convert_string_to_sqlsyntax($tag) . ')', ""
                                 );
                             }
-                            runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $tid . ', T2ID from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($tag), "");
+                            runsql(
+                                'INSERT INTO ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) 
+                                SELECT ' . $tid . ', T2ID 
+                                FROM ' . $tbpref . 'tags2 
+                                WHERE T2Text = ' . convert_string_to_sqlsyntax($tag), 
+                                ""
+                            );
                         }
                         get_texttags($refresh = 1);  // refresh tags cache
                     }
@@ -423,7 +449,8 @@ function removetaglist($item, $list)
         FROM ' . $tbpref . 'tags
         WHERE TgText = ' . convert_string_to_sqlsyntax($item)
     );
-    if (! isset($tagid)) { return "Tag " . $item . " not found"; 
+    if (! isset($tagid)) { 
+        return "Tag " . $item . " not found"; 
     }
     $sql = 'select WoID from ' . $tbpref . 'words where WoID in ' . $list;
     $res = do_mysqli_query($sql);
@@ -465,7 +492,8 @@ function removetexttaglist($item, $list)
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
-    if (! isset($tagid)) { return "Tag " . $item . " not found"; 
+    if (!isset($tagid)) { 
+        return "Tag " . $item . " not found"; 
     }
     $sql = 'select TxID from ' . $tbpref . 'texts where TxID in ' . $list;
     $res = do_mysqli_query($sql);
@@ -503,7 +531,8 @@ function load_feeds($currentfeed)
                     $autoupdate=str_replace('w', '', $autoupdate);
                     $autoupdate=60 * 60 * 24 * 7 * $autoupdate;
                 }
-                else { continue; 
+                else { 
+                    continue; 
                 }
                 if(time()>($autoupdate + $row['NfUpdate'])) {
                     $ajax[$cnt]=  "$.ajax({type: 'POST',beforeSend: function(){ $('#feed_" . $row['NfID'] . "').replaceWith( '<div id=\"feed_" . $row['NfID'] . "\" class=\"msgblue\"><p>". addslashes($row['NfName']).": loading</p></div>' );},url:'inc/ajax_load_feed.php', data: { NfID: '".$row['NfID']."', NfSourceURI: '". $row['NfSourceURI']."', NfName: '". addslashes($row['NfName'])."', NfOptions: '". $row['NfOptions']."', cnt: '". $cnt."' },success:function (data) {feedcnt+=1;$('#feedcount').text(feedcnt);$('#feed_" . $row['NfID'] . "').replaceWith( data );}})";
@@ -535,7 +564,8 @@ function load_feeds($currentfeed)
     else { echo "window.location.replace(\"",$_SERVER['PHP_SELF'],"\");"; 
     }
     echo "\n</script>\n";
-    if($cnt!=1) { echo "<div class=\"msgblue\"><p>UPDATING <span id=\"feedcount\">0</span>/",$cnt," FEEDS</p></div>"; 
+    if($cnt!=1) { 
+        echo "<div class=\"msgblue\"><p>UPDATING <span id=\"feedcount\">0</span>/",$cnt," FEEDS</p></div>"; 
     }
     foreach($feeds as $k=>$v){
         echo "<div id='feed_$k' class=\"msgblue\"><p>". $v.": waiting</p></div>";
@@ -613,9 +643,11 @@ function write_rss_to_db($texts)
             }
         }
     }
-    if($message4>0 || $message1>0) { return "Texts archived: " . $message1 . " / Sentences deleted: " . $message2 . " / Text items deleted: " . $message3; 
+    if ($message4>0 || $message1>0) { 
+        return "Texts archived: " . $message1 . " / Sentences deleted: " . $message2 . " / Text items deleted: " . $message3; 
     }
-    else { return ''; 
+    else { 
+        return ''; 
     }
 }
 
@@ -736,15 +768,19 @@ function get_links_from_new_feed($NfSourceURI)
                 }
             }
             if (isset($item['desc'])) {
-                if(mb_strlen($item['desc'], "UTF-8")>900) { $desc_count++; 
+                if(mb_strlen($item['desc'], "UTF-8")>900) { 
+                    $desc_count++; 
                 }
-                else { $desc_nocount++; 
+                else { 
+                    $desc_nocount++; 
                 }
             }
             if (isset($item['encoded'])) {
-                if(mb_strlen($item['encoded'], "UTF-8")>900) { $enc_count++; 
+                if(mb_strlen($item['encoded'], "UTF-8")>900) { 
+                    $enc_count++; 
                 }
-                else { $enc_nocount++; 
+                else { 
+                    $enc_nocount++; 
                 }
             }
         }
@@ -804,7 +840,8 @@ function get_links_from_new_feed($NfSourceURI)
 function get_links_from_rss($NfSourceURI,$NfArticleSection)
 {
     $rss = new DOMDocument('1.0', 'utf-8');
-    if(!$rss->load($NfSourceURI, LIBXML_NOCDATA | ENT_NOQUOTES)) { return false; 
+    if(!$rss->load($NfSourceURI, LIBXML_NOCDATA | ENT_NOQUOTES)) { 
+        return false; 
     }
     $rss_data = array();
     if($rss->getElementsByTagName('rss')->length !== 0) {$feed_tags=array('item' => 'item','title' => 'title','description' => 'description','link' => 'link','pubDate' => 'pubDate','enclosure' => 'enclosure','url' => 'url');
@@ -1103,26 +1140,34 @@ function stripTheSlashesIfNeeded($s)
 
 // -------------------------------------------------------------
 
-function getPreviousAndNextTextLinks($textid,$url,$onlyann,$add) 
+function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add) 
 {
     global $tbpref;
     $currentlang = validateLang(processDBParam("filterlang", 'currentlanguage', '', 0));
-    $wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
+    $wh_lang = '';
+    if ($currentlang != '') {
+        $wh_lang = ' AND TxLgID=' . $currentlang;
+    }
 
     $currentquery = processSessParam("query", "currenttextquery", '', 0);
     $currentquerymode = processSessParam("query_mode", "currenttextquerymode", 'title,text', 0);
     $currentregexmode = getSettingWithDefault("set-regex-mode");
-    $wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace("*", "%", mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery));
+    $wh_query = $currentregexmode . 'LIKE ';
+    if ($currentregexmode == '') {
+        $wh_query .= convert_string_to_sqlsyntax(str_replace("*", "%", mb_strtolower($currentquery, 'UTF-8')));
+    } else {
+        $wh_query .= convert_string_to_sqlsyntax($currentquery);
+    }
     switch ($currentquerymode) {
-    case 'title,text':
-        $wh_query=' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query . ')';
-        break;
-    case 'title':
-        $wh_query=' and (TxTitle ' . $wh_query . ')';
-        break;
-    case 'text':
-        $wh_query=' and (TxText ' . $wh_query . ')';
-        break;
+        case 'title,text':
+            $wh_query=' AND (TxTitle ' . $wh_query . ' OR TxText ' . $wh_query . ')';
+            break;
+        case 'title':
+            $wh_query=' AND (TxTitle ' . $wh_query . ')';
+            break;
+        case 'text':
+            $wh_query=' AND (TxText ' . $wh_query . ')';
+            break;
     }
     if ($currentquery=='') { 
         $wh_query = ''; 
@@ -1222,37 +1267,9 @@ function framesetheader($title)
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-
-<!-- ***********************************************************
-"Learning with Texts" (LWT) is free and unencumbered software 
-released into the PUBLIC DOMAIN.
-
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the 
-detriment of our heirs and successors. We intend this 
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-************************************************************ -->
-
+    <!-- 
+        <?php echo file_get_contents( "UNLICENSE.md" );?> 
+    -->
     <title>LWT :: <?php echo tohtml($title); ?></title>
 </head>
 <?php
@@ -1264,7 +1281,8 @@ function url_base()
 {
     $url = parse_url("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
     $r = $url["scheme"] . "://" . $url["host"];
-    if(isset($url["port"])) { $r .= ":" . $url["port"]; 
+    if (isset($url["port"])) { 
+        $r .= ":" . $url["port"]; 
     }
     if(isset($url["path"])) {
         $b = basename($url["path"]);
@@ -1282,15 +1300,22 @@ function url_base()
 }
 
 
-// -------------------------------------------------------------
-
+/**
+ * Return an HTML formatted logo of the application.
+ * 
+ * @global string $tbref Table name prefix (optional)
+ */
 function echo_lwt_logo() 
 {
     global $tbpref;
     $pref = substr($tbpref, 0, -1);
-    if($pref == '') { $pref = 'Default Table Set'; 
+    if ($pref == '') { 
+        $pref = 'Default Table Set'; 
     }
-    echo '<img class="lwtlogo" src="';print_file_path('img/lwt_icon.png');echo '"  title="LWT - Current Table Set: ' . tohtml($pref) . '" alt="LWT - Current Table Set: ' . tohtml($pref) . '" />';
+    echo '<img class="lwtlogo" src="';
+    print_file_path('img/lwt_icon.png'); 
+    echo '" title="LWT - Current Table Set: ' . tohtml($pref) . 
+    '" alt="LWT - Current Table Set: ' . tohtml($pref) . '" />';
 }
 
 // -------------------------------------------------------------
@@ -1446,10 +1471,14 @@ function optimizedb()
     adjust_autoincr('tags2', 'T2ID');
     adjust_autoincr('newsfeeds', 'NfID');
     adjust_autoincr('feedlinks', 'FlID');
-    $sql='SHOW TABLE STATUS WHERE Engine in ("MyISAM","Aria") AND ((Data_free / Data_length > 0.1 AND Data_free > 102400) OR Data_free > 1048576) AND Name';
-    if(empty($tbpref)) { $sql.= " not like '\_%'"; 
+    $sql = 
+    'SHOW TABLE STATUS 
+    WHERE Engine IN ("MyISAM","Aria") AND ((Data_free / Data_length > 0.1 AND Data_free > 102400) OR Data_free > 1048576) AND Name';
+    if(empty($tbpref)) { 
+        $sql.= " NOT LIKE '\_%'"; 
     }
-    else { $sql.= " like " . convert_string_to_sqlsyntax(rtrim($tbpref, '_')) . "'\_%'"; 
+    else { 
+        $sql.= " LIKE " . convert_string_to_sqlsyntax(rtrim($tbpref, '_')) . "'\_%'"; 
     }
     $res = do_mysqli_query($sql);
     while($row = mysqli_fetch_assoc($res)) {
@@ -1561,7 +1590,7 @@ function showRequest()
 
 // -------------------------------------------------------------
 
-function remove_spaces($s,$remove) 
+function remove_spaces($s, $remove) 
 {
     if ($remove) { 
         return str_replace(' ', '', $s);  // '' enthält &#x200B;
@@ -1570,27 +1599,6 @@ function remove_spaces($s,$remove)
     }
 }
 
-// -------------------------------------------------------------
-
-function getreq($s) 
-{
-    if (isset($_REQUEST[$s]) ) {
-        return trim($_REQUEST[$s]);
-    } else {
-        return ''; 
-    }
-}
-
-// -------------------------------------------------------------
-
-function getsess($s) 
-{
-    if (isset($_SESSION[$s]) ) {
-        return trim($_SESSION[$s]);
-    } else {
-        return ''; 
-    }
-}
 
 // -------------------------------------------------------------
 
@@ -1620,8 +1628,9 @@ function get_first_sepa()
 /** 
  * Convert a setting to 0 or 1
  *
- * @param type $key The input value
- * @param type $dft Default value to use
+ * @param string $key The input value
+ * @param string $dft Default value to use
+ * @return int 0 or 1
  */
 function getSettingZeroOrOne($key, $dft) 
 {
@@ -1630,26 +1639,44 @@ function getSettingZeroOrOne($key, $dft)
     return $r;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Get a setting from the database. It can also check for its validity.
+ * 
+ * @param  string $key Setting key. If $key is 'currentlanguage' or 
+ * 'currenttext', we validate language/text.
+ * @return string $val Value in the database if found, or an empty string
+ * @global string $tbpref Table name prefix
+ */
 function getSetting($key) 
 {
     global $tbpref;
-    $val = get_first_value('select StValue as value from ' . $tbpref . 'settings where StKey = ' . convert_string_to_sqlsyntax($key));
-    if (isset($val) ) {
+    $val = get_first_value(
+        'SELECT StValue AS value 
+        FROM ' . $tbpref . 'settings 
+        WHERE StKey = ' . convert_string_to_sqlsyntax($key)
+    );
+    if (isset($val)) {
         $val = trim($val);
-        if ($key == 'currentlanguage' ) { $val = validateLang($val); 
+        if ($key == 'currentlanguage' ) { 
+            $val = validateLang($val); 
         }
-        if ($key == 'currenttext' ) { $val = validateText($val); 
+        if ($key == 'currenttext' ) { 
+            $val = validateText($val); 
         }
         return $val;
     }
-    else { return ''; 
+    else { 
+        return ''; 
     }
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Get the settings value for a specific key. Return a default value when possible
+ * 
+ * @param  string $key Settings key
+ * @return string Requested setting, or default value, or ''
+ * @global string $tbpref Table name prefix
+ */
 function getSettingWithDefault($key) 
 {
     global $tbpref;
@@ -1673,7 +1700,8 @@ function getSettingWithDefault($key)
 
 function get_mobile_display_mode_selectoptions($v) 
 {
-    if (! isset($v) ) { $v = "0"; 
+    if (!isset($v)) { 
+        $v = "0"; 
     }
     $r  = "<option value=\"0\"" . get_selected($v, "0");
     $r .= ">Auto</option>";
@@ -1688,7 +1716,8 @@ function get_mobile_display_mode_selectoptions($v)
 
 function get_sentence_count_selectoptions($v) 
 {
-    if (! isset($v) ) { $v = 1; 
+    if (!isset($v)) {
+        $v = 1; 
     }
     $r  = "<option value=\"1\"" . get_selected($v, 1);
     $r .= ">Just ONE</option>";
@@ -1703,7 +1732,8 @@ function get_sentence_count_selectoptions($v)
 
 function get_words_to_do_buttons_selectoptions($v) 
 {
-    if (! isset($v) ) { $v = "1"; 
+    if (!isset($v)) {
+        $v = "1"; 
     }
     $r  = "<option value=\"0\"" . get_selected($v, "0");
     $r .= ">I Know All &amp; Ignore All</option>";
@@ -1718,7 +1748,8 @@ function get_words_to_do_buttons_selectoptions($v)
 
 function get_regex_selectoptions($v) 
 {
-    if (! isset($v) ) { $v = ""; 
+    if (!isset($v)) {
+        $v = ""; 
     }
     $r  = "<option value=\"\"" . get_selected($v, "");
     $r .= ">Default</option>";
@@ -1733,7 +1764,8 @@ function get_regex_selectoptions($v)
 
 function get_tooltip_selectoptions($v) 
 {
-    if (! isset($v) ) { $v = 1; 
+    if (!isset($v)) {
+        $v = 1; 
     }
     $r  = "<option value=\"1\"" . get_selected($v, 1);
     $r .= ">Native</option>";
@@ -1746,8 +1778,8 @@ function get_tooltip_selectoptions($v)
 
 function get_themes_selectoptions($v)
 {
-    $themes=glob('themes/*', GLOB_ONLYDIR);
-    $r= '<option value="themes/Default/">Default</option>';
+    $themes = glob('themes/*', GLOB_ONLYDIR);
+    $r = '<option value="themes/Default/">Default</option>';
     foreach($themes as $theme){
         if($theme!='themes/Default') {
             $r.= '<option value="'.$theme.'/" '. get_selected($v, $theme.'/');
@@ -1763,7 +1795,8 @@ function saveSetting($k,$v)
 {
     global $tbpref;
     $dft = get_setting_data();
-    if (! isset($v)) { $v =''; 
+    if (!isset($v)) {
+        $v = ''; 
     }
     $v = stripTheSlashesIfNeeded($v);
     runsql('delete from ' . $tbpref . 'settings where StKey = ' . convert_string_to_sqlsyntax($k), '');
@@ -1801,7 +1834,8 @@ function processSessParam($reqkey,$sesskey,$default,$isnum)
     else {
         $result = $default;
     }
-    if($isnum) { $result = (int)$result; 
+    if($isnum) {
+        $result = (int)$result; 
     }
     return $result;
 }
@@ -1823,7 +1857,8 @@ function processDBParam($reqkey,$dbkey,$default,$isnum)
     else {
         $result = $default;
     }
-    if($isnum) { $result = (int)$result; 
+    if($isnum) { 
+        $result = (int)$result; 
     }
     return $result;
 }
@@ -1833,12 +1868,14 @@ function processDBParam($reqkey,$dbkey,$default,$isnum)
 function validateLang($currentlang) 
 {
     global $tbpref;
+    $sql = 
+    'SELECT count(LgID) AS value 
+    FROM ' . $tbpref . 'languages 
+    WHERE LgID=' . ((int)$currentlang);
     if ($currentlang != '') {
-        if (get_first_value(
-            'select count(LgID) as value from ' . $tbpref . 'languages where LgID=' . 
-            ((int)$currentlang) 
-        ) == 0
-        ) {  $currentlang = ''; 
+        if (get_first_value($sql) == 0
+        ) {  
+            $currentlang = ''; 
         } 
     }
     return $currentlang;
@@ -1854,7 +1891,8 @@ function validateText($currenttext)
             'select count(TxID) as value from ' . $tbpref . 'texts where TxID=' . 
             ((int)$currenttext) 
         ) == 0
-        ) {  $currenttext = ''; 
+        ) {  
+            $currenttext = ''; 
         } 
     }
     return $currenttext;
@@ -3048,7 +3086,7 @@ function mask_term_in_sentence($s,$regexword)
  * @param  string  $textID identifier for this text
  * @return int[6] Total number of words, number of expression, statistics, 
  * total unique, number of unique expressions, unique statistics
- * @global string $tbpref Table name
+ * @global string $tbpref Table name prefix
  */
 function textwordcount($textID) 
 {
@@ -3114,12 +3152,15 @@ function texttodocount2($text)
         $tl=preg_replace('/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/', '$1', $dict);
         $sl=preg_replace('/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/', '$1', $dict);
         $res = '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>&nbsp;';
-        if(1==1) { $res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=10&offset=0&sl=fr&tl=en\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;'; 
+        if(1==1) { 
+            $res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=10&offset=0&sl=fr&tl=en\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;'; 
         }
         // if(1==1)$res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=' . $text . '&offset=0&sl=' . $sl . '&tl=' . $tl . '\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;';
-        if($show_buttons!=2) { $res .='<input type="button" onclick="iknowall(' . $text . ');" value=" I KNOW ALL " />'; 
+        if($show_buttons!=2) { 
+            $res .='<input type="button" onclick="iknowall(' . $text . ');" value=" I KNOW ALL " />'; 
         }
-        if($show_buttons!=1) { $res.='<input type="button" onclick="ignoreall(' . $text . ');" value=" IGNORE ALL " />'; 
+        if($show_buttons!=1) { 
+            $res.='<input type="button" onclick="ignoreall(' . $text . ');" value=" IGNORE ALL " />'; 
         }
         return $res    ;
     }
@@ -3413,23 +3454,6 @@ function areUnknownWordsInSentence($sentno)
     return false;
 }
 
-/// Returns an array of the statuses 
-function get_statuses() 
-{
-    static $statuses;
-    if (!$statuses) {
-        $statuses = array(
-        1 => array("abbr" =>   "1", "name" => "Learning"),
-        2 => array("abbr" =>   "2", "name" => "Learning"),
-        3 => array("abbr" =>   "3", "name" => "Learning"),
-        4 => array("abbr" =>   "4", "name" => "Learning"),
-        5 => array("abbr" =>   "5", "name" => "Learned"),
-        99 => array("abbr" => "WKn", "name" => "Well Known"),
-        98 => array("abbr" => "Ign", "name" => "Ignored"),
-        );
-    }
-    return $statuses;
-}
 
 /// Return a dictionary of languages name - id
 function get_languages() 

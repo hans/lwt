@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['mainwordloop_0',['mainWordLoop',['../do__text__text_8php.html#ae2c738f64fbbbbffbeb8c7fb8738720f',1,'do_text_text.php']]],
+  ['mainwordloop_0',['mainWordLoop',['../do__text__text_8php.html#af1d6295c4d9f7b70316dd4af59061fd2',1,'do_text_text.php']]],
   ['makeaudioplayer_1',['makeAudioPlayer',['../session__utility_8php.html#ac0ee983a50524bad932d9db1b867dc80',1,'session_utility.php']]],
   ['makestatusclassfilter_2',['makeStatusClassFilter',['../session__utility_8php.html#aa49fc9e748c0fe20c642e7474a6a6fc2',1,'session_utility.php']]],
   ['makestatusclassfilterhelper_3',['makeStatusClassFilterHelper',['../session__utility_8php.html#acf342c486d80ed923cc2e40bcbe0134c',1,'session_utility.php']]],

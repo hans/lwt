@@ -2,6 +2,7 @@
  * \file
  * \brief General file to control dynamic interactions with the user.
  * 
+ * @since 2.0.3-fork
  */
 
 /**
@@ -79,4 +80,87 @@ function newExpressionInteractable(text, attrs, length, hex, showallwords=false)
             }
         }
     }
+}
+
+
+
+/** 
+ * Prepare the interaction events with the text.
+ * 
+ * @since 2.0.3-fork
+ */
+function prepareTextInteractions() {
+    $('.word').each(word_each_do_text_text);
+    $('.mword').each(mword_each_do_text_text);
+    $('.word').click(word_click_event_do_text_text);
+    $('#thetext').on('selectstart','span',false).on(
+        'mousedown','.wsty',
+        {annotation: ANNOTATIONS_MODE}, 
+        mword_drag_n_drop_select);
+    $('#thetext').on('click', '.mword', mword_click_event_do_text_text);
+    $('.word').dblclick(word_dblclick_event_do_text_text);
+    $('#thetext').on('dblclick', '.mword', word_dblclick_event_do_text_text);
+    $(document).keydown(keydown_event_do_text_text);
+    $('#thetext').hoverIntent(
+        {
+            over: word_hover_over, 
+            out: word_hover_out, 
+            interval: 150, 
+            selector:".wsty,.mwsty"
+        }
+    );
+}
+
+
+/** 
+ * Scroll to a specific reading position
+ * @global {int} POS Position to go to
+ * @since 2.0.3-fork
+ */
+function goToLastPosition() {
+    // Last registered position to go to
+    const lookPos = POS;
+    // Position to scroll to
+    let pos = 0;
+    if (lookPos > 0) {
+        let posObj = $(".wsty[data_pos=" + lookPos + "]").not(".hide").eq(0);
+        if (posObj.attr("data_pos") === undefined) {
+            pos = $(".wsty").not(".hide").filter(function() {
+                return $(this).attr("data_pos") <= lookPos;
+            }).eq(-1);
+        }
+    }
+    $(document).scrollTo(pos);
+    window.focus();
+    window.setTimeout('overlib()', 10);
+    window.setTimeout('cClick()', 100);
+}
+
+
+/**
+ * Save the current reading position.
+ * @global {string} TID Text ID
+ * 
+ * @since 2.0.3-fork
+ */
+function saveCurrentPosition() {
+    var pos = 0;
+    var top = $(window).scrollTop()-$('.wsty').not('.hide').eq(0).height();
+    $('.wsty').not('.hide').each(function() {
+        if ($(this).offset().top >= top){
+            pos = $(this).attr('data_pos');
+            return false;
+        }
+    });
+    $.ajax(
+        {
+            type: "POST",
+            url:'inc/ajax_save_text_position.php', 
+            data: { 
+                id: TID, 
+                position: pos 
+            }, 
+            async: false
+        }
+    );
 }

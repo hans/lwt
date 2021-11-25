@@ -74,22 +74,22 @@ function quickMenu()
 
 <script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
 <select id="quickmenu" onchange="quickMenuRedirection(value)">
-<option value="" selected="selected">[Menu]</option>
-<option value="index">Home</option>
-<option value="edit_texts">Texts</option>
-<option value="edit_archivedtexts">Text Archive</option>
-<option value="edit_texttags">Text Tags</option>
-<option value="edit_languages">Languages</option>
-<option value="edit_words">Terms</option>
-<option value="edit_tags">Term Tags</option>
-<option value="statistics">Statistics</option>
-<option value="check_text">Text Check</option>
-<option value="long_text_import">Long Text Import</option>
-<option value="rss_import">Newsfeed Import</option>
-<option value="upload_words">Term Import</option>
-<option value="backup_restore">Backup/Restore</option>
-<option value="settings">Settings</option>
-<option value="INFO">Help</option>
+    <option value="" selected="selected">[Menu]</option>
+    <option value="index">Home</option>
+    <option value="edit_texts">Texts</option>
+    <option value="edit_archivedtexts">Text Archive</option>
+    <option value="edit_texttags">Text Tags</option>
+    <option value="edit_languages">Languages</option>
+    <option value="edit_words">Terms</option>
+    <option value="edit_tags">Term Tags</option>
+    <option value="statistics">Statistics</option>
+    <option value="check_text">Text Check</option>
+    <option value="long_text_import">Long Text Import</option>
+    <option value="rss_import">Newsfeed Import</option>
+    <option value="upload_words">Term Import</option>
+    <option value="backup_restore">Backup/Restore</option>
+    <option value="settings">Settings</option>
+    <option value="INFO">Help</option>
 </select>
 <?php
 }
@@ -160,105 +160,28 @@ function echodebug($var,$text)
     }
 }
 
+
 /**
- * Start a standard page with a complete header and a non-closed body.
+ * Return an associative array of all possible statuses 
  * 
- * @param string $titletext Title of the page
- * @param string $addcss Some CSS to be embed in a style tag
- * @global bool $debug Show the requests if true
- * @global string $tbpref The database table prefix if true
- */
-
-function pagestart_nobody($titletext, $addcss='') 
+ * @return array[] Statues, keys are 1, 2, 3, 4, 5, 98, 99. 
+ * Values are associative arrays of keys abbr and name 
+ */  
+function get_statuses() 
 {
-    global $debug;
-    global $tbpref;
-    @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-    @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-    @header('Cache-Control: no-cache, must-revalidate, max-age=0');
-    @header('Pragma: no-cache');
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    
-<!-- ***********************************************************
-"Learning with Texts" (LWT) is free and unencumbered software 
-released into the PUBLIC DOMAIN.
-
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the 
-detriment of our heirs and successors. We intend this 
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-************************************************************ -->
-
-    <meta name="viewport" content="width=900" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-    <link rel="apple-touch-icon" href="<?php print_file_path('img/apple-touch-icon-57x57.png');?>" />
-    <link rel="apple-touch-icon" sizes="72x72" href="<?php print_file_path('img/apple-touch-icon-72x72.png');?>" />
-    <link rel="apple-touch-icon" sizes="114x114" href="<?php print_file_path('img/apple-touch-icon-114x114.png');?>" />
-    <link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery-ui.css');?>" />
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery.tagit.css');?>" />
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
-    <style type="text/css">
-    <?php echo $addcss . "\n"; ?>
-    </style>
-    
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
-    <script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery.jeditable.mini.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/sorttable.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
-    <!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
-    <!-- TBPREF  : "<?php if (isset($tbpref)) {
-        echo tohtml($tbpref); 
-   } ?>" -->
-    <script type="text/javascript">
-    //<![CDATA[
-    <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
-    <?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
-    <?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
-    //]]>
-    </script>
-    <script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
-    
-    <title>LWT :: <?php echo $titletext; ?></title>
-</head>
-<body>
-<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<?php
-    flush();
-if ($debug) { 
-    showRequest(); 
-}
+    static $statuses;
+    if (!$statuses) {
+        $statuses = array(
+        1 => array("abbr" =>   "1", "name" => "Learning"),
+        2 => array("abbr" =>   "2", "name" => "Learning"),
+        3 => array("abbr" =>   "3", "name" => "Learning"),
+        4 => array("abbr" =>   "4", "name" => "Learning"),
+        5 => array("abbr" =>   "5", "name" => "Learned"),
+        99 => array("abbr" => "WKn", "name" => "Well Known"),
+        98 => array("abbr" => "Ign", "name" => "Ignored"),
+        );
+    }
+    return $statuses;
 }
 
 /**
@@ -303,4 +226,107 @@ function annotation_to_json($ann)
     return json_encode($arr);
 }
 
+/**
+ * Get a request when possible. Otherwise, return an empty string.
+ * 
+ * @param string $s Request key
+ * @return string Trimmed request or empty string
+ */
+function getreq($s) 
+{
+    if (isset($_REQUEST[$s]) ) {
+        return trim($_REQUEST[$s]);
+    } else {
+        return ''; 
+    }
+}
+
+/**
+ * Get a session variable when possible. Otherwise, return an empty string.
+ * 
+ * @param string $s Session variable key
+ * @return string Trimmed sesseion variable or empty string
+ */
+function getsess($s) 
+{
+    if (isset($_SESSION[$s]) ) {
+        return trim($_SESSION[$s]);
+    } else {
+        return ''; 
+    }
+}
+
+
+/**
+ * Start a standard page with a complete header and a non-closed body.
+ * 
+ * @param string $titletext Title of the page
+ * @param string $addcss Some CSS to be embed in a style tag
+ * @global bool $debug Show the requests if true
+ * @global string $tbpref The database table prefix if true
+ */
+
+function pagestart_nobody($titletext, $addcss='') 
+{
+    global $debug;
+    global $tbpref;
+    @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+    @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+    @header('Cache-Control: no-cache, must-revalidate, max-age=0');
+    @header('Pragma: no-cache');
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <!-- 
+        <?php echo file_get_contents( "UNLICENSE.md" );?> 
+    -->
+    <meta name="viewport" content="width=900" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="<?php print_file_path('img/apple-touch-icon-57x57.png');?>" />
+    <link rel="apple-touch-icon" sizes="72x72" href="<?php print_file_path('img/apple-touch-icon-72x72.png');?>" />
+    <link rel="apple-touch-icon" sizes="114x114" href="<?php print_file_path('img/apple-touch-icon-114x114.png');?>" />
+    <link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery-ui.css');?>" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery.tagit.css');?>" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
+    <style type="text/css">
+    <?php echo $addcss . "\n"; ?>
+    </style>
+    
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
+    <script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.jeditable.mini.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/sorttable.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
+    <!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
+    <!-- TBPREF  : "<?php if (isset($tbpref)) {
+        echo tohtml($tbpref); 
+   } ?>" -->
+    <script type="text/javascript">
+    //<![CDATA[
+    <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
+    <?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
+    <?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
+    //]]>
+    </script>
+    <script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
+    
+    <title>LWT :: <?php echo $titletext; ?></title>
+</head>
+<body>
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+<?php
+    flush();
+    if ($debug) { 
+        showRequest(); 
+    }
+}
 ?>
