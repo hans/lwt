@@ -18,7 +18,7 @@
 function get_version() 
 {
     global $debug;
-    $version = '2.0.2 (September 07 2021)'; 
+    $version = '2.0.3-fork (Friday 26 2021)'; 
     if ($debug) {
         $version .= ' <span class="red">DEBUG</span>';
     }
@@ -34,6 +34,8 @@ function get_version_number()
 {
     $r = 'v';
     $v = get_version();
+    // Escape any detail like "-fork"
+    $v = preg_replace('/-\w+\d*/', '', $v);
     $pos = strpos($v, ' ', 0);
     if ($pos === false) { 
         my_die('Wrong version: '. $v); 
@@ -46,6 +48,20 @@ function get_version_number()
         $r .= substr('000' . $vn[$i], -3); 
     }
     return $r;  // 'vXXXYYYZZZ' when version = x.y.z
+}
+
+/**
+ * Escape special HTML characters.
+ * 
+ * @param  string $s String to escape.
+ * @return string htmlspecialchars($s, ENT_COMPAT, "UTF-8");
+ */
+function tohtml($s) 
+{
+    if (!isset($s)) {
+        return ''; 
+    }
+    return htmlspecialchars($s, ENT_COMPAT, "UTF-8");
 }
 
 /**

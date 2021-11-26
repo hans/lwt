@@ -1523,20 +1523,6 @@ function replace_supp_unicode_planes_char($s)
     /* U+2588 = UTF8: E2 96 88 = FULL BLOCK = ⬛︎  */ 
 }
 
-/**
- * Escape special HTML characters.
- * 
- * @param  string $s String to escape.
- * @return string htmlspecialchars($s, ENT_COMPAT, "UTF-8");
- */
-function tohtml($s) 
-{
-    if (!isset($s)) {
-        return ''; 
-    }
-    return htmlspecialchars($s, ENT_COMPAT, "UTF-8");
-}
-
 // -------------------------------------------------------------
 
 function makeCounterWithTotal($max, $num) 

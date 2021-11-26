@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.2</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.3-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -83,6 +83,8 @@ Functions</h2></td></tr>
 <tr class="separator:a5724f2c1a8d9303e139195c3354af02a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dc4742c504790db3a2ae1386ea8eef5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#a1dc4742c504790db3a2ae1386ea8eef5">get_version_number</a> ()</td></tr>
 <tr class="separator:a1dc4742c504790db3a2ae1386ea8eef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4362eee92858a6e12fa46716fc30dad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#af4362eee92858a6e12fa46716fc30dad">tohtml</a> ($s)</td></tr>
+<tr class="separator:af4362eee92858a6e12fa46716fc30dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66b15236d14629cb1bc2f6ed300bd38e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#a66b15236d14629cb1bc2f6ed300bd38e">my_die</a> ($text)</td></tr>
 <tr class="separator:a66b15236d14629cb1bc2f6ed300bd38e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a968ebfd30d4d63e55078ab5668e991ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="kernel__utility_8php.html#a968ebfd30d4d63e55078ab5668e991ff">quickMenu</a> ()</td></tr>
@@ -462,6 +464,32 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>string String with replaced text </dd></dl>
+
+</div>
+</div>
+<a id="af4362eee92858a6e12fa46716fc30dad" name="af4362eee92858a6e12fa46716fc30dad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4362eee92858a6e12fa46716fc30dad">&#9670;&nbsp;</a></span>tohtml()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tohtml </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Escape special HTML characters.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$s</td><td>String to escape. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string htmlspecialchars($s, ENT_COMPAT, "UTF-8"); </dd></dl>
 
 </div>
 </div>
