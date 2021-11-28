@@ -68,149 +68,330 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p >This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).</p>
+<h1><a class="anchor" id="autotoc_md0"></a>
+Unreleased</h1>
+<p >This version brings a better composer compatibility. </p>
+<h2><a class="anchor" id="autotoc_md1"></a>
+Changed</h2>
 <ul>
-<li>1.6.31-fork (October 03 2016): <br  />
- Bugfix: Multibyte character parsing fixed (i.e. Chinese). <br  />
+<li>Updated documentation (expanded and refactored).</li>
+<li>Composer is now the recommended way to download lwt.</li>
+<li>PHP_codesniffer is now recommended, and no longer dev-required.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Removed</h2>
+<ul>
+<li><code>composer.phar</code> and <code>composer.lock</code> are no longer pushed.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md3"></a>
+2.0.3-fork (November 27 2021):</h1>
+<p >Serious maintaining is back!</p>
+<p >This version should be the stable merge between official v2.0.2 and community maintained 1.6.31-fork. </p>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Added</h2>
+<ul>
+<li>Show Learning translation setting.</li>
+<li>README.md created</li>
+<li>Code documentation.</li>
+<li>Automatic text-to-speech.</li>
+<li>Integrating Composer to manage dependencies.</li>
+<li>Issue templates for GitHub.</li>
+<li>Markdown integration in PHP.</li>
+<li>Video player for texts.</li>
+<li>Makefile to simplify workflows.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Changed</h2>
+<ul>
+<li>MeCab is now the default way to learn Japanese.</li>
+<li>JS and CSS are now minified.</li>
+<li>Code liniting.</li>
+<li>Important code refactors.</li>
+</ul>
+<p >Full Changelog: <a href="https://github.com/HugoFara/lwt/compare/v1.6.31-fork...v2.0.3-fork">v1.6.31-fork...v2.0.3-fork</a></p>
+<h1><a class="anchor" id="autotoc_md6"></a>
+1.6.31-fork (October 03 2016):</h1>
+<ul>
+<li>Bugfix: Multibyte character parsing fixed (i.e. Chinese). <br  />
 </li>
-<li>1.6.30-fork (July 28 2016): <br  />
- Bugfix: google translate API updated. <br  />
- New Feature: MeCab support (in development). <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md7"></a>
+1.6.30-fork (July 28 2016):</h1>
+<ul>
+<li>Bugfix: google translate API updated. <br  />
 </li>
-<li>1.6.29-fork (April 21 2016): <br  />
- Bugfix: ggl.php API doesn't work (Token generation fixed). <br  />
- Bugfix: Dictionary doesn't open. <br  />
- Bugfix: Negative/uncorrect WordCount in 'edit_texts_php'. <br  />
- In appreviations like 'Mr.' the dot is now part of the term. A reparse of texts is needed to take effect. <br  />
- Wizard Language: Arabic 'RegExp Word Characters' changed. <br  />
+<li>New Feature: MeCab support (in development). <br  />
 </li>
-<li>1.6.28-fork (April 07 2016): <br  />
- DB collation check added. <br  />
- Bugfix: Access denied, LOAD DATA INFILE error (text parsing on a server). <br  />
- Bugfix: 'remove spaces' not working. <br  />
- Wizard Language Defaults changed. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md8"></a>
+1.6.29-fork (April 21 2016):</h1>
+<ul>
+<li>Bugfix: ggl.php API doesn't work (Token generation fixed). <br  />
 </li>
-<li>1.6.27-fork (February 21 2016): <br  />
- Bugfix: DB backup/import errors. <br  />
- RegExp Word Characters are checked for correct syntax when creating/updating language. <br  />
- thumbnail/image support removed. <br  />
+<li>Bugfix: Dictionary doesn't open. <br  />
 </li>
-<li>1.6.26-fork (February 11 2016): <br  />
- Some bugfixes: errors when emptying database and installing Demo database, added 'follow redirect' to feed. <br  />
- Demo Database updated. <br  />
- mysqli changes from orig. LWT. <br  />
- php-mobile-detect updated. <br  />
+<li>Bugfix: Negative/uncorrect WordCount in 'edit_texts_php'. <br  />
 </li>
-<li>1.6.25-fork (January 31 2016): <br  />
- SplitCheckText rewritten. <br  />
- Added saved expressions to CheckText. <br  />
- Bugfix: No Word Counts displayed when text has no saved words. <br  />
- Added German Feed 'NachDenkSeiten'(url:'<a href="http://www.nachdenkseiten.de/?feed=audiopodcast'">http://www.nachdenkseiten.de/?feed=audiopodcast'</a>, Article Section:'//encoded/p', Options:'Article Source:encoded') to DemoDatabase. <br  />
- Database changes (table 'temptextitems'): added: TiCount, dropped: TiLgID, TiTxID, TiTextLC and index TiTextLC <br  />
- Database changes : dropped: index WtWoID, index TtTxID, index AgAtID <br  />
+<li>In appreviations like 'Mr.' the dot is now part of the term. A reparse of texts is needed to take effect. <br  />
 </li>
-<li>1.6.24-fork (January 11 2016): <br  />
- HTML lang attribute added in testing frame. <br  />
- Speed improvements in 'My Texts' screen. <br  />
- Replaced precentage of 'unknown words' by 'word charts' in 'My Texts' screen. <br  />
- Added possibility to switch between 'unique' and 'total' word count by clicking on 'u'/'t'-button. <br  />
- Deleted Setting: Show Word Counts of Texts immediately <br  />
+<li>Wizard Language: Arabic 'RegExp Word Characters' changed. <br  />
 </li>
-<li>1.6.23-fork (December 13 2015): <br  />
- HTML lang attribute added in reading frame. <br  />
- Jplayer, Jquery, JqueryUI updated. <br  />
- Google Translate API changes: random google domain access added (domain can be changed in googleTranslateClass.php), updated generateToken. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md9"></a>
+1.6.28-fork (April 07 2016):</h1>
+<ul>
+<li>DB collation check added. <br  />
 </li>
-<li>1.6.22-fork (November 11 2015): <br  />
- Google Translate API(ggl.php): added headers and corrected token. <br  />
+<li>Bugfix: Access denied, LOAD DATA INFILE error (text parsing on a server). <br  />
 </li>
-<li>1.6.21-fork (October 16 2015): <br  />
- Google Translate API(ggl.php): added token to URL. <br  />
+<li>Bugfix: 'remove spaces' not working. <br  />
 </li>
-<li>1.6.20-fork (September 26 2015): <br  />
- Bugfix: Google TextToSpeech callback fixed. <br  />
- Jquery Changes in the reading frame for hover_over/highlight words. <br  />
+<li>Wizard Language Defaults changed. <br  />
 </li>
-<li>1.6.19-fork (August 29 2015): <br  />
- Bugfix: Mysql login process changed. <br  />
- JPlayer CSS and Skin changes. Skin are now integrated into 'Themes'. <br  />
- New default settings: 'Tooltips' (new Default: 'JqueryUI') and 'Position of translations' (new Default: 'below'). <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md10"></a>
+1.6.27-fork (February 21 2016):</h1>
+<ul>
+<li>Bugfix: DB backup/import errors. <br  />
 </li>
-<li>1.6.18-fork (June 11 2015): <br  />
- New Setting: Position of translation <br  />
- Translations can now be displayed 'behind', 'in front of', 'above' or 'below' the term in the reading frame. <br  />
- Improved encoding detection in 'newsfeed import'. <br  />
- Bugfix: Words that are created by 'bulk import' are not updated in the reading frame (i.e. when new translations are added afterwards). <br  />
- Bugfix: mysql error 'duplicate entry' in 'newsfeed import'. <br  />
+<li>RegExp Word Characters are checked for correct syntax when creating/updating language. <br  />
 </li>
-<li>1.6.17-fork (May 09 2015): <br  />
- Bugfix: Newsfeed Import doesn't load new links if WordPress is used for multiple users. <br  />
+<li>thumbnail/image support removed. <br  />
 </li>
-<li>1.6.16-fork (May 01 2015): <br  />
- Improved Sentence Bondary Detection when parsing texts. <br  />
- User ID is saved in the PHP Session Variable (instead of a Cookie) if wordpress is used to log in. <br  />
- Switch to mysqli extension for database connection. <br  />
- Minified CSS and Javascript files; the uncompressed files can be found in the directory 'src'. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md11"></a>
+1.6.26-fork (February 11 2016):</h1>
+<ul>
+<li>Some bugfixes: errors when emptying database and installing Demo database, added 'follow redirect' to feed. <br  />
 </li>
-<li>1.6.15-fork (April 10 2015): <br  />
- Ggl API retrieval error fixed. <br  />
- Some CSS changes. <br  />
+<li>Demo Database updated. <br  />
 </li>
-<li>1.6.14-fork (March 28 2015): <br  />
- Glosbe API now uses javascript(browser based) instead of php(server based) to prevent possible retrieval errors when LWT is installed on a webhoster for multiple users. <br  />
+<li>mysqli changes from orig. LWT. <br  />
 </li>
-<li>1.6.13-fork (March 23 2015): <br  />
- Bugfix: 'error when making backup' fixed <br  />
- New Setting: Tooltips (JQueryUI will show images in Tooltips in the Read Text Screen) <br  />
- New Feature: You can now add thumbnail images to your terms. If you click on the icon at the left of the translation field in the new_term/edit_term frame/window you can select an thumbnail from 'google image search'. In order to display the images in the Read Text Screen you must set 'Tooltips' to 'JQueryUI'. The thumbnail images are not included in the backup at the moment. <br  />
- New Feature: Key binding J for edit term with Google Image Search added <br  />
+<li>php-mobile-detect updated. <br  />
 </li>
-<li>1.6.12-fork (March 01 2015): <br  />
- CSS/jquery fixes when selecting multiple word expressions in text frame <br  />
- Bugfix: new or imported multiple word expressions are not show in the text with 'remove Spaces' is 1 and 'split Each Char' is 0 <br  />
- Jquery, JqueryUI updated <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md12"></a>
+1.6.25-fork (January 31 2016):</h1>
+<ul>
+<li>SplitCheckText rewritten. <br  />
 </li>
-<li>1.6.11-fork (February 09 2015): <br  />
- Bugfix: 'Show term sentences' and 'Create term sentences' fixed <br  />
+<li>Added saved expressions to CheckText. <br  />
 </li>
-<li>1.6.10-fork (January 25 2015): <br  />
- Bugfixes in bulk import terms <br  />
- CSS changes for firefox (version &gt;= 35) in dark themes <br  />
+<li>Bugfix: No Word Counts displayed when text has no saved words. <br  />
 </li>
-<li>1.6.9-fork (December 21 2014): <br  />
- Bugfix: getting article from feed even if there is no link <br  />
+<li>Added German Feed 'NachDenkSeiten'(url:'<a href="http://www.nachdenkseiten.de/?feed=audiopodcast'">http://www.nachdenkseiten.de/?feed=audiopodcast'</a>, Article Section:'//encoded/p', Options:'Article Source:encoded') to DemoDatabase. <br  />
 </li>
-<li>1.6.8-fork (December 19 2014): <br  />
- Google API can now do a requery <br  />
- Dict Lookup from bulk import terms frame is now possible <br  />
+<li>Database changes (table 'temptextitems'): added: TiCount, dropped: TiLgID, TiTxID, TiTextLC and index TiTextLC <br  />
 </li>
-<li>1.6.7-fork (December 18 2014): <br  />
- Bugfix: db error in newsfeeds <br  />
+<li>Database changes : dropped: index WtWoID, index TtTxID, index AgAtID <br  />
 </li>
-<li>1.6.6-fork (December 16 2014): <br  />
- New Feature: Ability to change audio playback speed (doesn't work when using the flash plugin) <br  />
- New Feature: Combine translation field option when importing words ('Merge translation fields' or 'Update existing translations') <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md13"></a>
+1.6.24-fork (January 11 2016):</h1>
+<ul>
+<li>HTML lang attribute added in testing frame. <br  />
 </li>
-<li>1.6.5-fork (December 01 2014): <br  />
- Bugfix: error in 'upload_words.php' <br  />
+<li>Speed improvements in 'My Texts' screen. <br  />
 </li>
-<li>1.6.4-fork (November 29 2014): <br  />
- Bugfix: wrong dict links for sentence translate <br  />
+<li>Replaced precentage of 'unknown words' by 'word charts' in 'My Texts' screen. <br  />
 </li>
-<li>1.6.3-fork (October 12 2014): <br  />
- Google api rewritten (works on webhoster with cURL-plugin) <br  />
- New Feature: Key binding G for edit term with Google Translate added <br  />
+<li>Added possibility to switch between 'unique' and 'total' word count by clicking on 'u'/'t'-button. <br  />
 </li>
-<li>1.6.2-fork (October 06 2014): <br  />
- Database Changes: indexes changed in table words <br  />
- New Feature: Key binding T for translating sentence added <br  />
- New Backup Option: official LWT backup added <br  />
+<li>Deleted Setting: Show Word Counts of Texts immediately <br  />
 </li>
-<li><p class="startli">1.6.1-fork (September 28 2014): <br  />
- New Feature: translations of terms can now be display in the reading frame <br  />
- New Feature: key bindings when hovering over words in the reading frame <br  />
- New Feature: bulk translate new words in the reading frame <br  />
- Changes from official LWT version 1.5.20 imported: <br  />
-</p><ul>
+</ul>
+<h1><a class="anchor" id="autotoc_md14"></a>
+1.6.23-fork (December 13 2015):</h1>
+<ul>
+<li>HTML lang attribute added in reading frame. <br  />
+</li>
+<li>Jplayer, Jquery, JqueryUI updated. <br  />
+</li>
+<li>Google Translate API changes: random google domain access added (domain can be changed in googleTranslateClass.php), updated generateToken. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md15"></a>
+1.6.22-fork (November 11 2015):</h1>
+<ul>
+<li>Google Translate API(ggl.php): added headers and corrected token. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md16"></a>
+1.6.21-fork (October 16 2015):</h1>
+<ul>
+<li>Google Translate API(ggl.php): added token to URL. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md17"></a>
+1.6.20-fork (September 26 2015):</h1>
+<ul>
+<li>Bugfix: Google TextToSpeech callback fixed. <br  />
+</li>
+<li>Jquery Changes in the reading frame for hover_over/highlight words. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md18"></a>
+1.6.19-fork (August 29 2015):</h1>
+<ul>
+<li>Bugfix: Mysql login process changed. <br  />
+</li>
+<li>JPlayer CSS and Skin changes. Skin are now integrated into 'Themes'. <br  />
+</li>
+<li>New default settings: 'Tooltips' (new Default: 'JqueryUI') and 'Position of translations' (new Default: 'below'). <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md19"></a>
+1.6.18-fork (June 11 2015):</h1>
+<ul>
+<li>New Setting: Position of translation <br  />
+</li>
+<li>Translations can now be displayed 'behind', 'in front of', 'above' or 'below' the term in the reading frame. <br  />
+</li>
+<li>Improved encoding detection in 'newsfeed import'. <br  />
+</li>
+<li>Bugfix: Words that are created by 'bulk import' are not updated in the reading frame (i.e. when new translations are added afterwards). <br  />
+</li>
+<li>Bugfix: mysql error 'duplicate entry' in 'newsfeed import'. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md20"></a>
+1.6.17-fork (May 09 2015):</h1>
+<ul>
+<li>Bugfix: Newsfeed Import doesn't load new links if WordPress is used for multiple users. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md21"></a>
+1.6.16-fork (May 01 2015):</h1>
+<ul>
+<li>Improved Sentence Bondary Detection when parsing texts. <br  />
+</li>
+<li>User ID is saved in the PHP Session Variable (instead of a Cookie) if wordpress is used to log in. <br  />
+</li>
+<li>Switch to mysqli extension for database connection. <br  />
+</li>
+<li>Minified CSS and Javascript files; the uncompressed files can be found in the directory 'src'. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md22"></a>
+1.6.15-fork (April 10 2015):</h1>
+<ul>
+<li>Ggl API retrieval error fixed. <br  />
+</li>
+<li>Some CSS changes. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md23"></a>
+1.6.14-fork (March 28 2015):</h1>
+<ul>
+<li>Glosbe API now uses javascript(browser based) instead of php(server based) to prevent possible retrieval errors when LWT is installed on a webhoster for multiple users. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md24"></a>
+1.6.13-fork (March 23 2015):</h1>
+<ul>
+<li>Bugfix: 'error when making backup' fixed <br  />
+</li>
+<li>New Setting: Tooltips (JQueryUI will show images in Tooltips in the Read Text Screen) <br  />
+</li>
+<li>New Feature: You can now add thumbnail images to your terms. If you click on the icon at the left of the translation field in the new_term/edit_term frame/window you can select an thumbnail from 'google image search'. In order to display the images in the Read Text Screen you must set 'Tooltips' to 'JQueryUI'. The thumbnail images are not included in the backup at the moment. <br  />
+</li>
+<li>New Feature: Key binding J for edit term with Google Image Search added <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md25"></a>
+1.6.12-fork (March 01 2015):</h1>
+<ul>
+<li>CSS/jquery fixes when selecting multiple word expressions in text frame <br  />
+</li>
+<li>Bugfix: new or imported multiple word expressions are not show in the text with 'remove Spaces' is 1 and 'split Each Char' is 0 <br  />
+</li>
+<li>Jquery, JqueryUI updated <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md26"></a>
+1.6.11-fork (February 09 2015):</h1>
+<ul>
+<li>Bugfix: 'Show term sentences' and 'Create term sentences' fixed <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md27"></a>
+1.6.10-fork (January 25 2015):</h1>
+<ul>
+<li>Bugfixes in bulk import terms <br  />
+</li>
+<li>CSS changes for firefox (version &gt;= 35) in dark themes <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md28"></a>
+1.6.9-fork (December 21 2014):</h1>
+<ul>
+<li>Bugfix: getting article from feed even if there is no link <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md29"></a>
+1.6.8-fork (December 19 2014):</h1>
+<ul>
+<li>Google API can now do a requery <br  />
+</li>
+<li>Dict Lookup from bulk import terms frame is now possible <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md30"></a>
+1.6.7-fork (December 18 2014):</h1>
+<ul>
+<li>Bugfix: db error in newsfeeds <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md31"></a>
+1.6.6-fork (December 16 2014):</h1>
+<ul>
+<li>New Feature: Ability to change audio playback speed (doesn't work when using the flash plugin) <br  />
+</li>
+<li>New Feature: Combine translation field option when importing words ('Merge translation fields' or 'Update existing translations') <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md32"></a>
+1.6.5-fork (December 01 2014):</h1>
+<ul>
+<li>Bugfix: error in 'upload_words.php' <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md33"></a>
+1.6.4-fork (November 29 2014):</h1>
+<ul>
+<li>Bugfix: wrong dict links for sentence translate <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md34"></a>
+1.6.3-fork (October 12 2014):</h1>
+<ul>
+<li>Google api rewritten (works on webhoster with cURL-plugin) <br  />
+</li>
+<li>New Feature: Key binding G for edit term with Google Translate added <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md35"></a>
+1.6.2-fork (October 06 2014):</h1>
+<ul>
+<li>Database Changes: indexes changed in table words <br  />
+</li>
+<li>New Feature: Key binding T for translating sentence added <br  />
+</li>
+<li>New Backup Option: official LWT backup added <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md36"></a>
+1.6.1-fork (September 28 2014):</h1>
+<ul>
+<li>New Feature: translations of terms can now be display in the reading frame <br  />
+</li>
+<li>New Feature: key bindings when hovering over words in the reading frame <br  />
+</li>
+<li>New Feature: bulk translate new words in the reading frame <br  />
+</li>
+<li>Changes from official LWT version 1.5.20 imported: <br  />
+</li>
 <li><b>New Feature:</b> Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense. <br  />
 </li>
 <li>"https://" dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved.</li>
@@ -220,379 +401,746 @@ $(function() {
 </li>
 <li>Broken links corrected or deleted. From now on, only the installation with EasyPHP for Windows and MAMP for Mac OS X will be explained in detail and is recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).</li>
 <li>"Mobile\_Detect.php" updated to v2.8.3.</li>
+<li>Documentation updated. <br  />
+</li>
 </ul>
-<p class="startli">Documentation updated. <br  />
-</p>
+<h1><a class="anchor" id="autotoc_md37"></a>
+1.6.0-fork (September 12 2014):</h1>
+<ul>
+<li>Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added <br  />
 </li>
-<li>1.6.0-fork (September 12 2014): <br  />
- Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added <br  />
- New Feature: Longer (&gt;9) expressions can now be saved <br  />
- New Feature: TextToSpeech support for words added <br  />
- New Feature: experimental google api (use 'ggl.php' instead of '*http://translate.google.com' for google translate) <br  />
- New Feature: new word select mode in read texts (hold down mouse button) <br  />
- statistics.php, upload_words.php rewritten <br  />
+<li>New Feature: Longer (&gt;9) expressions can now be saved <br  />
 </li>
-<li>2.0.2 (September 07 2021): <br  />
- An incompatibility with PHP 8+ (removed function "get\_magic\_quotes\_gpc()" in PHP 8+) has been fixed. Thanks to Lucas L. for the hint. <br  />
+<li>New Feature: TextToSpeech support for words added <br  />
 </li>
-<li>2.0.1 (October 07 2020): <br  />
- A bug when visiting terms/expressions with key strokes LEFT or RIGHT after a previous status change and with a set status filtering has been fixed. <br  />
+<li>New Feature: experimental google api (use 'ggl.php' instead of '*http://translate.google.com' for google translate) <br  />
 </li>
-<li>2.0.0 (October 04 2020): <br  />
- No code changes. Sourceforge links corrected. <br  />
- The old links [lwt.sf.net], [lwt.sourceforge.net] or [sourceforge.net/projects/lwt] are no longer valid! <br  />
- The new links are now <a href="https://learning-with-texts.sourceforge.io">learning-with-texts.sourceforge.io</a> (documentation and demo database) and <a href="https://sourceforge.net/projects/learning-with-texts">sourceforge.net/projects/learning-with-texts</a> (project home and downloads). <br  />
+<li>New Feature: new word select mode in read texts (hold down mouse button) <br  />
 </li>
-<li>1.6.3 (April 06 2020): <br  />
- Some missing confirmation dialogues (when deleting a single text, text tag, term, term tag, or language) added. <br  />
+<li>statistics.php, upload_words.php rewritten <br  />
 </li>
-<li>1.6.2 (March 10 2018, this page "info.php" last updated August 12 2019): <br  />
- New features: <br  />
- Audio playback speed can now be set between 0.5x and 1.5x. <br  />
- Waiting wheel (to indicate saving data to database in the background) added in "Edit Improved Annotated Text". <br  />
- Checking for characters in the Unicode Supplementary Multilingual Planes (&gt; U+FFFF) like emojis or very rare characters improved/added. Such characters are currently not supported. <br  />
- Updates/bug fixes: <br  />
- jQuery library updated to v1.12.4. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md38"></a>
+2.0.2 (September 07 2021):</h1>
+<ul>
+<li>An incompatibility with PHP 8+ (removed function "get\_magic\_quotes\_gpc()" in PHP 8+) has been fixed. Thanks to Lucas L. for the hint. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md39"></a>
+2.0.1 (October 07 2020):</h1>
+<ul>
+<li>A bug when visiting terms/expressions with key strokes LEFT or RIGHT after a previous status change and with a set status filtering has been fixed. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md40"></a>
+2.0.0 (October 04 2020):</h1>
+<ul>
+<li>No code changes. Sourceforge links corrected. <br  />
+</li>
+<li>The old links [lwt.sf.net], [lwt.sourceforge.net] or [sourceforge.net/projects/lwt] are no longer valid! <br  />
+</li>
+<li>The new links are now <a href="https://learning-with-texts.sourceforge.io">learning-with-texts.sourceforge.io</a> (documentation and demo database) and <a href="https://sourceforge.net/projects/learning-with-texts">sourceforge.net/projects/learning-with-texts</a> (project home and downloads). <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md41"></a>
+1.6.3 (April 06 2020):</h1>
+<ul>
+<li>Some missing confirmation dialogues (when deleting a single text, text tag, term, term tag, or language) added. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md42"></a>
+1.6.2 (March 10 2018, this page "info.php" last updated August 12 2019):</h1>
+<ul>
+<li>New features: <br  />
+</li>
+<li>Audio playback speed can now be set between 0.5x and 1.5x. <br  />
+</li>
+<li>Waiting wheel (to indicate saving data to database in the background) added in "Edit Improved Annotated Text". <br  />
+</li>
+<li>Checking for characters in the Unicode Supplementary Multilingual Planes (&gt; U+FFFF) like emojis or very rare characters improved/added. Such characters are currently not supported. <br  />
+</li>
+<li>Updates/bug fixes: <br  />
+</li>
+<li>jQuery library updated to v1.12.4. <br  />
  "Mobile\_Detect.php" updated to v2.8.30. <br  />
- LWT demo database updated. <br  />
- Documentation updated. <br  />
- Some minor glitches fixed. <br  />
- Glosbe API calls via "glosbe\_api.php" in demo database and language settings wizard removed - they often did not work due to API restrictions. The file "glosbe\_api.php" is still supplied as an example of a close integration of a dictionary API into LWT. <br  />
 </li>
-<li>1.6.1 (February 01 2016, this page "info.php" last updated January 13 2018): <br  />
- The jQuery and jPlayer libraries have been updated to v1.12.0 and v2.9.2, respectively. The jQuery.ScrollTo package has been updated to v2.1.2. <br  />
+<li>LWT demo database updated. <br  />
+</li>
+<li>Documentation updated. <br  />
+</li>
+<li>Some minor glitches fixed. <br  />
+</li>
+<li>Glosbe API calls via "glosbe\_api.php" in demo database and language settings wizard removed - they often did not work due to API restrictions. The file "glosbe\_api.php" is still supplied as an example of a close integration of a dictionary API into LWT. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md43"></a>
+1.6.1 (February 01 2016, this page "info.php" last updated January 13 2018):</h1>
+<ul>
+<li>The jQuery and jPlayer libraries have been updated to v1.12.0 and v2.9.2, respectively. The jQuery.ScrollTo package has been updated to v2.1.2. <br  />
  <a href="#links">Link</a> to Chinese text segmentation "Jieba" added in documentation (Important Links - Additional Resources - For learners of Chinese). <br  />
 </li>
-<li>1.6.0 (January 28 2016): <br  />
- As mysql_* database calls are deprecated and are no longer supported by PHP, they have been changed to the corresponding mysqli_* calls. If you run a server with PHP version 7.0.0 or higher, you MUST use LWT 1.6.0 or higher. Thanks to Laurens Vercaigne for his work! <br  />
- Debugging updated. Status information on start page improved. Documentation updated. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md44"></a>
+1.6.0 (January 28 2016):</h1>
+<ul>
+<li>As mysql_* database calls are deprecated and are no longer supported by PHP, they have been changed to the corresponding mysqli_* calls. If you run a server with PHP version 7.0.0 or higher, you MUST use LWT 1.6.0 or higher. Thanks to Laurens Vercaigne for his work! <br  />
 </li>
-<li>1.5.21 (January 14 2016): <br  />
- <a href="https://en.wikipedia.org/wiki/Soft_hyphen">Soft hyphens</a> (U+00AD, UTF-8: 0xC2 0xAD) are now automatically removed during text import. <br  />
- "Mobile\_Detect.php" updated to v2.8.19. <br  />
+<li>Debugging updated. Status information on start page improved. Documentation updated. <br  />
 </li>
-<li>1.5.20 (September 22 2014): <br  />
- Missing volume controls in audio player (only on mobile devices) fixed. <br  />
- "Mobile\_Detect.php" updated to v2.8.3. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md45"></a>
+1.5.21 (January 14 2016):</h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Soft_hyphen">Soft hyphens</a> (U+00AD, UTF-8: 0xC2 0xAD) are now automatically removed during text import. <br  />
 </li>
-<li>1.5.19 (September 15 2014): <br  />
- Missing tag cache updating fixed (in "Add tag in all/marked texts or terms"). <br  />
- Tag caches now also work properly if several instances of LWT are installed in parallel directories on the same server. <br  />
- Information about <a href="#abstract">which web browser to use for LWT</a> in this document updated. <br  />
+<li>"Mobile\_Detect.php" updated to v2.8.19. <br  />
 </li>
-<li>1.5.18 (September 14 2014): <br  />
- <b>New Feature:</b> Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense. <br  />
- "https://" dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved. The Glosbe dictionary page has been improved with a simple form to change the term and do a requery if you are unhappy with the query results. <br  />
- The jQuery and jPlayer libraries have been updated to v1.11.1 and v2.7.0, respectively. The jQuery.ScrollTo package has been updated to v1.4.13. The Floating Menu package has been updated to v1.12. <br  />
- The audio player skin selection has been removed; the "Blue Monday Small" skin is the standard skin beginning with this release. <br  />
- The Catalan language has been added to the Language Settings Wizard. <br  />
- New sort option for texts, terms or tags: "Oldest first". <br  />
- Some minor bugs fixed: media selection in archived texts, tag import errors, adding existing tag errors, etc. <br  />
- Some error messages (term/tag already exists) have been improved. <br  />
- Documentation updated. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md46"></a>
+1.5.20 (September 22 2014):</h1>
+<ul>
+<li>Missing volume controls in audio player (only on mobile devices) fixed. <br  />
 </li>
-<li>1.5.17 (June 08 2014): <br  />
- New Feature: Selecting terms according to a text tag <br  />
- New Feature: Start a document where you left off (only "Read Text Screen") <br  />
- New Feature: Improved Search/Query for Words/Texts <br  />
- New Feature: Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>) <br  />
- JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated <br  />
- Database table optimization: first check, only optimize if (Overhead &gt;10% of table and &gt; 100KB) or (Overhead &gt; 1,0MB) <br  />
- Database table optimization: data types changed. <br  />
- New Setting: Button(s) for "words to do" "IGNORE ALL"/"I KNOW ALL" <br  />
- New Setting: Theme <br  />
- New Setting: term/word query with standard/regexp/regexp CS <br  />
- New Sort option "Oldest First" <br  />
- New option "Set Active Term(1-5) Sentences" in My Texts <br  />
- Bugfix: importing multiple words with the same tag causes an error <br  />
- Bugfix: can't select media in Archived Texts <br  />
- Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser) <br  />
- Bugfix: bottom page select doesn't work in firefox (<a class="el" href="edit__texts_8php.html">edit_texts.php</a>, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php) <br  />
- Bugfix: setting a tag where tag already exists causes an error <br  />
- Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text) <br  />
- Documentation updated. <br  />
+<li>"Mobile\_Detect.php" updated to v2.8.3. <br  />
 </li>
-<li>1.5.17 (August 15 2014, this document updated Aug 17 2014 and Aug 24 2014): <br  />
- Minor bug in Utilities fixed. <br  />
- Documentation updated. Broken links corrected or deleted. From now on, only the installation with EasyPHP for Windows and MAMP for Mac OS X will be explained in detail and is recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup). <br  />
- Documentation updated on August 17 2014: Installation screencasts added. <br  />
- Documentation updated on August 24 2014: Linux (Ubuntu, LinuxMint) installation hints and screencast added. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md47"></a>
+1.5.19 (September 15 2014):</h1>
+<ul>
+<li>Missing tag cache updating fixed (in "Add tag in all/marked texts or terms"). <br  />
 </li>
-<li>1.5.16 (February 19 2014): <br  />
- Paging (via page select, and only at the bottom of a page) did not work correctly in all cases, has been corrected. <br  />
- Documentation updated. <br  />
+<li>Tag caches now also work properly if several instances of LWT are installed in parallel directories on the same server. <br  />
 </li>
-<li>1.5.15 (December 17 2013): <br  />
- Corrected wrong language code (French) within the language wizard definitions. <br  />
- Documentation updated. <br  />
+<li>Information about <a href="#abstract">which web browser to use for LWT</a> in this document updated. <br  />
 </li>
-<li>1.5.14 (August 05 2013, this document updated Oct 30 2013): <br  />
- Wrong text display in Print Screen corrected. Special handling of word breaks (if "Remove spaces" = Yes) removed. <br  />
- Documentation updated on October 30 2013. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md48"></a>
+1.5.18 (September 14 2014):</h1>
+<ul>
+<li><b>New Feature:</b> Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense. <br  />
 </li>
-<li>1.5.13 (July 22 2013): <br  />
- Removed an erroneous extra space in "wp\_logincheck.inc.php". Thanks to a poster in the help forum for pointing this out! <br  />
- Minor bug fixes. <br  />
- License texts updated according to text on <a href="http://unlicense.org/">unlicense.org</a>. <br  />
- Documentation updated. <br  />
+<li>"https://" dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved. The Glosbe dictionary page has been improved with a simple form to change the term and do a requery if you are unhappy with the query results. <br  />
 </li>
-<li>1.5.12 (July 16 2013): <br  />
- New Sort option for Terms/Expressions: "Word Count in Active Texts" (Descending). Only when you choose this sort option, the word count will be calculated, displayed, and used for sorting the table. This may slow down the term table display. If you prefer faster term table display, choose the other sort options. <br  />
- Much better Tablet/iPad® user experience in screens with several frames. There is a new setting "Frame Set Display Mode" where you can select how frame sets are displayed on different devices (default: "Auto"). If you prefer the old mode also on mobile devices, set this to "Force Non-Mobile". <br  />
- Tagging and JQuery UI updated. <br  />
- Better error message when Glosbe API call fails. <br  />
- Unsaved changes alerts extended to tag changes. <br  />
- Tags cache updating corrected: when LWT table set has been changed or after restore/emptying tables. <br  />
+<li>The jQuery and jPlayer libraries have been updated to v1.11.1 and v2.7.0, respectively. The jQuery.ScrollTo package has been updated to v1.4.13. The Floating Menu package has been updated to v1.12. <br  />
 </li>
-<li>1.5.11 (July 12 2013): <br  />
- If an improved annotated text exists, highlight the selected term translation in red in the text window popup and the text display frame (when using the keyboard). <br  />
- New language settings wizard. <br  />
- Better check on duplicate language names. <br  />
- Text window popup title is now a link (text color: yellow) to make editing an existent term a little easier. <br  />
- Some minor bug fixes. <br  />
- Documentation updated. <br  />
+<li>The audio player skin selection has been removed; the "Blue Monday Small" skin is the standard skin beginning with this release. <br  />
 </li>
-<li>1.5.10 (July 07 2013): <br  />
- Improved database error checking and reporting, better error messages when fatal errors occur, both with traceback information. <br  />
- Default values corrected in new language form. <br  />
- Some improvements in Glosbe-LWT integration. <br  />
- New alerts in some forms when there are unsaved changes during unload event. <br  />
- SQL query optimizations in 1.5.8/1.5.9 caused problems, old versions restored. <br  />
- Documentation updated. <br  />
+<li>The Catalan language has been added to the Language Settings Wizard. <br  />
 </li>
-<li>1.5.9 (July 03 2013): <br  />
- New Feature: Long Text Import: Importing a long text via file upload or from a text box, with splitting options. <br  />
- Possibility to save the source URI with an active or archived text. <br  />
- Missing code in tag management stylesheet restored. <br  />
- Documentation and some screenshots updated. <br  />
+<li>New sort option for texts, terms or tags: "Oldest first". <br  />
 </li>
-<li>1.5.8 (June 27 2013): <br  />
- Optimization of SQL queries for text and print display (reducing query time by up to thirty percent). <br  />
- Checking database status and database upgrade program code rewritten. <br  />
- Some minor improvements and bugfixes. Documentation updated. <br  />
+<li>Some minor bugs fixed: media selection in archived texts, tag import errors, adding existing tag errors, etc. <br  />
 </li>
-<li>1.5.7 (June 25 2013): <br  />
- Some minor corrections in some SQL CREATE/INSERT statements. MySQL session string is now set to an empty string to avoid too strict SQL checking. Thanks to a poster in the help forum for pointing this out! <br  />
- A new 3rd "Flexible" term export is introduced, controlled by an "Export Template" in the language settings. <a href="#extmpl">Read more ...</a> <br  />
- Texts are now automatically reparsed, however only after changing language settings that influence the sentence and textitems cache. <br  />
- Documentation updated. <br  />
+<li>Some error messages (term/tag already exists) have been improved. <br  />
 </li>
-<li>1.5.6 (June 22 2013): <br  />
- Two SQL statements (Anki/TSV export of marked terms) corrected. Thanks to a poster in the help forum for pointing this out! <br  />
+<li>Documentation updated. <br  />
 </li>
-<li>1.5.5 (June 21 2013): <br  />
- Integration of the Glosbe API into LWT via a "special" dictionary link. Read more <a href="#glosbe">here</a>. <br  />
- Some minor improvements: Window width of dictionary popups changed from 600 to 800 Pixel. No "\_lwtgeneral" operations if table prefix is fixed. <br  />
- LWT-WordPress integration, read more <a href="#wp">here</a> (only for users who want to use WordPress authentication together with the LWT multiple user/table set feature introduced in version 1.5.3). <br  />
- Documentation updated. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md49"></a>
+1.5.17 (June 08 2014):</h1>
+<ul>
+<li>New Feature: Selecting terms according to a text tag <br  />
 </li>
-<li>1.5.4 (June 19 2013): <br  />
- If more than one table set exists, and $tbpref was NOT set to a fixed value in "connect.inc.php", you can now select a table set via "start.php", or by clicking on the LWT icon or title in the LWT menu screen "index.php". <br  />
- By hovering over the LWT icon in the top left corner of every screen, you can now display the current table set in a yellow tooltip. <br  />
- A new test/review type "Table" has been added in the testing area. Words, translations, romanizations, sentences and status are presented in a table. You may hide and/or sort columns. After testing yourself, you can reveal the hidden information by clicking into the table cell, and change your status. <br  />
- Player appearance improved. Some settings, that were not saved until now, are now automatically saved. Documentation and some screenshots updated. <br  />
+<li>New Feature: Start a document where you left off (only "Read Text Screen") <br  />
 </li>
-<li>1.5.3 (June 14 2013): <br  />
- New Feature: It is now possible to create and to use not only ONE set of LWT tables within one database. You are now able to create and use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". Read more <a href="#mue">here</a> and <a href="#database">here</a>. <br  />
- Complete code review. Some minor improvements and bugfixes. Documentation &amp; Anki 1+2 template decks updated. <br  />
+<li>New Feature: Improved Search/Query for Words/Texts <br  />
 </li>
-<li>1.5.2 (June 09 2013): <br  />
- Easy navigation to the previous and the next text (according to current text filters and sort order) is now possible. <br  />
- "Backup" does not store anymore the tables 'sentences' and 'textitems'. These tables are now automatically recreated (by reparsing the texts) within "Restore". This makes backup faster and the backup file much smaller, while "Restore" will take a bit longer. <br  />
- Documentation and all screenshots updated. <br  />
- Installation procedures (EasyPHP) updated. <br  />
+<li>New Feature: Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>) <br  />
 </li>
-<li>1.5.1 (June 07 2013): <br  />
- Display screen of improved annotated texts (= <a href="http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations">hyperliteral translations</a> as <a href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) improved: Clicking the "T" or "A" lightbulb icons hides/shows the complete text or all annotations. You may also click on a single term or a single annotation to show or to hide it. This enables you to test yourself or to concentrate on one text only. Romanizations, if available, appear now while hovering over a term. <br  />
- Documentation and screenshots updated. <br  />
+<li>JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated <br  />
 </li>
-<li>1.5.0 (April 22 2013): <br  />
- New Feature: Create and edit an improved annotated text version (as <a href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>. <br  />
- In-Place-editing of translations and romanizations now possible within the terms table. <br  />
- You may now empty (= delete the contents of) the LWT database in the "Backup/Restore/Empty Database" screen. <br  />
- Some minor improvements. Documentation, screenshots and demo database updated. <br  />
+<li>Database table optimization: first check, only optimize if (Overhead &gt;10% of table and &gt; 100KB) or (Overhead &gt; 1,0MB) <br  />
 </li>
-<li>1.4.10 (February 22 2013): <br  />
- New option in "Print" screen: annotation can now also be placed above the term (via <a href="http://en.wikipedia.org/wiki/Ruby_character">Ruby characters</a>). This is especially helpful for Chinese and Japanese, when annotating the text with the romanization (Pinyin, Hiragana, Katakana). Your browser must support ruby markup. Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/">HTML Ruby Add-On</a> to display ruby markup properly. <br  />
- Help document updated. <br  />
+<li>Database table optimization: data types changed. <br  />
 </li>
-<li>1.4.9 (August 29 2012): <br  />
- Anki and TSV export bug fixed (in some cases the term tags were not exported). <br  />
+<li>New Setting: Button(s) for "words to do" "IGNORE ALL"/"I KNOW ALL" <br  />
 </li>
-<li>1.4.8 (May 11 2012, some external links updated June 19 2012): <br  />
- Correction of a small (typo) bug in js/jq_pgm.js that caused an SQL error when pressing the "E" key (Thank you, anthonylauder!). See also <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5265425">this thread</a>. <br  />
- Correction in <a class="el" href="do__text__header_8php.html" title="Responsible for drawing the header when reading texts.">do_text_header.php</a>: fix negative audio positions to zero. See also <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5220016">this thread</a>. <br  />
- Timing of transactions now possible as an additional debugging option in settings.inc.php ($dspltime = 1; normally switched off = 0). <br  />
- "Important Links" section within this document updated and expanded. <br  />
+<li>New Setting: Theme <br  />
 </li>
-<li>1.4.7 (April 6 2012): <br  />
- Correction of some minor mistakes and glitches in the code. <br  />
+<li>New Setting: term/word query with standard/regexp/regexp CS <br  />
 </li>
-<li>1.4.6 (March 14 2012): <br  />
- Documentation and example database corrected. Google Translate links now open in a popup window, not in a frame of the frameset, as Google now disallows this. Please make sure to deactivate popup window blockers. <br  />
+<li>New Sort option "Oldest First" <br  />
 </li>
-<li>1.4.5 (October 01 2011, documentation updated Oct 13 2011, external links updated Dec 8 2011): <br  />
- Double-Click on a term and "A" key (while going through non-blue terms via keyboard) sets audio position approximately to text position. Hovering over sentence marker (green or red dot) in the terms table shows tooltip with sentence. Some updates and corrections in the documentation. <br  />
+<li>New option "Set Active Term(1-5) Sentences" in My Texts <br  />
 </li>
-<li>1.4.4 (September 23 2011): <br  />
- Changed the handling of backslash removal in posted data on servers with magic_quotes_gpc = Off. Documentation updated. <br  />
+<li>Bugfix: importing multiple words with the same tag causes an error <br  />
 </li>
-<li>1.4.3 (September 21 2011): <br  />
- Changed some unintentionally written short PHP open tags "&lt;?" to "&lt;?php". Thanks to a poster in the help forum for pointing this out. <br  />
+<li>Bugfix: can't select media in Archived Texts <br  />
 </li>
-<li>1.4.2 (September 19 2011): <br  />
- Removed PGUP/PGDN key bindings (mark first/last non-blue term, use HOME/END keys). Some minor changes in the documentation. <br  />
+<li>Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser) <br  />
 </li>
-<li>1.4.1 (September 15 2011): <br  />
- Anki Export changed. The full sentence doesn't have brackets anymore. <br  />
- Data in Anki template updated. <br  />
+<li>Bugfix: bottom page select doesn't work in firefox (<a class="el" href="edit__texts_8php.html">edit_texts.php</a>, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php) <br  />
 </li>
-<li>1.4.0 (September 09 2011): <br  />
- Mobile Version (experimental, via <a class="el" href="mobile_8php.html">mobile.php</a>): Selection of Language, Text, and Sentence, Playing the audio (if exists), Reading the text either sentence-by-sentence or term-by-term (saved words shown with translation, romanization, and status (via color). This mobile interface does not yet allow data manipulations. <br  />
- Texts, archived texts and terms can now also be filtered by "untagged". <br  />
- Added a "Repeat Audio / Single Play" toggle button for media player. <br  />
+<li>Bugfix: setting a tag where tag already exists causes an error <br  />
 </li>
-<li>1.3.1 (September 05 2011): <br  />
- New multi actions for marked/all terms: Set Terms to Lowercase, Capitalize Terms, Delete Sentences of Terms. <br  />
- Screenshots updated. <br  />
+<li>Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text) <br  />
 </li>
-<li>1.3.0 (September 03 2011): <br  />
- Tagging of texts and archived texts introduced. With this feature, it will be easier to categorize and organize your texts. After having tagged your texts, you are able to filter texts according to one or two tags. <br  />
- Rudimentary right-to-left (rtl) script support: new db field in languages to set a language to right-to-left script, all relevant parts with respect to rtl support changed. A simple Hebrew example added to demonstrate rtl support. <br  />
- Documentation, screenshots, Anki example file updated. <br  />
+<li>Documentation updated. <br  />
 </li>
-<li>1.2.2 (August 26 2011): <br  />
- Removed a bug that prevented Strg-C/Cmd-C (and other key strokes) in text/test frames. <br  />
- Removed a bug in statistics calculation. <br  />
- Removed a bug in text selection dropdown control. <br  />
- Added column "Percentage Unknown Words" in Texts table. <br  />
- Removed language column in Texts/Terms tables if language filter is set. <br  />
- During reading a text, you can now create terms that do not occur in the text. Click on the yellow icon in the top left frame, and type in the term, translation, etc. You may now also edit the text directly. <br  />
- iPod touch®/iPhone®/iPad® icons and splash screen added, and HTML header for touch devices modified. (Thanks, Derek!) <br  />
- Documentation and screenshots updated. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md50"></a>
+1.5.17 (August 15 2014, this document updated Aug 17 2014 and Aug 24 2014):</h1>
+<ul>
+<li>Minor bug in Utilities fixed. <br  />
 </li>
-<li>1.2.1 (August 25 2011): <br  />
- New Rewind and Fast Forward button for audio player. User can set the time to rewind or fast forward from 1 to 10 seconds. <br  />
- Added a section in the help document about the setup of LWT for iPads®, etc. <br  />
- Documentation and screenshots updated. <br  />
+<li>Documentation updated. Broken links corrected or deleted. From now on, only the installation with EasyPHP for Windows and MAMP for Mac OS X will be explained in detail and is recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup). <br  />
 </li>
-<li>1.2.0 (August 24 2011): <br  />
- Tagging of terms introduced. Tags are little pieces of information (20 characters max., no spaces, no commas, case sensitive!) attached to terms to help you catagorize and organize your terms. You can import (CSV, TSV) and export (Anki, TSV) terms together with tag information. Two new tables save tag information, and they are created automatically during first usage after update. <br  />
- Display of example sentences is now delayed. <br  />
- Backup creates the database SQL file now as a gzipped file. Restore can process old unzipped or new gzipped files. Gzipped files are much smaller in size (10-20 % of original size). <br  />
- Documentation and screenshots updated. <br  />
+<li>Documentation updated on August 17 2014: Installation screencasts added. <br  />
 </li>
-<li>1.1.1 (August 17 2011): <br  />
- New option in "Print" screen to select whether annotation should be placed in front (new option) or after (default) the term. <br  />
- New option in settings screen "Visit only saved terms with status(es) ..." to specify which terms are visited when using RIGHT/SPACE/LEFT/etc. keys in the text frame (default: ALL non-blue terms = statuses 1..5, Ign, WKn). <br  />
- The Status filter lists have been expanded. <br  />
- Fixed problems with non-ASCII characters in media file names (hopefully). <br  />
- Documentation and screenshots updated. <br  />
+<li>Documentation updated on August 24 2014: Linux (Ubuntu, LinuxMint) installation hints and screencast added. <br  />
 </li>
-<li>1.1.0 (August 16 2011): <br  />
- DB design altered: Table "words" changed: 3 new columns to make random word selection (in tests) and score calculation/query faster. <br  />
- Translation, romanization and sentence are now optional. An empty translation or an asterisk in the translation field are equivalent. Terms without translation or in status "Well Known" or "Ignore" will never be tested. Import of terms without translation is now possible. <br  />
- Textarea input boxes have now all a maximum text/bytes length check. <br  />
- New status display during tests: "Elapsed Time / Total = Not yet tested + Wrong + Correct", plus a small bar graph. <br  />
- Testing algorithm revised, simplified and optimized. <br  />
- Tests can now be done also via key strokes (but you must first click in the test frame): SPACE: show solution, UP/DOWN: Status +1/-1, ESC: don't change status, NUMBER KEYS 1-5: set status to 1-5, I: set "Ignored", W: set "Well known", E: edit term. <br  />
- Terms due today and tomorrow are marked in score column (red/yellow) in terms table. <br  />
- In the "Read Text" frame, the next unknown (blue) word in the text can now be shown for term creation just by pressing the RETURN key. The term will be marked by a red border. You type in the translation, etc., and press RETURN to save the word. Now you can press RETURN again to show the next unknown (blue) word, enter a translation, save it, and so on... There is sometimes the problem that some external dictionaries catch the focus although the cursor should be in the translation field in the edit frame. Especially Chrome behaves badly, and I cannot change this. Please try different dictionaries and/or browsers. <br  />
- You can also review/manage saved (non-blue) terms with key strokes in the "Read Text" frame (RIGHT or SPACE: next term, LEFT: previous term, PAGE-UP or HOME: first term, PAGE-DOWN or END: last term, NUMBER KEYS 1-5: set current term status to 1-5, I: set current term status to "Ignored", W: set current term status to "Well known", E: edit current term, ESC: reset). The current term has a black border and the frame scrolls automatically. The term is displayed in the top right frame. <br  />
- New refresh button refreshes media files combo box (without page reload) on the text input/edit screen. <br  />
- Information added how to install LWT at a (free) webhoster. <br  />
- EasyPHP installation corrected. <br  />
- Documentation and screenshots updated, new floating menu. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md51"></a>
+1.5.16 (February 19 2014):</h1>
+<ul>
+<li>Paging (via page select, and only at the bottom of a page) did not work correctly in all cases, has been corrected. <br  />
 </li>
-<li>1.0.4 (August 11 2011): <br  />
- Code cleanup and optimization, better code documentation. <br  />
- Checking maximum text length in text input/edit/check screens. <br  />
- Media directory is not anymore included, user has to create it if needed. The demo media are now all online. <br  />
- Demo database installation is now done within LWT (optional). If the database is empty, a hint on the main screen is displayed either to install the demo db or to start with the definition of a language. Backup/Restore now with more hints and an option to install the demo database. <br  />
- Documentation and screenshots updated. <br  />
+<li>Documentation updated. <br  />
 </li>
-<li>1.0.3 (August 09 2011): <br  />
- New button to open a new text immediately after saving. <br  />
- Dictionaries can now be opened not only within the frame set (default) but also in a popup window (please deactivate popup window blocking in your browser!). To open a dictionary in a separate popup window, put an asterisk * in front of the Uniform Resource Identifier (Example: *http://mywebdict.com?q=###). Please use this method if a web dictionary does not open properly within the frame set. <br  />
- The application now always checks if the current text or language still exist (could have sometimes resulted in empty query results after deleting). <br  />
- New settings "Texts per Page", "Show Word Counts of Texts immediately", "Archived Texts per Page" and "Terms per Page". You can now define how many texts or terms are on one page. As the calculation of text word counts can slow down the loading of a long text table, you can switch off this calculation (and do the calculation later). <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md52"></a>
+1.5.15 (December 17 2013):</h1>
+<ul>
+<li>Corrected wrong language code (French) within the language wizard definitions. <br  />
+</li>
+<li>Documentation updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md53"></a>
+1.5.14 (August 05 2013, this document updated Oct 30 2013):</h1>
+<ul>
+<li>Wrong text display in Print Screen corrected. Special handling of word breaks (if "Remove spaces" = Yes) removed. <br  />
+</li>
+<li>Documentation updated on October 30 2013. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md54"></a>
+1.5.13 (July 22 2013):</h1>
+<ul>
+<li>Removed an erroneous extra space in "wp\_logincheck.inc.php". Thanks to a poster in the help forum for pointing this out! <br  />
+</li>
+<li>Minor bug fixes. <br  />
+</li>
+<li>License texts updated according to text on <a href="http://unlicense.org/">unlicense.org</a>. <br  />
+</li>
+<li>Documentation updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md55"></a>
+1.5.12 (July 16 2013):</h1>
+<ul>
+<li>New Sort option for Terms/Expressions: "Word Count in Active Texts" (Descending). Only when you choose this sort option, the word count will be calculated, displayed, and used for sorting the table. This may slow down the term table display. If you prefer faster term table display, choose the other sort options. <br  />
+</li>
+<li>Much better Tablet/iPad® user experience in screens with several frames. There is a new setting "Frame Set Display Mode" where you can select how frame sets are displayed on different devices (default: "Auto"). If you prefer the old mode also on mobile devices, set this to "Force Non-Mobile". <br  />
+</li>
+<li>Tagging and JQuery UI updated. <br  />
+</li>
+<li>Better error message when Glosbe API call fails. <br  />
+</li>
+<li>Unsaved changes alerts extended to tag changes. <br  />
+</li>
+<li>Tags cache updating corrected: when LWT table set has been changed or after restore/emptying tables. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md56"></a>
+1.5.11 (July 12 2013):</h1>
+<ul>
+<li>If an improved annotated text exists, highlight the selected term translation in red in the text window popup and the text display frame (when using the keyboard). <br  />
+</li>
+<li>New language settings wizard. <br  />
+</li>
+<li>Better check on duplicate language names. <br  />
+</li>
+<li>Text window popup title is now a link (text color: yellow) to make editing an existent term a little easier. <br  />
+</li>
+<li>Some minor bug fixes. <br  />
+</li>
+<li>Documentation updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md57"></a>
+1.5.10 (July 07 2013):</h1>
+<ul>
+<li>Improved database error checking and reporting, better error messages when fatal errors occur, both with traceback information. <br  />
+</li>
+<li>Default values corrected in new language form. <br  />
+</li>
+<li>Some improvements in Glosbe-LWT integration. <br  />
+</li>
+<li>New alerts in some forms when there are unsaved changes during unload event. <br  />
+</li>
+<li>SQL query optimizations in 1.5.8/1.5.9 caused problems, old versions restored. <br  />
+</li>
+<li>Documentation updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md58"></a>
+1.5.9 (July 03 2013):</h1>
+<ul>
+<li>New Feature: Long Text Import: Importing a long text via file upload or from a text box, with splitting options. <br  />
+</li>
+<li>Possibility to save the source URI with an active or archived text. <br  />
+</li>
+<li>Missing code in tag management stylesheet restored. <br  />
+</li>
+<li>Documentation and some screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md59"></a>
+1.5.8 (June 27 2013):</h1>
+<ul>
+<li>Optimization of SQL queries for text and print display (reducing query time by up to thirty percent). <br  />
+</li>
+<li>Checking database status and database upgrade program code rewritten. <br  />
+</li>
+<li>Some minor improvements and bugfixes. Documentation updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md60"></a>
+1.5.7 (June 25 2013):</h1>
+<ul>
+<li>Some minor corrections in some SQL CREATE/INSERT statements. MySQL session string is now set to an empty string to avoid too strict SQL checking. Thanks to a poster in the help forum for pointing this out! <br  />
+</li>
+<li>A new 3rd "Flexible" term export is introduced, controlled by an "Export Template" in the language settings. <a href="#extmpl">Read more ...</a> <br  />
+</li>
+<li>Texts are now automatically reparsed, however only after changing language settings that influence the sentence and textitems cache. <br  />
+</li>
+<li>Documentation updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md61"></a>
+1.5.6 (June 22 2013):</h1>
+<ul>
+<li>Two SQL statements (Anki/TSV export of marked terms) corrected. Thanks to a poster in the help forum for pointing this out! <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md62"></a>
+1.5.5 (June 21 2013):</h1>
+<ul>
+<li>Integration of the Glosbe API into LWT via a "special" dictionary link. Read more <a href="#glosbe">here</a>. <br  />
+</li>
+<li>Some minor improvements: Window width of dictionary popups changed from 600 to 800 Pixel. No "\_lwtgeneral" operations if table prefix is fixed. <br  />
+</li>
+<li>LWT-WordPress integration, read more <a href="#wp">here</a> (only for users who want to use WordPress authentication together with the LWT multiple user/table set feature introduced in version 1.5.3). <br  />
+</li>
+<li>Documentation updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md63"></a>
+1.5.4 (June 19 2013):</h1>
+<ul>
+<li>If more than one table set exists, and $tbpref was NOT set to a fixed value in "connect.inc.php", you can now select a table set via "start.php", or by clicking on the LWT icon or title in the LWT menu screen "index.php". <br  />
+</li>
+<li>By hovering over the LWT icon in the top left corner of every screen, you can now display the current table set in a yellow tooltip. <br  />
+</li>
+<li>A new test/review type "Table" has been added in the testing area. Words, translations, romanizations, sentences and status are presented in a table. You may hide and/or sort columns. After testing yourself, you can reveal the hidden information by clicking into the table cell, and change your status. <br  />
+</li>
+<li>Player appearance improved. Some settings, that were not saved until now, are now automatically saved. Documentation and some screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md64"></a>
+1.5.3 (June 14 2013):</h1>
+<ul>
+<li>New Feature: It is now possible to create and to use not only ONE set of LWT tables within one database. You are now able to create and use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". Read more <a href="#mue">here</a> and <a href="#database">here</a>. <br  />
+</li>
+<li>Complete code review. Some minor improvements and bugfixes. Documentation &amp; Anki 1+2 template decks updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md65"></a>
+1.5.2 (June 09 2013):</h1>
+<ul>
+<li>Easy navigation to the previous and the next text (according to current text filters and sort order) is now possible. <br  />
+</li>
+<li>"Backup" does not store anymore the tables 'sentences' and 'textitems'. These tables are now automatically recreated (by reparsing the texts) within "Restore". This makes backup faster and the backup file much smaller, while "Restore" will take a bit longer. <br  />
+</li>
+<li>Documentation and all screenshots updated. <br  />
+</li>
+<li>Installation procedures (EasyPHP) updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md66"></a>
+1.5.1 (June 07 2013):</h1>
+<ul>
+<li>Display screen of improved annotated texts (= <a href="http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations">hyperliteral translations</a> as <a href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) improved: Clicking the "T" or "A" lightbulb icons hides/shows the complete text or all annotations. You may also click on a single term or a single annotation to show or to hide it. This enables you to test yourself or to concentrate on one text only. Romanizations, if available, appear now while hovering over a term. <br  />
+</li>
+<li>Documentation and screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md67"></a>
+1.5.0 (April 22 2013):</h1>
+<ul>
+<li>New Feature: Create and edit an improved annotated text version (as <a href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>. <br  />
+</li>
+<li>In-Place-editing of translations and romanizations now possible within the terms table. <br  />
+</li>
+<li>You may now empty (= delete the contents of) the LWT database in the "Backup/Restore/Empty Database" screen. <br  />
+</li>
+<li>Some minor improvements. Documentation, screenshots and demo database updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md68"></a>
+1.4.10 (February 22 2013):</h1>
+<ul>
+<li>New option in "Print" screen: annotation can now also be placed above the term (via <a href="http://en.wikipedia.org/wiki/Ruby_character">Ruby characters</a>). This is especially helpful for Chinese and Japanese, when annotating the text with the romanization (Pinyin, Hiragana, Katakana). Your browser must support ruby markup. Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/">HTML Ruby Add-On</a> to display ruby markup properly. <br  />
+</li>
+<li>Help document updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md69"></a>
+1.4.9 (August 29 2012):</h1>
+<ul>
+<li>Anki and TSV export bug fixed (in some cases the term tags were not exported). <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md70"></a>
+1.4.8 (May 11 2012, some external links updated June 19 2012):</h1>
+<ul>
+<li>Correction of a small (typo) bug in js/jq_pgm.js that caused an SQL error when pressing the "E" key (Thank you, anthonylauder!). See also <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5265425">this thread</a>. <br  />
+</li>
+<li>Correction in <a class="el" href="do__text__header_8php.html" title="Responsible for drawing the header when reading texts.">do_text_header.php</a>: fix negative audio positions to zero. See also <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5220016">this thread</a>. <br  />
+</li>
+<li>Timing of transactions now possible as an additional debugging option in settings.inc.php ($dspltime = 1; normally switched off = 0). <br  />
+</li>
+<li>"Important Links" section within this document updated and expanded. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md71"></a>
+1.4.7 (April 6 2012):</h1>
+<ul>
+<li>Correction of some minor mistakes and glitches in the code. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md72"></a>
+1.4.6 (March 14 2012):</h1>
+<ul>
+<li>Documentation and example database corrected. Google Translate links now open in a popup window, not in a frame of the frameset, as Google now disallows this. Please make sure to deactivate popup window blockers. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md73"></a>
+1.4.5 (October 01 2011, documentation updated Oct 13 2011, external links updated Dec 8 2011):</h1>
+<ul>
+<li>Double-Click on a term and "A" key (while going through non-blue terms via keyboard) sets audio position approximately to text position. Hovering over sentence marker (green or red dot) in the terms table shows tooltip with sentence. Some updates and corrections in the documentation. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md74"></a>
+1.4.4 (September 23 2011):</h1>
+<ul>
+<li>Changed the handling of backslash removal in posted data on servers with magic_quotes_gpc = Off. Documentation updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md75"></a>
+1.4.3 (September 21 2011):</h1>
+<ul>
+<li>Changed some unintentionally written short PHP open tags "&lt;?" to "&lt;?php". Thanks to a poster in the help forum for pointing this out. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md76"></a>
+1.4.2 (September 19 2011):</h1>
+<ul>
+<li>Removed PGUP/PGDN key bindings (mark first/last non-blue term, use HOME/END keys). Some minor changes in the documentation. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md77"></a>
+1.4.1 (September 15 2011):</h1>
+<ul>
+<li>Anki Export changed. The full sentence doesn't have brackets anymore. <br  />
+</li>
+<li>Data in Anki template updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md78"></a>
+1.4.0 (September 09 2011):</h1>
+<ul>
+<li>Mobile Version (experimental, via <a class="el" href="mobile_8php.html">mobile.php</a>): Selection of Language, Text, and Sentence, Playing the audio (if exists), Reading the text either sentence-by-sentence or term-by-term (saved words shown with translation, romanization, and status (via color). This mobile interface does not yet allow data manipulations. <br  />
+</li>
+<li>Texts, archived texts and terms can now also be filtered by "untagged". <br  />
+</li>
+<li>Added a "Repeat Audio / Single Play" toggle button for media player. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md79"></a>
+1.3.1 (September 05 2011):</h1>
+<ul>
+<li>New multi actions for marked/all terms: Set Terms to Lowercase, Capitalize Terms, Delete Sentences of Terms. <br  />
+</li>
+<li>Screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md80"></a>
+1.3.0 (September 03 2011):</h1>
+<ul>
+<li>Tagging of texts and archived texts introduced. With this feature, it will be easier to categorize and organize your texts. After having tagged your texts, you are able to filter texts according to one or two tags. <br  />
+</li>
+<li>Rudimentary right-to-left (rtl) script support: new db field in languages to set a language to right-to-left script, all relevant parts with respect to rtl support changed. A simple Hebrew example added to demonstrate rtl support. <br  />
+</li>
+<li>Documentation, screenshots, Anki example file updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md81"></a>
+1.2.2 (August 26 2011):</h1>
+<ul>
+<li>Removed a bug that prevented Strg-C/Cmd-C (and other key strokes) in text/test frames. <br  />
+</li>
+<li>Removed a bug in statistics calculation. <br  />
+</li>
+<li>Removed a bug in text selection dropdown control. <br  />
+</li>
+<li>Added column "Percentage Unknown Words" in Texts table. <br  />
+</li>
+<li>Removed language column in Texts/Terms tables if language filter is set. <br  />
+</li>
+<li>During reading a text, you can now create terms that do not occur in the text. Click on the yellow icon in the top left frame, and type in the term, translation, etc. You may now also edit the text directly. <br  />
+</li>
+<li>iPod touch®/iPhone®/iPad® icons and splash screen added, and HTML header for touch devices modified. (Thanks, Derek!) <br  />
+</li>
+<li>Documentation and screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md82"></a>
+1.2.1 (August 25 2011):</h1>
+<ul>
+<li>New Rewind and Fast Forward button for audio player. User can set the time to rewind or fast forward from 1 to 10 seconds. <br  />
+</li>
+<li>Added a section in the help document about the setup of LWT for iPads®, etc. <br  />
+</li>
+<li>Documentation and screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md83"></a>
+1.2.0 (August 24 2011):</h1>
+<ul>
+<li>Tagging of terms introduced. Tags are little pieces of information (20 characters max., no spaces, no commas, case sensitive!) attached to terms to help you catagorize and organize your terms. You can import (CSV, TSV) and export (Anki, TSV) terms together with tag information. Two new tables save tag information, and they are created automatically during first usage after update. <br  />
+</li>
+<li>Display of example sentences is now delayed. <br  />
+</li>
+<li>Backup creates the database SQL file now as a gzipped file. Restore can process old unzipped or new gzipped files. Gzipped files are much smaller in size (10-20 % of original size). <br  />
+</li>
+<li>Documentation and screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md84"></a>
+1.1.1 (August 17 2011):</h1>
+<ul>
+<li>New option in "Print" screen to select whether annotation should be placed in front (new option) or after (default) the term. <br  />
+</li>
+<li>New option in settings screen "Visit only saved terms with status(es) ..." to specify which terms are visited when using RIGHT/SPACE/LEFT/etc. keys in the text frame (default: ALL non-blue terms = statuses 1..5, Ign, WKn). <br  />
+</li>
+<li>The Status filter lists have been expanded. <br  />
+</li>
+<li>Fixed problems with non-ASCII characters in media file names (hopefully). <br  />
+</li>
+<li>Documentation and screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md85"></a>
+1.1.0 (August 16 2011):</h1>
+<ul>
+<li>DB design altered: Table "words" changed: 3 new columns to make random word selection (in tests) and score calculation/query faster. <br  />
+</li>
+<li>Translation, romanization and sentence are now optional. An empty translation or an asterisk in the translation field are equivalent. Terms without translation or in status "Well Known" or "Ignore" will never be tested. Import of terms without translation is now possible. <br  />
+</li>
+<li>Textarea input boxes have now all a maximum text/bytes length check. <br  />
+</li>
+<li>New status display during tests: "Elapsed Time / Total = Not yet tested + Wrong + Correct", plus a small bar graph. <br  />
+</li>
+<li>Testing algorithm revised, simplified and optimized. <br  />
+</li>
+<li>Tests can now be done also via key strokes (but you must first click in the test frame): SPACE: show solution, UP/DOWN: Status +1/-1, ESC: don't change status, NUMBER KEYS 1-5: set status to 1-5, I: set "Ignored", W: set "Well known", E: edit term. <br  />
+</li>
+<li>Terms due today and tomorrow are marked in score column (red/yellow) in terms table. <br  />
+</li>
+<li>In the "Read Text" frame, the next unknown (blue) word in the text can now be shown for term creation just by pressing the RETURN key. The term will be marked by a red border. You type in the translation, etc., and press RETURN to save the word. Now you can press RETURN again to show the next unknown (blue) word, enter a translation, save it, and so on... There is sometimes the problem that some external dictionaries catch the focus although the cursor should be in the translation field in the edit frame. Especially Chrome behaves badly, and I cannot change this. Please try different dictionaries and/or browsers. <br  />
+</li>
+<li>You can also review/manage saved (non-blue) terms with key strokes in the "Read Text" frame (RIGHT or SPACE: next term, LEFT: previous term, PAGE-UP or HOME: first term, PAGE-DOWN or END: last term, NUMBER KEYS 1-5: set current term status to 1-5, I: set current term status to "Ignored", W: set current term status to "Well known", E: edit current term, ESC: reset). The current term has a black border and the frame scrolls automatically. The term is displayed in the top right frame. <br  />
+</li>
+<li>New refresh button refreshes media files combo box (without page reload) on the text input/edit screen. <br  />
+</li>
+<li>Information added how to install LWT at a (free) webhoster. <br  />
+</li>
+<li>EasyPHP installation corrected. <br  />
+</li>
+<li>Documentation and screenshots updated, new floating menu. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md86"></a>
+1.0.4 (August 11 2011):</h1>
+<ul>
+<li>Code cleanup and optimization, better code documentation. <br  />
+</li>
+<li>Checking maximum text length in text input/edit/check screens. <br  />
+</li>
+<li>Media directory is not anymore included, user has to create it if needed. The demo media are now all online. <br  />
+</li>
+<li>Demo database installation is now done within LWT (optional). If the database is empty, a hint on the main screen is displayed either to install the demo db or to start with the definition of a language. Backup/Restore now with more hints and an option to install the demo database. <br  />
+</li>
+<li>Documentation and screenshots updated. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md87"></a>
+1.0.3 (August 09 2011):</h1>
+<ul>
+<li>New button to open a new text immediately after saving. <br  />
+</li>
+<li>Dictionaries can now be opened not only within the frame set (default) but also in a popup window (please deactivate popup window blocking in your browser!). To open a dictionary in a separate popup window, put an asterisk * in front of the Uniform Resource Identifier (Example: *http://mywebdict.com?q=###). Please use this method if a web dictionary does not open properly within the frame set. <br  />
+</li>
+<li>The application now always checks if the current text or language still exist (could have sometimes resulted in empty query results after deleting). <br  />
+</li>
+<li>New settings "Texts per Page", "Show Word Counts of Texts immediately", "Archived Texts per Page" and "Terms per Page". You can now define how many texts or terms are on one page. As the calculation of text word counts can slow down the loading of a long text table, you can switch off this calculation (and do the calculation later). <br  />
  "New/Edit Term" now allow dictionary lookup (always in popup window). If you want to enter a term manually, you must first select the language on the "My Terms" page. <br  />
- Documentation and screenshots updated. <br  />
 </li>
-<li>1.0.2 (August 05 2011): <br  />
- Language definition: If the searchword in the Uniform Resource Identifiers (URIs) needs to be converted into a different encoding (standard is UTF-8), you can now use _###encoding###_ as a placeholder. Example: <em><a href="http://mywebdict.com?q=###ISO-8859-15###">http://mywebdict.com?q=###ISO-8859-15###</a></em>. A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php">here</a> (omit the asterisk if one is at the end). <br  />
- Documentation and screenshots updated. Thai example added in demo database. <br  />
+<li>Documentation and screenshots updated. <br  />
 </li>
-<li>1.0.1 (August 04 2011): <br  />
- Testing: Last term tested will not show up immediately. Automatically selected sentences in tests now must not contain unsaved (blue) words. This does not apply if a sentence saved with a term contains unknown words - such sentences may come up within a test. <br  />
- Empty database will be created automatically if database does not exist. Tables will be automatically recreated if some or all tables are missing. System handles (future) database changes automatically. <br  />
- Documentation and screenshots updated. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md88"></a>
+1.0.2 (August 05 2011):</h1>
+<ul>
+<li>Language definition: If the searchword in the Uniform Resource Identifiers (URIs) needs to be converted into a different encoding (standard is UTF-8), you can now use _###encoding###_ as a placeholder. Example: <em><a href="http://mywebdict.com?q=###ISO-8859-15###">http://mywebdict.com?q=###ISO-8859-15###</a></em>. A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php">here</a> (omit the asterisk if one is at the end). <br  />
 </li>
-<li>1.0.0 (August 01 2011): <br  />
- First stable release. For some time, there won't be any new releases. I hope you'll understand that. Please post all problems, questions, and (hopefully not too many) bugs <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497">here</a>, and ideas and suggestions for new features <a href="http://lwt.uservoice.com">here</a>. Thanks! <br  />
+<li>Documentation and screenshots updated. Thai example added in demo database. <br  />
 </li>
-<li>0.9.8 (July 31 2011): <br  />
- New Text Display Mode (see new checkbox on the "Read text" screen). <br  />
- [Show All] = ON (the only mode in previous releases): ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. <br  />
- [Show All] = OFF (new): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts. <br  />
- Documentation and screenshots updated. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md89"></a>
+1.0.1 (August 04 2011):</h1>
+<ul>
+<li>Testing: Last term tested will not show up immediately. Automatically selected sentences in tests now must not contain unsaved (blue) words. This does not apply if a sentence saved with a term contains unknown words - such sentences may come up within a test. <br  />
 </li>
-<li>0.9.7 (July 28 2011): <br  />
- Internal improvements, status names, abbreviations, and tooltips (Thanks, Arthaey!). Printout of texts with optional inline annotation (translation and/or romanization) of terms that are of specified status(es). Documentation and screenshots corrected. <br  />
+<li>Empty database will be created automatically if database does not exist. Tables will be automatically recreated if some or all tables are missing. System handles (future) database changes automatically. <br  />
 </li>
-<li>0.9.6 (July 26 2011): <br  />
- More visual improvements (layout, tables, etc.), many improvements and bugfixes. Dictionary Uniform Resource Identifiers (URIs) use now ### as a placeholder for the searchword. If ### is missing, the searchword will be appended (like in older versions). More multi-actions for terms. Translation and sentence fields do NOT accept newlines anymore, now the form is submitted. Status entry changed from dropdown to radio buttons. Backup/Restore improved. CSS and XHTML corrected and validated. Korean example added. An Anki example deck is now provided: "LWT.anki" in directory "anki". Documentation and screenshots improved. <br  />
+<li>Documentation and screenshots updated. <br  />
 </li>
-<li>0.9.5 (July 23 2011): <br  />
- Visual improvements (icons), a few bug fixes. Database Restore changed for bigger files. Two new tests to test L2 -&gt; L1 or L1 -&gt; L2 without sentence (just the term). The term filter operates not only on the term field but also on the romanization and translation field. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md90"></a>
+1.0.0 (August 01 2011):</h1>
+<ul>
+<li>First stable release. For some time, there won't be any new releases. I hope you'll understand that. Please post all problems, questions, and (hopefully not too many) bugs <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497">here</a>, and ideas and suggestions for new features <a href="http://lwt.uservoice.com">here</a>. Thanks! <br  />
 </li>
-<li>0.9.4 (July 22 2011): <br  />
- "Import of terms" now only needs a translation if the status is set to 1, 2, 3, 4 or 5. Furthermore it not only imports terms as TAB (ASCII 9) separated values (TSV) or "#" separated values, but also as comma separated values (CSV, strings in quotes ("...", if needed), a quote within a string as double quotes (""); this is the format that LingQ uses for exporting terms). <br  />
- New buttons to switch easier between active texts and archived texts. <br  />
- New settings "Testing: Number of sentences displayed from text, if available" and "Terms: Number of sentences generated from text, if available". Default is "Just ONE". The options "TWO (+ previous)" and "THREE (+ previous, + next)" now allow you to do MCD (Massive-Context Cloze Deletion) testing, as proposed by Khatzumoto @ AJATT. <br  />
- Some minor bug fixes. Documentation updated. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md91"></a>
+0.9.8 (July 31 2011):</h1>
+<ul>
+<li>New Text Display Mode (see new checkbox on the "Read text" screen). <br  />
+<ul>
+<li>[Show All] = ON (the only mode in previous releases): ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. <br  />
 </li>
-<li>0.9.3 (July 21 2011): <br  />
- After a lot of multi-platform/multi-server testing: several bug fixes and improvements. One severe bug that crashed importing and checking of texts on XAMPP/Win removed (Thanks, Kendall!). Within text, archive, and term queries, selected sort order will be retained (saved in database). All other query settings are now retained per session. Documentation updated. <br  />
+<li>[Show All] = OFF (new): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts. <br  />
 </li>
-<li>0.9.2 (July 19 2011): <br  />
- Bugfixes. New "Settings" screen. Documentation updated and improved. <br  />
+</ul>
 </li>
-<li>0.9.1 (July 18 2011): <br  />
- Testing totally revamped (and extended). Many, many improvements and bugfixes. Documentation and screenshots updated. EasyPHP for Windows installation explained. <br  />
+<li>Documentation and screenshots updated. <br  />
 </li>
-<li>0.9.0 (July 14 2011): <br  />
- Frame screen "Edit term" is now more compact to save space. TSV export of terms added, Anki export improved. The multi actions drop-down-list is now disabled when no checkboxes are checked. Testing completely revised and improved. New buttons to jump from test to text and vice versa. It is now possible to create expressions with up to 9 words (previous releases: up to 6 words). Important: Re-parsing is necessary to use this feature in existing texts. New texts have this feature will automatically. Documentation and screenshots updated. Questions and answers added. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md92"></a>
+0.9.7 (July 28 2011):</h1>
+<ul>
+<li>Internal improvements, status names, abbreviations, and tooltips (Thanks, Arthaey!). Printout of texts with optional inline annotation (translation and/or romanization) of terms that are of specified status(es). Documentation and screenshots corrected. <br  />
 </li>
-<li>0.8.2 (July 13 2011): <br  />
- Minor improvements and bug fixes. Term score formula revised. Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically. Documentation (topic: Term scores) added. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md93"></a>
+0.9.6 (July 26 2011):</h1>
+<ul>
+<li>More visual improvements (layout, tables, etc.), many improvements and bugfixes. Dictionary Uniform Resource Identifiers (URIs) use now ### as a placeholder for the searchword. If ### is missing, the searchword will be appended (like in older versions). More multi-actions for terms. Translation and sentence fields do NOT accept newlines anymore, now the form is submitted. Status entry changed from dropdown to radio buttons. Backup/Restore improved. CSS and XHTML corrected and validated. Korean example added. An Anki example deck is now provided: "LWT.anki" in directory "anki". Documentation and screenshots improved. <br  />
 </li>
-<li>0.8.1 (July 12 2011): <br  />
- Mac installation and upgrade (see documentation) completely changed. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md94"></a>
+0.9.5 (July 23 2011):</h1>
+<ul>
+<li>Visual improvements (icons), a few bug fixes. Database Restore changed for bigger files. Two new tests to test L2 -&gt; L1 or L1 -&gt; L2 without sentence (just the term). The term filter operates not only on the term field but also on the romanization and translation field. <br  />
 </li>
-<li>0.8.0 (July 11 2011): <br  />
- Possibility to change term (but only uppercase/lowercase changes allowed). Import terms with overwrite now possible. "Learn/Edit Word/Expression" opens first dictionary automatically. Number of saved words and "To Do" words are now displayed in "My Texts". Backup and Restore of the LWT database. Documentation updated and improved. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md95"></a>
+0.9.4 (July 22 2011):</h1>
+<ul>
+<li>"Import of terms" now only needs a translation if the status is set to 1, 2, 3, 4 or 5. Furthermore it not only imports terms as TAB (ASCII 9) separated values (TSV) or "#" separated values, but also as comma separated values (CSV, strings in quotes ("...", if needed), a quote within a string as double quotes (""); this is the format that LingQ uses for exporting terms). <br  />
 </li>
-<li>0.7.0 (July 09 2011): <br  />
- Minor improvements, more documentation, Japanese example added. <br  />
+<li>New buttons to switch easier between active texts and archived texts. <br  />
 </li>
-<li>0.6.0 (July 08 2011): <br  />
- Improvements, bugfixes, more documentation, settings now stored in DB (not in cookies anymore). <br  />
+<li>New settings "Testing: Number of sentences displayed from text, if available" and "Terms: Number of sentences generated from text, if available". Default is "Just ONE". The options "TWO (+ previous)" and "THREE (+ previous, + next)" now allow you to do MCD (Massive-Context Cloze Deletion) testing, as proposed by Khatzumoto @ AJATT. <br  />
 </li>
-<li>0.5.0 (June 30 2011): <br  />
- Improvements, bugfixes, text archiving added. <br  />
+<li>Some minor bug fixes. Documentation updated. <br  />
 </li>
-<li>0.4.0 (June 29 2011): <br  />
- Improvements, bugfixes, basic documentation completed, two new tests. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md96"></a>
+0.9.3 (July 21 2011):</h1>
+<ul>
+<li>After a lot of multi-platform/multi-server testing: several bug fixes and improvements. One severe bug that crashed importing and checking of texts on XAMPP/Win removed (Thanks, Kendall!). Within text, archive, and term queries, selected sort order will be retained (saved in database). All other query settings are now retained per session. Documentation updated. <br  />
 </li>
-<li>0.3.0 (June 27 2011): <br  />
- Improvements, bugfixes, more documentation. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md97"></a>
+0.9.2 (July 19 2011):</h1>
+<ul>
+<li>Bugfixes. New "Settings" screen. Documentation updated and improved. <br  />
 </li>
-<li>0.2.0 (June 25 2011): <br  />
- Improvements, bugfixes, more documentation. <br  />
+</ul>
+<h1><a class="anchor" id="autotoc_md98"></a>
+0.9.1 (July 18 2011):</h1>
+<ul>
+<li>Testing totally revamped (and extended). Many, many improvements and bugfixes. Documentation and screenshots updated. EasyPHP for Windows installation explained. <br  />
 </li>
-<li>0.1.0 (June 24 2011): <br  />
- Initial release. </li>
+</ul>
+<h1><a class="anchor" id="autotoc_md99"></a>
+0.9.0 (July 14 2011):</h1>
+<ul>
+<li>Frame screen "Edit term" is now more compact to save space. TSV export of terms added, Anki export improved. The multi actions drop-down-list is now disabled when no checkboxes are checked. Testing completely revised and improved. New buttons to jump from test to text and vice versa. It is now possible to create expressions with up to 9 words (previous releases: up to 6 words). Important: Re-parsing is necessary to use this feature in existing texts. New texts have this feature will automatically. Documentation and screenshots updated. Questions and answers added. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md100"></a>
+0.8.2 (July 13 2011):</h1>
+<ul>
+<li>Minor improvements and bug fixes. Term score formula revised. Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically. Documentation (topic: Term scores) added. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md101"></a>
+0.8.1 (July 12 2011):</h1>
+<ul>
+<li>Mac installation and upgrade (see documentation) completely changed. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md102"></a>
+0.8.0 (July 11 2011):</h1>
+<ul>
+<li>Possibility to change term (but only uppercase/lowercase changes allowed). Import terms with overwrite now possible. "Learn/Edit Word/Expression" opens first dictionary automatically. Number of saved words and "To Do" words are now displayed in "My Texts". Backup and Restore of the LWT database. Documentation updated and improved. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md103"></a>
+0.7.0 (July 09 2011):</h1>
+<ul>
+<li>Minor improvements, more documentation, Japanese example added. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md104"></a>
+0.6.0 (July 08 2011):</h1>
+<ul>
+<li>Improvements, bugfixes, more documentation, settings now stored in DB (not in cookies anymore). <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md105"></a>
+0.5.0 (June 30 2011):</h1>
+<ul>
+<li>Improvements, bugfixes, text archiving added. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md106"></a>
+0.4.0 (June 29 2011):</h1>
+<ul>
+<li>Improvements, bugfixes, basic documentation completed, two new tests. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md107"></a>
+0.3.0 (June 27 2011):</h1>
+<ul>
+<li>Improvements, bugfixes, more documentation. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md108"></a>
+0.2.0 (June 25 2011):</h1>
+<ul>
+<li>Improvements, bugfixes, more documentation. <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md109"></a>
+0.1.0 (June 24 2011):</h1>
+<ul>
+<li>Initial release. </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

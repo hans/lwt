@@ -63,15 +63,17 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 		<a href="#screencasts">Screencasts</a><br />
 		<a href="#restrictions">Restrictions</a><br />
 		<a href="#license">(Un-) License</a><br />
+		<a href="#thirdpartylicenses">(Un-) License</a><br />
 		<a href="#disclaimer">Disclaimer</a><br /><br />
 		<a href="#install">Installation</a><br />
 		<a href="#learn">How to learn</a><br />
 		<a href="#howto">How to use</a><br />
 		<a href="#faq">Q &amp; A</a><br /><br />
 		<a href="#ipad">Setup Tablets</a><br /> 
-		<a href="#ipad">Lang. Setup</a><br /> 
+		<a href="#langsetup">Lang. Setup</a><br /> 
 		<a href="#termscores">Term Scores</a><br />
 		<a href="#keybind">Key Bindings</a><br />
+		<a href="#database">Database</a><br />
 		<a href="#history">Changelog</a>
 	</div>	
 	
@@ -215,7 +217,7 @@ $(document).ready( function() {
 					<li>The current version is <?php 
 					require __DIR__ . '/../inc/kernel_utility.php'; 
 					echo get_version(); 
-					//echo '2.0.2';?>.
+					?>.
 					</li>
 
 					<li>
@@ -506,50 +508,7 @@ $(document).ready( function() {
 				▶ <b><a name="new_features" id="new_features">New in this Version (not available in the OFFICIAL LWT)</a></b> - <a href="#">[↑]</a>
 			  </dt>
 
-			<dd>
-				<ul>
-				   <li>Database improvements (db size is much smaller now)
-				   </li>
-				   <li>Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)
-				   </li>
-				   <li>Support for different themes
-				   </li>
-				   <li>Longer (>9) expressions can now be saved (up to 250 characters)
-				   </li>
-				   <li>Display translations of terms with status(es) in the reading frame
-				   </li>
-				   <li>Save text/audio position in the reading frame
-				   </li>
-				   <li>Multiwords selection (click and hold on a word -> move to another word -> release mouse button)
-				   </li>
-				   <li>Key bindings work when you hover over a word
-				   </li>
-				   <li>Bulk translate new words in the reading frame
-				   </li>
-				   <li>Google api (use 'ggl.php' instead of '*http://translate.google.com' for Google Translate)
-				   </li>
-				   <li>Text to speech support (only words)
-				   </li>
-				   <li>Optional "ignore all" button in read texts
-				   </li>
-				   <li>New key bindings in the reading frame:
-				 <ul><li>T (translate sentence),</li>
-				   <li>P (pronounce term),</li>
-				   <li>G (edit term with Google Translate)</li>
-				 </ul>
-				   </li>
-				   <li>Ability to change audio playback speed (doesn't work when using the flash plugin)
-				   </li>
-				   <li>Improved Search/Query for Words/Texts
-				   </li>
-				   <li>Selecting terms according to a text tag
-				   </li>
-				   <li>Term import with more options (i.e.: combine translations, multiple tag import,...)
-				   </li>
-				   <li>Two database backup modes (new or old structure)
-				   </li>
-				 </ul>
-			   </dd>
+			<dd><?php echo markdown_converter(__DIR__ . "/newfeatures.md"); ?></dd>
 		 
 		 
 			   <dt>
@@ -615,119 +574,13 @@ $(document).ready( function() {
 			</dt>
 
 			<dd>
-				<ul>
-					<li>
-						<a href="http://sourceforge.net/projects/learning-with-texts/" target="_blank"><i>"Learning with Texts"</i> (LWT)</a> 
-						is free and unencumbered software 
-						released into the PUBLIC DOMAIN.
-						<br />
-						Anyone is free to copy, modify, publish, use, compile, sell, or
-						distribute this software, either in source code form or as a
-						compiled binary, for any purpose, commercial or non-commercial,
-						and by any means.
-						<br />
-						In jurisdictions that recognize copyright laws, the author or
-						authors of this software dedicate any and all copyright
-						interest in the software to the public domain. We make this
-						dedication for the benefit of the public at large and to the 
-						detriment of our heirs and successors. We intend this 
-						dedication to be an overt act of relinquishment in perpetuity
-						of all present and future rights to this software under
-						copyright law.
-						<br />
-						Please read also the <a href="#disclaimer">disclaimer</a>.
-						<br />
-						For more information, please refer to <a href="http://unlicense.org/" target="_blank">http://unlicense.org/</a>.
-						<br />
-						<br />
-					</li>
-
-					<li>The following software packages, bundled within the LWT software, have different licenses:
-						<ul>
-						
-						<li>
-						jQuery, jQueryUI - Copyright © John Resig et.al., <a href="http://jquery.org/license" target="_blank">http://jquery.org/license</a> (../js/jquery.js, ../js/jquery-ui.min.js)
-						</li>
-						
-						<li>
-						jQuery.ScrollTo - Copyright © Ariel Flesler, <a href="http://flesler.blogspot.com" target="_blank">http://flesler.blogspot.com</a>	(../js/jquery.scrollTo.min.js)
-						</li>
-						
-						<li>
-						Jeditable - jQuery in-place edit plugin - Copyright © Mika Tuupola, Dylan Verheul, <a href="http://www.appelsiini.net/projects/jeditable" target="_blank">http://www.appelsiini.net/projects/jeditable</a>	(../js/jquery.jeditable.mini.js)
-						</li>
-						
-						<li>
-						jQueryUI Tag-it! - Copyright © Levy Carneiro Jr., <a href="http://aehlke.github.com/tag-it/" target="_blank">http://aehlke.github.com/tag-it/</a>	(../js/tag-it.js)
-						</li>
-						
-						<li>
-						оverLIB 4.22 - Copyright © Erik Bоsrup, <a href="http://www.bosrup.com/" target="_blank">http://www.bosrup.com/</a> (../js/overlib/...)
-						</li>
-						
-						<li>
-						sorttable - Copyright © Stuart Langridge, <a href="http://www.kryogenix.org/code/browser/sorttable/" target="_blank">http://www.kryogenix.org/code/browser/sorttable/</a> (../js/sorttable/...)
-						</li>
-					
-						<li>
-						CountUp - Copyright © Praveen Lobo, <a href="http://PraveenLobo.com/techblog/javascript-countup-timer/" target="_blank">http://PraveenLobo.com/techblog/javascript-countup-timer/</a> (../js/third_party/countuptimer.js)
-						</li>
-						
-						<li>
-						jPlayer - Copyright © Happyworm Ltd, <a href="http://www.jplayer.org/about/" target="_blank">http://www.jplayer.org/about/</a> (../js/jquery.jplayer.js, ../js/Jplayer.swf)
-						</li>
-						
-						<li>
-						Floating Menu - Copyright © JTricks.com, <a href="http://www.jtricks.com/licensing.html" target="_blank">http://www.jtricks.com/licensing.html</a> (../js/third_party/floating.js)
-						</li>
-
-						<li>
-						mobiledetect - Copyright © Șerban Ghiță &amp; Victor Stanciu, <a href="http://mobiledetect.net/" target="_blank">http://mobiledetect.net</a> (vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php)
-						</li>
-
-						<li>
-						iUI - Copyright © iUI, <a href="http://www.iui-js.org/" target="_blank">http://www.iui-js.org/</a> (iui)
-						</li>
-
-						<li>
-						Query.Xpath - Copyright © Sergey Ilinsky, <a href="https://github.com/ilinsky/jquery-xpath" target="_blank">https://github.com/ilinsky/jquery-xpath</a> (../js/jquery.xpath.js)
-						</li>
-			
-						<li>
-						hoverIntent - Copyright © Brian Cherne, <a href="https://github.com/briancherne/jquery-hoverIntent" target="_blank">http://cherne.net/brian/resources/jquery.hoverIntent.html</a> (../js/jquery.hoverIntent.js)
-						</li>
-						</ul>
-						<br />
-					</li>
-					
-					<li>
-						The icons in the "icn" subdirectory are Copyright &copy; <a href="http://p.yusukekamiyamane.com/" target="_blank">Yusuke Kamiyamane</a>. All rights reserved. Licensed under a <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Creative Commons Attribution 3.0 license</a>. The wizard icon "wizard.png" is the "Free Wizard Icon", free for commercial use, from <a href="http://www.icojam.com/blog/?p=159" target="_blank">icojam.com</a> (Author: <a href="http://www.icojam.com" target="_blank">IcoJam / Andrew Zhebrakov</a>).
-						<br />
-						<br />
-					</li>
-					
-					<li>
-						The following examples, supplied within the LWT download package, have the following licenses:
-						<ul>
-						
-						<li>Chinese: The Man and the Dog - 
-						Copyright © Praxis Language LLC, now ChinesePod Ltd., <a href="http://chinesepod.com/lessons/the-man-and-the-dog" target="_blank">Source</a>, MP3 licensed under a <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Creative Commons 3.0 Unported license</a>.
-						</li>
-						
-						<li>German: Die Leiden des jungen Werther by Johann Wolfgang von Goethe - 
-						in the <a href="http://www.gutenberg.org/wiki/Gutenberg:The_Project_Gutenberg_License" target="_blank">Public Domain</a>, Source: <a href="http://www.gutenberg.org/ebooks/2407" target="_blank">Text</a>, <a href="http://www.gutenberg.org/ebooks/19794" target="_blank">Audio</a>.
-						</li>
-						
-						<li>French: Mon premier don du sang - 
-						Copyright © France Bienvenue, <a href="http://francebienvenue1.wordpress.com/2011/06/18/generosite/" target="_blank">Source</a>. License: "Bien sûr, les enseignants de FLE peuvent utiliser nos enregistrements et nos transcriptions pour leurs cours. Merci de mentionner notre site !".
-						</li>
-						
-						<li>Korean, Japanese, Thai, Hebrew - own creations from different sources.
-						</li>
-						
-						</ul>
-					</li>
-				</ul>
+				<?php echo markdown_converter(__DIR__ . "/../UNLICENSE.md" ) ?>
+			</dd>
+			<dt>
+				▶ <b><a name="thirdpartylicenses" id="thirdpartylicenses">Third party licenses</a></b> - <a href="#">[↑]</a>
+			</dt>
+			<dd>
+				<?php echo markdown_converter(__DIR__ . "/thirdpartylicenses.md" ) ?>
 			</dd>
 
 			<dt>
@@ -2201,9 +2054,7 @@ $(document).ready( function() {
       </dt>
 
       <dd>
-			  <?php 
-			  echo markdown_converter(__DIR__ . "/database.md");
-			  ?>
+		<?php echo markdown_converter(__DIR__ . "/database.md"); ?>
       </dd>
 
       <dt>
@@ -2211,9 +2062,7 @@ $(document).ready( function() {
       </dt>
 
       <dd>
-		  <?php 
-		  	echo markdown_converter(__DIR__ . "/CHANGELOG.md");
-		  ?>
+		  <?php echo markdown_converter(__DIR__ . "/CHANGELOG.md"); ?>
       </dd>
     </dl>
 
