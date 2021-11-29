@@ -1138,23 +1138,36 @@ function stripTheSlashesIfNeeded($s)
     }
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Return navigation arrows to previous and next texts.
+ * 
+ * @param string $textid ID of the current text
+ * @param string $url Base URL to append before $textid
+ * @param bool $onlyann Restrict to annotated texts only
+ * @param string $add Some content to add before the output
+ * @return string Arrows to previous and next texts.
+ */
 function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add) 
 {
     global $tbpref;
-    $currentlang = validateLang(processDBParam("filterlang", 'currentlanguage', '', 0));
+    $currentlang = validateLang(
+        processDBParam("filterlang", 'currentlanguage', '', 0)
+    );
     $wh_lang = '';
     if ($currentlang != '') {
         $wh_lang = ' AND TxLgID=' . $currentlang;
     }
 
     $currentquery = processSessParam("query", "currenttextquery", '', 0);
-    $currentquerymode = processSessParam("query_mode", "currenttextquerymode", 'title,text', 0);
+    $currentquerymode = processSessParam(
+        "query_mode", "currenttextquerymode", 'title,text', 0
+    );
     $currentregexmode = getSettingWithDefault("set-regex-mode");
     $wh_query = $currentregexmode . 'LIKE ';
     if ($currentregexmode == '') {
-        $wh_query .= convert_string_to_sqlsyntax(str_replace("*", "%", mb_strtolower($currentquery, 'UTF-8')));
+        $wh_query .= convert_string_to_sqlsyntax(
+            str_replace("*", "%", mb_strtolower($currentquery, 'UTF-8'))
+        );
     } else {
         $wh_query .= convert_string_to_sqlsyntax($currentquery);
     }
@@ -1173,8 +1186,14 @@ function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add)
         $wh_query = ''; 
     }
 
-    $currenttag1 = validateTextTag(processSessParam("tag1", "currenttexttag1", '', 0), $currentlang);
-    $currenttag2 = validateTextTag(processSessParam("tag2", "currenttexttag2", '', 0), $currentlang);
+    $currenttag1 = validateTextTag(
+        processSessParam("tag1", "currenttexttag1", '', 0), 
+        $currentlang
+    );
+    $currenttag2 = validateTextTag(
+        processSessParam("tag2", "currenttexttag2", '', 0), 
+        $currentlang
+    );
     $currenttag12 = processSessParam("tag12", "currenttexttag12", '', 0);
     if ($currenttag1 == '' && $currenttag2 == '') {
         $wh_tag = ''; 
@@ -1209,16 +1228,39 @@ function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add)
     $currentsort = processDBParam("sort", 'currenttextsort', '1', 1);
     $sorts = array('TxTitle','TxID desc','TxID asc');
     $lsorts = count($sorts);
-    if ($currentsort < 1) { $currentsort = 1; 
+    if ($currentsort < 1) { 
+        $currentsort = 1; 
     }
-    if ($currentsort > $lsorts) { $currentsort = $lsorts; 
+    if ($currentsort > $lsorts) { 
+        $currentsort = $lsorts; 
     }
 
     if ($onlyann) { 
-        $sql = 'select TxID from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID = TxLgID AND LENGTH(TxAnnotatedText) > 0 ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1]; 
+        $sql = 
+        'SELECT TxID 
+        FROM (
+            (' . $tbpref . 'texts 
+                LEFT JOIN ' . $tbpref . 'texttags ON TxID = TtTxID
+            ) 
+            LEFT JOIN ' . $tbpref . 'tags2 ON T2ID = TtT2ID
+        ), ' . $tbpref . 'languages 
+        WHERE LgID = TxLgID AND LENGTH(TxAnnotatedText) > 0 ' 
+        . $wh_lang . $wh_query . ' 
+        GROUP BY TxID ' . $wh_tag . ' 
+        ORDER BY ' . $sorts[$currentsort-1]; 
     }
     else {
-        $sql = 'select TxID from ((' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) left join ' . $tbpref . 'tags2 on T2ID = TtT2ID), ' . $tbpref . 'languages where LgID = TxLgID ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ' order by ' . $sorts[$currentsort-1]; 
+        $sql = 
+        'SELECT TxID 
+        FROM (
+            (' . $tbpref . 'texts 
+                LEFT JOIN ' . $tbpref . 'texttags ON TxID = TtTxID
+            ) 
+            LEFT JOIN ' . $tbpref . 'tags2 ON T2ID = TtT2ID
+        ), ' . $tbpref . 'languages 
+        WHERE LgID = TxLgID ' . $wh_lang . $wh_query . ' 
+        GROUP BY TxID ' . $wh_tag . ' 
+        ORDER BY ' . $sorts[$currentsort-1]; 
     }
 
     $list = array(0);
@@ -1251,29 +1293,6 @@ function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add)
     return $add . '<img src="icn/navigation-180-button-light.png" title="No Previous Text" alt="No Previous Text" /> <img src="icn/navigation-000-button-light.png" title="No Next Text" alt="No Next Text" />';
 }
 
-
-// -------------------------------------------------------------
-
-function framesetheader($title) 
-{
-    @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-    @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-    @header('Cache-Control: no-cache, must-revalidate, max-age=0');
-    @header('Pragma: no-cache');
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-    <!-- 
-        <?php echo file_get_contents( "UNLICENSE.md" );?> 
-    -->
-    <title>LWT :: <?php echo tohtml($title); ?></title>
-</head>
-<?php
-}
 
 // -------------------------------------------------------------
 
@@ -1946,39 +1965,62 @@ function validateTextTag($currenttag,$currentlang)
 function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1) 
 {
     global $tbpref;
-    $r = get_first_value("select ifnull(" . ($brack ? "concat('['," : "") . "group_concat(distinct TgText order by TgText separator ', ')" . ($brack ? ",']')" : "") . ",'') as value from ((" . $tbpref . "words left join " . $tbpref . "wordtags on WoID = WtWoID) left join " . $tbpref . "tags on TgID = WtTgID) where WoID = " . $wid);
-    if ($r != '') { $r = $before . $r; 
+    $r = get_first_value(
+        "SELECT IFNULL(" . ($brack ? "CONCAT('['," : "") . 
+        "GROUP_CONCAT(DISTINCT TgText ORDER BY TgText separator ', ')" . 
+        ($brack ? ",']')" : "") . ",'') as value 
+        FROM ((" . $tbpref . "words 
+        LEFT JOIN " . $tbpref . "wordtags 
+        ON WoID = WtWoID) 
+        LEFT JOIN " . $tbpref . "tags 
+        ON TgID = WtTgID) 
+        WHERE WoID = " . $wid
+    );
+    if ($r != '') { 
+        $r = $before . $r; 
     }
-    if ($tohtml) { $r = tohtml($r); 
+    if ($tohtml) { 
+        $r = tohtml($r); 
     }
     return $r;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Return the last inserted ID in the database
+ * 
+ * @return string|null
+ */
 function get_last_key() 
 {
-    return get_first_value('SELECT LAST_INSERT_ID() as value');        
+    return get_first_value('SELECT LAST_INSERT_ID() AS VALUE');        
 }
 
-// -------------------------------------------------------------
-
+/**
+ * If $value is true, return an HTML-style checked attribute.
+ * 
+ * @param mixed $value Some value that can be evaluated as a boolean
+ * @return string ' checked="checked" ' if value is true, '' otherwise 
+ */
 function get_checked($value) 
 {
-    if (! isset($value)) { return ''; 
+    if (!isset($value)) { 
+        return ''; 
     }
-    if ((int)$value != 0) { return ' checked="checked" '; 
+    if ($value) { 
+        return ' checked="checked" '; 
     }
     return '';
 }
 
 // -------------------------------------------------------------
 
-function get_selected($value,$selval) 
+function get_selected($value, $selval) 
 {
-    if (! isset($value)) { return ''; 
+    if (!isset($value)) { 
+        return ''; 
     }
-    if ($value == $selval) { return ' selected="selected" '; 
+    if ($value == $selval) { 
+        return ' selected="selected" '; 
     }
     return '';
 }
@@ -4468,6 +4510,102 @@ function phonetic_reading($text, $lang)
     return $mecab_str;
 }
 
+
+// -------------------------------------------------------------
+
+function make_score_random_insert_update($type) 
+{
+    // $type='iv'/'id'/'u'
+    if ($type == 'iv') {
+        return ' WoTodayScore, WoTomorrowScore, WoRandom ';
+    } elseif ($type == 'id') {
+        return ' ' . getsqlscoreformula(2) . ', ' . getsqlscoreformula(3) . ', RAND() ';
+    } elseif ($type == 'u') {
+        return ' WoTodayScore = ' . getsqlscoreformula(2) . ', WoTomorrowScore = ' . getsqlscoreformula(3) . ', WoRandom = RAND() ';
+    } else {
+        return '';
+    }
+}
+
+// -------------------------------------------------------------
+
+function refreshText($word,$tid) 
+{
+    global $tbpref;
+    // $word : only sentences with $word
+    // $tid : textid
+    // only to be used when $showAll = 0 !
+    $out = '';
+    $wordlc = trim(mb_strtolower($word, 'UTF-8'));
+    if ($wordlc == '') { return ''; 
+    }
+    $sql = 'SELECT distinct TiSeID FROM ' . $tbpref . 'textitems WHERE TiIsNotWord = 0 and TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' and TiTxID = ' . $tid . ' order by TiSeID';
+    $res = do_mysqli_query($sql);
+    $inlist = '(';
+    while ($record = mysqli_fetch_assoc($res)) { 
+        if ($inlist == '(') { 
+            $inlist .= $record['TiSeID']; 
+        }
+        else {
+            $inlist .= ',' . $record['TiSeID']; 
+        }
+    }
+    mysqli_free_result($res);
+    if ($inlist == '(') { 
+        return ''; 
+    }
+    else {
+        $inlist =  ' where TiSeID in ' . $inlist . ') '; 
+    }
+    $sql = 'select TiWordCount as Code, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) ' . $inlist . ' order by TiOrder asc, TiWordCount desc';
+
+    $res = do_mysqli_query($sql);        
+
+    $hideuntil = -1;
+    $hidetag = "removeClass('hide');";
+
+    while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
+        $actcode = $record['Code'] + 0;
+        $order = $record['TiOrder'] + 0;
+        $notword = $record['TiIsNotWord'] + 0;
+        $termex = isset($record['WoID']);
+        $spanid = 'ID-' . $order . '-' . $actcode;
+
+        if ($hideuntil > 0 ) {
+            if ($order <= $hideuntil ) {
+                $hidetag = "addClass('hide');"; 
+            }
+            else {
+                $hideuntil = -1;
+                $hidetag = "removeClass('hide');";
+            }
+        }
+
+        if ($notword != 0) {  // NOT A TERM
+            $out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
+        }  
+
+        else {   // A TERM
+            if ($actcode > 1) {   // A MULTIWORD FOUND
+                if ($termex) {  // MULTIWORD FOUND - DISPLAY 
+                    if ($hideuntil == -1) { $hideuntil = $order + ($actcode - 1) * 2; 
+                    }
+                    $out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
+                }
+                else {  // MULTIWORD PLACEHOLDER - NO DISPLAY 
+                    $out .= "$('#" . $spanid . "',context).addClass('hide');\n";
+                }  
+            } // ($actcode > 1) -- A MULTIWORD FOUND
+
+            else {  // ($actcode == 1)  -- A WORD FOUND
+                $out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
+            }  
+        }
+    } //  MAIN LOOP
+    mysqli_free_result($res);
+    return $out;
+}
+
 /** 
  * Create an HTML media player, audio or video.
  * 
@@ -4489,6 +4627,66 @@ function makeMediaPlayer($path, $offset=0)
         makeVideoPlayer($path, $offset);
     }
 }
+
+
+/** 
+ * Create an embed video player
+ * 
+ * @param string $path   URL or local file path
+ * @param int    $offset Offset from the beginning of the video
+ */ 
+function makeVideoPlayer($path, $offset=0) 
+{
+    if (preg_match(
+        "/(?:https:\/\/)?www\.youtube\.com\/watch\?v=([\d\w]+)/iu", 
+        $path, $matches
+    )
+    ) {
+        // Youtbe video
+        $domain = "https://www.youtube.com/embed/";
+        $id = $matches[1];
+        $url = $domain . $id . "?t=" . $offset;
+    } if (preg_match(
+        "/(?:https:\/\/)?youtu\.be\/([\d\w]+)/iu", 
+        $path, $matches
+    )
+    ) {
+        // Youtbe video
+        $domain = "https://www.youtube.com/embed/";
+        $id = $matches[1];
+        $url = $domain . $id . "?t=" . $offset;
+    } else if (preg_match(
+        "/(?:https:\/\/)?dai\.ly\/([^\?]+)/iu", 
+        $path, $matches
+    )
+    ) {
+        // Dailymotion
+        $domain = "https://www.dailymotion.com/embed/video/";
+        $id = $matches[1];
+        $url = $domain . $id;
+    } else if (preg_match(
+        "/(?:https:\/\/)?vimeo\.com\/(\d+)/iu",
+        // Vimeo 
+        $path, $matches
+    )
+    ) {
+        $domain = "https://player.vimeo.com/video/";
+        $id = $matches[1];
+        $url = $domain . $id . "#t=" . $offset . "s";
+    } else {
+        $url = $path;
+    }
+    ?> 
+<iframe style="width: 100%; height: 30%;" 
+src="<?php echo $url ?>" 
+title="Video player"
+frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+allowfullscreen type="text/html">
+</iframe>
+    <?php
+}
+
 
 /** 
  * Create an HTML audio player.
@@ -4664,157 +4862,28 @@ if ($currentplaybackrate == '') {
 <?php
 }
 
-/** 
- * Create an embed video player
- * 
- * @param string $path   URL or local file path
- * @param int    $offset Offset from the beginning of the video
- */ 
-function makeVideoPlayer($path, $offset=0) 
-{
-    if (preg_match(
-        "/(?:https:\/\/)?www\.youtube\.com\/watch\?v=([\d\w]+)/iu", 
-        $path, $matches
-    )
-    ) {
-        // Youtbe video
-        $domain = "https://www.youtube.com/embed/";
-        $id = $matches[1];
-        $url = $domain . $id . "?t=" . $offset;
-    } if (preg_match(
-        "/(?:https:\/\/)?youtu\.be\/([\d\w]+)/iu", 
-        $path, $matches
-    )
-    ) {
-        // Youtbe video
-        $domain = "https://www.youtube.com/embed/";
-        $id = $matches[1];
-        $url = $domain . $id . "?t=" . $offset;
-    } else if (preg_match(
-        "/(?:https:\/\/)?dai\.ly\/([^\?]+)/iu", 
-        $path, $matches
-    )
-    ) {
-        // Dailymotion
-        $domain = "https://www.dailymotion.com/embed/video/";
-        $id = $matches[1];
-        $url = $domain . $id;
-    } else if (preg_match(
-        "/(?:https:\/\/)?vimeo\.com\/(\d+)/iu",
-        // Vimeo 
-        $path, $matches
-    )
-    ) {
-        $domain = "https://player.vimeo.com/video/";
-        $id = $matches[1];
-        $url = $domain . $id . "#t=" . $offset . "s";
-    } else {
-        $url = $path;
-    }
-    ?> 
-<iframe style="width: 75%; height: 30%;" 
-src="<?php echo $url ?>" 
-title="Video player"
-frameborder="0" 
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-allowfullscreen type="text/html">
-</iframe>
-    <?php
-}
 
 // -------------------------------------------------------------
 
-function make_score_random_insert_update($type) 
+function framesetheader($title) 
 {
-    // $type='iv'/'id'/'u'
-    if ($type == 'iv') {
-        return ' WoTodayScore, WoTomorrowScore, WoRandom ';
-    } elseif ($type == 'id') {
-        return ' ' . getsqlscoreformula(2) . ', ' . getsqlscoreformula(3) . ', RAND() ';
-    } elseif ($type == 'u') {
-        return ' WoTodayScore = ' . getsqlscoreformula(2) . ', WoTomorrowScore = ' . getsqlscoreformula(3) . ', WoRandom = RAND() ';
-    } else {
-        return '';
-    }
-}
-
-// -------------------------------------------------------------
-
-function refreshText($word,$tid) 
-{
-    global $tbpref;
-    // $word : only sentences with $word
-    // $tid : textid
-    // only to be used when $showAll = 0 !
-    $out = '';
-    $wordlc = trim(mb_strtolower($word, 'UTF-8'));
-    if ($wordlc == '') { return ''; 
-    }
-    $sql = 'SELECT distinct TiSeID FROM ' . $tbpref . 'textitems WHERE TiIsNotWord = 0 and TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' and TiTxID = ' . $tid . ' order by TiSeID';
-    $res = do_mysqli_query($sql);
-    $inlist = '(';
-    while ($record = mysqli_fetch_assoc($res)) { 
-        if ($inlist == '(') { 
-            $inlist .= $record['TiSeID']; 
-        }
-        else {
-            $inlist .= ',' . $record['TiSeID']; 
-        }
-    }
-    mysqli_free_result($res);
-    if ($inlist == '(') { 
-        return ''; 
-    }
-    else {
-        $inlist =  ' where TiSeID in ' . $inlist . ') '; 
-    }
-    $sql = 'select TiWordCount as Code, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) ' . $inlist . ' order by TiOrder asc, TiWordCount desc';
-
-    $res = do_mysqli_query($sql);        
-
-    $hideuntil = -1;
-    $hidetag = "removeClass('hide');";
-
-    while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
-        $actcode = $record['Code'] + 0;
-        $order = $record['TiOrder'] + 0;
-        $notword = $record['TiIsNotWord'] + 0;
-        $termex = isset($record['WoID']);
-        $spanid = 'ID-' . $order . '-' . $actcode;
-
-        if ($hideuntil > 0 ) {
-            if ($order <= $hideuntil ) {
-                $hidetag = "addClass('hide');"; 
-            }
-            else {
-                $hideuntil = -1;
-                $hidetag = "removeClass('hide');";
-            }
-        }
-
-        if ($notword != 0) {  // NOT A TERM
-            $out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
-        }  
-
-        else {   // A TERM
-            if ($actcode > 1) {   // A MULTIWORD FOUND
-                if ($termex) {  // MULTIWORD FOUND - DISPLAY 
-                    if ($hideuntil == -1) { $hideuntil = $order + ($actcode - 1) * 2; 
-                    }
-                    $out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
-                }
-                else {  // MULTIWORD PLACEHOLDER - NO DISPLAY 
-                    $out .= "$('#" . $spanid . "',context).addClass('hide');\n";
-                }  
-            } // ($actcode > 1) -- A MULTIWORD FOUND
-
-            else {  // ($actcode == 1)  -- A WORD FOUND
-                $out .= "$('#" . $spanid . "',context)." . $hidetag . "\n";
-            }  
-        }
-    } //  MAIN LOOP
-    mysqli_free_result($res);
-    return $out;
+    @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+    @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+    @header('Cache-Control: no-cache, must-revalidate, max-age=0');
+    @header('Pragma: no-cache');
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <!-- 
+        <?php echo file_get_contents( "UNLICENSE.md" );?> 
+    -->
+    <title>LWT :: <?php echo tohtml($title); ?></title>
+</head>
+<?php
 }
 
 ?>

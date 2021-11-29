@@ -2,7 +2,7 @@
 
 /**
  * \file
- * Define all the supported languages.
+ * \brief Define all the supported languages.
  * 
  * @author LWT Project
  */

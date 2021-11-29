@@ -129,7 +129,8 @@ dt
 {border-left:1px solid black;border-top:1px solid black;border-bottom:1px solid black;background-color:#EEEEEE}.bordermiddle
 {border-top:1px solid black;border-bottom:1px solid black;background-color:#EEEEEE}.borderright
 {border-right:1px solid black;border-top:1px solid black;border-bottom:1px solid black;background-color:#EEEEEE}.wizard
-{margin:20px 0 5px 0}
+{margin:20px 0 5px 0}.resizable
+{min-height:30px;min-width:30px;resize:both;overflow:auto;max-height:fit-content;max-width:fit-content}
 @media print
 {.noprint
 {display:none}
