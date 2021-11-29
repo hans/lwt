@@ -18,7 +18,7 @@
 function get_version() 
 {
     global $debug;
-    $version = '2.0.3-fork (Friday 26 2021)'; 
+    $version = '2.0.3-fork (November 26 2021)'; 
     if ($debug) {
         $version .= ' <span class="red">DEBUG</span>';
     }
@@ -162,7 +162,7 @@ function pageend()
 /**
  * Debug function only.
  *
- * @param  any    $var  A printed variable to debug
+ * @param  mixed  $var  A printable variable to debug
  * @param  string $text Echoed text in HTML page
  * @global bool $debug This functions doesn't do anything is $debug is false.
  */

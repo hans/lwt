@@ -93,11 +93,12 @@ and East-Asian ideographic systems
 To contribute, you need to clone or fork this repository.
 Run ``git clone https://github.com/HugoFara/lwt``
 
-Next, use ``composer install --dev``.
+Next, got to the lwt folder and use ``composer install --dev``.
 
 In short:
 ```bash
 git clone https://github.com/HugoFara/lwt
+cd lwt
 composer install --dev
 ```
 

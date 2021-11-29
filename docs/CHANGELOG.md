@@ -11,9 +11,9 @@ This version brings a better composer compatibility.
 * PHP_codesniffer is now recommended, and no longer dev-required.
 
 ### Removed
-* ``composer.phar`` and ``composer.lock`` are no longer pushed.
+* ``composer.phar`` and ``composer.lock`` are now git ignored.
 
-## 2.0.3-fork (November 27 2021):
+## 2.0.3-fork (November 26 2021):
 Serious maintaining is back!
 
 This version should be the stable merge between official v2.0.2 and community maintained 1.6.31-fork.
