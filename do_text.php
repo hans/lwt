@@ -26,7 +26,17 @@ if (isset($_REQUEST['start'])) {
         WHERE TxID = ' . $_REQUEST['start']
     );
     
-    framesetheader('Read');
+    //framesetheader('Read');
+    pagestart_nobody(tohtml('Read'), 
+    '.resizable
+    {
+     min-height: 30px;
+     min-width: 30px;
+     resize: both;
+     overflow: auto;
+     max-height: fit-content;
+     max-width: fit-content;
+    }');
     
     if ($mobile ) {
 
@@ -116,22 +126,47 @@ if (isset($_REQUEST['start'])) {
     // Not mobile
     ?>
 
-   <frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
-    <frameset rows="<?php 
-    if (isset($audio)) { 
-        echo getSettingWithDefault('set-text-h-frameheight-with-audio');
-     } else {
-        echo getSettingWithDefault('set-text-h-frameheight-no-audio'); 
-     } ?>,*">
-        <frame src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="h" />            
-        <frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />
-    </frameset>
-    <frameset rows="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')); ?>%,*">
-        <frame src="empty.html" scrolling="auto" name="ro" />
-        <frame src="empty.html" scrolling="auto" name="ru" />
-    </frameset>
-    <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
-</frameset>
+
+    <!--<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
+        <frameset rows="<?php 
+        if (isset($audio)) { 
+            echo getSettingWithDefault('set-text-h-frameheight-with-audio');
+        } else {
+            echo getSettingWithDefault('set-text-h-frameheight-no-audio'); 
+        } ?>,*">
+            <frame src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="h" />
+            <frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />
+        </frameset>
+        <<frameset rows="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')); ?>%,*">
+            <frame src="empty.html" scrolling="auto" name="ro" />
+            <frame src="empty.html" scrolling="auto" name="ru" />
+        </frameset>
+        <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
+    </frameset>-->
+    <div class="resizable" style="width: 79%;">
+        <div>
+            <?php
+            require 'do_text_header.php';
+            do_text_header_content($_REQUEST['start'], true);
+            ?>
+        </div>
+        <hr />
+        <div>
+            <?php
+            require 'do_text_text.php';
+            do_text_text_content($_REQUEST['start'], true);
+            ?>
+        </div>
+    </div>
+    <div class="resizable" style="position: fixed; top: 0; right: 5px; width: 20%; height: 99%;">
+        <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
+            Your browser doesn't support iFrames, update it!
+        </iframe>
+        <iframe src="empty.html" scrolling="auto" name="ru" style="height: 50%; width: 100%;">
+            Your browser doesn't support iFrames, update it!
+        </iframe>
+    </div>
+    </body>
 </html>
 <?php
 

@@ -36,43 +36,15 @@ function getData($textid) {
 }
 
 /**
- * Main function for displaying header. It will print HTML content.
+ * Print the main title row.
  * 
- * @param string $textid ID of the requiered text
- * @param bool $only_body If true, only show the inner body. If false, create a complete HTML document. 
- * @global array $langDefs Language definitions
+ * @param string $textid Text ID
+ * @param string $langid Language ID to navigate between 
+ * texts of same language
+ * @since 2.0.4-fork
  */
-function do_text_header_content($textid, $only_body=true) {
-    global $langDefs;
-
-    $record = getData($textid);
-    $media = $record['TxAudioURI'];
-    if (!isset($media)) { 
-        $media = '';
-    }
-    $media = trim($media);
-    
-    $title = $record['TxTitle'];
-    $sourceURI = $record['TxSourceURI'];
-    $langid = $record['TxLgID'];
-    $pos = $record['TxAudioPosition'];
-    
-    
-    // User settings
-    $showAll = getSettingZeroOrOne('showallwords', 1);
-    $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
-    
-    /** @var string $languageCode BCP 47 language tag, for istance "en" */
-    $languageCode = $langDefs[$record["LgName"]][1];
-    /** @var string $phoneticText Phonetic reading for this text */
-    $phoneticText = phonetic_reading($record["TxText"], $languageCode);
-    
-    saveSetting('currenttext', $textid);
-
-    if (!$only_body) {
-        pagestart_nobody(tohtml($title), $addcss='html, body {margin-bottom:0;}');
-    }
-?>
+function do_header_row($textid, $langid) {
+    ?>
 <h4>
     <a href="edit_texts.php" target="_top">
         <?php echo_lwt_logo(); ?> LWT
@@ -98,6 +70,19 @@ function do_text_header_content($textid, $only_body=true) {
         <img src="icn/sticky-note--plus.png" title="New Term" alt="New Term" />
     </a>
 </h4>
+    <?php
+}
+
+/**
+ * Print the title of the text.
+ * 
+ * @param string $title Title of the text
+ * @param string $sourceURI URL of the text (if any)
+ * 
+ * @since 2.0.4-fork
+ */
+function do_title($title, $sourceURI) {
+    ?>
 <table>
     <tr>
         <td>
@@ -105,9 +90,11 @@ function do_text_header_content($textid, $only_body=true) {
         </td>
         <td class="width99pc">
             <h3>
-                <?php echo tohtml($title);
+                <?php 
+                echo tohtml($title);
                 if (isset($sourceURI) && substr(trim($sourceURI), 0, 1) != '#') { 
-                    ?><a href="<?php echo $sourceURI ?>" target="_blank">
+                    ?>
+                    <a href="<?php echo $sourceURI ?>" target="_blank">
                         <img src="<?php echo get_file_path('icn/chain.png') ?>" title="Text Source" alt="Text Source" />
                     </a>
                     <?php 
@@ -117,6 +104,22 @@ function do_text_header_content($textid, $only_body=true) {
         </td>
     </tr>
 </table>
+    <?php
+}
+
+/**
+ * Prepare user settings for this text.
+ * 
+ * @param string $textid Text ID
+ * 
+ * @since 2.0.4-fork
+ */
+function do_settings($textid) {
+    // User settings
+    $showAll = getSettingZeroOrOne('showallwords', 1);
+    $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
+
+    ?>
 <table class="width99pc">
     <tr>
         <td>TO DO:
@@ -137,72 +140,141 @@ function do_text_header_content($textid, $only_body=true) {
         <td id="thetextid" class="hide"><?php echo $textid; ?></td>
         <td><button id="readTextButton">Read in browser</button></td>
     </tr>
-
-<?php makeMediaPlayer($media, $pos); ?>
-
 </table>
+    <?php
+}
+
+/**
+ * Prints javascript data and function to read text
+ * in your browser.
+ * 
+ * @param string $text Text to read
+ * @param string $languageName Full name of the language (i. e.: "English")
+ * @global array $langDefs Language definitions
+ * 
+ * @since 2.0.3-fork
+ */
+function browser_tts($text, $languageName) {
+    global $langDefs;
+
+    /** 
+     * @var string $languageCode BCP 47 convention (i. e.: en-US) is suggested.
+     * Two-letter language code is enough (i. e. "en") 
+     */
+    $languageCode = $langDefs[$languageName][1];
+    /** @var string $phoneticText Phonetic reading for this text */
+    $phoneticText = phonetic_reading($text, $languageCode);
+?>
 <script type="text/javascript">
 
-    /// Main object for text-to-speech interaction with SpeechSynthesisUtterance
-    var text_reader = {
-        /// The text to read
-        text: `<?php echo htmlentities($phoneticText); ?>`,
+/// Main object for text-to-speech interaction with SpeechSynthesisUtterance
+var text_reader = {
+    /// The text to read
+    text: `<?php echo htmlentities($phoneticText); ?>`,
 
-        /// {string} ISO code for the language
-        lang: '<?php echo $languageCode; ?>',
+    /// {string} ISO code for the language
+    lang: '<?php echo htmlentities($languageCode); ?>',
 
-        /// {string} Rate at wich the speech is done
-        rate: 0.8,
-
-        /**
-         * Reads a text using the browser text reader.
-         */
-        readTextAloud: function () {
-            var msg = new SpeechSynthesisUtterance(this.text);
-            msg.text = this.text;
-            msg.lang = this.lang;
-            msg.rate = this.rate;
-            window.speechSynthesis.speak(msg);
-        },
-
-    };
-
-    // Check browser compatibility before reading
-    function init_reading() {
-        if (!('speechSynthesis' in window)) {
-            alert('Your browser does not support speechSynthesis!');
-        } else {
-            text_reader.readTextAloud();
-        }
-    }
+    /// {string} Rate at wich the speech is done
+    rate: 0.8,
 
     /**
-     * Save audio position
+     * Reads a text using the browser text reader.
      */
-    function saveAudioPosition() {
-        if ($("#jquery_jplayer_1") === null) {
-            return;
-        }
-        var pos = $("#jquery_jplayer_1").data("jPlayer").status.currentTime;
-        $.ajax({
-            type: "POST",
-            url:'inc/ajax_save_text_position.php', 
-            data: { 
-                id: '<?php echo $_REQUEST['text']; ?>', 
-                audioposition: pos
-            }, 
-            async: false
-        });
-    }
-    
-    $(window).on('beforeunload', saveAudioPosition);
+    readTextAloud: function () {
+        var msg = new SpeechSynthesisUtterance(this.text);
+        msg.text = this.text;
+        msg.lang = this.lang;
+        msg.rate = this.rate;
+        window.speechSynthesis.speak(msg);
+    },
 
-    // We need to capture the text-to-speach event manually for Chrome
-    $(document).ready(function() {
-        $('#readTextButton').click(init_reading)
-    });
+};
+
+// Check browser compatibility before reading
+function init_reading() {
+    if (!('speechSynthesis' in window)) {
+        alert('Your browser does not support speechSynthesis!');
+    } else {
+        text_reader.readTextAloud();
+    }
+}
 </script>
 <?php
+}
+
+/**
+ * Save the position of the audio reading for a text.
+ * 
+ * @param string $textid ID of the text
+ * 
+ * @since 2.0.4-fork
+ */
+function save_audio_position($textid) {
+    ?>
+
+<script type="text/javascript">
+
+/**
+ * Save audio position
+ */
+function saveAudioPosition() {
+    if ($("#jquery_jplayer_1") === null) {
+        return;
+    }
+    var pos = $("#jquery_jplayer_1").data("jPlayer").status.currentTime;
+    $.ajax({
+        type: "POST",
+        url:'inc/ajax_save_text_position.php', 
+        data: { 
+            id: '<?php echo $textid; ?>', 
+            audioposition: pos
+        }, 
+        async: false
+    });
+}
+
+$(window).on('beforeunload', saveAudioPosition);
+
+// We need to capture the text-to-speach event manually for Chrome
+$(document).ready(function() {
+    $('#readTextButton').click(init_reading)
+});
+</script>
+<?php
+}
+
+/**
+ * Main function for displaying header. It will print HTML content.
+ * 
+ * @param string $textid ID of the requiered text
+ * @param bool $only_body If true, only show the inner body. If false, create a 
+ * complete HTML document. 
+ * 
+ * @since 2.0.3-fork
+ */
+function do_text_header_content($textid, $only_body=true) {
+
+    $record = getData($textid);
+    $title = $record['TxTitle'];
+    $media = $record['TxAudioURI'];
+    if (!isset($media)) { 
+        $media = '';
+    }
+    $media = trim($media);
+    
+    
+    saveSetting('currenttext', $textid);
+
+    if (!$only_body) {
+        pagestart_nobody(tohtml($title), 'html, body {margin-bottom:0;}');
+    }
+    save_audio_position($textid);
+    do_header_row($textid, $record['TxLgID']);
+    do_title($title, $record['TxSourceURI']);
+    do_settings($textid);
+    makeMediaPlayer($media, $record['TxAudioPosition']);
+    browser_tts($record["TxText"], $record["LgName"]);
     if (!$only_body) {
         pageend();
     }

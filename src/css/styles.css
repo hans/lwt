@@ -572,6 +572,17 @@
  {
    margin: 20px 0 5px 0;
  } 
+
+ /** Make any block resizable */
+ .resizable
+ {
+  min-height: 30px;
+  min-width: 30px;
+  resize: both;
+  overflow: auto;
+  max-height: fit-content;
+  max-width: fit-content;
+ }
  
  /**************************************************************
  Additional styles for printing
