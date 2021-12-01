@@ -143,22 +143,22 @@ if (isset($_REQUEST['start'])) {
         </frameset>
         <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
     </frameset>-->
-    <div class="resizable" style="width: 79%;">
-        <div>
+    <div class="resizable" style="width: 65%;">
+        <div id="frame-h">
             <?php
             require 'do_text_header.php';
             do_text_header_content($_REQUEST['start'], true);
             ?>
         </div>
         <hr />
-        <div>
+        <div id="frame-l">
             <?php
             require 'do_text_text.php';
             do_text_text_content($_REQUEST['start'], true);
             ?>
         </div>
     </div>
-    <div class="resizable" style="position: fixed; top: 0; right: 5px; width: 20%; height: 99%;">
+    <div class="resizable" style="position: fixed; top: 0; right: 5px; width: 35%; height: 99%;">
         <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
             Your browser doesn't support iFrames, update it!
         </iframe>

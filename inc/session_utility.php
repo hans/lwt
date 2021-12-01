@@ -1992,7 +1992,7 @@ function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1)
  */
 function get_last_key() 
 {
-    return get_first_value('SELECT LAST_INSERT_ID() AS VALUE');        
+    return get_first_value('SELECT LAST_INSERT_ID() AS value');        
 }
 
 /**

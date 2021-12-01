@@ -141,8 +141,6 @@ function pagestart($titletext, $close)
 /**
  * Add a closing body tag.
  * 
- * @param  string $titletext Title of the page
- * @param  string $addcss    Some CSS to be embed in a style tag
  * @global bool $debug Show the requests if true
  * @global float $dspltime Total execution time since the PHP session started
  */
