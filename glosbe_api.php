@@ -10,7 +10,7 @@ Call: glosbe_api.php?from=...&dest=...&phrase=...
 
 Call Glosbe Translation API, analyze and present JSON results
 for easily filling the "new word form"
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -38,12 +38,12 @@ else if($phrase=='') {
     echo '$("body").html("<p class=\"msgblue\">Term is not set!</p>");';
 }
 else{
-?>
+    ?>
     var w = window.parent.frames['ro'];
     if (typeof w == 'undefined') w = window.opener;
     if (typeof w == 'undefined')$('#del_translation').remove();
     getGlosbeTranslation(<?php echo "'" ,urlencode($phrase) ,"','",$from,"','",$dest,"'"; ?>);
-<?php 
+    <?php 
 }     ?>
 });
 //]]>

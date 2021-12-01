@@ -1,14 +1,17 @@
 <?php
 
-/**************************************************************
+/**
  * \file
  * \brief Show test frame
  * 
  * Call: do_test_test.php?type=[testtype]&lang=[langid]
  * Call: do_test_test.php?type=[testtype]&text=[textid]
  * Call: do_test_test.php?type=[testtype]&selection=1  
-			(SQL via $_SESSION['testsql'])
-***************************************************************/
+ *          (SQL via $_SESSION['testsql'])
+ * 
+ * @author LWT Project <lwt-project@htomail.com>
+ * @since  1.0.3
+ */
 
 require_once 'inc/session_utility.php';
 
@@ -229,7 +232,7 @@ if ($count <= 0) {
         echo $r;  // Show Sentence
     }
     
-?>
+    ?>
 
 <script type="text/javascript">
 //<![CDATA[
@@ -250,7 +253,7 @@ $(document).ready( function() {
 
 </p></div>
 
-<?php
+    <?php
 
 } 
 
@@ -291,13 +294,13 @@ $(document).ready( function() {
 <?php
 $waittime = getSettingWithDefault('set-test-edit-frame-waiting-time') + 0;
 if ($waittime <= 0 ) {
-?>
+    ?>
     window.parent.frames['ro'].location.href='empty.html';
-<?php
+    <?php
 } else {
-?>
+    ?>
     setTimeout('window.parent.frames[\'ro\'].location.href=\'empty.html\';', <?php echo $waittime; ?>);
-<?php
+    <?php
 }
 ?>
     new CountUp(<?php echo time() . ', ' . $_SESSION['teststart']; ?>, 

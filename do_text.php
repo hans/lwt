@@ -7,7 +7,7 @@
  * Call: do_text.php?start=[textid]
  *      Create the main window when reading texts.
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.0.3
  */
 
@@ -27,8 +27,9 @@ if (isset($_REQUEST['start'])) {
     );
     
     //framesetheader('Read');
-    pagestart_nobody(tohtml('Read'), 
-    '.resizable
+    pagestart_nobody(
+        tohtml('Read'), 
+        '.resizable
     {
      min-height: 30px;
      min-width: 30px;
@@ -36,11 +37,12 @@ if (isset($_REQUEST['start'])) {
      overflow: auto;
      max-height: fit-content;
      max-width: fit-content;
-    }');
+    }'
+    );
     
     if ($mobile ) {
 
-    ?>
+        ?>
 
     <style type="text/css"> 
     body {
@@ -66,7 +68,7 @@ if (isset($_REQUEST['start'])) {
         var h_height = <?php 
         if (isset($audio)) {
             getSettingWithDefault('set-text-h-frameheight-with-audio');
-         } else {
+        } else {
             getSettingWithDefault('set-text-h-frameheight-no-audio');
         } ?> + 10;
         var lr_perc = <?php echo getSettingWithDefault('set-text-l-framewidth-percent'); ?>;
@@ -118,13 +120,13 @@ if (isset($_REQUEST['start'])) {
         <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
     </div>
 
-<?php 
+        <?php 
 
     } 
     else 
     {
-    // Not mobile
-    ?>
+        // Not mobile
+        ?>
 
 
     <!--<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
@@ -146,14 +148,14 @@ if (isset($_REQUEST['start'])) {
     <div class="resizable" style="width: 65%;">
         <div id="frame-h">
             <?php
-            require 'do_text_header.php';
+            include 'do_text_header.php';
             do_text_header_content($_REQUEST['start'], true);
             ?>
         </div>
         <hr />
         <div id="frame-l">
             <?php
-            require 'do_text_text.php';
+            include 'do_text_text.php';
             do_text_text_content($_REQUEST['start'], true);
             ?>
         </div>
@@ -168,7 +170,7 @@ if (isset($_REQUEST['start'])) {
     </div>
     </body>
 </html>
-<?php
+        <?php
 
     }
 

@@ -3,7 +3,7 @@
 /**************************************************************
 Call: all_words_wellknown.php?text=[textid]
 Setting all unknown words to Well Known (99)
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 

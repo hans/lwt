@@ -4,7 +4,7 @@
 Call: upload_words.php?....
       ... op=Import ... do the import 
 Import terms from file or Text area
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -108,7 +108,7 @@ if (isset($_REQUEST['op'])) {
         
             /* Not merge from official
             $protokoll = '<h4>Import Report (Language: ' . getLanguage($lang) . ', Status: ' . $status . ')</h4><table class="tab1" cellspacing="0" cellpadding="5"><tr><th class="th1">Line</th><th class="th1">Term</th><th class="th1">Translation</th><th class="th1">Romanization</th><th class="th1">Sentence</th><th class="th1">Tag List</th><th class="th1">Message</th></tr>';
-		
+        
             if ( isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
             $lines = file($_FILES["thefile"]["tmp_name"], FILE_IGNORE_NEW_LINES);
             $l = count($lines);
@@ -271,15 +271,15 @@ if (isset($_REQUEST['op'])) {
                 }
             }
             $recno = get_first_value('select count(*) as value from ' . $tbpref . 'words where WoStatusChanged > ' . convert_string_to_sqlsyntax($last_update));
-        ?>
+            ?>
       <form name="form1" action="#" onsubmit="$('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','count':$('#recno').text(),'page':document.form1.page.options[document.form1.page.selectedIndex].value}); return false;"><div id="res_data"><table class="tab1"  cellspacing="0" cellpadding="2">
-    <?php
-    echo "</table></div></form>";
-    ?>
+            <?php
+            echo "</table></div></form>";
+            ?>
    <script type="text/javascript">
    $('#res_data').load('inc/ajax_show_imported_terms.php',{'last_update':'<?php echo $last_update; ?>','rtl':'<?php echo $rtl; ?>','count':'<?php echo $recno; ?>','page':'1'});
 </script>
-<?php
+            <?php
 
         }
         else if ($fields["tl"]>0) {
@@ -328,7 +328,7 @@ if (isset($_REQUEST['op'])) {
 
 } else {
 
-?>
+    ?>
 
     <form enctype="multipart/form-data" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" >
     <table class="tab3" cellspacing="0" cellpadding="5">
@@ -436,7 +436,7 @@ if (isset($_REQUEST['op'])) {
     <p>Sentences should contain the term in curly brackets "... {term} ...".<br />
     If not, such sentences can be automatically created later with the <br />"Set Term Sentences" action in the <input type="button" value="My Texts" onclick="location.href='edit_texts.php?query=&amp;page=1';" /> screen.</p>
 
-<?php
+    <?php
 
 }
 

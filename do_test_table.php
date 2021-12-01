@@ -1,12 +1,16 @@
 <?php
 
-/**************************************************************
+/**
  * \file
  * \brief Show test frame with vocab table
+ * 
  * Call: do_test_table.php?lang=[langid]
  * Call: do_test_test.php?text=[textid]
  * Call: do_test_test.php?&selection=1 (SQL via $_SESSION['testsql'])
-***************************************************************/
+ * 
+ * @author LWT Project <lwt-project@hotmail.com>
+ * @since  1.5.4
+ */
 
 require_once 'inc/session_utility.php';
 
@@ -186,7 +190,7 @@ while ($record = mysqli_fetch_assoc($res)) {
             mask_term_in_sentence($sent, $regexword)
         )
     );
-?>
+    ?>
 <tr>
 <td class="td1 center" nowrap="nowrap"><a href="edit_tword.php?wid=<?php echo $record['WoID']; ?>" target="ro"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></a></td>
 <td class="td1 center" nowrap="nowrap"><span id="STAT<?php echo $record['WoID']; ?>"><?php echo make_status_controls_test_table($record['Score'], $record['WoStatus'], $record['WoID']); ?></span></td>
@@ -195,7 +199,7 @@ while ($record = mysqli_fetch_assoc($res)) {
 <td class="td1 center"><span id="ROMA<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoRomanization']); ?></span></td>
 <td class="td1 center" style="color:#000;"><?php echo $span1; ?><span id="SENT<?php echo $record['WoID']; ?>"><?php echo $sent1; ?></span><?php echo $span2; ?></td>
 </tr>
-<?php
+    <?php
 }
 mysqli_free_result($res);
 

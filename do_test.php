@@ -9,7 +9,7 @@
  * Call: do_test.php?text=[textid]
  * Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.0.3
  */
 
@@ -38,7 +38,7 @@ if ($p != '') {
     
     if ($mobile ) {
 
-    ?>
+        ?>
 
     <style type="text/css"> 
     body {
@@ -111,11 +111,11 @@ $(document).ready(init);
     <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
 </div>
 
-<?php 
+        <?php 
 
     } else {
     
-    ?>
+        ?>
 
    <frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
     <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
@@ -129,7 +129,7 @@ $(document).ready(init);
     <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
 </frameset>
 </html>
-<?php
+        <?php
 
     }
 

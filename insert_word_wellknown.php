@@ -4,7 +4,7 @@
 /**************************************************************
 Call: insert_word_wellknown.php?tid=[textid]&ord=[textpos]
 Ignore single word (new term with status 99)
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 

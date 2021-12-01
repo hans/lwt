@@ -96,12 +96,12 @@ if (isset($_REQUEST["action"])) {  // Action
 
         if (isset($textaudio) && trim($textaudio) != '') {
 
-        ?>
+            ?>
 
         <li class="group">Audio</li>
         <li>Play: <audio src="<?php echo trim($textaudio); ?>" controls></audio></li>
 
-        <?php
+            <?php
 
         }
 
@@ -144,11 +144,11 @@ if (isset($_REQUEST["action"])) {  // Action
         $res = do_mysqli_query($sql);
         
         if ($action == 4) {
-        ?>
+            ?>
 
         <ul id="<?php echo $action . '-' . $sent; ?>" title="<?php echo tohtml($senttext); ?>">
         
-        <?php
+            <?php
         
         }
         
@@ -218,11 +218,11 @@ if (isset($_REQUEST["action"])) {  // Action
 
         if ($action == 4) {
         
-        ?>
+            ?>
         
         </ul>
 
-        <?php
+            <?php
         
         }
         
@@ -236,7 +236,7 @@ if (isset($_REQUEST["action"])) {  // Action
 
 else {  // No Action = Start screen
 
-?>
+    ?>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -280,15 +280,15 @@ span.status5 {
 
 <ul id="home" title="Mobile LWT" selected="true">
     <li class="group">Languages</li>
-<?php
+    <?php
     $sql = 'select LgID, LgName from ' . $tbpref . 'languages where LgName<>"" order by LgName';
     $res = do_mysqli_query($sql);
-while ($record = mysqli_fetch_assoc($res)) {
-    echo '<li><a href="mobile.php?action=2&amp;lang=' . $record["LgID"] . '">' .
-    tohtml($record["LgName"]) . '</a></li>';    
-}
+    while ($record = mysqli_fetch_assoc($res)) {
+        echo '<li><a href="mobile.php?action=2&amp;lang=' . $record["LgID"] . '">' .
+        tohtml($record["LgName"]) . '</a></li>';    
+    }
     mysqli_free_result($res);
-?>
+    ?>
     <li class="group">Other</li>
     <li><a href="#about">About</a></li>
     <li><a href="index.php" target="_self">LWT Standard Version</a></li>
@@ -307,7 +307,7 @@ This is "Learning With Texts" (LWT) for Mobile Devices<br />Version <?php echo g
 </body>
 </html>
 
-<?php
+    <?php
     
 } // No Action = Start screen
 

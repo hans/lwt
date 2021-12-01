@@ -8,7 +8,7 @@
  *    ... lang=[langid] ... language
  *    ... word=[word] ... word
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.5.18
  */
 

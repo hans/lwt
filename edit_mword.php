@@ -7,7 +7,7 @@ Call: edit_mword.php?....
       ... tid=[textid]&ord=[textpos]&wid=[wordid] ... edit  
       ... tid=[textid]&ord=[textpos]&txt=[word] ... new or edit
 Edit/New Multi-word term (expression)
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 require_once 'inc/simterms.php';
@@ -96,7 +96,7 @@ if (isset($_REQUEST['op'])) {
         exit();
 
     }
-?>
+    ?>
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;
@@ -108,32 +108,32 @@ var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 //]]>
 </script>
-<?php
-if ($_REQUEST['op'] == 'Save') {
+    <?php
+    if ($_REQUEST['op'] == 'Save') {
 
-    insertExpressions($textlc, $_REQUEST["WoLgID"], $wid, $_REQUEST["len"], 0);
-} else {
-    ?>
+        insertExpressions($textlc, $_REQUEST["WoLgID"], $wid, $_REQUEST["len"], 0);
+    } else {
+        ?>
 <script type="text/javascript">
 //<![CDATA[
         $('.word' + woid, context).attr('data_trans',trans).attr('data_rom',roman).attr('title',title).removeClass('status<?php echo $_REQUEST['WoOldStatus']; ?>').addClass('status' + status).attr('data_status',status);
 //]]>
 </script>
-    <?php
-}
-?>
+        <?php
+    }
+    ?>
 <script type="text/javascript">
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 </script>
 
-<?php
+    <?php
 
-if(isset($sqltext)) {
-    flush();
-    do_mysqli_query($sqltext);
-    echo '<p>OK: ',tohtml($message),'</p>';
-}
+    if(isset($sqltext)) {
+        flush();
+        do_mysqli_query($sqltext);
+        echo '<p>OK: ',tohtml($message),'</p>';
+    }
 } // if (isset($_REQUEST['op']))
 
 else {  // if (! isset($_REQUEST['op']))
@@ -170,23 +170,23 @@ else {  // if (! isset($_REQUEST['op']))
 
     $titletext = ($new ? "New Term" : "Edit Term") . ": " . $term;
     pagestart_nobody($titletext);
-?>
+    ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <script type="text/javascript">
     $(window).on('beforeunload',function() {
         setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.html';}, 0);
     });
 </script>
-<?php
+    <?php
     $scrdir = getScriptDirectionTag($lang);
 
     // NEW
 
-if ($new) {
-    $seid = get_first_value("select Ti2SeID as value from " . $tbpref . "textitems2 where Ti2TxID = " . $_REQUEST['tid'] . " and Ti2Order = " . $_REQUEST['ord']);
-    $sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
+    if ($new) {
+        $seid = get_first_value("select Ti2SeID as value from " . $tbpref . "textitems2 where Ti2TxID = " . $_REQUEST['tid'] . " and Ti2Order = " . $_REQUEST['ord']);
+        $sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
 
-    ?>
+        ?>
 
         <form name="newword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
         <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
@@ -199,7 +199,7 @@ if ($new) {
         <td class="td1 right"><b>New Term:</b></td>
         <td class="td1"><input <?php echo $scrdir; ?> class="notempty checkoutsidebmp" data_info="New Term" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
         </td></tr>
-    <?php print_similar_terms_tabrow(); ?>
+        <?php print_similar_terms_tabrow(); ?>
         <tr>
         <td class="td1 right">Translation:</td>
         <td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength checkoutsidebmp" data_maxlength="500" data_info="Translation" cols="35" rows="3"></textarea></td>
@@ -207,7 +207,7 @@ if ($new) {
         <tr>
         <td class="td1 right">Tags:</td>
         <td class="td1">
-    <?php echo getWordTags(0); ?>
+        <?php echo getWordTags(0); ?>
         </td>
         </tr>
         <tr>
@@ -221,42 +221,44 @@ if ($new) {
         <tr>
         <td class="td1 right">Status:</td>
         <td class="td1">
-    <?php echo get_wordstatus_radiooptions(1); ?>
+        <?php echo get_wordstatus_radiooptions(1); ?>
         </td>
         </tr>
         <tr>
         <tr>
         <td class="td1 right" colspan="2">
-    <?php echo createDictLinksInEditWin($lang, $term, 'document.forms[0].WoSentence', isset($_GET['nodict'])?0:1); ?>
+        <?php echo createDictLinksInEditWin($lang, $term, 'document.forms[0].WoSentence', isset($_GET['nodict'])?0:1); ?>
         &nbsp; &nbsp; &nbsp; 
         <input type="submit" name="op" value="Save" /></td>
         </tr>
         </table>
         </form>
         <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['newword'].WoSentence") . ', -1'; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>
-    <?php
-}
+        <?php
+    }
 
     // CHG
 
-else {
+    else {
 
-    $sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
-    $res = do_mysqli_query($sql);
-    if ($record = mysqli_fetch_assoc($res)) {
-        $status = $record['WoStatus'];
-        if ($status >= 98) { $status = 1; 
-        }
-        $sentence = repl_tab_nl($record['WoSentence']);
-        if ($sentence == '') {
-            $seid = get_first_value("select Ti2SeID as value from " . $tbpref . "textitems2 where Ti2TxID = " . $_REQUEST['tid'] . " and Ti2Order = " . $_REQUEST['ord']);
-            $sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
-            $sentence = repl_tab_nl($sent[1]);
-        }
-        $transl = repl_tab_nl($record['WoTranslation']);
-        if($transl == '*') { $transl=''; 
-        }
-        ?>
+        $sql = 'select WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
+        $res = do_mysqli_query($sql);
+        if ($record = mysqli_fetch_assoc($res)) {
+            $status = $record['WoStatus'];
+            if ($status >= 98) { 
+                $status = 1; 
+            }
+            $sentence = repl_tab_nl($record['WoSentence']);
+            if ($sentence == '') {
+                $seid = get_first_value("select Ti2SeID as value from " . $tbpref . "textitems2 where Ti2TxID = " . $_REQUEST['tid'] . " and Ti2Order = " . $_REQUEST['ord']);
+                $sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
+                $sentence = repl_tab_nl($sent[1]);
+            }
+            $transl = repl_tab_nl($record['WoTranslation']);
+            if($transl == '*') { 
+                $transl=''; 
+            }
+            ?>
 
      <form name="editword" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
      <input type="hidden" name="WoLgID" id="langfield" value="<?php echo $lang; ?>" />
@@ -271,7 +273,7 @@ else {
      <td class="td1 right"><b>Edit Term:</b></td>
      <td class="td1"><input <?php echo $scrdir; ?> class="notempty checkoutsidebmp" data_info="Term" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
      </td></tr>
-        <?php print_similar_terms_tabrow(); ?>
+            <?php print_similar_terms_tabrow(); ?>
      <tr>
      <td class="td1 right">Translation:</td>
      <td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength checkoutsidebmp" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
@@ -279,7 +281,7 @@ else {
      <tr>
      <td class="td1 right">Tags:</td>
      <td class="td1">
-        <?php echo getWordTags($wid); ?>
+            <?php echo getWordTags($wid); ?>
      </td>
      </tr>
      <tr>
@@ -294,22 +296,22 @@ else {
      <tr>
      <td class="td1 right">Status:</td>
      <td class="td1">
-        <?php echo get_wordstatus_radiooptions($record['WoStatus']); ?>
+            <?php echo get_wordstatus_radiooptions($record['WoStatus']); ?>
      </td>
      </tr>
      <tr>
      <td class="td1 right" colspan="2">
-        <?php echo createDictLinksInEditWin($lang, $term, 'document.forms[0].WoSentence', isset($_GET['nodict'])?0:1); ?>
+            <?php echo createDictLinksInEditWin($lang, $term, 'document.forms[0].WoSentence', isset($_GET['nodict'])?0:1); ?>
      &nbsp; &nbsp; &nbsp; 
      <input type="submit" name="op" value="Change" /></td>
      </tr>
      </table>
      </form>
      <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>
-        <?php
+            <?php
+        }
+        mysqli_free_result($res);
     }
-    mysqli_free_result($res);
-}
 
 }
 

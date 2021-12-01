@@ -7,7 +7,7 @@
  * 
  * Call: inc/ajax_update_media_select.php
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.1.0
  */
 

@@ -5,7 +5,7 @@
  * 
  * Call: inc/ajax_chg_term_status.php
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.5.4
  */
 

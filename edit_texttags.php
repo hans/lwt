@@ -13,7 +13,7 @@ Call: edit_texttags.php?....
       ... page=[pageno] ... page  
       ... query=[tagtextfilter] ... tag text filter    
 Manage tags
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -142,7 +142,7 @@ elseif (isset($_REQUEST['chg'])) {
     $sql = 'select * from ' . $tbpref . 'tags2 where T2ID = ' . $_REQUEST['chg'];
     $res = do_mysqli_query($sql);
     if ($record = mysqli_fetch_assoc($res)) {
-    ?>
+        ?>
      <h4>Edit Tag</h4>
      <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>    
      <form name="edittag" class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
@@ -163,7 +163,7 @@ elseif (isset($_REQUEST['chg'])) {
         </tr>
         </table>
         </form>
-<?php
+        <?php
     }
     mysqli_free_result($res);
 }
@@ -204,7 +204,7 @@ else {
     if ($currentsort > $lsorts) { $currentsort = $lsorts; 
     }
     
-?>
+    ?>
 <p><a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Text Tag ...</a></p>
 
 <form name="form1" action="#" onsubmit="document.form1.querybutton.click(); return false;">
@@ -221,28 +221,28 @@ Tag Text or Comment:
 <input type="button" value="Clear" onclick="{location.href='edit_texttags.php?page=1&amp;query=';}" />
 </td>
 </tr>
-<?php if($recno > 0) { ?>
+    <?php if($recno > 0) { ?>
 <tr>
 <th class="th1" colspan="1" nowrap="nowrap">
-<?php echo $recno; ?> Tag<?php echo ($recno==1?'':'s'); ?>
+        <?php echo $recno; ?> Tag<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" colspan="2" nowrap="nowrap">
-<?php makePager($currentpage, $pages, 'edit_texttags.php', 'form1'); ?>
+        <?php makePager($currentpage, $pages, 'edit_texttags.php', 'form1'); ?>
 </th><th class="th1" nowrap="nowrap">
 Sort Order:
 <select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='edit_texttags.php?page=1&amp;sort=' + val;}"><?php echo get_tagsort_selectoptions($currentsort); ?></select>
 </th></tr>
-<?php 
-} ?>
+        <?php 
+    } ?>
 </table>
 </form>
 
-<?php
-if ($recno==0) {
-?>
+    <?php
+    if ($recno==0) {
+        ?>
 <p>No tags found.</p>
-<?php
-} else {
-?>
+        <?php
+    } else {
+        ?>
 <form name="form2" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="data" value="" />
 <table class="tab1" cellspacing="0" cellpadding="5">
@@ -271,43 +271,44 @@ Multi Actions <img src="icn/lightning.png" title="Multi Actions" alt="Multi Acti
 <th class="th1 clickable">Arch.Texts<br />With Tag</th>
 </tr>
 
-<?php
+        <?php
 
-$sql = 'select T2ID, T2Text, T2Comment from ' . $tbpref . 'tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
-if ($debug) { echo $sql; 
-}
-$res = do_mysqli_query($sql);
-while ($record = mysqli_fetch_assoc($res)) {
-    $c = get_first_value('select count(*) as value from ' . $tbpref . 'texttags where TtT2ID=' . $record['T2ID']);
-    $ca = get_first_value('select count(*) as value from ' . $tbpref . 'archtexttags where AgT2ID=' . $record['T2ID']);
-    echo '<tr>';
-    echo '<td class="td1 center"><a name="rec' . $record['T2ID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $record['T2ID'] . '" ' . checkTest($record['T2ID'], 'marked') . ' /></a></td>';
-    echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['T2ID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a class="confirmdelete" href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['T2ID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
-    echo '<td class="td1 center">' . tohtml($record['T2Text']) . '</td>';
-    echo '<td class="td1 center">' . tohtml($record['T2Comment']) . '</td>';
-    echo '<td class="td1 center">' . ($c > 0 ? '<a href="edit_texts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $c . '</a>' : '0' ) . '</td>';
-    echo '<td class="td1 center">' . ($ca > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $ca . '</a>' : '0' ) . '</td>';
-    echo '</tr>';
-}
-mysqli_free_result($res);
+        $sql = 'select T2ID, T2Text, T2Comment from ' . $tbpref . 'tags2 where (1=1) ' . $wh_query . ' order by ' . $sorts[$currentsort-1] . ' ' . $limit;
+        if ($debug) { 
+            echo $sql; 
+        }
+        $res = do_mysqli_query($sql);
+        while ($record = mysqli_fetch_assoc($res)) {
+            $c = get_first_value('select count(*) as value from ' . $tbpref . 'texttags where TtT2ID=' . $record['T2ID']);
+            $ca = get_first_value('select count(*) as value from ' . $tbpref . 'archtexttags where AgT2ID=' . $record['T2ID']);
+            echo '<tr>';
+            echo '<td class="td1 center"><a name="rec' . $record['T2ID'] . '"><input name="marked[]" type="checkbox" class="markcheck" value="' . $record['T2ID'] . '" ' . checkTest($record['T2ID'], 'marked') . ' /></a></td>';
+            echo '<td class="td1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['T2ID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <a class="confirmdelete" href="' . $_SERVER['PHP_SELF'] . '?del=' . $record['T2ID'] . '"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></a>&nbsp;</td>';
+            echo '<td class="td1 center">' . tohtml($record['T2Text']) . '</td>';
+            echo '<td class="td1 center">' . tohtml($record['T2Comment']) . '</td>';
+            echo '<td class="td1 center">' . ($c > 0 ? '<a href="edit_texts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $c . '</a>' : '0' ) . '</td>';
+            echo '<td class="td1 center">' . ($ca > 0 ? '<a href="edit_archivedtexts.php?page=1&amp;query=&amp;tag12=0&amp;tag2=&amp;tag1=' . $record['T2ID'] . '">' . $ca . '</a>' : '0' ) . '</td>';
+            echo '</tr>';
+        }
+        mysqli_free_result($res);
 
-?>
+        ?>
 </table>
 
 
-<?php if($pages > 1) { ?>
+        <?php if($pages > 1) { ?>
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1" nowrap="nowrap">
-<?php echo $recno; ?> Tag<?php echo ($recno==1?'':'s'); ?>
+            <?php echo $recno; ?> Tag<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" nowrap="nowrap">
-<?php makePager($currentpage, $pages, 'edit_texttags.php', 'form2'); ?>
+            <?php makePager($currentpage, $pages, 'edit_texttags.php', 'form2'); ?>
 </th></tr></table></form>
-<?php 
-} ?>
+            <?php 
+        } ?>
 
-<?php
-}
+        <?php
+    }
 
 }
 

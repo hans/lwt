@@ -4,7 +4,7 @@
  * \brief Start a PHP session.
  * 
  * @author https://github.com/HugoFara/ HugoFara
-*/
+ */
 
 // Get globals
 require 'kernel_utility.php';

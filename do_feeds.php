@@ -81,7 +81,7 @@ if (isset($_REQUEST['marked_items'])) {
 
         if(get_nf_option($nf_options, 'edit_text')==1) {
             foreach($texts as $text){
-            ?>
+                ?>
          <table class="tab3" cellspacing="0" cellpadding="5">
           <tr>
           <td class="td1 right"><input class="markcheck" type="checkbox" name="Nf_count[<?php echo $count; ?>]" value="<?php echo $count; ?>" checked="checked" />&nbsp; &nbsp; &nbsp; Title:</td>
@@ -91,17 +91,17 @@ if (isset($_REQUEST['marked_items'])) {
         <td class="td1 right">Language:</td>
         <td class="td1">
         <select name="feed[<?php echo $count; ?>][TxLgID]" class="notempty setfocus">
-        <?php
-        $result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
-        while($row_l = mysqli_fetch_assoc($result)){
-            echo '<option value="' . $row_l['LgID'] . '"';
-            if($row['NfLgID']===$row_l['LgID']) {
-                echo ' selected="selected"';
-            }
-            echo '>' . $row_l['LgName'] . '</option>';
-        }
-        mysqli_free_result($result);
-        ?>
+                <?php
+                $result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
+                while($row_l = mysqli_fetch_assoc($result)){
+                    echo '<option value="' . $row_l['LgID'] . '"';
+                    if($row['NfLgID']===$row_l['LgID']) {
+                        echo ' selected="selected"';
+                    }
+                    echo '>' . $row_l['LgName'] . '</option>';
+                }
+                mysqli_free_result($result);
+                ?>
         </select>
         </td>
         </tr>
@@ -118,7 +118,7 @@ if (isset($_REQUEST['marked_items'])) {
         <tr>
         <td class="td1 right">Tags:</td>
         <td class="td1"><ul name="feed[<?php echo $count; ?>][TagList][]" style="width:340px;margin-top:0px;margin-bottom:0px;margin-left:2px;"><li>
-        <?php echo $nf_tag_name; ?></li></ul>
+                <?php echo $nf_tag_name; ?></li></ul>
         <input type="hidden" name="feed[<?php echo $count; ?>][Nf_ID]" value="<?php echo $nf_id; ?>" />
         <input type="hidden" name="feed[<?php echo $count; ?>][Nf_Max_Texts]" value="<?php echo $nf_max_texts; ?>" />
         </td>
@@ -129,7 +129,7 @@ if (isset($_REQUEST['marked_items'])) {
           </td>
           </tr>
           </table>
-            <?php
+                <?php
             }
         }
         else{
@@ -185,7 +185,7 @@ if (isset($_REQUEST['marked_items'])) {
     if($message4>0 || $message1>0) { $message = "Texts archived: " . $message1 . " / Sentences deleted: " . $message2 . " / Text items deleted: " . $message3; 
     }
     if($edit_text==1) {
-    ?>
+        ?>
    <input id="markaction" type="submit" value="Save" />
    <input type="button" value="Cancel" onclick="location.href='do_feeds.php';" />
    <input type="hidden" name="checked_feeds_save" value="1" />
@@ -221,16 +221,16 @@ if (isset($_REQUEST['marked_items'])) {
     fieldName: tagrepl
    });});
    </script>
-    <?php
+        <?php
     }
     if($edit_text==1) {
         echo '</form>';
     }
-?>
+    ?>
 <script type="text/javascript">
 $(".hide_message").delay(2500).slideUp(1000);
 </script>
-<?php
+    <?php
 }
 
 
@@ -242,7 +242,7 @@ if (isset($_REQUEST['checked_feeds_save'])) {
 <script type="text/javascript">
 $(".hide_message").delay(2500).slideUp(1000);
 </script>
-<?php
+    <?php
 }
 if(isset($_SESSION['feed_loaded'])) {
     foreach($_SESSION['feed_loaded'] as $lf){
@@ -252,11 +252,11 @@ if(isset($_SESSION['feed_loaded'])) {
         }
         echo "+++ ",$lf," +++</p></div>";
     }
-?>
+    ?>
 <script type="text/javascript">
 $(".hide_message").delay(2500).slideUp(1000);
 </script>
-<?php
+    <?php
     unset($_SESSION['feed_loaded']);
 
 }
@@ -267,7 +267,7 @@ if(isset($_REQUEST['load_feed']) || isset($_REQUEST['check_autoupdate']) || (iss
 }
 else
 if(empty($edit_text)) {
-?>
+    ?>
 
 <a href="edit_feeds.php?manage_feeds=1"><img src="icn/plus-button.png" title="manage feeds" alt="manage feeds" /> Manage Feeds ...</a>
 <form name="form1" action="#" onsubmit="document.form1.querybutton.click(); return false;">
@@ -276,7 +276,7 @@ if(empty($edit_text)) {
 <input type="button" value="Reset All" onclick="resetAll('do_feeds.php');" /></th>
 </tr><tr><td class="td1 center" style="width:30%;">
 Language:&nbsp;<select name="filterlang" onchange="{setLang(document.form1.filterlang,'do_feeds.php?page=1%26selected_feed=0');}">
-<?php	echo get_languages_selectoptions($currentlang, '[Filter off]'); ?></select>
+    <?php	echo get_languages_selectoptions($currentlang, '[Filter off]'); ?></select>
 </td><td class="td1 center" colspan="3">
 <select name="query_mode" onchange="{val=document.form1.query.value;mode=document.form1.query_mode.value; location.href='do_feeds.php?page=1&amp;query=' + val + '&amp;query_mode=' + mode;return false;}">
 <option value="title,desc,text"<?php if($currentquerymode=="title,desc,text") { echo ' selected="selected"'; 
@@ -305,57 +305,63 @@ if(!mysqli_data_seek($result, 0)) {
     echo ' no feed available</td><td class="td1"></td></tr></table></form>';
 }
 if(mysqli_data_seek($result, 0)) {
-?>Newsfeed:<select name="selected_feed" onchange="{val=document.form1.selected_feed.value; location.href='do_feeds.php?page=1&amp;selected_feed=' + val;return false;}">
+    ?>Newsfeed:<select name="selected_feed" onchange="{val=document.form1.selected_feed.value; location.href='do_feeds.php?page=1&amp;selected_feed=' + val;return false;}">
 <option value="0">[Filter off]</option>
-<?php
- $temp='';
- $time='';
-while($row = mysqli_fetch_assoc($result)){
-    echo '<option value="' . $row['NfID'] . '"';
-    if($currentfeed===$row['NfID']) {
-        echo ' selected="selected"';
-        $time=$row['NfUpdate'];
+    <?php
+    $temp='';
+    $time='';
+    while($row = mysqli_fetch_assoc($result)){
+        echo '<option value="' . $row['NfID'] . '"';
+        if($currentfeed===$row['NfID']) {
+            echo ' selected="selected"';
+            $time=$row['NfUpdate'];
+        }
+        echo '>' . tohtml($row['NfName']) . '</option>';
+        $temp.= ',' . $row['NfID'];
     }
-    echo '>' . tohtml($row['NfName']) . '</option>';
-    $temp.= ',' . $row['NfID'];
-}
     mysqli_free_result($result);
     echo '</select></td><td class="td1 center" colspan="2">';
-if($currentfeed==0 || strpos($temp, $currentfeed)===false) { $currentfeed = substr($temp, 1); 
-}
+    if($currentfeed==0 || strpos($temp, $currentfeed)===false) { 
+        $currentfeed = substr($temp, 1); 
+    }
 
-if(strpos($currentfeed, ',')===false) {
-    echo '<a href="' . $_SERVER['PHP_SELF'] . '?page=1&amp;load_feed=1&amp;selected_feed=' . $currentfeed . '"><span title="update feed">  <img src="icn/arrow-circle-135.png" alt="-" /></span></a>';
-}
-else{
-    echo '<a href="edit_feeds.php?multi_load_feed=1&amp;selected_feed=' . $currentfeed . '"> update multiple feeds</a>';
-}
-if($time) {
-    $diff=time()-$time;
-    print_last_feed_update($diff);
-}
+    if(strpos($currentfeed, ',')===false) {
+        echo '<a href="' . $_SERVER['PHP_SELF'] . '?page=1&amp;load_feed=1&amp;selected_feed=' . $currentfeed . '"><span title="update feed">  <img src="icn/arrow-circle-135.png" alt="-" /></span></a>';
+    }
+    else{
+        echo '<a href="edit_feeds.php?multi_load_feed=1&amp;selected_feed=' . $currentfeed . '"> update multiple feeds</a>';
+    }
+    if($time) {
+        $diff=time()-$time;
+        print_last_feed_update($diff);
+    }
     echo '</td></tr>';
     $sql = 'select count(*) as value from ' . $tbpref . 'feedlinks where FlNfID in ('.$currentfeed.')'. $wh_query;
     $recno = get_first_value($sql);
-if ($debug) { echo $sql . ' ===&gt; ' . $recno; 
-}
-if($recno) {
-    $maxperpage = getSettingWithDefault('set-articles-per-page');
-    $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
-    if ($currentpage < 1) { $currentpage = 1; 
+    if ($debug) { 
+        echo $sql . ' ===&gt; ' . $recno; 
     }
-    if ($currentpage > $pages) { $currentpage = $pages; 
-    }
-    $limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;        
-    $sorts = array('FlTitle','FlDate DESC','FlDate ASC');
-    $lsorts = count($sorts);
-    if ($currentsort < 1) { $currentsort = 1; 
-    }
-    if ($currentsort > $lsorts) { $currentsort = $lsorts; 
-    }            
-    echo '<tr><th class="th1" style="width:30%;"> '. $total=$recno .' articles ';///
-    echo '</th><th class="th1">';
-    makePager($currentpage, $pages, 'do_feeds.php', 'form1');    ?>
+    if($recno) {
+        $maxperpage = getSettingWithDefault('set-articles-per-page');
+        $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
+        if ($currentpage < 1) { 
+            $currentpage = 1; 
+        }
+        if ($currentpage > $pages) {
+            $currentpage = $pages; 
+        }
+        $limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;        
+        $sorts = array('FlTitle','FlDate DESC','FlDate ASC');
+        $lsorts = count($sorts);
+        if ($currentsort < 1) { 
+            $currentsort = 1; 
+        }
+        if ($currentsort > $lsorts) { 
+            $currentsort = $lsorts; 
+        }            
+        echo '<tr><th class="th1" style="width:30%;"> '. $total=$recno .' articles ';///
+        echo '</th><th class="th1">';
+        makePager($currentpage, $pages, 'do_feeds.php', 'form1');    ?>
 
   </th>
   <th class="th1" colspan="2" nowrap="nowrap">
@@ -381,46 +387,48 @@ if($recno) {
   <th class="th1 sorttable_nosort">Link</th>
   <th class="th1 clickable" style="min-width:90px;">Date</th>
   </tr>    
-    <?php
-    $result = do_mysqli_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on TxSourceURI=trim(FlLink) left join " . $tbpref . "archivedtexts on AtSourceURI=trim(FlLink) WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);
-    while($row = mysqli_fetch_assoc($result)){
-        echo  '<tr>';
-        if ($row['TxID']) {
-            echo '<td class="td1 center"><a href="do_text.php?start=' . $row['TxID'] . '" ><img src="icn/book-open-bookmark.png" title="Read" alt="-" /></a>'; 
+        <?php
+        $result = do_mysqli_query("SELECT FlID, FlTitle, FlLink, FlDescription, FlDate, FlAudio,TxID, AtID FROM " . $tbpref . "feedlinks left join " . $tbpref . "texts on TxSourceURI=trim(FlLink) left join " . $tbpref . "archivedtexts on AtSourceURI=trim(FlLink) WHERE FlNfID in ($currentfeed) ".$wh_query." ORDER BY " . $sorts[$currentsort-1] . " ". $limit);
+        while($row = mysqli_fetch_assoc($result)){
+            echo  '<tr>';
+            if ($row['TxID']) {
+                echo '<td class="td1 center"><a href="do_text.php?start=' . $row['TxID'] . '" ><img src="icn/book-open-bookmark.png" title="Read" alt="-" /></a>'; 
+            }
+            elseif ($row['AtID']) {
+                echo '<td class="td1 center"><span title="archived"><img src="icn/status-busy.png" alt="-" /></span>';
+            } elseif(!empty($row['FlLink']) && $row['FlLink'][0]==' ') {
+                echo '<td class="td1 center"><img class="not_found" name="' . $row['FlID'] . '" title="download error" src="icn/exclamation-button.png" alt="-" />';
+            } else {
+                echo '<td class="td1 center"><input type="checkbox" class="markcheck" name="marked_items[]" value="' . $row['FlID'] . '" />'; 
+            }
+            echo '</td>';
+            echo  '<td class="td1 center">';
+            echo  '<span title="' . htmlentities($row['FlDescription'], ENT_QUOTES, 'UTF-8', false) . '"><b>' . $row['FlTitle'] . '</b></span>';
+            if($row['FlAudio']) {
+                echo '<a href="' . $row['FlAudio'] . '" onclick="window.open(this.href, \'child\', \'scrollbars,width=650,height=600\'); return false;">  <img src="'; print_file_path('icn/speaker-volume.png'); echo '" alt="-" /></a>';
+            }
+            echo '</td>';
+            echo '<td class="td1 center" style="vertical-align: middle">';
+            if(!empty($row['FlLink']) && substr(trim($row['FlLink']), 0, 1)!='#') {
+                echo '<a href="' . trim($row['FlLink']) . '"  title="' . trim($row['FlLink']) . '" onclick="window.open(\'' . $row['FlLink'] . '\');return false;"><img src="icn/external.png" alt="-" /></a>'; 
+            }
+            echo  '</td><td class="td1 center">' . $row['FlDate'] . '</td>';
+            echo '</tr>';
         }
-        elseif ($row['AtID']) {
-            echo '<td class="td1 center"><span title="archived"><img src="icn/status-busy.png" alt="-" /></span>';
-        } elseif(!empty($row['FlLink']) && $row['FlLink'][0]==' ') {
-            echo '<td class="td1 center"><img class="not_found" name="' . $row['FlID'] . '" title="download error" src="icn/exclamation-button.png" alt="-" />';
-        } else {
-            echo '<td class="td1 center"><input type="checkbox" class="markcheck" name="marked_items[]" value="' . $row['FlID'] . '" />'; 
+        mysqli_free_result($result);
+        echo '</table>';
+        echo '</form>';
+        if($pages > 1) {
+            echo '<form name="form3" method="get" action =""><table class="tab1" cellspacing="0" cellpadding="5"><tr><th class="th1" style="width:30%;">';
+            echo $total;
+            echo '</th><th class="th1">';
+            makePager($currentpage, $pages, 'do_feeds.php', 'form3');
+            echo '</th></tr></table></form>';
         }
-        echo '</td>';
-        echo  '<td class="td1 center">';
-        echo  '<span title="' . htmlentities($row['FlDescription'], ENT_QUOTES, 'UTF-8', false) . '"><b>' . $row['FlTitle'] . '</b></span>';
-        if($row['FlAudio']) {
-            echo '<a href="' . $row['FlAudio'] . '" onclick="window.open(this.href, \'child\', \'scrollbars,width=650,height=600\'); return false;">  <img src="'; print_file_path('icn/speaker-volume.png'); echo '" alt="-" /></a>';
-        }
-        echo '</td>';
-        echo '<td class="td1 center" style="vertical-align: middle">';
-        if(!empty($row['FlLink']) && substr(trim($row['FlLink']), 0, 1)!='#') { echo '<a href="' . trim($row['FlLink']) . '"  title="' . trim($row['FlLink']) . '" onclick="window.open(\'' . $row['FlLink'] . '\');return false;"><img src="icn/external.png" alt="-" /></a>'; 
-        }
-        echo  '</td><td class="td1 center">' . $row['FlDate'] . '</td>';
-        echo '</tr>';
     }
-    mysqli_free_result($result);
-    echo '</table>';
-    echo '</form>';
-    if($pages > 1) {
-        echo '<form name="form3" method="get" action =""><table class="tab1" cellspacing="0" cellpadding="5"><tr><th class="th1" style="width:30%;">';
-        echo $total;
-        echo '</th><th class="th1">';
-        makePager($currentpage, $pages, 'do_feeds.php', 'form3');
-        echo '</th></tr></table></form>';
+    else { 
+        echo '</table></form>'; 
     }
-}
-else { echo '</table></form>'; 
-}
 }
 ?>
 <script type="text/javascript">
@@ -431,7 +439,7 @@ $('img.not_found').click(function () {
     $(":input,.wrap_checkbox span,a:not([name^=rec]),select").each(function (i) { $(this).attr('tabindex', i + 1); });
 });
 </script>
-<?php
+    <?php
 }
 
 pageend();

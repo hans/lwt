@@ -3,7 +3,7 @@
 /**************************************************************
 Call: delete_mword.php?wid=[wordid]&tid=[textid]
 Delete an expression 
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -36,7 +36,7 @@ $('.mword', sid).each(function(){
         $(this).nextUntil('[id^="ID-' + u + '-"]',sid).addClass('hide');
     }
 });
-<?php
+    <?php
 }
 ?>
 

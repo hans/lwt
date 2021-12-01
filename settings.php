@@ -5,7 +5,7 @@ Call: settings.php?....
       ... op=Save ... do save 
       ... op=Reset ... do reset to defaults 
 Preferences / Settings 
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 if (isset($_REQUEST['op'])) {

@@ -3,12 +3,12 @@
 
 /**
  * \file
- * Manage active texts
+ * \brief Manage active texts
  * 
  * Call: edit_texts.php?....
- * 	... markaction=[opcode] ... do actions on marked texts
+ *     ... markaction=[opcode] ... do actions on marked texts
  *     ... del=[textid] ... do delete
- *    ... arch=[textid] ... do archive
+ *     ... arch=[textid] ... do archive
  *     ... op=Check ... do check
  *     ... op=Save ... do insert new
  *     ... op=Change ... do update
@@ -21,7 +21,8 @@
  *     ... page=[pageno] ... page
  *     ... query=[titlefilter] ... title filter
  * 
- * @since 1.0.3
+ * @author LWT Project <lwt-project@hotmail.com>
+ * @since  1.0.3
  */
 
 require_once 'inc/session_utility.php';
@@ -389,7 +390,7 @@ if (isset($_REQUEST['new'])) {
     </td>
     </tr>
     <?php if (isset($YT_API_KEY)) {include_once'text_from_yt.php';
-} ?>
+    } ?>
     <tr>
     <td class="td1 right" colspan="2">
     <input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php';}" />
@@ -511,7 +512,7 @@ else {
     if ($currentsort > $lsorts) { $currentsort = $lsorts; 
     }
 
-?>
+    ?>
 
 <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/css_charts.css');?>" />
 <p>
@@ -564,31 +565,32 @@ Tag #2:
 <select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag2=' + val;}"><?php echo get_texttag_selectoptions($currenttag2, $currentlang); ?></select>
 </td>
 </tr>
-<?php if($recno > 0) { ?>
+    <?php if($recno > 0) { ?>
 <tr>
 <th class="th1" colspan="2" nowrap="nowrap">
-<?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
+        <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" colspan="1" nowrap="nowrap">
-<?php makePager($currentpage, $pages, 'edit_texts.php', 'form1'); ?>
+        <?php makePager($currentpage, $pages, 'edit_texts.php', 'form1'); ?>
 </th><th class="th1" colspan="1" nowrap="nowrap">
 Sort Order:
 <select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='edit_texts.php?page=1&amp;sort=' + val;}"><?php echo get_textssort_selectoptions($currentsort); ?></select>
 </th></tr>
-<?php 
-} ?>
+        <?php 
+    } ?>
 </table>
 </form>
 
-<?php
-if ($recno==0) {
-?>
+    <?php
+    if ($recno==0) {
+        ?>
 <p>No texts found.</p>
-<?php
-} else {
-    $showCounts = getSettingWithDefault('set-show-text-word-counts');
-    if(strlen($showCounts)!=5) { $showCounts = "11111"; 
-    }
-?>
+        <?php
+    } else {
+        $showCounts = getSettingWithDefault('set-show-text-word-counts');
+        if(strlen($showCounts)!=5) { 
+            $showCounts = "11111"; 
+        }
+        ?>
 <form name="form2" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <input type="hidden" name="data" value="" />
 <table class="tab1" cellspacing="0" cellpadding="5">
@@ -606,8 +608,9 @@ Marked Texts:&nbsp;
 <th class="th1 sorttable_nosort">Mark</th>
 <th class="th1 sorttable_nosort">Read<br />&amp;&nbsp;Test</th>
 <th class="th1 sorttable_nosort">Actions</th>
-<?php if ($currentlang == '') { echo '<th class="th1 clickable">Lang.</th>'; 
-} ?>
+        <?php if ($currentlang == '') { 
+            echo '<th class="th1 clickable">Lang.</th>'; 
+        } ?>
 <th class="th1 clickable">Title [Tags] / Audio:&nbsp;<img src="<?php print_file_path('icn/speaker-volume.png'); ?>" title="With Audio" alt="With Audio" />, Src.Link:&nbsp;<img src="<?php print_file_path('icn/chain.png'); ?>" title="Source Link available" alt="Source Link available" />, Ann.Text:&nbsp;<img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></th>
 
 <th class="th1 sorttable_numeric clickable">Total<br />Words<br /><div class="wc_cont"><span id="total" data_wo_cnt="<?php echo substr($showCounts, 0, 1); ?>"></span></div></th>
@@ -622,9 +625,9 @@ Marked Texts:&nbsp;
 </tr>
 </thead>
 <tbody>
-<?php
+        <?php
 
-$sql = '
+        $sql = '
 select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen,
  ifnull(concat(\'[\',group_concat(distinct T2Text order by T2Text separator \', \'),\']\'),\'\') as taglist
  from (
@@ -634,72 +637,76 @@ select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) a
  where LgID=TxLgID ' . $wh_lang . $wh_query . ' 
  group by TxID ' . $wh_tag . '
   order by ' . $sorts[$currentsort-1] . ' ' . $limit;
-if ($debug) { echo $sql; 
-}
-$i = array(0,1,2,3,4,5,99,98);
-$statuses = get_statuses();
-$statuses[0]["name"]='Unknown';
-$statuses[0]["$showCounts"]='Ukn';
-$res = do_mysqli_query($sql);
-$showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
-while ($record = mysqli_fetch_assoc($res)) {
-    /*
-    Added by merge and makes statistics crash. To be removed?
-    if ($showCounts) {
-    flush();
-    echo "ID" . $record['TxID'];
-    $txttotalwords = textwordcount($record['TxID']);
-    $txtworkedwords = textworkcount($record['TxID']);
-    $txtworkedexpr = textexprcount($record['TxID']);
-    $txtworkedall = $txtworkedwords + $txtworkedexpr;
-    $txttodowords = $txttotalwords - $txtworkedwords;
-    $percentunknown = 0;
-    if ($txttotalwords != 0) {
-    $percentunknown = 
-				round(100*$txttodowords/$txttotalwords,0);
-    if ($percentunknown > 100) $percentunknown = 100;
-    if ($percentunknown < 0) $percentunknown = 0;
-    }
-    }
-    */
-    $audio = $record['TxAudioURI'];
-    if(!isset($audio)) { $audio=''; 
-    }
-    $audio=trim($audio);
-    echo '<tr>';
-    echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
-    echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
-    echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
-    if ($currentlang == '') { echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>'; 
-    }
+        if ($debug) { 
+            echo $sql; 
+        }
+        $i = array(0,1,2,3,4,5,99,98);
+        $statuses = get_statuses();
+        $statuses[0]["name"]='Unknown';
+        $statuses[0]["$showCounts"]='Ukn';
+        $res = do_mysqli_query($sql);
+        $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
+        while ($record = mysqli_fetch_assoc($res)) {
+            /*
+            Added by merge and makes statistics crash. To be removed?
+            if ($showCounts) {
+            flush();
+            echo "ID" . $record['TxID'];
+            $txttotalwords = textwordcount($record['TxID']);
+            $txtworkedwords = textworkcount($record['TxID']);
+            $txtworkedexpr = textexprcount($record['TxID']);
+            $txtworkedall = $txtworkedwords + $txtworkedexpr;
+            $txttodowords = $txttotalwords - $txtworkedwords;
+            $percentunknown = 0;
+            if ($txttotalwords != 0) {
+            $percentunknown = 
+            round(100*$txttodowords/$txttotalwords,0);
+            if ($percentunknown > 100) $percentunknown = 100;
+            if ($percentunknown < 0) $percentunknown = 0;
+            }
+            }
+            */
+            $audio = $record['TxAudioURI'];
+            if(!isset($audio)) { 
+                $audio=''; 
+            }
+            $audio=trim($audio);
+            echo '<tr>';
+            echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
+            echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
+            echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
+            if ($currentlang == '') { echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>'; 
+            }
 
-    // title
-    echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' ; if($audio != '') { echo '<img src="';print_file_path('icn/speaker-volume.png');echo '" title="With Audio" alt="With Audio" />';
-    } else { echo ''; 
-    } echo (isset($record['TxSourceURI']) && substr(trim($record['TxSourceURI']), 0, 1)!='#' ? ' <a href="' . $record['TxSourceURI'] . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <a href="print_impr_text.php?text=' . $record['TxID'] . '"><img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></a>' : '') . '</td>';
+            // title
+            echo '<td class="td1 center">' . tohtml($record['TxTitle']) . ' <span class="smallgray2">' . tohtml($record['taglist']) . '</span> &nbsp;' ; if($audio != '') { echo '<img src="';print_file_path('icn/speaker-volume.png');echo '" title="With Audio" alt="With Audio" />';
+            } else { 
+                echo ''; 
+            } 
+            echo (isset($record['TxSourceURI']) && substr(trim($record['TxSourceURI']), 0, 1)!='#' ? ' <a href="' . $record['TxSourceURI'] . '" target="_blank"><img src="'.get_file_path('icn/chain.png').'" title="Link to Text Source" alt="Link to Text Source" /></a>' : '') . ($record['annotlen'] ? ' <a href="print_impr_text.php?text=' . $record['TxID'] . '"><img src="icn/tick.png" title="Annotated Text available" alt="Annotated Text available" /></a>' : '') . '</td>';
     
-    // total + composition
-    echo '<td class="td1 center"><span title="Total" id="total_' . $record['TxID'] . '"></span></td>
+            // total + composition
+            echo '<td class="td1 center"><span title="Total" id="total_' . $record['TxID'] . '"></span></td>
 	
 	<td class="td1 center"><span title="Saved" data_id="' . $record['TxID'] . '"><a class="status4" id="saved_' . $record['TxID'] . '" href="edit_words.php?page=1&amp;query=&amp;status=&amp;tag12=0&amp;tag2=&amp;tag1=&amp;text_mode=0&amp;text=' . $record['TxID'] . '"></a></td>';
 
-    // unknown count
-    echo '<td class="td1 center"><span title="Unknown" class="status0" id="todo_' . $record['TxID'] . '"></span></td>';
+            // unknown count
+            echo '<td class="td1 center"><span title="Unknown" class="status0" id="todo_' . $record['TxID'] . '"></span></td>';
 
-    // unknown percent (added)
-    echo '<td class="td1 center"><span title="Unknown (%)" id="unknownpercent_' . $record['TxID'] . '"></span></td>';
+            // unknown percent (added)
+            echo '<td class="td1 center"><span title="Unknown (%)" id="unknownpercent_' . $record['TxID'] . '"></span></td>';
 
-    // chart
-    echo '<td class="td1 center"><ul class="barchart">';
+            // chart
+            echo '<td class="td1 center"><ul class="barchart">';
 
-    foreach($i as $cnt){
-        echo '<li class="bc' . $cnt . ' "title="' . $statuses[$cnt]["name"] . ' (' . $statuses[$cnt]["abbr"] . ')" style="border-top-width: 25px;"><span id="stat_' . $cnt . '_' . $record['TxID'] .'">0</span></li>';
-    }
-    echo '</ul></td></tr>';
-}
-mysqli_free_result($res);
+            foreach($i as $cnt){
+                echo '<li class="bc' . $cnt . ' "title="' . $statuses[$cnt]["name"] . ' (' . $statuses[$cnt]["abbr"] . ')" style="border-top-width: 25px;"><span id="stat_' . $cnt . '_' . $record['TxID'] .'">0</span></li>';
+            }
+            echo '</ul></td></tr>';
+        }
+        mysqli_free_result($res);
 
-?>
+        ?>
 </tbody>
 </table>
 
@@ -721,24 +728,24 @@ $(window).on('beforeunload',function() {
 });
 </script>
 
-<?php if($pages > 1) { ?>
+        <?php if($pages > 1) { ?>
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1" nowrap="nowrap">
-<?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
+            <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
 </th><th class="th1" nowrap="nowrap">
-<?php makePager($currentpage, $pages, 'edit_texts.php', 'form2'); ?>
+            <?php makePager($currentpage, $pages, 'edit_texts.php', 'form2'); ?>
 </th></tr></table></form>
-<?php
-}
+            <?php
+        }
 
-}
+    }
 
-?>
+    ?>
 
 <p><input type="button" value="Archived Texts" onclick="location.href='edit_archivedtexts.php?query=&amp;page=1';" /></p>
 
-<?php
+    <?php
 
 }
 

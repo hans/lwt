@@ -4,7 +4,7 @@
 /**************************************************************
 Call: start.php
 Analyse DB tables, select Table Set, start LWT
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -44,9 +44,9 @@ pagestart('Select Table Set', false);
 <option value="" <?php echo ($tbpref == '' ? 'selected="selected"': ''); ?>>Default Table Set</option>
 <?php
 foreach ($prefix as $value) {
-?>
+    ?>
 <option value="<?php echo tohtml($value); ?>" <?php echo (substr($tbpref, 0, -1) == $value ? 'selected="selected"': ''); ?>><?php echo tohtml($value); ?></option>
-<?php
+    <?php
 }
 ?>
 </select> 

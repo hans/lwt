@@ -13,7 +13,7 @@
  * "Name" => 
  *  ("glosbeIso", "googleIso", biggerFont, "wordCharRegExp",
  *  "sentSplRegExp", makeCharacterWord, removeSpaces, rightToLeft)
-*/
+ */
 $langDefs = array(
 
 "Afrikaans" => 

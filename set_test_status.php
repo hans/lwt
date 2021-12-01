@@ -4,7 +4,7 @@
 Call: set_test_status.php?wid=[wordid]&stchange=+1/-1
       set_test_status.php?wid=[wordid]&status=1..5/98/99
 Change status of term while testing
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -76,13 +76,13 @@ $('.word<?php echo $wid; ?>', context).removeClass('todo todosty').addClass('don
 <?php
 $waittime = getSettingWithDefault('set-test-main-frame-waiting-time') + 0;
 if ($waittime <= 0 ) {
-?>
+    ?>
 window.parent.frames['l'].location.reload();
-<?php
+    <?php
 } else {
-?>
+    ?>
 setTimeout('window.parent.frames[\'l\'].location.reload();', <?php echo $waittime; ?>);
-<?php
+    <?php
 }
 ?>
 //]]>

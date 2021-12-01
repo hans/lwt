@@ -14,7 +14,7 @@ require __DIR__ . "/../connect.inc.php";
 /**
  * Return the record "value" in the first line of the database if found.
  *
- * @param string $sql MySQL query
+ * @param  string $sql MySQL query
  * @return string|null
  */
 function get_first_value($sql) 

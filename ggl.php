@@ -20,7 +20,7 @@ if(trim($text)!='') {
     if (!isset($_GET['sent'])) {
         echo '<h3>Google Translate:  &nbsp; <span class="red2" id="textToSpeak" style="cursor:pointer" title="Click on expression for pronunciation" onclick="var txt = $(\'#textToSpeak\').text();var audio = new Audio();audio.src =\'tts.php?tl=' . $sl . '&q=\' + txt;audio.play();">' . tohtml($text) . '</span> <img id="del_translation" src="icn/broom.png" style="cursor:pointer" title="Empty Translation Field" onclick="deleteTranslation ();"></img></h3>';
         echo '<p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy word(s) into above term)<br />&nbsp;</p>';
-    ?>
+        ?>
     <script type="text/javascript" src="js/translation_api.js" charset="utf-8"></script>
     <script type="text/javascript">
     //<![CDATA[
@@ -32,15 +32,15 @@ if(trim($text)!='') {
 
     //]]>
     </script>
-    <?php
-    foreach($file as $word){
-        echo '<span class="click" onclick="addTranslation(' . prepare_textdata_js($word) . ');"><img src="icn/tick-button.png" title="Copy" alt="Copy" /> &nbsp; ' . $word . '</span><br />';
-    }
-    if (!empty($file)) {
-        echo '<br />' . $gglink . "\n";
-    }
+        <?php
+        foreach($file as $word){
+            echo '<span class="click" onclick="addTranslation(' . prepare_textdata_js($word) . ');"><img src="icn/tick-button.png" title="Copy" alt="Copy" /> &nbsp; ' . $word . '</span><br />';
+        }
+        if (!empty($file)) {
+            echo '<br />' . $gglink . "\n";
+        }
 
-    echo '&nbsp;<hr />&nbsp;<form action="ggl.php" method="get">Unhappy?<br/>Change term: 
+        echo '&nbsp;<hr />&nbsp;<form action="ggl.php" method="get">Unhappy?<br/>Change term: 
 	<input type="text" name="text" maxlength="250" size="15" value="' . tohtml($text) . '">
 	<input type="hidden" name="sl" value="' . tohtml($sl) . '">
 	<input type="hidden" name="tl" value="' . tohtml($tl) . '">

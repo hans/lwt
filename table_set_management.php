@@ -3,7 +3,7 @@
 /**************************************************************
 Call: table_set_management.php
 Analyse DB tables, and manage Table Sets
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -60,7 +60,7 @@ echo error_message_with_hide($message, 0);
 
 if ($fixed_tbpref) {
 
-?>
+    ?>
 
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr>
@@ -71,13 +71,13 @@ if ($fixed_tbpref) {
 </tr>
 </table>
 
-<?php	
+    <?php	
 
 } else {
 
     $prefix = getprefixes();
 
-?>
+    ?>
 
 <table class="tab1" style="width: auto;" cellspacing="0" cellpadding="5">
 
@@ -88,13 +88,13 @@ if ($fixed_tbpref) {
 <p>Table Set: <select name="prefix">
 <option value="-" selected="selected">[Choose...]</option>
 <option value="">Default Table Set</option>
-<?php
-foreach ($prefix as $value) {
-?>
+    <?php
+    foreach ($prefix as $value) {
+        ?>
 <option value="<?php echo tohtml($value); ?>"><?php echo tohtml($value); ?></option>
-<?php
-}
-?>
+        <?php
+    }
+    ?>
 </select> 
 </p>
 <p class="right">&nbsp;<br /><input type="submit" name="op" value="Start LWT with selected Table Set" />
@@ -121,15 +121,15 @@ foreach ($prefix as $value) {
 <form name="f3" class="inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="if (document.f3.delpref.selectedIndex > 0) { return confirm('\n*** DELETING TABLE SET: ' + document.f3.delpref.options[document.f3.delpref.selectedIndex].text + ' ***\n\n*** ALL DATA IN THIS TABLE SET WILL BE LOST! ***\n\n*** ARE YOU SURE ?? ***'); } else { return true; }">
 <p>Table Set: <select name="delpref">
 <option value="-" selected="selected">[Choose...]</option>
-<?php
-foreach ($prefix as $value) {
-    if ($value != '') {
-    ?>
+    <?php
+    foreach ($prefix as $value) {
+        if ($value != '') {
+            ?>
    <option value="<?php echo tohtml($value); ?>"><?php echo tohtml($value); ?></option>
-<?php
+            <?php
+        }
     }
-}
-?>
+    ?>
 </select>
 <br />
 (You cannot delete the Default Table Set.)
@@ -147,7 +147,7 @@ foreach ($prefix as $value) {
 
 </table>
 
-<?php
+    <?php
 
 }
 

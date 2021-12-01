@@ -94,13 +94,13 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
 <li>Language: <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}"><?php echo get_languages_selectoptions($currentlang, '[Select...]'); ?></select></li>
 </ul>
     
-<?php
-if ($currenttext != '') {
-    $txttit = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
-    if (isset($txttit)) {    
-        $txtlng = get_first_value('select TxLgID as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
-        $lngname = getLanguage($txtlng);
-    ?>
+    <?php
+    if ($currenttext != '') {
+        $txttit = get_first_value('select TxTitle as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
+        if (isset($txttit)) {    
+            $txtlng = get_first_value('select TxLgID as value from ' . $tbpref . 'texts where TxID=' . (int)$currenttext);
+            $lngname = getLanguage($txtlng);
+            ?>
      <ul>
      <li>My last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
      <br />
@@ -109,19 +109,19 @@ if ($currenttext != '') {
      <a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
      &nbsp; &nbsp; 
      <a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
-    <?php
-    if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . (int)$currenttext) + 0) > 0) {
-    ?>
+            <?php
+            if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . (int)$currenttext) + 0) > 0) {
+                ?>
     &nbsp; &nbsp; 
     <a href="print_impr_text.php?text=<?php echo $currenttext; ?>"><img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text</a>
-<?php
-    }
-    ?>
+                <?php
+            }
+            ?>
      </li>
      </ul>
-    <?php
+            <?php
+        }
     }
-}
 }
 ?>
 
@@ -148,10 +148,10 @@ if ($currenttext != '') {
 <?php
 // ********* WORDPRESS LOGOUT *********
 if (isset($_SESSION['LWT-WP-User'])) {
-?>
+    ?>
     <br /><br /></li>
 <li><a href="wp_lwt_stop.php"><span style="font-size:115%; font-weight:bold; color:red;">LOGOUT</span></a> (from WordPress and LWT)
-<?php
+    <?php
 }
 // ********* WORDPRESS LOGOUT *********
 ?>

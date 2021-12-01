@@ -1,22 +1,21 @@
 <?php
 
 /**************************************************************
-
 Parameters - GoogleTranslate::staticTranslate($text,$sl,$tl[,$time_token = NULL[,$domain = NULL]]):
 $text -> word to translate
 $sl -> source language code (i.e. en,de,fr,...)
 $tl -> target language code (i.e. en,de,fr,...)
-	all supported language codes can be found here: https://cloud.google.com/translate/v2/using_rest#language-params
+    all supported language codes can be found here: https://cloud.google.com/translate/v2/using_rest#language-params
 $time_token (optional) -> array() from https://translate.google.com
-	if $time_token is empty, array(408254,585515986) is used
+    if $time_token is empty, array(408254,585515986) is used
 $domain (optional) -> connect to Google Domain (i.e. 'com' for  https://translate.google.com)
-	if $domain is empty, a random domain will be used (the default value can be altered by changing DEFAULT_DOMAIN)
-	Possible values:
-		('com.ar', 'at', 'com.au', 'be', 'com.br', 'ca', 'cat', 'ch', 'cl', 'cn', 'cz', 'de', 'dk', 'es', 'fi', 'fr', 'gr', 'com.hk', 'hr', 'hu', 'co.id', 'ie', 'co.il', 'im', 'co.in', 'it', 'jm', 'co.jp', 'co.kr', 'com.mx', 'nl', 'no', 'pl', 'pt', 'ru', 'se', 'com.sg', 'co.th', 'com.tw', 'co.uk', 'com', 'za')
+    if $domain is empty, a random domain will be used (the default value can be altered by changing DEFAULT_DOMAIN)
+    Possible values:
+        ('com.ar', 'at', 'com.au', 'be', 'com.br', 'ca', 'cat', 'ch', 'cl', 'cn', 'cz', 'de', 'dk', 'es', 'fi', 'fr', 'gr', 'com.hk', 'hr', 'hu', 'co.id', 'ie', 'co.il', 'im', 'co.in', 'it', 'jm', 'co.jp', 'co.kr', 'com.mx', 'nl', 'no', 'pl', 'pt', 'ru', 'se', 'com.sg', 'co.th', 'com.tw', 'co.uk', 'com', 'za')
 
 Returns an array of Translations
 
-***************************************************************
+ * **************************************************************
 
 Usage:
 require_once( 'googleTranslateClass.php' );
@@ -24,11 +23,10 @@ require_once( 'googleTranslateClass.php' );
 $translations = GoogleTranslate::staticTranslate('Hello','en','de');
 if(!$translations) echo 'Error: No translation found!';
 else
-	foreach($translations as $transl){
-		echo $transl, '<br />';
-	}
-
-***************************************************************/
+    foreach($translations as $transl){
+        echo $transl, '<br />';
+    }
+ ***************************************************************/
 
 class GoogleTranslate
 {

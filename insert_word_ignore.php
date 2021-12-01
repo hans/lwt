@@ -4,7 +4,7 @@
 /**************************************************************
 Call: insert_word_ignore.php?tid=[textid]&ord=[textpos]
 Ignore single word (new term with status 98)
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 

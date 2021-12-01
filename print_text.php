@@ -2,10 +2,10 @@
 
 /**************************************************************
 Call: print_text.php?text=[textid]&...
-			... ann=[annotationcode] ... ann. filter 
+            ... ann=[annotationcode] ... ann. filter 
       ... status=[statuscode] ... status filter   
 Print a text
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -86,24 +86,30 @@ if($textid==0) {
 }
 
 $ann = getreq('ann');
-if ($ann == '') { $ann = getSetting('currentprintannotation'); 
+if ($ann == '') { 
+    $ann = getSetting('currentprintannotation'); 
 }
-if ($ann == '') { $ann = 3; 
+if ($ann == '') { 
+    $ann = 3; 
 }
 $show_rom = $ann & 2; 
 $show_trans = $ann & 1; 
 $show_tags = $ann & 4; 
 
 $statusrange = getreq('status');
-if($statusrange == '') { $statusrange = getSetting('currentprintstatus'); 
+if($statusrange == '') { 
+    $statusrange = getSetting('currentprintstatus'); 
 }
-if($statusrange == '') { $statusrange = 14; 
+if($statusrange == '') { 
+    $statusrange = 14; 
 }
 
 $annplcmnt = getreq('annplcmnt');
-if($annplcmnt == '') { $annplcmnt = getSetting('currentprintannotationplacement'); 
+if($annplcmnt == '') { 
+    $annplcmnt = getSetting('currentprintannotationplacement'); 
 }
-if($annplcmnt == '') { $annplcmnt = 0; 
+if($annplcmnt == '') { 
+    $annplcmnt = 0; 
 }
 
 $sql = 'select TxLgID, TxTitle, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid;

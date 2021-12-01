@@ -86,7 +86,7 @@ function my_die($text)
  */
 function quickMenu() 
 {
-?>
+    ?>
 
 <script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
 <select id="quickmenu" onchange="quickMenuRedirection(value)">
@@ -107,7 +107,7 @@ function quickMenu()
     <option value="settings">Settings</option>
     <option value="INFO">Help</option>
 </select>
-<?php
+    <?php
 }
 
 
@@ -243,7 +243,7 @@ function annotation_to_json($ann)
 /**
  * Get a request when possible. Otherwise, return an empty string.
  * 
- * @param string $s Request key
+ * @param  string $s Request key
  * @return string Trimmed request or empty string
  */
 function getreq($s) 
@@ -258,7 +258,7 @@ function getreq($s)
 /**
  * Get a session variable when possible. Otherwise, return an empty string.
  * 
- * @param string $s Session variable key
+ * @param  string $s Session variable key
  * @return string Trimmed sesseion variable or empty string
  */
 function getsess($s) 
@@ -274,8 +274,8 @@ function getsess($s)
 /**
  * Start a standard page with a complete header and a non-closed body.
  * 
- * @param string $titletext Title of the page
- * @param string $addcss Some CSS to be embed in a style tag
+ * @param  string $titletext Title of the page
+ * @param  string $addcss    Some CSS to be embed in a style tag
  * @global bool $debug Show the requests if true
  * @global string $tbpref The database table prefix if true
  */
@@ -288,13 +288,13 @@ function pagestart_nobody($titletext, $addcss='')
     @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
     @header('Cache-Control: no-cache, must-revalidate, max-age=0');
     @header('Pragma: no-cache');
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <!-- 
-        <?php echo file_get_contents( "UNLICENSE.md" );?> 
+        <?php echo file_get_contents("UNLICENSE.md");?> 
     -->
     <meta name="viewport" content="width=900" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
@@ -322,7 +322,7 @@ function pagestart_nobody($titletext, $addcss='')
     <!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
     <!-- TBPREF  : "<?php if (isset($tbpref)) {
         echo tohtml($tbpref); 
-   } ?>" -->
+} ?>" -->
     <script type="text/javascript">
     //<![CDATA[
     <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
@@ -337,7 +337,7 @@ function pagestart_nobody($titletext, $addcss='')
 </head>
 <body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<?php
+    <?php
     flush();
     if ($debug) { 
         showRequest(); 

@@ -43,51 +43,51 @@ $hideuntil = -1;
 $hidetag = "removeClass('hide');";
 
 while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
-	$actcode = $record['Code'] + 0;
-	$t = $record['TiText'];
-	$order = $record['TiOrder'] + 0;
-	$notword = $record['TiIsNotWord'] + 0;
-	$termex = isset($record['WoID']);
-	$spanid = 'ID-' . $order . '-' . $actcode;
+    $actcode = $record['Code'] + 0;
+    $t = $record['TiText'];
+    $order = $record['TiOrder'] + 0;
+    $notword = $record['TiIsNotWord'] + 0;
+    $termex = isset($record['WoID']);
+    $spanid = 'ID-' . $order . '-' . $actcode;
 
-	if ( $hideuntil > 0 ) {
-		if ( $order <= $hideuntil )
-			$hidetag = "addClass('hide');";
-		else {
-			$hideuntil = -1;
-			$hidetag = "removeClass('hide');";
-		}
-	}
-	
-	if ($notword != 0) {  // NOT A TERM
-		echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
-	}  
-	
-	else {   // A TERM
-		if ($actcode > 1) {   // A MULTIWORD FOUND
-			if ($termex) {  // MULTIWORD FOUND - DISPLAY
-				if (! $showAll) {
-					if ($hideuntil == -1) {
-						$hideuntil = $order + ($actcode - 1) * 2;
-					}
-				}
-				echo "$('#" . $spanid . "',context)." .
-					($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
-					".removeClass('mwsty wsty').addClass('" .
-					($showAll ? 'mwsty' : 'wsty') . "')." . 
-					$hidetag . "\n";
-			}
-			else {  // MULTIWORD PLACEHOLDER - NO DISPLAY 
-				echo "$('#" . $spanid . "',context)." .
-					($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
-					".removeClass('mwsty wsty').addClass('" .
-					($showAll ? 'mwsty' : 'wsty') . " hide');\n";
-			}  
-		} // ($actcode > 1) -- A MULTIWORD FOUND
-		else {  // ($actcode == 1)  -- A WORD FOUND
-			echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
-		}  // ($actcode == 1)  -- A WORD FOUND
-	} // $record['TiIsNotWord'] == 0  -- A TERM
+    if ( $hideuntil > 0 ) {
+        if ( $order <= $hideuntil )
+            $hidetag = "addClass('hide');";
+        else {
+            $hideuntil = -1;
+            $hidetag = "removeClass('hide');";
+        }
+    }
+    
+    if ($notword != 0) {  // NOT A TERM
+        echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
+    }  
+    
+    else {   // A TERM
+        if ($actcode > 1) {   // A MULTIWORD FOUND
+            if ($termex) {  // MULTIWORD FOUND - DISPLAY
+                if (! $showAll) {
+                    if ($hideuntil == -1) {
+                        $hideuntil = $order + ($actcode - 1) * 2;
+                    }
+                }
+                echo "$('#" . $spanid . "',context)." .
+                    ($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
+                    ".removeClass('mwsty wsty').addClass('" .
+                    ($showAll ? 'mwsty' : 'wsty') . "')." . 
+                    $hidetag . "\n";
+            }
+            else {  // MULTIWORD PLACEHOLDER - NO DISPLAY 
+                echo "$('#" . $spanid . "',context)." .
+                    ($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
+                    ".removeClass('mwsty wsty').addClass('" .
+                    ($showAll ? 'mwsty' : 'wsty') . " hide');\n";
+            }  
+        } // ($actcode > 1) -- A MULTIWORD FOUND
+        else {  // ($actcode == 1)  -- A WORD FOUND
+            echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
+        }  // ($actcode == 1)  -- A WORD FOUND
+    } // $record['TiIsNotWord'] == 0  -- A TERM
 } // while ($record = mysqli_fetch_assoc($res))  -- MAIN LOOP
 mysqli_free_result($res);
 

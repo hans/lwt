@@ -6,7 +6,7 @@
  * Ajax call in print_impr_text.php
  * Call: inc/ajax_edit_impr_text.php?id=[textid]
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.5.0
  */
 

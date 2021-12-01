@@ -3,7 +3,7 @@
 
 /**
  * \file
- * Backup/Restore/Empty LWT Database
+ * \biref Backup/Restore/Empty LWT Database
  * 
  * Call: backup_restore.php?....
  *  ... restore=xxx ... do restore 
@@ -12,7 +12,7 @@
  * 
  * @author https://sourceforge.net/projects/lwt/ LWT Project
  * @since  1.0.3
-***************************************************************/
+ */
 
 require_once 'inc/session_utility.php';
 

@@ -17,20 +17,19 @@ require_once "db_accessors.php";
 /**
  * Return the list of all tags.
  * 
- * @param int $refresh If true, refresh all tags for session
+ * @param  int $refresh If true, refresh all tags for session
  * @global string $tbpref Table name prefix
  * @return string[] All tags
  */
 function get_tags($refresh = 0) 
 {
     global $tbpref;
-    if (
-        isset($_SESSION['TAGS']) &&
-        is_array($_SESSION['TAGS']) &&
-        isset($_SESSION['TBPREF_TAGS']) &&
-        $_SESSION['TBPREF_TAGS'] == $tbpref . url_base() &&
-        $refresh == 0
-        ) {
+    if (isset($_SESSION['TAGS']) 
+        && is_array($_SESSION['TAGS']) 
+        && isset($_SESSION['TBPREF_TAGS']) 
+        && $_SESSION['TBPREF_TAGS'] == $tbpref . url_base() 
+        && $refresh == 0
+    ) {
             return $_SESSION['TAGS'];
     }
     $tags = array();
@@ -48,7 +47,7 @@ function get_tags($refresh = 0)
 /**
  * Return the list of all text tags.
  * 
- * @param int $refresh If true, refresh all text tags for session
+ * @param  int $refresh If true, refresh all text tags for session
  * @global string $tbpref Table name prefix
  * @return string[] All text tags
  */
@@ -222,14 +221,13 @@ function saveWordTags($wid)
 {
     global $tbpref;
     runsql("DELETE from " . $tbpref . "wordtags WHERE WtWoID =" . $wid, '');
-    if (
-        !isset($_REQUEST['TermTags']) || 
-        !is_array($_REQUEST['TermTags']) || 
-        !isset($_REQUEST['TermTags']['TagList']) || 
-        !is_array($_REQUEST['TermTags']['TagList'])
-     ) {
+    if (!isset($_REQUEST['TermTags'])  
+        || !is_array($_REQUEST['TermTags'])  
+        || !isset($_REQUEST['TermTags']['TagList'])  
+        || !is_array($_REQUEST['TermTags']['TagList'])
+    ) {
          return;
-     }
+    }
     $cnt = count($_REQUEST['TermTags']['TagList']);
     if ($cnt > 0 ) {
         for ($i=0; $i<$cnt; $i++) {
@@ -244,7 +242,8 @@ function saveWordTags($wid)
                 'INSERT INTO ' . $tbpref . 'wordtags (WtWoID, WtTgID) 
                 SELECT ' . $wid . ', TgID 
                 FROM ' . $tbpref . 'tags 
-                WHERE TgText = ' . convert_string_to_sqlsyntax($tag), "");
+                WHERE TgText = ' . convert_string_to_sqlsyntax($tag), ""
+            );
         }
         get_tags($refresh = 1);  // refresh tags cache
     }
@@ -636,7 +635,7 @@ function write_rss_to_db($texts)
                 $id = get_last_key();
                 runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $text_ID, "");    
                 $message1 += runsql('delete from ' . $tbpref . 'texts where TxID = ' . $text_ID, "");
-                //				$message .= $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
+                //                $message .= $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
                 adjust_autoincr('texts', 'TxID');
                 adjust_autoincr('sentences', 'SeID');
                 runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL", '');        
@@ -1049,7 +1048,7 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
                 $dom->removeChild($item); // remove hack
             }
         }
-        $dom->encoding = 'UTF-8'; // insert proper	//////////////////////////////
+        $dom->encoding = 'UTF-8'; // insert proper    //////////////////////////////
 
         /*
         if (!$dom->loadHTML($HTMLString)) {
@@ -1141,10 +1140,10 @@ function stripTheSlashesIfNeeded($s)
 /**
  * Return navigation arrows to previous and next texts.
  * 
- * @param string $textid ID of the current text
- * @param string $url Base URL to append before $textid
- * @param bool $onlyann Restrict to annotated texts only
- * @param string $add Some content to add before the output
+ * @param  string $textid  ID of the current text
+ * @param  string $url     Base URL to append before $textid
+ * @param  bool   $onlyann Restrict to annotated texts only
+ * @param  string $add     Some content to add before the output
  * @return string Arrows to previous and next texts.
  */
 function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add) 
@@ -1172,15 +1171,15 @@ function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add)
         $wh_query .= convert_string_to_sqlsyntax($currentquery);
     }
     switch ($currentquerymode) {
-        case 'title,text':
-            $wh_query=' AND (TxTitle ' . $wh_query . ' OR TxText ' . $wh_query . ')';
-            break;
-        case 'title':
-            $wh_query=' AND (TxTitle ' . $wh_query . ')';
-            break;
-        case 'text':
-            $wh_query=' AND (TxText ' . $wh_query . ')';
-            break;
+    case 'title,text':
+        $wh_query=' AND (TxTitle ' . $wh_query . ' OR TxText ' . $wh_query . ')';
+        break;
+    case 'title':
+        $wh_query=' AND (TxTitle ' . $wh_query . ')';
+        break;
+    case 'text':
+        $wh_query=' AND (TxText ' . $wh_query . ')';
+        break;
     }
     if ($currentquery=='') { 
         $wh_query = ''; 
@@ -1633,8 +1632,8 @@ function get_first_sepa()
 /** 
  * Convert a setting to 0 or 1
  *
- * @param string $key The input value
- * @param string $dft Default value to use
+ * @param  string $key The input value
+ * @param  string $dft Default value to use
  * @return int 0 or 1
  */
 function getSettingZeroOrOne($key, $dft) 
@@ -1648,7 +1647,7 @@ function getSettingZeroOrOne($key, $dft)
  * Get a setting from the database. It can also check for its validity.
  * 
  * @param  string $key Setting key. If $key is 'currentlanguage' or 
- * 'currenttext', we validate language/text.
+ *                     'currenttext', we validate language/text.
  * @return string $val Value in the database if found, or an empty string
  * @global string $tbpref Table name prefix
  */
@@ -1998,7 +1997,7 @@ function get_last_key()
 /**
  * If $value is true, return an HTML-style checked attribute.
  * 
- * @param mixed $value Some value that can be evaluated as a boolean
+ * @param  mixed $value Some value that can be evaluated as a boolean
  * @return string ' checked="checked" ' if value is true, '' otherwise 
  */
 function get_checked($value) 
@@ -2496,38 +2495,39 @@ function get_file_path($filename)
 function makePager($currentpage, $pages, $script, $formname) 
 {
     if ($currentpage > 1) { 
-    ?>
+        ?>
    &nbsp; &nbsp;<a href="<?php echo $script; ?>?page=1"><img src="icn/control-stop-180.png" title="First Page" alt="First Page" /></a>&nbsp;
 <a href="<?php echo $script; ?>?page=<?php echo $currentpage-1; ?>"><img  src="icn/control-180.png" title="Previous Page" alt="Previous Page" /></a>&nbsp;
-<?php
+        <?php
     } else {
-    ?>
+        ?>
    &nbsp; &nbsp;<img src="<?php print_file_path('icn/placeholder.png');?>" alt="-" />&nbsp;
 <img src="<?php print_file_path('icn/placeholder.png');?>" alt="-" />&nbsp;
-<?php
+        <?php
     } 
-?>
+    ?>
 Page
-<?php
-if ($pages==1) { echo '1'; 
-}
-else {
-?>
+    <?php
+    if ($pages==1) { 
+        echo '1'; 
+    }
+    else {
+        ?>
 <select name="page" onchange="{val=document.<?php echo $formname; ?>.page.options[document.<?php echo $formname; ?>.page.selectedIndex].value; location.href='<?php echo $script; ?>?page=' + val;}"><?php echo get_paging_selectoptions($currentpage, $pages); ?></select>
-<?php
-}
+        <?php
+    }
     echo ' of ' . $pages . '&nbsp; ';
-if ($currentpage < $pages) { 
-?>
+    if ($currentpage < $pages) { 
+        ?>
 <a href="<?php echo $script; ?>?page=<?php echo $currentpage+1; ?>"><img src="icn/control.png" title="Next Page" alt="Next Page" /></a>&nbsp;
 <a href="<?php echo $script; ?>?page=<?php echo $pages; ?>"><img src="icn/control-stop.png" title="Last Page" alt="Last Page" /></a>&nbsp; &nbsp;
-<?php 
-} else {
-?>
+        <?php 
+    } else {
+        ?>
 <img src="<?php print_file_path('icn/placeholder.png');?>" alt="-" />&nbsp;
 <img src="<?php print_file_path('icn/placeholder.png');?>" alt="-" />&nbsp; &nbsp; 
-<?php
-}
+        <?php
+    }
 }
 
 // -------------------------------------------------------------
@@ -2572,8 +2572,8 @@ function checkStatusRange($currstatus, $statusrange)
  * Adds HTML attributes to create a filter over words learning status.
  *
  * @param  int $status Word learning status ([1-5]|98|99|599) 
- * - 599 is a special status combining 5 and 99 statuses
- * - '' return an empty string 
+ *                     - 599 is a special status combining 5 and 99 statuses
+ *                     - '' return an empty string 
  * @return string CSS class filter to exclude $status
  */
 function makeStatusClassFilter($status) 
@@ -3067,7 +3067,7 @@ function mask_term_in_sentence_v2($s)
  * Replace all white space characters by a simple space ' '.
  * The output string is also trimmed.
  * 
- * @param string $s String to parse
+ * @param  string $s String to parse
  * @return string String with only simple whitespaces.
  */
 function repl_tab_nl($s) 
@@ -3111,7 +3111,7 @@ function mask_term_in_sentence($s,$regexword)
  * 
  * It is useful for unknown percent with this fork.
  *
- * @param  string  $textID identifier for this text
+ * @param  string $textID identifier for this text
  * @return int[6] Total number of words, number of expression, statistics, 
  * total unique, number of unique expressions, unique statistics
  * @global string $tbpref Table name prefix
@@ -3266,34 +3266,34 @@ function getSentence($seid, $wordlc,$mode)
     if ($record2['TiIsNotWord'] == 1) {
     $jump--;
     if ($jump < 0) {
-				$sejs .= $record2['TiText']; 
-				$se .= tohtml($record2['TiText']);
+                $sejs .= $record2['TiText']; 
+                $se .= tohtml($record2['TiText']);
     } 
-    }	else {
+    }    else {
     if (($jump-1) < 0) {
-				if ($notfound) {
-					if ($record2['TiTextLC'] == $wordlc) { 
-						$sejs.='{'; 
-						$se.='<b>'; 
-						$sejs .= $record2['TiText']; 
-						$se .= tohtml($record2['TiText']); 
-						$sejs.='}'; 
-						$se.='</b>';
-						$notfound = 0;
-						$jump=($record2['TiWordCount']-1)*2; 
-					}
-				}
-				if ($record2['TiWordCount'] == 1) {
-					if ($notfound) {
-						$sejs .= $record2['TiText']; 
-						$se .= tohtml($record2['TiText']);
-						$jump=0;  
-					}	else {
-						$notfound = 1;
-					}
-				}
+                if ($notfound) {
+                    if ($record2['TiTextLC'] == $wordlc) { 
+                        $sejs.='{'; 
+                        $se.='<b>'; 
+                        $sejs .= $record2['TiText']; 
+                        $se .= tohtml($record2['TiText']); 
+                        $sejs.='}'; 
+                        $se.='</b>';
+                        $notfound = 0;
+                        $jump=($record2['TiWordCount']-1)*2; 
+                    }
+                }
+                if ($record2['TiWordCount'] == 1) {
+                    if ($notfound) {
+                        $sejs .= $record2['TiText']; 
+                        $se .= tohtml($record2['TiText']);
+                        $jump=0;  
+                    }    else {
+                        $notfound = 1;
+                    }
+                }
     } else {
-				if ($record2['TiWordCount'] == 1) $jump--; 
+                if ($record2['TiWordCount'] == 1) $jump--; 
     }
     }
     }
@@ -3338,7 +3338,7 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode)
         if('MECAB'== strtoupper(trim($record["LgRegexpWordCharacters"]))) {
             $mecab_file = sys_get_temp_dir() . "/" . $tbpref . "mecab_to_db.txt";
             //$mecab_args = ' -F {%m%t\\t -U {%m%t\\t -E \\n ';
-            // For instance, "このラーメン" becomes "この	6	68\nラーメン	7	38"
+            // For instance, "このラーメン" becomes "この    6    68\nラーメン    7    38"
             $mecab_args = ' -F %m\\t%t\\t%h\\n -U %m\\t%t\\t%h\\n -E EOS\\t3\\t7\\n ';
             if(file_exists($mecab_file)) { 
                 unlink($mecab_file); 
@@ -3474,7 +3474,7 @@ function areUnknownWordsInSentence($sentno)
         WHERE Ti2SeID = " . $sentno . " AND Ti2WordCount = 1 AND Ti2WoID = 0 
         LIMIT 1"
     );
-    //	$x = get_first_value("SELECT distinct ifnull(WoTextLC,'') as value FROM (" . $tbpref . "textitems left join " . $tbpref . "words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = " . $sentno . " AND TiWordCount = 1 AND TiIsNotWord = 0 order by WoTextLC asc limit 1");
+    //    $x = get_first_value("SELECT distinct ifnull(WoTextLC,'') as value FROM (" . $tbpref . "textitems left join " . $tbpref . "words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = " . $sentno . " AND TiWordCount = 1 AND TiIsNotWord = 0 order by WoTextLC asc limit 1");
     // echo $sentno . '/' . isset($x) . '/' . $x . '/';
     if (isset($x) && $x == '') {
         return true;
@@ -3649,9 +3649,9 @@ function getScriptDirectionTag($lid)
  * @param string $text Text to parse
  * @param string $lid  Language ID (LgID from languages table)
  * @param int    $id   References whether the text is new to the database
- *  $id = -1     => Check, return protocol
- *  $id = -2     => Only return sentence array
- *  $id = TextID => Split: insert sentences/textitems entries in DB
+ *                     $id = -1     => Check, return protocol
+ *                     $id = -2     => Only return sentence array
+ *                     $id = TextID => Split: insert sentences/textitems entries in DB
  */
 function splitCheckText($text, $lid, $id) 
 {
@@ -3741,7 +3741,7 @@ function splitCheckText($text, $lid, $id)
         $s = preg_replace('/\s+/u', ' ', $s);
         if ($id == -1) { echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>"; 
         }
-        //	"\r" => Sentence delimiter, "\t" and "\n" => Word delimiter
+        //    "\r" => Sentence delimiter, "\t" and "\n" => Word delimiter
         $s = preg_replace_callback(
             "/(\S+)\s*((\.+)|([$splitSentence]))([]'`\"”)‘’‹›“„«»』」]*)(?=(\s*)(\S+|$))/u", function ($matches) use ($noSentenceEnd) {
                 //var_dump($matches);
@@ -3850,7 +3850,7 @@ function splitCheckText($text, $lid, $id)
         if($rtlScript) {
             echo '$(function() {$("li").attr("dir","rtl");});';
         }
-    ?>
+        ?>
    h='<h4>Word List <span class="red2">(red = already saved)</span></h4><ul class="wordlist">';
    $.each(WORDS,function(k,v){h+= '<li><span' + (v[2]==""?"":' class="red2"') + '>[' + v[0] + '] — ' + v[1] + (v[2]==""?"":' — ' + v[2]) + '</span></li>';});
    $('#check_text').append(h);
@@ -3862,7 +3862,7 @@ function splitCheckText($text, $lid, $id)
    $('#check_text').append(h + '</ul><p>TOTAL: ' + NOWORDS.length +'</p>');
    </script>
 
-    <?php
+        <?php
     }//check text end
     do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'temptextitems');
 }
@@ -3991,39 +3991,39 @@ function new_expression_interactable($hex, $appendtext, $sid, $len)
         <?php echo json_encode($len); ?>, 
         <?php echo $showAllWords; ?>
         );
- <?php /*
- var obj = <?php echo json_encode($appendtext); ?>;
- var sid = <?php echo json_encode($sid); ?>;
- var attrs = ' class="click mword <?php echo getSettingZeroOrOne('showallwords', 1)?'m':''; ?>wsty TERM<?php echo $hex; ?> word' + woid + ' status' + status + '" data_trans="' + trans + '" data_rom="' + roman + '" data_code="<?php echo $len; ?>" data_status="' + status + '" data_wid="' + woid + '" title="' + title + '"';
- for( key in obj ) {
- var text_refresh = 0;
- if($('span[id^="ID-'+ key +'-"]', context).not(".hide").length ){if(!($('span[id^="ID-'+ key +'-"]', context).not(".hide").attr('data_code')><?php echo $len; ?>)){text_refresh = 1;}}
- $('#ID-' + key + '-' + <?php
+    <?php /*
+    var obj = <?php echo json_encode($appendtext); ?>;
+    var sid = <?php echo json_encode($sid); ?>;
+    var attrs = ' class="click mword <?php echo getSettingZeroOrOne('showallwords', 1)?'m':''; ?>wsty TERM<?php echo $hex; ?> word' + woid + ' status' + status + '" data_trans="' + trans + '" data_rom="' + roman + '" data_code="<?php echo $len; ?>" data_status="' + status + '" data_wid="' + woid + '" title="' + title + '"';
+    for( key in obj ) {
+    var text_refresh = 0;
+    if($('span[id^="ID-'+ key +'-"]', context).not(".hide").length ){if(!($('span[id^="ID-'+ key +'-"]', context).not(".hide").attr('data_code')><?php echo $len; ?>)){text_refresh = 1;}}
+    $('#ID-' + key + '-' + <?php
     echo prepare_textdata_js($len); ?>, context).remove();
-  var i = '';
-  for(j=<?php echo $len - 1; ?>;j>0;j=j-1){
-   if(j==1)i='#ID-' + key + '-1';
-   if($('#ID-' + key + '-' + j,context).length){
+    var i = '';
+    for(j=<?php echo $len - 1; ?>;j>0;j=j-1){
+    if(j==1)i='#ID-' + key + '-1';
+    if($('#ID-' + key + '-' + j,context).length){
     i = '#ID-' + key + '-' + j;
     break;
-   }
-  }
-  var ord_class='order' + key;
-  $(i, context).before('<span id="ID-' + key + '-' + <?php
+    }
+    }
+    var ord_class='order' + key;
+    $(i, context).before('<span id="ID-' + key + '-' + <?php
     echo prepare_textdata_js($len); ?> + '"' + attrs + '>' + obj[ key ] + '</span>');
-  el = $('#ID-' + key + '-' + <?php
+    el = $('#ID-' + key + '-' + <?php
     echo prepare_textdata_js($len); ?>, context);
-  el.addClass(ord_class).attr('data_order',key);
-  var txt = el.nextUntil($('#ID-' + (parseInt(key) + <?php echo $len * 2 -1; ?>) + '-1', context),'[id$="-1"]').map(function() {return $( this ).text();}).get().join( "" );
-  var pos = $('#ID-' + key + '-1', context).attr('data_pos');
-  el.attr('data_text',txt).attr('data_pos',pos);
+    el.addClass(ord_class).attr('data_order',key);
+    var txt = el.nextUntil($('#ID-' + (parseInt(key) + <?php echo $len * 2 -1; ?>) + '-1', context),'[id$="-1"]').map(function() {return $( this ).text();}).get().join( "" );
+    var pos = $('#ID-' + key + '-1', context).attr('data_pos');
+    el.attr('data_text',txt).attr('data_pos',pos);
     <?php if(!getSettingZeroOrOne('showallwords', 1)) { ?>
     if(text_refresh == 1){
         refresh_text(el);
     }else el.addClass('hide');
-<?php 
-} ?>
- }*/?>
+    <?php 
+    } ?>
+    }*/?>
  </script>
     <?php
     flush();
@@ -4032,13 +4032,13 @@ function new_expression_interactable($hex, $appendtext, $sid, $len)
 /**
  * Alter the database when to add a new word
  * 
- * @param string $textlc 
- * @param string $lid    Language ID
- * @param string $len
- * @param int    $mode   Function mode
- *                       - 0: Default mode, do nothing special
- *                       - 1: Runs an expresion inserter interactable 
- *                       - 2: Return the sql output
+ * @param  string $textlc 
+ * @param  string $lid    Language ID
+ * @param  string $len
+ * @param  int    $mode   Function mode
+ *                        - 0: Default mode, do nothing special
+ *                        - 1: Runs an expresion inserter interactable 
+ *                        - 2: Return the sql output
  * @global string $tbpref Table name prefix
  */
 function insertExpressions($textlc, $lid, $wid, $len, $mode) 
@@ -4758,12 +4758,12 @@ function makeAudioPlayer($audio, $offset=0)
 </td>
 <td class="center bordermiddle">&nbsp;</td>
 <td class="center bordermiddle">
-<?php
-$currentplayerseconds = getSetting('currentplayerseconds');
-if ($currentplayerseconds == '') { 
-    $currentplayerseconds = 5; 
-}
-?>
+    <?php
+    $currentplayerseconds = getSetting('currentplayerseconds');
+    if ($currentplayerseconds == '') { 
+        $currentplayerseconds = 5; 
+    }
+    ?>
 <!-- Not merge from master branch (with official)
 <select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
 <span id="backbutt" class="click" title="Rewind n seconds">⇤</span>&nbsp;&nbsp;<span id="forwbutt" class="click" title="Forward n seconds">⇥</span>
@@ -4781,12 +4781,12 @@ if ($currentplayerseconds == '') {
 </td>
 <td class="center bordermiddle">&nbsp;</td>
 <td class="center borderright" style="padding-right:10px;">
-<?php
-$currentplaybackrate = getSetting('currentplaybackrate');
-if ($currentplaybackrate == '') { 
-    $currentplaybackrate = 10; 
-}
-?>
+    <?php
+    $currentplaybackrate = getSetting('currentplaybackrate');
+    if ($currentplaybackrate == '') { 
+        $currentplaybackrate = 10; 
+    }
+    ?>
 <select id="playbackrate" name="playbackrate">
     <?php echo get_playbackrate_selectoptions($currentplaybackrate); ?>
 </select><br />
@@ -4820,7 +4820,7 @@ if ($currentplaybackrate == '') {
         } else {
             echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
         }
-    ?> }).jPlayer("pause",<?php echo $offset; ?>);
+        ?> }).jPlayer("pause",<?php echo $offset; ?>);
       if ($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled) {
           $("#playbackrateContainer").css("margin-top",".2em")
           .html('<span id="pbSlower" style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" title="Slower" onclick="click_slower();">&nbsp;</span><span id="pbFaster" style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" title="Faster" onclick="click_faster();">&nbsp;</span><span class="ui-widget ui-state-default ui-corner-all" style="padding-left: 0.2em;padding-right: 0.2em;color:grey"><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></span>')
@@ -4859,7 +4859,7 @@ if ($currentplaybackrate == '') {
 });
 //]]>
 </script>
-<?php
+    <?php
 }
 
 
@@ -4871,7 +4871,7 @@ function framesetheader($title)
     @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
     @header('Cache-Control: no-cache, must-revalidate, max-age=0');
     @header('Pragma: no-cache');
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+    ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -4879,11 +4879,11 @@ function framesetheader($title)
     <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <!-- 
-        <?php echo file_get_contents( "UNLICENSE.md" );?> 
+        <?php echo file_get_contents("UNLICENSE.md");?> 
     -->
     <title>LWT :: <?php echo tohtml($title); ?></title>
 </head>
-<?php
+    <?php
 }
 
 ?>

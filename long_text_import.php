@@ -3,9 +3,9 @@
 
 /**************************************************************
 Call: long_text_import.php?...
-			op=...
+            op=...
 Long Text Import
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -88,7 +88,7 @@ if (isset($_REQUEST['op'])) {
             }
             else {
 
-            ?>
+                ?>
            <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>    
            <script type="text/javascript">
            //<![CDATA[
@@ -104,32 +104,32 @@ if (isset($_REQUEST['op'])) {
          <table class="tab3" cellspacing="0" cellpadding="5">
          <tr>
          <td class="td1" colspan="2">
-        <?php echo "This long text will be split into " . $textcount . $shorter . "text" . $plural . " - as follows:"; ?>
+                <?php echo "This long text will be split into " . $textcount . $shorter . "text" . $plural . " - as follows:"; ?>
          </td>
          </tr>
          <tr>
          <td class="td1 right" colspan="2"><input type="button" value="Cancel" onclick="{resetDirty(); location.href='index.php';}" /> &nbsp; | &nbsp; <input type="button" value="Go Back" onclick="{resetDirty(); history.back();}" /> &nbsp; | &nbsp; <input type="submit" name="op" value="Create <?php echo $textcount; ?> text<?php echo $plural; ?>" />
          </td>
          </tr>
-        <?php
+                <?php
                 $textno = -1;
-        foreach ($texts as $item) {
-            $textno++;
-            $textstring = str_replace("¶", "\n", implode(" ", $item));
-            $bytes = strlen($textstring);
-        ?>            
+                foreach ($texts as $item) {
+                    $textno++;
+                    $textstring = str_replace("¶", "\n", implode(" ", $item));
+                    $bytes = strlen($textstring);
+                    ?>            
         <tr>
         <td class="td1 right"><b>Text <?php echo $textno+1; ?>:</b><br /><br /><br />Length:<br /><?php echo $bytes; ?><br />Bytes</td>
      <td class="td1">
      <textarea readonly="readonly" <?php echo getScriptDirectionTag($langid); ?> name="text[<?php echo $textno; ?>]" cols="60" rows="10"><?php echo str_replace('¶', "\n", str_replace("¶ ", "\n", implode(" ", $item))); ?></textarea>
      </td>
      </tr>
-        <?php
-        }
-        ?>
+                    <?php
+                }
+                ?>
         </table>
         </form>
-        <?php
+                <?php
             }
         }
     }
@@ -170,15 +170,15 @@ if (isset($_REQUEST['op'])) {
         
         echo error_message_with_hide($message, 0);
 
-    ?>        
+        ?>        
      <p>&nbsp;<br /><input type="button" value="Show Texts" onclick="location.href='edit_texts.php';" /></p>
-    <?php
+        <?php
         
     }
 
 } else {
 
-?>
+    ?>
 
     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>            
 
@@ -250,7 +250,7 @@ if (isset($_REQUEST['op'])) {
     <p class="smallgray">Import of a <b>single text</b>, max. 65,000 bytes long, with optional audio:</p><p><input type="button" value="Standard Text Import" onclick="location.href='edit_texts.php?new=1';" /> </p>
 
 
-<?php
+    <?php
 
 }
 

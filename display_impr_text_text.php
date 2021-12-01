@@ -3,7 +3,7 @@
 /**************************************************************
 Call: display_impr_text_text.php?text=[textid]
 Display an improved annotated text (text frame)
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 

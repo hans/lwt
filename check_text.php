@@ -27,16 +27,16 @@ if (isset($_REQUEST['op'])) {
 
 } else {
 
-?>
+    ?>
 <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 <table class="tab3" cellspacing="0" cellpadding="5">
 <tr>
 <td class="td1 right">Language:</td>
 <td class="td1">
 <select name="TxLgID" class="notempty setfocus">
-<?php
-echo get_languages_selectoptions(getSetting('currentlanguage'), '[Choose...]');
-?>
+    <?php
+    echo get_languages_selectoptions(getSetting('currentlanguage'), '[Choose...]');
+    ?>
 </select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 </td>
 </tr>
@@ -53,7 +53,7 @@ echo get_languages_selectoptions(getSetting('currentlanguage'), '[Choose...]');
 </tr>
 </table>
 </form>
-<?php
+    <?php
 
 }
 

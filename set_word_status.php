@@ -2,9 +2,9 @@
 
 /**************************************************************
 Call: set_word_status.php?...
-			... tid=[textid]&wid=[wordid]&status=1..5/98/99
+            ... tid=[textid]&wid=[wordid]&status=1..5/98/99
 Change status of term while reading
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 

@@ -1,8 +1,11 @@
 <?php
 
 /**
- *\file
+ * \file
  * \brief Utility for Google Translate Text-To-Speech API
+ * 
+ * @author andreask7 <andreask7@users.noreply.gitub.com>
+ * @since  1.6.0-fork
  */
 require_once 'inc/session_utility.php';
 

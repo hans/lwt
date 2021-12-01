@@ -9,27 +9,28 @@ if($_REQUEST['step']==4) {
     ?><form class="validate" action="edit_feeds.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr><td class="td1">Language: </td><td class="td1"><select name="NfLgID" class="notempty"><option value="">[Select...]</option>
-<?php	
+    <?php	
         
     $result = do_mysqli_query("SELECT LgName,LgID FROM " . $tbpref . "languages where LgName<>'' ORDER BY LgName");
-while($row_l = mysqli_fetch_assoc($result)){
-    echo '<option value="' . $row_l['LgID'] . '"';
-    if($_SESSION['wizard']['lang']===$row_l['LgID']) {
-        echo ' selected="selected"';
+    while($row_l = mysqli_fetch_assoc($result)){
+        echo '<option value="' . $row_l['LgID'] . '"';
+        if($_SESSION['wizard']['lang']===$row_l['LgID']) {
+            echo ' selected="selected"';
+        }
+        echo '>' . $row_l['LgName'] . '</option>';
     }
-    echo '>' . $row_l['LgName'] . '</option>';
-}
     mysqli_free_result($result);
     $auto_upd_v;
     $auto_upd_i=get_nf_option($_SESSION['wizard']['options'], 'autoupdate');
-if($auto_upd_i==null) { $auto_upd_v=null; 
-}
-else{
-    $auto_upd_v=substr($auto_upd_i, -1);
-    $auto_upd_i=substr($auto_upd_i, 0, -1);
-}
+    if($auto_upd_i==null) {
+        $auto_upd_v=null; 
+    }
+    else {
+        $auto_upd_v=substr($auto_upd_i, -1);
+        $auto_upd_i=substr($auto_upd_i, 0, -1);
+    }
     
-?>
+    ?>
 </select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td></tr>
 <tr><td class="td1">
 Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text" name="NfName" value="<?php echo htmlspecialchars($_SESSION['wizard']['feed']['feed_title'], ENT_COMPAT); ?>" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
@@ -40,34 +41,58 @@ Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text"
 </td></tr>
 <tr><td class="td1">Filter Tags: </td><td class="td1"><input type="text" style="width:95%" name="NfFilterTags" value="<?php echo htmlspecialchars(preg_replace('/[ ]+/', ' ', trim($_REQUEST['html']))); ?>" /></td></tr>
 <tr><td class="td1">Options: </td><td class="td1"><table style="width:100%"><tr><td style="width:35%"><input type="checkbox" name="edit_text"<?php if(get_nf_option($_SESSION['wizard']['options'], 'edit_text')!==null) { echo ' checked="checked"'; 
-} ?> /> Edit Text </td><td><input type="checkbox" name="c_autoupdate"<?php if($auto_upd_i!==null) { echo ' checked="checked"'; 
-} ?> /> Auto Update Interval: <input class="posintnumber<?php if(get_nf_option($_SESSION['wizard']['options'], 'autoupdate')!==null) { echo ' notempty'; 
-} ?>" data_info="Auto Update Interval" type="text" size="4" name="autoupdate" value="<?php echo $auto_upd_i . '"';if($auto_upd_i==null) { echo ' disabled'; 
+} ?> /> Edit Text </td><td><input type="checkbox" name="c_autoupdate"<?php if($auto_upd_i!==null) { 
+    echo ' checked="checked"'; 
+} ?> /> Auto Update Interval: <input class="posintnumber<?php if(get_nf_option($_SESSION['wizard']['options'], 'autoupdate')!==null) { 
+    echo ' notempty'; 
+} ?>" data_info="Auto Update Interval" type="text" size="4" name="autoupdate" value="<?php echo $auto_upd_i . '"';
+if($auto_upd_i==null) { 
+    echo ' disabled'; 
 } ?> />
-<select name="autoupdate" value="<?php echo $auto_upd_v . '"';if($auto_upd_v==null) { echo ' disabled'; 
-} ?>><option value="h"<?php if($auto_upd_v=='h') { echo ' selected="selected"'; 
-}?>>Hour(s)</option><option value="d"<?php if($auto_upd_v=='d') { echo ' selected="selected"'; 
-}?>>Day(s)</option><option value="w"<?php if($auto_upd_v=='w') { echo ' selected="selected"'; 
+<select name="autoupdate" value="<?php echo $auto_upd_v . '"';
+if($auto_upd_v==null) { 
+    echo ' disabled'; 
+} ?>><option value="h"<?php if($auto_upd_v=='h') { 
+    echo ' selected="selected"'; 
+}?>>Hour(s)</option><option value="d"<?php if($auto_upd_v=='d') { 
+    echo ' selected="selected"'; 
+}?>>Day(s)</option><option value="w"<?php if($auto_upd_v=='w') { 
+    echo ' selected="selected"'; 
 }?>>Week(s)</option></select></td></tr>
-<tr><td><input type="checkbox" name="c_max_links"<?php if(get_nf_option($_SESSION['wizard']['options'], 'max_links')!==null) { echo ' checked="checked"'; 
-} ?> /> Max. Links: <input class="<?php if(get_nf_option($_SESSION['wizard']['options'], 'max_links')!==null) { echo 'notempty '; 
-} ?>posintnumber maxint_300" data_info="Max. Links" type="text" size="4" name="max_links" value="<?php echo get_nf_option($_SESSION['wizard']['options'], 'max_links') . '"';if(get_nf_option($_SESSION['wizard']['options'], 'max_links')==null) { echo ' disabled'; 
-} ?> /></td><td><input type="checkbox" name="c_charset"<?php if(get_nf_option($_SESSION['wizard']['options'], 'charset')!==null) { echo ' checked="checked"'; 
-} ?> /> Charset: <input <?php if(get_nf_option($_SESSION['wizard']['options'], 'charset')!==null) { echo 'class="notempty" '; 
-} ?>type="text" data_info="Charset" size="20" name="charset" value="<?php echo get_nf_option($_SESSION['wizard']['options'], 'charset') . '"';if(get_nf_option($_SESSION['wizard']['options'], 'charset')==null) { echo ' disabled'; 
+<tr><td><input type="checkbox" name="c_max_links"<?php if(get_nf_option($_SESSION['wizard']['options'], 'max_links')!==null) { 
+    echo ' checked="checked"'; 
+} ?> /> Max. Links: <input class="<?php if(get_nf_option($_SESSION['wizard']['options'], 'max_links')!==null) { 
+    echo 'notempty '; 
+} ?>posintnumber maxint_300" data_info="Max. Links" type="text" size="4" name="max_links" value="<?php echo get_nf_option($_SESSION['wizard']['options'], 'max_links') . '"';
+if(get_nf_option($_SESSION['wizard']['options'], 'max_links')==null) { 
+    echo ' disabled'; 
+} ?> /></td><td><input type="checkbox" name="c_charset"<?php if(get_nf_option($_SESSION['wizard']['options'], 'charset')!==null) { 
+    echo ' checked="checked"'; 
+} ?> /> Charset: <input <?php if(get_nf_option($_SESSION['wizard']['options'], 'charset')!==null) { 
+    echo 'class="notempty" '; 
+} ?>type="text" data_info="Charset" size="20" name="charset" value="<?php echo get_nf_option($_SESSION['wizard']['options'], 'charset') . '"';
+if(get_nf_option($_SESSION['wizard']['options'], 'charset')==null) { 
+    echo ' disabled'; 
 } ?> /> </td></tr>
-<tr><td><input type="checkbox" name="c_max_texts"<?php if(get_nf_option($_SESSION['wizard']['options'], 'max_texts')!==null) { echo ' checked="checked"'; 
-} ?> /> Max. Texts: <input class="<?php if(get_nf_option($_SESSION['wizard']['options'], 'max_texts')!==null) { echo 'notempty '; 
-} ?>posintnumber maxint_30" data_info="Max. Texts" type="text" size="4" name="max_texts" value="<?php echo get_nf_option($_SESSION['wizard']['options'], 'max_texts') . '"';if(get_nf_option($_SESSION['wizard']['options'], 'max_texts')==null) { echo ' disabled'; 
-} ?> /></td><td><input type="checkbox" name="c_tag"<?php if(get_nf_option($_SESSION['wizard']['options'], 'tag')!==null) { echo ' checked="checked"'; 
-} ?> /> Tag: <input <?php if(get_nf_option($_SESSION['wizard']['options'], 'tag')!==null) { echo 'class="notempty" '; 
-} ?>type="text" data_info="Tag" size="20" name="tag" value="<?php echo get_nf_option($_SESSION['wizard']['options'], 'tag') . '"';if(get_nf_option($_SESSION['wizard']['options'], 'tag')==null) { echo ' disabled'; 
+<tr><td><input type="checkbox" name="c_max_texts"<?php if(get_nf_option($_SESSION['wizard']['options'], 'max_texts')!==null) { 
+    echo ' checked="checked"'; 
+} ?> /> Max. Texts: <input class="<?php if(get_nf_option($_SESSION['wizard']['options'], 'max_texts')!==null) { 
+    echo 'notempty '; 
+} ?>posintnumber maxint_30" data_info="Max. Texts" type="text" size="4" name="max_texts" value="<?php echo get_nf_option($_SESSION['wizard']['options'], 'max_texts') . '"';
+if(get_nf_option($_SESSION['wizard']['options'], 'max_texts')==null) { 
+    echo ' disabled'; 
+} ?> /></td><td><input type="checkbox" name="c_tag"<?php if(get_nf_option($_SESSION['wizard']['options'], 'tag')!==null) { 
+    echo ' checked="checked"'; 
+} ?> /> Tag: <input <?php if(get_nf_option($_SESSION['wizard']['options'], 'tag')!==null) { 
+    echo 'class="notempty" '; 
+} ?>type="text" data_info="Tag" size="20" name="tag" value="<?php echo get_nf_option($_SESSION['wizard']['options'], 'tag') . '"';if(get_nf_option($_SESSION['wizard']['options'], 'tag')==null) { 
+    echo ' disabled'; 
 } ?> /> </td></tr>
 </table>
 </td></tr>
 </table>
-<?php if(isset($_SESSION['wizard']['edit_feed'])) {echo '<input type="hidden" name="NfID" value="'.$_SESSION['wizard']['edit_feed'].'" />';
-}?>
+    <?php if(isset($_SESSION['wizard']['edit_feed'])) {echo '<input type="hidden" name="NfID" value="'.$_SESSION['wizard']['edit_feed'].'" />';
+    }?>
 <input type="button" value="Cancel" onclick="location.href='edit_feeds.php?del_wiz=1';" />
 <input type="hidden" name="NfOptions" value="" />
 <input type="hidden" name="article_source" value="<?php echo htmlspecialchars($_SESSION['wizard']['feed']['feed_text']); ?>" />
@@ -76,8 +101,10 @@ Name: </td><td class="td1"><input class="notempty" style="width:95%" type="text"
 <input type="submit" value="Save" />
 </form>
 <script type="text/javascript">
-if(<?php if(isset($_SESSION['wizard']['edit_feed'])) { echo $_SESSION['wizard']['edit_feed']; 
-}else { echo '0'; 
+if(<?php if(isset($_SESSION['wizard']['edit_feed'])) { 
+    echo $_SESSION['wizard']['edit_feed']; 
+} else { 
+    echo '0'; 
 } ?>){$('input[name="save_feed"]').attr('name','update_feed');$('input[type="submit"]').val('Update');}
 $('h3').eq(-1).html('Feed Wizard | Step 4 - Edit Options <a href="docs/info.html#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
 $('[name^="c_"]').change(function(){
@@ -101,7 +128,7 @@ $('[type="submit"]').click(function(){
     $('input[name="NfOptions"]').val(str);
 });
 </script>
-<?php
+    <?php
 }
 elseif($_REQUEST['step']==3) {
     if(isset($_REQUEST['NfName'])) { $_SESSION['wizard']['feed']['feed_title']=$_REQUEST['NfName']; 
@@ -238,32 +265,35 @@ Name: </td><td class="td1" style="text-align:left"><?php echo htmlspecialchars($
 </td><td>
 <span>
 <select name="selected_feed" style="width:250px;max-width:200px;" onchange="{var html = $('#lwt_sel').html();$('input[name=\'html\']').val(html);document.lwt_form1.submit();}">
-<?php
-$current_host='';
-$current_status='';
-for($i=0;$i<$feed_len;$i++){
-    $feed_host=parse_url($_SESSION['wizard']['feed'][$i]['link']);
-    $feed_host=$feed_host['host'];
-    if(!isset($_SESSION['wizard']['host2'][$feed_host])) { $_SESSION['wizard']['host2'][$feed_host]='-'; 
+    <?php
+    $current_host='';
+    $current_status='';
+    for($i=0;$i<$feed_len;$i++){
+        $feed_host=parse_url($_SESSION['wizard']['feed'][$i]['link']);
+        $feed_host=$feed_host['host'];
+        if(!isset($_SESSION['wizard']['host2'][$feed_host])) { 
+            $_SESSION['wizard']['host2'][$feed_host]='-'; 
+        }
+        echo '<option value="'.$i.'" title="'. $_SESSION['wizard']['feed'][$i]['title'] .'"';
+        if($i==$_SESSION['wizard']['selected_feed']) {
+            echo ' selected="selected"';
+            $current_host=$feed_host;
+            $current_status=$_SESSION['wizard']['host2'][$feed_host];
+        }
+        echo '>'.((isset($_SESSION['wizard']['feed'][$i]['html'])||$i==$_SESSION['wizard']['selected_feed'])?('▸ '):('- ')).($i+1)  .' '.$_SESSION['wizard']['host2'][$feed_host].'&nbsp;host: '.$feed_host.'</option>';
     }
-    echo '<option value="'.$i.'" title="'. $_SESSION['wizard']['feed'][$i]['title'] .'"';
-    if($i==$_SESSION['wizard']['selected_feed']) {
-        echo ' selected="selected"';
-        $current_host=$feed_host;
-        $current_status=$_SESSION['wizard']['host2'][$feed_host];
-    }
-    echo '>'.((isset($_SESSION['wizard']['feed'][$i]['html'])||$i==$_SESSION['wizard']['selected_feed'])?('▸ '):('- ')).($i+1)  .' '.$_SESSION['wizard']['host2'][$feed_host].'&nbsp;host: '.$feed_host.'</option>';
-}
-?>
+    ?>
 </select>
 <input type="hidden" name="host_name" value="<?php echo $current_host ?>" />
-<?php if(count($_SESSION['wizard']['host'])>1) { ?>
+    <?php if(count($_SESSION['wizard']['host'])>1) { ?>
 <select id="host_status" name="host_status2"><option value="&nbsp;-&nbsp;" <?php if($current_status=='&nbsp;-&nbsp;') { echo 'selected="selected"'; 
-} ?>>&nbsp;-&nbsp;</option><option value="☆" <?php if($current_status=='☆') { echo 'selected="selected"'; 
-} ?>>☆</option><option value="★" <?php if($current_status=='★') { echo 'selected="selected"'; 
+} ?>>&nbsp;-&nbsp;</option><option value="☆" <?php if($current_status=='☆') { 
+    echo 'selected="selected"'; 
+} ?>>☆</option><option value="★" <?php if($current_status=='★') { 
+    echo 'selected="selected"'; 
 } ?>>★</option></select>
-<?php 
-} ?>
+        <?php 
+    } ?>
 </span></td><td style="width:280px;text-align: right;">
 <select name="mark_action" id="mark_action" ><option value="">[Click On Text]</option></select>
 <button id="filter_button" name="button" disabled>Filter</button>
@@ -278,30 +308,30 @@ for($i=0;$i<$feed_len;$i++){
 <input type="hidden" name="step" value="3" />
 <input type="hidden" id="maxim" name="maxim" value="1" />
 </form></div>
-<?php
-echo '<br /><p id="lwt_last"></p>';
-$i=$_SESSION['wizard']['selected_feed'];
-if(!isset($_SESSION['wizard']['feed'][$i]['html'])) {
-    $a_feed[0]=$_SESSION['wizard']['feed'][$i];
-    $_SESSION['wizard']['feed'][$i]['html']=get_text_from_rsslink($a_feed, $_SESSION['wizard']['redirect'] . 'new', 'iframe!?!script!?!noscript!?!head!?!meta!?!link!?!style', get_nf_option($_SESSION['wizard']['options'], 'charset'));
-}
-echo $_SESSION['wizard']['feed'][$i]['html'];
-?>
+    <?php
+    echo '<br /><p id="lwt_last"></p>';
+    $i=$_SESSION['wizard']['selected_feed'];
+    if(!isset($_SESSION['wizard']['feed'][$i]['html'])) {
+        $a_feed[0]=$_SESSION['wizard']['feed'][$i];
+        $_SESSION['wizard']['feed'][$i]['html']=get_text_from_rsslink($a_feed, $_SESSION['wizard']['redirect'] . 'new', 'iframe!?!script!?!noscript!?!head!?!meta!?!link!?!style', get_nf_option($_SESSION['wizard']['options'], 'charset'));
+    }
+    echo $_SESSION['wizard']['feed'][$i]['html'];
+    ?>
 <script type="text/javascript">
-<?php
-if($_SESSION['wizard']['maxim']==0) {
-?>
+    <?php
+    if($_SESSION['wizard']['maxim']==0) {
+        ?>
 $(function(){
     $('#lwt_container').hide();
     $('#lwt_last').css('margin-top',$('#lwt_header').height());
     if($('#lwt_container').css('display')=='none'){$('input[name=\'maxim\']').val(0);}
     else{$('input[name=\'maxim\']').val(1);}
 });
-<?php
-}
-?>
+        <?php
+    }
+    ?>
 </script>
-<?php
+    <?php
 }
 elseif($_REQUEST['step']==2) {
     if(isset($_REQUEST['edit_feed']) && !isset($_SESSION['wizard'])) {
@@ -417,7 +447,7 @@ elseif($_REQUEST['step']==2) {
         }
         $_SESSION['wizard']['host']='';
     }
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -485,7 +515,7 @@ Hide Images: <select name="hide_images" onchange="if($(this).val()=='no')$('img'
 <div id="lwt_container"><?php echo_lwt_logo();?><b>Feed Wizard | Step 2 - Select Article Text</b> <a href="info.php#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>
 <ol id="lwt_sel" style="margin-left:77px"><?php if(isset($_REQUEST['html'])) { echo $_REQUEST['html']; 
 }if(isset($_REQUEST['article_tags']) || isset($_REQUEST['edit_feed'])) { echo $_SESSION['wizard']['article_tags']; 
-} ?></ol>
+                                          } ?></ol>
 <table class="tab1" style="margin-left:77px" cellspacing="0" cellpadding="5">
 <tr><td class="td1" style="text-align:left">
 Name: </td><td class="td1"><input class="notempty" size="50" type="text" name="NfName" value="<?php echo htmlspecialchars($_SESSION['wizard']['feed']['feed_title'], ENT_COMPAT); ?>" /><img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td></tr>
@@ -493,10 +523,10 @@ Name: </td><td class="td1"><input class="notempty" size="50" type="text" name="N
 <tr><td class="td1" style="text-align:left">Article Source: </td>
 <td class="td1" style="text-align:left"><select name="NfArticleSection" onchange="{var html = $('#lwt_sel').html();$('input[name=\'html\']').val(html);document.lwt_form1.submit();}"><option value=""<?php if($_SESSION['wizard']['feed']['feed_text']=='') { echo ' selected="selected"'; 
 } ?>>Webpage Link</option><?php $sources=array('description','encoded','content');foreach($sources as $source){ if(isset($_SESSION['wizard']['feed'][0][$source])) {echo '<option value="'.$source.'"';if($_SESSION['wizard']['feed']['feed_text']==$source) { echo ' selected="selected"'; 
-}echo '>'. $source .'</option>';
-}
-} ?></select>
-<?php echo '('.$_SESSION['wizard']['detected_feed'].')'; ?></td></tr>
+                                                                                                                                                                                                      }echo '>'. $source .'</option>';
+                                                                                                                                                                                                      }
+                                                                                                                                                                                                      } ?></select>
+    <?php echo '('.$_SESSION['wizard']['detected_feed'].')'; ?></td></tr>
 </table></div>
 <table style="width:100%;">
 <tr><td>
@@ -504,32 +534,35 @@ Name: </td><td class="td1"><input class="notempty" size="50" type="text" name="N
 <input type="button" value="Cancel" onclick="location.href='edit_feeds.php?del_wiz=1';return false;" />
 </td><td><span>
 <select name="selected_feed" style="width:250px;max-width:200px;" onchange="{var html = $('#lwt_sel').html();$('input[name=\'html\']').val(html);document.lwt_form1.submit();}">
-<?php
-$current_host='';
-$current_status='';
-for($i=0;$i<$feed_len;$i++){
-    $feed_host=parse_url($_SESSION['wizard']['feed'][$i]['link']);
-    $feed_host=$feed_host['host'];
-    if(!isset($_SESSION['wizard']['host'][$feed_host])) { $_SESSION['wizard']['host'][$feed_host]='-'; 
+    <?php
+    $current_host='';
+    $current_status='';
+    for($i=0;$i<$feed_len;$i++){
+        $feed_host=parse_url($_SESSION['wizard']['feed'][$i]['link']);
+        $feed_host=$feed_host['host'];
+        if(!isset($_SESSION['wizard']['host'][$feed_host])) { 
+            $_SESSION['wizard']['host'][$feed_host]='-'; 
+        }
+        echo '<option value="'.$i.'" title="'. $_SESSION['wizard']['feed'][$i]['title'] .'"';
+        if($i==$_SESSION['wizard']['selected_feed']) {
+            echo ' selected="selected"';
+            $current_host=$feed_host;
+            $current_status=$_SESSION['wizard']['host'][$feed_host];
+        }
+        echo '>'.((isset($_SESSION['wizard']['feed'][$i]['html'])||$i==$_SESSION['wizard']['selected_feed'])?('▸ '):('- ')).($i+1)  .' '.$_SESSION['wizard']['host'][$feed_host].'&nbsp;host: '.$feed_host.'</option>';
     }
-    echo '<option value="'.$i.'" title="'. $_SESSION['wizard']['feed'][$i]['title'] .'"';
-    if($i==$_SESSION['wizard']['selected_feed']) {
-        echo ' selected="selected"';
-        $current_host=$feed_host;
-        $current_status=$_SESSION['wizard']['host'][$feed_host];
-    }
-    echo '>'.((isset($_SESSION['wizard']['feed'][$i]['html'])||$i==$_SESSION['wizard']['selected_feed'])?('▸ '):('- ')).($i+1)  .' '.$_SESSION['wizard']['host'][$feed_host].'&nbsp;host: '.$feed_host.'</option>';
-}
-?>
+    ?>
 </select>
 <input type="hidden" name="host_name" value="<?php echo $current_host ?>" />
-<?php if(count($_SESSION['wizard']['host'])>1) { ?>
+    <?php if(count($_SESSION['wizard']['host'])>1) { ?>
 <select id="host_status" name="host_status"><option value="&nbsp;-&nbsp;" <?php if($current_status=='&nbsp;-&nbsp;') { echo 'selected="selected"'; 
-} ?>>&nbsp;-&nbsp;</option><option value="☆" <?php if($current_status=='☆') { echo 'selected="selected"'; 
-} ?>>☆</option><option value="★" <?php if($current_status=='★') { echo 'selected="selected"'; 
+} ?>>&nbsp;-&nbsp;</option><option value="☆" <?php if($current_status=='☆') { 
+    echo 'selected="selected"'; 
+} ?>>☆</option><option value="★" <?php if($current_status=='★') { 
+    echo 'selected="selected"'; 
 } ?>>★</option></select>
-<?php 
-} ?>
+        <?php 
+    } ?>
 </span>
 </td><td style="width:270px;text-align: right;"><select name="mark_action" id="mark_action" ><option value="">[Click On Text]</option></select>
 <button id="get_button" name="button" disabled>Get</button>
@@ -543,29 +576,29 @@ for($i=0;$i<$feed_len;$i++){
 <input type="hidden" id="article_tags" name="article_tags" disabled />
 <input type="hidden" name="maxim" value="1" />
 </form></div>
-<?php
-echo '<br /><p id="lwt_last"></p>';
-$i=$_SESSION['wizard']['selected_feed'];
-if(!isset($_SESSION['wizard']['feed'][$i]['html'])) {
-    $a_feed[0]=$_SESSION['wizard']['feed'][$i];
-    $_SESSION['wizard']['feed'][$i]['html']=get_text_from_rsslink($a_feed, $_SESSION['wizard']['redirect'] . 'new', 'iframe!?!script!?!noscript!?!head!?!meta!?!link!?!style', get_nf_option($_SESSION['wizard']['options'], 'charset'));
-}
-echo $_SESSION['wizard']['feed'][$i]['html'];
-?>
+    <?php
+    echo '<br /><p id="lwt_last"></p>';
+    $i=$_SESSION['wizard']['selected_feed'];
+    if(!isset($_SESSION['wizard']['feed'][$i]['html'])) {
+        $a_feed[0]=$_SESSION['wizard']['feed'][$i];
+        $_SESSION['wizard']['feed'][$i]['html']=get_text_from_rsslink($a_feed, $_SESSION['wizard']['redirect'] . 'new', 'iframe!?!script!?!noscript!?!head!?!meta!?!link!?!style', get_nf_option($_SESSION['wizard']['options'], 'charset'));
+    }
+    echo $_SESSION['wizard']['feed'][$i]['html'];
+    ?>
 <script type="text/javascript">
-<?php
-if($_SESSION['wizard']['maxim']==0) {
-?>
+    <?php
+    if($_SESSION['wizard']['maxim']==0) {
+        ?>
 $(function(){
     $('#lwt_container').hide();$('#lwt_last').css('margin-top',$('#lwt_header').height());
     if($('#lwt_container').css('display')=='none'){$('input[name=\'maxim\']').val(0);}
     else{$('input[name=\'maxim\']').val(1);}
 });
-<?php
-}
-?>
+        <?php
+    }
+    ?>
 </script>
-<?php
+    <?php
 
 }
 else{
@@ -576,7 +609,7 @@ else{
     pagestart('Feed Wizard', false);
     if(isset($_REQUEST['err'])) { echo '<div class="red"><p>+++ ERROR: PLEASE CHECK YOUR NEWSFEED URI!!! +++</p></div>'; 
     }
-?>
+    ?>
 <form class="validate" action="feed_wizard.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
 <tr><td class="td1">Feed URI: </td>
@@ -592,7 +625,7 @@ else{
 <script type="text/javascript">
 $('h3').eq(-1).html('Feed Wizard | Step 1 - Insert Newsfeed URI <a href="docs/info.html#feed_wizard" target="_blank"><img alt="Help" title="Help" src="icn/question-frame.png"></img></a>').css('text-align','center');
 </script>
-<?php
+    <?php
 }
 pageend();
 ?>

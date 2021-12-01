@@ -2,10 +2,10 @@
 
 /**************************************************************
 Call: new_word.php?...
-			... text=[textid]&lang=[langid] ... new term input  
-			... op=Save ... do the insert
+            ... text=[textid]&lang=[langid] ... new term input  
+            ... op=Save ... do the insert
 New word, created while reading or testing
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 require_once 'inc/simterms.php';
@@ -50,13 +50,13 @@ if (isset($_REQUEST['op'])) {
 
         saveWordTags($wid);
         set_word_count();
-        //		$showAll = getSettingZeroOrOne('showallwords',1);
-    ?>
+        //        $showAll = getSettingZeroOrOne('showallwords',1);
+        ?>
 
    <p><?php echo $message; ?></p>
 
-<?php
-if (substr($message, 0, 5) != 'Error') {?>
+        <?php
+        if (substr($message, 0, 5) != 'Error') {?>
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;
@@ -68,15 +68,15 @@ var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
 var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 //]]>
 </script>
-<?php
-$len = get_first_value('select WoWordCount as value from ' . $tbpref . 'words where WoID = ' . $wid);
-if($len > 1) {
-    insertExpressions($textlc, $_REQUEST["WoLgID"], $wid, $len, 0);
-}
-else if($len == 1) {
-    $hex = strToClassName(prepare_textdata($textlc));
-    do_mysqli_query('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) = ' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
-?>
+            <?php
+            $len = get_first_value('select WoWordCount as value from ' . $tbpref . 'words where WoID = ' . $wid);
+            if ($len > 1) {
+                insertExpressions($textlc, $_REQUEST["WoLgID"], $wid, $len, 0);
+            }
+            else if($len == 1) {
+                $hex = strToClassName(prepare_textdata($textlc));
+                do_mysqli_query('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) = ' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
+                ?>
 <script type="text/javascript">
 //<![CDATA[
 if($('.TERM<?php echo $hex; ?>', context).length){
@@ -85,15 +85,15 @@ $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST
 }
 //]]>
 </script>
-<?php
- flush();
-} ?>
+                <?php
+                flush();
+            } ?>
 <script type="text/javascript">
 window.parent.frames['l'].focus();
 window.parent.frames['l'].setTimeout('cClick()', 100);
 </script>
-<?php
-} // (substr($message,0,5) != 'Error')
+            <?php
+        } // (substr($message,0,5) != 'Error')
 
     } // $_REQUEST['op'] == 'Save'
 
@@ -108,12 +108,12 @@ else {  // if (! isset($_REQUEST['op']))
     $lang = getreq('lang') + 0;
     $text = getreq('text') + 0;
     pagestart_nobody('');
-?>
+    ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
-<?php
+    <?php
     $scrdir = getScriptDirectionTag($lang);
     
-?>
+    ?>
     <script type="text/javascript">
     $(window).on('beforeunload',function() {
         setTimeout(function() {window.parent.frames['ru'].location.href = 'empty.html';}, 0);
@@ -162,7 +162,7 @@ else {  // if (! isset($_REQUEST['op']))
     </table>
     </form>
 
-<?php
+    <?php
 
 }
 

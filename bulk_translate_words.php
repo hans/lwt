@@ -64,7 +64,7 @@ if(isset($pos)) {
     $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
     $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
     $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
-?>
+    ?>
 <style>
 body {top:0px ! important;}
 td.td1{vertical-align:middle ! important;}
@@ -108,7 +108,7 @@ $('td').on('click','span.dict1, span.dict2, span.dict3',function(){
 })
 .on('click','.del_trans',function(){$(this).prev().val('').focus();});
     var myVar = setInterval(function(){
-        if( $( ".trans>font" ).length == $( ".trans" ).length){
+        if($( ".trans>font" ).length == $( ".trans" ).length){
             $('.trans').each(function() {
                 var txt=$(this).text();
                 var cnt= $(this).attr('id').replace('Trans_', '');
@@ -117,12 +117,17 @@ $('td').on('click','span.dict1, span.dict2, span.dict3',function(){
             $('.term').each(function(){
                 txt=$(this).text();
                 $(this).parent().css('position','relative');
-                $(this).after('<div class="dict"><?php if(!empty($wb1)) { echo '<span class="dict1">D1</span>'; 
-}
-if(!empty($wb2)) { echo '<span class="dict2">D2</span>'; 
-}
-if(!empty($wb1)) { echo '<span class="dict3">GTr</span>'; 
-} ?></div>');
+                $(this).after('<div class="dict"><?php 
+                if(!empty($wb1)) { 
+                    echo '<span class="dict1">D1</span>'; 
+                }
+                if(!empty($wb2)) { 
+                    echo '<span class="dict2">D2</span>'; 
+                }
+                if(!empty($wb1)) {
+                    echo '<span class="dict3">GTr</span>'; 
+                } 
+                ?></div>');            
             });
             $('iframe,#google_translate_element').remove();
             selectToggle(true,'form1');
@@ -151,24 +156,25 @@ function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: '<?php echo $sl; ?>', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, includedLanguages: '<?php echo $tl; ?>', autoDisplay: false}, 'google_translate_element');
 }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<?php
+    <?php
     echo '<form name="form1" action="', $_SERVER['PHP_SELF'], '" method="post"><span class="notranslate"><div id="google_translate_element"></div><table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1 center" colspan="3"><input type="button" value="Mark All" onclick="$(\'input[type^=submit]\').val(\'Save\');selectToggle(true,\'form1\');$(\'[name^=term]\').prop(\'disabled\', false);" />
 <input type="button" value="Mark None" onclick="if(!$(\'input[name^=offset]\').length)v=\'End\';else v=\'Next\';$(\'input[type^=submit]\').val(v);selectToggle(false,\'form1\');$(\'[name^=term]\').prop(\'disabled\', true);" /><br /></th></tr><tr class="notranslate"><td class="td1">
 Marked Terms: </td><td class="td1">
 <select onchange="v=$(this).val();if(v==6){$(\'.markcheck:checked\').each(function(){e=$(\'#Term_\' + $(this).val()).children(\'.term\');e.text(e.text().toLowerCase());$(\'#Text_\' + $(this).val()).val(e.text().toLowerCase());});$(this).prop(\'selectedIndex\',0);return false;}if(v==7){$(\'.markcheck:checked\').each(function(){$(\'#Trans_\' + $(this).val() + \' input\').val(\'*\');});$(this).prop(\'selectedIndex\',0);return false;}$(\'.markcheck:checked\').each(function(){$(\'#Stat_\' + $(this).val()).val(v);});$(this).prop(\'selectedIndex\',0);return false;"><option value="0" selected="selected">[Choose...]</option><option value="1">Set Status To [1]</option><option value="2">Set Status To [2]</option><option value="3">Set Status To [3]</option><option value="4">Set Status To [4]</option><option value="5">Set Status To [5]</option><option value="99">Set Status To [WKn]</option><option value="98">Set Status To [Ign]</option><option value="6">Set To Lowercase</option><option value="7">Delete Translation</option></select></td><td class="td1" style="min-width: 45px;"><input  type="submit" value="Save" /></td></tr></table></span>
 <table class="tab3" cellspacing="0"><tr class="notranslate"><th class="th1">Mark</th><th class="th1" style="min-width:5em;">Term</th><th class="th1">Translation</th><th class="th1">Status</th></tr>';
 
-$res = do_mysqli_query('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from ' . $tbpref . 'textitems2 where Ti2WoID = 0 and Ti2TxID = ' . $tid . ' AND Ti2WordCount =1 group by LOWER(Ti2Text) order by pos limit ' . $pos . ',' . $limit);
-while($record = mysqli_fetch_assoc($res)){
-    if(++$cnt<$limit) {
-        $value=tohtml($record['word']);
-        echo '<tr><td class="td1 center notranslate"><input name="marked[', $cnt ,']" type="checkbox" class="markcheck" checked="checked" value="', $cnt , '" /></td><td id="Term_', $cnt ,'" class="td1 left notranslate"><span class="term">',$value,'</span></td><td class="td1 right trans" id="Trans_', $cnt ,'">',mb_strtolower($value, 'UTF-8'),'</td><td class="td1 center notranslate"><select id="Stat_', $cnt ,'" name="term[', $cnt ,'][status]"><option value="1" selected="selected">[1]</option><option value="2">[2]</option><option value="3">[3]</option><option value="4">[4]</option><option value="5">[5]</option><option value="99">[WKn]</option><option value="98">[Ign]</option></select><input type="hidden" id="Text_', $cnt ,'" name="term[', $cnt ,'][text]" value="',$value,'" /><input type="hidden" name="term[', $cnt ,'][lg]" value="',tohtml($record['Ti2LgID']),'" /></td></tr>',"\n";
+    $res = do_mysqli_query('select Ti2Text as word,Ti2LgID,min(Ti2Order) as pos from ' . $tbpref . 'textitems2 where Ti2WoID = 0 and Ti2TxID = ' . $tid . ' AND Ti2WordCount =1 group by LOWER(Ti2Text) order by pos limit ' . $pos . ',' . $limit);
+    while($record = mysqli_fetch_assoc($res)){
+        if(++$cnt<$limit) {
+            $value=tohtml($record['word']);
+            echo '<tr><td class="td1 center notranslate"><input name="marked[', $cnt ,']" type="checkbox" class="markcheck" checked="checked" value="', $cnt , '" /></td><td id="Term_', $cnt ,'" class="td1 left notranslate"><span class="term">',$value,'</span></td><td class="td1 right trans" id="Trans_', $cnt ,'">',mb_strtolower($value, 'UTF-8'),'</td><td class="td1 center notranslate"><select id="Stat_', $cnt ,'" name="term[', $cnt ,'][status]"><option value="1" selected="selected">[1]</option><option value="2">[2]</option><option value="3">[3]</option><option value="4">[4]</option><option value="5">[5]</option><option value="99">[WKn]</option><option value="98">[Ign]</option></select><input type="hidden" id="Text_', $cnt ,'" name="term[', $cnt ,'][text]" value="',$value,'" /><input type="hidden" name="term[', $cnt ,'][lg]" value="',tohtml($record['Ti2LgID']),'" /></td></tr>',"\n";
+        }
+        else { 
+            $offset='<input type="hidden" name="offset" value="' . ($pos + $limit - 1) . '" /><input type="hidden" name="sl" value="' . $sl . '" /><input type="hidden" name="tl" value="' . $tl . '" />'; 
+        }
     }
-    else { $offset='<input type="hidden" name="offset" value="' . ($pos + $limit - 1) . '" /><input type="hidden" name="sl" value="' . $sl . '" /><input type="hidden" name="tl" value="' . $tl . '" />'; 
-    }
-}
-mysqli_free_result($res);
-echo '</table><input type="hidden" name="tid" value="',$tid,'" />', $offset ,'</form>';
+    mysqli_free_result($res);
+    echo '</table><input type="hidden" name="tid" value="',$tid,'" />', $offset ,'</form>';
 }
 pageend();
 ?>

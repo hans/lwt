@@ -3,7 +3,7 @@
 /**************************************************************
 Call: show_word.php?wid=...&ann=...
 Show term
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 
@@ -27,7 +27,7 @@ if ($record = mysqli_fetch_assoc($res)) {
     $rom = $record['WoRomanization'];
     $scrdir = getScriptDirectionTag($record['WoLgID']);
 
-?>
+    ?>
 
 
 <table class="tab2" cellspacing="0" cellpadding="5">
@@ -49,20 +49,20 @@ else { echo tohtml($transl);
 }
 ?></b></td>
 </tr>
-<?php if ($tags != '') { ?>
+    <?php if ($tags != '') { ?>
 <tr>
 <td class="td1 right">Tags:</td>
 <td class="td1" style="font-size:120%;"><b><?php echo tohtml($tags); ?></b></td>
 </tr>
-<?php 
-} ?>
-<?php if ($rom != '') { ?>
+        <?php 
+    } ?>
+    <?php if ($rom != '') { ?>
 <tr>
 <td class="td1 right">Romaniz.:</td>
 <td class="td1" style="font-size:120%;"><b><?php echo tohtml($rom); ?></b></td>
 </tr>
-<?php 
-} ?>
+        <?php 
+    } ?>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
 <td class="td1" <?php echo $scrdir; ?>><?php echo tohtml($record['WoSentence']); ?></td>
@@ -81,7 +81,7 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
 </script>
 
-<?php
+    <?php
 }
 
 mysqli_free_result($res);

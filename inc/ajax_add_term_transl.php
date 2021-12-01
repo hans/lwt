@@ -5,7 +5,7 @@
  * 
  * Call: inc/ajax_add_term_transl.php
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.5.0
  */
 

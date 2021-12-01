@@ -6,7 +6,7 @@
  * 
  * Call: inc/ajax_save_setting.php?k=[key]&v=[value]
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.2.1
  */
 

@@ -6,21 +6,22 @@
  * 
  * Call: do_text_text.php?text=[textid]
  * 
- * @author LWT Project <lwt-project@notmail.com>
- * @since 1.0.3
-*/
+ * @author LWT Project <lwt-project@hotmail.com>
+ * @since  1.0.3
+ */
 
 require_once 'inc/session_utility.php';
 
 /**
  * Get the record for this text in the database.
  * 
- * @param string $textid ID of the text
+ * @param  string $textid ID of the text
  * @return string[]|null|false Record corresponding to this text.
  * @global string $tbpref Table name prefix
- * @since 2.0.3-fork
+ * @since  2.0.3-fork
  */
-function getTextData($textid) {
+function getTextData($textid)
+{
     global $tbpref;
     $sql = 
     'SELECT TxLgID, TxTitle, TxAnnotatedText, TxPosition 
@@ -36,13 +37,13 @@ function getTextData($textid) {
 /**
  * Return the settings relative to this language.
  * 
- * @param string $langid Language ID as defined in the database.
+ * @param  string $langid Language ID as defined in the database.
  * @global string $tbpref Table name prefix
  * @return string[]|null|false Record corresponding to this language.
- * @since 2.0.3-fork
- * 
+ * @since  2.0.3-fork
  */
-function getLanguagesSettings($langid) {
+function getLanguagesSettings($langid)
+{
     global $tbpref;
     $sql = 
     'SELECT LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, 
@@ -62,7 +63,7 @@ function getLanguagesSettings($langid) {
  */
 function echoTerm(
     $actcode, $showAll, &$hideuntil, $spanid, $hidetag, $currcharcount, $record
-    ) {
+) {
     if ($actcode > 1) {   
         // A MULTIWORD FOUND
 
@@ -84,8 +85,10 @@ function echoTerm(
             ' data_pos="' . $currcharcount . '" 
             data_order="' . $record['TiOrder'] . '" 
             data_wid="' . $record['WoID'] . '" 
-            data_trans="' . tohtml(repl_tab_nl($record['WoTranslation']) 
-            . getWordTagList($record['WoID'], ' ', 1, 0)) . '" 
+            data_trans="' . tohtml(
+                repl_tab_nl($record['WoTranslation']) 
+                . getWordTagList($record['WoID'], ' ', 1, 0)
+            ) . '" 
             data_rom="' . tohtml($record['WoRomanization']) . '" 
             data_status="' . $record['WoStatus'] . '"  
             data_code="' . $record['Code'] . '" 
@@ -113,8 +116,11 @@ function echoTerm(
             data_wid="' . $record['WoID'] . '" 
             data_trans="' . tohtml(
                 repl_tab_nl(
-                    $record['WoTranslation']) . getWordTagList($record['WoID'], 
-                    ' ', 1, 0)
+                    $record['WoTranslation']
+                ) . getWordTagList(
+                    $record['WoID'], 
+                    ' ', 1, 0
+                )
             ) . '" 
             data_rom="' . tohtml($record['WoRomanization']) . '" 
             data_status="' . $record['WoStatus'] . '">' 
@@ -143,7 +149,8 @@ function echoTerm(
  * 
  * @since 2.0.3-fork
  */
-function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharcount) {
+function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharcount)
+{
     if ($sid != $record['TiSeID']) {
         if ($sid != 0) {
             echo '</span>';
@@ -197,9 +204,10 @@ function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharc
  * Get all words and start the iterate over them.
  * 
  * @global string $tbpref Table name prefix
- * @since 2.0.3-fork
+ * @since  2.0.3-fork
  */
-function mainWordLoop($textid, $showAll) {
+function mainWordLoop($textid, $showAll)
+{
     global $tbpref;
     $currcharcount = 0;
     
@@ -245,12 +253,15 @@ function mainWordLoop($textid, $showAll) {
  * 
  * @since 2.0.3-fork
  */
-function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists) {
+function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists)
+{
     $displaystattrans = getSettingWithDefault('set-display-text-frame-term-translation');
     $pseudo_element = ($mode_trans<3) ? 'after' : 'before';
     $data_trans = $ann_exists ? 'data_ann' : 'data_trans';
     $stat_arr = array(1, 2, 3, 4, 5, 98, 99);
-    /** @var bool $ruby Ruby annotations */
+    /**
+    * @var bool $ruby Ruby annotations 
+    */
     $ruby = $mode_trans==2 || $mode_trans==4;
 
     echo '<style>';
@@ -309,8 +320,9 @@ function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists) {
  * 
  * @since 2.0.3-fork
  */
-function do_text_javascript($var_array) {
-?>
+function do_text_javascript($var_array)
+{
+    ?>
 <script type="text/javascript">
     //<![CDATA[
 
@@ -347,10 +359,11 @@ function do_text_javascript($var_array) {
 /**
  * Main function for displaying sentences. It will print HTML content.
  * 
- * @param string $textid ID of the requiered text
- * @param bool $only_body If true, only show the inner body. If false, create a complete HTML document. 
+ * @param string $textid    ID of the requiered text
+ * @param bool   $only_body If true, only show the inner body. If false, create a complete HTML document. 
  */
-function do_text_text_content($textid, $only_body=true) {
+function do_text_text_content($textid, $only_body=true)
+{
     // Text settings
     $record = getTextData($textid);
     $title = $record['TxTitle'];
@@ -385,7 +398,7 @@ function do_text_text_content($textid, $only_body=true) {
         // Start the page with a HEAD and opens a BODY tag 
         pagestart_nobody(tohtml($title));
     }
-?>
+    ?>
     <script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
     <?php 
@@ -427,7 +440,7 @@ function do_text_text_content($textid, $only_body=true) {
         </p>
         <p style="font-size:<?php echo $textsize; ?>%;line-height: 1.4; margin-bottom: 300px;">&nbsp;</p>
     </div>
-<?php 
+    <?php 
     if (!$only_body) { 
         pageend(); 
     }

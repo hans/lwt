@@ -45,7 +45,7 @@ $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts wher
             if($translation != '*') { echo '<p>Translation: <b>' . tohtml($translation)  . '</b></p>'; 
             }
 
-?>
+            ?>
 <script type="text/javascript">
 //<![CDATA[
 var context = window.parent.frames['l'].document;

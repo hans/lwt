@@ -6,7 +6,7 @@
  * 
  * Call: display_impr_text.php?text=[textid]
  * 
- * @author LWT Project <lwt-project@notmail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.5.0
  */
 
@@ -25,7 +25,7 @@ if (isset($_REQUEST['text'])) {
 
     if ($mobile ) {
 
-    ?>
+        ?>
 
     <style type="text/css"> 
     body {
@@ -78,11 +78,11 @@ $(document).ready(init);
     <iframe id="frame-l-2" src="display_impr_text_text.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="yes" name="text"></iframe>
 </div>
 
-<?php 
+        <?php 
 
     } else {
     
-    ?>
+        ?>
 
    <frameset border="3" bordercolor="" rows="<?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio')-90 : getSettingWithDefault('set-text-h-frameheight-no-audio')-90 ); ?>,*">
     <frame src="display_impr_text_header.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="no" name="header" />            
@@ -91,7 +91,7 @@ $(document).ready(init);
 <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
 </frameset>
 </html>
-<?php
+        <?php
 
     }
 

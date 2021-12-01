@@ -1,6 +1,10 @@
 <?php
 /**
- * Simple Mardown to HTML utility file.
+ * \file
+ * \biref Simple Mardown to HTML utility file.
+ * 
+ * @author HugoFara <hugo.farajallah@protonmail.com>
+ * @since  2.0.3-fork
  */
 require __DIR__ . '/../../vendor/autoload.php';
 

@@ -8,7 +8,7 @@
  * Call: edit_tword.php?....
       ... op=Change ... do update
       ... wid=[wordid] ... display edit screen
-***************************************************************/
+ ***************************************************************/
 
 require_once 'inc/session_utility.php';
 require_once 'inc/simterms.php';
@@ -68,18 +68,20 @@ if (isset($_REQUEST['op'])) {
     
     }
 
-?>
+    ?>
     
 <p>OK: <?php echo tohtml($message); ?></p>
 
-<?php
+    <?php
 
     $lang = get_first_value('select WoLgID as value from ' . $tbpref . 'words where WoID = ' . $wid);
-if (! isset($lang) ) { my_die('Cannot retrieve language in edit_tword.php'); 
-}
+    if (!isset($lang)) { 
+        my_die('Cannot retrieve language in edit_tword.php'); 
+    }
     $regexword = get_first_value('select LgRegexpWordCharacters as value from ' . $tbpref . 'languages where LgID = ' . $lang);
-if (! isset($regexword) ) { my_die('Cannot retrieve language data in edit_tword.php'); 
-}
+    if (!isset($regexword)) {
+        my_die('Cannot retrieve language data in edit_tword.php'); 
+    }
     $sent = tohtml(repl_tab_nl($_REQUEST["WoSentence"]));
     $sent1 = str_replace(
         "{", ' <b>[', str_replace(
@@ -88,7 +90,7 @@ if (! isset($regexword) ) { my_die('Cannot retrieve language data in edit_tword.
         )
     );
 
-?>
+    ?>
 
 <script type="text/javascript">
 //<![CDATA[
@@ -114,7 +116,7 @@ window.parent.frames['l'].setTimeout('cClick()', 100);
 //]]>
 </script>
     
-<?php
+    <?php
 
 } // if (isset($_REQUEST['op']))
 
@@ -149,7 +151,7 @@ else {  // if (! isset($_REQUEST['op']))
     pagestart_nobody($titletext);
     $scrdir = getScriptDirectionTag($lang);
 
-?>
+    ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
 <script type="text/javascript">
     $(window).on('beforeunload',function() {
@@ -167,7 +169,7 @@ else {  // if (! isset($_REQUEST['op']))
 <td class="td1 right"><b>Edit Term:</b></td>
 <td class="td1"><input <?php echo $scrdir; ?> class="notempty checkoutsidebmp" data_info="Term" type="text" name="WoText" id="wordfield" value="<?php echo tohtml($term); ?>" maxlength="250" size="35" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
 </td></tr>
-<?php print_similar_terms_tabrow(); ?>
+    <?php print_similar_terms_tabrow(); ?>
 <tr>
 <td class="td1 right">Translation:</td>
 <td class="td1"><textarea name="WoTranslation" class="setfocus textarea-noreturn checklength checkoutsidebmp" data_maxlength="500" data_info="Translation" cols="35" rows="3"><?php echo tohtml($transl); ?></textarea></td>
@@ -175,7 +177,7 @@ else {  // if (! isset($_REQUEST['op']))
 <tr>
 <td class="td1 right">Tags:</td>
 <td class="td1">
-<?php echo getWordTags($wid); ?>
+    <?php echo getWordTags($wid); ?>
 </td>
 </tr>
 <tr>
@@ -186,23 +188,23 @@ else {  // if (! isset($_REQUEST['op']))
 <td class="td1 right">Sentence<br />Term in {...}:</td>
 <td class="td1"><textarea <?php echo $scrdir; ?> name="WoSentence" class="textarea-noreturn checklength checkoutsidebmp" data_maxlength="1000" data_info="Sentence" cols="35" rows="3"><?php echo tohtml($sentence); ?></textarea></td>
 </tr>
-<?php print_similar_terms_tabrow(); ?>
+    <?php print_similar_terms_tabrow(); ?>
 <tr>
 <td class="td1 right">Status:</td>
 <td class="td1">
-<?php echo get_wordstatus_radiooptions($status); ?>
+    <?php echo get_wordstatus_radiooptions($status); ?>
 </td>
 </tr>
 <tr>
 <td class="td1 right" colspan="2">
-<?php echo createDictLinksInEditWin($lang, $term, 'document.forms[0].WoSentence', 1); ?>
+    <?php echo createDictLinksInEditWin($lang, $term, 'document.forms[0].WoSentence', 1); ?>
 &nbsp; &nbsp; &nbsp; 
 <input type="submit" name="op" value="Change" /></td>
 </tr>
 </table>
 </form>
 <div id="exsent"><span class="click" onclick="do_ajax_show_sentences(<?php echo $lang; ?>, <?php echo prepare_textdata_js($termlc) . ', ' . prepare_textdata_js("document.forms['editword'].WoSentence") . ', ' . $wid; ?>);"><img src="icn/sticky-notes-stack.png" title="Show Sentences" alt="Show Sentences" /> Show Sentences</span></div>    
-<?php
+    <?php
 } // if (! isset($_REQUEST['op']))
 
 pageend();

@@ -42,8 +42,10 @@ function do_mysqli_query($sql)
  * Run a SQL query, you can specify its behavior and error message.
  * 
  * @param string $sql       MySQL query
- * @param string $m         Error message ('' to return the number of affected rows)
+ * @param string $m         Success phrase to prepend to the number of affected rows
  * @param bool   $sqlerrdie To die on errors (default = TRUE)
+ * 
+ * @return string Error message if failure, or the number of affected rows
  */
 function runsql($sql, $m, $sqlerrdie = true) 
 {

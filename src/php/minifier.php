@@ -3,7 +3,11 @@
  * \file
  * \brief JS and CSS minifier.
  * 
- * Use this script to minify JS and CSS files from src/js and src/css to js/ and css/.
+ * Use this script to minify JS and CSS files from src/js and src/css to js/ and 
+ * css/.
+ * 
+ * @author HugoFara <hugo.farajallah@protonmail.com>
+ * @since  2.0.3-fork
  */
 require __DIR__ . '/../../vendor/autoload.php';
 use MatthiasMullie\Minify;
@@ -11,8 +15,9 @@ use MatthiasMullie\Minify;
 /**
  * Minify a JavaScript file and outputs the result to js/
  * 
- * @param  string $path       Path of the file, with extension.
- * @param  string $outputPath Path of the ouput file, with extension
+ * @param string $path       Path of the file, with extension.
+ * @param string $outputPath Path of the ouput file, with extension
+ * 
  * @return string Minified content 
  */
 function minifyJS($path, $outputPath) 
@@ -34,8 +39,9 @@ function minifyJS($path, $outputPath)
 /**
  * Minify a JavaScript file and outputs the result to css/
  * 
- * @param  string $path       Path of the file, with extension.
- * @param  string $outputPath Path of the ouput file, with extension
+ * @param string $path       Path of the file, with extension.
+ * @param string $outputPath Path of the ouput file, with extension
+ * 
  * @return string Minified content 
  */
 function minifyCSS($path, $outputPath) 
@@ -58,6 +64,8 @@ function minifyCSS($path, $outputPath)
  * Minify all JavaScript files
  * 
  * @global array<string> $jsFiles All the file to be minified
+ * 
+ * @return void
  */
 function minifyAllJS() 
 {
@@ -74,6 +82,8 @@ function minifyAllJS()
  * Minify all Cascading-Style Sheet files
  * 
  * @global array<string> $cssFiles All the file to be minified
+ * 
+ * @return void
  */
 function minifyAllCSS() 
 {
