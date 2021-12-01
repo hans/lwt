@@ -1,23 +1,151 @@
 <?php
 
-
-/**************************************************************
-Call: edit_word.php?....
-      ... op=Save ... do insert new
-      ... op=Change ... do update
-      ... fromAnn=recno ... calling from impr. annotation editing
-      ... tid=[textid]&ord=[textpos]&wid= ... new word  
-      ... tid=[textid]&ord=[textpos]&wid=[wordid] ... edit word 
-New/Edit single word
-***************************************************************/
+/**
+ * \file
+ * \brief Create or edit single word
+ * 
+ * Call: edit_word.php?....
+ *  ... op=Save ... do insert new
+ *  ... op=Change ... do update
+ *  ... fromAnn=recno ... calling from impr. annotation editing
+ *  ... tid=[textid]&ord=[textpos]&wid= ... new word  
+ *  ... tid=[textid]&ord=[textpos]&wid=[wordid] ... edit word 
+ * 
+ * @since 1.0.3
+ * @author LWT Project <lwt-project@hotmail.com>
+ */
 
 require_once 'inc/session_utility.php';
 require_once 'inc/simterms.php';
 
-$translation_raw = repl_tab_nl(getreq("WoTranslation"));
-if ($translation_raw == '' ) { $translation = '*'; 
+function insert_new_word($textlc, $translation) {
+    global $tbpref;
+
+    $titletext = "New Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
+    pagestart_nobody($titletext);
+    echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
+
+    $message = runsql(
+        'INSERT INTO ' . $tbpref . 'words 
+        (
+            WoLgID, WoTextLC, WoText, WoStatus, WoTranslation, 
+            WoSentence, WoWordCount, WoRomanization, WoStatusChanged,' 
+            .  make_score_random_insert_update('iv') . '
+        ) VALUES( 
+            ' . $_REQUEST["WoLgID"] . ', ' .
+            convert_string_to_sqlsyntax($_REQUEST["WoTextLC"]) . ', ' .
+            convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
+            $_REQUEST["WoStatus"] . ', ' .
+            convert_string_to_sqlsyntax($translation) . ', ' .
+            convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', 1, ' .
+            convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
+            make_score_random_insert_update('id') . 
+        ')', "Term saved"
+    );
+    $wid = get_last_key();
+    do_mysqli_query(
+        'UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' 
+        WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) =' . 
+        convert_string_to_sqlsyntax_notrim_nonull($textlc));
+    return array($wid, $message);
 }
-else { $translation = $translation_raw; 
+
+function edit_term($translation) {
+    global $tbpref;
+
+    $titletext = "Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
+    pagestart_nobody($titletext);
+    echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
+    
+    $oldstatus = $_REQUEST["WoOldStatus"];
+    $newstatus = $_REQUEST["WoStatus"];
+    $xx = '';
+    if ($oldstatus != $newstatus) { 
+        $xx = ', WoStatus = ' .    $newstatus . ', WoStatusChanged = NOW()'; 
+    }
+
+    $message = runsql(
+        'update ' . $tbpref . 'words set WoText = ' . 
+        convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' . 
+        convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
+        convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
+        convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . 
+        make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"], "Updated"
+    );
+    $wid = $_REQUEST["WoID"];
+    return array($wid, $message);
+}
+
+
+function lowercase_term_not_equal($textlc) {
+    $titletext = "New/Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
+    pagestart_nobody($titletext);
+    echo '<h4><span class="bigger">' . $titletext . '</span></h4>';        
+    $message = 
+    'Error: Term in lowercase must be exactly = "' . 
+    $textlc . '", please go back and correct this!'; 
+    echo error_message_with_hide($message, 0);
+}
+
+
+function change_term_display($wid, $translation, $hex) {
+    ?>
+<script type="text/javascript">
+    //<![CDATA[
+    var context = window.parent.document.getElementById('frame-l');
+    var contexth = window.parent.document.getElementById('frame-h');
+    var woid = <?php echo prepare_textdata_js($wid); ?>;
+    var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
+    var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid, ' ', 1, 0)); ?>;
+    var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
+    var title;
+    if (window.parent.document.getElementById('frame-l').JQ_TOOLTIP) {
+        title = '';
+    } else {
+        title = make_tooltip(
+            <?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>, trans, roman, status
+        );
+    }
+    <?php
+    if ($_REQUEST['op'] == 'Save') {
+    ?>
+        $('.TERM<?php echo $hex; ?>', context)
+        .removeClass('status0')
+        .addClass('word' + woid + ' ' + 'status' + status)
+        .attr('data_trans', trans)
+        .attr('data_rom', roman)
+        .attr('data_status', status)
+        .attr('data_wid', woid)
+        .attr('title', title);
+    <?php
+    } else {
+    ?>
+        $('.word' + woid, context)
+        .removeClass('status<?php echo $_REQUEST['WoOldStatus']; ?>')
+        .addClass('status' + status)
+        .attr('data_trans', trans)
+        .attr('data_rom', roman)
+        .attr('data_status', status)
+        .attr('title', title);
+    <?php
+    }
+    ?>
+    $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
+    window.parent.document.getElementById('frame-l').focus();
+    //window.parent.document.getElementById('frame-l').setTimeout('cClick()', 100);
+    window.parent.setTimeout('cClick()', 100);
+    //]]>
+</script>
+<?php
+}
+
+
+$translation_raw = repl_tab_nl(getreq("WoTranslation"));
+if ($translation_raw == '' ) { 
+    $translation = '*'; 
+}
+else { 
+    $translation = $translation_raw; 
 }
 
 $fromAnn = getreq("fromAnn"); // from-recno or empty
@@ -34,53 +162,19 @@ if (isset($_REQUEST['op'])) {
         // INSERT
         
         if ($_REQUEST['op'] == 'Save') {
-            
-    
-            $titletext = "New Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
-            pagestart_nobody($titletext);
-            echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
-        
-            $message = runsql(
-                'insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
-                'WoStatus, WoTranslation, WoSentence, WoWordCount, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
-                $_REQUEST["WoLgID"] . ', ' .
-                convert_string_to_sqlsyntax($_REQUEST["WoTextLC"]) . ', ' .
-                convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', ' .
-                $_REQUEST["WoStatus"] . ', ' .
-                convert_string_to_sqlsyntax($translation) . ', ' .
-                convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', 1, ' .
-                convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . ', NOW(), ' .  
-                make_score_random_insert_update('id') . ')', "Term saved"
-            );
-            $wid = get_last_key();
-            do_mysqli_query('UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' WHERE Ti2LgID = ' . $_REQUEST["WoLgID"] . ' AND LOWER(Ti2Text) =' . convert_string_to_sqlsyntax_notrim_nonull($textlc));
+            $output = insert_new_word($textlc, $translation);
+            $wid = $output[0];
+            $message = $output[1];
             $hex = strToClassName(prepare_textdata($_REQUEST["WoTextLC"]));
-    
             
         } // $_REQUEST['op'] == 'Save'
         
         // UPDATE
         
         else {  // $_REQUEST['op'] != 'Save'
-            
-            $titletext = "Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
-            pagestart_nobody($titletext);
-            echo '<h4><span class="bigger">' . $titletext . '</span></h4>';
-            
-            $oldstatus = $_REQUEST["WoOldStatus"];
-            $newstatus = $_REQUEST["WoStatus"];
-            $xx = '';
-            if ($oldstatus != $newstatus) { $xx = ', WoStatus = ' .    $newstatus . ', WoStatusChanged = NOW()'; 
-            }
-        
-            $message = runsql(
-                'update ' . $tbpref . 'words set WoText = ' . 
-                convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' . 
-                convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
-                convert_string_to_sqlsyntax(repl_tab_nl($_REQUEST["WoSentence"])) . ', WoRomanization = ' .
-                convert_string_to_sqlsyntax($_REQUEST["WoRomanization"]) . $xx . ',' . make_score_random_insert_update('u') . ' where WoID = ' . $_REQUEST["WoID"], "Updated"
-            );
-            $wid = $_REQUEST["WoID"];
+            $output = edit_term($translation);
+            $wid = $output[0];
+            $message = $output[1];
             
         }  // $_REQUEST['op'] != 'Save'
         
@@ -89,58 +183,28 @@ if (isset($_REQUEST['op'])) {
     } // (mb_strtolower($text, 'UTF-8') == $textlc)
     
     else { // (mb_strtolower($text, 'UTF-8') != $textlc)
-    
-        $titletext = "New/Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
-        pagestart_nobody($titletext);
-        echo '<h4><span class="bigger">' . $titletext . '</span></h4>';        
-        $message = 'Error: Term in lowercase must be exactly = "' . $textlc . '", please go back and correct this!'; 
-        echo error_message_with_hide($message, 0);
+        lowercase_term_not_equal($textlc);
         pageend();
         exit();
     
     }
-        
-    ?>
     
-    <p>OK: <?php echo tohtml($message); ?></p>
+
+    echo '<p>OK: ' . tohtml($message) . '</p>';
     
+    if ($fromAnn !== '') {
+        ?>
 <script type="text/javascript">
 //<![CDATA[
-<?php
-if ($fromAnn !== '') {
-?>
-window.opener.do_ajax_edit_impr_text(<?php echo $fromAnn; ?>, <?php echo prepare_textdata_js($textlc); ?>);
-<?php
-} else {
-?>
-var context = window.parent.frames['l'].document;
-var contexth = window.parent.frames['h'].document;
-var woid = <?php echo prepare_textdata_js($wid); ?>;
-var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
-var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid, ' ', 1, 0)); ?>;
-var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
-<?php
-if ($_REQUEST['op'] == 'Save') {
-?>
-$('.TERM<?php echo $hex; ?>', context).removeClass('status0').addClass('word' + woid + ' ' + 'status' + status).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status).attr('data_wid',woid).attr('title',title);
-<?php
-} else {
-?>
-$('.word' + woid, context).removeClass('status<?php echo $_REQUEST['WoOldStatus']; ?>').addClass('status' + status).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status).attr('title',title);
-<?php
-}
-?>
-$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
-<?php
-}  // $fromAnn !== ''
-?>
+    window.opener.do_ajax_edit_impr_text(
+        <?php echo $fromAnn; ?>, <?php echo prepare_textdata_js($textlc); ?>
+        );
 //]]>
 </script>
-    
 <?php
+    } else {
+        change_term_display($wid, $translation, $hex);
+    }
 
 } // if (isset($_REQUEST['op']))
 
@@ -165,7 +229,7 @@ else {  // if (! isset($_REQUEST['op']))
         }
         mysqli_free_result($res);
         
-        $termlc =    mb_strtolower($term, 'UTF-8');
+        $termlc = mb_strtolower($term, 'UTF-8');
         
         $wid = get_first_value("select WoID as value from " . $tbpref . "words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc)); 
         
