@@ -1793,33 +1793,48 @@ function get_themes_selectoptions($v)
     return $r;
 }
 
-// -------------------------------------------------------------
-
-function saveSetting($k,$v) 
+/**
+ * Save the setting identified by a key with a specific value.
+ * 
+ * @param string $k Setting key
+ * @param mixed  $v Setting value, will get converted to string
+ * 
+ * @global string $tbpref Table name prefix
+ * 
+ * @return string Error or success message
+ */
+function saveSetting($k, $v) 
 {
     global $tbpref;
     $dft = get_setting_data();
     if (!isset($v)) {
-        $v = ''; 
+        return ''; 
     }
     $v = stripTheSlashesIfNeeded($v);
-    runsql('delete from ' . $tbpref . 'settings where StKey = ' . convert_string_to_sqlsyntax($k), '');
-    if ($v !== '') {
-        if (array_key_exists($k, $dft)) {
-            if ($dft[$k]['num']) {
-                $v = (int) $v;
-                if ($v < $dft[$k]['min'] ) { $v = $dft[$k]['dft']; 
-                }
-                if ($v > $dft[$k]['max'] ) { $v = $dft[$k]['dft']; 
-                }
-            }
-        }
-        $dum = runsql(
-            'insert into ' . $tbpref . 'settings (StKey, StValue) values(' .
-            convert_string_to_sqlsyntax($k) . ', ' . 
-            convert_string_to_sqlsyntax($v) . ')', ''
-        );
+    if ($v === '') {
+        return '';
     }
+    runsql(
+        'DELETE FROM ' . $tbpref . 'settings 
+        WHERE StKey = ' . convert_string_to_sqlsyntax($k), 
+        ''
+    );
+    if (array_key_exists($k, $dft) && $dft[$k]['num']) {
+        $v = (int)$v;
+        if ($v < $dft[$k]['min']) { 
+            $v = $dft[$k]['dft']; 
+        }
+        if ($v > $dft[$k]['max']) { 
+            $v = $dft[$k]['dft']; 
+        }
+    }
+    $dum = runsql(
+        'INSERT INTO ' . $tbpref . 'settings (StKey, StValue) values(' .
+        convert_string_to_sqlsyntax($k) . ', ' . 
+        convert_string_to_sqlsyntax($v) . ')', 
+        ''
+    );
+    return $dum;
 }
 
 // -------------------------------------------------------------

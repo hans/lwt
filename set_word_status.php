@@ -1,53 +1,144 @@
 <?php
 
-/**************************************************************
-Call: set_word_status.php?...
-            ... tid=[textid]&wid=[wordid]&status=1..5/98/99
-Change status of term while reading
- ***************************************************************/
+/**
+ * \file
+ * \brief Change status of term while reading
+ * 
+ * Call: set_word_status.php?...
+ *      ... tid=[textid]&wid=[wordid]&status=1..5/98/99
+ * 
+ * @author LWT Project <lwt-project@hotmail.com>
+ * @since  1.0.3
+ */
 
 require_once 'inc/session_utility.php';
 
-$tid = $_REQUEST['tid'];
-$wid = $_REQUEST['wid'];
-$status = $_REQUEST['status'];
-
-$sql = 'SELECT WoText, WoTranslation, WoRomanization FROM ' . $tbpref . 'words where WoID = ' . $wid;
-$res = do_mysqli_query($sql);
-$record = mysqli_fetch_assoc($res);
-if ($record) {
+/**
+ * Get various data for the word corresponding to the ID.
+ * 
+ * @param string $wid ID of the word
+ * 
+ * @return string[3] The word in plain text, his translation and his romanization
+ * 
+ * @global string $tbpref 
+ */
+function get_word_data($wid)
+{
+    global $tbpref;
+    $sql = 'SELECT WoText, WoTranslation, WoRomanization 
+    FROM ' . $tbpref . 'words WHERE WoID = ' . $wid;
+    $res = do_mysqli_query($sql);
+    $record = mysqli_fetch_assoc($res);
+    if (!$record) {
+        my_die("Word not found in set_word_status.php"); 
+    }
     $word = $record['WoText'];
     $trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid, ' ', 1, 0);
     $roman = $record['WoRomanization'];
-} else {
-    my_die("Word not found in set_word_status.php"); 
+    mysqli_free_result($res);
+    return array($word, $trans, $roman);
 }
-mysqli_free_result($res);
 
-pagestart("Term: " . $word, false);
+/**
+ * Edit the word from the database.
+ * 
+ * @param string $wid ID of the word to delete
+ * @param string $status New status to set
+ * 
+ * @return string Some edit message, number of affected rows or error message
+ * 
+ * @global string $tbpref 
+ */
+function set_word_status_database($wid, $status)
+{
+    global $tbpref;
+    $m1 = runsql(
+        'UPDATE ' . $tbpref . 'words 
+        SET WoStatus = ' . $status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' 
+        WHERE WoID = ' . $wid, 
+        'Status changed'
+    );
+    return $m1;
+}
 
-$m1 = runsql(
-    'update ' . $tbpref . 'words set WoStatus = ' . 
-    $_REQUEST['status'] . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed'
-);
-
-echo '<p>OK, this term has status ' . get_colored_status_msg($status) . ' from now!</p>';
-
-?>
+/**
+ * Do the JavaScript action for changing display of the word.
+ * 
+ * @param string $tid Text ID
+ * @param string $wid ID of the word that changed status
+ * @param string $status New status
+ * @param string $word Word in plain text
+ * @param string $trans Translation of the word
+ * @param string $roman Romanization of the word
+ * 
+ * @return void 
+ */
+function set_word_status_javascript($tid, $wid, $status, $word, $trans, $roman)
+{
+    ?>
 <script type="text/javascript">
-//<![CDATA[
-var context = window.parent.frames['l'].document;
-var contexth = window.parent.frames['h'].document;
-var status = '<?php echo $status; ?>';
-var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($word); ?>, <?php echo prepare_textdata_js($trans); ?>, <?php echo prepare_textdata_js($roman); ?>, status);
-$('.word<?php echo $wid; ?>', context).removeClass('status98 status99 status1 status2 status3 status4 status5').addClass('status<?php echo $status; ?>').attr('data_status','<?php echo $status; ?>').attr('title',title);
-$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
-//]]>
+    //<![CDATA[
+    var context = window.parent.document.getElementById('frame-l');
+    var contexth = window.parent.document.getElementById('frame-h');
+    var status = '<?php echo $status; ?>';
+    var title = window.parent.JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($word); ?>, <?php echo prepare_textdata_js($trans); ?>, <?php echo prepare_textdata_js($roman); ?>, status);
+    $('.word<?php echo $wid; ?>', context).removeClass('status98 status99 status1 status2 status3 status4 status5').addClass('status<?php echo $status; ?>').attr('data_status','<?php echo $status; ?>').attr('title',title);
+    $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
+    window.parent.document.getElementById('frame-l').focus();
+    window.parent.setTimeout('cClick()', 100);
+    //]]>
 </script>
-<?php
+    <?php
+}
 
-pageend();
+/**
+ * Echo the HTLK content of the page.
+ * 
+ * @param string $tid Text ID
+ * @param string $wid ID of the word that changed status
+ * @param string $status New status
+ * @param string $word Word in plain text
+ * @param string $trans Translation of the word
+ * @param string $roman Romanization of the word
+ * 
+ * @return void 
+ */
+function set_word_status_display_page($tid, $wid, $status, $word, $trans, $roman)
+{
+    pagestart("Term: " . $word, false);
+    echo '<p>OK, this term has status ' . get_colored_status_msg($status) . ' from now!</p>';
+    set_word_status_javascript($tid, $wid, $status, $word, $trans, $roman);
+    pageend();
+
+}
+
+
+/**
+ * Complete workflow for updating a word.
+ * It edits the database, show the success message
+ * and do JavaScript action to change its display.
+ * 
+ * @param string $textid ID of the affected text
+ * @param string $wordid ID of the word to update
+ * @param string $status New status for this word
+ * 
+ * @return void
+ * 
+ * @since 2.0.4-fork
+ */
+function do_set_word_status($textid, $wordid, $status)
+{
+    $word_data = get_word_data($wordid);
+    $word = $word_data[0];
+    $trans = $word_data[1];
+    $roman = $word_data[2];
+    set_word_status_database($wordid, $status);
+    set_word_status_display_page($textid, $wordid, $status, $word, $trans, $roman);
+}
+
+
+if (getreq('tid') != '' && getreq('wid') != '' && getreq('status') != '') {
+    do_set_word_status(getreq('tid'), getreq('wid'), getreq('status'));
+}
 
 ?>
