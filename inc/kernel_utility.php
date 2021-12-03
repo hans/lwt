@@ -2,6 +2,9 @@
 /**
  * \file
  * \brief Core utility functions that do not require a complete session.
+ * 
+ * @author GitHub contributors
+ * @since 2.0.3-fork
  */
 
  require __DIR__ . '/settings.php';
@@ -14,11 +17,13 @@
  * For instance 1.6.31 (October 03 2016)
  *
  * @global bool $debug If true adds a red "DEBUG"
+ * 
+ * @return string Version number HTML-formatted
  */
 function get_version() 
 {
     global $debug;
-    $version = '2.0.3-fork (November 26 2021)'; 
+    $version = '2.0.4-fork (December 03 2021)'; 
     if ($debug) {
         $version .= ' <span class="red">DEBUG</span>';
     }
@@ -28,7 +33,7 @@ function get_version()
 /** 
  * Return a machine readable version number.
  * 
- * For instance v001.006.031
+ * @return string Machine-readable version, for instance v001.006.031
  */
 function get_version_number() 
 {

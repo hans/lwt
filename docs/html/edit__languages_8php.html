@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.3-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.4-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -86,8 +86,7 @@ Variables</h2></td></tr>
 <tr class="memitem:aa1f8e8cc9964970fda707a846e0dc630"><td class="memItemLeft" align="right" valign="top"><a id="aa1f8e8cc9964970fda707a846e0dc630" name="aa1f8e8cc9964970fda707a846e0dc630"></a>
 if($recno==0) else&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages where LgName&lt;&gt;&quot;&quot; order by LgName'</td></tr>
 <tr class="separator:aa1f8e8cc9964970fda707a846e0dc630"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a197acfe3388e7bc4c2e832a49bc5805e"><td class="memItemLeft" align="right" valign="top"><a id="a197acfe3388e7bc4c2e832a49bc5805e" name="a197acfe3388e7bc4c2e832a49bc5805e"></a>
-if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds group by NfLgID')</td></tr>
+<tr class="memitem:a197acfe3388e7bc4c2e832a49bc5805e"><td class="memItemLeft" align="right" valign="top">if($debug)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__languages_8php.html#a197acfe3388e7bc4c2e832a49bc5805e">$res</a></td></tr>
 <tr class="separator:a197acfe3388e7bc4c2e832a49bc5805e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -95,6 +94,24 @@ if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a c
 <p >Call: <a class="el" href="edit__languages_8php.html">edit_languages.php</a>?.... ... refresh=[langid] ... reparse all texts in lang ... del=[langid] ... do delete ... op=Save ... do insert new ... op=Change ... do update ... new=1 ... display new lang. screen ... chg=[langid] ... display edit screen</p>
 <dl class="section since"><dt>Since</dt><dd>1.0.3 </dd></dl>
 </div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a197acfe3388e7bc4c2e832a49bc5805e" name="a197acfe3388e7bc4c2e832a49bc5805e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a197acfe3388e7bc4c2e832a49bc5805e">&#9670;&nbsp;</a></span>$res</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">while ( $record=mysqli_fetch_assoc( $res)) $res</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code hl_function" href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>(</div>
+<div class="line">            <span class="stringliteral">&#39;select NfLgID,count(*) as value from &#39;</span> . $tbpref . <span class="stringliteral">&#39;newsfeeds group by NfLgID&#39;</span></div>
+<div class="line">        )</div>
+<div class="ttc" id="adb__accessors_8php_html_af092366f1596cc99b3552185b173a53d"><div class="ttname"><a href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a></div><div class="ttdeci">do_mysqli_query($sql)</div><div class="ttdef"><b>Definition:</b> db_accessors.php:19</div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="ad6ac462c5348ea862e4c9803d1d94297" name="ad6ac462c5348ea862e4c9803d1d94297"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad6ac462c5348ea862e4c9803d1d94297">&#9670;&nbsp;</a></span>else</h2>
 

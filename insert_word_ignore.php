@@ -8,7 +8,7 @@
  * Call: insert_word_ignore.php?tid=[textid]&ord=[textpos]
  * 
  * @author LWT Project <lwt-project@hotmail.com>
- * @since 1.0.3
+ * @since  1.0.3
  */
 
 require_once 'inc/session_utility.php';
@@ -17,7 +17,7 @@ require_once 'inc/session_utility.php';
 /**
  * Return the word at a specific position in a text.
  * 
- * @param string $textid ID of the text
+ * @param string $textid  ID of the text
  * @param string $textpos Position of the word in the text.
  * 
  * @return string A word
@@ -41,7 +41,7 @@ function get_word($textid, $textpos)
  * Edit the database to add the word.
  * 
  * @param string $textif ID of the text
- * @param string $word Word to add
+ * @param string $word   Word to add
  * 
  * @return string Word ID 
  * 
@@ -135,7 +135,7 @@ function show_page_insert_word_ignore($word, $wid, $hex, $textid)
 /**
  * Main function to insert a new word with display and JS action.
  * 
- * @param string $textid ID of the text
+ * @param string $textid  ID of the text
  * @param string $textpos Position of the word in the text.
  * 
  * @return void

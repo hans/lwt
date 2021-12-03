@@ -3,12 +3,19 @@ Changelog
 
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 
-## Unreleased
-This version brings a better composer compatibility.
+## 2.0.4-fork (December 03 2021)
+This version brings a better composer compatibility, and starts revamping 
+mobile compatibility.
+
 ### Changed
+* Starting to refactor for 2021 HTML!
+* Much less iframes for reading texts.
+* Now you can read texts on mobile without the experimental mobile LWT.
+* Texts can be read using "focus mode" on most browsers.
 * Updated documentation (expanded and refactored).
 * Composer is now the recommended way to download lwt.
 * PHP_codesniffer is now recommended, and no longer dev-required.
+* Refactored many parts of the code, that gets easier to read.
 
 ### Removed
 * ``composer.phar`` and ``composer.lock`` are now git ignored.
@@ -38,14 +45,61 @@ This version should be the stable merge between official v2.0.2 and community ma
 
 Full Changelog: [v1.6.31-fork...v2.0.3-fork](https://github.com/HugoFara/lwt/compare/v1.6.31-fork...v2.0.3-fork)
 
-## 1.6.31-fork (October 03 2016):  
-* Bugfix: Multibyte character parsing fixed (i.e. Chinese).  
+## 2.0.2 (September 07 2021)
+### Fixed
+* An incompatibility with PHP 8+ (removed function "get\_magic\_quotes\_gpc()" in PHP 8+) has been fixed. Thanks to Lucas L. for the hint.  
       
     
-## 1.6.30-fork (July 28 2016):  
-* Bugfix: google translate API updated.  
-* New Feature: MeCab support (in development).  
+## 2.0.1 (October 07 2020)
+### Fixed
+* A bug when visiting terms/expressions with key strokes LEFT or RIGHT after a previous status change and with a set status filtering has been fixed.  
       
+    
+## 2.0.0 (October 04 2020)
+### Fixed
+* No code changes. Sourceforge links corrected.  
+* The old links \[lwt.sf.net\], \[lwt.sourceforge.net\] or \[sourceforge.net/projects/lwt\] are no longer valid!  
+* The new links are now [learning-with-texts.sourceforge.io](https://learning-with-texts.sourceforge.io) (documentation and demo database) and [sourceforge.net/projects/learning-with-texts](https://sourceforge.net/projects/learning-with-texts) (project home and downloads).  
+      
+    
+## 1.6.3 (April 06 2020)
+### Added
+* Some missing confirmation dialogues (when deleting a single text, text tag, term, term tag, or language) added.  
+      
+    
+## 1.6.2 (March 10 2018, this page "info.php" last updated August 12 2019)
+### Added  
+* Audio playback speed can now be set between 0.5x and 1.5x.  
+* Waiting wheel (to indicate saving data to database in the background) added in "Edit Improved Annotated Text".  
+* Checking for characters in the Unicode Supplementary Multilingual Planes (> U+FFFF) like emojis or very rare characters improved/added. Such characters are currently not supported.  
+### Changed
+* jQuery library updated to v1.12.4.  
+    "Mobile\_Detect.php" updated to v2.8.30.  
+* LWT demo database updated.  
+* Documentation updated.
+### Fixed
+* Some minor glitches fixed.
+### Removed
+* Glosbe API calls via "glosbe\_api.php" in demo database and language settings wizard removed - they often did not work due to API restrictions. The file "glosbe\_api.php" is still supplied as an example of a close integration of a dictionary API into LWT.  
+      
+    
+## 1.6.1 (February 01 2016, this page "info.php" last updated January 13 2018)
+### Changed
+* The jQuery and jPlayer libraries have been updated to v1.12.0 and v2.9.2, respectively. The jQuery.ScrollTo package has been updated to v2.1.2.  
+    [Link](#links) to Chinese text segmentation "Jieba" added in documentation (Important Links - Additional Resources - For learners of Chinese).  
+      
+
+## 1.6.31-fork (October 03 2016)
+### Fixed
+* Multibyte character parsing fixed (i.e. Chinese).  
+      
+    
+## 1.6.30-fork (July 28 2016)
+### Added
+* MeCab support (in development).
+### Fixed
+* Google translate API updated.  
+   
     
 ## 1.6.29-fork (April 21 2016):  
 * Bugfix: ggl.php API doesn't work (Token generation fixed).  
@@ -82,6 +136,15 @@ Full Changelog: [v1.6.31-fork...v2.0.3-fork](https://github.com/HugoFara/lwt/com
 * Added German Feed 'NachDenkSeiten'(url:'http://www.nachdenkseiten.de/?feed=audiopodcast', Article Section:'//encoded/p', Options:'Article Source:encoded') to DemoDatabase.  
 * Database changes (table 'temptextitems'): added: TiCount, dropped: TiLgID, TiTxID, TiTextLC and index TiTextLC  
 * Database changes : dropped: index WtWoID, index TtTxID, index AgAtID  
+      
+## 1.6.0 (January 28 2016):  
+* As mysql\_\* database calls are deprecated and are no longer supported by PHP, they have been changed to the corresponding mysqli\_\* calls. If you run a server with PHP version 7.0.0 or higher, you MUST use LWT 1.6.0 or higher. Thanks to Laurens Vercaigne for his work!  
+* Debugging updated. Status information on start page improved. Documentation updated.  
+      
+    
+## 1.5.21 (January 14 2016):  
+* [Soft hyphens](https://en.wikipedia.org/wiki/Soft_hyphen) (U+00AD, UTF-8: 0xC2 0xAD) are now automatically removed during text import.  
+* "Mobile\_Detect.php" updated to v2.8.19.  
       
     
 ## 1.6.24-fork (January 11 2016):  
@@ -204,86 +267,34 @@ Full Changelog: [v1.6.31-fork...v2.0.3-fork](https://github.com/HugoFara/lwt/com
 * New Backup Option: official LWT backup added  
       
     
-## 1.6.1-fork (September 28 2014):  
-* New Feature: translations of terms can now be display in the reading frame  
-* New Feature: key bindings when hovering over words in the reading frame  
-* New Feature: bulk translate new words in the reading frame  
-* Changes from official LWT version 1.5.20 imported:  
+## 1.6.1-fork (September 28 2014)
+### Added
+* Translations of terms can now be display in the reading frame  
+* Key bindings when hovering over words in the reading frame  
+* Bulk translate new words in the reading frame
+
+Changes from official LWT version 1.5.20 imported:  
     
-* **New Feature:** Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense.  
+* Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense.  
         
 * "https://" dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved.
+
+### Changed
 * The Glosbe dictionary page has been improved with a simple form to change the term and do a requery if you are unhappy with the query results.  
         
 * The jQuery and jPlayer libraries have been updated to v1.11.1 and v2.7.0, respectively. The jQuery.ScrollTo package has been updated to v1.4.13. The Floating Menu package has been updated to v1.12.  
-        
+
 * Broken links corrected or deleted. From now on, only the installation with EasyPHP for Windows and MAMP for Mac OS X will be explained in detail and is recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).
 * "Mobile\_Detect.php" updated to v2.8.3.
     
 * Documentation updated.  
-      
-    
-## 1.6.0-fork (September 12 2014):  
-* Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added  
-* New Feature: Longer (>9) expressions can now be saved  
-* New Feature: TextToSpeech support for words added  
-* New Feature: experimental google api (use 'ggl.php' instead of '\*http://translate.google.com' for google translate)  
-* New Feature: new word select mode in read texts (hold down mouse button)  
-* statistics.php, upload\_words.php rewritten  
-      
-    
-## 2.0.2 (September 07 2021):  
-* An incompatibility with PHP 8+ (removed function "get\_magic\_quotes\_gpc()" in PHP 8+) has been fixed. Thanks to Lucas L. for the hint.  
-      
-    
-## 2.0.1 (October 07 2020):  
-* A bug when visiting terms/expressions with key strokes LEFT or RIGHT after a previous status change and with a set status filtering has been fixed.  
-      
-    
-## 2.0.0 (October 04 2020):  
-* No code changes. Sourceforge links corrected.  
-* The old links \[lwt.sf.net\], \[lwt.sourceforge.net\] or \[sourceforge.net/projects/lwt\] are no longer valid!  
-* The new links are now [learning-with-texts.sourceforge.io](https://learning-with-texts.sourceforge.io) (documentation and demo database) and [sourceforge.net/projects/learning-with-texts](https://sourceforge.net/projects/learning-with-texts) (project home and downloads).  
-      
-    
-## 1.6.3 (April 06 2020):  
-* Some missing confirmation dialogues (when deleting a single text, text tag, term, term tag, or language) added.  
-      
-    
-## 1.6.2 (March 10 2018, this page "info.php" last updated August 12 2019):  
-* New features:  
-* Audio playback speed can now be set between 0.5x and 1.5x.  
-* Waiting wheel (to indicate saving data to database in the background) added in "Edit Improved Annotated Text".  
-* Checking for characters in the Unicode Supplementary Multilingual Planes (> U+FFFF) like emojis or very rare characters improved/added. Such characters are currently not supported.  
-* Updates/bug fixes:  
-* jQuery library updated to v1.12.4.  
-    "Mobile\_Detect.php" updated to v2.8.30.  
-* LWT demo database updated.  
-* Documentation updated.  
-* Some minor glitches fixed.  
-* Glosbe API calls via "glosbe\_api.php" in demo database and language settings wizard removed - they often did not work due to API restrictions. The file "glosbe\_api.php" is still supplied as an example of a close integration of a dictionary API into LWT.  
-      
-    
-## 1.6.1 (February 01 2016, this page "info.php" last updated January 13 2018):  
-* The jQuery and jPlayer libraries have been updated to v1.12.0 and v2.9.2, respectively. The jQuery.ScrollTo package has been updated to v2.1.2.  
-    [Link](#links) to Chinese text segmentation "Jieba" added in documentation (Important Links - Additional Resources - For learners of Chinese).  
-      
-    
-## 1.6.0 (January 28 2016):  
-* As mysql\_\* database calls are deprecated and are no longer supported by PHP, they have been changed to the corresponding mysqli\_\* calls. If you run a server with PHP version 7.0.0 or higher, you MUST use LWT 1.6.0 or higher. Thanks to Laurens Vercaigne for his work!  
-* Debugging updated. Status information on start page improved. Documentation updated.  
-      
-    
-## 1.5.21 (January 14 2016):  
-* [Soft hyphens](https://en.wikipedia.org/wiki/Soft_hyphen) (U+00AD, UTF-8: 0xC2 0xAD) are now automatically removed during text import.  
-* "Mobile\_Detect.php" updated to v2.8.19.  
-      
-    
+        
+
 ## 1.5.20 (September 22 2014):  
 * Missing volume controls in audio player (only on mobile devices) fixed.  
 * "Mobile\_Detect.php" updated to v2.8.3.  
       
-    
+   
 ## 1.5.19 (September 15 2014):  
 * Missing tag cache updating fixed (in "Add tag in all/marked texts or terms").  
 * Tag caches now also work properly if several instances of LWT are installed in parallel directories on the same server.  
@@ -301,7 +312,16 @@ Full Changelog: [v1.6.31-fork...v2.0.3-fork](https://github.com/HugoFara/lwt/com
 * Some error messages (term/tag already exists) have been improved.  
 * Documentation updated.  
       
-    
+       
+## 1.6.0-fork (September 12 2014):  
+* Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added  
+* New Feature: Longer (>9) expressions can now be saved  
+* New Feature: TextToSpeech support for words added  
+* New Feature: experimental google api (use 'ggl.php' instead of '\*http://translate.google.com' for google translate)  
+* New Feature: new word select mode in read texts (hold down mouse button)  
+* statistics.php, upload\_words.php rewritten  
+
+
 ## 1.5.17 (June 08 2014):  
 * New Feature: Selecting terms according to a text tag  
 * New Feature: Start a document where you left off (only "Read Text Screen")  

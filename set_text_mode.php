@@ -16,7 +16,7 @@ require_once 'inc/session_utility.php';
 /**
  * Save text mode settings.
  * 
- * @param int $showAll Whether all word should be shown
+ * @param int $showAll      Whether all word should be shown
  * @param int $showLearning Whether to show translation of learning words
  * 
  * @return int If show learning was previously true (1) or false (0)
@@ -32,7 +32,7 @@ function text_mode_save_settings($showAll, $showLearning)
 /**
  * Do the JavaScript action to change the display of translations.
  * 
- * @param int $showLearning Whether to show translation of learning words
+ * @param int $showLearning         Whether to show translation of learning words
  * @param int $previousShowLearning If show learning was previously true (1) or false (0)
  * 
  * @return void
@@ -109,7 +109,7 @@ function text_mode_javascript($showLearning, $previousShowLearning)
 
     (jquery, deact.) 
     */
-        ?>
+    ?>
     }
     $('#waiting').html('<b>OK -- </b>');
     //]]>
@@ -120,8 +120,8 @@ function text_mode_javascript($showLearning, $previousShowLearning)
 /**
  * Do the main page content when chaning display of translations.
  * 
- * @param int $showAll Whether all word should be shown
- * @param int $showLearning Whether to show translation of learning words
+ * @param int $showAll              Whether all word should be shown
+ * @param int $showLearning         Whether to show translation of learning words
  * @param int $previousShowLearning If show learning was previously true (1) or false (0)
  * 
  * @return void
@@ -165,8 +165,8 @@ function text_mode_page_content($showAll, $showLearning, $previousShowLearning)
  * It edits the settings in the database, show the success message
  * and do JavaScript action to change its display.
  * 
- * @param int $textid ID of the current text
- * @param int $showAll Whether all word should be shown
+ * @param int $textid       ID of the current text
+ * @param int $showAll      Whether all word should be shown
  * @param int $showLearning Whether to show translation of learning words
  * 
  * @return void

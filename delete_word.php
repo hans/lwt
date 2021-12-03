@@ -7,7 +7,7 @@
  * Call: delete_word.php?wid=[wordid]&tid=[textid]
  * 
  * @author LWT Project <lwt-project@hotmail.com>
- * @since 1.0.3
+ * @since  1.0.3
  */
 
 require_once 'inc/session_utility.php';
@@ -103,10 +103,10 @@ function delete_word_javascript($wid, $tid)
 /**
  * Make the HTML content of the page when deleting a word.
  * 
- * @param string $tid Text ID
- * @param string $wid ID of the word to delete
+ * @param string $tid  Text ID
+ * @param string $wid  ID of the word to delete
  * @param string $term The deleted word
- * @param string $m1 Some edit message, number of affected rows or error message
+ * @param string $m1   Some edit message, number of affected rows or error message
  * 
  * @return void
  */

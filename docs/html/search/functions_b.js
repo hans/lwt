@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['splitchecktext_0',['splitCheckText',['../session__utility_8php.html#a46e8e1270bdf2caa528fee2b393c919c',1,'session_utility.php']]],
-  ['str_5freplace_5ffirst_1',['str_replace_first',['../kernel__utility_8php.html#a663921c08c6e251b51ca06a34a796bb3',1,'kernel_utility.php']]],
-  ['strtoclassname_2',['strToClassName',['../session__utility_8php.html#aa498a802f08f5e077602878bf95ea1ea',1,'session_utility.php']]]
+  ['repl_5ftab_5fnl_0',['repl_tab_nl',['../session__utility_8php.html#a90041847911a29c74820f432a2ed1663',1,'session_utility.php']]],
+  ['runsql_1',['runsql',['../db__accessors_8php.html#acba5ba1657b74c879fc17dd6f13c6bce',1,'db_accessors.php']]]
 ];

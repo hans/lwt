@@ -42,7 +42,7 @@ function get_word_data($wid)
 /**
  * Edit the word from the database.
  * 
- * @param string $wid ID of the word to delete
+ * @param string $wid    ID of the word to delete
  * @param string $status New status to set
  * 
  * @return string Some edit message, number of affected rows or error message
@@ -64,12 +64,12 @@ function set_word_status_database($wid, $status)
 /**
  * Do the JavaScript action for changing display of the word.
  * 
- * @param string $tid Text ID
- * @param string $wid ID of the word that changed status
+ * @param string $tid    Text ID
+ * @param string $wid    ID of the word that changed status
  * @param string $status New status
- * @param string $word Word in plain text
- * @param string $trans Translation of the word
- * @param string $roman Romanization of the word
+ * @param string $word   Word in plain text
+ * @param string $trans  Translation of the word
+ * @param string $roman  Romanization of the word
  * 
  * @return void 
  */
@@ -94,12 +94,12 @@ function set_word_status_javascript($tid, $wid, $status, $word, $trans, $roman)
 /**
  * Echo the HTLK content of the page.
  * 
- * @param string $tid Text ID
- * @param string $wid ID of the word that changed status
+ * @param string $tid    Text ID
+ * @param string $wid    ID of the word that changed status
  * @param string $status New status
- * @param string $word Word in plain text
- * @param string $trans Translation of the word
- * @param string $roman Romanization of the word
+ * @param string $word   Word in plain text
+ * @param string $trans  Translation of the word
+ * @param string $roman  Romanization of the word
  * 
  * @return void 
  */

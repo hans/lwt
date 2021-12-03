@@ -21,7 +21,7 @@ require_once 'inc/simterms.php';
 /**
  * Insert a new word to the database
  * 
- * @param string $textlc The word to insert, in lowercase
+ * @param string $textlc      The word to insert, in lowercase
  * @param string $translation Translation of this term
  * 
  * @return string[2] Word id, and then an insertion message 

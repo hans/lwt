@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.3-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.4-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -65,7 +65,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">set_text_mode.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -73,43 +73,183 @@ $(function() {
 <p>Change the text display mode.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a4450bdc73ff7cfb495cb4ec69c98fce8"><td class="memItemLeft" align="right" valign="top"><a id="a4450bdc73ff7cfb495cb4ec69c98fce8" name="a4450bdc73ff7cfb495cb4ec69c98fce8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$tid</b> = <a class="el" href="kernel__utility_8php.html#ac115eb0ce0c99aef0bc68dc184a491d6">getreq</a>('text') + 0</td></tr>
-<tr class="separator:a4450bdc73ff7cfb495cb4ec69c98fce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fe91a4733a2a5610a04c276c3a5f1ee"><td class="memItemLeft" align="right" valign="top"><a id="a9fe91a4733a2a5610a04c276c3a5f1ee" name="a9fe91a4733a2a5610a04c276c3a5f1ee"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$showAll</b> = <a class="el" href="kernel__utility_8php.html#ac115eb0ce0c99aef0bc68dc184a491d6">getreq</a>('mode') + 0</td></tr>
-<tr class="separator:a9fe91a4733a2a5610a04c276c3a5f1ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf6ce6ceaf86e9b25dbda43b43073970"><td class="memItemLeft" align="right" valign="top"><a id="aaf6ce6ceaf86e9b25dbda43b43073970" name="aaf6ce6ceaf86e9b25dbda43b43073970"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$previousShowLearning</b> = <a class="el" href="session__utility_8php.html#a82fee5176b0545d49bc70c1eb5b5f97a">getSettingZeroOrOne</a>('showlearningtranslations', 1)</td></tr>
-<tr class="separator:aaf6ce6ceaf86e9b25dbda43b43073970"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ebb4f178eac5a7e1f8466a47a81d4c2"><td class="memItemLeft" align="right" valign="top"><a id="a2ebb4f178eac5a7e1f8466a47a81d4c2" name="a2ebb4f178eac5a7e1f8466a47a81d4c2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$showLearning</b> = <a class="el" href="kernel__utility_8php.html#ac115eb0ce0c99aef0bc68dc184a491d6">getreq</a>('showLearning')</td></tr>
-<tr class="separator:a2ebb4f178eac5a7e1f8466a47a81d4c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c6d5082319680047fd146de74bb9423"><td class="memItemLeft" align="right" valign="top">if($showAll==1)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#a0c6d5082319680047fd146de74bb9423">else</a></td></tr>
-<tr class="separator:a0c6d5082319680047fd146de74bb9423"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab53bff84945cd59f2d5dc7c2681f219f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#ab53bff84945cd59f2d5dc7c2681f219f">text_mode_save_settings</a> ($showAll, $showLearning)</td></tr>
+<tr class="separator:ab53bff84945cd59f2d5dc7c2681f219f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2422cf887f7805cf5b74faa0e1424a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#ae2422cf887f7805cf5b74faa0e1424a4">text_mode_javascript</a> ($showLearning, $previousShowLearning)</td></tr>
+<tr class="separator:ae2422cf887f7805cf5b74faa0e1424a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a230a17ee8a5548931b06ace3eb5315dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#a230a17ee8a5548931b06ace3eb5315dc">text_mode_page_content</a> ($showAll, $showLearning, $previousShowLearning)</td></tr>
+<tr class="separator:a230a17ee8a5548931b06ace3eb5315dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a055404332712b14eb22ea55a070cf0f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#a055404332712b14eb22ea55a070cf0f2">change_text_mode</a> ($textid, $showAll, $showLearning)</td></tr>
+<tr class="separator:a055404332712b14eb22ea55a070cf0f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Change the text display mode. </p>
 <p >Call: <a class="el" href="set__text__mode_8php.html" title="Change the text display mode.">set_text_mode.php</a>?text=[textid]&amp;mode=0/1&amp;showLeaning=0/1</p>
-<dl class="section author"><dt>Author</dt><dd><a href="https://sourceforge.net/projects/lwt/">https://sourceforge.net/projects/lwt/</a> LWT Project </dd></dl>
+<dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@h'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@ho<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>1.0.3.1 </dd></dl>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a0c6d5082319680047fd146de74bb9423" name="a0c6d5082319680047fd146de74bb9423"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c6d5082319680047fd146de74bb9423">&#9670;&nbsp;</a></span>else</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a055404332712b14eb22ea55a070cf0f2" name="a055404332712b14eb22ea55a070cf0f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a055404332712b14eb22ea55a070cf0f2">&#9670;&nbsp;</a></span>change_text_mode()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">if ( $showLearning==1) else</td>
+          <td class="memname">change_text_mode </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$textid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showAll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showLearning</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">    echo <span class="stringliteral">&#39;&lt;b&gt;&lt;i&gt;Show All&lt;/i&gt;&lt;/b&gt; is set to &lt;b&gt;OFF&lt;/b&gt;.&lt;br /&gt;&lt;br /&gt;Multi-word terms now hide single words and shorter or overlapping multi-word terms. The creation and deletion of multi-word terms can be a bit slow in long texts.&lt;br /&gt;&lt;br /&gt;To  manipulate ALL terms, set &lt;i&gt;Show All&lt;/i&gt; to ON.&lt;/p&gt;&#39;</span></div>
-</div><!-- fragment -->
+<p >Complete workflow for changing text mode. It edits the settings in the database, show the success message and do JavaScript action to change its display.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$textid</td><td>ID of the current text </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$showAll</td><td>Whether all word should be shown </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$showLearning</td><td>Whether to show translation of learning words</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="ae2422cf887f7805cf5b74faa0e1424a4" name="ae2422cf887f7805cf5b74faa0e1424a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2422cf887f7805cf5b74faa0e1424a4">&#9670;&nbsp;</a></span>text_mode_javascript()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">text_mode_javascript </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showLearning</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$previousShowLearning</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Do the JavaScript action to change the display of translations.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$showLearning</td><td>Whether to show translation of learning words </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$previousShowLearning</td><td>If show learning was previously true (1) or false (0)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a230a17ee8a5548931b06ace3eb5315dc" name="a230a17ee8a5548931b06ace3eb5315dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a230a17ee8a5548931b06ace3eb5315dc">&#9670;&nbsp;</a></span>text_mode_page_content()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">text_mode_page_content </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showAll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showLearning</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$previousShowLearning</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Do the main page content when chaning display of translations.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$showAll</td><td>Whether all word should be shown </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$showLearning</td><td>Whether to show translation of learning words </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$previousShowLearning</td><td>If show learning was previously true (1) or false (0)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="ab53bff84945cd59f2d5dc7c2681f219f" name="ab53bff84945cd59f2d5dc7c2681f219f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab53bff84945cd59f2d5dc7c2681f219f">&#9670;&nbsp;</a></span>text_mode_save_settings()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">text_mode_save_settings </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showAll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showLearning</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Save text mode settings.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$showAll</td><td>Whether all word should be shown </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$showLearning</td><td>Whether to show translation of learning words</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int If show learning was previously true (1) or false (0) </dd></dl>
+
 </div>
 </div>
 </div><!-- contents -->

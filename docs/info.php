@@ -51,7 +51,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
   </head>
   <body>
 	<div id="floatdivv" 
-	style="position:absolute; width:auto; height:auto; top:10px; right:10px; 
+	style="position:fixed; width:auto; height:auto; top:10px; right:10px; 
 	padding:5px; z-index:2; font-size: 10pt; text-align:center;">
 		<a href="#">↑ TOP ↑</a><br /><br />
 		<a href="#preface">Preface</a><br />
@@ -63,7 +63,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 		<a href="#screencasts">Screencasts</a><br />
 		<a href="#restrictions">Restrictions</a><br />
 		<a href="#license">(Un-) License</a><br />
-		<a href="#thirdpartylicenses">(Un-) License</a><br />
+		<a href="#thirdpartylicenses">Third Party</a><br />
 		<a href="#disclaimer">Disclaimer</a><br /><br />
 		<a href="#install">Installation</a><br />
 		<a href="#learn">How to learn</a><br />

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.3-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.4-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -117,6 +117,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_DOMAIN</b> =
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Parameters - GoogleTranslate::staticTranslate($text,$sl,$tl[,$time_token = NULL[,$domain = NULL]]): $text -&gt; word to translate $sl -&gt; source language code (i.e. en,de,fr,...) $tl -&gt; target language code (i.e. en,de,fr,...) all supported language codes can be found here: <a href="https://cloud.google.com/translate/v2/using_rest#language-params">https://cloud.google.com/translate/v2/using_rest#language-params</a> $time_token (optional) -&gt; array() from <a href="https://translate.google.com">https://translate.google.com</a> if $time_token is empty, array(408254,585515986) is used $domain (optional) -&gt; connect to Google Domain (i.e. 'com' for <a href="https://translate.google.com">https://translate.google.com</a>) if $domain is empty, a random domain will be used (the default value can be altered by changing DEFAULT_DOMAIN) Possible values: ('com.ar', 'at', 'com.au', 'be', 'com.br', 'ca', 'cat', 'ch', 'cl', 'cn', 'cz', 'de', 'dk', 'es', 'fi', 'fr', 'gr', 'com.hk', 'hr', 'hu', 'co.id', 'ie', 'co.il', 'im', 'co.in', 'it', 'jm', 'co.jp', 'co.kr', 'com.mx', 'nl', 'no', 'pl', 'pt', 'ru', 'se', 'com.sg', 'co.th', 'com.tw', 'co.uk', 'com', 'za')</p>
 <p >Returns an array of Translations</p>
+<hr  />
 <p >Usage: require_once( 'googleTranslateClass.php' );</p>
 <p >$translations = GoogleTranslate::staticTranslate('Hello','en','de'); if(!$translations) echo 'Error: No translation found!'; else foreach($translations as $transl){ echo $transl, '<br  />
 '; } </p>
