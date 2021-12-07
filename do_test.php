@@ -16,49 +16,73 @@
 require_once 'inc/session_utility.php';
 require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php' ;
 
+/**
+ * Return true if we should use mobile mode.
+ * 
+ * @return bool Mobile mode shoud be activated or not
+ * 
+ * @since 2.0.5-fork
+ */
+function is_mobile()
+{
+    $detect = new Mobile_Detect;
+    $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
+    $mobile = (
+        ($mobileDisplayMode == 0 && $detect->isMobile()) 
+        || $mobileDisplayMode == 2
+    );
+    return $mobile;
+}
 
-$detect = new Mobile_Detect;
-$mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
-$mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
+/**
+ * Find the appropiate property to add to the test.
+ * It uses requests provided to the page.
+ * 
+ * @return string Some URL property
+ */
+function get_test_property()
+{
+    if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) { 
+        return "selection=" . $_REQUEST['selection']; 
+    } 
+    if (isset($_REQUEST['lang'])) { 
+        return "lang=" . $_REQUEST['lang']; 
+    } 
+    if (isset($_REQUEST['text'])) { 
+        return "text=" . $_REQUEST['text']; 
+    } 
+    return '';
+}
 
-$p = '';
-if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) { 
-    $p = "selection=" . $_REQUEST['selection']; 
-} 
-if (isset($_REQUEST['lang'])) { 
-    $p = "lang=" . $_REQUEST['lang']; 
-} 
-if (isset($_REQUEST['text'])) { 
-    $p = "text=" . $_REQUEST['text']; 
-} 
+/**
+ * Prepare JS and CSS content for mobile test page.
+ * 
+ * @return void
+ * 
+ * @since 2.0.5-fork
+ */
+function do_test_mobile_css_and_js() 
+{
 
-if ($p != '') {
+    ?>
+<style type="text/css"> 
+body {
+    background-color: #cccccc;
+    margin: 0;
+    overflow: hidden;
+}
+#frame-h, #frame-l, #frame-ro, #frame-ru {
+    position:absolute; 
+    overflow:scroll; 
+    -webkit-overflow-scrolling: touch;
+}
+#frame-h-2, #frame-l-2, #frame-ro-2, #frame-ru-2 {
+    display:inline-block;    
+}
+</style>
+<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 
-    framesetheader('Test');
-    
-    if ($mobile ) {
-
-        ?>
-
-    <style type="text/css"> 
-    body {
-     background-color: #cccccc;
-     margin: 0;
-     overflow: hidden;
-    }
-    #frame-h, #frame-l, #frame-ro, #frame-ru {
-     position:absolute; 
-     overflow:scroll; 
-     -webkit-overflow-scrolling: touch;
-    }
-    #frame-h-2, #frame-l-2, #frame-ro-2, #frame-ru-2 {
-     display:inline-block;    
-    }
-    </style>
-    
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-    
-    <script type="text/javascript">
+<script type="text/javascript">
    //<![CDATA[
    function rsizeIframes() {
     var h_height = <?php echo getSettingWithDefault('set-test-h-frameheight'); ?> + 10;
@@ -87,58 +111,134 @@ if ($p != '') {
         css('top',ro_height).css('left',l_width);
     $('#frame-ru-2').width('100%').height('100%').
         css('top',0).css('left',0);
-}
-
-function init() {
-    rsizeIframes();
-    $(window).resize(rsizeIframes);
-}
-
-$(document).ready(init);
-//]]>
-</script> 
-
-<div id="frame-h">
-    <iframe id="frame-h-2" src="do_test_header.php?<?php echo $p; ?>" scrolling="yes" name="h"></iframe>
-</div>
-<div id="frame-ro">
-    <iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
-</div>
-<div id="frame-l">
-    <iframe  id="frame-l-2" src="empty.html" scrolling="yes" name="l"></iframe>
-</div>
-<div id="frame-ru">
-    <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
-</div>
-
-        <?php 
-
-    } else {
-    
-        ?>
-
-   <frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
-    <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
-        <frame src="do_test_header.php?<?php echo $p; ?>" scrolling="auto" name="h" />            
-        <frame src="empty.html" scrolling="auto" name="l" />
-    </frameset>    
-    <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-r-frameheight-percent')); ?>%,*">
-        <frame src="empty.html" scrolling="auto" name="ro" />
-        <frame src="empty.html" scrolling="auto" name="ru" />
-    </frameset>
-    <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
-</frameset>
-</html>
-        <?php
-
     }
 
+    function init() {
+        rsizeIframes();
+        $(window).resize(rsizeIframes);
+    }
+
+    $(document).ready(init);
+    //]]>
+</script> 
+<?php
 }
 
-else {
+/**
+ * Make the content of the mobile page.
+ * 
+ * @param string $property URL property
+ * 
+ * @return void
+ * 
+ * @since 2.0.5-fork
+ */
+function do_test_mobile_page_content($property) 
+{
+    ?>
+<body>
+    <div id="frame-h">
+        <iframe id="frame-h-2" src="do_test_header.php?<?php echo $property; ?>" scrolling="yes" name="h">
+        </iframe>
+    </div>
+    <div id="frame-ro">
+        <iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
+    </div>
+    <div id="frame-l">
+        <iframe  id="frame-l-2" src="empty.html" scrolling="yes" name="l"></iframe>
+    </div>
+    <div id="frame-ru">
+        <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
+    </div>
+</body>
+        <?php 
+}
 
-    header("Location: edit_texts.php");
-    exit();
+/**
+ * Make the mobile test page.
+ * 
+ * @param string $property URL property for HEADER
+ * 
+ * @return void
+ * 
+ * @since 2.0.5-fork
+ */
+function do_test_mobile_page($property) 
+{
+    do_test_mobile_css_and_js();
+    do_test_mobile_page_content($property);
+}
 
+/**
+ * Make the desktop test page
+ * 
+ * @param string $property URL property for HEADER
+ * 
+ * @return void
+ * 
+ * @since 2.0.5-fork
+ */
+function do_test_desktop_page($property) 
+{
+    ?>
+    <frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
+     <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
+         <frame src="do_test_header.php?<?php echo $property; ?>" scrolling="auto" name="h" />            
+         <frame src="empty.html" scrolling="auto" name="l" />
+     </frameset>    
+     <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-r-frameheight-percent')); ?>%,*">
+         <frame src="empty.html" scrolling="auto" name="ro" />
+         <frame src="empty.html" scrolling="auto" name="ru" />
+     </frameset>
+     <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
+ </frameset>
+         <?php
+}
+
+/**
+ * Start the test page.
+ * 
+ * @param string $p Some property to add to the URL of do_test_test.php.
+ * @param bool   $mobile Set to true to use mobile mode.
+ * 
+ * @return void
+ * 
+ * @since 2.0.5-fork 
+ */
+function do_test_page($p, $mobile)
+{
+    framesetheader('Test');
+    
+    if ($mobile) {
+        do_test_mobile_page($p);
+    } else {
+        do_test_desktop_page($p);
+    }
+
+    echo '</html>';
+}
+
+
+/**
+ * Main function to try to start a test page.
+ * 
+ * If unsifficiant arguments are provided to
+ * the page, the page will be redirected to
+ * edit_texts.php.
+ * 
+ * @since 2.0.5-fork
+ */
+function try_start_test($p)
+{
+    if ($p != '') {
+        do_test_page($p, is_mobile());
+    } else {
+        header("Location: edit_texts.php");
+        exit();
+    }
+}
+
+if (get_test_property() != '') {
+    try_start_test(get_test_property());
 }
 ?>

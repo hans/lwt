@@ -9,7 +9,7 @@
  * Call: do_test_test.php?type=[testtype]&selection=1  
  *          (SQL via $_SESSION['testsql'])
  * 
- * @author LWT Project <lwt-project@htomail.com>
+ * @author LWT Project <lwt-project@hotmail.com>
  * @since  1.0.3
  */
 
@@ -29,13 +29,16 @@ elseif (isset($_REQUEST['text'])) {
     $testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID = ' . $_REQUEST['text'] . ' ';
 }
 
-else { my_die("do_test_test.php called with wrong parameters"); 
+else { 
+    my_die("do_test_test.php called with wrong parameters"); 
 }
 
 $testtype = getreq('type') + 0;
-if ($testtype < 1) { $testtype=1; 
+if ($testtype < 1) { 
+    $testtype=1; 
 }
-if ($testtype > 5) { $testtype=5; 
+if ($testtype > 5) { 
+    $testtype=5; 
 }
 $nosent = 0;
 if ($testtype > 3) {
@@ -61,7 +64,8 @@ if ($cntlang > 1) {
 <?php
 
 $count = get_first_value('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0');
-if ($debug) { echo 'DEBUG - COUNT TO TEST: ' . $count . '<br />'; 
+if ($debug) { 
+    echo 'DEBUG - COUNT TO TEST: ' . $count . '<br />'; 
 }
 $notyettested = $count;
 
@@ -134,7 +138,8 @@ if ($count <= 0) {
             $sentexcl = '';
             while ( $pass < 3 ) {
                 $pass++;
-                if ($debug) { echo "DEBUG search sent: pass: $pass <br />"; 
+                if ($debug) { 
+                    echo "DEBUG search sent: pass: $pass <br />"; 
                 }
                 $sql = 'SELECT DISTINCT SeID FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 WHERE Ti2WoID = ' . $wid . $sentexcl . ' AND SeID = Ti2SeID AND SeLgID = ' . $lang . ' order by rand() limit 1';
                 // This may work (merge conflict)
@@ -145,16 +150,18 @@ if ($count <= 0) {
                     $num = 1;
                     $seid = $record['SeID'];
                     if (areUnknownWordsInSentence($seid)) {
-                        if ($debug) { echo "DEBUG sent: $seid has unknown words<br />"; 
+                        if ($debug) { 
+                            echo "DEBUG sent: $seid has unknown words<br />"; 
                         }
                         $sentexcl = ' AND SeID != ' . $seid . ' ';
                         $num = 0;
                         // not yet found, $num == 0 (unknown words in sent)
                     } else {
                         // echo ' OK ';
-                        $sent = getSentence($seid, $wordlc,    (int) getSettingWithDefault('set-test-sentence-count'));
+                        $sent = getSentence($seid, $wordlc, (int) getSettingWithDefault('set-test-sentence-count'));
                         $sent = $sent[1];
-                        if ($debug) { echo "DEBUG sent: $seid OK: $sent <br />"; 
+                        if ($debug) { 
+                            echo "DEBUG sent: $seid OK: $sent <br />"; 
                         }
                         $pass = 3;
                         // found, $num == 1
@@ -162,7 +169,8 @@ if ($count <= 0) {
                 } else {  // no random sent found
                     $num = 0;
                     $pass = 3;
-                    if ($debug) { echo "DEBUG no random sent found<br />"; 
+                    if ($debug) { 
+                        echo "DEBUG no random sent found<br />"; 
                     }
                     // no sent. take term sent. $num == 0
                 }
@@ -172,9 +180,11 @@ if ($count <= 0) {
     
         if ($num == 0 ) {
             // take term sent. if valid
-            if ($notvalid) { $sent = '{' . $word . '}'; 
+            if ($notvalid) { 
+                $sent = '{' . $word . '}'; 
             }
-            if ($debug) { echo "DEBUG not found, use sent = $sent<br />"; 
+            if ($debug) { 
+                echo "DEBUG not found, use sent = $sent<br />"; 
             }
         }
         
@@ -190,7 +200,8 @@ if ($count <= 0) {
             $c = mb_substr($sent, $i, 1, 'UTF-8');
             if ($c == '}') {
                 $r .= ' <span style="word-break:normal;" class="click todo todosty word wsty word' . $wid . '" data_wid="' . $wid . '" data_trans="' . tohtml($trans) . '" data_text="' . tohtml($word) . '" data_rom="' . tohtml($roman) . '" data_sent="' . tohtml($cleansent) . '" data_status="' . $status . '" data_todo="1"';
-                if ($testtype ==3) { $r .= ' title="' . tohtml($trans) . '"'; 
+                if ($testtype ==3) { 
+                    $r .= ' title="' . tohtml($trans) . '"'; 
                 } 
                 $r .= '>';
                 if ($testtype == 2) {
@@ -222,7 +233,8 @@ if ($count <= 0) {
                 $save = '';
             }
             else {
-                if ($on ) { $save .= $c; 
+                if ($on) { 
+                    $save .= $c; 
                 }
                 else { $r .= tohtml($c); 
                 }
