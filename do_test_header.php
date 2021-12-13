@@ -9,8 +9,10 @@
  * Call: do_test_header.php?selection=1  
  *      (SQL via $_SESSION['testsql'])
  * 
- * @author https://sourceforge.net/projects/lwt/ LWT Project
- * @since  1.0.3
+ * @package lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @link    https://hugofara.github.io/lwt/docs/html/do__test__header_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';
@@ -18,8 +20,8 @@ require_once 'inc/session_utility.php';
 /**
  * Set useful data for the test using SQL query.
  * 
- * @param string &$title Title to be overwritten
- * @param string &$p Property URL to be overwritten
+ * @param string $title Title to be overwritten
+ * @param string $p     Property URL to be overwritten
  * 
  * @return string SQL query to use
  * 
@@ -52,8 +54,8 @@ function get_sql_test_data(&$title, &$p)
 /**
  * Set useful data for the test using language.
  * 
- * @param string &$title Title to be overwritten
- * @param string &$p Property URL to be overwritten
+ * @param string $title Title to be overwritten
+ * @param string $p     Property URL to be overwritten
  * 
  * @return string SQL query to use
  * 
@@ -76,8 +78,8 @@ function get_lang_test_data(&$title, &$p)
 /**
  * Set useful data for the test using text.
  * 
- * @param string &$title Title to be overwritten
- * @param string &$p Property URL to be overwritten
+ * @param string $title Title to be overwritten
+ * @param string $p     Property URL to be overwritten
  * 
  * @return string SQL query to use
  * 
@@ -134,38 +136,78 @@ function get_test_counts($testsql)
 function do_test_header_row($p)
 {
     ?>
-<h4>
-    <a href="edit_texts.php" target="_top">
+<a href="edit_texts.php" target="_top">
     <?php echo_lwt_logo(); ?>
-    LWT</a>&nbsp; | &nbsp;
+    <h1 style="display: inline;">LWT</h1>
+</a>&nbsp; | &nbsp;
     <?php 
     quickMenu();
     // This part only works if $textid is set
-    if (substr($p, 0, 4) == 'text') {
-        $textid = getreq('text');
-        echo getPreviousAndNextTextLinks($textid, 'do_test.php?text=', false, '&nbsp; | &nbsp;');
-        ?>
-    &nbsp; | &nbsp;<a href="do_text.php?start=<?php echo $textid; ?>" target="_top">
-        <img src="icn/book-open-bookmark.png" title="Read" alt="Read" />
-    </a> &nbsp;
-    <a href="print_text.php?text=<?php echo $textid; ?>" target="_top">
-        <img src="icn/printer.png" title="Print" alt="Print" />
-    </a>
-        <?php
-        echo get_annotation_link($textid);
-    } 
+    if (substr($p, 0, 4) != 'text') {
+        return;
+    }
+    $textid = getreq('text');
+    echo getPreviousAndNextTextLinks(
+        $textid, 'do_test.php?text=', false, '&nbsp; | &nbsp;'
+    );
     ?>
-</h4>
+&nbsp; | &nbsp;
+<a href="do_text.php?start=<?php echo $textid; ?>" target="_top">
+    <img src="icn/book-open-bookmark.png" title="Read" alt="Read" />
+</a> &nbsp;
+<a href="print_text.php?text=<?php echo $textid; ?>" target="_top">
+    <img src="icn/printer.png" title="Print" alt="Print" />
+</a>
+    <?php
+    echo get_annotation_link($textid);
+}
+
+/**
+ * Prepare JavaScript content for the header.
+ * 
+ * @since 2.0.5-fork
+ * 
+ * @return void
+ */
+function do_test_header_js()
+{
+    ?>
+<script type="text/javascript">
+    /**
+     * Reset frames location
+     */
+    function resetFrames() {
+        parent.frames['ro'].location.href = 'empty.html';
+        parent.frames['ru'].location.href = 'empty.html'; 
+    }
+
+    /** 
+     * Prepare frames for testing words 
+     */
+    function startWordTest(type, property) {
+        resetFrames();
+        parent.frames['l'].location.href = 
+        'do_test_test.php?type=' + type + '&' + property;
+    }
+
+    /** 
+     * Prepare frames for test table. 
+     */
+    function startTestTable(property) {
+        resetFrames();
+        parent.frames['l'].location.href='do_test_table.php?' + property;
+    }
+    </script>
     <?php
 }
 
 /**
  * Make the header content for tests.
  * 
- * @param string $title Page title
- * @param string $p URL property to use
+ * @param string $title         Page title
+ * @param string $p             URL property to use
  * @param string $totalcountdue Number of words due for today
- * @param string $totalcount Total number of words.
+ * @param string $totalcount    Total number of words.
  * 
  * @return void
  * 
@@ -174,38 +216,26 @@ function do_test_header_row($p)
 function do_test_header_content($title, $p, $totalcountdue, $totalcount)
 {
     ?>
-<table>
-    <tr>
-        <td>
-            <h3>TEST&nbsp;▶</h3>
-        </td>
-        <td class="width99pc">
-            <h3>
-                <?php echo tohtml($title) . ' (Due: ' . $totalcountdue . ' of ' . $totalcount . ')'; ?>
-            </h3>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <p style="margin-bottom:0;">
-                <input type="button" value="..[L2].." onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html'; parent.frames['l'].location.href='do_test_test.php?type=1&amp;<?php echo $p; ?>';}" />
-                <input type="button" value="..[L1].." onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html';  parent.frames['l'].location.href='do_test_test.php?type=2&amp;<?php echo $p; ?>';}" />
-                <input type="button" value="..[••].." onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html';   parent.frames['l'].location.href='do_test_test.php?type=3&amp;<?php echo $p; ?>';}" /> &nbsp; | &nbsp; 
-                <input type="button" value="[L2]" onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html'; parent.frames['l'].location.href='do_test_test.php?type=4&amp;<?php echo $p; ?>';}" />
-                <input type="button" value="[L1]" onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html';   parent.frames['l'].location.href='do_test_test.php?type=5&amp;<?php echo $p; ?>';}" /> &nbsp; | &nbsp; 
-                <input type="button" value="Table" onclick="{parent.frames['ro'].location.href='empty.html'; parent.frames['ru'].location.href='empty.html'; parent.frames['l'].location.href='do_test_table.php?<?php echo $p; ?>';}" />
-            </p>
-        </td>
-    </tr>
-</table>
+<h2>TEST&nbsp;▶
+    <?php echo tohtml($title) 
+    . ' (Due: ' . $totalcountdue . ' of ' . $totalcount . ')'; ?>
+</h2>
+<div>
+    <input type="button" value="..[L2].." onclick="startWordTest(1, '<?php echo $p; ?>')" />
+    <input type="button" value="..[L1].." onclick="startWordTest(2, '<?php echo $p; ?>')" />
+    <input type="button" value="..[••].." onclick="startWordTest(3, '<?php echo $p; ?>')" /> &nbsp; | &nbsp; 
+    <input type="button" value="[L2]" onclick="startWordTest(4, '<?php echo $p; ?>')" />
+    <input type="button" value="[L1]" onclick="startWordTest(5, '<?php echo $p; ?>')" /> &nbsp; | &nbsp; 
+    <input type="button" value="Table" onclick="startTestTable('<?php echo $p; ?>')" />
+</div>
     <?php
 }
 
 /**
  * Set useful data for the test.
  * 
- * @param string &$title Title to be overwritten
- * @param string &$p Property URL to be overwritten
+ * @param string $title Title to be overwritten
+ * @param string $p     Property URL to be overwritten
  * 
  * @return string[2] Total words due and total words learning
  * 
@@ -233,10 +263,10 @@ function get_test_data(&$title, &$p)
 /**
  * Do the header for test page.
  * 
- * @param string $title Page title
- * @param string $p URL property to use
+ * @param string $title         Page title
+ * @param string $p             URL property to use
  * @param string $totalcountdue Number of words due for today
- * @param string $totalcount Total number of words.
+ * @param string $totalcount    Total number of words.
  * 
  * @return void
  * 
@@ -245,7 +275,8 @@ function get_test_data(&$title, &$p)
 function do_test_header_page($title, $p, $totalcountdue, $totalcount)
 {
 
-    pagestart_nobody(tohtml($title), $addcss = 'html, body {margin-bottom:0;}');
+    pagestart_nobody(tohtml($title), 'html, body {margin-bottom:0;}');
+    do_test_header_js();
 
     $_SESSION['teststart'] = time() + 2;
     $_SESSION['testcorrect'] = 0;
@@ -259,15 +290,27 @@ function do_test_header_page($title, $p, $totalcountdue, $totalcount)
     pageend();
 }
 
-if (
-    (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) || 
-    (isset($_REQUEST['lang'])) || 
-    (isset($_REQUEST['text']))
-    ) {
+
+/**
+ * Use requests passed to the page to start it.
+ * 
+ * @return void
+ * 
+ * @since 2.0.5-fork
+ */
+function start_test_header_page()
+{
     $counts = get_test_data($title, $p);
     $totalcountdue = $counts[0];
     $totalcount = $counts[1];
     do_test_header_page($title, $p, $totalcountdue, $totalcount);
+}
+
+if ((isset($_REQUEST['selection']) && isset($_SESSION['testsql']))  
+    || (isset($_REQUEST['lang']))  
+    || (isset($_REQUEST['text']))
+) {
+    start_test_header_page();
 } 
 
 ?>
