@@ -61,7 +61,8 @@ function get_test_sql()
  * 
  * @since 2.0.5-fork
  */
-function get_test_type() {
+function get_test_type()
+{
     $testtype = getreq('type') + 0;
     if ($testtype < 1) { 
         $testtype = 1; 
@@ -79,7 +80,8 @@ function get_test_type() {
  * 
  * @since 2.0.5-fork
  */
-function do_test_test_css() {
+function do_test_test_css()
+{
     ?>
 <style type="text/css">
 html, body {
@@ -112,7 +114,8 @@ body {
  * 
  * @since 2.0.5-fork
  */
-function do_test_test_finished($testsql, $totaltests) {
+function do_test_test_finished($testsql, $totaltests)
+{
     $count2 = get_first_value(
         'SELECT count(distinct WoID) AS value 
         FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 
@@ -144,7 +147,8 @@ function do_test_test_finished($testsql, $totaltests) {
  * 
  * @since 2.0.5-fork
  */
-function do_test_test_sentence($wid, $lang, $wordlc) {
+function do_test_test_sentence($wid, $lang, $wordlc)
+{
     global $debug, $tbpref;
     $pass = 0;
     $sentexcl = '';
@@ -206,7 +210,8 @@ function do_test_test_sentence($wid, $lang, $wordlc) {
  * 
  * @since 2.0.5-fork
  */
-function print_term_test($wo_record, $sent, $testtype, $nosent, $regexword) {
+function print_term_test($wo_record, $sent, $testtype, $nosent, $regexword)
+{
     $wid = $wo_record['WoID'];
     $word = $wo_record['WoText'];
     $trans = repl_tab_nl($wo_record['WoTranslation']) . getWordTagList($wid, ' ', 1, 0);
@@ -288,7 +293,8 @@ function print_term_test($wo_record, $sent, $testtype, $nosent, $regexword) {
  * 
  * @since 2.0.5-fork
  */
-function prepare_test_area($testsql, $totaltests, $count, $testtype) {
+function prepare_test_area($testsql, $totaltests, $count, $testtype)
+{
     global $tbpref, $debug;
     $nosent = 0;
     if ($testtype > 3) {
@@ -410,7 +416,8 @@ function prepare_test_area($testsql, $totaltests, $count, $testtype) {
  * 
  * @since 2.0.5-fork
  */
-function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $testtype, $nosent, $save) {
+function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $testtype, $nosent, $save)
+{
     $wid = $wo_record['WoID'];
     $trans = repl_tab_nl($wo_record['WoTranslation']) . getWordTagList($wid, ' ', 1, 0);
     ?>
@@ -450,7 +457,8 @@ function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $test
  * 
  * @since 2.0.5-fork
  */
-function prepare_test_footer($notyettested) {
+function prepare_test_footer($notyettested)
+{
     $wrong = $_SESSION['testwrong'];
     $correct = $_SESSION['testcorrect'];
     do_test_footer($notyettested, $wrong, $correct);
@@ -460,14 +468,15 @@ function prepare_test_footer($notyettested) {
  * Echoes HTML code for the footer of a words test page.
  * 
  * @param int $notyettested Number of words left to be tested
- * @param int $wrong Number of failed tests
- * @param int $correct Number of correct answers.
+ * @param int $wrong        Number of failed tests
+ * @param int $correct      Number of correct answers.
  * 
  * @return void
  * 
  * @since 2.0.5-fork
  */
-function do_test_footer($notyettested, $wrong, $correct) {
+function do_test_footer($notyettested, $wrong, $correct)
+{
     $totaltests = $wrong + $correct + $notyettested;
     $totaltestsdiv = 1;
     if ($totaltests > 0) { 
@@ -515,7 +524,8 @@ function do_test_footer($notyettested, $wrong, $correct) {
  * 
  * @since 2.0.5-fork
  */
-function do_test_test_javascript($count) {
+function do_test_test_javascript($count)
+{
     ?>
 <script type="text/javascript">
     //<![CDATA[
@@ -547,7 +557,8 @@ $(document).ready( function() {
  * 
  * @since 2.0.5-fork
  */
-function do_test_test_content() {
+function do_test_test_content()
+{
     global $debug;
     pagestart_nobody('');
     do_test_test_css();

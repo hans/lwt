@@ -15,14 +15,17 @@ use MatthiasMullie\Minify;
 /**
  * Minify a JavaScript file and outputs the result to js/
  * 
- * @param string $path       Path of the file, with extension.
- * @param string $outputPath Path of the ouput file, with extension
+ * @param string $path       Input file path with extension.
+ * @param string $outputPath Output file path with extension
  * 
- * @return string Minified content 
+ * @return string Minified content
+ * 
+ * @since 2.0.3-fork
  */
 function minifyJS($path, $outputPath) 
 {
-    $minifier = new Minify\JS($path);
+    $minifier = new Minify\JS();
+    $minifier->add($path);
 
     // we can even add another file, they'll then be
     // joined in 1 output file
@@ -39,14 +42,17 @@ function minifyJS($path, $outputPath)
 /**
  * Minify a JavaScript file and outputs the result to css/
  * 
- * @param string $path       Path of the file, with extension.
- * @param string $outputPath Path of the ouput file, with extension
+ * @param string $path       Input file path with extension.
+ * @param string $outputPath Output file path with extension
  * 
- * @return string Minified content 
+ * @return string Minified content
+ * 
+ * @since 2.0.3-fork
  */
 function minifyCSS($path, $outputPath) 
 {
-    $minifier = new Minify\JS($path);
+    $minifier = new Minify\CSS();
+    $minifier->add($path);
 
     // we can even add another file, they'll then be
     // joined in 1 output file
@@ -66,6 +72,8 @@ function minifyCSS($path, $outputPath)
  * @global array<string> $jsFiles All the file to be minified
  * 
  * @return void
+ * 
+ * @since 2.0.3-fork
  */
 function minifyAllJS() 
 {
@@ -84,6 +92,8 @@ function minifyAllJS()
  * @global array<string> $cssFiles All the file to be minified
  * 
  * @return void
+ * 
+ * @since 2.0.3-fork
  */
 function minifyAllCSS() 
 {
