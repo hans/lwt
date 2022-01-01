@@ -20,8 +20,8 @@ require_once 'inc/session_utility.php';
 /**
  * Set useful data for the test using SQL query.
  * 
- * @param string $title Title to be overwritten
- * @param string $p     Property URL to be overwritten
+ * @param string &$title Title to be overwritten
+ * @param string &$p     Property URL to be overwritten
  * 
  * @return string SQL query to use
  * 
@@ -243,7 +243,6 @@ function do_test_header_content($title, $p, $totalcountdue, $totalcount)
  */
 function get_test_data(&$title, &$p)
 {
-
     if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) { 
         $testsql = get_sql_test_data($title, $p);
     } else if (isset($_REQUEST['lang'])) {
@@ -306,9 +305,9 @@ function start_test_header_page()
     do_test_header_page($title, $p, $totalcountdue, $totalcount);
 }
 
-if ((isset($_REQUEST['selection']) && isset($_SESSION['testsql']))  
-    || (isset($_REQUEST['lang']))  
-    || (isset($_REQUEST['text']))
+if ((isset($_REQUEST['selection']) && isset($_SESSION['testsql']))
+    || isset($_REQUEST['lang'])  
+    || isset($_REQUEST['text'])
 ) {
     start_test_header_page();
 } 
