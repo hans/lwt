@@ -4,7 +4,8 @@ require_once 'inc/session_utility.php';
 
 if($_REQUEST['step']==4) {
     pagestart('Feed Wizard', false);
-    if(isset($_REQUEST['filter_tags'])) { $_SESSION['wizard']['filter_tags']=$_REQUEST['filter_tags']; 
+    if(isset($_REQUEST['filter_tags'])) { 
+        $_SESSION['wizard']['filter_tags']=$_REQUEST['filter_tags']; 
     }
     ?><form class="validate" action="edit_feeds.php" method="post">
 <table class="tab1" cellspacing="0" cellpadding="5">
@@ -20,7 +21,6 @@ if($_REQUEST['step']==4) {
         echo '>' . $row_l['LgName'] . '</option>';
     }
     mysqli_free_result($result);
-    $auto_upd_v;
     $auto_upd_i=get_nf_option($_SESSION['wizard']['options'], 'autoupdate');
     if($auto_upd_i==null) {
         $auto_upd_v=null; 

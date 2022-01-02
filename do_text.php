@@ -148,14 +148,14 @@ if (isset($_REQUEST['start'])) {
     <div class="resizable" style="width: 65%;">
         <div id="frame-h">
             <?php
-            include 'do_text_header.php';
+            require_once 'do_text_header.php';
             do_text_header_content($_REQUEST['start'], true);
             ?>
         </div>
         <hr />
         <div id="frame-l">
             <?php
-            include 'do_text_text.php';
+            require_once 'do_text_text.php';
             do_text_text_content($_REQUEST['start'], true);
             ?>
         </div>

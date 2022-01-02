@@ -20,7 +20,7 @@ require_once 'inc/session_utility.php';
  * @param string $textid  ID of the text
  * @param string $textpos Position of the word in the text.
  * 
- * @return string A word
+ * @return string|null A word
  * 
  * @global string $tbpref 
  */
@@ -43,7 +43,7 @@ function get_word($textid, $textpos)
  * @param string $textif ID of the text
  * @param string $word   Word to add
  * 
- * @return string Word ID 
+ * @return string|null Word ID 
  * 
  * @global string $tbpref 
  */

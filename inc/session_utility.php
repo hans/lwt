@@ -7,18 +7,23 @@
  * By requiring this file, you start a session, connect to the 
  * database and declare a lot of useful functions.
  * 
- * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
+ * @package Lwt
+ * @author  HugoFara <hugo.farajallah@protonmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/session__utility_8php.html
+ * @since   2.0.3-fork
  */
 
-require 'kernel_utility.php';
-require_once "db_accessors.php";
+require_once 'database_connect.php';
 
 
 /**
  * Return the list of all tags.
  * 
  * @param  int $refresh If true, refresh all tags for session
+ * 
  * @global string $tbpref Table name prefix
+ * 
  * @return string[] All tags
  */
 function get_tags($refresh = 0) 
@@ -48,7 +53,9 @@ function get_tags($refresh = 0)
  * Return the list of all text tags.
  * 
  * @param  int $refresh If true, refresh all text tags for session
+ * 
  * @global string $tbpref Table name prefix
+ * 
  * @return string[] All text tags
  */
 function get_texttags($refresh = 0) 
@@ -1121,22 +1128,6 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
 }
 
 
-// -------------------------------------------------------------
-
-function stripTheSlashesIfNeeded($s) 
-{
-    if (function_exists("get_magic_quotes_gpc")) {
-        if (get_magic_quotes_gpc()) {
-            return stripslashes($s); 
-        }
-        else { 
-            return $s; 
-        }
-    } else {
-        return $s;
-    }
-}
-
 /**
  * Return navigation arrows to previous and next texts.
  * 
@@ -1293,35 +1284,10 @@ function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add)
 }
 
 
-// -------------------------------------------------------------
-
-function url_base() 
-{
-    $url = parse_url("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-    $r = $url["scheme"] . "://" . $url["host"];
-    if (isset($url["port"])) { 
-        $r .= ":" . $url["port"]; 
-    }
-    if(isset($url["path"])) {
-        $b = basename($url["path"]);
-        if (substr($b, -4) == ".php" || substr($b, -4) == ".htm" || substr($b, -5) == ".html") { 
-            $r .= dirname($url["path"]); 
-        }
-        else {
-            $r .= $url["path"]; 
-        }
-    }
-    if (substr($r, -1) !== "/") { 
-        $r .= "/"; 
-    }
-    return $r;
-}
-
-
 /**
  * Return an HTML formatted logo of the application.
  * 
- * @global string $tbref Table name prefix (optional)
+ * @global string $tbpref Table name prefix (optional)
  */
 function echo_lwt_logo() 
 {
@@ -1334,18 +1300,6 @@ function echo_lwt_logo()
     print_file_path('img/lwt_icon.png'); 
     echo '" title="LWT - Current Table Set: ' . tohtml($pref) . 
     '" alt="LWT - Current Table Set: ' . tohtml($pref) . '" />';
-}
-
-// -------------------------------------------------------------
-
-function get_execution_time()
-{
-    static $microtime_start = null;
-    if($microtime_start === null) {
-        $microtime_start = microtime(true);
-        return 0.0;
-    }
-    return microtime(true) - $microtime_start;
 }
 
 // -------------------------------------------------------------
@@ -1475,35 +1429,6 @@ function errorbutton($msg)
     }
 } 
 
-// -------------------------------------------------------------
-
-function optimizedb() 
-{
-    global $tbpref;
-    adjust_autoincr('archivedtexts', 'AtID');
-    adjust_autoincr('languages', 'LgID');
-    adjust_autoincr('sentences', 'SeID');
-    adjust_autoincr('texts', 'TxID');
-    adjust_autoincr('words', 'WoID');
-    adjust_autoincr('tags', 'TgID');
-    adjust_autoincr('tags2', 'T2ID');
-    adjust_autoincr('newsfeeds', 'NfID');
-    adjust_autoincr('feedlinks', 'FlID');
-    $sql = 
-    'SHOW TABLE STATUS 
-    WHERE Engine IN ("MyISAM","Aria") AND ((Data_free / Data_length > 0.1 AND Data_free > 102400) OR Data_free > 1048576) AND Name';
-    if(empty($tbpref)) { 
-        $sql.= " NOT LIKE '\_%'"; 
-    }
-    else { 
-        $sql.= " LIKE " . convert_string_to_sqlsyntax(rtrim($tbpref, '_')) . "'\_%'"; 
-    }
-    $res = do_mysqli_query($sql);
-    while($row = mysqli_fetch_assoc($res)) {
-        runsql('OPTIMIZE TABLE ' . $row['Name'], '');
-    }
-    mysqli_free_result($res);
-}
 
 // -------------------------------------------------------------
 
@@ -1521,17 +1446,6 @@ function limitlength($s, $l)
     return mb_substr($s, 0, $l, 'UTF-8');
 }
 
-// -------------------------------------------------------------
-
-function adjust_autoincr($table,$key) 
-{
-    global $tbpref;
-    $val = get_first_value('select max(' . $key .')+1 as value from ' . $tbpref .  $table);
-    if (! isset($val)) { $val = 1; 
-    }
-    $sql = 'alter table ' . $tbpref . $table . ' AUTO_INCREMENT = ' . $val;
-    $res = do_mysqli_query($sql);
-}
 
 // -------------------------------------------------------------
 
@@ -1573,24 +1487,7 @@ function encodeURI($url)
     );
     return strtr(rawurlencode($url), array_merge($reserved, $unescaped, $score));
 }
- 
-// -------------------------------------------------------------
 
-function showRequest() 
-{
-    $olderr = error_reporting(0);
-    echo "<pre>** DEBUGGING **********************************\n";
-    echo '$GLOBALS...'; print_r($GLOBALS);
-    echo 'get_version_number()...'; echo get_version_number() . "\n";
-    echo 'get_magic_quotes_gpc()...'; 
-    if (function_exists("get_magic_quotes_gpc")) {
-        echo (get_magic_quotes_gpc() ? "TRUE" : "FALSE") . "\n";
-    } else {
-        echo "NOT EXISTS (FALSE)\n";
-    }
-    echo "********************************** DEBUGGING **</pre>";
-    error_reporting($olderr);
-}
 
 // -------------------------------------------------------------
 
@@ -1629,76 +1526,6 @@ function get_first_sepa()
     return $sepa;
 }
 
-/** 
- * Convert a setting to 0 or 1
- *
- * @param  string $key The input value
- * @param  string $dft Default value to use
- * @return int 0 or 1
- */
-function getSettingZeroOrOne($key, $dft) 
-{
-    $r = getSetting($key);
-    $r = ($r == '' ? $dft : ((((int) $r) !== 0) ? 1 : 0));
-    return $r;
-}
-
-/**
- * Get a setting from the database. It can also check for its validity.
- * 
- * @param  string $key Setting key. If $key is 'currentlanguage' or 
- *                     'currenttext', we validate language/text.
- * @return string $val Value in the database if found, or an empty string
- * @global string $tbpref Table name prefix
- */
-function getSetting($key) 
-{
-    global $tbpref;
-    $val = get_first_value(
-        'SELECT StValue AS value 
-        FROM ' . $tbpref . 'settings 
-        WHERE StKey = ' . convert_string_to_sqlsyntax($key)
-    );
-    if (isset($val)) {
-        $val = trim($val);
-        if ($key == 'currentlanguage' ) { 
-            $val = validateLang($val); 
-        }
-        if ($key == 'currenttext' ) { 
-            $val = validateText($val); 
-        }
-        return $val;
-    }
-    else { 
-        return ''; 
-    }
-}
-
-/**
- * Get the settings value for a specific key. Return a default value when possible
- * 
- * @param  string $key Settings key
- * @return string Requested setting, or default value, or ''
- * @global string $tbpref Table name prefix
- */
-function getSettingWithDefault($key) 
-{
-    global $tbpref;
-    $dft = get_setting_data();
-    $val = get_first_value(
-        'SELECT StValue AS value
-         FROM ' . $tbpref . 'settings
-         WHERE StKey = ' . convert_string_to_sqlsyntax($key)
-    );
-    if (isset($val) && $val != '') {
-        return trim($val); 
-    }
-    if (array_key_exists($key, $dft)) { 
-        return $dft[$key]['dft']; 
-    }
-    return '';
-    
-}
 
 // -------------------------------------------------------------
 
@@ -1793,49 +1620,6 @@ function get_themes_selectoptions($v)
     return $r;
 }
 
-/**
- * Save the setting identified by a key with a specific value.
- * 
- * @param string $k Setting key
- * @param mixed  $v Setting value, will get converted to string
- * 
- * @global string $tbpref Table name prefix
- * 
- * @return string Error or success message
- */
-function saveSetting($k, $v) 
-{
-    global $tbpref;
-    $dft = get_setting_data();
-    if (!isset($v)) {
-        return ''; 
-    }
-    $v = stripTheSlashesIfNeeded($v);
-    if ($v === '') {
-        return '';
-    }
-    runsql(
-        'DELETE FROM ' . $tbpref . 'settings 
-        WHERE StKey = ' . convert_string_to_sqlsyntax($k), 
-        ''
-    );
-    if (array_key_exists($k, $dft) && $dft[$k]['num']) {
-        $v = (int)$v;
-        if ($v < $dft[$k]['min']) { 
-            $v = $dft[$k]['dft']; 
-        }
-        if ($v > $dft[$k]['max']) { 
-            $v = $dft[$k]['dft']; 
-        }
-    }
-    $dum = runsql(
-        'INSERT INTO ' . $tbpref . 'settings (StKey, StValue) values(' .
-        convert_string_to_sqlsyntax($k) . ', ' . 
-        convert_string_to_sqlsyntax($v) . ')', 
-        ''
-    );
-    return $dum;
-}
 
 // -------------------------------------------------------------
 
@@ -1882,97 +1666,6 @@ function processDBParam($reqkey,$dbkey,$default,$isnum)
     return $result;
 }
 
-// -------------------------------------------------------------
-
-function validateLang($currentlang) 
-{
-    global $tbpref;
-    $sql = 
-    'SELECT count(LgID) AS value 
-    FROM ' . $tbpref . 'languages 
-    WHERE LgID=' . ((int)$currentlang);
-    if ($currentlang != '') {
-        if (get_first_value($sql) == 0
-        ) {  
-            $currentlang = ''; 
-        } 
-    }
-    return $currentlang;
-}
-
-// -------------------------------------------------------------
-
-function validateText($currenttext) 
-{
-    global $tbpref;
-    if ($currenttext != '') {
-        if (get_first_value(
-            'select count(TxID) as value from ' . $tbpref . 'texts where TxID=' . 
-            ((int)$currenttext) 
-        ) == 0
-        ) {  
-            $currenttext = ''; 
-        } 
-    }
-    return $currenttext;
-}
-
-// -------------------------------------------------------------
-
-function validateTag($currenttag,$currentlang) 
-{
-    global $tbpref;
-    if ($currenttag != '' && $currenttag != -1) {
-        if ($currentlang == '') {
-            $sql = "select (" . $currenttag . " in (select TgID from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText)) as value"; 
-        }
-        else {
-            $sql = "select (" . $currenttag . " in (select TgID from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $currentlang . " group by TgID order by TgText)) as value"; 
-        }
-        $r = get_first_value($sql);
-        if ($r == 0 ) { $currenttag = ''; 
-        } 
-    }
-    return $currenttag;
-}
-
-// -------------------------------------------------------------
-
-function validateArchTextTag($currenttag,$currentlang) 
-{
-    global $tbpref;
-    if ($currenttag != '' && $currenttag != -1) {
-        if ($currentlang == '') {
-            $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID group by T2ID order by T2Text)) as value"; 
-        }
-        else {
-            $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $currentlang . " group by T2ID order by T2Text)) as value"; 
-        }
-        $r = get_first_value($sql);
-        if ($r == 0 ) { $currenttag = ''; 
-        } 
-    }
-    return $currenttag;
-}
-
-// -------------------------------------------------------------
-
-function validateTextTag($currenttag,$currentlang) 
-{
-    global $tbpref;
-    if ($currenttag != '' && $currenttag != -1) {
-        if ($currentlang == '') {
-            $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by T2Text)) as value"; 
-        }
-        else {
-            $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $currentlang . " group by T2ID order by T2Text)) as value"; 
-        }
-        $r = get_first_value($sql);
-        if ($r == 0 ) { $currenttag = ''; 
-        } 
-    }
-    return $currenttag;
-}
 
 // -------------------------------------------------------------
 
@@ -2487,23 +2180,6 @@ function get_texts_selectoptions($lang, $v)
     return $r;
 }
 
-// -------------------------------------------------------------
-
-function print_file_path($filename)
-{
-    echo get_file_path($filename);
-}
-// -------------------------------------------------------------
-
-function get_file_path($filename)
-{
-    $file=getSettingWithDefault('set-theme-dir').preg_replace('/.*\//', '', $filename);
-    if(file_exists($file)) { return $file; 
-    }
-    else{
-        return $filename;
-    }
-}
 
 // -------------------------------------------------------------
 
@@ -2586,9 +2262,9 @@ function checkStatusRange($currstatus, $statusrange)
 /**
  * Adds HTML attributes to create a filter over words learning status.
  *
- * @param  int $status Word learning status ([1-5]|98|99|599) 
- *                     - 599 is a special status combining 5 and 99 statuses
- *                     - '' return an empty string 
+ * @param 1|2|3|4|5]|98|99|599 $status Word learning status () 
+ *                      - 599 is a special status combining 5 and 99 statuses
+ *                      - '' return an empty string 
  * @return string CSS class filter to exclude $status
  */
 function makeStatusClassFilter($status) 
@@ -2623,7 +2299,7 @@ function makeStatusClassFilter($status)
  * Replace $status in $array by -1
  * 
  * @param int   $status A value in $array
- * @param Any[] $array  Any array of values
+ * @param int[] $array  Any array of values
  */
 function makeStatusClassFilterHelper($status, &$array) 
 {
@@ -3183,33 +2859,47 @@ function texttodocount($text)
     (get_first_value('SELECT count(DISTINCT LOWER(Ti2Text)) as value FROM ' . $tbpref . 'textitems2 WHERE Ti2WordCount=1 and Ti2WoID=0 and Ti2TxID=' . $text)) . '&nbsp;</span>';
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Print the number of words left to do in this text.
+ * 
+ * @param int $text Text ID
+ * 
+ * @return string HTML result
+ * 
+ * @global string $tbpref Table prefix
+ */
 function texttodocount2($text) 
 {
     global $tbpref;
-    $c = get_first_value('SELECT count(DISTINCT LOWER(Ti2Text)) as value FROM ' . $tbpref . 'textitems2 WHERE Ti2WordCount=1 and Ti2WoID=0 and Ti2TxID=' . $text);
-    if ($c > 0 ) { 
-        $show_buttons=getSettingWithDefault('set-words-to-do-buttons');
-        $dict = get_first_value('select LgGoogleTranslateURI as value from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $text);
-        $tl=preg_replace('/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/', '$1', $dict);
-        $sl=preg_replace('/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/', '$1', $dict);
-        $res = '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>&nbsp;';
-        if(1==1) { 
-            $res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=10&offset=0&sl=fr&tl=en\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;'; 
-        }
-        // if(1==1)$res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=' . $text . '&offset=0&sl=' . $sl . '&tl=' . $tl . '\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;';
-        if($show_buttons!=2) { 
-            $res .='<input type="button" onclick="iknowall(' . $text . ');" value=" I KNOW ALL " />'; 
-        }
-        if($show_buttons!=1) { 
-            $res.='<input type="button" onclick="ignoreall(' . $text . ');" value=" IGNORE ALL " />'; 
-        }
-        return $res    ;
-    }
-    else {
+    $c = get_first_value(
+        'SELECT count(DISTINCT LOWER(Ti2Text)) AS value 
+        FROM ' . $tbpref . 'textitems2 
+        WHERE Ti2WordCount=1 AND Ti2WoID=0 AND Ti2TxID=' . $text);
+    if ($c <= 0) {
         return '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>'; 
     }
+    $show_buttons = getSettingWithDefault('set-words-to-do-buttons');
+    /*
+    $dict = get_first_value(
+        'SELECT LgGoogleTranslateURI AS value 
+        FROM ' . $tbpref . 'languages, ' . $tbpref . 'texts 
+        WHERE LgID = TxLgID and TxID = ' . $text
+    );
+    $tl = preg_replace('/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/', '$1', $dict);
+    $sl = preg_replace('/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/', '$1', $dict);
+    */
+    $res = '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>&nbsp;';
+    if(1==1) { 
+        $res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=10&offset=0&sl=fr&tl=en\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;'; 
+    }
+    // if(1==1)$res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=' . $text . '&offset=0&sl=' . $sl . '&tl=' . $tl . '\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;';
+    if ($show_buttons!=2) { 
+        $res .='<input type="button" onclick="iknowall(' . $text . ');" value=" I KNOW ALL " />'; 
+    }
+    if ($show_buttons!=1) { 
+        $res.='<input type="button" onclick="ignoreall(' . $text . ');" value=" IGNORE ALL " />'; 
+    }
+    return $res;
 }
 
 // -------------------------------------------------------------
@@ -3322,8 +3012,9 @@ function getSentence($seid, $wordlc,$mode)
  * Returns path to the MeCab application.
  * MeCab can split Japanese text word by word
  *
- * @param  String $mecab_args Arguments to add
- * @return String OS-compatible command
+ * @param  string $mecab_args Arguments to add
+ * 
+ * @return string|null OS-compatible command
  */
 function get_mecab_path($mecab_args = '') 
 {
@@ -3443,40 +3134,6 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode)
     return $r;
 }
 
-// -------------------------------------------------------------
-
-function getsqlscoreformula($method) 
-{
-    // $method = 2 (today)
-    // $method = 3 (tomorrow)
-    // Formula: {{{2.4^{Status}+Status-Days-1} over Status -2.4} over 0.14325248}
-        
-    if ($method == 3) { 
-        return '
-        GREATEST(-125, CASE 
-            WHEN WoStatus > 5 THEN 100 
-            WHEN WoStatus = 1 THEN ROUND(-7 -7 * DATEDIFF(NOW(),WoStatusChanged)) 
-            WHEN WoStatus = 2 THEN ROUND(3.4 - 3.5 * DATEDIFF(NOW(),WoStatusChanged)) 
-            WHEN WoStatus = 3 THEN ROUND(17.7 - 2.3 * DATEDIFF(NOW(),WoStatusChanged)) 
-            WHEN WoStatus = 4 THEN ROUND(44.65 - 1.75 * DATEDIFF(NOW(),WoStatusChanged)) 
-            WHEN WoStatus = 5 THEN ROUND(98.6 - 1.4 * DATEDIFF(NOW(),WoStatusChanged)) 
-        END)';
-    }
-    elseif ($method == 2) { 
-        return '
-        GREATEST(-125, CASE 
-            WHEN WoStatus > 5 THEN 100
-            WHEN WoStatus = 1 THEN ROUND(-7 * DATEDIFF(NOW(),WoStatusChanged))
-            WHEN WoStatus = 2 THEN ROUND(6.9 - 3.5 * DATEDIFF(NOW(),WoStatusChanged))
-            WHEN WoStatus = 3 THEN ROUND(20 - 2.3 * DATEDIFF(NOW(),WoStatusChanged))
-            WHEN WoStatus = 4 THEN ROUND(46.4 - 1.75 * DATEDIFF(NOW(),WoStatusChanged))
-            WHEN WoStatus = 5 THEN ROUND(100 - 1.4 * DATEDIFF(NOW(),WoStatusChanged))
-        END)';
-    } 
-    return '0'; 
-    
-    
-}
 
 // -------------------------------------------------------------
 
@@ -3512,104 +3169,6 @@ function get_languages()
     return $langs;
 }
 
-/**
- * Reload $setting_data if necessary
- * 
- * @return array $setting_data
- */
-function get_setting_data() 
-{
-    static $setting_data;
-    if (!$setting_data) {
-        $setting_data = array(
-        'set-text-h-frameheight-no-audio' => 
-        array("dft" => '140', "num" => 1, "min" => 10, "max" => 999),
-        'set-text-h-frameheight-with-audio' => 
-        array("dft" => '200', "num" => 1, "min" => 10, "max" => 999),
-        'set-text-l-framewidth-percent' => 
-        array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
-        'set-text-r-frameheight-percent' => 
-        array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
-        'set-test-h-frameheight' => 
-        array("dft" => '140', "num" => 1, "min" => 10, "max" => 999),
-        'set-test-l-framewidth-percent' => 
-        array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
-        'set-test-r-frameheight-percent' => 
-        array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
-        'set-words-to-do-buttons' => 
-        array("dft" => '1', "num" => 0),
-        'set-tooltip-mode' => 
-        array("dft" => '2', "num" => 0),
-        'set-display-text-frame-term-translation' => 
-        array("dft" => '1', "num" => 0),
-        'set-text-frame-annotation-position' => 
-        array("dft" => '2', "num" => 0),
-        'set-test-main-frame-waiting-time' => 
-        array("dft" => '0', "num" => 1, "min" => 0, "max" => 9999),
-        'set-test-edit-frame-waiting-time' => 
-        array("dft" => '500', "num" => 1, "min" => 0, "max" => 99999999),
-        'set-test-sentence-count' => 
-        array("dft" => '1', "num" => 0),
-        'set-tts' => 
-        array("dft" => '1', "num" => 0),
-        'set-term-sentence-count' => 
-        array("dft" => '1', "num" => 0),
-        'set-archivedtexts-per-page' => 
-        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
-        'set-texts-per-page' => 
-        array("dft" => '10', "num" => 1, "min" => 1, "max" => 9999),
-        'set-terms-per-page' => 
-        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
-        'set-tags-per-page' => 
-        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
-        'set-articles-per-page' => 
-        array("dft" => '10', "num" => 1, "min" => 1, "max" => 9999),
-        'set-feeds-per-page' => 
-        array("dft" => '50', "num" => 1, "min" => 1, "max" => 9999),
-        'set-max-articles-with-text' => 
-        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
-        'set-max-articles-without-text' => 
-        array("dft" => '250', "num" => 1, "min" => 1, "max" => 9999),
-        'set-max-texts-per-feed' => 
-        array("dft" => '20', "num" => 1, "min" => 1, "max" => 9999),
-        'set-ggl-translation-per-page' => 
-        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
-        'set-regex-mode' => 
-        array("dft" => '', "num" => 0),
-        'set-theme_dir' => 
-        array("dft" => 'themes/default/', "num" => 0),
-        'set-text-visit-statuses-via-key' => 
-        array("dft" => '', "num" => 0),
-        'set-term-translation-delimiters' => 
-        array("dft" => '/;|', "num" => 0),
-        'set-mobile-display-mode' => 
-        array("dft" => '0', "num" => 0),
-        'set-similar-terms-count' => 
-        array("dft" => '0', "num" => 1, "min" => 0, "max" => 9)
-        );
-    }
-    return $setting_data;
-}
-
-// -------------------------------------------------------------
-
-function reparse_all_texts() 
-{
-    global $tbpref;
-    runsql('TRUNCATE ' . $tbpref . 'sentences', '');
-    runsql('TRUNCATE ' . $tbpref . 'textitems2', '');
-    adjust_autoincr('sentences', 'SeID');
-    set_word_count();
-    $sql = "select TxID, TxLgID from " . $tbpref . "texts";
-    $res = do_mysqli_query($sql);
-    while ($record = mysqli_fetch_assoc($res)) {
-        $id = $record['TxID'];
-        splitCheckText(
-            get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id 
-        );
-    }
-    mysqli_free_result($res);
-}
 
 /**
  * Get language name from its ID 
@@ -3667,6 +3226,8 @@ function getScriptDirectionTag($lid)
  *                     $id = -1     => Check, return protocol
  *                     $id = -2     => Only return sentence array
  *                     $id = TextID => Split: insert sentences/textitems entries in DB
+ * 
+ * @global string $tbpref Database table prefix
  */
 function splitCheckText($text, $lid, $id) 
 {
@@ -3708,7 +3269,8 @@ function splitCheckText($text, $lid, $id)
         $mecab = get_mecab_path($mecab_args);
         $s = preg_replace('/[ \t]+/u', ' ', $s);
         $s = trim($s);
-        if ($id == -1) { echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p>" . str_replace("\n", "<br /><br />", tohtml($s)). "</p>"; 
+        if ($id == -1) { 
+            echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p>" . str_replace("\n", "<br /><br />", tohtml($s)). "</p>"; 
         }
         $handle = popen($mecab .' -o ' . $file_name, 'w');
         $write = fwrite($handle, $s);
@@ -3754,7 +3316,8 @@ function splitCheckText($text, $lid, $id)
             $s = preg_replace('/([^\s])/u', "$1\t", $s);
         }
         $s = preg_replace('/\s+/u', ' ', $s);
-        if ($id == -1) { echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>"; 
+        if ($id == -1) { 
+            echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>"; 
         }
         //    "\r" => Sentence delimiter, "\t" and "\n" => Word delimiter
         $s = preg_replace_callback(
@@ -3765,7 +3328,7 @@ function splitCheckText($text, $lid, $id)
                 }
                 if (is_numeric($matches[1])) {
                     if (strlen($matches[1])<3) { 
-                        return $matches[0]; 
+                        return $matches[0];
                     }
                 }
                 else if ($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u', $matches[1]) || preg_match('/^[AEIOUY]$/', $matches[1]))) { 
@@ -4230,8 +3793,9 @@ function restore_file($handle, $title)
 }
 
 
-// -------------------------------------------------------------
-
+/**
+ * @global string $tbpref Database table prefix
+ */
 function set_word_count() 
 {
     global $tbpref;
@@ -4525,22 +4089,6 @@ function phonetic_reading($text, $lang)
     return $mecab_str;
 }
 
-
-// -------------------------------------------------------------
-
-function make_score_random_insert_update($type) 
-{
-    // $type='iv'/'id'/'u'
-    if ($type == 'iv') {
-        return ' WoTodayScore, WoTomorrowScore, WoRandom ';
-    } elseif ($type == 'id') {
-        return ' ' . getsqlscoreformula(2) . ', ' . getsqlscoreformula(3) . ', RAND() ';
-    } elseif ($type == 'u') {
-        return ' WoTodayScore = ' . getsqlscoreformula(2) . ', WoTomorrowScore = ' . getsqlscoreformula(3) . ', WoRandom = RAND() ';
-    } else {
-        return '';
-    }
-}
 
 // -------------------------------------------------------------
 

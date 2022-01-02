@@ -1,9 +1,11 @@
 <?php 
 /**
  * \file
- * \brief From to import a file from YouTube 
+ * \brief From to import a file from YouTube.
  * You need a personal YouTube API key.
  */
+
+$YT_API_KEY = null;
 ?>
 
 <tr>

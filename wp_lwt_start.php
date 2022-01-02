@@ -1,8 +1,7 @@
 <?php
 
 /**
- * \file wp_lwt_start.php
- * ----------------------
+ * \file
  * \brief Start LWT with WordPress
  * 
  * To start LWT (and to login into WordPress), use this URL:
@@ -16,9 +15,14 @@
  * To properly log out from both WordPress and LWT, use:
  * http://...path-to-wp-blog.../lwt/wp_lwt_stop.php
  * 
- * @since 1.5.5
+ * @package Lwt
+ * @author  LWT Prject <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/wp__lwt__start_8php.html
+ * @since   1.5.5
  */
 
+require_once 'inc/session_utility.php';
 require_once '../wp-load.php' ;
 
 if (is_user_logged_in()) {

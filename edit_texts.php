@@ -389,7 +389,8 @@ if (isset($_REQUEST['new'])) {
     <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>        
     </td>
     </tr>
-    <?php if (isset($YT_API_KEY)) {include_once'text_from_yt.php';
+    <?php if (isset($YT_API_KEY)) {
+        include_once 'text_from_yt.php';
     } ?>
     <tr>
     <td class="td1 right" colspan="2">

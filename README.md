@@ -23,9 +23,6 @@ As it is self-hosted, you will need a server, which can be your computer.
 * Create ``connect.inc.php`` with an existing database user 
 (read [docs/info.html](https://hugofara.github.io/lwt/docs/info.html)) for the tutorial.
 
-If the reading page displays a database error, 
-try downgrading to PHP version 5.4.45.
-
 And you are ready to go!
 
 ## Description

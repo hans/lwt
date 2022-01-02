@@ -3,8 +3,11 @@
  * \file
  * \brief Core utility functions that do not require a complete session.
  * 
- * @author GitHub contributors
- * @since 2.0.3-fork
+ * @package Lwt
+ * @author  HugoFara <hugo.farajallah@protonmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/kernel__utility_8php.html
+ * @since   2.0.3-fork
  */
 
  require __DIR__ . '/settings.php';
@@ -67,6 +70,137 @@ function tohtml($s)
         return ''; 
     }
     return htmlspecialchars($s, ENT_COMPAT, "UTF-8");
+}
+
+/**
+ * Strip the slashes for PHP up to 5. No effect in PHP >7
+ * 
+ */
+function stripTheSlashesIfNeeded($s) 
+{
+    if (function_exists("get_magic_quotes_gpc")) {
+        if (get_magic_quotes_gpc()) {
+            return stripslashes($s); 
+        }
+        else { 
+            return $s; 
+        }
+    } else {
+        return $s;
+    }
+}
+
+/**
+ * Echo debugging informations.
+ */
+function showRequest() 
+{
+    $olderr = error_reporting(0);
+    echo "<pre>** DEBUGGING **********************************\n";
+    echo '$GLOBALS...'; print_r($GLOBALS);
+    echo 'get_version_number()...'; echo get_version_number() . "\n";
+    echo 'get_magic_quotes_gpc()...'; 
+    if (function_exists("get_magic_quotes_gpc")) {
+        echo (get_magic_quotes_gpc() ? "TRUE" : "FALSE") . "\n";
+    } else {
+        echo "NOT EXISTS (FALSE)\n";
+    }
+    echo "********************************** DEBUGGING **</pre>";
+    error_reporting($olderr);
+}
+
+/**
+ * Get the time since the last call
+ * 
+ * @return float Time sonce last call
+ */
+function get_execution_time()
+{
+    static $microtime_start = null;
+    if ($microtime_start === null) {
+        $microtime_start = microtime(true);
+        return 0.0;
+    }
+    return microtime(true) - $microtime_start;
+}
+
+/**
+ * Reload $setting_data if necessary
+ * 
+ * @return array $setting_data
+ */
+function get_setting_data() 
+{
+    static $setting_data;
+    if (!$setting_data) {
+        $setting_data = array(
+        'set-text-h-frameheight-no-audio' => 
+        array("dft" => '140', "num" => 1, "min" => 10, "max" => 999),
+        'set-text-h-frameheight-with-audio' => 
+        array("dft" => '200', "num" => 1, "min" => 10, "max" => 999),
+        'set-text-l-framewidth-percent' => 
+        array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
+        'set-text-r-frameheight-percent' => 
+        array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
+        'set-test-h-frameheight' => 
+        array("dft" => '140', "num" => 1, "min" => 10, "max" => 999),
+        'set-test-l-framewidth-percent' => 
+        array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
+        'set-test-r-frameheight-percent' => 
+        array("dft" => '50', "num" => 1, "min" => 5, "max" => 95),
+        'set-words-to-do-buttons' => 
+        array("dft" => '1', "num" => 0),
+        'set-tooltip-mode' => 
+        array("dft" => '2', "num" => 0),
+        'set-display-text-frame-term-translation' => 
+        array("dft" => '1', "num" => 0),
+        'set-text-frame-annotation-position' => 
+        array("dft" => '2', "num" => 0),
+        'set-test-main-frame-waiting-time' => 
+        array("dft" => '0', "num" => 1, "min" => 0, "max" => 9999),
+        'set-test-edit-frame-waiting-time' => 
+        array("dft" => '500', "num" => 1, "min" => 0, "max" => 99999999),
+        'set-test-sentence-count' => 
+        array("dft" => '1', "num" => 0),
+        'set-tts' => 
+        array("dft" => '1', "num" => 0),
+        'set-term-sentence-count' => 
+        array("dft" => '1', "num" => 0),
+        'set-archivedtexts-per-page' => 
+        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
+        'set-texts-per-page' => 
+        array("dft" => '10', "num" => 1, "min" => 1, "max" => 9999),
+        'set-terms-per-page' => 
+        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
+        'set-tags-per-page' => 
+        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
+        'set-articles-per-page' => 
+        array("dft" => '10', "num" => 1, "min" => 1, "max" => 9999),
+        'set-feeds-per-page' => 
+        array("dft" => '50', "num" => 1, "min" => 1, "max" => 9999),
+        'set-max-articles-with-text' => 
+        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
+        'set-max-articles-without-text' => 
+        array("dft" => '250', "num" => 1, "min" => 1, "max" => 9999),
+        'set-max-texts-per-feed' => 
+        array("dft" => '20', "num" => 1, "min" => 1, "max" => 9999),
+        'set-ggl-translation-per-page' => 
+        array("dft" => '100', "num" => 1, "min" => 1, "max" => 9999),
+        'set-regex-mode' => 
+        array("dft" => '', "num" => 0),
+        'set-theme_dir' => 
+        array("dft" => 'themes/default/', "num" => 0),
+        'set-text-visit-statuses-via-key' => 
+        array("dft" => '', "num" => 0),
+        'set-term-translation-delimiters' => 
+        array("dft" => '/;|', "num" => 0),
+        'set-mobile-display-mode' => 
+        array("dft" => '0', "num" => 0),
+        'set-similar-terms-count' => 
+        array("dft" => '0', "num" => 1, "min" => 0, "max" => 9)
+        );
+    }
+    return $setting_data;
 }
 
 /**
@@ -275,6 +409,119 @@ function getsess($s)
     }
 }
 
+/**
+ * Get the base URL of the application
+ * 
+ * @return string base URL
+ */
+function url_base() 
+{
+    $url = parse_url("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+    $r = $url["scheme"] . "://" . $url["host"];
+    if (isset($url["port"])) { 
+        $r .= ":" . $url["port"]; 
+    }
+    if(isset($url["path"])) {
+        $b = basename($url["path"]);
+        if (substr($b, -4) == ".php" || substr($b, -4) == ".htm" || substr($b, -5) == ".html") { 
+            $r .= dirname($url["path"]); 
+        }
+        else {
+            $r .= $url["path"]; 
+        }
+    }
+    if (substr($r, -1) !== "/") { 
+        $r .= "/"; 
+    }
+    return $r;
+}
+
+
+/**
+ * Echo the path of a file using the theme directory. Echo the base file name of file is not found
+ * 
+ * @param string $filename Filename
+ */
+function print_file_path($filename)
+{
+    echo get_file_path($filename);
+}
+
+/**
+ * Get the path of a file using the theme directory
+ * 
+ * @param string $filename Filename
+ * 
+ * @return string string|string[]|null File path if it exists, otherwise the filename
+ */
+function get_file_path($filename)
+{
+    $file = getSettingWithDefault('set-theme-dir').preg_replace('/.*\//', '', $filename);
+    if (file_exists($file)) { 
+        return $file; 
+    }
+    return $filename;
+}
+
+/**
+ * Make a random score for a new word.
+ * 
+ * @param 'iv'|'id'|'u'|string $type Type of insertion
+ * 
+ * @return string SQL code to use
+ */
+function make_score_random_insert_update($type) 
+{
+    // $type='iv'/'id'/'u'
+    if ($type == 'iv') {
+        return ' WoTodayScore, WoTomorrowScore, WoRandom ';
+    } 
+    if ($type == 'id') {
+        return ' ' . getsqlscoreformula(2) . ', ' . getsqlscoreformula(3) . ', RAND() ';
+    } 
+    if ($type == 'u') {
+        return ' WoTodayScore = ' . getsqlscoreformula(2) . ', WoTomorrowScore = ' . getsqlscoreformula(3) . ', WoRandom = RAND() ';
+    } 
+    return '';
+}
+
+/**
+ * SQL formula for computing score.
+ * 
+ * @param int $method Score for tomorrow (2), the day after it (3) or never (any value).
+ * 
+ * @return string SQL score coputation string
+ */
+function getsqlscoreformula($method) 
+{
+    // 
+    // Formula: {{{2.4^{Status}+Status-Days-1} over Status -2.4} over 0.14325248}
+        
+    if ($method == 3) { 
+        return '
+        GREATEST(-125, CASE 
+            WHEN WoStatus > 5 THEN 100 
+            WHEN WoStatus = 1 THEN ROUND(-7 -7 * DATEDIFF(NOW(),WoStatusChanged)) 
+            WHEN WoStatus = 2 THEN ROUND(3.4 - 3.5 * DATEDIFF(NOW(),WoStatusChanged)) 
+            WHEN WoStatus = 3 THEN ROUND(17.7 - 2.3 * DATEDIFF(NOW(),WoStatusChanged)) 
+            WHEN WoStatus = 4 THEN ROUND(44.65 - 1.75 * DATEDIFF(NOW(),WoStatusChanged)) 
+            WHEN WoStatus = 5 THEN ROUND(98.6 - 1.4 * DATEDIFF(NOW(),WoStatusChanged)) 
+        END)';
+    }
+    if ($method == 2) { 
+        return '
+        GREATEST(-125, CASE 
+            WHEN WoStatus > 5 THEN 100
+            WHEN WoStatus = 1 THEN ROUND(-7 * DATEDIFF(NOW(),WoStatusChanged))
+            WHEN WoStatus = 2 THEN ROUND(6.9 - 3.5 * DATEDIFF(NOW(),WoStatusChanged))
+            WHEN WoStatus = 3 THEN ROUND(20 - 2.3 * DATEDIFF(NOW(),WoStatusChanged))
+            WHEN WoStatus = 4 THEN ROUND(46.4 - 1.75 * DATEDIFF(NOW(),WoStatusChanged))
+            WHEN WoStatus = 5 THEN ROUND(100 - 1.4 * DATEDIFF(NOW(),WoStatusChanged))
+        END)';
+    } 
+    return '0';
+}
+
 
 /**
  * Start a standard page with a complete header and a non-closed body.
@@ -329,11 +576,11 @@ function pagestart_nobody($titletext, $addcss='')
         echo tohtml($tbpref); 
 } ?>" -->
     <script type="text/javascript">
-    //<![CDATA[
-    <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
-    <?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
-    <?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
-    //]]>
+        //<![CDATA[
+        <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
+        <?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
+        <?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
+        //]]>
     </script>
     <script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>

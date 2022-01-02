@@ -17,7 +17,7 @@ require_once 'inc/session_utility.php';
  * 
  * @param string $wid ID of the word
  * 
- * @return string A word
+ * @return string|null A word
  * 
  * @global string $tbpref 
  */

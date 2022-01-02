@@ -148,7 +148,6 @@ elseif(isset($_REQUEST['edit_feed'])) {
         echo '>' . $row_l['LgName'] . '</option>';
     }
     mysqli_free_result($result);
-    $auto_upd_v;
     $auto_upd_i=get_nf_option($row['NfOptions'], 'autoupdate');
     if($auto_upd_i==null) { 
         $auto_upd_v=null; 

@@ -144,20 +144,25 @@ function run_overlib_test (wblink1, wblink2, wblink3, wid, txt, trans, roman, st
 /**
  * Return all multiwords
  *
- * @param int txid Text ID
- * @param Array multi_words A list of 8 string elements
- * @param Boolean rtl Right-to-left indicator
+ * @param {int}     txid Text ID
+ * @param {any}     torder 
+ * @param {array}   multi_words A list of 8 string elements
+ * @param {boolean} rtl Right-to-left indicator
  *
- * @return All multiwords
+ * @return {string} All multiwords
  */
 function make_overlib_link_new_multiword (txid, torder, multi_words, rtl) {
   // Quit if all multiwords are '' or undefined
   if (multi_words.every((x) => !x)) return '';
   let output = ' <br />Expr: ';
   if (rtl) {
-    for (var i = 7; i < 0; i--) { output += (multi_words[i] ? make_overlib_link_create_edit_multiword_rtl(i + 2, txid, torder, multi_words[i]) + ' ' : ''); }
+    for (var i = 7; i < 0; i--) { 
+      output += (multi_words[i] ? make_overlib_link_create_edit_multiword_rtl(i + 2, txid, torder, multi_words[i]) + ' ' : ''); 
+    }
   } else {
-    for (var i = 0; i < 7; i++) { output += (multi_words[i] ? make_overlib_link_create_edit_multiword_rtl(i + 2, txid, torder, multi_words[i]) + ' ' : ''); }
+    for (var i = 0; i < 7; i++) { 
+      output += (multi_words[i] ? make_overlib_link_create_edit_multiword_rtl(i + 2, txid, torder, multi_words[i]) + ' ' : ''); 
+    }
   }
   output += ' ';
   return output;
@@ -635,17 +640,23 @@ function deleteCookie (name, path, domain) {
   }
 }
 
-function iknowall (t) {
+/**
+ * Prepare a window to make all words from a text well-known
+ * 
+ * @param {string} t Text ID
+ */
+function iknowall(t) {
   const answer = confirm('Are you sure?');
-  if (answer) { top.frames.ro.location.href = 'all_words_wellknown.php?text=' + t; }
+  if (answer) { 
+    top.frames.ro.location.href = 'all_words_wellknown.php?text=' + t; 
+  }
 }
 
 function check_table_prefix (p) {
-  let r = false;
   const re = /^[_a-zA-Z0-9]*$/;
-  if (p.length <= 20 && p.length > 0) {
-    if (p.match(re)) r = true;
+  const r = p.length <= 20 && p.length > 0 && p.match(re);
+  if (!r) { 
+    alert('Table Set Name (= Table Prefix) must\ncontain 1 to 20 characters (only 0-9, a-z, A-Z and _).\nPlease correct your input.'); 
   }
-  if (!r) { alert('Table Set Name (= Table Prefix) must\ncontain 1 to 20 characters (only 0-9, a-z, A-Z and _).\nPlease correct your input.'); }
   return r;
 }

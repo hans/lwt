@@ -8,8 +8,67 @@
  * @author https://github.com/HugoFara/ HugoFara
  */
 
-require __DIR__ . "/settings.php";
+require_once __DIR__ . "/kernel_utility.php";
 require __DIR__ . "/../connect.inc.php";
+
+/**
+ * Do a SQL query to the database. 
+ * It is a wrapper for mysqli_query function.
+ * 
+ * @param string $sql Query using SQL syntax
+ * 
+ * @global mysqli $DBCONNECTION COnnection to the database
+ * 
+ */ 
+function do_mysqli_query($sql)
+{
+    global $DBCONNECTION;
+    $res = mysqli_query($DBCONNECTION, $sql);
+    if ($res == false) {
+        echo '</select></p></div><div style="padding: 1em; color:red; font-size:120%; background-color:#CEECF5;">' .
+        '<p><b>Fatal Error in SQL Query:</b> ' . 
+        tohtml($sql) . 
+        '</p>' . 
+        '<p><b>Error Code &amp; Message:</b> [' . 
+        mysqli_errno($DBCONNECTION) . 
+        '] ' . 
+        tohtml(mysqli_error($DBCONNECTION)) . 
+        "</p></div><hr /><pre>Backtrace:\n\n";
+        debug_print_backtrace();
+        echo '</pre><hr />';
+        die('</body></html>');
+    }
+    else {
+        return $res; 
+    }
+}
+
+/**
+ * Run a SQL query, you can specify its behavior and error message.
+ * 
+ * @param string $sql       MySQL query
+ * @param string $m         Success phrase to prepend to the number of affected rows
+ * @param bool   $sqlerrdie To die on errors (default = TRUE)
+ * 
+ * @return string Error message if failure, or the number of affected rows
+ */
+function runsql($sql, $m, $sqlerrdie = true) 
+{
+    if ($sqlerrdie) {
+        $res = do_mysqli_query($sql); 
+    }
+    else {
+        $res = mysqli_query($GLOBALS['DBCONNECTION'], $sql); 
+    }        
+    if ($res == false) {
+        $message = "Error: " . mysqli_error($GLOBALS['DBCONNECTION']);
+    } else {
+        $num = mysqli_affected_rows($GLOBALS['DBCONNECTION']);
+        $message = (($m == '') ? (string)$num : ($m . ": " . $num));
+    }
+    return $message;
+}
+
 
 /**
  * Return the record "value" in the first line of the database if found.
@@ -56,7 +115,8 @@ function convert_string_to_sqlsyntax($data)
 {
     $result = "NULL";
     $data = trim(prepare_textdata($data));
-    if($data != "") { $result = "'" . mysqli_real_escape_string($GLOBALS['DBCONNECTION'], $data) . "'"; 
+    if ($data != "") { 
+        $result = "'" . mysqli_real_escape_string($GLOBALS['DBCONNECTION'], $data) . "'"; 
     }
     return $result;
 }
@@ -90,20 +150,243 @@ function convert_regexp_to_sqlsyntax($input)
     return convert_string_to_sqlsyntax_nonull(html_entity_decode($output, ENT_NOQUOTES, 'UTF-8'));
 }
 
+/**
+ * Validate a language ID
+ * 
+ * @param string $currentlang Language ID to validate
+ * 
+ * @global string '' if the language is not valid.
+ */
+function validateLang($currentlang) 
+{
+    global $tbpref;
+    $sql = 
+    'SELECT count(LgID) AS value 
+    FROM ' . $tbpref . 'languages 
+    WHERE LgID=' . ((int)$currentlang);
+    if ($currentlang != '') {
+        if (get_first_value($sql) == 0
+        ) {  
+            $currentlang = ''; 
+        } 
+    }
+    return $currentlang;
+}
+
+/**
+ * Validate a text ID
+ * 
+ * @param string $currenttext Text ID to validate
+ * 
+ * @global string '' if the text is not valid.
+ */
+function validateText($currenttext) 
+{
+    global $tbpref;
+    if ($currenttext != '') {
+        if (get_first_value(
+            'select count(TxID) as value from ' . $tbpref . 'texts where TxID=' . 
+            ((int)$currenttext) 
+        ) == 0
+        ) {  
+            $currenttext = ''; 
+        } 
+    }
+    return $currenttext;
+}
+
 // -------------------------------------------------------------
 
-function LWTTableCheck() 
+function validateTag($currenttag,$currentlang) 
+{
+    global $tbpref;
+    if ($currenttag != '' && $currenttag != -1) {
+        if ($currentlang == '') {
+            $sql = "select (" . $currenttag . " in (select TgID from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText)) as value"; 
+        }
+        else {
+            $sql = "select (" . $currenttag . " in (select TgID from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $currentlang . " group by TgID order by TgText)) as value"; 
+        }
+        $r = get_first_value($sql);
+        if ($r == 0 ) { 
+            $currenttag = ''; 
+        } 
+    }
+    return $currenttag;
+}
+
+// -------------------------------------------------------------
+
+function validateArchTextTag($currenttag,$currentlang) 
+{
+    global $tbpref;
+    if ($currenttag != '' && $currenttag != -1) {
+        if ($currentlang == '') {
+            $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID group by T2ID order by T2Text)) as value"; 
+        }
+        else {
+            $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $currentlang . " group by T2ID order by T2Text)) as value"; 
+        }
+        $r = get_first_value($sql);
+        if ($r == 0 ) { $currenttag = ''; 
+        } 
+    }
+    return $currenttag;
+}
+
+// -------------------------------------------------------------
+
+function validateTextTag($currenttag,$currentlang) 
+{
+    global $tbpref;
+    if ($currenttag != '' && $currenttag != -1) {
+        if ($currentlang == '') {
+            $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by T2Text)) as value"; 
+        }
+        else {
+            $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $currentlang . " group by T2ID order by T2Text)) as value"; 
+        }
+        $r = get_first_value($sql);
+        if ($r == 0 ) { $currenttag = ''; 
+        } 
+    }
+    return $currenttag;
+}
+
+/** 
+ * Convert a setting to 0 or 1
+ *
+ * @param  string $key The input value
+ * @param  string $dft Default value to use
+ * 
+ * @return 0|1
+ */
+function getSettingZeroOrOne($key, $dft) 
+{
+    $r = getSetting($key);
+    $r = ($r == '' ? $dft : ((((int)$r) !== 0) ? 1 : 0));
+    return (int)$r;
+}
+
+/**
+ * Get a setting from the database. It can also check for its validity.
+ * 
+ * @param  string $key Setting key. If $key is 'currentlanguage' or 
+ *                     'currenttext', we validate language/text.
+ * @return string $val Value in the database if found, or an empty string
+ * @global string $tbpref Table name prefix
+ */
+function getSetting($key) 
+{
+    global $tbpref;
+    $val = get_first_value(
+        'SELECT StValue AS value 
+        FROM ' . $tbpref . 'settings 
+        WHERE StKey = ' . convert_string_to_sqlsyntax($key)
+    );
+    if (isset($val)) {
+        $val = trim($val);
+        if ($key == 'currentlanguage' ) { 
+            $val = validateLang($val); 
+        }
+        if ($key == 'currenttext' ) { 
+            $val = validateText($val); 
+        }
+        return $val;
+    }
+    else { 
+        return ''; 
+    }
+}
+
+/**
+ * Get the settings value for a specific key. Return a default value when possible
+ * 
+ * @param  string $key Settings key
+ * 
+ * @return string Requested setting, or default value, or ''
+ * 
+ * @global string $tbpref Table name prefix
+ */
+function getSettingWithDefault($key) 
+{
+    global $tbpref;
+    $dft = get_setting_data();
+    $val = get_first_value(
+        'SELECT StValue AS value
+         FROM ' . $tbpref . 'settings
+         WHERE StKey = ' . convert_string_to_sqlsyntax($key)
+    );
+    if (isset($val) && $val != '') {
+        return trim($val); 
+    }
+    if (array_key_exists($key, $dft)) { 
+        return $dft[$key]['dft']; 
+    }
+    return '';
+    
+}
+
+/**
+ * Save the setting identified by a key with a specific value.
+ * 
+ * @param string $k Setting key
+ * @param mixed  $v Setting value, will get converted to string
+ * 
+ * @global string $tbpref Table name prefix
+ * 
+ * @return string Error or success message
+ */
+function saveSetting($k, $v) 
+{
+    global $tbpref;
+    $dft = get_setting_data();
+    if (!isset($v)) {
+        return ''; 
+    }
+    $v = stripTheSlashesIfNeeded($v);
+    if ($v === '') {
+        return '';
+    }
+    runsql(
+        'DELETE FROM ' . $tbpref . 'settings 
+        WHERE StKey = ' . convert_string_to_sqlsyntax($k), 
+        ''
+    );
+    if (array_key_exists($k, $dft) && $dft[$k]['num']) {
+        $v = (int)$v;
+        if ($v < $dft[$k]['min']) { 
+            $v = $dft[$k]['dft']; 
+        }
+        if ($v > $dft[$k]['max']) { 
+            $v = $dft[$k]['dft']; 
+        }
+    }
+    $dum = runsql(
+        'INSERT INTO ' . $tbpref . 'settings (StKey, StValue) values(' .
+        convert_string_to_sqlsyntax($k) . ', ' . 
+        convert_string_to_sqlsyntax($v) . ')', 
+        ''
+    );
+    return $dum;
+}
+
+/**
+ * Check if the _lwtgeneral table exists, create it if not.
+ */
+function LWTTableCheck()
 {
     if (mysqli_num_rows(do_mysqli_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) {
         runsql("CREATE TABLE IF NOT EXISTS _lwtgeneral ( LWTKey varchar(40) NOT NULL, LWTValue varchar(40) DEFAULT NULL, PRIMARY KEY (LWTKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8", '');
-        if (mysqli_num_rows(do_mysqli_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) { my_die("Unable to create table '_lwtgeneral'!"); 
+        if (mysqli_num_rows(do_mysqli_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) { 
+            my_die("Unable to create table '_lwtgeneral'!"); 
         }
     }
 }
 
 // -------------------------------------------------------------
 
-function LWTTableSet($key, $val) 
+function LWTTableSet($key, $val)
 {
     LWTTableCheck();
     runsql("INSERT INTO _lwtgeneral (LWTKey, LWTValue) VALUES (" . convert_string_to_sqlsyntax($key) . ", " . convert_string_to_sqlsyntax($val) . ") ON DUPLICATE KEY UPDATE LWTValue = " . convert_string_to_sqlsyntax($val), '');
@@ -111,15 +394,89 @@ function LWTTableSet($key, $val)
 
 // -------------------------------------------------------------
 
-function LWTTableGet($key) 
+function LWTTableGet($key)
 {
     LWTTableCheck();
     return get_first_value("SELECT LWTValue as value FROM _lwtgeneral WHERE LWTKey = " . convert_string_to_sqlsyntax($key));
 }
 
+/**
+ * Adjust the auto-incrementation in the database.
+ * 
+ * @global string $tbpref Database table prefix
+ */
+function adjust_autoincr($table, $key) 
+{
+    global $tbpref;
+    $val = get_first_value('SELECT max(' . $key .')+1 AS value FROM ' . $tbpref . $table);
+    if (!isset($val)) { 
+        $val = 1; 
+    }
+    $sql = 'ALTER TABLE ' . $tbpref . $table . ' AUTO_INCREMENT = ' . $val;
+    $res = do_mysqli_query($sql);
+}
 
-// -------------------------------------------------------------
+/**
+ * Optimize the database.
+ * 
+ * @global string $trbpref Table prefix
+ */
+function optimizedb() 
+{
+    global $tbpref;
+    adjust_autoincr('archivedtexts', 'AtID');
+    adjust_autoincr('languages', 'LgID');
+    adjust_autoincr('sentences', 'SeID');
+    adjust_autoincr('texts', 'TxID');
+    adjust_autoincr('words', 'WoID');
+    adjust_autoincr('tags', 'TgID');
+    adjust_autoincr('tags2', 'T2ID');
+    adjust_autoincr('newsfeeds', 'NfID');
+    adjust_autoincr('feedlinks', 'FlID');
+    $sql = 
+    'SHOW TABLE STATUS 
+    WHERE Engine IN ("MyISAM","Aria") AND ((Data_free / Data_length > 0.1 AND Data_free > 102400) OR Data_free > 1048576) AND Name';
+    if(empty($tbpref)) { 
+        $sql.= " NOT LIKE '\_%'"; 
+    }
+    else { 
+        $sql.= " LIKE " . convert_string_to_sqlsyntax(rtrim($tbpref, '_')) . "'\_%'"; 
+    }
+    $res = do_mysqli_query($sql);
+    while($row = mysqli_fetch_assoc($res)) {
+        runsql('OPTIMIZE TABLE ' . $row['Name'], '');
+    }
+    mysqli_free_result($res);
+}
 
+/**
+ * Reparse all texts in order.
+ * 
+ * @global string $tbpref Database table prefix
+ */ 
+function reparse_all_texts() 
+{
+    global $tbpref;
+    runsql('TRUNCATE ' . $tbpref . 'sentences', '');
+    runsql('TRUNCATE ' . $tbpref . 'textitems2', '');
+    adjust_autoincr('sentences', 'SeID');
+    set_word_count();
+    $sql = "select TxID, TxLgID from " . $tbpref . "texts";
+    $res = do_mysqli_query($sql);
+    while ($record = mysqli_fetch_assoc($res)) {
+        $id = $record['TxID'];
+        splitCheckText(
+            get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id 
+        );
+    }
+    mysqli_free_result($res);
+}
+
+/**
+ * Check and/or update the database.
+ * 
+ * @global mysqli $DBCONNECTION Connection to the database
+ */
 function check_update_db($debug, $tbpref, $dbname) 
 {
     $tables = array();
@@ -368,13 +725,13 @@ function check_update_db($debug, $tbpref, $dbname)
 // --------------------  S T A R T  ---------------------------//
 
 
-
+/**
+ * Make the connection to the database.
+ * 
+ * @return mysqli|false|null Connection to the database
+ */
 function connect_to_database($server, $userid, $passwd, $dbname) 
 {
-    /**
-     * @var mysqli|false|null $DBCONNECTION
-     * Connection to the database
-     */
     $DBCONNECTION = @mysqli_connect($server, $userid, $passwd, $dbname); // @ suppresses messages from function
 
     if ((!$DBCONNECTION) && mysqli_connect_errno() == 1049) {
@@ -398,7 +755,14 @@ function connect_to_database($server, $userid, $passwd, $dbname)
     return $DBCONNECTION;
 }
 
-function get_database_prefixes($tbpref) 
+/**
+ * Get the prefixes for the database.
+ * 
+ * @param string $tbpref Temporary database table prefix
+ * 
+ * @return string Fixed datable table prefix
+ */
+function get_database_prefixes(&$tbpref) 
 {
     // *** GLOBAL VARIABLES ***
     /**
@@ -447,27 +811,17 @@ function get_database_prefixes($tbpref)
     if ($tbpref !== '') { 
         $tbpref .= "_"; 
     }
-    return array($tbpref, $fixed_tbpref);
+    return $fixed_tbpref;
 }
 // *******************************************************************
 
-
-function start_database_connection() 
-{
-    global $DBCONNECTION, $server, $userid, $passwd, $dbname, 
-    $debug, $tbpref, $fixed_tbpref, $dspltime;
-    // Start Timer
-    if (!empty($dspltime)) {
-        get_execution_time(); 
-    }
-    $DBCONNECTION = connect_to_database($server, $userid, $passwd, $dbname);
-    $prefixes = get_database_prefixes($tbpref);
-    $tbpref = $prefixes[0];
-    $fixed_tbpref = $prefixes[1];
-    // check/update db
-    check_update_db($debug, $tbpref, $dbname);
+// Start Timer
+if (!empty($dspltime)) {
+    get_execution_time(); 
 }
-
-start_database_connection();
+$DBCONNECTION = connect_to_database($server, $userid, $passwd, $dbname);
+$fixed_tbpref = get_database_prefixes($tbpref);
+// check/update db
+check_update_db($debug, $tbpref, $dbname);
 
 ?>

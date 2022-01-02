@@ -11,7 +11,15 @@
 if (isset($_SESSION['LWT-WP-User'])) {
     $tbpref = $_SESSION['LWT-WP-User'];
 } else {
-    header("Location: ./wp_lwt_start.php?rd=". urlencode(end(explode('/', ($_SERVER['REQUEST_METHOD']=='GET')?$_SERVER['REQUEST_URI']:(isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'')))));
+    $url = '';
+    if ($_SERVER['REQUEST_METHOD']=='GET') {
+        $url = $_SERVER['REQUEST_URI'];
+    } else if (isset($_SERVER['HTTP_REFERER'])) {
+        $url = $_SERVER['HTTP_REFERER'];
+    }
+    $parts = explode('/', $url);
+    $url = end($parts);
+    header("Location: ./wp_lwt_start.php?rd=". urlencode($url));
     exit;
 }
 

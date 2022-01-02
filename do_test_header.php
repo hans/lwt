@@ -299,9 +299,8 @@ function do_test_header_page($title, $p, $totalcountdue, $totalcount)
  */
 function start_test_header_page()
 {
-    $counts = get_test_data($title, $p);
-    $totalcountdue = $counts[0];
-    $totalcount = $counts[1];
+    $title = $p = '';
+    list($totalcountdue, $totalcount) = get_test_data($title, $p);
     do_test_header_page($title, $p, $totalcountdue, $totalcount);
 }
 

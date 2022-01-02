@@ -1,9 +1,8 @@
 <?php
 
-
 /**
  * \file
- * Manage languages
+ * \brief Manage languages
  * 
  * Call: edit_languages.php?....
  *      ... refresh=[langid] ... reparse all texts in lang
@@ -13,7 +12,11 @@
  *      ... new=1 ... display new lang. screen 
  *      ... chg=[langid] ... display edit screen 
  * 
- * @since 1.0.3
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/edit__languages_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';
@@ -424,7 +427,9 @@ else {
 
         <?php
 
-        $sql = 'select LgID, LgName, LgExportTemplate from ' . $tbpref . 'languages where LgName<>"" order by LgName';
+        $sql = 'SELECT LgID, LgName, LgExportTemplate 
+        FROM ' . $tbpref . 'languages 
+        WHERE LgName<>"" ORDER BY LgName';
         if ($debug) { 
             echo $sql; 
         }
@@ -436,12 +441,18 @@ else {
             $newsfeedcount[$record['NfLgID']]=$record['value'];
         }
         // May be refactored with KISS principle
-        $res = do_mysqli_query('select NfLgID,count(*) as value from ' . $tbpref . 'newsfeeds,' . $tbpref . 'feedlinks WHERE NfID=FlNfID group by NfLgID');
+        $res = do_mysqli_query(
+            'SELECT NfLgID,count(*) AS value 
+            FROM ' . $tbpref . 'newsfeeds,' . $tbpref . 'feedlinks 
+            WHERE NfID=FlNfID group by NfLgID'
+        );
         while ($record = mysqli_fetch_assoc($res)) {
-            $feedarticlescount[$record['NfLgID']]=$record['value'];
+            $feedarticlescount[$record['NfLgID']] = $record['value'];
         }
         $res = do_mysqli_query($sql);
         while ($record = mysqli_fetch_assoc($res)) {
+            // ----------WARNING: type conversion here!!! -------------------
+            $record['LgID'] = (int)$record['LgID'];
             $textcount = get_first_value('select count(TxID) as value from ' . $tbpref . 'texts where TxLgID=' . $record['LgID']);
             $archtextcount = get_first_value('select count(AtID) as value from ' . $tbpref . 'archivedtexts where AtLgID=' . $record['LgID']);
             $wordcount = get_first_value('select count(WoID) as value from ' . $tbpref . 'words where WoLgID=' . $record['LgID']);

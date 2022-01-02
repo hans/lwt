@@ -57,13 +57,13 @@ function get_test_sql()
 /**
  * Give the test type.
  * 
- * @return int Test type between 1 and 5 (included)
+ * @return int<1, 5> Test type between 1 and 5 (included)
  * 
  * @since 2.0.5-fork
  */
 function get_test_type()
 {
-    $testtype = getreq('type') + 0;
+    $testtype = (int)getreq('type');
     if ($testtype < 1) { 
         $testtype = 1; 
     }

@@ -37,7 +37,7 @@ function wordLetterPairs($str)
 /**
  * Similarity ranking of two UTF-8 strings $str1 and $str2
  * 
- * @return int SimilarityRanking
+ * @return float SimilarityRanking
  */
 function getSimilarityRanking($str1, $str2) 
 {
@@ -46,10 +46,11 @@ function getSimilarityRanking($str1, $str2)
     $pairs1 = wordLetterPairs($str1);
     $pairs2 = wordLetterPairs($str2);
     $union = count($pairs1) + count($pairs2);
-    if ($union == 0) { return 0; 
+    if ($union == 0) { 
+        return 0; 
     }
     $intersection = count(array_intersect($pairs1, $pairs2));
-    return (2.0 * $intersection) / $union;
+    return 2 * $intersection / $union;
 }
 
 /**
