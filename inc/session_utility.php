@@ -954,13 +954,31 @@ function get_text_from_rsslink($feed_data, $NfArticleSection, $NfFilterTags, $Nf
             $dom->loadHTML($HTMLString);
             $xPath = new DOMXPath($dom);
             $redirect = explode(" | ", $NfArticleSection, 2);
-            $NfArticleSection=$redirect[1];
+            $NfArticleSection = $redirect[1];
             $redirect = substr($redirect[0], 9);
             $feed_host = parse_url(trim($feed_data[$key]['link']));
-            foreach ($xPath->query($redirect) as $node){
-                if (!$node->attributes) {
+            foreach ($xPath->query($redirect) as $node) {
+                if (
+                    empty(trim($node->localName)) 
+                    || $node->nodeType == XML_TEXT_NODE
+                    || !$node->hasAttributes()
+                ) {
                     continue;
                 }
+                /*
+                May be better but yet untested*/
+                /**
+                 * @psalm-suppress NullIterator
+                 */  
+                foreach ($node->attributes as $attr) {
+                    if ($attr->name=='href') {
+                        $feed_data[$key]['link'] = $attr->value;
+                        if (strncmp($feed_data[$key]['link'], '..', 2)==0) {
+                            $feed_data[$key]['link'] = 'http://'.$feed_host['host'] . substr($feed_data[$key]['link'], 2);
+                        }
+                    }
+                }
+                /*
                 $len = $node->attributes->length;
                 for ($i=0; $i<$len; $i++){
                     if ($node->attributes->item($i)->name=='href') {
@@ -969,7 +987,7 @@ function get_text_from_rsslink($feed_data, $NfArticleSection, $NfFilterTags, $Nf
                             $feed_data[$key]['link'] = 'http://'.$feed_host['host'] . substr($feed_data[$key]['link'], 2);
                         }
                     }
-                }    
+                } */   
             }
             unset($dom);
             unset($HTMLString);
@@ -1020,7 +1038,8 @@ function get_text_from_rsslink($feed_data, $NfArticleSection, $NfFilterTags, $Nf
                     }
                 }
                 else{
-                    if($NfCharset!='meta') { $encod  = $NfCharset; 
+                    if($NfCharset!='meta') { 
+                        $encod  = $NfCharset; 
                     }
                 }
                 
@@ -3106,7 +3125,7 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode)
             //$mecab_args = ' -F {%m%t\\t -U {%m%t\\t -E \\n ';
             // For instance, "このラーメン" becomes "この    6    68\nラーメン    7    38"
             $mecab_args = ' -F %m\\t%t\\t%h\\n -U %m\\t%t\\t%h\\n -E EOS\\t3\\t7\\n ';
-            if(file_exists($mecab_file)) { 
+            if (file_exists($mecab_file)) { 
                 unlink($mecab_file); 
             }
             $fp = fopen($mecab_file, 'w');

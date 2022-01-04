@@ -16,11 +16,12 @@ $sql
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 
-$audio = $record['TxAudioURI'];
-if(!isset($audio)) { 
-    $audio=''; 
+
+if (isset($record['TxAudioURI'])) {
+    $audio = trim($record['TxAudioURI']);
+} else {
+    $audio = '';
 }
-$audio=trim($audio);
 
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];

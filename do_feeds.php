@@ -63,11 +63,11 @@ if (isset($_REQUEST['marked_items'])) {
         'title' => $row['FlTitle'],
         'audio' => $row['FlAudio'],
         'text' => $row['FlText']);
-        $NfName=$row['NfName'];
+        $NfName = $row['NfName'];
         $nf_id=$row['NfID'];
         $nf_options=$row['NfOptions'];
         if(!$nf_tag_name=get_nf_option($nf_options, 'tag')) {
-            $nf_tag_name=mb_substr($row['NfName'], 0, 20, "utf-8");
+            $nf_tag_name = mb_substr($NfName, 0, 20, "utf-8");
         }
         if(!$nf_max_texts=get_nf_option($nf_options, 'max_texts')) {
             $nf_max_texts=getSettingWithDefault('set-max-texts-per-feed');
@@ -367,8 +367,7 @@ if(mysqli_data_seek($result, 0)) {
 
     if(strpos($currentfeed, ',')===false) {
         echo '<a href="' . $_SERVER['PHP_SELF'] . '?page=1&amp;load_feed=1&amp;selected_feed=' . $currentfeed . '"><span title="update feed">  <img src="icn/arrow-circle-135.png" alt="-" /></span></a>';
-    }
-    else{
+    } else {
         echo '<a href="edit_feeds.php?multi_load_feed=1&amp;selected_feed=' . $currentfeed . '"> update multiple feeds</a>';
     }
     if ($time) {
@@ -437,7 +436,7 @@ if(mysqli_data_seek($result, 0)) {
             }
             elseif ($row['AtID']) {
                 echo '<td class="td1 center"><span title="archived"><img src="icn/status-busy.png" alt="-" /></span>';
-            } elseif(!empty($row['FlLink']) && $row['FlLink'][0]==' ') {
+            } elseif(!empty($row['FlLink']) && str_starts_with($row['FlLink'], ' ')) {
                 echo '<td class="td1 center"><img class="not_found" name="' . $row['FlID'] . '" title="download error" src="icn/exclamation-button.png" alt="-" />';
             } else {
                 echo '<td class="td1 center"><input type="checkbox" class="markcheck" name="marked_items[]" value="' . $row['FlID'] . '" />'; 
@@ -450,7 +449,7 @@ if(mysqli_data_seek($result, 0)) {
             }
             echo '</td>';
             echo '<td class="td1 center" style="vertical-align: middle">';
-            if(!empty($row['FlLink']) && substr(trim($row['FlLink']), 0, 1)!='#') {
+            if(!empty($row['FlLink']) && !str_starts_with(trim($row['FlLink']), '#')) {
                 echo '<a href="' . trim($row['FlLink']) . '"  title="' . trim($row['FlLink']) . '" onclick="window.open(\'' . $row['FlLink'] . '\');return false;"><img src="icn/external.png" alt="-" /></a>'; 
             }
             echo  '</td><td class="td1 center">' . $row['FlDate'] . '</td>';

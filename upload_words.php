@@ -98,9 +98,10 @@ if (isset($_REQUEST['op'])) {
                     $fields["tl"]=$j;
                     break;
                 case 'x':
-                    if($j==$max) { unset($col[$j]); 
-                    }
-                    else { $col[$j]='@dummy'; 
+                    if($j==$max) { 
+                        unset($col[$j]); 
+                    } else { 
+                        $col[$j]='@dummy'; 
                     }
                     break;
                 }
@@ -124,20 +125,18 @@ if (isset($_REQUEST['op'])) {
         if ($fields["txt"]>0) {
             $columns='(' . rtrim(implode(',', $col), ',') . ')';
             if ($tabs == 'h') {
-                $tabs = ' FIELDS TERMINATED BY \'#\' ENCLOSED BY \'"\' LINES TERMINATED BY \'\\n\' '; 
-            }
-            elseif ($tabs == 'c') { 
-                $tabs = ' FIELDS TERMINATED BY \',\' ENCLOSED BY \'"\' LINES TERMINATED BY \'\\n\' ';
+                $tabs = " FIELDS TERMINATED BY '#' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' "; 
+            } elseif ($tabs == 'c') { 
+                $tabs = " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' ";
             } else {
-                $tabs = ' FIELDS TERMINATED BY \'\\t\' ENCLOSED BY \'"\' LINES TERMINATED BY \'\\n\' '; 
+                $tabs = " FIELDS TERMINATED BY '\\t' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' "; 
             }
             if ($_REQUEST["IgnFirstLine"] == '1') { 
-                $tabs.='IGNORE 1 LINES '; 
+                $tabs .= 'IGNORE 1 LINES '; 
             }
-            if ($file_upl ) { 
-                $file_name= $_FILES["thefile"]["tmp_name"]; 
-            }
-            else{
+            if ($file_upl) { 
+                $file_name =  $_FILES["thefile"]["tmp_name"]; 
+            } else {
                 $file_name = tempnam(sys_get_temp_dir(), "LWT");
                 $temp = fopen($file_name, "w");
                 fwrite($temp, prepare_textdata($_REQUEST["Upload"]));
@@ -150,13 +149,12 @@ if (isset($_REQUEST['op'])) {
                 $sql.= ' IGNORE INTO TABLE ' . $tbpref . 'words ' . $tabs . $columns ;
                 $sql.= ' SET WoLgID =  ' . $lang . ', ' . ($removeSpaces?'WoTextLC = LOWER(REPLACE(@wotext," ","")),WoText = REPLACE(@wotext," ","")':'WoTextLC = LOWER(WoText)') . ', WoStatus = ' . $status . ', WoStatusChanged = NOW(), ' . make_score_random_insert_update('u');
                 runsql($sql, '');
-            }
-            else{
+            } else {
                 runsql('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2', '');
                 runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL)', '');
                 runsql("INSERT IGNORE INTO " . $tbpref . "numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')", '');
                 $sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET ' . ($removeSpaces?'WoTextLC = LOWER(REPLACE(@wotext," ","")), WoText = REPLACE(@wotext," ","")':'WoTextLC = LOWER(WoText)');
-                if($fields["tl"]!=0) { 
+                if ($fields["tl"]!=0) { 
                     $sql.= ', WoTaglist = REPLACE(@taglist," ",",")'; 
                 }
                 runsql($sql, '');
@@ -166,10 +164,10 @@ if (isset($_REQUEST['op'])) {
 
                     $wosep = getSettingWithDefault('set-term-translation-delimiters');
                     if(empty($wosep)) {
-                        if ($tabs == 'h') { 
+                        if (getreq("Tab") == 'h') { 
                             $wosep[0]="#"; 
                         }
-                        elseif ($tabs == 'c') { 
+                        elseif (getreq("Tab") == 'c') { 
                             $wosep[0]=",";
                         } else { 
                             $wosep[0]="\t"; 
@@ -185,10 +183,10 @@ if (isset($_REQUEST['op'])) {
 
                     $tesep = $_REQUEST["transl_delim"];
                     if(empty($tesep)) {
-                        if ($tabs == 'h') { 
+                        if (getreq("Tab") == 'h') { 
                             $tesep[0]="#"; 
                         }
-                        elseif ($tabs == 'c') { 
+                        elseif (getreq("Tab") == 'c') { 
                             $tesep[0]=",";
                         } else { 
                             $tesep[0]="\t"; 

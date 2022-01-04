@@ -488,7 +488,8 @@ function set_word_count()
                 //var_dump($arr);
                 if (!empty($arr[1])) {
                     $cnt = substr_count(preg_replace('$[^267]\t$u', '', $arr[1]), "\t");
-                    if(empty($cnt)) { $cnt =1; 
+                    if(empty($cnt)) { 
+                        $cnt =1; 
                     }
                     fwrite($fp, $arr[0] . "\t" . $cnt . "\n");
                 }
@@ -593,12 +594,12 @@ function splitCheckText($text, $lid, $id)
         pclose($handle);
 
         runsql(
-            "CREATE TEMPORARY TABLE IF NOT EXISTS " . $tbpref . "temptextitems2
-             (TiCount smallint(5) unsigned NOT NULL,
-             TiSeID mediumint(8) unsigned NOT NULL,
-             TiOrder smallint(5) unsigned NOT NULL,
-             TiWordCount tinyint(3) unsigned NOT NULL,
-             TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
+            "CREATE TEMPORARY TABLE IF NOT EXISTS " . $tbpref . "temptextitems2 (
+                TiCount smallint(5) unsigned NOT NULL,
+                TiSeID mediumint(8) unsigned NOT NULL,
+                TiOrder smallint(5) unsigned NOT NULL,
+                TiWordCount tinyint(3) unsigned NOT NULL,
+                TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
             ) DEFAULT CHARSET=utf8", 
             ''
         );
@@ -1023,6 +1024,8 @@ function check_update_db($debug, $tbpref, $dbname)
  * Make the connection to the database.
  * 
  * @return mysqli|false Connection to the database
+ * 
+ * @psalm-suppress UndefinedDocblockClass
  */
 function connect_to_database($server, $userid, $passwd, $dbname) 
 {

@@ -16,14 +16,4 @@
             <file name="googleTranslateClass.php" />
         </ignoreFiles>
     </projectFiles>
-
-    <issueHandlers>
-        <UndefinedDocblockClass>
-            <errorLevel type="suppress">
-                <!-- A less dirty way to tell psalm what is mysqli? -->
-                <referencedClass name="mysqli" /> 
-                <file name="inc/database_connect.php" />
-            </errorLevel>
-        </UndefinedDocblockClass>
-    </issueHandlers>
 </psalm>
