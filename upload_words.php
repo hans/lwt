@@ -131,9 +131,11 @@ if (isset($_REQUEST['op'])) {
             } else {
                 $tabs = ' FIELDS TERMINATED BY \'\\t\' ENCLOSED BY \'"\' LINES TERMINATED BY \'\\n\' '; 
             }
-            if ($_REQUEST["IgnFirstLine"] == '1') { $tabs.='IGNORE 1 LINES '; 
+            if ($_REQUEST["IgnFirstLine"] == '1') { 
+                $tabs.='IGNORE 1 LINES '; 
             }
-            if ($file_upl ) { $file_name= $_FILES["thefile"]["tmp_name"]; 
+            if ($file_upl ) { 
+                $file_name= $_FILES["thefile"]["tmp_name"]; 
             }
             else{
                 $file_name = tempnam(sys_get_temp_dir(), "LWT");
@@ -154,7 +156,8 @@ if (isset($_REQUEST['op'])) {
                 runsql('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL)', '');
                 runsql("INSERT IGNORE INTO " . $tbpref . "numbers(n) VALUES ('1'),('2'),('3'),('4'),('5'),('6'),('7'),('8'),('9')", '');
                 $sql.= ' INTO TABLE ' . $tbpref . 'tempwords ' . $tabs . $columns . ' SET ' . ($removeSpaces?'WoTextLC = LOWER(REPLACE(@wotext," ","")), WoText = REPLACE(@wotext," ","")':'WoTextLC = LOWER(WoText)');
-                if($fields["tl"]!=0) { $sql.= ', WoTaglist = REPLACE(@taglist," ",",")'; 
+                if($fields["tl"]!=0) { 
+                    $sql.= ', WoTaglist = REPLACE(@taglist," ",",")'; 
                 }
                 runsql($sql, '');
                 //*//
@@ -163,10 +166,13 @@ if (isset($_REQUEST['op'])) {
 
                     $wosep = getSettingWithDefault('set-term-translation-delimiters');
                     if(empty($wosep)) {
-                        if ($tabs == 'h') { $wosep[0]="#"; 
+                        if ($tabs == 'h') { 
+                            $wosep[0]="#"; 
                         }
-                        elseif ($tabs == 'c') { $wosep[0]=",";
-                        } else { $wosep[0]="\t"; 
+                        elseif ($tabs == 'c') { 
+                            $wosep[0]=",";
+                        } else { 
+                            $wosep[0]="\t"; 
                         }
                     }
                     $seplen = mb_strlen($wosep, 'UTF-8');
@@ -179,10 +185,13 @@ if (isset($_REQUEST['op'])) {
 
                     $tesep = $_REQUEST["transl_delim"];
                     if(empty($tesep)) {
-                        if ($tabs == 'h') { $tesep[0]="#"; 
+                        if ($tabs == 'h') { 
+                            $tesep[0]="#"; 
                         }
-                        elseif ($tabs == 'c') { $tesep[0]=",";
-                        } else { $tesep[0]="\t"; 
+                        elseif ($tabs == 'c') { 
+                            $tesep[0]=",";
+                        } else { 
+                            $tesep[0]="\t"; 
                         }
                     }
 
@@ -193,22 +202,26 @@ if (isset($_REQUEST['op'])) {
                     }
 
                     runsql('insert ignore into ' . $tbpref . 'merge_words(MText,MTranslation) SELECT ' . $tbpref . 'tempwords.WoTextLC, trim(SUBSTRING_INDEX(SUBSTRING_INDEX(' . $WoTrRepl . ',' . convert_string_to_sqlsyntax($tesep[0]) . ' , ' . $tbpref . 'numbers.n), ' . convert_string_to_sqlsyntax($tesep[0]) . ', -1)) name FROM ' . $tbpref . 'numbers INNER JOIN ' . $tbpref . 'tempwords on CHAR_LENGTH(' . $tbpref . 'tempwords.WoTranslation)-CHAR_LENGTH(REPLACE(' . $WoTrRepl . ', ' . convert_string_to_sqlsyntax($tesep[0]) . ', \'\'))>=' . $tbpref . 'numbers.n-1 ORDER BY ' . $tbpref . 'tempwords.WoTextLC, n', '');
-                    if($wosep[0]==',' or $wosep[0]==';') { $wosep = $wosep[0] . ' '; 
+                    if($wosep[0]==',' or $wosep[0]==';') { 
+                        $wosep = $wosep[0] . ' '; 
                     }
-                    else { $wosep= ' ' . $wosep[0] . ' '; 
+                    else { 
+                        $wosep= ' ' . $wosep[0] . ' '; 
                     }
                     runsql('update ' . $tbpref . 'tempwords left join (SELECT MText, GROUP_CONCAT(trim(MTranslation) order by MID separator ' . convert_string_to_sqlsyntax_notrim_nonull($wosep) . ') AS Translation from ' . $tbpref . 'merge_words group by MText ) A on MText=WoTextLC set WoTranslation = Translation', '');
                     runsql('DROP TABLE ' . $tbpref . 'merge_words', '');
                 }
                 // */
                 if($overwrite!=3 and $overwrite!=5) {
-                    $sql=($overwrite!=0)?'INSERT ':('INSERT IGNORE ');
+                    $sql=($overwrite!=0)?'INSERT ':'INSERT IGNORE ';
                     $sql.= ' INTO ' . $tbpref . 'words (WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoStatusChanged, WoLgID,' .  make_score_random_insert_update('iv')  .') ';
                     $sql.= 'select *, ' . $lang . ' as LgID, ' . make_score_random_insert_update('id') . ' from (select WoTextLC , WoText, WoTranslation, WoRomanization, WoSentence, ' . $status . ' as WoStatus, NOW() as WoStatusChanged from ' . $tbpref . 'tempwords) as tw';
                     //if($overwrite==1)$sql.= ' ON DUPLICATE KEY UPDATE ' . $tbpref . 'words.WoTranslation = tw.WoTranslation, ' . $tbpref . 'words.WoRomanization = tw.WoRomanization, ' . $tbpref . 'words.WoSentence = tw.WoSentence, ' . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged';
-                    if($overwrite==1 or $overwrite==4) { $sql.= ' ON DUPLICATE KEY UPDATE ' . ($fields["tr"]?$tbpref . 'words.WoTranslation = tw.WoTranslation, ':'') . ($fields["ro"]?$tbpref . 'words.WoRomanization = tw.WoRomanization, ':'') . ($fields["se"]?$tbpref . 'words.WoSentence = tw.WoSentence, ':'') . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged'; 
+                    if($overwrite==1 or $overwrite==4) { 
+                        $sql.= ' ON DUPLICATE KEY UPDATE ' . ($fields["tr"]?$tbpref . 'words.WoTranslation = tw.WoTranslation, ':'') . ($fields["ro"]?$tbpref . 'words.WoRomanization = tw.WoRomanization, ':'') . ($fields["se"]?$tbpref . 'words.WoSentence = tw.WoSentence, ':'') . $tbpref . 'words.WoStatus = tw.WoStatus, ' . $tbpref . 'words.WoStatusChanged = tw.WoStatusChanged'; 
                     }
-                    if($overwrite==2) { $sql.= ' ON DUPLICATE KEY UPDATE ' . $tbpref . 'words.WoTranslation = case when ' . $tbpref . 'words.WoTranslation = "*" then tw.WoTranslation else ' . $tbpref . 'words.WoTranslation end, ' . $tbpref . 'words.WoRomanization = case when ' . $tbpref . 'words.WoRomanization IS NULL then tw.WoRomanization else ' . $tbpref . 'words.WoRomanization end, ' . $tbpref . 'words.WoSentence = case when ' . $tbpref . 'words.WoSentence IS NULL then tw.WoSentence else ' . $tbpref . 'words.WoSentence end, ' . $tbpref . 'words.WoStatusChanged = case when ' . $tbpref . 'words.WoSentence IS NULL or ' . $tbpref . 'words.WoRomanization IS NULL or ' . $tbpref . 'words.WoTranslation = "*" then tw.WoStatusChanged else ' . $tbpref . 'words.WoStatusChanged end'; 
+                    if($overwrite==2) { 
+                        $sql.= ' ON DUPLICATE KEY UPDATE ' . $tbpref . 'words.WoTranslation = case when ' . $tbpref . 'words.WoTranslation = "*" then tw.WoTranslation else ' . $tbpref . 'words.WoTranslation end, ' . $tbpref . 'words.WoRomanization = case when ' . $tbpref . 'words.WoRomanization IS NULL then tw.WoRomanization else ' . $tbpref . 'words.WoRomanization end, ' . $tbpref . 'words.WoSentence = case when ' . $tbpref . 'words.WoSentence IS NULL then tw.WoSentence else ' . $tbpref . 'words.WoSentence end, ' . $tbpref . 'words.WoStatusChanged = case when ' . $tbpref . 'words.WoSentence IS NULL or ' . $tbpref . 'words.WoRomanization IS NULL or ' . $tbpref . 'words.WoTranslation = "*" then tw.WoStatusChanged else ' . $tbpref . 'words.WoStatusChanged end'; 
                     }
 
 
@@ -223,10 +236,12 @@ if (isset($_REQUEST['op'])) {
                 }
                 runsql('DROP TABLE ' . $tbpref . 'numbers', '');
                 runsql("truncate " . $tbpref . "tempwords", '');
-                if($fields["tl"]!=0) { get_tags(1); 
+                if($fields["tl"]!=0) { 
+                    get_tags(1); 
                 }
             }
-            if (!$file_upl ) {unlink($file_name);
+            if (!$file_upl ) {
+                unlink($file_name);
             }
             set_word_count();
             runsql('UPDATE ' . $tbpref . 'words join ' . $tbpref . 'textitems2 on WoWordCount=1 and Ti2WoID=0 and lower(Ti2Text)=WoTextLC and Ti2LgID = WoLgID SET Ti2WoID=WoID', '');
@@ -245,7 +260,7 @@ if (isset($_REQUEST['op'])) {
                 $res = do_mysqli_query($sql);
                 $cntrp = 0;
                 while ($record = mysqli_fetch_assoc($res)) {
-                    $txtid = $record["TxID"];
+                    $txtid = (int) $record["TxID"];
                     $txttxt = $record["TxText"];
                     splitCheckText($txttxt, $lang, $txtid);
                     $cntrp++;

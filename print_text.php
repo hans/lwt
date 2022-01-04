@@ -79,7 +79,7 @@ function output_text($saveterm,$saverom,$savetrans,$savetags,
     } 
 }
 
-$textid = getreq('text')+0;
+$textid = (int)getreq('text');
 if($textid==0) {
     header("Location: edit_texts.php");
     exit();
@@ -163,7 +163,7 @@ echo "<option value=\"1\"" . get_selected(1, $annplcmnt) . ">in front of</option
 echo "<option value=\"2\"" . get_selected(2, $annplcmnt) . ">above (ruby)</option>";
 echo "</select> the term.<br />";
 echo "<input type=\"button\" value=\"Print it!\" onclick=\"window.print();\" />  (only the text below the line)";
-if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . $textid) + 0) > 0) {
+if (((int)get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . $textid)) > 0) {
     echo " &nbsp; | &nbsp; Or <input type=\"button\" value=\"Print/Edit/Delete\" onclick=\"location.href='print_impr_text.php?text=" . $textid . "';\" /> your <b>Improved Annotated Text</b>" . get_annotation_link($textid) . ".";
 } else {
     echo " &nbsp; | &nbsp; <input type=\"button\" value=\"Create\" onclick=\"location.href='print_impr_text.php?edit=1&amp;text=" . $textid . "';\" /> an <b>Improved Annotated Text</b> [<img src=\"icn/tick.png\" title=\"Annotated Text\" alt=\"Annotated Text\" />].";
@@ -184,8 +184,8 @@ $res = do_mysqli_query($sql);
 
 while ($record = mysqli_fetch_assoc($res)) {
 
-    $actcode = $record['Code'] + 0;
-    $order = $record['Ti2Order'] + 0;
+    $actcode = (int)$record['Code'];
+    $order = (int)$record['Ti2Order'];
     
     if ($order <= $until ) {
         continue;
@@ -215,7 +215,7 @@ while ($record = mysqli_fetch_assoc($res)) {
         $savetags = '';
         $saverom = '';
         if(isset($record['WoID'])) {
-            if (checkStatusRange($record['WoStatus']+0, $statusrange)) {
+            if (checkStatusRange((int)$record['WoStatus'], $statusrange)) {
                 $savetrans = $record['WoTranslation'];
                 $savetags = getWordTagList($record['WoID'], '', 1, 0);
                 if ($savetrans == '*') { $savetrans = ''; 

@@ -56,8 +56,12 @@ LWT jQuery functions
 ***************************************************************/
 
 function setTransRoman (tra, rom) {
-  if ($('textarea[name="WoTranslation"]').length == 1) { $('textarea[name="WoTranslation"]').val(tra); }
-  if ($('input[name="WoRomanization"]').length == 1) { $('input[name="WoRomanization"]').val(rom); }
+  if ($('textarea[name="WoTranslation"]').length == 1) { 
+    $('textarea[name="WoTranslation"]').val(tra); 
+  }
+  if ($('input[name="WoRomanization"]').length == 1) { 
+    $('input[name="WoRomanization"]').val(rom); 
+  }
   makeDirty();
 }
 
@@ -196,7 +200,7 @@ function check () {
   });
   $('input.posintnumber').each(function (n) {
     if ($(this).val().trim().length > 0) {
-      if (!(isInt($(this).val().trim()) && (($(this).val().trim() + 0) > 0))) {
+      if (!(isInt($(this).val().trim()) && (parseInt($(this).val().trim(), 10) > 0))) {
         alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number > 0.');
         count++;
       }
@@ -204,7 +208,7 @@ function check () {
   });
   $('input.zeroposintnumber').each(function (n) {
     if ($(this).val().trim().length > 0) {
-      if (!(isInt($(this).val().trim()) && (($(this).val().trim() + 0) >= 0))) {
+      if (!(isInt($(this).val().trim()) && (parseInt($(this).val().trim(), 10) >= 0))) {
         alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number >= 0.');
         count++;
       }

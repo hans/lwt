@@ -183,13 +183,14 @@ else {
     get_texttags($refresh = 1);   // refresh tags cache
 
     $sql = 'select count(T2ID) as value from ' . $tbpref . 'tags2 where (1=1) ' . $wh_query;
-    $recno = get_first_value($sql);
-    if ($debug) { echo $sql . ' ===&gt; ' . $recno; 
+    $recno = (int) get_first_value($sql);
+    if ($debug) { 
+        echo $sql . ' ===&gt; ' . $recno; 
     }
     
-    $maxperpage = getSettingWithDefault('set-tags-per-page');
+    $maxperpage = (int) getSettingWithDefault('set-tags-per-page');
 
-    $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
+    $pages = $recno == 0 ? 0 : (($recno-1) / $maxperpage + 1);
     
     if ($currentpage < 1) { $currentpage = 1; 
     }

@@ -1,9 +1,17 @@
 <?php
 
-/**************************************************************
-Call: delete_mword.php?wid=[wordid]&tid=[textid]
-Delete an expression 
- ***************************************************************/
+ /**
+ * \file
+ * \brief Delete an expression
+ * 
+ * Call: delete_mword.php?wid=[wordid]&tid=[textid]
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/delete__mword_8php.html
+ * @since   1.0.3
+ */
 
 require_once 'inc/session_utility.php';
 

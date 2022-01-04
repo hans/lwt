@@ -34,7 +34,7 @@ function get_test_sql()
         $testsql = $_SESSION['testsql'];
         $cntlang = get_first_value('SELECT count(distinct WoLgID) AS value FROM ' . $testsql);
         if ($cntlang > 1) {
-            pagestart('', '');
+            pagestart('', false);
             echo '<p>Sorry - The selected terms are in ' . $cntlang . ' languages, but tests are only possible in one language at a time.</p>';
             pageend();
             exit();
@@ -137,13 +137,13 @@ function do_test_test_finished($testsql, $totaltests)
  * Get a sentence containing the word.
  * 
  * @param int    $wid    The word to test.
- * @param int    $lang   ID of the language
+ * @param string $lang   ID of the language
  * @param string $wordlc 
  * 
  * @global string $tbpref Table prefix
  * @global int    $debug  Echo the passage number if 1. 
  * 
- * @return int[2] Sentence with escaped word and a confirmation number if sentence was found.
+ * @return array{0: int, 1: int} Sentence with escaped word and a confirmation number if sentence was found.
  * 
  * @since 2.0.5-fork
  */
@@ -206,7 +206,7 @@ function do_test_test_sentence($wid, $lang, $wordlc)
  * @param int    $nosent    1 if you want to hide sentences.
  * @param string $regexword Regex to select the desired word.
  * 
- * @return string[2] HTML-escaped and raw text sentences (or word)
+ * @return array{0: string, 1: string} HTML-escaped and raw text sentences (or word)
  * 
  * @since 2.0.5-fork
  */
@@ -574,11 +574,15 @@ function do_test_test_content()
     if ($debug) { 
         echo 'DEBUG - COUNT TO TEST: ' . $count . '<br />'; 
     }
-    $notyettested = $count;
+    if (is_numeric($count)) {
+        $notyettested = (int) $count;
+    } else {
+        my_die('The number of words left to test is not an integer: "' . $count . '"!');
+    }
 
-    $count = prepare_test_area($testsql, $totaltests, $count, $testtype);
+    $count2 = prepare_test_area($testsql, $totaltests, $notyettested, $testtype);
     prepare_test_footer($notyettested);
-    do_test_test_javascript($count);
+    do_test_test_javascript($count2);
     pageend();
 
 }

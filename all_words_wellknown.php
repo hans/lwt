@@ -39,13 +39,18 @@ $javascript = "var title='';";
 while ($record = mysqli_fetch_assoc($res)) {
     $term = $record['TiText'];    
     $termlc = $record['TiTextLC'];    
-    $count1 = 0 + runsql(
-        'INSERT INTO ' . $tbpref . 'words (WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' . make_score_random_insert_update('iv') . ') 
+    $count1 = (int)runsql(
+        'INSERT INTO ' . $tbpref . 'words (
+            WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' 
+            . make_score_random_insert_update('iv') . 
+        ') 
         values( ' . 
-        $langid . ', ' . 
-        convert_string_to_sqlsyntax($term) . ', ' . 
-        convert_string_to_sqlsyntax($termlc) . ', 1, '.$status.' , NOW(), ' .  
-        make_score_random_insert_update('id') . ')', ''
+            $langid . ', ' . 
+            convert_string_to_sqlsyntax($term) . ', ' . 
+            convert_string_to_sqlsyntax($termlc) . ', 1, '.$status.' , NOW(), ' .  
+            make_score_random_insert_update('id') 
+        . ')', 
+        ''
     );
     $wid = get_last_key();
     $sqlarr[]= ' WHEN ' . convert_string_to_sqlsyntax_notrim_nonull($termlc) . ' THEN ' . $wid;

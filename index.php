@@ -110,7 +110,12 @@ if (! areCookiesEnabled()) document.write('<p class="red">*** Cookies are not en
      &nbsp; &nbsp; 
      <a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
             <?php
-            if ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . (int)$currenttext) + 0) > 0) {
+            $record = (int)get_first_value(
+                "SELECT length(TxAnnotatedText) AS value 
+                FROM " . $tbpref . "texts 
+                WHERE TxID = " . $currenttext
+            ); 
+            if ($record > 0) {
                 ?>
     &nbsp; &nbsp; 
     <a href="print_impr_text.php?text=<?php echo $currenttext; ?>"><img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text</a>
@@ -186,15 +191,17 @@ $mb = get_first_value(
     "CONCAT(" . $p . ",'words')," .
     "CONCAT(" . $p . ",'wordtags'))"
 );
-if (! isset($mb)) { $mb = '0.0'; 
+if (!isset($mb)) { 
+    $mb = '0.0'; 
 }
 
 $serversoft = explode(' ', $_SERVER['SERVER_SOFTWARE']);
 $apache = "Apache/?";
-if (count($serversoft) >= 1) {
-    if (substr($serversoft[0], 0, 7) == "Apache/") { $apache = $serversoft[0]; 
+// if (count($serversoft) >= 1) { Not supposed to happen
+    if (substr($serversoft[0], 0, 7) == "Apache/") { 
+        $apache = $serversoft[0]; 
     }
-}
+// }
 $php = "PHP/" . phpversion();
 $mysql = "MySQL/" . get_first_value("SELECT VERSION() as value");
 

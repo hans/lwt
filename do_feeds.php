@@ -1,9 +1,11 @@
 <?php
 /**
  * \file
- * Prepare RSS feeds.
+ * \brief Prepare RSS feeds.
  * 
- * @author ttps://github.com/andreask7 andreask7
+ * @package Lwt
+ * @author https://github.com/andreask7 andreask7
+ * @license Unlicense <http://unlicense.org/>
  * @since  1.6.0-fork
  */
 
@@ -137,7 +139,7 @@ if (isset($_REQUEST['marked_items'])) {
             foreach($texts as $text){
                 echo '<div class="msgblue"><p class="hide_message">+++ "' . $text['TxTitle']. '" added! +++</p></div>';
                 do_mysqli_query('INSERT INTO ' . $tbpref . 'texts (TxLgID,TxTitle,TxText,TxAudioURI,TxSourceURI)VALUES ('.$row['NfLgID'].',' . convert_string_to_sqlsyntax($text['TxTitle']) .','. convert_string_to_sqlsyntax($text['TxText']) .','. convert_string_to_sqlsyntax($text['TxAudioURI']) .','.convert_string_to_sqlsyntax($text['TxSourceURI']) .')');
-                $id = get_last_key();
+                $id = (int)get_last_key();
                 splitCheckText(
                     get_first_value(
                         'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id
@@ -160,29 +162,67 @@ if (isset($_REQUEST['marked_items'])) {
                 sort($text_item, SORT_NUMERIC);
                 if($text_count>$nf_max_texts) {
                     $text_item=array_slice($text_item, 0, $text_count-$nf_max_texts);
-                    foreach ($text_item as $text_ID){
-                        $message3 += runsql(
+                    foreach ($text_item as $text_ID) {
+                        $temp = runsql(
                             'delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $text_ID, 
                             ""
                         );
-                        $message2 += runsql(
+                        if (is_numeric($temp)) {
+                            $message3 += (int) $temp;
+                        }
+                        $temp = runsql(
                             'delete from ' . $tbpref . 'sentences where SeTxID = ' . $text_ID, 
                             ""
                         );
-                        $message4 += runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $text_ID, "");
+                        if (is_numeric($temp)) {
+                            $message2 += (int) $temp;
+                        }
+                        $temp = runsql(
+                            'INSERT INTO ' . $tbpref . 'archivedtexts (
+                                AtLgID, AtTitle, AtText, 
+                                AtAnnotatedText, AtAudioURI, AtSourceURI
+                            ) 
+                            SELECT TxLgID, TxTitle, TxText, 
+                            TxAnnotatedText, TxAudioURI, TxSourceURI 
+                            FROM ' . $tbpref . 'texts 
+                            WHERE TxID = ' . $text_ID, 
+                            ""
+                        );
+                        if (is_numeric($temp)) {
+                            $message4 += (int) $temp;
+                        }
                         $id = get_last_key();
-                        runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $text_ID, "");    
-                        $message1 += runsql('delete from ' . $tbpref . 'texts where TxID = ' . $text_ID, "");
+                        runsql(
+                            'INSERT INTO ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) 
+                            SELECT ' . $id . ', TtT2ID 
+                            FROM ' . $tbpref . 'texttags 
+                            WHERE TtTxID = ' . $text_ID, 
+                            ""
+                        );    
+                        $temp = runsql('DELETE FROM ' . $tbpref . 'texts WHERE TxID = ' . $text_ID, "");
+                        if (is_numeric($temp)) {
+                            $message1 += (int) $temp;
+                        }
                         adjust_autoincr('texts', 'TxID');
                         adjust_autoincr('sentences', 'SeID');
-                        runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL", '');        
+                        runsql(
+                            "DELETE " . $tbpref . "texttags 
+                            FROM (" 
+                                . $tbpref . "texttags 
+                                LEFT JOIN " . $tbpref . "texts 
+                                ON TtTxID = TxID
+                            ) 
+                            WHERE TxID IS NULL", 
+                            ''
+                        );        
                     }
                 }
             }
         }
     }
     mysqli_free_result($res);
-    if($message4>0 || $message1>0) { $message = "Texts archived: " . $message1 . " / Sentences deleted: " . $message2 . " / Text items deleted: " . $message3; 
+    if ($message4>0 || $message1>0) { 
+        $message = "Texts archived: " . $message1 . " / Sentences deleted: " . $message2 . " / Text items deleted: " . $message3; 
     }
     if($edit_text==1) {
         ?>
@@ -331,18 +371,19 @@ if(mysqli_data_seek($result, 0)) {
     else{
         echo '<a href="edit_feeds.php?multi_load_feed=1&amp;selected_feed=' . $currentfeed . '"> update multiple feeds</a>';
     }
-    if($time) {
-        $diff=time()-$time;
+    if ($time) {
+        $diff=time() - (int) $time;
         print_last_feed_update($diff);
     }
     echo '</td></tr>';
-    $sql = 'select count(*) as value from ' . $tbpref . 'feedlinks where FlNfID in ('.$currentfeed.')'. $wh_query;
-    $recno = get_first_value($sql);
+    $sql = 'SELECT count(*) AS value FROM ' . $tbpref . 'feedlinks 
+    WHERE FlNfID in ('.$currentfeed.')'. $wh_query;
+    $recno = (int)get_first_value($sql);
     if ($debug) { 
         echo $sql . ' ===&gt; ' . $recno; 
     }
     if($recno) {
-        $maxperpage = getSettingWithDefault('set-articles-per-page');
+        $maxperpage = (int)getSettingWithDefault('set-articles-per-page');
         $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
         if ($currentpage < 1) { 
             $currentpage = 1; 

@@ -11,7 +11,7 @@
 
 require_once __DIR__ . '/session_utility.php';
 
-$textid = $_POST['id'] + 0;
+$textid = (int)$_POST['id'];
 $elem = $_POST['elem'];
 $stringdata = stripTheSlashesIfNeeded($_POST['data']);
 $data = json_decode($stringdata);
@@ -21,7 +21,7 @@ if(substr($elem, 0, 2) == "rg") {
     if($val == "") { $val = $data->{'tx' . substr($elem, 2)}; 
     } 
 }
-$line = substr($elem, 2) + 0;
+$line = (int)substr($elem, 2);
 
 // Save data
 $success = "NOTOK";

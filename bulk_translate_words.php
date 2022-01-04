@@ -57,7 +57,7 @@ else {
 if(isset($pos)) {
     $cnt = 0;
     $offset = '';
-    $limit = getSettingWithDefault('set-ggl-translation-per-page') + 1;
+    $limit = (int)getSettingWithDefault('set-ggl-translation-per-page') + 1;
     $sql = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages, ' . $tbpref . 'texts where LgID = TxLgID and TxID = ' . $tid;
     $res = do_mysqli_query($sql);
     $record = mysqli_fetch_assoc($res);

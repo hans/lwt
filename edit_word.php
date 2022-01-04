@@ -24,7 +24,7 @@ require_once 'inc/simterms.php';
  * @param string $textlc      The word to insert, in lowercase
  * @param string $translation Translation of this term
  * 
- * @return string[2] Word id, and then an insertion message 
+ * @return array{0: string, 1: string} Word id, and then an insertion message 
  */
 function insert_new_word($textlc, $translation)
 {
@@ -65,7 +65,7 @@ function insert_new_word($textlc, $translation)
  * 
  * @param string $translation New translation for this term
  * 
- * @return string[2] Word id, and then an insertion message 
+ * @return array{0: string, 1: string} Word id, and then an insertion message 
  */
 function edit_term($translation)
 {

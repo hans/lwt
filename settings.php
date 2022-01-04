@@ -347,7 +347,7 @@ value="<?php echo tohtml(getSettingWithDefault('set-test-edit-frame-waiting-time
 <select name="set-mobile-display-mode">
 <?php
 echo get_mobile_display_mode_selectoptions(
-    getSettingWithDefault('set-mobile-display-mode'), true, true, true
+    getSettingWithDefault('set-mobile-display-mode') // , true, true, true what is it???
 );
 ?>
 </select>

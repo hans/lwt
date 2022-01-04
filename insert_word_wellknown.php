@@ -86,7 +86,7 @@ function insert_word_wellknown_to_database($textid, $word)
  * 
  * @return void
  */
-function do_javascript_action($word, $wid, $hex, $textid)
+function insert_word_wellknown_javascript($word, $wid, $hex, $textid)
 {
     ?>
     <script type="text/javascript">
@@ -123,7 +123,7 @@ function show_page_insert_word_wellknown($word, $wid, $hex, $textid)
 {
     pagestart("Term: " . $word, false);
     echo "<p>OK, you know this term well!</p>";
-    do_javascript_action($word, $wid, $hex, $textid);
+    insert_word_wellknown_javascript($word, $wid, $hex, $textid);
     pageend();
 }
 

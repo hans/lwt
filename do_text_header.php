@@ -39,7 +39,7 @@ function getData($textid)
 /**
  * Print the main title row.
  * 
- * @param string $textid Text ID
+ * @param int    $textid Text ID
  * @param string $langid Language ID to navigate between 
  *                       texts of same language
  * @since 2.0.4-fork
@@ -279,7 +279,7 @@ function do_text_header_content($textid, $only_body=true)
         pagestart_nobody(tohtml($title), 'html, body {margin-bottom:0;}');
     }
     save_audio_position($textid);
-    do_header_row($textid, $record['TxLgID']);
+    do_header_row((int) $textid, $record['TxLgID']);
     do_title($title, $record['TxSourceURI']);
     do_settings($textid);
     makeMediaPlayer($media, $record['TxAudioPosition']);

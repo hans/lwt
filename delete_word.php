@@ -63,7 +63,7 @@ function delete_word_from_database($wid)
  * Do the JavaScript action for changing display of the word.
  * 
  * @param string $wid ID of the word to delete
- * @param string $tid Text ID
+ * @param int    $tid Text ID
  * 
  * @return void 
  */
@@ -103,7 +103,7 @@ function delete_word_javascript($wid, $tid)
 /**
  * Make the HTML content of the page when deleting a word.
  * 
- * @param string $tid  Text ID
+ * @param int    $tid  Text ID
  * @param string $wid  ID of the word to delete
  * @param string $term The deleted word
  * @param string $m1   Some edit message, number of affected rows or error message
@@ -124,7 +124,7 @@ function delete_word_page_content($tid, $wid, $term, $m1)
  * It edits the database, show the success message
  * and do JavaScript action to change its display.
  * 
- * @param string $textid ID of the affected text
+ * @param int    $textid ID of the affected text
  * @param string $wordid ID of the word to delete
  * 
  * @return void
@@ -139,7 +139,7 @@ function do_delete_word($textid, $wordid)
 }
 
 if (getreq('tid') != '' && getreq('wid') != '') {
-    do_delete_word(getreq('tid'), getreq('wid'));
+    do_delete_word((int)getreq('tid'), getreq('wid'));
 }
 
 ?>

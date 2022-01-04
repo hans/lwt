@@ -18,7 +18,8 @@ require_once 'inc/session_utility.php';
  * 
  * @param string $wid ID of the word
  * 
- * @return string[3] The word in plain text, his translation and his romanization
+ * @return array{0: string, 1: string, 2: string} The word in plain text, 
+ * his translation and his romanization
  * 
  * @global string $tbpref 
  */
@@ -92,7 +93,7 @@ function set_word_status_javascript($tid, $wid, $status, $word, $trans, $roman)
 }
 
 /**
- * Echo the HTLK content of the page.
+ * Echo the HTML content of the page.
  * 
  * @param string $tid    Text ID
  * @param string $wid    ID of the word that changed status

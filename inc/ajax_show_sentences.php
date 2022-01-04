@@ -15,11 +15,13 @@
 
 require_once __DIR__ . '/session_utility.php';
 
-$lang = $_POST['lang'] + 0;
+$lang = (int)$_POST['lang'];
 $word = stripTheSlashesIfNeeded($_POST['word']);
 $wid = stripTheSlashesIfNeeded($_POST['woid']);
 $ctl = stripTheSlashesIfNeeded($_POST['ctl']);
 
-echo get20Sentences($lang, $word, $wid, $ctl, (int) getSettingWithDefault('set-term-sentence-count'));
-
+echo get20Sentences(
+    $lang, $word, $wid, $ctl, 
+    (int) getSettingWithDefault('set-term-sentence-count')
+);
 ?>

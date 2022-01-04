@@ -11,10 +11,10 @@
 
 require_once __DIR__ . '/session_utility.php';
 
-$wid = $_POST['id'] + 0;
+$wid = (int)$_POST['id'];
 $data = trim(stripTheSlashesIfNeeded($_POST['data'])); // translation
 $text = trim(stripTheSlashesIfNeeded($_POST['text'])); // only wid=0 (new)
-$lang = $_POST['lang'] + 0; // only wid=0 (lang-id)
+$lang = (int)$_POST['lang']; // only wid=0 (lang-id)
 
 // Save data
 $success = "";

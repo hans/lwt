@@ -130,16 +130,16 @@ if (isset($_REQUEST['markaction'])) {
                     $res = do_mysqli_query($sql);
                     while ($record = mysqli_fetch_assoc($res)) {
                         $ida = $record['AtID'];
-                        $mess = 0 + runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI from ' . $tbpref . 'archivedtexts where AtID = ' . $ida, "");
+                        $mess = (int)runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI from ' . $tbpref . 'archivedtexts where AtID = ' . $ida, "");
                         $count += $mess;
-                        $id = get_last_key();
+                        $id = (int)get_last_key();
                         runsql('insert into ' . $tbpref . 'texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from ' . $tbpref . 'archtexttags where AgAtID = ' . $ida, "");    
                         splitCheckText(
                             get_first_value(
                                 'select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id
                             ), 
                             $record['AtLgID'], 
-                            $id 
+                            $id
                         );    
                         runsql('delete from ' . $tbpref . 'archivedtexts where AtID = ' . $ida, "");
                     }
@@ -169,7 +169,7 @@ if (isset($_REQUEST['del'])) {
 
 elseif (isset($_REQUEST['unarch'])) {
     $message2 = runsql('insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) select AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI from ' . $tbpref . 'archivedtexts where AtID = ' . $_REQUEST['unarch'], "Texts added");
-    $id = get_last_key();
+    $id = (int)get_last_key();
     runsql('insert into ' . $tbpref . 'texttags (TtTxID, TtT2ID) select ' . $id . ', AgT2ID from ' . $tbpref . 'archtexttags where AgAtID = ' . $_REQUEST['unarch'], "");    
     splitCheckText(
         get_first_value(
@@ -292,25 +292,30 @@ else {
     echo error_message_with_hide($message, 0);
 
     $sql =     'select count(*) as value from (select AtID from (' . $tbpref . 'archivedtexts left JOIN ' . $tbpref . 'archtexttags ON AtID = AgAtID) where (1=1) ' . $wh_lang . $wh_query . ' group by AtID ' . $wh_tag . ') as dummy';
-    $recno = get_first_value($sql);
-    if ($debug) { echo $sql . ' ===&gt; ' . $recno; 
+    $recno = (int)get_first_value($sql);
+    if ($debug) { 
+        echo $sql . ' ===&gt; ' . $recno; 
     }
 
-    $maxperpage = getSettingWithDefault('set-archivedtexts-per-page');
+    $maxperpage = (int)getSettingWithDefault('set-archivedtexts-per-page');
 
-    $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
+    $pages = $recno == 0 ? 0 : ($recno-1) / $maxperpage + 1;
     
-    if ($currentpage < 1) { $currentpage = 1; 
+    if ($currentpage < 1) { 
+        $currentpage = 1; 
     }
-    if ($currentpage > $pages) { $currentpage = $pages; 
+    if ($currentpage > $pages) { 
+        $currentpage = $pages; 
     }
     $limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
 
     $sorts = array('AtTitle','AtID desc','AtID');
     $lsorts = count($sorts);
-    if ($currentsort < 1) { $currentsort = 1; 
+    if ($currentsort < 1) { 
+        $currentsort = 1; 
     }
-    if ($currentsort > $lsorts) { $currentsort = $lsorts; 
+    if ($currentsort > $lsorts) { 
+        $currentsort = $lsorts; 
     }
     
     ?>

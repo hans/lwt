@@ -101,7 +101,7 @@ function print_similar_terms($lang_id, $compared_term)
         return '&nbsp;'; 
     } 
     $compare = tohtml($compared_term);
-    $termarr = get_similar_terms($lang_id, $compared_term, $max_count, 0.33, $tbpref);
+    $termarr = get_similar_terms($lang_id, $compared_term, $max_count, 0.33);
     $rarr = array();
     foreach ($termarr as $termid) {
         $sql = "select WoText, WoTranslation, WoRomanization from " . $tbpref . "words where WoID = " . $termid;

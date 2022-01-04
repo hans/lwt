@@ -138,7 +138,14 @@ if (isset($_REQUEST['markaction'])) {
                     $res = do_mysqli_query($sql);
                     while ($record = mysqli_fetch_assoc($res)) {
                         $id = $record['TxID'];
-                        $count += (0 + runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $id, ""));
+                        $count += (int)runsql(
+                            'insert into ' . $tbpref . 'archivedtexts (
+                                AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI
+                            ) 
+                            select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI 
+                            from ' . $tbpref . 'texts where TxID = ' . $id, 
+                            ""
+                        );
                         $aid = get_last_key();
                         runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $aid . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $id, "");
                     }
@@ -167,7 +174,10 @@ if (isset($_REQUEST['markaction'])) {
                     $res = do_mysqli_query($sql);
                     while ($record = mysqli_fetch_assoc($res)) {
                         $sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
-                        $count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
+                        $count += (int) runsql(
+                            'update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], 
+                            ''
+                        );
                     }
                     mysqli_free_result($res);
                     $message = 'Term Sentences set from Text(s): ' . $count;
@@ -180,7 +190,10 @@ if (isset($_REQUEST['markaction'])) {
                     $res = do_mysqli_query($sql);
                     while ($record = mysqli_fetch_assoc($res)) {
                         $sent = getSentence($record['SeID'], $record['WoTextLC'], (int) getSettingWithDefault('set-term-sentence-count'));
-                        $count += runsql('update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], '');
+                        $count += (int) runsql(
+                            'update ' . $tbpref . 'words set WoSentence = ' . convert_string_to_sqlsyntax(repl_tab_nl($sent[1])) . ' where WoID = ' . $record['WoID'], 
+                            ''
+                        );
                     }
                     mysqli_free_result($res);
                     $message = 'Term Sentences set from Text(s): ' . $count;
@@ -191,7 +204,7 @@ if (isset($_REQUEST['markaction'])) {
                     $sql = "select TxID, TxLgID from " . $tbpref . "texts where TxID in " . $list;
                     $res = do_mysqli_query($sql);
                     while ($record = mysqli_fetch_assoc($res)) {
-                        $id = $record['TxID'];
+                        $id = (int)$record['TxID'];
                         $message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
                         $message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id, "Text items deleted");
                         adjust_autoincr('sentences', 'SeID');
@@ -311,7 +324,7 @@ elseif (isset($_REQUEST['op'])) {
                 'TxSourceURI = ' . convert_string_to_sqlsyntax($_REQUEST["TxSourceURI"]) . ' ' .
                 'where TxID = ' . $_REQUEST["TxID"], "Updated"
             );
-            $id = $_REQUEST["TxID"];
+            $id = (int) $_REQUEST["TxID"];
             saveTextTags($id);
         }
 
@@ -492,25 +505,30 @@ else {
     echo error_message_with_hide($message, 0);
 
     $sql = 'select count(*) as value from (select TxID from (' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
-    $recno = get_first_value($sql);
-    if ($debug) { echo $sql . ' ===&gt; ' . $recno; 
+    $recno = (int) get_first_value($sql);
+    if ($debug) { 
+        echo $sql . ' ===&gt; ' . $recno; 
     }
 
-    $maxperpage = getSettingWithDefault('set-texts-per-page');
+    $maxperpage = (int) getSettingWithDefault('set-texts-per-page');
 
     $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
 
-    if ($currentpage < 1) { $currentpage = 1; 
+    if ($currentpage < 1) { 
+        $currentpage = 1; 
     }
-    if ($currentpage > $pages) { $currentpage = $pages; 
+    if ($currentpage > $pages) { 
+        $currentpage = $pages; 
     }
     $limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
 
     $sorts = array('TxTitle','TxID desc','TxID asc');
     $lsorts = count($sorts);
-    if ($currentsort < 1) { $currentsort = 1; 
+    if ($currentsort < 1) { 
+        $currentsort = 1; 
     }
-    if ($currentsort > $lsorts) { $currentsort = $lsorts; 
+    if ($currentsort > $lsorts) { 
+        $currentsort = $lsorts; 
     }
 
     ?>
@@ -646,7 +664,7 @@ select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) a
         $statuses[0]["name"]='Unknown';
         $statuses[0]["$showCounts"]='Ukn';
         $res = do_mysqli_query($sql);
-        $showCounts = getSettingWithDefault('set-show-text-word-counts')+0;
+        $showCounts = (int)getSettingWithDefault('set-show-text-word-counts');
         while ($record = mysqli_fetch_assoc($res)) {
             /*
             Added by merge and makes statistics crash. To be removed?
@@ -667,11 +685,11 @@ select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) a
             }
             }
             */
-            $audio = $record['TxAudioURI'];
-            if(!isset($audio)) { 
-                $audio=''; 
+            if (isset($record['TxAudioURI'])) {
+                $audio = trim($record['TxAudioURI']);
+            } else {
+                $audio = ''; 
             }
-            $audio=trim($audio);
             echo '<tr>';
             echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
             echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';

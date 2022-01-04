@@ -9,8 +9,9 @@
  * Call: do_test_header.php?selection=1  
  *      (SQL via $_SESSION['testsql'])
  * 
- * @package lwt
+ * @package Lwt
  * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
  * @link    https://hugofara.github.io/lwt/docs/html/do__test__header_8php.html
  * @since   1.0.3
  */
@@ -107,7 +108,7 @@ function get_text_test_data(&$title, &$p)
  * 
  * @param string $testsql SQL query for this test.
  * 
- * @return string[2] Total words due and total words learning
+ * @return array{0: string, 1: string} Total words due and total words learning
  */
 function get_test_counts($testsql) 
 {
@@ -146,7 +147,7 @@ function do_test_header_row($p)
     if (substr($p, 0, 4) != 'text') {
         return;
     }
-    $textid = getreq('text');
+    $textid = (int) getreq('text');
     echo getPreviousAndNextTextLinks(
         $textid, 'do_test.php?text=', false, '&nbsp; | &nbsp;'
     );
@@ -237,7 +238,7 @@ function do_test_header_content($title, $p, $totalcountdue, $totalcount)
  * @param string $title Title to be overwritten
  * @param string $p     Property URL to be overwritten
  * 
- * @return string[2] Total words due and total words learning
+ * @return array{0: string, 1: string} Total words due and total words learning
  * 
  * @since 2.0.5-fork
  */

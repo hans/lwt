@@ -15,7 +15,7 @@ require_once 'inc/session_utility.php';
 require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php';
 
 $detect = new Mobile_Detect;
-$mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
+$mobileDisplayMode = (int)getSettingWithDefault('set-mobile-display-mode');
 $mobile = ($mobileDisplayMode == 0 && $detect->isMobile()) || $mobileDisplayMode == 2;
 
 if (isset($_REQUEST['start'])) {

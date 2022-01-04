@@ -10,13 +10,11 @@ $currentfeed = processSessParam("selected_feed", "currentmanagefeedsfeed", '', 0
 $wh_query = convert_string_to_sqlsyntax(str_replace("*", "%", $currentquery));
 $wh_query = ($currentquery != '') ? (' and (NfName like ' . $wh_query . ')') : '';
 
-$no_pagestart = '';
-if (! $no_pagestart) {
-    pagestart('Manage ' . getLanguage($currentlang) . ' Feeds', true);
-}
+pagestart('Manage ' . getLanguage($currentlang) . ' Feeds', true);
 
 $message = '';
-if(isset($_SESSION['wizard'])) {unset($_SESSION['wizard']);
+if(isset($_SESSION['wizard'])) {
+    unset($_SESSION['wizard']);
 }
 
 
@@ -285,7 +283,7 @@ elseif(isset($_REQUEST['multi_load_feed'])) {
     <?php
     $time=time();
     while($row = mysqli_fetch_assoc($result)){
-        $diff=$time-$row['NfUpdate'];
+        $diff= $time - (int) $row['NfUpdate'];
         echo '<tr><td class="td1 center"><input class="markcheck" type="checkbox" name="selected_feed[]" value="' . $row['NfID'] . '" checked="checked" /></td>';
         echo '<td class="td1 center" colspan="2">'.$row['NfName'].'</td><td class="td1 center" sorttable_customkey="'.$diff.'">';
         if($row['NfUpdate']) {
@@ -355,12 +353,13 @@ Feed Name (Wildc.=*):
         $sql = 'select count(*) as value from ' . $tbpref . 'newsfeeds where '; if($currentlang>0) { $sql .= 'NfLgID ='.$currentlang . $wh_query; 
         }else { $sql .= '1=1' . $wh_query; 
         }
-        $recno = get_first_value($sql);
-        if ($debug) { echo $sql . ' ===&gt; ' . $recno; 
+        $recno = (int) get_first_value($sql);
+        if ($debug) { 
+            echo $sql . ' ===&gt; ' . $recno; 
         }
         if($recno) {
-            $maxperpage = getSettingWithDefault('set-feeds-per-page');
-            $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
+            $maxperpage = (int) getSettingWithDefault('set-feeds-per-page');
+            $pages = $recno == 0 ? 0 : (($recno-1) / $maxperpage + 1);
             if ($currentpage < 1) { $currentpage = 1; 
             }
             if ($currentpage > $pages) { $currentpage = $pages; 
@@ -398,7 +397,7 @@ Feed Name (Wildc.=*):
             <?php
             $time=time();    
             while($row = mysqli_fetch_assoc($result)) {
-                $diff = $time-$row['NfUpdate'];
+                $diff = $time- (int) $row['NfUpdate'];
                 echo '<tr><td class="td1 center"><input type="checkbox" name="marked[]" class="markcheck" value="' . $row['NfID'] . '" /></td>';
                 echo '<td style="white-space: nowrap" class="td1 center"><a href="' . $_SERVER['PHP_SELF'] . '?edit_feed=1&amp;selected_feed=' . $row['NfID'] . '"><img src="icn/feed--pencil.png" title="Edit" alt="Edit" /></a>';
                 echo '&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?manage_feeds=1&amp;load_feed=1&amp;selected_feed=' . $row['NfID'] . '"><span title="Update Feed"><img src="icn/arrow-circle-135.png" alt="-" /></span></a>';

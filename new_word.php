@@ -105,8 +105,8 @@ else {  // if (! isset($_REQUEST['op']))
 
     // new_word.php?text=..&lang=..
     
-    $lang = getreq('lang') + 0;
-    $text = getreq('text') + 0;
+    $lang = (int)getreq('lang');
+    $text = (int)getreq('text');
     pagestart_nobody('');
     ?>
 <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>

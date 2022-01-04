@@ -182,17 +182,20 @@ else {
     get_tags($refresh = 1);   // refresh tags cache
 
     $sql = 'select count(TgID) as value from ' . $tbpref . 'tags where (1=1) ' . $wh_query;
-    $recno = get_first_value($sql);
-    if ($debug) { echo $sql . ' ===&gt; ' . $recno; 
+    $recno = (int) get_first_value($sql);
+    if ($debug) { 
+        echo $sql . ' ===&gt; ' . $recno; 
     }
     
-    $maxperpage = getSettingWithDefault('set-tags-per-page');
+    $maxperpage = (int) getSettingWithDefault('set-tags-per-page');
 
-    $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
+    $pages = $recno == 0 ? 0 : (($recno-1) / $maxperpage + 1);
     
-    if ($currentpage < 1) { $currentpage = 1; 
+    if ($currentpage < 1) { 
+        $currentpage = 1; 
     }
-    if ($currentpage > $pages) { $currentpage = $pages; 
+    if ($currentpage > $pages) { 
+        $currentpage = $pages; 
     }
     $limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
 

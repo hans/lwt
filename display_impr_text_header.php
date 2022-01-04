@@ -8,7 +8,7 @@
 
 require_once 'inc/session_utility.php';
 
-$textid = getreq('text');
+$textid = (int) getreq('text');
 $sql 
 = 'SELECT TxLgID, TxTitle, TxAudioURI, TxSourceURI 
  FROM ' . $tbpref . 'texts
@@ -17,7 +17,8 @@ $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 
 $audio = $record['TxAudioURI'];
-if(!isset($audio)) { $audio=''; 
+if(!isset($audio)) { 
+    $audio=''; 
 }
 $audio=trim($audio);
 

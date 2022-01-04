@@ -53,7 +53,7 @@ function make_trans($i, $wid, $trans, $word, $lang)
     return $r;
 }
 
-$textid = $_POST["id"] + 0;
+$textid = (int)$_POST["id"];
 $wordlc = stripTheSlashesIfNeeded($_POST['word']);
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
@@ -66,8 +66,9 @@ mysqli_free_result($res);
 $sql = 'select LgTextSize, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
-$textsize = $record['LgTextSize'] + 0;
-if ($textsize > 100) { $textsize = intval($textsize * 0.8); 
+$textsize = (int)$record['LgTextSize'];
+if ($textsize > 100) { 
+    $textsize = intval($textsize * 0.8); 
 }
 $rtlScript = $record['LgRightToLeft'];
 mysqli_free_result($res);

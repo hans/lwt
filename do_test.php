@@ -9,7 +9,9 @@
  * Call: do_test.php?text=[textid]
  * Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
  * 
+ * @package Lwt
  * @author LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
  * @since  1.0.3
  */
 
@@ -26,7 +28,7 @@ require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php' ;
 function is_mobile()
 {
     $detect = new Mobile_Detect;
-    $mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
+    $mobileDisplayMode = (int)getSettingWithDefault('set-mobile-display-mode');
     $mobile = (
         ($mobileDisplayMode == 0 && $detect->isMobile()) 
         || $mobileDisplayMode == 2

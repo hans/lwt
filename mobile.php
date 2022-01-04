@@ -21,7 +21,7 @@ require_once 'inc/session_utility.php';
 
 if (isset($_REQUEST["action"])) {  // Action
 
-    $action = $_REQUEST["action"] + 0; // Action code
+    $action = (int) $_REQUEST["action"]; // Action code
 
     /* -------------------------------------------------------- */
 
@@ -166,8 +166,8 @@ if (isset($_REQUEST["action"])) {  // Action
         $savestat = '';
         $until = 0;
         while ($record = mysqli_fetch_assoc($res)) {
-            $actcode = $record['Code'] + 0;
-            $order = $record['Ti2Order'] + 0;
+            $actcode = (int)$record['Code'];
+            $order = (int)$record['Ti2Order'];
             
             if ($order <= $until ) {
                 continue;

@@ -8,7 +8,9 @@
  * Call: do_test_test.php?text=[textid]
  * Call: do_test_test.php?&selection=1 (SQL via $_SESSION['testsql'])
  * 
+ * @package Lwt
  * @author LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
  * @since  1.5.4
  */
 
@@ -51,7 +53,7 @@ if (! isset($lang)) {
 $sql = 'select LgTextSize, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
-$textsize = round(($record['LgTextSize']-100)/2, 0)+100;
+$textsize = round(((int)$record['LgTextSize']-100)/2, 0)+100;
 
 $regexword = $record['LgRegexpWordCharacters'];
 $rtlScript = $record['LgRightToLeft'];

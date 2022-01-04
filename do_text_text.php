@@ -158,7 +158,7 @@ function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharc
         $sid = $record['TiSeID'];
         echo '<span id="sent_', $sid, '">';
     }
-    $actcode = $record['Code'] + 0;
+    $actcode = (int)$record['Code'];
     $spanid = 'ID-' . $record['TiOrder'] . '-' . $actcode;
 
     // Check if work should be hidden
@@ -402,6 +402,10 @@ function do_text_text_content($textid, $only_body=true)
     <script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
     <?php 
+    $visit_status = getSettingWithDefault('set-text-visit-statuses-via-key');
+    if ($visit_status == '') {
+        $visit_status = '0';
+    }
     $var_array = array(
         // Change globals from jQuery hover
         'ANN_ARRAY' => json_decode(annotation_to_json($ann)),
@@ -417,9 +421,7 @@ function do_text_text_content($textid, $only_body=true)
         'WBLINK3' => $wb3,
         'RTL' => $rtlScript,
         'TID' => $textid,
-        'ADDFILTER' => makeStatusClassFilter(
-            getSettingWithDefault('set-text-visit-statuses-via-key')
-        ),
+        'ADDFILTER' => makeStatusClassFilter((int)$visit_status),
         'JQ_TOOLTIP' => getSettingWithDefault('set-tooltip-mode') == 2 ? 1 : 0,
         // Add new globals
         'ANNOTATIONS_MODE' => $mode_trans,

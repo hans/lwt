@@ -80,8 +80,8 @@ function click_slower() {
 }
 
 function click_faster() {
-    val=parseFloat($("#pbvalue").text()) + 0.1;
-    if(val<=4.0){
+    val = parseFloat($("#pbvalue").text()) + 0.1;
+    if (val<=4.0){
         $("#pbvalue").text(val.toFixed(1)).css({'color': '#BBB'}).animate({color: '#888'},150,function() {});
         $("#jquery_jplayer_1").jPlayer("playbackRate",val);
     }

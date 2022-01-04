@@ -12,11 +12,11 @@
 
 require_once 'inc/session_utility.php';
 
-$textid = getreq('text')+0;
+$textid = (int)getreq('text');
 $editmode = getreq('edit');
-$editmode = ($editmode == '' ? 0 : ($editmode+0));
+$editmode = ($editmode == '' ? 0 : (int)$editmode);
 $delmode = getreq('del');
-$delmode = ($delmode == '' ? 0 : ($delmode+0));
+$delmode = ($delmode == '' ? 0 : (int)$delmode);
 $ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 if ($ann_exists) {
@@ -30,13 +30,19 @@ if($textid==0) {
 }
 
 if ($delmode ) {  // Delete
-    if ($ann_exists ) { $dummy = runsql(
-        'update ' . $tbpref . 'texts set ' .
-        'TxAnnotatedText = ' . convert_string_to_sqlsyntax("") . ' where TxID = ' . $textid, ""
-    ); 
+    if ($ann_exists ) { 
+        $dummy = runsql(
+            'update ' . $tbpref . 'texts set ' .
+            'TxAnnotatedText = ' . convert_string_to_sqlsyntax("") . 
+            ' where TxID = ' . $textid, 
+            ""
+        );
     }
-    $ann_exists = ((get_first_value("select length(TxAnnotatedText) as value from " . $tbpref . "texts where TxID = " . $textid) + 0) > 0);
-    if (! $ann_exists ) {
+    $ann_exists = (int)get_first_value(
+        "SELECT length(TxAnnotatedText) AS value 
+        FROM " . $tbpref . "texts where TxID = " . $textid
+    ) > 0;
+    if (!$ann_exists ) {
         header("Location: print_text.php?text=" . $textid);
         exit();
     }
@@ -49,7 +55,8 @@ $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
 $langid = $record['TxLgID'];
 $audio = $record['TxAudioURI'];
-if(! isset($audio)) { $audio=''; 
+if (!isset($audio)) { 
+    $audio=''; 
 }
 $audio = trim($audio);
 mysqli_free_result($res);
@@ -65,10 +72,12 @@ if(!empty($record['LgGoogleTranslateURI'])) {
     if($record['LgGoogleTranslateURI']==$ttsLg) {
         $ttsClass='';
     }
-    else { $ttsClass = 'tts_'.$ttsLg.' '; 
+    else { 
+        $ttsClass = 'tts_'.$ttsLg.' '; 
     }
 }
-else { $ttsClass=''; 
+else { 
+    $ttsClass=''; 
 }
 mysqli_free_result($res);
 
@@ -132,9 +141,7 @@ if ($editmode ) {  // Edit Mode
     }
     echo '<div class="noprint"><input type="button" value="Display/Print Mode" onclick="location.href=\'print_impr_text.php?text=' . $textid . '\';" /></div>';
 
-}
-
-else {  // Print Mode
+} else {  // Print Mode
 
     echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
     
@@ -146,10 +153,13 @@ else {  // Print Mode
         $vals = preg_split('/[\t]/u', $item);
         if ($vals[0] > -1) {
             $trans = '';
-            if (count($vals) > 3) { $trans = $vals[3]; 
+            if (count($vals) > 3) { 
+                $trans = $vals[3]; 
             }
-            if ($trans == '*') { $trans = $vals[1] . " "; // <- U+200A HAIR SPACE
-            }      echo ' <ruby><rb><span class="'.$ttsClass.'anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class="anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
+            if ($trans == '*') { 
+                $trans = $vals[1] . " "; // <- U+200A HAIR SPACE
+            }      
+            echo ' <ruby><rb><span class="'.$ttsClass.'anntermruby">' . tohtml($vals[1]) . '</span></rb><rt><span class="anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
         } else {
             if (count($vals) >= 2) { 
                 echo str_replace(

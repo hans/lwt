@@ -14,14 +14,15 @@ require_once __DIR__ . '/session_utility.php';
 $wid = $_REQUEST['id'];
 $up = $_REQUEST['data'];
 
-$currstatus = get_first_value('SELECT WoStatus as value FROM ' . $tbpref . 'words where WoID = ' . $wid);
+$tempstatus = get_first_value(
+    'SELECT WoStatus as value FROM ' . $tbpref . 'words 
+    WHERE WoID = ' . $wid
+);
 
-if (! isset($currstatus)) {
+if (!isset($tempstatus)) {
     echo '';
-}
-
-else {
-    $currstatus = $currstatus + 0;
+} else {
+    $currstatus = (int)$tempstatus;
     if ($up == 1) {
         $currstatus += 1; // 98,1,2,3,4,5 => 99,2,3,4,5,6
         if ($currstatus == 99 ) { $currstatus = 1;  // 98->1
@@ -35,10 +36,10 @@ else {
     }
 
     if (($currstatus >= 1 && $currstatus <= 5) || $currstatus == 99 || $currstatus == 98 ) {
-        $m1 = runsql(
+        $m1 = (int)runsql(
             'update ' . $tbpref . 'words set WoStatus = ' . 
             $currstatus . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, ''
-        ) + 0;
+        );
         if ($m1 == 1) {
             $currstatus = get_first_value('SELECT WoStatus as value FROM ' . $tbpref . 'words where WoID = ' . $wid);
             if (! isset($currstatus)) {

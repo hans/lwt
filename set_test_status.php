@@ -8,30 +8,30 @@ Change status of term while testing
 
 require_once 'inc/session_utility.php';
 
-$stchange = getreq('stchange');
-$status = getreq('status');
-$wid = getreq('wid') + 0;
+$status = (int)getreq('status');
+$wid = (int)getreq('wid');
 
-$oldstatus = get_first_value("select WoStatus as value from " . $tbpref . "words where WoID = " . $wid) + 0;
+$oldstatus = (int)get_first_value("select WoStatus as value from " . $tbpref . "words where WoID = " . $wid);
 
-$oldscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from ' . $tbpref . 'words where WoID = ' . $wid) + 0;
+$oldscore = (int)get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from ' . $tbpref . 'words where WoID = ' . $wid);
 
-if ($stchange == '') {
-
-    $status = $status + 0;
+if (getreq('stchange') != '') {
     $stchange = $status - $oldstatus;
-    if ($stchange <= 0) { $stchange=-1; 
+    if ($stchange <= 0) { 
+        $stchange=-1; 
     }
-    if ($stchange > 0) { $stchange=1; 
+    if ($stchange > 0) { 
+        $stchange=1; 
     }
     
 } else {
-
-    $stchange = $stchange + 0;
+    $stchange = (int)getreq('stchange');
     $status = $oldstatus + $stchange;
-    if ($status < 1) { $status=1; 
+    if ($status < 1) { 
+        $status=1; 
     }
-    if ($status > 5) { $status=5; 
+    if ($status > 5) { 
+        $status=5; 
     }
     
 }
@@ -44,7 +44,7 @@ $m1 = runsql(
     $status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed'
 );
     
-$newscore = get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from ' . $tbpref . 'words where WoID = ' . $wid) + 0;
+$newscore = (int)get_first_value('select greatest(0,round(WoTodayScore,0)) AS value from ' . $tbpref . 'words where WoID = ' . $wid);
 
 if ($oldstatus == $status) {
     echo '<p>Status ' . get_colored_status_msg($status) . ' not changed.</p>'; 
@@ -70,22 +70,22 @@ if ($notyettested > 0 ) {
 
 ?>
 <script type="text/javascript">
-//<![CDATA[
-var context = window.parent.frames['l'].document;
-$('.word<?php echo $wid; ?>', context).removeClass('todo todosty').addClass('done<?php echo ($stchange >= 0 ? 'ok' : 'wrong'); ?>sty').attr('data_status','<?php echo $status; ?>').attr('data_todo','0');
-<?php
-$waittime = getSettingWithDefault('set-test-main-frame-waiting-time') + 0;
-if ($waittime <= 0 ) {
-    ?>
-window.parent.frames['l'].location.reload();
+    //<![CDATA[
+    var context = window.parent.frames['l'].document;
+    $('.word<?php echo $wid; ?>', context).removeClass('todo todosty').addClass('done<?php echo ($stchange >= 0 ? 'ok' : 'wrong'); ?>sty').attr('data_status','<?php echo $status; ?>').attr('data_todo','0');
     <?php
-} else {
+    $waittime = (int)getSettingWithDefault('set-test-main-frame-waiting-time');
+    if ($waittime <= 0) {
+        ?>
+    window.parent.frames['l'].location.reload();
+        <?php
+    } else {
+        ?>
+    setTimeout('window.parent.frames[\'l\'].location.reload();', <?php echo $waittime; ?>);
+        <?php
+    }
     ?>
-setTimeout('window.parent.frames[\'l\'].location.reload();', <?php echo $waittime; ?>);
-    <?php
-}
-?>
-//]]>
+    //]]>
 </script>
 <?php
 

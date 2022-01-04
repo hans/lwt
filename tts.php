@@ -56,7 +56,7 @@ if (!file_exists($filename)) {
             "http://translate.google.com/translate_tts?" . $qs, false, $ctx
         );
     }
-    if (!empty($soundfile) && $tts_save==1) {
+    if (!empty($soundfile) && is_string($soundfile) && $tts_save==1) {
         if (!is_dir($path)) {
             if (!is_dir('./tts')) {
                 mkdir('./tts', 0777);

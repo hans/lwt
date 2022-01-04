@@ -52,7 +52,7 @@ $message = '';
 // REFRESH 
 
 if (isset($_REQUEST['refresh'])) {
-    $id = $_REQUEST['refresh'] + 0;
+    $id = $_REQUEST['refresh'];
     $message2 = runsql(
         'delete from ' . $tbpref . 'sentences where SeLgID = ' . $id, 
         "Sentences deleted"
@@ -65,7 +65,7 @@ if (isset($_REQUEST['refresh'])) {
     $sql = "select TxID, TxText from " . $tbpref . "texts where TxLgID = " . $id . " order by TxID";
     $res = do_mysqli_query($sql);
     while ($record = mysqli_fetch_assoc($res)) {
-        $txtid = $record["TxID"];
+        $txtid = (int)$record["TxID"];
         $txttxt = $record["TxText"];
         splitCheckText($txttxt, $id, $txtid);
     }
@@ -197,7 +197,7 @@ elseif (isset($_REQUEST['op'])) {
         );
         
         if ($needReParse) {
-            $id = $_REQUEST["LgID"] + 0;
+            $id = $_REQUEST["LgID"];
             runsql(
                 'delete from ' . $tbpref . 'sentences where SeLgID = ' . $id, 
                 "Sentences deleted"
@@ -213,7 +213,7 @@ elseif (isset($_REQUEST['op'])) {
             $res = do_mysqli_query($sql);
             $cntrp = 0;
             while ($record = mysqli_fetch_assoc($res)) {
-                $txtid = $record["TxID"];
+                $txtid = (int)$record["TxID"];
                 $txttxt = $record["TxText"];
                 splitCheckText($txttxt, $id, $txtid);
                 $cntrp++;
@@ -468,16 +468,14 @@ else {
             echo '<' . $tdth . ' class="' . $tdth . '1 center" nowrap="nowrap">&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['LgID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>';
             if ($textcount == 0 && $archtextcount == 0 && $wordcount == 0 && $newsfeedcount[$record['LgID']] == 0) { 
                 echo '&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['LgID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>'; 
-            }
-            else { 
+            } else { 
                 echo '&nbsp; <img src="icn/placeholder.png" title="Delete not possible" alt="Delete not possible" />'; 
             }
             echo '&nbsp;</' . $tdth . '>';
-            echo '<' . $tdth . ' class="' . $tdth . '1 center">' . tohtml($record['LgName']) . '</' . $tdth . '>';
+            echo '<' . $tdth . ' class="' . $tdth . '1 center">' . tohtml((string)$record['LgName']) . '</' . $tdth . '>';
             if ($textcount[$record['LgID']] > 0) { 
                 echo '<' . $tdth . ' class="' . $tdth . '1 center"><a href="edit_texts.php?page=1&amp;query=&amp;filterlang=' . $record['LgID'] . '">' . $textcount[$record['LgID']] . '</a> &nbsp;&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?refresh=' . $record['LgID'] . '"><img src="icn/lightning.png" title="Reparse Texts" alt="Reparse Texts" /></a>'; 
-            }
-            else{
+            } else {
                 echo '<' . $tdth . ' class="' . $tdth . '1 center">0 &nbsp;&nbsp; <img src="';print_file_path('icn/placeholder.png');echo'" title="No texts to reparse" alt="No texts to reparse" />';
             }
             echo '</' . $tdth . '>';

@@ -230,8 +230,9 @@ function remove_spaces($s, $remove)
 function get_mecab_path($mecab_args = '') 
 {
     $os = strtoupper(substr(PHP_OS, 0, 3));
+    $mecab_args = escapeshellcmd($mecab_args);
     if ($os == 'LIN') {
-        return 'mecab' . str_replace('\\', '\\\\', $mecab_args); 
+        return 'mecab' . $mecab_args; 
     }
     if ($os == 'WIN') {
         return '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args; 
@@ -416,7 +417,7 @@ function annotation_to_json($ann)
     foreach ($items as $item) {
         $vals = preg_split('/[\t]/u', $item);
         if (count($vals) > 3 && $vals[0] >= 0 && $vals[2] > 0) {
-            $arr[$vals[0]-1] = array($vals[1], $vals[2], $vals[3]);
+            $arr[intval($vals[0])-1] = array($vals[1], $vals[2], $vals[3]);
         }
     }
     return json_encode($arr);

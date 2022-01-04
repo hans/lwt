@@ -256,15 +256,15 @@ function validateTextTag($currenttag,$currentlang)
 /** 
  * Convert a setting to 0 or 1
  *
- * @param  string $key The input value
- * @param  string $dft Default value to use
+ * @param  string     $key The input value
+ * @param  string|int $dft Default value to use, should be convertible to string
  * 
  * @return 0|1
  */
 function getSettingZeroOrOne($key, $dft) 
 {
     $r = getSetting($key);
-    $r = ($r == '' ? $dft : ((((int)$r) !== 0) ? 1 : 0));
+    $r = ($r == '' ? $dft : (((int)$r !== 0) ? 1 : 0));
     return (int)$r;
 }
 
@@ -515,13 +515,13 @@ function set_word_count()
         }
         $sqlarr[]= ' WHEN ' . $rec['WoID'] . ' THEN ' . preg_match_all('/([' . $rec['LgRegexpWordCharacters'] . ']+)/u', $textlc, $ma);
         if(++$i % 1000 == 0) {
-            if(!empty($sqlarr)) {
+            //if(!empty($sqlarr)) { cannot be empty
                 $max=$rec['WoID'];
                 $sqltext = "UPDATE  " . $tbpref . "words SET WoWordCount  = CASE WoID";
                 $sqltext .= implode(' ', $sqlarr) . ' END where WoWordCount=0 and WoID between ' . $min . ' and ' . $max;
                 do_mysqli_query($sqltext);
                 $min=$max;
-            }
+            //}
             $sqlarr = array();
         }
     }
@@ -679,10 +679,11 @@ function splitCheckText($text, $lid, $id)
 
     $res = do_mysqli_query("SELECT WoWordCount as len, count(WoWordCount) as cnt FROM " . $tbpref . "words where WoLgID = " . $lid . " and WoWordCount > 1 group by WoWordCount");
     while($record = mysqli_fetch_assoc($res)){
-        if($wl_max < $record['len']) { $wl_max = $record['len']; 
+        if($wl_max < $record['len']) { 
+            $wl_max = $record['len']; 
         }
         $wl[] = $record['len'];
-        $mw_sql .= ' WHEN ' . $record['len'] . ' THEN @a' . ($record['len'] * 2 - 1);
+        $mw_sql .= ' WHEN ' . $record['len'] . ' THEN @a' . (intval($record['len']) * 2 - 1);
     }
     mysqli_free_result($res);
     $sql = '';
@@ -756,9 +757,10 @@ function reparse_all_texts()
     $sql = "select TxID, TxLgID from " . $tbpref . "texts";
     $res = do_mysqli_query($sql);
     while ($record = mysqli_fetch_assoc($res)) {
-        $id = $record['TxID'];
+        $id = (int) $record['TxID'];
         splitCheckText(
-            get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), $record['TxLgID'], $id 
+            get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $id), 
+            $record['TxLgID'], $id 
         );
     }
     mysqli_free_result($res);

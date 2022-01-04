@@ -136,11 +136,11 @@ if (isset($_REQUEST['op'])) {
     
     elseif (substr($_REQUEST['op'], 0, 5) == 'Creat') {
 
-        $langid = $_REQUEST["LgID"] + 0;
+        $langid = $_REQUEST["LgID"];
         $title = stripTheSlashesIfNeeded($_REQUEST["TxTitle"]);
         $source_uri = stripTheSlashesIfNeeded($_REQUEST["TxSourceURI"]);
         $_REQUEST["TextTags"] = json_decode(stripTheSlashesIfNeeded($_REQUEST["TextTags"]), true);
-        $textcount = $_REQUEST["TextCount"] + 0;
+        $textcount = (int) $_REQUEST["TextCount"];
         $texts = $_REQUEST["text"];
         
         if (count($texts) != $textcount ) {
@@ -152,7 +152,7 @@ if (isset($_REQUEST['op'])) {
                 $texts[$i] = remove_soft_hyphens($texts[$i]);
                 $counter = makeCounterWithTotal($textcount, $i+1);
                 $thistitle = $title . ($counter == '' ? '' : (' (' . $counter . ')')); 
-                $imported = $imported + runsql(
+                $imported = $imported + (int) runsql(
                     'insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
                     $langid . ', ' . 
                     convert_string_to_sqlsyntax($thistitle) . ', ' . 
@@ -161,7 +161,7 @@ if (isset($_REQUEST['op'])) {
                 );
                 $id = get_last_key();
                 saveTextTags($id);    
-                splitCheckText($texts[$i], $langid, $id);
+                splitCheckText($texts[$i], $langid, (int) $id);
             }
         
         }

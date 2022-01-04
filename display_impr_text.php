@@ -6,15 +6,17 @@
  * 
  * Call: display_impr_text.php?text=[textid]
  * 
- * @author LWT Project <lwt-project@hotmail.com>
- * @since  1.5.0
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @since   1.5.0
  */
 
 require_once 'inc/session_utility.php'; 
 require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php' ;
 
 $detect = new Mobile_Detect;
-$mobileDisplayMode = getSettingWithDefault('set-mobile-display-mode') + 0;
+$mobileDisplayMode = (int)getSettingWithDefault('set-mobile-display-mode');
 $mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
 
 if (isset($_REQUEST['text'])) {
@@ -23,7 +25,7 @@ if (isset($_REQUEST['text'])) {
     
     framesetheader('Display');
 
-    if ($mobile ) {
+    if ($mobile) {
 
         ?>
 
@@ -84,7 +86,12 @@ $(document).ready(init);
     
         ?>
 
-   <frameset border="3" bordercolor="" rows="<?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio')-90 : getSettingWithDefault('set-text-h-frameheight-no-audio')-90 ); ?>,*">
+   <frameset border="3" bordercolor="" rows="<?php 
+    if (isset($audio)) { 
+        echo (int)getSettingWithDefault('set-text-h-frameheight-with-audio')-90;
+    } else { 
+        echo (int)getSettingWithDefault('set-text-h-frameheight-no-audio')-90;
+    } ?>,*">
     <frame src="display_impr_text_header.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="no" name="header" />            
     <frame src="display_impr_text_text.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="auto" name="text" />
 </frameset>

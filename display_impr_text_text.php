@@ -1,17 +1,24 @@
 <?php
 
-/**************************************************************
-Call: display_impr_text_text.php?text=[textid]
-Display an improved annotated text (text frame)
- ***************************************************************/
+/**
+ * \file
+ * \brief Display an improved annotated text (text frame)
+ * 
+ * Call: display_impr_text_text.php?text=[textid]
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @since   1.5.0
+ */
 
 require_once 'inc/session_utility.php';
 
-$textid = getreq('text')+0;
+$textid = (int)getreq('text');
 $ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 
-if(($textid==0) || (! $ann_exists)) {
+if($textid==0 || !$ann_exists) {
     header("Location: edit_texts.php");
     exit();
 }
@@ -77,22 +84,26 @@ $items = preg_split('/[\n]/u', $ann);
 
 foreach ($items as $item) {
     $vals = preg_split('/[\t]/u', $item);
-    if ($vals[0] > -1) {
+    if ((int)$vals[0] > -1) {
         $trans = '';
         $c = count($vals);
         $rom = '';
         if ($c > 2) {
             if ($vals[2] !== '') {
-                $wid = $vals[2] + 0;
+                $wid = (int)$vals[2];
                 $rom = get_first_value("select WoRomanization as value from " . $tbpref . "words where WoID = " . $wid);
-                if (! isset($rom)) { $rom = ''; 
+                if (!isset($rom)) {
+                    $rom = ''; 
                 }
             }
         }
-        if ($c > 3) { $trans = $vals[3]; 
+        if ($c > 3) { 
+            $trans = $vals[3]; 
         }
-        if ($trans == '*') { $trans = $vals[1] . " "; // <- U+200A HAIR SPACE
-        }     echo ' <ruby><rb><span class="click anntermruby" style="color:black;"' . ($rom == '' ? '' : (' title="' . tohtml($rom) . '"')) . '>' . tohtml($vals[1]) . '</span></rb><rt><span class="click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
+        if ($trans == '*') { 
+            $trans = $vals[1] . " "; // <- U+200A HAIR SPACE
+        }     
+        echo ' <ruby><rb><span class="click anntermruby" style="color:black;"' . ($rom == '' ? '' : (' title="' . tohtml($rom) . '"')) . '>' . tohtml($vals[1]) . '</span></rb><rt><span class="click anntransruby2">' . tohtml($trans) . '</span></rt></ruby> ';
     } else {
         if (count($vals) >= 2) { 
             echo str_replace(
