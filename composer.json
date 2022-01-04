@@ -51,6 +51,7 @@
         }
     ],
     "require": {
+        "php": "^7.4",
         "components/jquery": "^3.6",
         "flesler/jquery.scrollto": "^2.1",
         "aehlke/tag-it": "^2.0",

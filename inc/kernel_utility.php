@@ -204,6 +204,76 @@ function get_setting_data()
 }
 
 /**
+ * Remove all spaces from a string.
+ * 
+ * @param string $s      Input string
+ * @param string $remove Do not do anything if empty
+ * 
+ * @return string String without spaces if requested.
+ */
+function remove_spaces($s, $remove) 
+{
+    if (!$remove) { 
+        return $s;
+    }
+    return str_replace(' ', '', $s);  // '' enthält &#x200B;
+}
+
+/** 
+ * Returns path to the MeCab application.
+ * MeCab can split Japanese text word by word
+ *
+ * @param  string $mecab_args Arguments to add
+ * 
+ * @return string|null OS-compatible command
+ */
+function get_mecab_path($mecab_args = '') 
+{
+    $os = strtoupper(substr(PHP_OS, 0, 3));
+    if ($os == 'LIN') {
+        return 'mecab' . str_replace('\\', '\\\\', $mecab_args); 
+    }
+    if ($os == 'WIN') {
+        return '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args; 
+    }
+}
+
+
+/**
+ * Find end-of-sentence characters in a sentence using latin alphabet.
+ * 
+ * @param string[] $matches       All the matches from a capturing regex
+ * @param string   $noSentenceEnd If different from '', can declare that a string a not the end of a sentence.
+ * 
+ * @return string $matches[0] with ends of sentences marked with \t and \r.
+ */
+function find_latin_sentence_end($matches, $noSentenceEnd)
+{
+    //var_dump($matches);
+    if (!strlen($matches[6]) && strlen($matches[7]) && preg_match('/[a-zA-Z0-9]/', substr($matches[1], -1))) { 
+        return preg_replace("/[.]/", ".\t", $matches[0]); 
+    }
+    if (is_numeric($matches[1])) {
+        if (strlen($matches[1]) < 3) { 
+            return $matches[0];
+        }
+    }
+    else if ($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u', $matches[1]) || preg_match('/^[AEIOUY]$/', $matches[1]))) { 
+        return $matches[0]; 
+    }
+    if (preg_match('/[.:]/', $matches[2])) {
+        if (preg_match('/^[a-z]/', $matches[7])) {
+            return $matches[0]; 
+        }
+    }
+    if ($noSentenceEnd != '' && preg_match('/^(' . $noSentenceEnd . ')$/', $matches[0])) {
+        return $matches[0]; 
+    }
+    return $matches[0]."\r";
+}
+
+
+/**
  * Make the script crash and prints an error message
  *
  * @param string $text Error text to output
@@ -248,33 +318,6 @@ function quickMenu()
 </select>
     <?php
 }
-
-
-/**
- * Write a page header and start writing its body.
- * 
- * @param  string $titletext Title of the page
- * @param  bool   $close 
- * @global bool $debug Show a DEBUG span if true
- */
-function pagestart($titletext, $close) 
-{
-    global $debug;
-    pagestart_nobody($titletext);
-    echo '<h4>';
-    if ($close) { 
-        echo '<a href="index.php" target="_top">'; 
-    }
-    echo_lwt_logo();
-    echo "<span>LWT</span>";
-    if ($close) {
-        echo '</a><span>&nbsp; | &nbsp;';
-        quickMenu();
-        echo '</span>';
-    }
-    echo '</h4><h3>' . $titletext . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
-    echo "<p>&nbsp;</p>";
-} 
 
 
 /**
@@ -438,32 +481,6 @@ function url_base()
 
 
 /**
- * Echo the path of a file using the theme directory. Echo the base file name of file is not found
- * 
- * @param string $filename Filename
- */
-function print_file_path($filename)
-{
-    echo get_file_path($filename);
-}
-
-/**
- * Get the path of a file using the theme directory
- * 
- * @param string $filename Filename
- * 
- * @return string string|string[]|null File path if it exists, otherwise the filename
- */
-function get_file_path($filename)
-{
-    $file = getSettingWithDefault('set-theme-dir').preg_replace('/.*\//', '', $filename);
-    if (file_exists($file)) { 
-        return $file; 
-    }
-    return $filename;
-}
-
-/**
  * Make a random score for a new word.
  * 
  * @param 'iv'|'id'|'u'|string $type Type of insertion
@@ -523,76 +540,4 @@ function getsqlscoreformula($method)
 }
 
 
-/**
- * Start a standard page with a complete header and a non-closed body.
- * 
- * @param  string $titletext Title of the page
- * @param  string $addcss    Some CSS to be embed in a style tag
- * @global bool $debug Show the requests if true
- * @global string $tbpref The database table prefix if true
- */
-
-function pagestart_nobody($titletext, $addcss='') 
-{
-    global $debug;
-    global $tbpref;
-    @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-    @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-    @header('Cache-Control: no-cache, must-revalidate, max-age=0');
-    @header('Pragma: no-cache');
-    ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <!-- 
-        <?php echo file_get_contents("UNLICENSE.md");?> 
-    -->
-    <meta name="viewport" content="width=900" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-    <link rel="apple-touch-icon" href="<?php print_file_path('img/apple-touch-icon-57x57.png');?>" />
-    <link rel="apple-touch-icon" sizes="72x72" href="<?php print_file_path('img/apple-touch-icon-72x72.png');?>" />
-    <link rel="apple-touch-icon" sizes="114x114" href="<?php print_file_path('img/apple-touch-icon-114x114.png');?>" />
-    <link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery-ui.css');?>" />
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery.tagit.css');?>" />
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
-    <style type="text/css">
-    <?php echo $addcss . "\n"; ?>
-    </style>
-    
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
-    <script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery.jeditable.mini.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/sorttable.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
-    <!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
-    <!-- TBPREF  : "<?php if (isset($tbpref)) {
-        echo tohtml($tbpref); 
-} ?>" -->
-    <script type="text/javascript">
-        //<![CDATA[
-        <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
-        <?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
-        <?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
-        //]]>
-    </script>
-    <script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
-    
-    <title>LWT :: <?php echo $titletext; ?></title>
-</head>
-<body>
-<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-    <?php
-    flush();
-    if ($debug) { 
-        showRequest(); 
-    }
-}
 ?>

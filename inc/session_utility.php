@@ -895,11 +895,11 @@ function get_links_from_rss($NfSourceURI,$NfArticleSection)
 
 // -------------------------------------------------------------
 
-function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCharset=null)
+function get_text_from_rsslink($feed_data, $NfArticleSection, $NfFilterTags, $NfCharset=null)
 {
     global $tbpref;
-    foreach ($feed_data as $key =>$val){
-        if(strncmp($NfArticleSection, 'redirect:', 9)==0) {    
+    foreach ($feed_data as $key =>$val) {
+        if (strncmp($NfArticleSection, 'redirect:', 9)==0) {    
             $dom = new DOMDocument;
             $HTMLString = file_get_contents(trim($feed_data[$key]['link']));
             $dom->loadHTML($HTMLString);
@@ -908,12 +908,15 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
             $NfArticleSection=$redirect[1];
             $redirect = substr($redirect[0], 9);
             $feed_host = parse_url(trim($feed_data[$key]['link']));
-            foreach($xPath->query($redirect) as $node){
-                $len=$node->attributes->length;
-                for($i=0;$i<$len;$i++){
-                    if($node->attributes->item($i)->name=='href') {
+            foreach ($xPath->query($redirect) as $node){
+                if (!$node->attributes) {
+                    continue;
+                }
+                $len = $node->attributes->length;
+                for ($i=0; $i<$len; $i++){
+                    if ($node->attributes->item($i)->name=='href') {
                         $feed_data[$key]['link'] = $node->attributes->item($i)->value;
-                        if(strncmp($feed_data[$key]['link'], '..', 2)==0) {
+                        if (strncmp($feed_data[$key]['link'], '..', 2)==0) {
                             $feed_data[$key]['link'] = 'http://'.$feed_host['host'] . substr($feed_data[$key]['link'], 2);
                         }
                     }
@@ -924,7 +927,7 @@ function get_text_from_rsslink($feed_data,$NfArticleSection,$NfFilterTags,$NfCha
             unset($xPath);
         }
         $data[$key]['TxTitle'] = $feed_data[$key]['title'];
-        $data[$key]['TxAudioURI'] = isset($feed_data[$key]['audio'])?$feed_data[$key]['audio']:(null);
+        $data[$key]['TxAudioURI'] = isset($feed_data[$key]['audio'])? $feed_data[$key]['audio'] : null;
         $data[$key]['TxText'] = "";
         if(isset($feed_data[$key]['text'])) {
             if($feed_data[$key]['text']=="") {
@@ -1488,16 +1491,30 @@ function encodeURI($url)
     return strtr(rawurlencode($url), array_merge($reserved, $unescaped, $score));
 }
 
-
-// -------------------------------------------------------------
-
-function remove_spaces($s, $remove) 
+/**
+ * Echo the path of a file using the theme directory. Echo the base file name of file is not found
+ * 
+ * @param string $filename Filename
+ */
+function print_file_path($filename)
 {
-    if ($remove) { 
-        return str_replace(' ', '', $s);  // '' enthält &#x200B;
-    }    else {
-        return $s; 
+    echo get_file_path($filename);
+}
+
+/**
+ * Get the path of a file using the theme directory
+ * 
+ * @param string $filename Filename
+ * 
+ * @return string string|string[]|null File path if it exists, otherwise the filename
+ */
+function get_file_path($filename)
+{
+    $file = getSettingWithDefault('set-theme-dir').preg_replace('/.*\//', '', $filename);
+    if (file_exists($file)) { 
+        return $file; 
     }
+    return $filename;
 }
 
 
@@ -3008,25 +3025,6 @@ function getSentence($seid, $wordlc,$mode)
                              // [1]=text, word in {} 
 }
 
-/** 
- * Returns path to the MeCab application.
- * MeCab can split Japanese text word by word
- *
- * @param  string $mecab_args Arguments to add
- * 
- * @return string|null OS-compatible command
- */
-function get_mecab_path($mecab_args = '') 
-{
-    $os = strtoupper(substr(PHP_OS, 0, 3));
-    if ($os == 'LIN') {
-        return 'mecab' . str_replace('\\', '\\\\', $mecab_args); 
-    }
-    if ($os == 'WIN') {
-        return '"%ProgramFiles%/MeCab/bin/mecab.exe"' . $mecab_args; 
-    }
-}
-
 // -------------------------------------------------------------
 
 function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) 
@@ -3215,234 +3213,6 @@ function getScriptDirectionTag($lid)
         } 
     }
     return '';
-}
-
-/**
- * Parse the input text.
- * 
- * @param string $text Text to parse
- * @param string $lid  Language ID (LgID from languages table)
- * @param int    $id   References whether the text is new to the database
- *                     $id = -1     => Check, return protocol
- *                     $id = -2     => Only return sentence array
- *                     $id = TextID => Split: insert sentences/textitems entries in DB
- * 
- * @global string $tbpref Database table prefix
- */
-function splitCheckText($text, $lid, $id) 
-{
-    global $tbpref;
-    $wo = $nw = $mw = $wl = array();
-    $wl_max = 0;
-    $set_wo_sql = $set_wo_sql_2 = $del_wo_sql = $init_var = $mw_sql = $sql = '';
-    $sql = "SELECT * FROM " . $tbpref . "languages WHERE LgID=" . $lid;
-    $res = do_mysqli_query($sql);
-    $record = mysqli_fetch_assoc($res);
-    if ($record == false) { 
-        my_die("Language data not found: $sql"); 
-    }
-    $removeSpaces = $record['LgRemoveSpaces'];
-    $splitEachChar = $record['LgSplitEachChar'];
-    $splitSentence = $record['LgRegexpSplitSentences'];
-    $noSentenceEnd = $record['LgExceptionsSplitSentences'];
-    $termchar = $record['LgRegexpWordCharacters'];
-    $replace = explode("|", $record['LgCharacterSubstitutions']);
-    $rtlScript = $record['LgRightToLeft'];
-    mysqli_free_result($res);
-    $s = prepare_textdata($text);
-    //if(is_callable('normalizer_normalize')) $s = normalizer_normalize($s);
-
-    $file_name = sys_get_temp_dir() . "/" . $tbpref . "tmpti.txt";
-    do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'temptextitems');
-
-    $s = str_replace(array('}','{'), array(']','['), $s);    // because of sent. spc. char
-    foreach ($replace as $value) {
-        $fromto = explode("=", trim($value));
-        if(count($fromto) >= 2) {
-            $s = str_replace(trim($fromto[0]), trim($fromto[1]), $s);
-        }
-    }
-
-    if ('MECAB'== strtoupper(trim($termchar))) {
-        //$mecab_args = ' -F %m\\t%F-[0,1,2,3]\\n -U %m\\t%F-[0,1,2,3]\\n -E ¶\\t記号-句点\\n ';
-        $mecab_args = ' -F %m\\t%t\\t%h\\n -U %m\\t%t\\t%h\\n -E EOS\\t3\\t7\\n ';
-        $mecab = get_mecab_path($mecab_args);
-        $s = preg_replace('/[ \t]+/u', ' ', $s);
-        $s = trim($s);
-        if ($id == -1) { 
-            echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p>" . str_replace("\n", "<br /><br />", tohtml($s)). "</p>"; 
-        }
-        $handle = popen($mecab .' -o ' . $file_name, 'w');
-        $write = fwrite($handle, $s);
-        pclose($handle);
-
-        runsql(
-            "CREATE TEMPORARY TABLE IF NOT EXISTS " . $tbpref . "temptextitems2
-             (TiCount smallint(5) unsigned NOT NULL,
-             TiSeID mediumint(8) unsigned NOT NULL,
-             TiOrder smallint(5) unsigned NOT NULL,
-             TiWordCount tinyint(3) unsigned NOT NULL,
-             TiText varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL
-            ) DEFAULT CHARSET=utf8", 
-            ''
-        );
-        do_mysqli_query('SET @a:=0, @g:=0, @s:=' . ($id>0?'(SELECT ifnull(max(`SeID`)+1,1) FROM `' . $tbpref . 'sentences`)':1) . ',@d:=0,@h:=0,@i:=0;');
-        $delim = '\n';
-        //$sql= 'LOAD DATA LOCAL INFILE ' . convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems2 FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'' . $delim . '\' (@c,@f) set TiSeID = if(@g=2 OR @c="¶",@s:=@s+(@d:=@h)+1,@s), TiCount = (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c), TiOrder = if(case when @f like \'記号-句点\' then @g:=2  when @f like \'記号%\' then @g:=1 when @f like \'名詞-数\' then @g:=1 when @c rlike \'[0-9a-zA-Z]+\' then @g:=1 else @g:=@h end is null, null, @a:=@a+if((@i=1) and (@g=1),0,1)+if((@i=0) and (@g=0),1,0)), TiText = @c, TiWordCount= case when (@i:=@g) is NULL then NULL when @g=0 then 1 else 0 end';
-        $sql 
-        = 'LOAD DATA LOCAL INFILE ' . convert_string_to_sqlsyntax($file_name) . '
-         INTO TABLE ' . $tbpref . 'temptextitems2
-         FIELDS TERMINATED BY \'\\t\' LINES
-         TERMINATED BY \'' . $delim . '\' (@c,@e,@f)
-         SET TiSeID = if(@g=2 or (@f="7" and @c="EOS"), @s:=@s+(@d:=@h)+1,@s),
-          TiCount = (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c),
-          TiOrder = if(
-            CASE
-                WHEN @f = \'7\' then if(@c="EOS",(@g:=2) and (@c:="¶"),@g:=2) 
-                WHEN LOCATE(@e,\'267\') then @g:=@h else @g:=1 end is null, null, @a:=@a+if((@i=1) and (@g=1),0,1)+if((@i=0) and (@g=0),1,0)), TiText = @c, TiWordCount=
-                    CASE 
-                        WHEN (@i:=@g) IS NULL THEN NULL
-                        WHEN @g=0 THEN 1 ELSE 0 
-                    END';
-        do_mysqli_query($sql);
-        do_mysqli_query('DELETE FROM ' . $tbpref . 'temptextitems2 WHERE TiOrder=@a');
-        do_mysqli_query('INSERT INTO ' . $tbpref . 'temptextitems (TiCount, TiSeID, TiOrder, TiWordCount, TiText) SELECT min(TiCount) s, TiSeID, TiOrder, TiWordCount, group_concat(TiText order by TiCount SEPARATOR \'\') FROM ' . $tbpref . 'temptextitems2 WHERE 1 group by TiOrder');
-        do_mysqli_query('DROP TABLE ' . $tbpref . 'temptextitems2');
-    }
-    else{
-        $s = str_replace("\n", " ¶", $s);
-        $s = trim($s);
-        if ($splitEachChar) {
-            $s = preg_replace('/([^\s])/u', "$1\t", $s);
-        }
-        $s = preg_replace('/\s+/u', ' ', $s);
-        if ($id == -1) { 
-            echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p " .  ($rtlScript ? 'dir="rtl"' : '') . ">" . str_replace("¶", "<br /><br />", tohtml($s)). "</p>"; 
-        }
-        //    "\r" => Sentence delimiter, "\t" and "\n" => Word delimiter
-        $s = preg_replace_callback(
-            "/(\S+)\s*((\.+)|([$splitSentence]))([]'`\"”)‘’‹›“„«»』」]*)(?=(\s*)(\S+|$))/u", function ($matches) use ($noSentenceEnd) {
-                //var_dump($matches);
-                if (!strlen($matches[6]) && strlen($matches[7]) && preg_match('/[a-zA-Z0-9]/', substr($matches[1], -1))) { 
-                    return preg_replace("/[.]/", ".\t", $matches[0]); 
-                }
-                if (is_numeric($matches[1])) {
-                    if (strlen($matches[1])<3) { 
-                        return $matches[0];
-                    }
-                }
-                else if ($matches[3] && (preg_match('/^[B-DF-HJ-NP-TV-XZb-df-hj-np-tv-xz][b-df-hj-np-tv-xzñ]*$/u', $matches[1]) || preg_match('/^[AEIOUY]$/', $matches[1]))) { 
-                    return $matches[0]; 
-                }
-                if (preg_match('/[.:]/', $matches[2])) {
-                    if(preg_match('/^[a-z]/', $matches[7])) {
-                        return $matches[0]; 
-                    }
-                }
-                if ($noSentenceEnd != '' && preg_match('/^(' . $noSentenceEnd . ')$/', $matches[0])) {
-                    return $matches[0]; 
-                }
-                return $matches[0]."\r";
-            }, $s
-        );
-        $s = str_replace(array("¶"," ¶"), array("¶\r","\r¶"), $s);
-        $s = preg_replace(array('/([^' . $termchar . '])/u','/\n([' . $splitSentence . '][\'`"”)\]‘’‹›“„«»』」]*)\n\t/u','/([0-9])[\n]([:.,])[\n]([0-9])/u'), array("\n$1\n","$1","$1$2$3"), $s);
-        if($id == -2) {
-            return explode("\r", remove_spaces(str_replace(array("\r\r","\t","\n"), array("\r","",""), $s), $removeSpaces));
-        }
-
-        $fp = fopen($file_name, 'w');
-        fwrite($fp, remove_spaces(preg_replace("/(\n|^)(?!1\t)/u", "\n0\t", trim(preg_replace(array("/\r(?=[]'`\"”)‘’‹›“„«»』」 ]*\r)/u",'/[\n]+\r/u','/\r([^\n])/u',"/\n[.](?![]'`\"”)‘’‹›“„«»』」]*\r)/u","/(\n|^)(?=.?[$termchar][^\n]*\n)/u"), array("","\r","\r\n$1",".\n","\n1\t"), str_replace(array("\t","\n\n"), array("\n",""), $s)))), $removeSpaces));
-        fclose($fp);
-        do_mysqli_query('SET @a=0, @b=' . ($id>0?'(SELECT ifnull(max(`SeID`)+1,1) FROM `' . $tbpref . 'sentences`)':1) . ',@d=0,@e=0;');
-        $sql= 'LOAD DATA LOCAL INFILE '. convert_string_to_sqlsyntax($file_name) . ' INTO TABLE ' . $tbpref . 'temptextitems FIELDS TERMINATED BY \'\\t\' LINES TERMINATED BY \'\\n\' (@w,@c) set TiSeID = @b, TiCount = (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c), TiOrder = if(@c like "%\\r",case when (@c:=REPLACE(@c,"\\r","")) is NULL then NULL when (@b:=@b+1) is NULL then NULL when @d:= @e is NULL then NULL else @a:=@a+1 end, @a:=@a+1), TiText = @c,TiWordCount=@w';
-        do_mysqli_query($sql);
-    }
-    unlink($file_name);
-
-    if ($id==-1) {//check text
-    
-        $res = do_mysqli_query('SELECT GROUP_CONCAT(TiText order by TiOrder SEPARATOR "") Sent FROM ' . $tbpref . 'temptextitems group by TiSeID');
-        echo '<h4>Sentences</h4><ol>';
-        while($record = mysqli_fetch_assoc($res)){
-            echo "<li>" . tohtml($record['Sent']) . "</li>";
-        }
-        mysqli_free_result($res);
-        echo '</ol>';
-        $res = do_mysqli_query('SELECT count(`TiOrder`) cnt, if(0=TiWordCount,0,1) as len, lower(TiText) as word, WoTranslation from ' . $tbpref . 'temptextitems left join ' . $tbpref . 'words on lower(TiText)=WoTextLC and WoLgID=' . $lid . ' group by lower(TiText)');
-        while($record = mysqli_fetch_assoc($res)){
-            if($record['len']==1) {
-                $wo[]= array(tohtml($record['word']),$record['cnt'],tohtml($record['WoTranslation']));
-            }
-            else{
-                $nw[]= array(tohtml($record['word']),tohtml($record['cnt']));
-            }
-        }
-        mysqli_free_result($res);
-        echo "<script type=\"text/javascript\">\nWORDS = ", json_encode($wo), ";\nNOWORDS = ", json_encode($nw), ";\n</script>";
-    }//check text end
-
-    $res = do_mysqli_query("SELECT WoWordCount as len, count(WoWordCount) as cnt FROM " . $tbpref . "words where WoLgID = " . $lid . " and WoWordCount > 1 group by WoWordCount");
-    while($record = mysqli_fetch_assoc($res)){
-        if($wl_max < $record['len']) { $wl_max = $record['len']; 
-        }
-        $wl[] = $record['len'];
-        $mw_sql .= ' WHEN ' . $record['len'] . ' THEN @a' . ($record['len'] * 2 - 1);
-    }
-    mysqli_free_result($res);
-    $sql = '';
-    if(!empty($wl)) {//text has expressions
-        do_mysqli_query('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2');
-        do_mysqli_query('SET GLOBAL tmp_table_size = 1024 * 1024 * 1024 * 2');
-        for ($i=$wl_max*2 -1; $i>1; $i--) {
-            $set_wo_sql .= 'WHEN (@a' . strval($i) . ':=@a' . strval($i-1) . ') IS NULL THEN NULL ';
-            $set_wo_sql_2 .= 'WHEN (@a' . strval($i) . ':=@a' . strval($i-2) . ') IS NULL THEN NULL ';
-            $del_wo_sql .= 'WHEN (@a' . strval($i) . ':=@a0) IS NULL THEN NULL ';
-            $init_var .= '@a' . strval($i) . '=0,';
-        }
-        do_mysqli_query('set ' . $init_var . '@a1=0,@a0=0,@b=0,@c="",@d=0,@e=0,@f="",@h=0;');
-        do_mysqli_query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL);');
-        do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'numbers');
-        do_mysqli_query('INSERT IGNORE INTO ' . $tbpref . 'numbers(n) VALUES (' . implode('),(', $wl) . ');');
-        $sql = (($id>0)?'SELECT straight_join WoID, sent, TiOrder - (2*(n-1)) TiOrder, n TiWordCount,word':'SELECT straight_join count(WoID) cnt, n as len, lower(WoText) as word, WoTranslation');
-        $sql .= ' FROM (SELECT straight_join if(@b=TiSeID and @h=TiOrder,if((@h:=TiOrder+@a0) is null,TiSeID,TiSeID),if(@b=TiSeID, IF((@d=1) and (0<>TiWordCount), CASE ' . $set_wo_sql_2 . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END, CASE ' . $set_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END), CASE '  . $del_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(TiText,@f)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END)) sent, if(@d=0,NULL,if(CRC32(@z:=substr(@c,case n' . $mw_sql . ' end))<>CRC32(lower(@z)),@z,"")) word,if(@d=0 or ""=@z,NULL,lower(@z)) lword, TiOrder,n FROM ' . $tbpref . 'numbers , ' . $tbpref . 'temptextitems) ti, ' . $tbpref . 'words where lword is not null and WoLgID=' . $lid . ' and WoTextLC=lword and WoWordCount=n' . (($id>0)?' union all ':' group by WoID order by WoTextLC');
-    }//text has expressions end
-    if($id>0) {
-        do_mysqli_query('ALTER TABLE ' . $tbpref . 'textitems2 ALTER Ti2LgID SET DEFAULT ' . $lid . ', ALTER Ti2TxID SET DEFAULT ' . $id);
-        do_mysqli_query('insert into ' . $tbpref . 'textitems2 (Ti2WoID, Ti2SeID, Ti2Order, Ti2WordCount, Ti2Text) ' . $sql . 'select  WoID, TiSeID, TiOrder, TiWordCount, TiText FROM ' . $tbpref . 'temptextitems left join ' . $tbpref . 'words on lower(TiText) = WoTextLC and TiWordCount=1 and WoLgID = ' . $lid . ' order by TiOrder,TiWordCount');
-        do_mysqli_query('ALTER TABLE ' . $tbpref . 'sentences ALTER SeLgID SET DEFAULT ' . $lid . ', ALTER SeTxID SET DEFAULT ' . $id);
-        do_mysqli_query('set @a=0;');
-        do_mysqli_query('INSERT INTO ' . $tbpref . 'sentences ( SeOrder, SeFirstPos, SeText) SELECT @a:=@a+1, min(if(TiWordCount=0,TiOrder+1,TiOrder)),GROUP_CONCAT(TiText order by TiOrder SEPARATOR "") FROM ' . $tbpref . 'temptextitems group by TiSeID');
-        do_mysqli_query('ALTER TABLE ' . $tbpref . 'textitems2 ALTER Ti2LgID DROP DEFAULT, ALTER Ti2TxID DROP DEFAULT');
-        do_mysqli_query('ALTER TABLE ' . $tbpref . 'sentences ALTER SeLgID DROP DEFAULT, ALTER SeTxID DROP DEFAULT');
-    }
-    if($id==-1) {//check text
-        if(!empty($wl)) {
-            $res = do_mysqli_query($sql);
-            while($record = mysqli_fetch_assoc($res)){
-                $mw[]= array(tohtml($record['word']),$record['cnt'],tohtml($record['WoTranslation']));
-            }
-            mysqli_free_result($res);
-        }
-        echo "<script type=\"text/javascript\">\nMWORDS = ", json_encode($mw), ";\n";
-        if($rtlScript) {
-            echo '$(function() {$("li").attr("dir","rtl");});';
-        }
-        ?>
-   h='<h4>Word List <span class="red2">(red = already saved)</span></h4><ul class="wordlist">';
-   $.each(WORDS,function(k,v){h+= '<li><span' + (v[2]==""?"":' class="red2"') + '>[' + v[0] + '] — ' + v[1] + (v[2]==""?"":' — ' + v[2]) + '</span></li>';});
-   $('#check_text').append(h);
-   h='</ul><p>TOTAL: ' + WORDS.length +'</p><h4>Expression List</span></h4><ul class="expressionlist">';
-   $.each(MWORDS,function(k,v){h+= '<li><span>[' + v[0] + '] — ' + v[1] + (v[2]==""?"":' — ' + v[2]) + '</span></li>';});
-   $('#check_text').append(h);
-   h='</ul><p>TOTAL: ' + MWORDS.length +'</p><h4>Non-Word List</span></h4><ul class="nonwordlist">';
-   $.each(NOWORDS,function(k,v){h+= '<li>[' + v[0] + '] — ' + v[1] + '</li>';});
-   $('#check_text').append(h + '</ul><p>TOTAL: ' + NOWORDS.length +'</p>');
-   </script>
-
-        <?php
-    }//check text end
-    do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'temptextitems');
 }
 
 /**
@@ -3793,89 +3563,6 @@ function restore_file($handle, $title)
 }
 
 
-/**
- * @global string $tbpref Database table prefix
- */
-function set_word_count() 
-{
-    global $tbpref;
-    $sqlarr = array();
-    $i=0;
-    $min=0;
-    $max=0;
-
-    if (get_first_value('SELECT (@m := group_concat(LgID)) value FROM ' . $tbpref . 'languages WHERE UPPER(LgRegexpWordCharacters)="MECAB"')) {
-        $db_to_mecab = sys_get_temp_dir() . "/" . $tbpref . "db_to_mecab.txt";
-        $mecab_to_db = sys_get_temp_dir() . "/" . $tbpref . "mecab_to_db.txt";
-        $mecab_args = ' -F %m%t\\t -U %m%t\\t -E \\n ';
-        /*if(!is_dir(sys_get_temp_dir() . "/lwt")) {
-            mkdir(sys_get_temp_dir() . "/lwt", 0777);
-            chmod(sys_get_temp_dir() . "/lwt", 0777);
-        }*/
-        if (file_exists($db_to_mecab)) { 
-            unlink($db_to_mecab); 
-        }
-
-        $mecab = get_mecab_path($mecab_args);
-
-        do_mysqli_query(
-            'SELECT WoID, WoTextLC FROM ' . $tbpref . 'words 
-            WHERE WoLgID in(@m) AND WoWordCount = 0 
-            into outfile ' . convert_string_to_sqlsyntax($db_to_mecab)
-        );
-        $handle = popen($mecab . $db_to_mecab, "r");
-        $fp = fopen($mecab_to_db, 'w');
-        if (!feof($handle)) {
-            while (!feof($handle)) {
-                $row = fgets($handle, 1024);
-                $arr  = explode("4\t", $row, 2);
-                //var_dump($arr);
-                if (!empty($arr[1])) {
-                    $cnt = substr_count(preg_replace('$[^267]\t$u', '', $arr[1]), "\t");
-                    if(empty($cnt)) { $cnt =1; 
-                    }
-                    fwrite($fp, $arr[0] . "\t" . $cnt . "\n");
-                }
-            }
-            pclose($handle);
-            fclose($fp);
-            do_mysqli_query('CREATE TEMPORARY TABLE ' . $tbpref . 'mecab ( MID mediumint(8) unsigned NOT NULL, MWordCount tinyint(3) unsigned NOT NULL, PRIMARY KEY (MID)) CHARSET=utf8');
-            do_mysqli_query('LOAD DATA LOCAL INFILE ' . convert_string_to_sqlsyntax($mecab_to_db) . ' INTO TABLE ' . $tbpref . 'mecab (MID, MWordCount)');
-            do_mysqli_query('UPDATE ' . $tbpref . 'words join ' . $tbpref . 'mecab on MID = WoID SET WoWordCount = MWordCount');
-            do_mysqli_query('DROP TABLE ' . $tbpref . 'mecab');
-
-            unlink($mecab_to_db);
-            unlink($db_to_mecab);
-        }
-    }
-    $sql= "select WoID, WoTextLC, LgRegexpWordCharacters, LgSplitEachChar from " . $tbpref . "words, " . $tbpref . "languages where WoWordCount=0 and WoLgID = LgID order by WoID";
-    $result = do_mysqli_query($sql);
-    while($rec = mysqli_fetch_assoc($result)){
-        if ($rec['LgSplitEachChar']) {
-            $textlc = preg_replace('/([^\s])/u', "$1 ", $rec['WoTextLC']);
-        }
-        else{
-            $textlc = $rec['WoTextLC'];
-        }
-        $sqlarr[]= ' WHEN ' . $rec['WoID'] . ' THEN ' . preg_match_all('/([' . $rec['LgRegexpWordCharacters'] . ']+)/u', $textlc, $ma);
-        if(++$i % 1000 == 0) {
-            if(!empty($sqlarr)) {
-                $max=$rec['WoID'];
-                $sqltext = "UPDATE  " . $tbpref . "words SET WoWordCount  = CASE WoID";
-                $sqltext .= implode(' ', $sqlarr) . ' END where WoWordCount=0 and WoID between ' . $min . ' and ' . $max;
-                do_mysqli_query($sqltext);
-                $min=$max;
-            }
-            $sqlarr = array();
-        }
-    }
-    mysqli_free_result($result);
-    if(!empty($sqlarr)) {
-        $sqltext = "UPDATE  " . $tbpref . "words SET WoWordCount  = CASE WoID";
-        $sqltext .= implode(' ', $sqlarr) . ' END where WoWordCount=0';
-        do_mysqli_query($sqltext);
-    }
-}
 
 // -------------------------------------------------------------
 
@@ -4447,6 +4134,104 @@ function framesetheader($title)
     <title>LWT :: <?php echo tohtml($title); ?></title>
 </head>
     <?php
+}
+
+/**
+ * Write a page header and start writing its body.
+ * 
+ * @param  string $titletext Title of the page
+ * @param  bool   $close 
+ * @global bool $debug Show a DEBUG span if true
+ */
+function pagestart($titletext, $close) 
+{
+    global $debug;
+    pagestart_nobody($titletext);
+    echo '<h4>';
+    if ($close) { 
+        echo '<a href="index.php" target="_top">'; 
+    }
+    echo_lwt_logo();
+    echo "<span>LWT</span>";
+    if ($close) {
+        echo '</a><span>&nbsp; | &nbsp;';
+        quickMenu();
+        echo '</span>';
+    }
+    echo '</h4><h3>' . $titletext . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
+    echo "<p>&nbsp;</p>";
+} 
+
+/**
+ * Start a standard page with a complete header and a non-closed body.
+ * 
+ * @param  string $titletext Title of the page
+ * @param  string $addcss    Some CSS to be embed in a style tag
+ * @global bool $debug Show the requests if true
+ * @global string $tbpref The database table prefix if true
+ */
+function pagestart_nobody($titletext, $addcss='') 
+{
+    global $debug;
+    global $tbpref;
+    @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+    @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+    @header('Cache-Control: no-cache, must-revalidate, max-age=0');
+    @header('Pragma: no-cache');
+    ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <!-- 
+        <?php echo file_get_contents("UNLICENSE.md");?> 
+    -->
+    <meta name="viewport" content="width=900" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="<?php print_file_path('img/apple-touch-icon-57x57.png');?>" />
+    <link rel="apple-touch-icon" sizes="72x72" href="<?php print_file_path('img/apple-touch-icon-72x72.png');?>" />
+    <link rel="apple-touch-icon" sizes="114x114" href="<?php print_file_path('img/apple-touch-icon-114x114.png');?>" />
+    <link rel="apple-touch-startup-image" href="img/apple-touch-startup.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery-ui.css');?>" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery.tagit.css');?>" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
+    <style type="text/css">
+    <?php echo $addcss . "\n"; ?>
+    </style>
+    
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
+    <script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.jeditable.mini.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/sorttable.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
+    <!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
+    <!-- TBPREF  : "<?php if (isset($tbpref)) {
+        echo tohtml($tbpref); 
+} ?>" -->
+    <script type="text/javascript">
+        //<![CDATA[
+        <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
+        <?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
+        <?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
+        //]]>
+    </script>
+    <script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
+    
+    <title>LWT :: <?php echo $titletext; ?></title>
+</head>
+<body>
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+    <?php
+    flush();
+    if ($debug) { 
+        showRequest(); 
+    }
 }
 
 ?>
