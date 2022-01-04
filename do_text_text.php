@@ -16,7 +16,8 @@ require_once 'inc/session_utility.php';
  * Get the record for this text in the database.
  * 
  * @param  string $textid ID of the text
- * @return string[]|null|false Record corresponding to this text.
+ * @return array{TxLgID: int, TxTitle: string, TxAnnotatedText: string, TxPosition: int}|false|null Record corresponding to this text.
+ * 
  * @global string $tbpref Table name prefix
  * @since  2.0.3-fork
  */
@@ -37,9 +38,10 @@ function getTextData($textid)
 /**
  * Return the settings relative to this language.
  * 
- * @param  string $langid Language ID as defined in the database.
+ * @param  int $langid Language ID as defined in the database.
+ * @return array{LgName: string, LgDict1URI: string, LgDict2URI: string, LgGoogleTranslateURI: string,
+ * LgTextSize: int, LgRemoveSpaces: int, LgRightToLeft: int}|false|null Record corresponding to this language.
  * @global string $tbpref Table name prefix
- * @return string[]|null|false Record corresponding to this language.
  * @since  2.0.3-fork
  */
 function getLanguagesSettings($langid)

@@ -26,7 +26,7 @@ require_once 'database_connect.php';
  * 
  * @global string $tbpref Table name prefix
  * 
- * @return string[] All tags
+ * @return list<string> All tags
  */
 function get_tags($refresh = 0) 
 {
@@ -58,21 +58,18 @@ function get_tags($refresh = 0)
  * 
  * @global string $tbpref Table name prefix
  * 
- * @return string[] All text tags
+ * @return list<string> All text tags
  */
 function get_texttags($refresh = 0) 
 {
     global $tbpref;
-    if (isset($_SESSION['TEXTTAGS'])) {
-        if (is_array($_SESSION['TEXTTAGS'])) {
-            if (isset($_SESSION['TBPREF_TEXTTAGS'])) {
-                if($_SESSION['TBPREF_TEXTTAGS'] == $tbpref . url_base()) {
-                    if ($refresh == 0) { 
-                        return $_SESSION['TEXTTAGS']; 
-                    }
-                }
-            }
-        }
+    if (
+        isset($_SESSION['TEXTTAGS']) 
+        && is_array($_SESSION['TEXTTAGS']) 
+        && isset($_SESSION['TBPREF_TEXTTAGS']) 
+        && $refresh == 0
+        && $_SESSION['TBPREF_TEXTTAGS'] == $tbpref . url_base()) {
+            return $_SESSION['TEXTTAGS']; 
     }
     $tags = array();
     $sql = 'SELECT T2Text FROM ' . $tbpref . 'tags2 ORDER BY T2Text';

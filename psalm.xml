@@ -24,4 +24,8 @@
         <var name="$passwd" type="string" />
         <var name="$dbname" type="string" />
     </globals>
+
+    <stubs>
+        <file name="connect_easyphp.inc.php" />
+    </stubs>
 </psalm>
