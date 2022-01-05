@@ -8,7 +8,8 @@ if(isset($_REQUEST["sl"])) {
     $tl=$_REQUEST["tl"];
     setcookie("googtrans", '/'.$sl.'/'.$tl, time() + 60, "/");
 }
-if(isset($_REQUEST["offset"])) { $pos = $_REQUEST["offset"]; 
+if(isset($_REQUEST["offset"])) { 
+    $pos = $_REQUEST["offset"]; 
 }
 if (isset($_REQUEST['term'])) {
     $cnt=0;
@@ -34,9 +35,11 @@ if (isset($_REQUEST['term'])) {
     while($record = mysqli_fetch_assoc($res)){
         $hex = strToClassName(prepare_textdata($record["WoTextLC"]));
         echo '$(".TERM',$hex,'",context).removeClass("status0").addClass("status',$record["WoStatus"],'").addClass("word',$record["WoID"],'").attr("data_wid","',$record["WoID"],'").attr("data_status","',$record["WoStatus"],'").attr("data_trans",',prepare_textdata_js($record["WoTranslation"]),')',"\n";
-        if($tooltip_mode == 1) { echo '.each(function(){this.title = make_tooltip($(this).text(), $(this).attr(\'data_trans\'), $(this).attr(\'data_rom\'), $(this).attr(\'data_status\'));})'; 
+        if($tooltip_mode == 1) { 
+            echo '.each(function(){this.title = make_tooltip($(this).text(), $(this).attr(\'data_trans\'), $(this).attr(\'data_rom\'), $(this).attr(\'data_status\'));})'; 
         }
-        else { echo ".attr('title','')"; 
+        else { 
+            echo ".attr('title','')"; 
         }
         echo ";\n";
     }
@@ -66,53 +69,103 @@ if(isset($pos)) {
     $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
     ?>
 <style>
-body {top:0px ! important;}
-td.td1{vertical-align:middle ! important;}
-span.dict1,span.dict2,span.dict3 {opacity:0.1;cursor: pointer;}
-.dict{position:absolute;z-index:10;right:0;top:0px;}
-span.dict1.hover,span.dict2.hover,span.dict3.hover {opacity:1;color:red;background-color:#666;border-radius:2px;}
-input[name="WoTranslation"]{border: 1px solid red;}
-.del_trans{position:absolute;top:0px;right:0px;cursor:pointer;}
-.del_trans:after{content:url(icn/broom.png);opacity:0.2;}
-.del_trans:hover:after{opacity:1;}
-.trans{position:relative;}
+    body {
+        top:0px ! important;
+    }
+    td.td1{
+        vertical-align:middle ! important;
+    }
+    span.dict1,span.dict2,span.dict3 {
+        opacity:0.1;
+        cursor: pointer;
+    }
+    .dict{
+        position:absolute;
+        z-index:10;
+        right:0;
+        top:0px;
+    }
+    span.dict1.hover,span.dict2.hover,span.dict3.hover {
+        opacity:1;
+        color:red;
+        background-color:#666;
+        border-radius:2px;
+    }
+    input[name="WoTranslation"] {
+        border: 1px solid red;
+    }
+    .del_trans{
+        position:absolute;
+        top:0px;
+        right:0px;
+        cursor:pointer;
+    }
+    .del_trans:after{
+        content:url(icn/broom.png);
+        opacity:0.2;
+    }
+    .del_trans:hover:after{
+        opacity:1;
+    }
+    .trans{
+        position:relative;
+    }
 </style>
 <script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
 <script type="text/javascript">
-WBLINK1 = '<?php echo $wb1; ?>';
-WBLINK2 = '<?php echo $wb2; ?>';
-WBLINK3 = '<?php echo $wb3; ?>';
-$('h3,h4,title').addClass('notranslate');
+    WBLINK1 = '<?php echo $wb1; ?>';
+    WBLINK2 = '<?php echo $wb2; ?>';
+    WBLINK3 = '<?php echo $wb3; ?>';
+    $('h3,h4,title').addClass('notranslate');
 $(window).load(function() {
-$('[name="form1"]').submit(function() {
-    $('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
-    window.parent.frames['ru'].location.href = 'empty.html';
-    return true;
-});
-$('td').hoverIntent({over: function() {$( this ).addClass('hover');}, out: function() {$( this ).removeClass('hover');}, interval: 150,selector:"span.dict1, span.dict2, span.dict3"});
+    $('[name="form1"]').submit(function() {
+        $('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
+        window.parent.frames['ru'].location.href = 'empty.html';
+        return true;
+    });
 
-$('td').on('click','span.dict1, span.dict2, span.dict3',function(){
-    if($(this).hasClass( "dict1" ))WBLINK=WBLINK1;
-    if($(this).hasClass( "dict2" ))WBLINK=WBLINK2;
-    if($(this).hasClass( "dict3" ))WBLINK=WBLINK3;
-    if((WBLINK.substr(0,8) == '*http://') || (WBLINK.substr(0,9) == '*https://')) {
-        owin(createTheDictUrl(WBLINK.replace('*',''),$(this).parent().prev().text()));
-    }
-    else{
-        window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK,$(this).parent().prev().text());
-    }
-    $('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
-    el=$(this).parent().parent().next().children();
-    el.attr('data_name',el.attr('name'));
-    el.attr('name','WoTranslation');
-})
-.on('click','.del_trans',function(){$(this).prev().val('').focus();});
+    $('td').hoverIntent({
+        over: function() {$( this ).addClass('hover');}, 
+        out: function() {$( this ).removeClass('hover');}, 
+        interval: 150,
+        selector:"span.dict1, span.dict2, span.dict3"
+    });
+
+    $('td').on(
+        'click',
+        'span.dict1, span.dict2, span.dict3',
+        function(){
+            if($(this).hasClass( "dict1" )) 
+                WBLINK=WBLINK1;
+            if($(this).hasClass( "dict2" ))
+                WBLINK=WBLINK2;
+            if($(this).hasClass( "dict3" ))
+                WBLINK=WBLINK3;
+            if((WBLINK.substr(0,8) == '*http://') || (WBLINK.substr(0,9) == '*https://')) {
+                owin(createTheDictUrl(WBLINK.replace('*',''),$(this).parent().prev().text()));
+            } else {
+                window.parent.frames['ru'].location.href = createTheDictUrl(WBLINK,$(this).parent().prev().text());
+            }
+            $('[name="WoTranslation"]').attr('name',$('[name="WoTranslation"]').attr('data_name'));
+            el=$(this).parent().parent().next().children();
+            el.attr('data_name',el.attr('name'));
+            el.attr('name','WoTranslation');
+        }
+    ).on(
+        'click',
+        '.del_trans',
+        function(){$(this).prev().val('').focus();});
+
     var myVar = setInterval(function(){
-        if($( ".trans>font" ).length == $( ".trans" ).length){
+        if ($( ".trans>font" ).length == $( ".trans" ).length) {
             $('.trans').each(function() {
                 var txt=$(this).text();
                 var cnt= $(this).attr('id').replace('Trans_', '');
-                $(this).addClass('notranslate').html('<input type="text" name="term[' + cnt + '][trans]"  value="' + txt + '" maxlength="100" size="35"></input><div class="del_trans"></div>');
+                $(this).addClass('notranslate')
+                .html(
+                    '<input type="text" name="term[' + cnt + '][trans]"  value="' 
+                    + txt + '" maxlength="100" size="35"></input><div class="del_trans"></div>'
+                );
             });
             $('.term').each(function(){
                 txt=$(this).text();
@@ -136,6 +189,7 @@ $('td').on('click','span.dict1, span.dict2, span.dict3',function(){
         }
     }, 300);
 });
+
 $(document).ready( function() {
     window.parent.frames['ru'].location.href = 'empty.html';
     $('input[type="checkbox"]').change(function(){
@@ -144,16 +198,28 @@ $(document).ready( function() {
         if(this.checked){
             $(e).prop('disabled', false);
             $('#Trans_'+v+' input').prop('disabled', false);
-            if($('input[type="checkbox"]:checked').length){$('input[type="submit"]').val('Save');}
-        }
-        else{
+            if($('input[type="checkbox"]:checked').length) {
+                $('input[type="submit"]').val('Save');
+            }
+        } else{
             $(e).prop('disabled', true);$('#Trans_'+v+' input').prop('disabled', true);
-            if(!$('input[type="checkbox"]:checked').length){if(!$('input[name="offset"]').length)v='End';else v='Next';$('input[type="submit"]').val(v);}
+            if(!$('input[type="checkbox"]:checked').length) {
+                if(!$('input[name="offset"]').length) 
+                    v='End';
+                else 
+                    v='Next';
+                $('input[type="submit"]').val(v);
+            }
         }
     });
 });
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: '<?php echo $sl; ?>', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, includedLanguages: '<?php echo $tl; ?>', autoDisplay: false}, 'google_translate_element');
+  new google.translate.TranslateElement({
+      pageLanguage: '<?php echo $sl; ?>', 
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE, 
+      includedLanguages: '<?php echo $tl; ?>', 
+      autoDisplay: false
+    }, 'google_translate_element');
 }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <?php

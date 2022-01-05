@@ -94,7 +94,7 @@ function get_first_value($sql)
 
 function prepare_textdata($s) 
 {
-    return str_replace("\r\n", "\n", stripTheSlashesIfNeeded($s));
+    return str_replace("\r\n", "\n", $s);
 }
 
 // -------------------------------------------------------------
@@ -344,7 +344,6 @@ function saveSetting($k, $v)
     if (!isset($v)) {
         return ''; 
     }
-    $v = stripTheSlashesIfNeeded($v);
     if ($v === '') {
         return '';
     }

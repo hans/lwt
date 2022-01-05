@@ -13,15 +13,17 @@ require_once __DIR__ . '/session_utility.php';
 
 $last_update=$_REQUEST['last_update'];
 $currentpage=$_REQUEST['page'];
-    $recno = $_REQUEST['count'];
+$recno = $_REQUEST['count'];
 $rtl = $_REQUEST['rtl'];
-    $maxperpage = 100;
+$maxperpage = 100;
 
-    $pages = intval(($recno-1) / $maxperpage) + 1;
+$pages = ($recno-1) / $maxperpage + 1;
     
-if ($currentpage < 1) { $currentpage = 1; 
+if ($currentpage < 1) { 
+    $currentpage = 1; 
 }
-if ($currentpage > $pages) { $currentpage = $pages; 
+if ($currentpage > $pages) { 
+    $currentpage = $pages; 
 }
     $limit = ' LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;
 if($recno > 0) { ?>

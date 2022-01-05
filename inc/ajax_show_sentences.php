@@ -16,9 +16,9 @@
 require_once __DIR__ . '/session_utility.php';
 
 $lang = (int)$_POST['lang'];
-$word = stripTheSlashesIfNeeded($_POST['word']);
-$wid = stripTheSlashesIfNeeded($_POST['woid']);
-$ctl = stripTheSlashesIfNeeded($_POST['ctl']);
+$word = $_POST['word'];
+$wid = $_POST['woid'];
+$ctl = $_POST['ctl'];
 
 echo get20Sentences(
     $lang, $word, $wid, $ctl, 

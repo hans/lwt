@@ -23,11 +23,11 @@ if (isset($_REQUEST['op'])) {
     if (substr($_REQUEST['op'], 0, 5) == 'NEXT ') {
         
         $langid = $_REQUEST["LgID"];
-        $title = stripTheSlashesIfNeeded($_REQUEST["TxTitle"]);
+        $title = $_REQUEST["TxTitle"];
         $paragraph_handling = $_REQUEST["paragraph_handling"];
         $maxsent = $_REQUEST["maxsent"];
-        $source_uri = stripTheSlashesIfNeeded($_REQUEST["TxSourceURI"]);
-        $texttags = json_encode(stripTheSlashesIfNeeded($_REQUEST["TextTags"]));
+        $source_uri = $_REQUEST["TxSourceURI"];
+        $texttags = json_encode($_REQUEST["TextTags"]);
         
         if (isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
             $data = file_get_contents($_FILES["thefile"]["tmp_name"]);
@@ -137,9 +137,9 @@ if (isset($_REQUEST['op'])) {
     elseif (substr($_REQUEST['op'], 0, 5) == 'Creat') {
 
         $langid = $_REQUEST["LgID"];
-        $title = stripTheSlashesIfNeeded($_REQUEST["TxTitle"]);
-        $source_uri = stripTheSlashesIfNeeded($_REQUEST["TxSourceURI"]);
-        $_REQUEST["TextTags"] = json_decode(stripTheSlashesIfNeeded($_REQUEST["TextTags"]), true);
+        $title = $_REQUEST["TxTitle"];
+        $source_uri = $_REQUEST["TxSourceURI"];
+        $_REQUEST["TextTags"] = json_decode($_REQUEST["TextTags"], true);
         $textcount = (int) $_REQUEST["TextCount"];
         $texts = $_REQUEST["text"];
         

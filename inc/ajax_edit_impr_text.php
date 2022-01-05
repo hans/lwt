@@ -54,7 +54,7 @@ function make_trans($i, $wid, $trans, $word, $lang)
 }
 
 $textid = (int)$_POST["id"];
-$wordlc = stripTheSlashesIfNeeded($_POST['word']);
+$wordlc = $_POST['word'];
 
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = do_mysqli_query($sql);

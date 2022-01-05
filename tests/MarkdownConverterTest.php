@@ -13,13 +13,12 @@ final class MarkdownConverterTest extends TestCase
     public function testMarkdownConversion(): void
     {
         $initialMarkdown = '# Test markdown';
-        $expectedHTML = '<h1>Test markdown</h1>
-';
+        $expectedHTML = '<h1>Test markdown</h1>';
         $temp = tmpfile();
         $path = stream_get_meta_data($temp)['uri'];
         fwrite($temp, $initialMarkdown);
         fseek($temp, 0);
-        $outputText = markdown_converter($path);
+        $outputText = trim(markdown_converter($path));
         fclose($temp);
         $this->assertSame($expectedHTML, $outputText);
     }

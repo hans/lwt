@@ -72,23 +72,6 @@ function tohtml($s)
     return htmlspecialchars($s, ENT_COMPAT, "UTF-8");
 }
 
-/**
- * Strip the slashes for PHP up to 5. No effect in PHP >7
- * 
- */
-function stripTheSlashesIfNeeded($s) 
-{
-    if (function_exists("get_magic_quotes_gpc")) {
-        if (get_magic_quotes_gpc()) {
-            return stripslashes($s); 
-        }
-        else { 
-            return $s; 
-        }
-    } else {
-        return $s;
-    }
-}
 
 /**
  * Echo debugging informations.
@@ -97,14 +80,12 @@ function showRequest()
 {
     $olderr = error_reporting(0);
     echo "<pre>** DEBUGGING **********************************\n";
-    echo '$GLOBALS...'; print_r($GLOBALS);
-    echo 'get_version_number()...'; echo get_version_number() . "\n";
+    echo '$GLOBALS...'; 
+    print_r($GLOBALS);
+    echo 'get_version_number()...'; 
+    echo get_version_number() . "\n";
     echo 'get_magic_quotes_gpc()...'; 
-    if (function_exists("get_magic_quotes_gpc")) {
-        echo (get_magic_quotes_gpc() ? "TRUE" : "FALSE") . "\n";
-    } else {
-        echo "NOT EXISTS (FALSE)\n";
-    }
+    echo "NOT EXISTS (FALSE)\n";
     echo "********************************** DEBUGGING **</pre>";
     error_reporting($olderr);
 }

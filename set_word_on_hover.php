@@ -10,9 +10,11 @@ if($_REQUEST['status']==1) {
     $text=$_GET["text"];
 
     $tl_array = GoogleTranslate::staticTranslate($text, $sl, $tl);
-    if($tl_array) { $translation = $tl_array[0]; 
+    if($tl_array) { 
+        $translation = $tl_array[0]; 
     }
-    if($translation == $_GET["text"]) { $translation = '*'; 
+    if($translation == $_GET["text"]) { 
+        $translation = '*'; 
     }
 
     header('Pragma: no-cache');

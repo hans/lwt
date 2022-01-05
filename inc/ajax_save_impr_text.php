@@ -13,7 +13,7 @@ require_once __DIR__ . '/session_utility.php';
 
 $textid = (int)$_POST['id'];
 $elem = $_POST['elem'];
-$stringdata = stripTheSlashesIfNeeded($_POST['data']);
+$stringdata = $_POST['data'];
 $data = json_decode($stringdata);
 
 $val = $data->{$elem};

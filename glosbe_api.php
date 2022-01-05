@@ -14,10 +14,10 @@ for easily filling the "new word form"
 
 require_once 'inc/session_utility.php';
 
-$from = trim(stripTheSlashesIfNeeded($_REQUEST["from"]));
-$dest = trim(stripTheSlashesIfNeeded($_REQUEST["dest"]));
+$from = trim($_REQUEST["from"]);
+$dest = trim($_REQUEST["dest"]);
 $destorig = $dest;
-$phrase = mb_strtolower(trim(stripTheSlashesIfNeeded($_REQUEST["phrase"])), 'UTF-8');
+$phrase = mb_strtolower(trim($_REQUEST["phrase"]), 'UTF-8');
 $ok = false;
 
 pagestart_nobody('');

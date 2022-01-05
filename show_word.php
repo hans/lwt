@@ -10,7 +10,7 @@ require_once 'inc/session_utility.php';
 pagestart_nobody('Term');
 
 $wid = getreq('wid');
-$ann = stripTheSlashesIfNeeded($_REQUEST["ann"]);
+$ann = $_REQUEST["ann"];
 
 if ($wid == '') { my_die('Word not found in show_word.php'); 
 }

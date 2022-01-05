@@ -881,6 +881,7 @@ function get_links_from_new_feed($NfSourceURI)
     $rss_data['feed_title']=$rss->getElementsByTagName('title')->item(0)->nodeValue;
     if ($feed_tags['item']=='entry') {
         $rss->getElementsByTagName('feed')->item(0)->getAttribute('lang');
+        // $rss->getElementsByTagName('feed')->item(0)->attributes['lang']; is better?
     } else {
         $rss->getElementsByTagName('language')->item(0)->nodeValue; 
     }
@@ -1712,7 +1713,7 @@ function processSessParam($reqkey,$sesskey,$default,$isnum)
 {
     $result = '';
     if(isset($_REQUEST[$reqkey])) {
-        $reqdata = stripTheSlashesIfNeeded(trim($_REQUEST[$reqkey]));
+        $reqdata = trim($_REQUEST[$reqkey]);
         $_SESSION[$sesskey] = $reqdata;
         $result = $reqdata;
     }
@@ -1735,7 +1736,7 @@ function processDBParam($reqkey,$dbkey,$default,$isnum)
     $result = '';
     $dbdata = getSetting($dbkey);
     if(isset($_REQUEST[$reqkey])) {
-        $reqdata = stripTheSlashesIfNeeded(trim($_REQUEST[$reqkey]));
+        $reqdata = trim($_REQUEST[$reqkey]);
         saveSetting($dbkey, $reqdata);
         $result = $reqdata;
     }
