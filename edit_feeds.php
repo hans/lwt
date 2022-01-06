@@ -12,7 +12,6 @@ $wh_query = ($currentquery != '') ? (' and (NfName like ' . $wh_query . ')') : '
 
 pagestart('Manage ' . getLanguage($currentlang) . ' Feeds', true);
 
-$message = '';
 if(isset($_SESSION['wizard'])) {
     unset($_SESSION['wizard']);
 }
@@ -56,7 +55,6 @@ if(isset($_REQUEST['update_feed'])) {
 
 if(isset($_REQUEST['save_feed'])) {
     runsql('insert into ' . $tbpref . 'newsfeeds (NfLgID,NfName,NfSourceURI,NfArticleSectionTags,NfFilterTags,NfOptions) VALUES (' . convert_string_to_sqlsyntax($_REQUEST['NfLgID']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfName']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfSourceURI']) .',' . convert_string_to_sqlsyntax($_REQUEST['NfArticleSectionTags']) .',' . convert_string_to_sqlsyntax_nonull($_REQUEST['NfFilterTags']) .',' . convert_string_to_sqlsyntax_nonull(rtrim($_REQUEST['NfOptions'], ',')) .')', "");
-    $message='newsfeed saved';
 }
 if(isset($_REQUEST['load_feed']) || isset($_REQUEST['check_autoupdate']) || (isset($_REQUEST['markaction']) && $_REQUEST['markaction']=='update')) {
     load_feeds($currentfeed);
@@ -364,7 +362,7 @@ Feed Name (Wildc.=*):
             }
             if ($currentpage > $pages) { $currentpage = $pages; 
             }
-            $limit = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage;        
+                    
             $sorts = array('NfName','NfUpdate DESC','NfUpdate ASC');
             $lsorts = count($sorts);
             if ($currentsort < 1) { $currentsort = 1; 

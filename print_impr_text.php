@@ -31,7 +31,7 @@ if($textid==0) {
 
 if ($delmode ) {  // Delete
     if ($ann_exists ) { 
-        $dummy = runsql(
+        runsql(
             'update ' . $tbpref . 'texts set ' .
             'TxAnnotatedText = ' . convert_string_to_sqlsyntax("") . 
             ' where TxID = ' . $textid, 
@@ -65,7 +65,6 @@ $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft, LgGoogleTranslateURI f
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
-$removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
 if(!empty($record['LgGoogleTranslateURI'])) {
     $ttsLg=preg_replace('/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/', '$1', $record['LgGoogleTranslateURI']);

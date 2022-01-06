@@ -36,6 +36,7 @@ ORDER BY TiOrder';
 $res = do_mysqli_query($sql);
 $count = 0;
 $javascript = "var title='';";
+$sqlarr = null;
 while ($record = mysqli_fetch_assoc($res)) {
     $term = $record['TiText'];    
     $termlc = $record['TiTextLC'];    

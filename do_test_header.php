@@ -54,17 +54,17 @@ function get_sql_test_data(&$title, &$p)
 
 /**
  * Set useful data for the test using language.
- * 
+ *
  * @param string $title Title to be overwritten
  * @param string $p     Property URL to be overwritten
- * 
+ *
  * @return string SQL query to use
- * 
+ *
  * @since 2.0.5-fork
- * 
+ *
  * @global string $tbpref Database table prefix
  */
-function get_lang_test_data(&$title, &$p) 
+function get_lang_test_data(&$title, &$p): string 
 {
     global $tbpref;
     $langid = getreq('lang');
@@ -78,17 +78,17 @@ function get_lang_test_data(&$title, &$p)
 
 /**
  * Set useful data for the test using text.
- * 
+ *
  * @param string $title Title to be overwritten
  * @param string $p     Property URL to be overwritten
- * 
+ *
  * @return string SQL query to use
- * 
+ *
  * @since 2.0.5-fork
- * 
+ *
  * @global string $tbpref Database table prefix
  */
-function get_text_test_data(&$title, &$p)
+function get_text_test_data(&$title, &$p): string
 {
     global $tbpref;
     $textid = getreq('text');

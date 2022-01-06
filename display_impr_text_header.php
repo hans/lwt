@@ -25,7 +25,6 @@ if (isset($record['TxAudioURI'])) {
 
 $title = $record['TxTitle'];
 $sourceURI = $record['TxSourceURI'];
-$langid = $record['TxLgID'];
 mysqli_free_result($res); 
 
 saveSetting('currenttext', $textid);

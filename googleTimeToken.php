@@ -2,7 +2,12 @@
 
 require_once 'inc/session_utility.php';
 
-function getGoogleTimeToken()
+/**
+ * @return int[]|null
+ *
+ * @psalm-return array{0: int, 1: int}|null
+ */
+function getGoogleTimeToken(): ?array
 {
     $val = get_first_value('select LWTValue as value from _lwtgeneral where LWTKey = "GoogleTimeToken"');
     $arr = empty($val)?array('0'):explode('.', ($val));

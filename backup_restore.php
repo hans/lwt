@@ -27,6 +27,8 @@ else {
 
 // RESTORE
 
+$num_fields = null;
+$result = null;
 if (isset($_REQUEST['restore'])) {
     if (isset($_FILES["thefile"]) && $_FILES["thefile"]["tmp_name"] != "" && $_FILES["thefile"]["error"] == 0 ) {
         $handle = gzopen($_FILES["thefile"]["tmp_name"], "r");
@@ -140,7 +142,8 @@ elseif (isset($_REQUEST['orig_backup'])) {
                 $return = 'INSERT INTO ' . $table . ' VALUES(';
                 for ($j=0; $j < $num_fields; $j++) { // foreach field
                     $return .= convert_string_to_sqlsyntax_nonull($row[$j]);
-                    if ($j < ($num_fields-1)) { $return .= ','; 
+                    if ($j < ($num_fields-1)) { 
+                        $return .= ','; 
                     }
                 } // foreach field
                 $out .= $return . ");\n";
@@ -157,20 +160,20 @@ elseif (isset($_REQUEST['orig_backup'])) {
 // EMPTY
 
 elseif (isset($_REQUEST['empty'])) {
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'archivedtexts', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'archtexttags', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'feedlinks', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'languages', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'textitems2', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'newsfeeds', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'sentences', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'tags', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'tags2', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'texts', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'texttags', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'words', '');
-    $dummy = runsql('TRUNCATE ' . $tbpref . 'wordtags', '');
-    $dummy = runsql('DELETE FROM ' . $tbpref . 'settings where StKey = \'currenttext\'', '');
+    runsql('TRUNCATE ' . $tbpref . 'archivedtexts', '');
+    runsql('TRUNCATE ' . $tbpref . 'archtexttags', '');
+    runsql('TRUNCATE ' . $tbpref . 'feedlinks', '');
+    runsql('TRUNCATE ' . $tbpref . 'languages', '');
+    runsql('TRUNCATE ' . $tbpref . 'textitems2', '');
+    runsql('TRUNCATE ' . $tbpref . 'newsfeeds', '');
+    runsql('TRUNCATE ' . $tbpref . 'sentences', '');
+    runsql('TRUNCATE ' . $tbpref . 'tags', '');
+    runsql('TRUNCATE ' . $tbpref . 'tags2', '');
+    runsql('TRUNCATE ' . $tbpref . 'texts', '');
+    runsql('TRUNCATE ' . $tbpref . 'texttags', '');
+    runsql('TRUNCATE ' . $tbpref . 'words', '');
+    runsql('TRUNCATE ' . $tbpref . 'wordtags', '');
+    runsql('DELETE FROM ' . $tbpref . 'settings where StKey = \'currenttext\'', '');
     optimizedb();
     get_tags($refresh = 1);
     get_texttags($refresh = 1);

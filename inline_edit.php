@@ -15,7 +15,7 @@ if (substr($id, 0, 5) == "trans") {
     $id = substr($id, 5);
     if($value == '') { $value='*'; 
     }
-    $message = runsql(
+    runsql(
         'update ' . $tbpref . 'words set WoTranslation = ' . 
         convert_string_to_sqlsyntax(repl_tab_nl($value)) . ' where WoID = ' . $id,
         ""
@@ -28,7 +28,7 @@ if (substr($id, 0, 5) == "roman") {
     if ($value == '*') { $value=''; 
     }
     $id = substr($id, 5);
-    $message = runsql(
+    runsql(
         'update ' . $tbpref . 'words set WoRomanization = ' . 
         convert_string_to_sqlsyntax(repl_tab_nl($value)) . ' where WoID = ' . $id,
         ""

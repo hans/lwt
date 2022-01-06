@@ -14,13 +14,23 @@ require_once 'inc/session_utility.php';
 require_once 'inc/simterms.php';
 
 $translation_raw = repl_tab_nl(getreq("WoTranslation"));
-if ($translation_raw == '' ) { $translation = '*'; 
+if ($translation_raw == '' ) { 
+    $translation = '*'; 
 }
-else { $translation = $translation_raw; 
+else { 
+    $translation = $translation_raw; 
 }
 
 // UPDATE
 
+$lang = null;
+$message = null;
+$rom = null;
+$sentence = null;
+$status = null;
+$term = null;
+$transl = null;
+$wid = null;
 if (isset($_REQUEST['op'])) {
     
     $textlc = trim(prepare_textdata($_REQUEST["WoTextLC"]));
@@ -42,7 +52,7 @@ if (isset($_REQUEST['op'])) {
             if ($oldstatus != $newstatus) { $xx = ', WoStatus = ' .    $newstatus . ', WoStatusChanged = NOW()'; 
             }
         
-            $message = runsql(
+            runsql(
                 'update ' . $tbpref . 'words set WoText = ' . 
                 convert_string_to_sqlsyntax($_REQUEST["WoText"]) . ', WoTranslation = ' . 
                 convert_string_to_sqlsyntax($translation) . ', WoSentence = ' . 
@@ -136,7 +146,8 @@ else {  // if (! isset($_REQUEST['op']))
         $term = $record['WoText'];
         $lang = $record['WoLgID'];
         $transl = repl_tab_nl($record['WoTranslation']);
-        if($transl == '*') { $transl=''; 
+        if($transl == '*') { 
+            $transl=''; 
         }
         $sentence = repl_tab_nl($record['WoSentence']);
         $rom = $record['WoRomanization'];

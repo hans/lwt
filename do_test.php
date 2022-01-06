@@ -223,14 +223,14 @@ function do_test_page($p, $mobile)
 
 /**
  * Main function to try to start a test page.
- * 
+ *
  * If unsifficiant arguments are provided to
  * the page, the page will be redirected to
  * edit_texts.php.
- * 
+ *
  * @since 2.0.5-fork
  */
-function try_start_test($p)
+function try_start_test($p): void
 {
     if ($p != '') {
         do_test_page($p, is_mobile());

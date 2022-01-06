@@ -14,7 +14,7 @@ require_once 'inc/session_utility.php';
 require_once 'inc/langdefs.php' ;
 
 /// Returns a dropdown menu of the different languages
-function get_wizard_selectoptions($v) 
+function get_wizard_selectoptions($v): string 
 {
     global $langDefs;
     $r = "<option value=\"\"" . get_selected($v, "") . ">[Choose...]</option>";

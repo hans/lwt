@@ -8,6 +8,11 @@ Import terms from file or Text area
 
 require_once 'inc/session_utility.php';
 
+/**
+ * @return (null|string)[]|false|null
+ *
+ * @psalm-return false|non-empty-list<null|string>|null
+ */
 function my_str_getcsv($input) 
 {
     $temp=fopen("php://memory", "rw");
@@ -18,17 +23,17 @@ function my_str_getcsv($input)
     return $data;
 }
 
-function notempty($var) 
+function notempty($var): bool 
 {
     return(trim($var) != '');
 }
 
-function limit20(&$item, $key) 
+function limit20(&$item, $key): void 
 {
     $item = mb_substr($item, 0, 20);
 }
 
-function savetag($item, $key, $wid) 
+function savetag($item, $key, $wid): void 
 {
     global $tbpref;
     if(! in_array($item, $_SESSION['TAGS'])) {
@@ -39,10 +44,10 @@ function savetag($item, $key, $wid)
 }
 
 pagestart('Import Terms', true);
-$message = '';
 
 // Import
 
+$col = null;
 if (isset($_REQUEST['op'])) {
     
     // INSERT
@@ -55,8 +60,6 @@ if (isset($_REQUEST['op'])) {
         $sql = "select * from " . $tbpref . "languages where LgID=" . $lang;
         $res = do_mysqli_query($sql);
         $record = mysqli_fetch_assoc($res);
-        $termchar = $record['LgRegexpWordCharacters'];
-        $splitEachChar = $record['LgSplitEachChar'];
         $removeSpaces = $record["LgRemoveSpaces"];
         $rtl = $record['LgRightToLeft'];
         $last_update = get_first_value("select max(WoStatusChanged) as value from " . $tbpref . "words");

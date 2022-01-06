@@ -52,7 +52,7 @@ else if(get_first_value("select count(WoID) as value from " . $tbpref . "words w
         } else {
             $oldtrans .= ' ' . get_first_sepa() . ' ' . $data;
         }
-        $dummy = runsql(
+        runsql(
             'update ' . $tbpref . 'words set ' .
             'WoTranslation = ' . convert_string_to_sqlsyntax($oldtrans) . ' where WoID = ' . $wid, ""
         );

@@ -8,10 +8,10 @@
  * @since  1.5.5
  */
 
-$server = "....";  // database server 
-$userid = "....";  // database userid
-$passwd = "....";  // database password
-$dbname = "....";  // database name
+  // database server 
+  // database userid
+  // database password
+  // database name
 
 require_once 'inc/wp_logincheck.php' ;   
 

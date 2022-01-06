@@ -11,22 +11,22 @@ $message = "";
 
 if (isset($_REQUEST['delpref'])) {
     if($_REQUEST['delpref'] !== '-') {
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archivedtexts', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archtexttags', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_languages', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_sentences', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags2', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_temptextitems', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tempwords', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_textitems2', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texts', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texttags', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_words', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_newsfeeds', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_feedlinks', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_wordtags', '');
-        $dummy = runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_settings', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archivedtexts', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_archtexttags', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_languages', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_sentences', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tags2', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_temptextitems', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_tempwords', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_textitems2', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texts', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_texttags', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_words', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_newsfeeds', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_feedlinks', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_wordtags', '');
+        runsql('DROP TABLE ' . $_REQUEST['delpref'] . '_settings', '');
         $message = 'Table Set "' . $_REQUEST['delpref'] . '" deleted';
         if ($_REQUEST['delpref'] == substr($tbpref, 0, -1)) {
             $tbpref = "";

@@ -10,8 +10,6 @@
 require_once __DIR__ . '/session_utility.php';
 
 session_write_close();
-$imported_feed=0;
-$nif=0;
 $msg='';
 $feed = get_links_from_rss($_POST['NfSourceURI'], get_nf_option($_POST['NfOptions'], 'article_source'));
 if(empty($feed)) {
@@ -37,7 +35,6 @@ else{
     $nif=count($valuesArr)-$imported_feed;
     unset($valuesArr);
     do_mysqli_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID='.$_POST['NfID']);
-    $nf_max_links=null;
     $nf_max_links=get_nf_option($_POST['NfOptions'], 'max_links');
     if(!$nf_max_links) {
         if (get_nf_option($_POST['NfOptions'], 'article_source')) {

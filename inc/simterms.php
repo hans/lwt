@@ -11,7 +11,12 @@
 
 // -------------------------------------------------------------
 
-function letterPairs($str) 
+/**
+ * @return string[]
+ *
+ * @psalm-return array<0|positive-int, string>
+ */
+function letterPairs($str): array 
 {
     $numPairs = mb_strlen($str) - 1;
     $pairs = array();
@@ -21,7 +26,10 @@ function letterPairs($str)
     return $pairs;
 }
 
-function wordLetterPairs($str) 
+/**
+ * @psalm-return list<mixed>
+ */
+function wordLetterPairs($str): array 
 {
     $allPairs = array();
     $words = explode(' ', $str);
@@ -56,13 +64,14 @@ function getSimilarityRanking($str1, $str2)
 /**
  * For a language $lang_id and a term $compared_term (UTF-8).
  * If string is already in database, it will be excluded in results.
- * 
- * @return array All $max_count wordids with a similarity ranking > $min_ranking, 
- * sorted decending
+ *
+ * @return string[] All $max_count wordids with a similarity ranking > $min_ranking, sorted decending
+ *
+ * @psalm-return array<positive-int, string>
  */
 function get_similar_terms(
     $lang_id, $compared_term, $max_count, $min_ranking
-) { 
+): array { 
 
     global $tbpref;
     $compared_term_lc = mb_strtolower($compared_term, 'UTF-8');
@@ -90,7 +99,7 @@ function get_similar_terms(
  * Get Term and translation of terms in termid array (calculated 
  * in function get_similar_terms(...)) as string for echo
  */
-function print_similar_terms($lang_id, $compared_term) 
+function print_similar_terms($lang_id, $compared_term): string 
 {
     global $tbpref;
     $max_count = (int)getSettingWithDefault("set-similar-terms-count");
@@ -139,7 +148,7 @@ function print_similar_terms($lang_id, $compared_term)
 
 // -------------------------------------------------------------
 
-function print_similar_terms_tabrow() 
+function print_similar_terms_tabrow(): void 
 {
     if ((int)getSettingWithDefault("set-similar-terms-count") > 0) { 
         echo '<tr><td class="td1 right">Similar<br />Terms:</td><td class="td1"><span id="simwords" class="smaller">&nbsp;</span></td></tr>'; 

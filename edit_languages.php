@@ -230,6 +230,8 @@ elseif (isset($_REQUEST['op'])) {
 
 // NEW
 
+$feedarticlescount = null;
+$newsfeedcount = null;
 if (isset($_REQUEST['new'])) {
     
     ?>

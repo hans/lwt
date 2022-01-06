@@ -42,6 +42,7 @@ $sumall = 0;
 
 $sql = 'SELECT WoLgID,WoStatus,count(*) AS value FROM ' . $tbpref . 'words GROUP BY WoLgID,WoStatus';
 $res = do_mysqli_query($sql);
+$term_stat = null;
 while ($record = mysqli_fetch_assoc($res)) {
     $term_stat[$record['WoLgID']][$record['WoStatus']]=$record['value'];
 }
@@ -166,12 +167,15 @@ $sumkall = 0;
 
 $sql = 'select WoLgID,TO_DAYS(curdate())-TO_DAYS(cast(WoCreated as date)) Created,count(WoID) as value from ' . $tbpref . 'words where WoStatus in (1,2,3,4,5,99) GROUP BY WoLgID,Created';
 $res = do_mysqli_query($sql);
+$term_created = null;
 while ($record = mysqli_fetch_assoc($res)) {
     $term_created[$record['WoLgID']][$record['Created']]=$record['value'];
 }
 
 $sql = 'select WoLgID,WoStatus,TO_DAYS(curdate())-TO_DAYS(cast(WoStatusChanged as date)) Changed,count(WoID) as value from ' . $tbpref . 'words GROUP BY WoLgID,WoStatus,WoStatusChanged';
 $res = do_mysqli_query($sql);
+$term_active = null;
+$term_known = null;
 while ($record = mysqli_fetch_assoc($res)) {
     if(!empty($record['WoStatus'])) {
         switch($record['WoStatus']){
@@ -201,20 +205,14 @@ $sql = 'SELECT LgID, LgName FROM ' . $tbpref . 'languages where LgName<>"" ORDER
 $res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
 
-    $ct=0;
-    $cy=0;
     $cw=0;
     $cm=0;
     $ca=0;
     $call=0;
-    $at=0;
-    $ay=0;
     $aw=0;
     $am=0;
     $aa=0;
     $aall=0;
-    $kt=0;
-    $ky=0;
     $kw=0;
     $km=0;
     $ka=0;

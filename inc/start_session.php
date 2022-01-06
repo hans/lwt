@@ -9,7 +9,7 @@
 // Get globals
 require 'kernel_utility.php';
 
-function set_error_reporting($dsplerrors) 
+function set_error_reporting($dsplerrors): void 
 {
     if ($dsplerrors) {
         @error_reporting(E_ALL);
@@ -22,7 +22,7 @@ function set_error_reporting($dsplerrors)
     }
 }
 
-function set_configuration_options() 
+function set_configuration_options(): void 
 {
     // Set script time limit
     @ini_set('max_execution_time', '600');  // 10 min.
@@ -31,7 +31,7 @@ function set_configuration_options()
     @ini_set('memory_limit', '999M');
 }  
 
-function start_session() 
+function start_session(): void 
 {
     // session isn't started
     $err = @session_start();
@@ -46,7 +46,7 @@ function start_session()
     }
 }
 
-function start_session_main() 
+function start_session_main(): void 
 {
     set_error_reporting($GLOBALS['$dsplerrors']);
     set_configuration_options();

@@ -15,13 +15,13 @@ require_once 'inc/session_utility.php';
 
 /**
  * Save text mode settings.
- * 
+ *
  * @param int $showAll      Whether all word should be shown
  * @param int $showLearning Whether to show translation of learning words
- * 
- * @return int If show learning was previously true (1) or false (0)
+ *
+ * @return 0|1 If show learning was previously true (1) or false (0)
  */
-function text_mode_save_settings($showAll, $showLearning) 
+function text_mode_save_settings($showAll, $showLearning): int
 {
     saveSetting('showallwords', $showAll);
     $previousShowLearning = getSettingZeroOrOne('showlearningtranslations', 1);

@@ -58,7 +58,7 @@ function insert_word_ignore_to_database($textid, $word)
         FROM " . $tbpref . "texts 
         WHERE TxID = " . $textid
     );
-    $m1 = runsql(
+    runsql(
         'INSERT INTO ' . $tbpref . 'words (
             WoLgID, WoText, WoTextLC, WoStatus, WoWordCount, WoStatusChanged,' .  make_score_random_insert_update('iv') . '
         ) values( ' . 

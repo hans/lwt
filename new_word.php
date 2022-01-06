@@ -18,7 +18,6 @@ if (isset($_REQUEST['op'])) {
 
         $text = trim(prepare_textdata($_REQUEST["WoText"]));
         $textlc = mb_strtolower($text, 'UTF-8');
-        $wis = $textlc;
         $translation_raw = repl_tab_nl(getreq("WoTranslation"));
         if ($translation_raw == '' ) { $translation = '*'; 
         }

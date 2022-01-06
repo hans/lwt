@@ -24,5 +24,4 @@ $dsplerrors = 0;
  */
 $dspltime = 0;
 
-
 ?>

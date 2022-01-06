@@ -12,7 +12,7 @@
 
 require_once __DIR__ . '/session_utility.php';
 
-function make_trans($i, $wid, $trans, $word, $lang) 
+function make_trans($i, $wid, $trans, $word, $lang): string 
 {
     global $tbpref;    
     $trans = trim($trans);
@@ -59,7 +59,7 @@ $wordlc = $_POST['word'];
 $sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
-$title = $record['TxTitle'];
+$record['TxTitle'];
 $langid = $record['TxLgID'];
 mysqli_free_result($res);
 
@@ -77,7 +77,6 @@ $ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "text
 $ann_exists = (strlen($ann) > 0);
 if ($ann_exists) {
     $ann = recreate_save_ann($textid, $ann);
-    $ann_exists = (strlen($ann) > 0);
 }
 
 $rr = "";
@@ -88,7 +87,6 @@ $r .= '<th class="th1 center">Dict.</th>';
 $r .= '<th class="th1 center">Edit<br />Term</th>';
 $r .= '<th class="th1 center">Term Translations (Delim.: ' . tohtml(getSettingWithDefault('set-term-translation-delimiters')) . ')<br /><input type="button" value="Reload" onclick="do_ajax_edit_impr_text(0,\'\');" /></th>';
 $r .= '</tr>';
-$nonterms = "";
 $items = preg_split('/[\n]/u', $ann);
 $i = 0;
 $nontermbuffer ='';

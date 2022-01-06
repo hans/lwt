@@ -20,11 +20,12 @@ else { $translation = $translation_raw;
 
 // INS/UPD
 
+$lang = null;
+$term = null;
 if (isset($_REQUEST['op'])) {
 
     $textlc = trim(prepare_textdata($_REQUEST["WoTextLC"]));
     $text = trim(prepare_textdata($_REQUEST["WoText"]));
-    $wis = $textlc;
 
     if (mb_strtolower($text, 'UTF-8') == $textlc) {
 
@@ -50,7 +51,7 @@ if (isset($_REQUEST['op'])) {
             );
             $wid = get_last_key();
             set_word_count();
-            $hex = strToClassName(prepare_textdata($_REQUEST["WoTextLC"]));
+            strToClassName(prepare_textdata($_REQUEST["WoTextLC"]));
 
 
         } // $_REQUEST['op'] == 'Save'
@@ -148,7 +149,8 @@ else {  // if (! isset($_REQUEST['op']))
         $termlc = mb_strtolower($term, 'UTF-8');
 
         $wid = get_first_value("select WoID as value from " . $tbpref . "words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc));
-        if (isset($wid)) { $term = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid); 
+        if (isset($wid)) { 
+            $term = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid); 
         }
     } else {
 

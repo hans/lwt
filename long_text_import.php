@@ -11,13 +11,13 @@ require_once 'inc/session_utility.php';
 
 pagestart('Long Text Import', true);
 
-$message = '';
 $max_input_vars = ini_get('max_input_vars');
 if ($max_input_vars === false) { $max_input_vars = 1000; 
 }
 if ($max_input_vars == '') { $max_input_vars = 1000; 
 }
 
+$imported = null;
 if (isset($_REQUEST['op'])) {
     
     if (substr($_REQUEST['op'], 0, 5) == 'NEXT ') {
@@ -142,17 +142,17 @@ if (isset($_REQUEST['op'])) {
         $_REQUEST["TextTags"] = json_decode($_REQUEST["TextTags"], true);
         $textcount = (int) $_REQUEST["TextCount"];
         $texts = $_REQUEST["text"];
+        $message = '';
         
         if (count($texts) != $textcount ) {
             $message = "Error: Number of texts wrong: " .  count($texts) . " != " . $textcount;
         } else {
-            
             $imported = 0;
             for ($i = 0; $i < $textcount; $i++) {
                 $texts[$i] = remove_soft_hyphens($texts[$i]);
                 $counter = makeCounterWithTotal($textcount, $i+1);
                 $thistitle = $title . ($counter == '' ? '' : (' (' . $counter . ')')); 
-                $imported = $imported + (int) runsql(
+                $imported += (int) runsql(
                     'insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
                     $langid . ', ' . 
                     convert_string_to_sqlsyntax($thistitle) . ', ' . 
@@ -163,10 +163,10 @@ if (isset($_REQUEST['op'])) {
                 saveTextTags($id);    
                 splitCheckText($texts[$i], $langid, (int) $id);
             }
+            $message = $imported . " Text(s) imported!";
         
         }
         
-        $message = $imported . " Text(s) imported!";
         
         echo error_message_with_hide($message, 0);
 

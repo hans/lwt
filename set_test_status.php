@@ -39,7 +39,7 @@ if (getreq('stchange') != '') {
 $word = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid);
 pagestart("Term: " . $word, false);
 
-$m1 = runsql(
+runsql(
     'update ' . $tbpref . 'words set WoStatus = ' . 
     $status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' where WoID = ' . $wid, 'Status changed'
 );

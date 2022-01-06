@@ -26,7 +26,7 @@ $wordlc = convert_string_to_sqlsyntax(mb_strtolower($_REQUEST['text'], 'UTF-8'))
 
 $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts where TxID = " . $_REQUEST['tid']);
 
-            $message = runsql(
+            runsql(
                 'insert into ' . $tbpref . 'words (WoLgID, WoTextLC, WoText, ' .
                 'WoStatus, WoTranslation, WoSentence, WoRomanization, WoStatusChanged,' .  make_score_random_insert_update('iv') . ') values( ' . 
                 $langid . ', ' .

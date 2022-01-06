@@ -16,8 +16,6 @@
 
 require_once 'inc/session_utility.php';
 
-$p = '';
-
 if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) {
     $testsql = $_SESSION['testsql']; 
 }
@@ -30,7 +28,8 @@ elseif (isset($_REQUEST['text'])) {
     $testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID = ' . $_REQUEST['text'] . ' ';
 }
 
-else { my_die("do_test_table.php called with wrong parameters"); 
+else { 
+    my_die("do_test_table.php called with wrong parameters"); 
 }
 
 pagestart_nobody('', 'html, body { margin:3px; padding:0; }');

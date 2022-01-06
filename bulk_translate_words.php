@@ -3,6 +3,8 @@
 require_once 'inc/session_utility.php';
 
 $tid=$_REQUEST['tid'];
+$sl = null;
+$tl = null;
 if(isset($_REQUEST["sl"])) {
     $sl=$_REQUEST["sl"];
     $tl=$_REQUEST["tl"];

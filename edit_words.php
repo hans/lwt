@@ -80,6 +80,8 @@ if($currentquery!=='') {
 else { $wh_query = ''; 
 }
 
+$wh_tag1 = null;
+$wh_tag2 = null;
 if ($currenttag1 == '' && $currenttag2 == '') {
     $wh_tag = ''; 
 }
@@ -152,7 +154,7 @@ if (isset($_REQUEST['markaction'])) {
                     $message = addtaglist($actiondata, $list);
                 }
                 elseif ($markaction == 'deltag' ) {
-                    $message = removetaglist($actiondata, $list);
+                    removetaglist($actiondata, $list);
                     header("Location: edit_words.php");
                     exit();
                 }

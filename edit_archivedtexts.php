@@ -55,6 +55,8 @@ if($currentquery!=='') {
 else { $wh_query = ''; 
 }
 
+$wh_tag1 = null;
+$wh_tag2 = null;
 if ($currenttag1 == '' && $currenttag2 == '') {
     $wh_tag = ''; 
 }
@@ -95,6 +97,7 @@ $message = '';
 
 // MARK ACTIONS
 
+$id = null;
 if (isset($_REQUEST['markaction'])) {
     $markaction = $_REQUEST['markaction'];
     $actiondata = getreq('data');
@@ -119,7 +122,7 @@ if (isset($_REQUEST['markaction'])) {
                 }
                 
                 elseif ($markaction == 'deltag' ) {
-                    $message = removearchtexttaglist($actiondata, $list);
+                    removearchtexttaglist($actiondata, $list);
                     header("Location: edit_archivedtexts.php");
                     exit();
                 }
@@ -205,7 +208,7 @@ elseif (isset($_REQUEST['op'])) {
             'where AtID = ' . $_REQUEST["AtID"], "Updated"
         );
         if (($message == 'Updated: 1') && $textsdiffer) {
-            $dummy = runsql("update " . $tbpref . "archivedtexts set AtAnnotatedText = '' where AtID = " . $_REQUEST["AtID"], "");
+            runsql("update " . $tbpref . "archivedtexts set AtAnnotatedText = '' where AtID = " . $_REQUEST["AtID"], "");
         }
         $id = $_REQUEST["AtID"];
     }

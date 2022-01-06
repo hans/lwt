@@ -85,7 +85,7 @@ function get_texttags($refresh = 0)
 
 // -------------------------------------------------------------
 
-function getTextTitle($textid) 
+function getTextTitle($textid): string 
 {
     global $tbpref;
     $text = get_first_value(
@@ -101,7 +101,7 @@ function getTextTitle($textid)
 
 // -------------------------------------------------------------
 
-function get_tag_selectoptions($v,$l) 
+function get_tag_selectoptions($v,$l): string 
 {
     global $tbpref;
     if (! isset($v) ) { $v = ''; 
@@ -131,7 +131,7 @@ function get_tag_selectoptions($v,$l)
 
 // -------------------------------------------------------------
 
-function get_texttag_selectoptions($v,$l) 
+function get_texttag_selectoptions($v,$l): string 
 {
     global $tbpref;
     if (!isset($v) ) {
@@ -162,10 +162,9 @@ function get_texttag_selectoptions($v,$l)
 
 // -------------------------------------------------------------
 
-function get_txtag_selectoptions($l,$v)
+function get_txtag_selectoptions($l,$v): string
 {
     global $tbpref;
-    $text_tags=array();
     if (!isset($v) ) { 
         $v = ''; 
     }
@@ -193,10 +192,11 @@ function get_txtag_selectoptions($l,$v)
 
 // -------------------------------------------------------------
 
-function get_archivedtexttag_selectoptions($v,$l) 
+function get_archivedtexttag_selectoptions($v,$l): string 
 {
     global $tbpref;
-    if (! isset($v) ) { $v = ''; 
+    if (! isset($v) ) { 
+        $v = ''; 
     }
     $r = "<option value=\"\"" . get_selected($v, '');
     $r .= ">[Filter off]</option>";
@@ -221,8 +221,10 @@ function get_archivedtexttag_selectoptions($v,$l)
     return $r;
 }
 
-// -------------------------------------------------------------
 
+/**
+ * @return void
+ */
 function saveWordTags($wid) 
 {
     global $tbpref;
@@ -257,7 +259,7 @@ function saveWordTags($wid)
 
 // -------------------------------------------------------------
 
-function saveTextTags($tid) 
+function saveTextTags($tid): void 
 {
     global $tbpref;
     runsql("DELETE FROM " . $tbpref . "texttags WHERE TtTxID =" . $tid, '');
@@ -293,7 +295,7 @@ function saveTextTags($tid)
 
 // -------------------------------------------------------------
 
-function saveArchivedTextTags($tid) 
+function saveArchivedTextTags($tid): void 
 {
     global $tbpref;
     runsql("DELETE from " . $tbpref . "archtexttags WHERE AgAtID =" . $tid, '');
@@ -329,7 +331,7 @@ function saveArchivedTextTags($tid)
 
 // -------------------------------------------------------------
 
-function getWordTags($wid) 
+function getWordTags($wid): string 
 {
     global $tbpref;
     $r = '<ul id="termtags">';
@@ -347,7 +349,7 @@ function getWordTags($wid)
 
 // -------------------------------------------------------------
 
-function getTextTags($tid) 
+function getTextTags($tid): string 
 {
     global $tbpref;
     $r = '<ul id="texttags">';
@@ -365,7 +367,7 @@ function getTextTags($tid)
 
 // -------------------------------------------------------------
 
-function getArchivedTextTags($tid) 
+function getArchivedTextTags($tid): string 
 {
     global $tbpref;
     $r = '<ul id="texttags">';
@@ -383,7 +385,7 @@ function getArchivedTextTags($tid)
 
 // -------------------------------------------------------------
 
-function addtaglist($item, $list) 
+function addtaglist($item, $list): string 
 {
     global $tbpref;
     $tagid = get_first_value('select TgID as value from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item));
@@ -408,7 +410,7 @@ function addtaglist($item, $list)
 
 // -------------------------------------------------------------
 
-function addarchtexttaglist($item, $list) 
+function addarchtexttaglist($item, $list): string 
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
@@ -433,7 +435,7 @@ function addarchtexttaglist($item, $list)
 
 // -------------------------------------------------------------
 
-function addtexttaglist($item, $list) 
+function addtexttaglist($item, $list): string 
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
@@ -458,7 +460,7 @@ function addtexttaglist($item, $list)
 
 // -------------------------------------------------------------
 
-function removetaglist($item, $list) 
+function removetaglist($item, $list): string 
 {
     global $tbpref;
     $tagid = get_first_value(
@@ -486,7 +488,7 @@ function removetaglist($item, $list)
 
 // -------------------------------------------------------------
 
-function removearchtexttaglist($item, $list) 
+function removearchtexttaglist($item, $list): string 
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
@@ -505,7 +507,7 @@ function removearchtexttaglist($item, $list)
 
 // -------------------------------------------------------------
 
-function removetexttaglist($item, $list) 
+function removetexttaglist($item, $list): string 
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
@@ -525,14 +527,13 @@ function removetexttaglist($item, $list)
 
 // -------------------------------------------------------------
 
-function load_feeds($currentfeed)
+function load_feeds($currentfeed): void
 {
     global $tbpref;
     $cnt=0;
     $ajax=$feeds=array();
     echo '<script type="text/javascript">';
     if (isset($_REQUEST['check_autoupdate'])) {
-        $c_feeds=array();
         $result = do_mysqli_query(
             "SELECT * FROM " . $tbpref . "newsfeeds 
             where `NfOptions` like '%autoupdate=%'"
@@ -581,7 +582,8 @@ function load_feeds($currentfeed)
         echo "feedcnt=0;\n";
         echo '$(document).ready(function(){ $.when(',implode(',', $ajax),").then(function(",implode(',', $z),"){window.location.replace(\"",$_SERVER['PHP_SELF'],"\");});});";
     }
-    else { echo "window.location.replace(\"",$_SERVER['PHP_SELF'],"\");"; 
+    else { 
+        echo "window.location.replace(\"",$_SERVER['PHP_SELF'],"\");"; 
     }
     echo "\n</script>\n";
     if($cnt!=1) { 
@@ -596,16 +598,19 @@ function load_feeds($currentfeed)
 // -------------------------------------------------------------
 
 
-function write_rss_to_db($texts)
+function write_rss_to_db($texts): string
 {
     global $tbpref;
     $texts=array_reverse($texts);
     $message1=$message2=$message3=$message4=0;
+    $Nf_ID = null;
     foreach($texts as $text){
         $Nf_ID[]=$text['Nf_ID'];
     }
     $Nf_ID=array_unique($Nf_ID);
     $Nf_tag='';
+    $text_item = null;
+    $nf_max_texts = null;
     foreach($Nf_ID as $feed_ID){
         foreach($texts as $text){
             if($feed_ID==$text['Nf_ID']) {
@@ -616,7 +621,7 @@ function write_rss_to_db($texts)
                             do_mysqli_query('insert into ' . $tbpref . 'tags2 (T2Text) values (' . convert_string_to_sqlsyntax($tag) . ')');
                         }
                     }
-                    $nf_max_texts=$text['Nf_Max_Texts'];
+                    $nf_max_texts = $text['Nf_Max_Texts'];
                 }
                 echo '<div class="msgblue"><p class="hide_message">+++ "' . $text['TxTitle']. '" added! +++</p></div>';
                 do_mysqli_query('INSERT INTO ' . $tbpref . 'texts (TxLgID,TxTitle,TxText,TxAudioURI,TxSourceURI)VALUES ('.$text['TxLgID'].',' . convert_string_to_sqlsyntax($text['TxTitle']) .','. convert_string_to_sqlsyntax($text['TxText']) .','. convert_string_to_sqlsyntax($text['TxAudioURI']) .','.convert_string_to_sqlsyntax($text['TxSourceURI']) .')');
@@ -701,7 +706,7 @@ function write_rss_to_db($texts)
 
 // -------------------------------------------------------------
 
-function print_last_feed_update($diff)
+function print_last_feed_update($diff): void
 {
     $periods = array(
     array(60 * 60 * 24 * 365 , 'year'),
@@ -732,8 +737,9 @@ function print_last_feed_update($diff)
 function get_nf_option($str,$option)
 {
     $arr=explode(',', $str);
+    $all = null;
     if($option=='all') { 
-        $all=array(); 
+        $all = array();
     }
     foreach($arr as $value){
         $res=explode('=', $value);
@@ -752,6 +758,11 @@ function get_nf_option($str,$option)
 
 // -------------------------------------------------------------
 
+/**
+ * @return ((false|mixed|null|string)[]|null|string)[]|false
+ *
+ * @psalm-return array<'feed_text'|'feed_title'|int, array{title: null|string, desc: null|string, link: string, encoded?: false|string, description?: false|string, content?: false|string, text?: mixed}|null|string>|false
+ */
 function get_links_from_new_feed($NfSourceURI)
 {
     $rss = new DOMDocument('1.0', 'utf-8');
@@ -890,6 +901,11 @@ function get_links_from_new_feed($NfSourceURI)
 
 // -------------------------------------------------------------
 
+/**
+ * @return (false|null|string)[][]|false
+ *
+ * @psalm-return false|list<array{title: null|string, desc: null|string, link: string, date: string, text?: false|string, audio: string}>
+ */
 function get_links_from_rss($NfSourceURI,$NfArticleSection)
 {
     $rss = new DOMDocument('1.0', 'utf-8');
@@ -945,6 +961,7 @@ function get_links_from_rss($NfSourceURI,$NfArticleSection)
 function get_text_from_rsslink($feed_data, $NfArticleSection, $NfFilterTags, $NfCharset=null)
 {
     global $tbpref;
+    $data = null;
     foreach ($feed_data as $key =>$val) {
         if (strncmp($NfArticleSection, 'redirect:', 9)==0) {    
             $dom = new DOMDocument;
@@ -954,7 +971,7 @@ function get_text_from_rsslink($feed_data, $NfArticleSection, $NfFilterTags, $Nf
             $redirect = explode(" | ", $NfArticleSection, 2);
             $NfArticleSection = $redirect[1];
             $redirect = substr($redirect[0], 9);
-            $feed_host = parse_url(trim($feed_data[$key]['link']));
+            parse_url(trim($feed_data[$key]['link']));
             foreach ($xPath->query($redirect) as $node) {
                 if (
                     empty(trim($node->localName)) 
@@ -1199,14 +1216,15 @@ function get_text_from_rsslink($feed_data, $NfArticleSection, $NfFilterTags, $Nf
 
 /**
  * Return navigation arrows to previous and next texts.
- * 
- * @param  int    $textid  ID of the current text
- * @param  string $url     Base URL to append before $textid
- * @param  bool   $onlyann Restrict to annotated texts only
- * @param  string $add     Some content to add before the output
+ *
+ * @param int    $textid  ID of the current text
+ * @param string $url     Base URL to append before $textid
+ * @param bool   $onlyann Restrict to annotated texts only
+ * @param string $add     Some content to add before the output
+ *
  * @return string Arrows to previous and next texts.
  */
-function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add) 
+function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add): string 
 {
     global $tbpref;
     $currentlang = validateLang(
@@ -1254,6 +1272,8 @@ function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add)
         $currentlang
     );
     $currenttag12 = processSessParam("tag12", "currenttexttag12", '', 0);
+    $wh_tag1 = null;
+    $wh_tag2 = null;
     if ($currenttag1 == '' && $currenttag2 == '') {
         $wh_tag = ''; 
     }
@@ -1355,10 +1375,10 @@ function getPreviousAndNextTextLinks($textid, $url, $onlyann, $add)
 
 /**
  * Return an HTML formatted logo of the application.
- * 
+ *
  * @global string $tbpref Table name prefix (optional)
  */
-function echo_lwt_logo() 
+function echo_lwt_logo(): void 
 {
     global $tbpref;
     $pref = substr($tbpref, 0, -1);
@@ -1373,7 +1393,12 @@ function echo_lwt_logo()
 
 // -------------------------------------------------------------
 
-function getprefixes() 
+/**
+ * @return (false|string)[]
+ *
+ * @psalm-return list<false|string>
+ */
+function getprefixes(): array 
 {
     $prefix = array();
     $res = do_mysqli_query(str_replace('_', "\\_", "SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings')));
@@ -1386,7 +1411,7 @@ function getprefixes()
 
 // -------------------------------------------------------------
 
-function selectmediapath($f) 
+function selectmediapath($f): string 
 {
     $exists = file_exists('media');
     if ($exists) {
@@ -1410,7 +1435,7 @@ function selectmediapath($f)
 
 // -------------------------------------------------------------
 
-function selectmediapathoptions($dir) 
+function selectmediapathoptions($dir): string 
 {
     $is_windows = ("WIN" == strtoupper(substr(PHP_OS, 0, 3)));
     $mediadir = scandir($dir);
@@ -1441,7 +1466,7 @@ function selectmediapathoptions($dir)
 
 // -------------------------------------------------------------
 
-function get_seconds_selectoptions($v) 
+function get_seconds_selectoptions($v): string 
 {
     if (! isset($v) ) { $v = 5; 
     }
@@ -1455,7 +1480,7 @@ function get_seconds_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_playbackrate_selectoptions($v) 
+function get_playbackrate_selectoptions($v): string 
 {
     if (! isset($v) ) { $v = '10'; 
     }
@@ -1470,7 +1495,7 @@ function get_playbackrate_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function error_message_with_hide($msg,$noback) 
+function error_message_with_hide($msg,$noback): string 
 {
     if (trim($msg) == '') { return ''; 
     }
@@ -1488,7 +1513,7 @@ function error_message_with_hide($msg,$noback)
 
 // -------------------------------------------------------------
 
-function errorbutton($msg) 
+function errorbutton($msg): string 
 {
     if (substr($msg, 0, 5) == "Error" ) {
         return '<input type="button" value="&lt;&lt; Back" onclick="history.back();" />'; 
@@ -1501,7 +1526,7 @@ function errorbutton($msg)
 
 // -------------------------------------------------------------
 
-function remove_soft_hyphens($str) 
+function remove_soft_hyphens($str): string 
 {
     return str_replace('­', '', $str);  // first '..' contains Softhyphen 0xC2 0xAD
 }
@@ -1518,7 +1543,7 @@ function limitlength($s, $l)
 
 // -------------------------------------------------------------
 
-function replace_supp_unicode_planes_char($s) 
+function replace_supp_unicode_planes_char($s): ?string 
 {
     return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xE2\x96\x88", $s); 
     /* U+2588 = UTF8: E2 96 88 = FULL BLOCK = ⬛︎  */ 
@@ -1526,7 +1551,7 @@ function replace_supp_unicode_planes_char($s)
 
 // -------------------------------------------------------------
 
-function makeCounterWithTotal($max, $num) 
+function makeCounterWithTotal($max, $num): string 
 {
     if ($max == 1) { return ''; 
     }
@@ -1541,7 +1566,7 @@ function makeCounterWithTotal($max, $num)
 
 // -------------------------------------------------------------
 
-function encodeURI($url) 
+function encodeURI($url): string 
 {
     $reserved = array(
     '%2D'=>'-','%5F'=>'_','%2E'=>'.','%21'=>'!', 
@@ -1559,10 +1584,10 @@ function encodeURI($url)
 
 /**
  * Echo the path of a file using the theme directory. Echo the base file name of file is not found
- * 
+ *
  * @param string $filename Filename
  */
-function print_file_path($filename)
+function print_file_path($filename): void
 {
     echo get_file_path($filename);
 }
@@ -1612,10 +1637,10 @@ function get_first_sepa()
 
 /**
  * Prepare options for mobile.
- * 
+ *
  * @param "0"|"1"|"2" $v Current mobile type
  */
-function get_mobile_display_mode_selectoptions($v) 
+function get_mobile_display_mode_selectoptions($v): string 
 {
     if (!isset($v)) { 
         $v = "0"; 
@@ -1631,7 +1656,7 @@ function get_mobile_display_mode_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_sentence_count_selectoptions($v) 
+function get_sentence_count_selectoptions($v): string 
 {
     if (!isset($v)) {
         $v = 1; 
@@ -1647,7 +1672,7 @@ function get_sentence_count_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_words_to_do_buttons_selectoptions($v) 
+function get_words_to_do_buttons_selectoptions($v): string 
 {
     if (!isset($v)) {
         $v = "1"; 
@@ -1663,7 +1688,7 @@ function get_words_to_do_buttons_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_regex_selectoptions($v) 
+function get_regex_selectoptions($v): string 
 {
     if (!isset($v)) {
         $v = ""; 
@@ -1679,7 +1704,7 @@ function get_regex_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_tooltip_selectoptions($v) 
+function get_tooltip_selectoptions($v): string 
 {
     if (!isset($v)) {
         $v = 1; 
@@ -1693,7 +1718,7 @@ function get_tooltip_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_themes_selectoptions($v)
+function get_themes_selectoptions($v): string
 {
     $themes = glob('themes/*', GLOB_ONLYDIR);
     $r = '<option value="themes/Default/">Default</option>';
@@ -1711,7 +1736,6 @@ function get_themes_selectoptions($v)
 
 function processSessParam($reqkey,$sesskey,$default,$isnum) 
 {
-    $result = '';
     if(isset($_REQUEST[$reqkey])) {
         $reqdata = trim($_REQUEST[$reqkey]);
         $_SESSION[$sesskey] = $reqdata;
@@ -1733,7 +1757,6 @@ function processSessParam($reqkey,$sesskey,$default,$isnum)
 
 function processDBParam($reqkey,$dbkey,$default,$isnum) 
 {
-    $result = '';
     $dbdata = getSetting($dbkey);
     if(isset($_REQUEST[$reqkey])) {
         $reqdata = trim($_REQUEST[$reqkey]);
@@ -1755,7 +1778,7 @@ function processDBParam($reqkey,$dbkey,$default,$isnum)
 
 // -------------------------------------------------------------
 
-function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1) 
+function getWordTagList($wid, $before=' ', $brack=1, $tohtml=1): string 
 {
     global $tbpref;
     $r = get_first_value(
@@ -1790,11 +1813,12 @@ function get_last_key()
 
 /**
  * If $value is true, return an HTML-style checked attribute.
- * 
- * @param  mixed $value Some value that can be evaluated as a boolean
- * @return string ' checked="checked" ' if value is true, '' otherwise 
+ *
+ * @param mixed $value Some value that can be evaluated as a boolean
+ *
+ * @return ' checked="checked" '|'' if value is true
  */
-function get_checked($value) 
+function get_checked($value): string 
 {
     if (!isset($value)) { 
         return ''; 
@@ -1823,7 +1847,7 @@ function get_selected($value, $selval)
 
 // -------------------------------------------------------------
 
-function make_status_controls_test_table($score, $status, $wordid) 
+function make_status_controls_test_table($score, $status, $wordid): string 
 {
     if ($score < 0 ) { 
         $scoret = '<span class="red2">' . get_status_abbr($status) . '</span>'; 
@@ -1849,7 +1873,7 @@ function make_status_controls_test_table($score, $status, $wordid)
 
 // -------------------------------------------------------------
 
-function get_languages_selectoptions($v,$dt) 
+function get_languages_selectoptions($v,$dt): string 
 {
     global $tbpref;
     $sql = "select LgID, LgName from " . $tbpref . "languages where LgName<>'' order by LgName";
@@ -1872,7 +1896,7 @@ function get_languages_selectoptions($v,$dt)
 
 // -------------------------------------------------------------
 
-function get_languagessize_selectoptions($v) 
+function get_languagessize_selectoptions($v): string 
 {
     if (! isset($v) ) { $v = 100; 
     }
@@ -1889,7 +1913,7 @@ function get_languagessize_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_wordstatus_radiooptions($v) 
+function get_wordstatus_radiooptions($v): string 
 {
     if (! isset($v) ) { $v = 1; 
     }
@@ -1907,7 +1931,7 @@ function get_wordstatus_radiooptions($v)
 
 // -------------------------------------------------------------
 
-function get_wordstatus_selectoptions($v, $all, $not9899, $off=true) 
+function get_wordstatus_selectoptions($v, $all, $not9899, $off=true): string 
 {
     if (! isset($v) ) {
         if ($all ) { $v = ""; 
@@ -1922,7 +1946,8 @@ function get_wordstatus_selectoptions($v, $all, $not9899, $off=true)
     }
     $statuses = get_statuses();
     foreach ($statuses as $n => $status) {
-        if ($not9899 && ($n == 98 || $n == 99)) { continue; 
+        if ($not9899 && ($n == 98 || $n == 99)) { 
+            continue; 
         }
         $r .= "<option value =\"" . $n . "\"" . get_selected($v, $n!=0?$n:'0');
         $r .= ">" . tohtml($status['name']) . " [" . 
@@ -1979,7 +2004,7 @@ function get_wordstatus_selectoptions($v, $all, $not9899, $off=true)
 
 // -------------------------------------------------------------
 
-function get_annotation_position_selectoptions($v)
+function get_annotation_position_selectoptions($v): string
 {
     if (! isset($v) ) { $v = 1; 
     }
@@ -1996,7 +2021,7 @@ function get_annotation_position_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_paging_selectoptions($currentpage, $pages) 
+function get_paging_selectoptions($currentpage, $pages): string 
 {
     $r = "";
     for ($i=1; $i<=$pages; $i++) {
@@ -2008,7 +2033,7 @@ function get_paging_selectoptions($currentpage, $pages)
 
 // -------------------------------------------------------------
 
-function get_wordssort_selectoptions($v) 
+function get_wordssort_selectoptions($v): string 
 {
     if (! isset($v) ) { $v = 1; 
     }
@@ -2033,7 +2058,7 @@ function get_wordssort_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_tagsort_selectoptions($v) 
+function get_tagsort_selectoptions($v): string 
 {
     if (! isset($v) ) { $v = 1; 
     }
@@ -2050,7 +2075,7 @@ function get_tagsort_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_textssort_selectoptions($v) 
+function get_textssort_selectoptions($v): string 
 { 
     if (! isset($v) ) { $v = 1; 
     }
@@ -2065,7 +2090,7 @@ function get_textssort_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_yesno_selectoptions($v) 
+function get_yesno_selectoptions($v): string 
 {
     if (! isset($v) ) { $v = 0; 
     }
@@ -2078,7 +2103,7 @@ function get_yesno_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_andor_selectoptions($v) 
+function get_andor_selectoptions($v): string 
 {
     if (! isset($v) ) { $v = 0; 
     }
@@ -2091,7 +2116,7 @@ function get_andor_selectoptions($v)
 
 // -------------------------------------------------------------
 
-function get_set_status_option($n, $suffix = "") 
+function get_set_status_option($n, $suffix = ""): string 
 {
     return "<option value=\"s" . $n . $suffix . "\">Set Status to " .
     tohtml(get_status_name($n)) . " [" . tohtml(get_status_abbr($n)) .
@@ -2116,14 +2141,14 @@ function get_status_abbr($n)
 
 // -------------------------------------------------------------
 
-function get_colored_status_msg($n) 
+function get_colored_status_msg($n): string 
 {
     return '<span class="status' . $n . '">&nbsp;' . tohtml(get_status_name($n)) . '&nbsp;[' . tohtml(get_status_abbr($n)) . ']&nbsp;</span>';
 }
 
 // -------------------------------------------------------------
 
-function get_multiplewordsactions_selectoptions() 
+function get_multiplewordsactions_selectoptions(): string 
 {
     $r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
     $r .= "<option disabled=\"disabled\">------------</option>";
@@ -2156,7 +2181,7 @@ function get_multiplewordsactions_selectoptions()
 
 // -------------------------------------------------------------
 
-function get_multipletagsactions_selectoptions() 
+function get_multipletagsactions_selectoptions(): string 
 {
     $r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
     $r .= "<option value=\"del\">Delete Marked Tags</option>";
@@ -2165,7 +2190,7 @@ function get_multipletagsactions_selectoptions()
 
 // -------------------------------------------------------------
 
-function get_allwordsactions_selectoptions() 
+function get_allwordsactions_selectoptions(): string 
 {
     $r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
     $r .= "<option disabled=\"disabled\">------------</option>";
@@ -2198,7 +2223,7 @@ function get_allwordsactions_selectoptions()
 
 // -------------------------------------------------------------
 
-function get_alltagsactions_selectoptions() 
+function get_alltagsactions_selectoptions(): string 
 {
     $r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
     $r .= "<option value=\"delall\">Delete ALL Tags</option>";
@@ -2206,7 +2231,7 @@ function get_alltagsactions_selectoptions()
 }
 
 /// Returns options for an HTML dropdown to choose a text along a criterion
-function get_multipletextactions_selectoptions() 
+function get_multipletextactions_selectoptions(): string 
 {
     $r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
     $r .= "<option disabled=\"disabled\">------------</option>";
@@ -2227,7 +2252,7 @@ function get_multipletextactions_selectoptions()
 
 // -------------------------------------------------------------
 
-function get_multiplearchivedtextactions_selectoptions() 
+function get_multiplearchivedtextactions_selectoptions(): string 
 {
     $r = "<option value=\"\" selected=\"selected\">[Choose...]</option>";
     $r .= "<option disabled=\"disabled\">------------</option>";
@@ -2242,7 +2267,7 @@ function get_multiplearchivedtextactions_selectoptions()
 
 // -------------------------------------------------------------
 
-function get_texts_selectoptions($lang, $v) 
+function get_texts_selectoptions($lang, $v): string 
 {
     global $tbpref;
     if (! isset($v) ) { $v = ''; 
@@ -2272,7 +2297,7 @@ function get_texts_selectoptions($lang, $v)
 
 // -------------------------------------------------------------
 
-function makePager($currentpage, $pages, $script, $formname) 
+function makePager($currentpage, $pages, $script, $formname): void 
 {
     if ($currentpage > 1) { 
         ?>
@@ -2312,7 +2337,7 @@ Page
 
 // -------------------------------------------------------------
 
-function makeStatusCondition($fieldname, $statusrange) 
+function makeStatusCondition($fieldname, $statusrange): string 
 {
     if ($statusrange >= 12 && $statusrange <= 15) {
         return '(' . $fieldname . ' between 1 and ' . ($statusrange % 10) . ')';
@@ -2331,21 +2356,23 @@ function makeStatusCondition($fieldname, $statusrange)
 
 // -------------------------------------------------------------
 
-function checkStatusRange($currstatus, $statusrange) 
+function checkStatusRange($currstatus, $statusrange): bool 
 {
     if ($statusrange >= 12 && $statusrange <= 15) {
         return ($currstatus >= 1 && $currstatus <= ($statusrange % 10));
-    } elseif ($statusrange >= 23 && $statusrange <= 25) {
+    } 
+    if ($statusrange >= 23 && $statusrange <= 25) {
         return ($currstatus >= 2 && $currstatus <= ($statusrange % 10));
-    } elseif ($statusrange >= 34 && $statusrange <= 35) {
+    } 
+    if ($statusrange >= 34 && $statusrange <= 35) {
         return ($currstatus >= 3 && $currstatus <= ($statusrange % 10));
-    } elseif ($statusrange == 45) {
+    } 
+    if ($statusrange == 45) {
         return ($currstatus == 4 || $currstatus == 5);
-    } elseif ($statusrange == 599) {
+    } if ($statusrange == 599) {
         return ($currstatus == 5 || $currstatus == 99);
-    } else {
-        return ($currstatus == $statusrange);
     }
+    return ($currstatus == $statusrange);
 }
 
 /**
@@ -2386,11 +2413,11 @@ function makeStatusClassFilter($status)
 
 /**
  * Replace $status in $array by -1
- * 
+ *
  * @param int   $status A value in $array
  * @param int[] $array  Any array of values
  */
-function makeStatusClassFilterHelper($status, &$array) 
+function makeStatusClassFilterHelper($status, &$array): void 
 {
     $pos = array_search($status, $array);
     if ($pos !== false) {
@@ -2436,7 +2463,7 @@ function createTheDictLink($u, $t)
 
 // -------------------------------------------------------------
 
-function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst) 
+function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst): string 
 {
     global $tbpref;
     $sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
@@ -2466,7 +2493,7 @@ function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst)
 
 // -------------------------------------------------------------
 
-function makeOpenDictStr($url, $txt) 
+function makeOpenDictStr($url, $txt): string 
 {
     $r = '';
     if ($url != '' && $txt != '') {
@@ -2482,7 +2509,7 @@ function makeOpenDictStr($url, $txt)
 
 // -------------------------------------------------------------
 
-function makeOpenDictStrJS($url) 
+function makeOpenDictStrJS($url): string 
 {
     $r = '';
     if ($url != '') {
@@ -2498,7 +2525,7 @@ function makeOpenDictStrJS($url)
 
 // -------------------------------------------------------------
 
-function makeOpenDictStrDynSent($url, $sentctljs, $txt) 
+function makeOpenDictStrDynSent($url, $sentctljs, $txt): string 
 {
     $r = '';
     if ($url != '') {
@@ -2517,7 +2544,7 @@ function makeOpenDictStrDynSent($url, $sentctljs, $txt)
 
 // -------------------------------------------------------------
 
-function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs) 
+function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs): string 
 {
     global $tbpref;
     $sql = 'SELECT LgDict1URI, LgDict2URI, LgGoogleTranslateURI 
@@ -2552,7 +2579,7 @@ function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs)
 
 // -------------------------------------------------------------
 
-function makeDictLinks($lang,$wordctljs) 
+function makeDictLinks($lang,$wordctljs): string 
 {
     global $tbpref;
     $sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
@@ -2582,7 +2609,7 @@ function makeDictLinks($lang,$wordctljs)
 
 // -------------------------------------------------------------
 
-function createDictLinksInEditWin3($lang,$sentctljs,$wordctljs) 
+function createDictLinksInEditWin3($lang,$sentctljs,$wordctljs): string 
 {
     global $tbpref;
     $sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
@@ -2629,7 +2656,7 @@ function createDictLinksInEditWin3($lang,$sentctljs,$wordctljs)
 
 // -------------------------------------------------------------
 
-function checkTest($val, $name) 
+function checkTest($val, $name): string 
 {
     if (! isset($_REQUEST[$name])) { return ' '; 
     }
@@ -2643,7 +2670,7 @@ function checkTest($val, $name)
 
 // -------------------------------------------------------------
 
-function strToHex($string)
+function strToHex($string): string
 {
     $hex='';
     for ($i=0; $i < strlen($string); $i++)
@@ -2661,10 +2688,10 @@ function strToHex($string)
 
 /**
  * Escapes everything to "¤xx" but not 0-9, a-z, A-Z, and unicode >= (hex 00A5, dec 165)
- * 
+ *
  * @param string $string String to escape
  */
-function strToClassName($string)
+function strToClassName($string): string
 {
     $length = mb_strlen($string, 'UTF-8');
     $r = '';
@@ -2688,6 +2715,9 @@ function strToClassName($string)
 
 // -------------------------------------------------------------
 
+/**
+ * @return never
+ */
 function anki_export($sql) 
 {
     // WoID, LgRightToLeft, LgRegexpWordCharacters, LgName, WoText, WoTranslation, WoRomanization, WoSentence, taglist
@@ -2731,6 +2761,9 @@ function anki_export($sql)
 
 // -------------------------------------------------------------
 
+/**
+ * @return never
+ */
 function tsv_export($sql) 
 {
     // WoID, LgName, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, taglist
@@ -2755,6 +2788,9 @@ function tsv_export($sql)
 
 // -------------------------------------------------------------
 
+/**
+ * @return never
+ */
 function flexible_export($sql) 
 {
     // WoID, LgName, LgExportTemplate, LgRightToLeft, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, WoStatus, taglist
@@ -2820,7 +2856,7 @@ function flexible_export($sql)
 
 // -------------------------------------------------------------
 
-function mask_term_in_sentence_v2($s) 
+function mask_term_in_sentence_v2($s): string 
 {
     $l = mb_strlen($s, 'utf-8');
     $r = '';
@@ -2860,7 +2896,7 @@ function repl_tab_nl($s)
 
 // -------------------------------------------------------------
 
-function mask_term_in_sentence($s,$regexword) 
+function mask_term_in_sentence($s,$regexword): string 
 {
     $l = mb_strlen($s, 'utf-8');
     $r = '';
@@ -2888,23 +2924,22 @@ function mask_term_in_sentence($s,$regexword)
 
 /**
  * Compute and echo word statistics about a specific text ID.
- * 
+ *
  * It is useful for unknown percent with this fork.
- * 
+ *
  * The echo is an output array{0: int, 1: int, 2: int, 
  * 3: int, 4: int, 5: int} 
  * Total number of words, number of expression, statistics, total unique, 
  * number of unique expressions, unique statistics
  *
- * @param  string $textID identifier for this text
- * @return 
+ * @param string $textID identifier for this text
+ *
  * @global string $tbpref Table name prefix
  */
-function textwordcount($textID) 
+function textwordcount($textID): void 
 {
     global $tbpref;
-    $r = $total = $total_unique = $expr = $expr_unique = $stat = $stat_unique = array();
-    $i = array(1,2,3,4,5,99,98);
+    $total = $total_unique = $expr = $expr_unique = $stat = $stat_unique = array();
     $res = do_mysqli_query(
         'select Ti2TxID as text, count(distinct lower(Ti2Text)) as value, count(lower(Ti2Text)) as total
 		 from ' . $tbpref . 'textitems2
@@ -2945,7 +2980,7 @@ function textwordcount($textID)
 
 // -------------------------------------------------------------
 
-function texttodocount($text) 
+function texttodocount($text): string 
 {
     global $tbpref;
     return '<span title="To Do" class="status0">&nbsp;' . 
@@ -2954,14 +2989,14 @@ function texttodocount($text)
 
 /**
  * Print the number of words left to do in this text.
- * 
+ *
  * @param string|int $textid Text ID
- * 
+ *
  * @return string HTML result
- * 
+ *
  * @global string $tbpref Table prefix
  */
-function texttodocount2($textid)
+function texttodocount2($textid): string
 {
     global $tbpref;
     if (is_string($textid)) {
@@ -2998,9 +3033,10 @@ function texttodocount2($textid)
     return $res;
 }
 
-// -------------------------------------------------------------
-// @return array[2] [0]=html, word in bold, [1]=text, word in {} 
-function getSentence($seid, $wordlc,$mode) 
+/**
+ * @return array{0: string, 1: string} [0]=html, word in bold, [1]=text, word in {}
+ */
+function getSentence($seid, $wordlc,$mode): array 
 {
     global $tbpref;
     $res = do_mysqli_query('select concat(\'​\',group_concat(Ti2Text order by Ti2Order asc SEPARATOR \'​\'),\'​\') as SeText, Ti2TxID as SeTxID, LgRegexpWordCharacters, LgRemoveSpaces, LgSplitEachChar from ' . $tbpref . 'textitems2, ' . $tbpref . 'languages where Ti2LgID = LgID and Ti2WordCount<2 and Ti2SeID= ' . $seid);
@@ -3106,10 +3142,11 @@ function getSentence($seid, $wordlc,$mode)
 
 // -------------------------------------------------------------
 
-function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode) 
+function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode): string 
 {
     global $tbpref;
     $r = '<p><b>Sentences in active texts with <i>' . tohtml($wordlc) . '</i></b></p><p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy sentence into above term)</p>';
+    $mecab_str = null;
     if(empty($wid)) {
         $sql = 'SELECT DISTINCT SeID, SeText FROM ' . $tbpref . 'sentences, ' . $tbpref . 'textitems2 WHERE lower(Ti2Text) = ' . convert_string_to_sqlsyntax($wordlc) . ' AND Ti2WoID = 0 AND SeID = Ti2SeID AND SeLgID = ' . $lang . ' order by CHAR_LENGTH(SeText), SeText limit 0,20';
     }
@@ -3214,7 +3251,7 @@ function get20Sentences($lang, $wordlc, $wid, $jsctlname, $mode)
 
 // -------------------------------------------------------------
 
-function areUnknownWordsInSentence($sentno) 
+function areUnknownWordsInSentence($sentno): bool 
 {
     global $tbpref;
     $x = get_first_value(
@@ -3232,8 +3269,12 @@ function areUnknownWordsInSentence($sentno)
 }
 
 
-/// Return a dictionary of languages name - id
-function get_languages() 
+/**
+ * Return a dictionary of languages name - id
+ * 
+ * @return array<string, string>
+ */
+function get_languages(): array 
 {
     global $tbpref;
     $langs = array();
@@ -3273,7 +3314,7 @@ function getLanguage($lid)
 
 // -------------------------------------------------------------
 
-function getScriptDirectionTag($lid) 
+function getScriptDirectionTag($lid): string 
 {
     global $tbpref;
     if (!isset($lid) ) { 
@@ -3296,13 +3337,15 @@ function getScriptDirectionTag($lid)
 
 /**
  * Insert an expression to the database using MeCab.
- * 
+ *
  * @param string $textlc 
  * @param string $lid    Language ID
  * @param string $wid    Word ID
- * @param int    $mode 
- * 
+ * @param int    $mode
+ *
  * @global string $tbpref Table name prefix
+ *
+ * @return void
  */
 function insertExpressionFromMeCab($textlc, $lid, $wid, $len, $mode)
 {
@@ -3334,6 +3377,8 @@ function insertExpressionFromMeCab($textlc, $lid, $wid, $len, $mode)
         return;
     }
 
+    $appendtext = null;
+    $sid = null;
     while (!feof($handle)) {
         $row = fgets($handle, 4096);
         //$arr  = explode("ÿ名詞-数\t",$row , 4);
@@ -3400,7 +3445,7 @@ function insertExpressionFromMeCab($textlc, $lid, $wid, $len, $mode)
 /**
  * Prepare a JavaScript dialog to insert a new expression
  */
-function new_expression_interactable($hex, $appendtext, $sid, $len) 
+function new_expression_interactable($hex, $appendtext, $sid, $len): void 
 {
     //$attrs = ' class="click mword ' . (getSettingZeroOrOne('showallwords', 1) ? 'm':'') . 'wsty'
     //$attrs .= ' TERM' . $hex . ' word + woid +  status' + status + '" data_trans="' + trans + '" data_rom="' + roman + '" data_code="' . $len '. " data_status="' + status + '" data_wid="' + woid + '" title="' + title + '"';
@@ -3473,6 +3518,7 @@ function insertExpressions($textlc, $lid, $wid, $len, $mode)
 {
     global $tbpref;
     $wis = $textlc;
+    $hex = null;
     if ($mode == 0) { 
         $hex = strToClassName(prepare_textdata($textlc)); 
     }
@@ -3482,7 +3528,7 @@ function insertExpressions($textlc, $lid, $wid, $len, $mode)
     $termchar = $record['LgRegexpWordCharacters'];
     $splitEachChar = $record['LgSplitEachChar'];
     $removeSpaces = $record["LgRemoveSpaces"];
-    $rtlScript = $record['LgRightToLeft'];
+    $record['LgRightToLeft'];
     mysqli_free_result($res);
     $appendtext = array();
     $sid = array();
@@ -3496,9 +3542,7 @@ function insertExpressions($textlc, $lid, $wid, $len, $mode)
 
     if ('MECAB'== strtoupper(trim($termchar))) {
         insertExpressionFromMeCab($textlc, $lid, $wid, $len, $mode);
-    }
-    else{
-        $ti=array();
+    } else {
         if($removeSpaces==1 && $splitEachChar==0) {
             $sql = "SELECT group_concat(Ti2Text order by Ti2Order SEPARATOR ' ') AS SeText, SeID, SeTxID, SeFirstPos FROM " . $tbpref . "textitems2," . $tbpref . "sentences where SeID=Ti2SeID and SeLgID = " . $lid . " and Ti2LgID = " . $lid . " and SeText like " . convert_string_to_sqlsyntax_notrim_nonull("%" .  $wis . "%") . " and Ti2WordCount < 2 group by SeID";
         }
@@ -3537,17 +3581,20 @@ function insertExpressions($textlc, $lid, $wid, $len, $mode)
                         if(getSettingZeroOrOne('showallwords', 1)) {
                             $appendtext[$pos]='&nbsp;' . $len . '&nbsp';
                         }
-                        else { $appendtext[$pos]=$splitEachChar || $removeSpaces?$wis:$matches[1]; 
+                        else { 
+                            $appendtext[$pos]=$splitEachChar || $removeSpaces?$wis:$matches[1]; 
                         }
                     }
                 }
-                else { $string = mb_substr($string, 0, $last_pos, 'UTF-8'); 
+                else { 
+                    $string = mb_substr($string, 0, $last_pos, 'UTF-8'); 
                 }
                 $last_pos = mb_strripos($string, $textlc, 0,  'UTF-8');
             }
         }
         mysqli_free_result($res);
     }
+    $sqltext = null;
     if(!empty($sqlarr)) {
         $sqltext = '';
         if ($mode != 2) {
@@ -3573,7 +3620,7 @@ function insertExpressions($textlc, $lid, $wid, $len, $mode)
 
 // -------------------------------------------------------------
 
-function restore_file($handle, $title) 
+function restore_file($handle, $title): string 
 {
     global $tbpref;
     global $debug;
@@ -3607,7 +3654,7 @@ function restore_file($handle, $title)
                 continue;
             }
             if (substr($sql_line, 0, 3) !== '-- ' ) {
-                $res = do_mysqli_query(insert_prefix_in_sql($sql_line)); // merge conflict
+                do_mysqli_query(insert_prefix_in_sql($sql_line)); // merge conflict
                 $res = mysqli_query($GLOBALS['DBCONNECTION'], insert_prefix_in_sql($sql_line));
                 $lines++;
                 if ($res == false) { $errors++; 
@@ -3647,7 +3694,7 @@ function restore_file($handle, $title)
 
 // -------------------------------------------------------------
 
-function recreate_save_ann($textid, $oldann) 
+function recreate_save_ann($textid, $oldann): ?string 
 {
     global $tbpref;
     $newann = create_ann($textid);
@@ -3681,7 +3728,7 @@ function recreate_save_ann($textid, $oldann)
         }
         $ann .= $item . "\n";
     }
-    $dummy = runsql(
+    runsql(
         'update ' . $tbpref . 'texts set ' .
         'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, ""
     );
@@ -3690,7 +3737,7 @@ function recreate_save_ann($textid, $oldann)
 
 // -------------------------------------------------------------
 
-function create_ann($textid) 
+function create_ann($textid): string 
 {
     global $tbpref;
     $ann = '';
@@ -3701,6 +3748,7 @@ function create_ann($textid)
     $savewordid = '';
     $until = 0;
     $res = do_mysqli_query($sql);
+    $order = null;
     while ($record = mysqli_fetch_assoc($res)) {
         $actcode = (int)$record['Code'];
         $order = (int)$record['Ti2Order'];
@@ -3740,27 +3788,26 @@ function insert_prefix_in_sql($sql_line)
 {
     global $tbpref;
     //                                 123456789012345678901
-    if     (substr($sql_line, 0, 12) == "INSERT INTO ") {
+    if (substr($sql_line, 0, 12) == "INSERT INTO ") {
         return substr($sql_line, 0, 12) . $tbpref . substr($sql_line, 12); 
     }
-    elseif (substr($sql_line, 0, 21) == "DROP TABLE IF EXISTS ") {
+    if (substr($sql_line, 0, 21) == "DROP TABLE IF EXISTS ") {
         return substr($sql_line, 0, 21) . $tbpref . substr($sql_line, 21);
-    } elseif (substr($sql_line, 0, 14) == "CREATE TABLE `") {
+    } if (substr($sql_line, 0, 14) == "CREATE TABLE `") {
         return substr($sql_line, 0, 14) . $tbpref . substr($sql_line, 14);
-    } elseif (substr($sql_line, 0, 13) == "CREATE TABLE ") {
+    } if (substr($sql_line, 0, 13) == "CREATE TABLE ") {
         return substr($sql_line, 0, 13) . $tbpref . substr($sql_line, 13);
-    } else {
-        return $sql_line; 
-    }
+    } 
+    return $sql_line; 
 }
 
 // -------------------------------------------------------------
 
-function create_save_ann($textid) 
+function create_save_ann($textid): ?string 
 {
     global $tbpref;
     $ann = create_ann($textid);
-    $dummy = runsql(
+    runsql(
         'update ' . $tbpref . 'texts set ' .
         'TxAnnotatedText = ' . convert_string_to_sqlsyntax($ann) . ' where TxID = ' . $textid, ""
     );
@@ -3769,7 +3816,7 @@ function create_save_ann($textid)
 
 // -------------------------------------------------------------
 
-function process_term($nonterm, $term, $trans, $wordid, $line) 
+function process_term($nonterm, $term, $trans, $wordid, $line): string 
 {
     $r = '';
     if ($nonterm != '') { $r = $r . "-1\t" . $nonterm . "\n"; 
@@ -3781,7 +3828,7 @@ function process_term($nonterm, $term, $trans, $wordid, $line)
 
 // -------------------------------------------------------------
 
-function get_first_translation($trans) 
+function get_first_translation($trans): string 
 {
     $arr = preg_split('/[' . get_sepas()  . ']/u', $trans);
     if (count($arr) < 1) { return ''; 
@@ -3794,7 +3841,7 @@ function get_first_translation($trans)
 
 // -------------------------------------------------------------
 
-function get_annotation_link($textid) 
+function get_annotation_link($textid): string 
 {
     global $tbpref;
     if (get_first_value('select length(TxAnnotatedText) as value from ' . $tbpref . 'texts where TxID=' . $textid) > 0) { 
@@ -3807,10 +3854,10 @@ function get_annotation_link($textid)
 
 /**
  * Like trim, but in place (modify variable)
- * 
+ *
  * @param string $value Value to be trimmed
  */
-function trim_value(&$value) 
+function trim_value(&$value): void 
 { 
     $value = trim($value); 
 }
@@ -3860,7 +3907,7 @@ function phonetic_reading($text, $lang)
 
 // -------------------------------------------------------------
 
-function refreshText($word,$tid) 
+function refreshText($word,$tid): string 
 {
     global $tbpref;
     // $word : only sentences with $word
@@ -3868,7 +3915,8 @@ function refreshText($word,$tid)
     // only to be used when $showAll = 0 !
     $out = '';
     $wordlc = trim(mb_strtolower($word, 'UTF-8'));
-    if ($wordlc == '') { return ''; 
+    if ($wordlc == '') { 
+        return ''; 
     }
     $sql = 'SELECT distinct TiSeID FROM ' . $tbpref . 'textitems WHERE TiIsNotWord = 0 and TiTextLC = ' . convert_string_to_sqlsyntax($wordlc) . ' and TiTxID = ' . $tid . ' order by TiSeID';
     $res = do_mysqli_query($sql);
@@ -3884,8 +3932,7 @@ function refreshText($word,$tid)
     mysqli_free_result($res);
     if ($inlist == '(') { 
         return ''; 
-    }
-    else {
+    } else {
         $inlist =  ' where TiSeID in ' . $inlist . ') '; 
     }
     $sql = 'select TiWordCount as Code, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) ' . $inlist . ' order by TiOrder asc, TiWordCount desc';
@@ -3937,12 +3984,14 @@ function refreshText($word,$tid)
     return $out;
 }
 
-/** 
+/**
  * Create an HTML media player, audio or video.
- * 
+ *
  * @param string $path   URL or local file path
  * @param int    $offset Offset from the beginning of the video
- */ 
+ *
+ * @return void
+ */
 function makeMediaPlayer($path, $offset=0) 
 {
     if ($path == '') {
@@ -3960,13 +4009,13 @@ function makeMediaPlayer($path, $offset=0)
 }
 
 
-/** 
+/**
  * Create an embed video player
- * 
+ *
  * @param string $path   URL or local file path
  * @param int    $offset Offset from the beginning of the video
- */ 
-function makeVideoPlayer($path, $offset=0) 
+ */
+function makeVideoPlayer($path, $offset=0): void 
 {
     if (preg_match(
         "/(?:https:\/\/)?www\.youtube\.com\/watch\?v=([\d\w]+)/iu", 
@@ -4019,12 +4068,14 @@ allowfullscreen type="text/html">
 }
 
 
-/** 
+/**
  * Create an HTML audio player.
- * 
+ *
  * @param string $audio  Audio URL
  * @param int    $offset Offset from the beginning of the video
- */ 
+ *
+ * @return void
+ */
 function makeAudioPlayer($audio, $offset=0) 
 {
     if ($audio == '') {
@@ -4196,7 +4247,7 @@ function makeAudioPlayer($audio, $offset=0)
 
 // -------------------------------------------------------------
 
-function framesetheader($title) 
+function framesetheader($title): void 
 {
     @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
     @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -4219,13 +4270,13 @@ function framesetheader($title)
 
 /**
  * Write a page header and start writing its body.
- * 
- * @param  string $titletext Title of the page
- * @param  bool   $close Set to true if you are closing the header;
- * 
+ *
+ * @param string $titletext Title of the page
+ * @param bool   $close Set to true if you are closing the header;
+ *
  * @global bool $debug Show a DEBUG span if true
  */
-function pagestart($titletext, $close) 
+function pagestart($titletext, $close): void 
 {
     global $debug;
     pagestart_nobody($titletext);
@@ -4246,13 +4297,14 @@ function pagestart($titletext, $close)
 
 /**
  * Start a standard page with a complete header and a non-closed body.
- * 
- * @param  string $titletext Title of the page
- * @param  string $addcss    Some CSS to be embed in a style tag
+ *
+ * @param string $titletext Title of the page
+ * @param string $addcss    Some CSS to be embed in a style tag
+ *
  * @global bool $debug Show the requests if true
  * @global string $tbpref The database table prefix if true
  */
-function pagestart_nobody($titletext, $addcss='') 
+function pagestart_nobody($titletext, $addcss=''): void 
 {
     global $debug;
     global $tbpref;

@@ -11,7 +11,7 @@ require_once 'inc/session_utility.php';
 
 function output_text($saveterm,$saverom,$savetrans,$savetags,
     $show_rom,$show_trans,$show_tags,$annplcmnt
-) {
+): void {
     if ($show_tags) {
         if ($savetrans == '' && $savetags != '') { 
             $savetrans = '* ' . $savetags; 
@@ -124,7 +124,6 @@ $sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'lan
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
-$removeSpaces = $record['LgRemoveSpaces'];
 $rtlScript = $record['LgRightToLeft'];
 mysqli_free_result($res);
 

@@ -13,17 +13,17 @@
  require __DIR__ . '/settings.php';
 
 
-/** 
+/**
  * Return LWT version for humans
- * 
+ *
  * Version is hardcoded in this function.
  * For instance 1.6.31 (October 03 2016)
  *
  * @global bool $debug If true adds a red "DEBUG"
- * 
+ *
  * @return string Version number HTML-formatted
  */
-function get_version() 
+function get_version(): string 
 {
     global $debug;
     $version = '2.0.4-fork (December 03 2021)'; 
@@ -33,12 +33,12 @@ function get_version()
     return $version;
 }
 
-/** 
+/**
  * Return a machine readable version number.
- * 
+ *
  * @return string Machine-readable version, for instance v001.006.031
  */
-function get_version_number() 
+function get_version_number(): string 
 {
     $r = 'v';
     $v = get_version();
@@ -76,7 +76,7 @@ function tohtml($s)
 /**
  * Echo debugging informations.
  */
-function showRequest() 
+function showRequest(): void 
 {
     $olderr = error_reporting(0);
     echo "<pre>** DEBUGGING **********************************\n";
@@ -200,15 +200,15 @@ function remove_spaces($s, $remove)
     return str_replace(' ', '', $s);  // '' enthält &#x200B;
 }
 
-/** 
+/**
  * Returns path to the MeCab application.
  * MeCab can split Japanese text word by word
  *
- * @param  string $mecab_args Arguments to add
- * 
- * @return string|null OS-compatible command
+ * @param string $mecab_args Arguments to add
+ *
+ * @return null|string OS-compatible command
  */
-function get_mecab_path($mecab_args = '') 
+function get_mecab_path($mecab_args = ''): ?string 
 {
     $os = strtoupper(substr(PHP_OS, 0, 3));
     $mecab_args = escapeshellcmd($mecab_args);
@@ -259,6 +259,8 @@ function find_latin_sentence_end($matches, $noSentenceEnd)
  * Make the script crash and prints an error message
  *
  * @param string $text Error text to output
+ *
+ * @return never
  */
 function my_die($text) 
 {
@@ -275,7 +277,7 @@ function my_die($text)
 /**
  * Display the main menu of navigation as a dropdown
  */
-function quickMenu() 
+function quickMenu(): void 
 {
     ?>
 
@@ -304,11 +306,11 @@ function quickMenu()
 
 /**
  * Add a closing body tag.
- * 
+ *
  * @global bool $debug Show the requests if true
  * @global float $dspltime Total execution time since the PHP session started
  */
-function pageend() 
+function pageend(): void 
 {
     global $debug, $dspltime;
     if ($debug) { 
@@ -324,11 +326,12 @@ function pageend()
 /**
  * Debug function only.
  *
- * @param  mixed  $var  A printable variable to debug
- * @param  string $text Echoed text in HTML page
+ * @param mixed  $var  A printable variable to debug
+ * @param string $text Echoed text in HTML page
+ *
  * @global bool $debug This functions doesn't do anything is $debug is false.
  */
-function echodebug($var,$text) 
+function echodebug($var,$text): void 
 {
     global $debug;
     if ($debug) { 
@@ -436,10 +439,10 @@ function getsess($s)
 
 /**
  * Get the base URL of the application
- * 
+ *
  * @return string base URL
  */
-function url_base() 
+function url_base(): string 
 {
     $url = parse_url("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
     $r = $url["scheme"] . "://" . $url["host"];
@@ -486,12 +489,30 @@ function make_score_random_insert_update($type)
 
 /**
  * SQL formula for computing score.
- * 
+ *
  * @param int $method Score for tomorrow (2), the day after it (3) or never (any value).
- * 
+ *
  * @return string SQL score coputation string
+ *
+ * @psalm-return '
+        GREATEST(-125, CASE 
+            WHEN WoStatus > 5 THEN 100
+            WHEN WoStatus = 1 THEN ROUND(-7 * DATEDIFF(NOW(),WoStatusChanged))
+            WHEN WoStatus = 2 THEN ROUND(6.9 - 3.5 * DATEDIFF(NOW(),WoStatusChanged))
+            WHEN WoStatus = 3 THEN ROUND(20 - 2.3 * DATEDIFF(NOW(),WoStatusChanged))
+            WHEN WoStatus = 4 THEN ROUND(46.4 - 1.75 * DATEDIFF(NOW(),WoStatusChanged))
+            WHEN WoStatus = 5 THEN ROUND(100 - 1.4 * DATEDIFF(NOW(),WoStatusChanged))
+        END)'|'
+        GREATEST(-125, CASE 
+            WHEN WoStatus > 5 THEN 100 
+            WHEN WoStatus = 1 THEN ROUND(-7 -7 * DATEDIFF(NOW(),WoStatusChanged)) 
+            WHEN WoStatus = 2 THEN ROUND(3.4 - 3.5 * DATEDIFF(NOW(),WoStatusChanged)) 
+            WHEN WoStatus = 3 THEN ROUND(17.7 - 2.3 * DATEDIFF(NOW(),WoStatusChanged)) 
+            WHEN WoStatus = 4 THEN ROUND(44.65 - 1.75 * DATEDIFF(NOW(),WoStatusChanged)) 
+            WHEN WoStatus = 5 THEN ROUND(98.6 - 1.4 * DATEDIFF(NOW(),WoStatusChanged)) 
+        END)'|'0'
  */
-function getsqlscoreformula($method) 
+function getsqlscoreformula($method): string 
 {
     // 
     // Formula: {{{2.4^{Status}+Status-Days-1} over Status -2.4} over 0.14325248}

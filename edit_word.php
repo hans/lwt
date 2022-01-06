@@ -97,10 +97,10 @@ function edit_term($translation)
 /**
  * Use this function if the lowercase version of the word does not correspond.
  * It will echo an error message.
- * 
+ *
  * @param string $textlc The lowercase version of the word we want.
  */
-function lowercase_term_not_equal($textlc)
+function lowercase_term_not_equal($textlc): void
 {
     $titletext = "New/Edit Term: " . tohtml(prepare_textdata($_REQUEST["WoTextLC"]));
     pagestart_nobody($titletext);
@@ -114,7 +114,7 @@ function lowercase_term_not_equal($textlc)
 /**
  * Echoes a JavaScript element, that will edit terms diplay
  */
-function change_term_display($wid, $translation, $hex)
+function change_term_display($wid, $translation, $hex): void
 {
     ?>
 <script type="text/javascript">
@@ -179,6 +179,9 @@ $fromAnn = getreq("fromAnn"); // from-recno or empty
 
 // INS/UPD
 
+$hex = null;
+$lang = null;
+$term = null;
 if (isset($_REQUEST['op'])) {
     
     $textlc = trim(prepare_textdata($_REQUEST["WoTextLC"]));

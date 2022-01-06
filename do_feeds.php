@@ -46,6 +46,8 @@ else { $wh_query = '';
 $message = '';
 $edit_text=0;
 
+$doc = null;
+$text_item = null;
 if (isset($_REQUEST['marked_items'])) {
     $marked_items = implode(',', $_REQUEST['marked_items']);
     $res = do_mysqli_query("SELECT * FROM (SELECT * FROM " . $tbpref . "feedlinks WHERE FlID IN ($marked_items) ORDER BY FlNfID) A left join " . $tbpref . "newsfeeds ON NfID=FlNfID");

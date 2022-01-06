@@ -46,7 +46,6 @@ function get_test_sql()
         WHERE Ti2LgID = WoLgID AND Ti2WoID = WoID AND Ti2TxID = ' . $_REQUEST['text'] . ' ';
     } else { 
         $testsql = '';
-        $p = '';
         $title = 'Request Error!';
         pagestart($title, true);
         my_die("do_test_test.php called with wrong parameters"); 
@@ -152,6 +151,8 @@ function do_test_test_sentence($wid, $lang, $wordlc)
     global $debug, $tbpref;
     $pass = 0;
     $sentexcl = '';
+    $num = null;
+    $sent = null;
     while ($pass < 3) {
         $pass++;
         if ($debug) { 
@@ -280,20 +281,22 @@ function print_term_test($wo_record, $sent, $testtype, $nosent, $regexword)
 
 /**
  * Preforms the HTML of the test area.
- * 
+ *
  * @param string $testsql    SQL query of for the words that should be tested.
  * @param int    $totaltests Total number of tests to do.
  * @param int    $count      Number of tests left.
  * @param int    $testtype   Type of test.
- * 
+ *
  * @return int Number of tests left to do.
- * 
+ *
  * @global string $tbpref Table prefix 
  * @global int    $debug  Show the SQL query used if 1.
- * 
+ *
  * @since 2.0.5-fork
+ *
+ * @psalm-return int<0, max>
  */
-function prepare_test_area($testsql, $totaltests, $count, $testtype)
+function prepare_test_area($testsql, $totaltests, $count, $testtype): int
 {
     global $tbpref, $debug;
     $nosent = 0;
@@ -323,13 +326,17 @@ function prepare_test_area($testsql, $totaltests, $count, $testtype)
     $removeSpaces = $record['LgRemoveSpaces'];
     $regexword = $record['LgRegexpWordCharacters'];
     $rtlScript = $record['LgRightToLeft'];
-    $langname = $record['LgName'];
     mysqli_free_result($res);
     
     // Find the next word to test
     
     $pass = 0;
     $num = 0;
+    $notvalid = null;
+    $sent = null;
+    $wid = null;
+    $word = null;
+    $wordlc = null;
     while ($pass < 2) {
         $pass++;
         $sql = "SELECT DISTINCT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, 
@@ -347,15 +354,6 @@ function prepare_test_area($testsql, $totaltests, $count, $testtype)
         if ($record) {
             $num = 1;
             $wid = $record['WoID'];
-            $word = $record['WoText'];
-            $wordlc = $record['WoTextLC'];
-            $trans = repl_tab_nl($record['WoTranslation']) . getWordTagList($wid, ' ', 1, 0);
-            $roman = $record['WoRomanization'];
-            $sent = repl_tab_nl($record['WoSentence']);
-            $notvalid = $record['notvalid'];
-            $status = $record['WoStatus'];
-            $days = $record['Days'];
-            $score = $record['Score'];
             $pass = 2;
         }
         mysqli_free_result($res);
@@ -376,8 +374,9 @@ function prepare_test_area($testsql, $totaltests, $count, $testtype)
 
     if ($num == 0) {
         // take term sent. if valid
-        if ($notvalid) { 
+        if ($notvalid) {
             $sent = '{' . $word . '}'; 
+             
         }
         if ($debug) { 
             echo "DEBUG not found, use sent = $sent<br />"; 
@@ -574,11 +573,10 @@ function do_test_test_content()
     if ($debug) { 
         echo 'DEBUG - COUNT TO TEST: ' . $count . '<br />'; 
     }
-    if (is_numeric($count)) {
-        $notyettested = (int) $count;
-    } else {
+    if (!is_numeric($count)) {
         my_die('The number of words left to test is not an integer: "' . $count . '"!');
     }
+    $notyettested = (int) $count;
 
     $count2 = prepare_test_area($testsql, $totaltests, $notyettested, $testtype);
     prepare_test_footer($notyettested);

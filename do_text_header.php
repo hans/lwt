@@ -16,12 +16,18 @@ require_once 'inc/langdefs.php' ;
 
 /**
  * Get the text and language data associated with the text.
- * 
- * @param  string $textid ID of the text
+ *
+ * @param string $textid ID of the text
+ *
  * @global string $tbpref Table name prefix
- * @since  2.0.3-fork
+ *
+ * @since 2.0.3-fork
+ *
+ * @return null|string[]
+ *
+ * @psalm-return array<string, string>|null
  */
-function getData($textid)
+function getData($textid): ?array
 {
     global $tbpref;
     $sql = 
@@ -38,13 +44,14 @@ function getData($textid)
 
 /**
  * Print the main title row.
- * 
+ *
  * @param int    $textid Text ID
  * @param string $langid Language ID to navigate between 
  *                       texts of same language
+ *
  * @since 2.0.4-fork
  */
-function do_header_row($textid, $langid)
+function do_header_row($textid, $langid): void
 {
     ?>
 <h4>
@@ -77,13 +84,13 @@ function do_header_row($textid, $langid)
 
 /**
  * Print the title of the text.
- * 
+ *
  * @param string $title     Title of the text
  * @param string $sourceURI URL of the text (if any)
- * 
+ *
  * @since 2.0.4-fork
  */
-function do_title($title, $sourceURI)
+function do_title($title, $sourceURI): void
 {
     ?>
 <table>
@@ -112,12 +119,12 @@ function do_title($title, $sourceURI)
 
 /**
  * Prepare user settings for this text.
- * 
+ *
  * @param string $textid Text ID
- * 
+ *
  * @since 2.0.4-fork
  */
-function do_settings($textid)
+function do_settings($textid): void
 {
     // User settings
     $showAll = getSettingZeroOrOne('showallwords', 1);
@@ -151,14 +158,15 @@ function do_settings($textid)
 /**
  * Prints javascript data and function to read text
  * in your browser.
- * 
- * @param  string $text         Text to read
- * @param  string $languageName Full name of the language (i. e.: "English")
+ *
+ * @param string $text         Text to read
+ * @param string $languageName Full name of the language (i. e.: "English")
+ *
  * @global array $langDefs Language definitions
- * 
+ *
  * @since 2.0.3-fork
  */
-function browser_tts($text, $languageName)
+function browser_tts($text, $languageName): void
 {
     global $langDefs;
 
@@ -168,8 +176,8 @@ function browser_tts($text, $languageName)
      */
     $languageCode = $langDefs[$languageName][1];
     /**
- * @var string $phoneticText Phonetic reading for this text 
-*/
+    * @var string $phoneticText Phonetic reading for this text 
+    */
     $phoneticText = phonetic_reading($text, $languageCode);
     ?>
 <script type="text/javascript">
@@ -212,12 +220,12 @@ function init_reading() {
 
 /**
  * Save the position of the audio reading for a text.
- * 
+ *
  * @param string $textid ID of the text
- * 
+ *
  * @since 2.0.4-fork
  */
-function save_audio_position($textid)
+function save_audio_position($textid): void
 {
     ?>
 
@@ -254,14 +262,14 @@ $(document).ready(function() {
 
 /**
  * Main function for displaying header. It will print HTML content.
- * 
+ *
  * @param string $textid    ID of the requiered text
  * @param bool   $only_body If true, only show the inner body. If false, create a 
- *                          complete HTML document. 
- * 
+ *                          complete HTML document.
+ *
  * @since 2.0.3-fork
  */
-function do_text_header_content($textid, $only_body=true)
+function do_text_header_content($textid, $only_body=true): void
 {
 
     $record = getData($textid);

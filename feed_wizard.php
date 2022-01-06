@@ -2,6 +2,7 @@
 
 require_once 'inc/session_utility.php';
 
+$a_feed = null;
 if($_REQUEST['step']==4) {
     pagestart('Feed Wizard', false);
     if(isset($_REQUEST['filter_tags'])) { 

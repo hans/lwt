@@ -60,12 +60,12 @@ function getLanguagesSettings($langid)
 
 /**
  * Print the output when the word is a term.
- * 
+ *
  * @since 2.0.3-fork
  */
 function echoTerm(
     $actcode, $showAll, &$hideuntil, $spanid, $hidetag, $currcharcount, $record
-) {
+): void {
     if ($actcode > 1) {   
         // A MULTIWORD FOUND
 
@@ -148,10 +148,10 @@ function echoTerm(
 
 /**
  * Process each word (can be punction, term, etc...)
- * 
+ *
  * @since 2.0.3-fork
  */
-function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharcount)
+function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharcount): void
 {
     if ($sid != $record['TiSeID']) {
         if ($sid != 0) {
@@ -204,11 +204,12 @@ function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharc
 
 /**
  * Get all words and start the iterate over them.
- * 
+ *
  * @global string $tbpref Table name prefix
- * @since  2.0.3-fork
+ *
+ * @since 2.0.3-fork
  */
-function mainWordLoop($textid, $showAll)
+function mainWordLoop($textid, $showAll): void
 {
     global $tbpref;
     $currcharcount = 0;
@@ -252,18 +253,15 @@ function mainWordLoop($textid, $showAll)
 
 /**
  * Prepare style for showing word status. Write a now STYLE object
- * 
+ *
  * @since 2.0.3-fork
  */
-function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists)
+function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists): void
 {
     $displaystattrans = getSettingWithDefault('set-display-text-frame-term-translation');
     $pseudo_element = ($mode_trans<3) ? 'after' : 'before';
     $data_trans = $ann_exists ? 'data_ann' : 'data_trans';
     $stat_arr = array(1, 2, 3, 4, 5, 98, 99);
-    /**
-    * @var bool $ruby Ruby annotations 
-    */
     $ruby = $mode_trans==2 || $mode_trans==4;
 
     echo '<style>';
@@ -319,10 +317,10 @@ function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists)
 
 /**
  * Print JavaScript-formatted content, to put in a SCRIPT tag
- * 
+ *
  * @since 2.0.3-fork
  */
-function do_text_javascript($var_array)
+function do_text_javascript($var_array): void
 {
     ?>
 <script type="text/javascript">
@@ -360,11 +358,11 @@ function do_text_javascript($var_array)
 
 /**
  * Main function for displaying sentences. It will print HTML content.
- * 
+ *
  * @param string $textid    ID of the requiered text
  * @param bool   $only_body If true, only show the inner body. If false, create a complete HTML document. 
  */
-function do_text_text_content($textid, $only_body=true)
+function do_text_text_content($textid, $only_body=true): void
 {
     // Text settings
     $record = getTextData($textid);

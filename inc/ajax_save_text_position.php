@@ -17,9 +17,9 @@ $position = (isset($_REQUEST['position']))?$_REQUEST['position']:null;
 $audioposition = (isset($_REQUEST['audioposition']))?$_REQUEST['audioposition']:null;
 
 if(isset($_REQUEST['position'])) {
-    $dummy = runsql('update ' . $tbpref . 'texts set TxPosition = ' . $position . ' where TxID = ' . $textid, ""); 
+    runsql('update ' . $tbpref . 'texts set TxPosition = ' . $position . ' where TxID = ' . $textid, ""); 
 }
 else if(isset($_REQUEST['audioposition'])) {
-    $dummy = runsql('update ' . $tbpref . 'texts set TxAudioPosition = ' . $audioposition . ' where TxID = ' . $textid, ""); 
+    runsql('update ' . $tbpref . 'texts set TxAudioPosition = ' . $audioposition . ' where TxID = ' . $textid, ""); 
 }
 ?>

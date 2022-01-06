@@ -67,6 +67,8 @@ if($currentquery!=='') {
 else { $wh_query = ''; 
 }
 
+$wh_tag1 = null;
+$wh_tag2 = null;
 if ($currenttag1 == '' && $currenttag2 == '') {
     $wh_tag = ''; 
 }
@@ -107,6 +109,8 @@ $message = '';
 
 // MARK ACTIONS
 
+$id = null;
+$message1 = null;
 if (isset($_REQUEST['markaction'])) {
     $markaction = $_REQUEST['markaction'];
     $actiondata = getreq('data');
@@ -162,7 +166,7 @@ if (isset($_REQUEST['markaction'])) {
                 }
 
                 elseif ($markaction == 'deltag' ) {
-                    $message = removetexttaglist($actiondata, $list);
+                    removetexttaglist($actiondata, $list);
                     header("Location: edit_texts.php");
                     exit();
                 }
@@ -205,8 +209,8 @@ if (isset($_REQUEST['markaction'])) {
                     $res = do_mysqli_query($sql);
                     while ($record = mysqli_fetch_assoc($res)) {
                         $id = (int)$record['TxID'];
-                        $message2 = runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
-                        $message3 = runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id, "Text items deleted");
+                        runsql('delete from ' . $tbpref . 'sentences where SeTxID = ' . $id, "Sentences deleted");
+                        runsql('delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $id, "Text items deleted");
                         adjust_autoincr('sentences', 'SeID');
                         splitCheckText(
                             get_first_value(
@@ -298,7 +302,7 @@ elseif (isset($_REQUEST['op'])) {
         // INSERT
 
         elseif (substr($_REQUEST['op'], 0, 4) == 'Save') {
-            $message1 = runsql(
+            runsql(
                 'insert into ' . $tbpref . 'texts (TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI) values( ' . 
                 $_REQUEST["TxLgID"] . ', ' . 
                 convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' . 
@@ -314,8 +318,8 @@ elseif (isset($_REQUEST['op'])) {
 
         elseif (substr($_REQUEST['op'], 0, 6) == 'Change') {
             $oldtext = get_first_value('select TxText as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST["TxID"]);
-            $textsdiffer = (convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) != convert_string_to_sqlsyntax($oldtext));
-            $message1 = runsql(
+            (convert_string_to_sqlsyntax(remove_soft_hyphens($_REQUEST["TxText"])) != convert_string_to_sqlsyntax($oldtext));
+            runsql(
                 'update ' . $tbpref . 'texts set ' .
                 'TxLgID = ' . $_REQUEST["TxLgID"] . ', ' .
                 'TxTitle = ' . convert_string_to_sqlsyntax($_REQUEST["TxTitle"]) . ', ' .

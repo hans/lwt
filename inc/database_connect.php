@@ -14,12 +14,13 @@ require __DIR__ . "/../connect.inc.php";
 /**
  * Do a SQL query to the database. 
  * It is a wrapper for mysqli_query function.
- * 
+ *
  * @param string $sql Query using SQL syntax
- * 
+ *
  * @global mysqli $DBCONNECTION COnnection to the database
- * 
- */ 
+ *
+ * @return mysqli_result|true
+ */
 function do_mysqli_query($sql)
 {
     global $DBCONNECTION;
@@ -45,14 +46,14 @@ function do_mysqli_query($sql)
 
 /**
  * Run a SQL query, you can specify its behavior and error message.
- * 
+ *
  * @param string $sql       MySQL query
  * @param string $m         Success phrase to prepend to the number of affected rows
  * @param bool   $sqlerrdie To die on errors (default = TRUE)
- * 
+ *
  * @return string Error message if failure, or the number of affected rows
  */
-function runsql($sql, $m, $sqlerrdie = true) 
+function runsql($sql, $m, $sqlerrdie = true): string 
 {
     if ($sqlerrdie) {
         $res = do_mysqli_query($sql); 
@@ -92,14 +93,14 @@ function get_first_value($sql)
 
 // -------------------------------------------------------------
 
-function prepare_textdata($s) 
+function prepare_textdata($s): string 
 {
     return str_replace("\r\n", "\n", $s);
 }
 
 // -------------------------------------------------------------
 
-function prepare_textdata_js($s) 
+function prepare_textdata_js($s): string 
 {
     $s = convert_string_to_sqlsyntax($s);
     if ($s == "NULL") { 
@@ -111,7 +112,7 @@ function prepare_textdata_js($s)
 
 // -------------------------------------------------------------
 
-function convert_string_to_sqlsyntax($data) 
+function convert_string_to_sqlsyntax($data): string 
 {
     $result = "NULL";
     $data = trim(prepare_textdata($data));
@@ -123,7 +124,7 @@ function convert_string_to_sqlsyntax($data)
 
 // -------------------------------------------------------------
 
-function convert_string_to_sqlsyntax_nonull($data) 
+function convert_string_to_sqlsyntax_nonull($data): string 
 {
     $data = trim(prepare_textdata($data));
     return  "'" . mysqli_real_escape_string($GLOBALS['DBCONNECTION'], $data) . "'";
@@ -131,7 +132,7 @@ function convert_string_to_sqlsyntax_nonull($data)
 
 // -------------------------------------------------------------
 
-function convert_string_to_sqlsyntax_notrim_nonull($data) 
+function convert_string_to_sqlsyntax_notrim_nonull($data): string 
 {
     return "'" . mysqli_real_escape_string($GLOBALS['DBCONNECTION'], prepare_textdata($data)) . "'";
 }
@@ -152,12 +153,12 @@ function convert_regexp_to_sqlsyntax($input)
 
 /**
  * Validate a language ID
- * 
+ *
  * @param string $currentlang Language ID to validate
- * 
+ *
  * @global string '' if the language is not valid.
  */
-function validateLang($currentlang) 
+function validateLang($currentlang): string 
 {
     global $tbpref;
     $sql = 
@@ -175,12 +176,12 @@ function validateLang($currentlang)
 
 /**
  * Validate a text ID
- * 
+ *
  * @param string $currenttext Text ID to validate
- * 
+ *
  * @global string '' if the text is not valid.
  */
-function validateText($currenttext) 
+function validateText($currenttext): string 
 {
     global $tbpref;
     if ($currenttext != '') {
@@ -373,7 +374,7 @@ function saveSetting($k, $v)
 /**
  * Check if the _lwtgeneral table exists, create it if not.
  */
-function LWTTableCheck()
+function LWTTableCheck(): void
 {
     if (mysqli_num_rows(do_mysqli_query("SHOW TABLES LIKE '\\_lwtgeneral'")) == 0) {
         runsql("CREATE TABLE IF NOT EXISTS _lwtgeneral ( LWTKey varchar(40) NOT NULL, LWTValue varchar(40) DEFAULT NULL, PRIMARY KEY (LWTKey) ) ENGINE=MyISAM DEFAULT CHARSET=utf8", '');
@@ -385,7 +386,7 @@ function LWTTableCheck()
 
 // -------------------------------------------------------------
 
-function LWTTableSet($key, $val)
+function LWTTableSet($key, $val): void
 {
     LWTTableCheck();
     runsql("INSERT INTO _lwtgeneral (LWTKey, LWTValue) VALUES (" . convert_string_to_sqlsyntax($key) . ", " . convert_string_to_sqlsyntax($val) . ") ON DUPLICATE KEY UPDATE LWTValue = " . convert_string_to_sqlsyntax($val), '');
@@ -393,7 +394,7 @@ function LWTTableSet($key, $val)
 
 // -------------------------------------------------------------
 
-function LWTTableGet($key)
+function LWTTableGet($key): ?string
 {
     LWTTableCheck();
     return get_first_value("SELECT LWTValue as value FROM _lwtgeneral WHERE LWTKey = " . convert_string_to_sqlsyntax($key));
@@ -401,10 +402,10 @@ function LWTTableGet($key)
 
 /**
  * Adjust the auto-incrementation in the database.
- * 
+ *
  * @global string $tbpref Database table prefix
  */
-function adjust_autoincr($table, $key) 
+function adjust_autoincr($table, $key): void 
 {
     global $tbpref;
     $val = get_first_value('SELECT max(' . $key .')+1 AS value FROM ' . $tbpref . $table);
@@ -412,15 +413,15 @@ function adjust_autoincr($table, $key)
         $val = 1; 
     }
     $sql = 'ALTER TABLE ' . $tbpref . $table . ' AUTO_INCREMENT = ' . $val;
-    $res = do_mysqli_query($sql);
+    do_mysqli_query($sql);
 }
 
 /**
  * Optimize the database.
- * 
+ *
  * @global string $trbpref Table prefix
  */
-function optimizedb() 
+function optimizedb(): void 
 {
     global $tbpref;
     adjust_autoincr('archivedtexts', 'AtID');
@@ -451,13 +452,12 @@ function optimizedb()
 /**
  * @global string $tbpref Database table prefix
  */
-function set_word_count() 
+function set_word_count(): void 
 {
     global $tbpref;
     $sqlarr = array();
     $i=0;
     $min=0;
-    $max=0;
 
     if (get_first_value('SELECT (@m := group_concat(LgID)) value FROM ' . $tbpref . 'languages WHERE UPPER(LgRegexpWordCharacters)="MECAB"')) {
         $db_to_mecab = sys_get_temp_dir() . "/" . $tbpref . "db_to_mecab.txt";
@@ -535,22 +535,26 @@ function set_word_count()
 
 /**
  * Parse the input text.
- * 
+ *
  * @param string $text Text to parse
  * @param string $lid  Language ID (LgID from languages table)
  * @param int    $id   References whether the text is new to the database
  *                     $id = -1     => Check, return protocol
  *                     $id = -2     => Only return sentence array
  *                     $id = TextID => Split: insert sentences/textitems entries in DB
- * 
+ *
  * @global string $tbpref Database table prefix
+ *
+ * @return null|string[]
+ *
+ * @psalm-return non-empty-list<string>|null
  */
 function splitCheckText($text, $lid, $id) 
 {
     global $tbpref;
     $wo = $nw = $mw = $wl = array();
     $wl_max = 0;
-    $set_wo_sql = $set_wo_sql_2 = $del_wo_sql = $init_var = $mw_sql = $sql = '';
+    $set_wo_sql = $set_wo_sql_2 = $del_wo_sql = $init_var = $mw_sql = '';
     $sql = "SELECT * FROM " . $tbpref . "languages WHERE LgID=" . $lid;
     $res = do_mysqli_query($sql);
     $record = mysqli_fetch_assoc($res);
@@ -589,7 +593,7 @@ function splitCheckText($text, $lid, $id)
             echo "<div id=\"check_text\" style=\"margin-right:50px;\"><h4>Text</h4><p>" . str_replace("\n", "<br /><br />", tohtml($s)). "</p>"; 
         }
         $handle = popen($mecab .' -o ' . $file_name, 'w');
-        $write = fwrite($handle, $s);
+        fwrite($handle, $s);
         pclose($handle);
 
         runsql(
@@ -744,10 +748,10 @@ function splitCheckText($text, $lid, $id)
 
 /**
  * Reparse all texts in order.
- * 
+ *
  * @global string $tbpref Database table prefix
- */ 
-function reparse_all_texts() 
+ */
+function reparse_all_texts(): void 
 {
     global $tbpref;
     runsql('TRUNCATE ' . $tbpref . 'sentences', '');
@@ -768,10 +772,10 @@ function reparse_all_texts()
 
 /**
  * Check and/or update the database.
- * 
+ *
  * @global mysqli $DBCONNECTION Connection to the database
  */
-function check_update_db($debug, $tbpref, $dbname) 
+function check_update_db($debug, $tbpref, $dbname): void 
 {
     $tables = array();
     
@@ -1105,7 +1109,7 @@ if (!empty($dspltime)) {
 }
 $DBCONNECTION = connect_to_database($server, $userid, $passwd, $dbname);
 $tbpref = null;
-$fixed_tbpref = get_database_prefixes($tbpref);
+get_database_prefixes($tbpref);
 // check/update db
 check_update_db($debug, $tbpref, $dbname);
 

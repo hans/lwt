@@ -32,7 +32,7 @@ if (count($items) >= $line) {
     if ($vals[0] > -1 && count($vals) == 4) {
         $vals[3] = $val;
         $items[$line-1] = implode("\t", $vals);
-        $dummy = runsql(
+        runsql(
             'update ' . $tbpref . 'texts set ' .
             'TxAnnotatedText = ' . convert_string_to_sqlsyntax(implode("\n", $items)) . ' where TxID = ' . $textid, ""
         );
