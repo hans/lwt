@@ -65,7 +65,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">do_test_test.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -73,124 +74,495 @@ $(function() {
 <p>Show test frame.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ab0ed46ece3f8d301125a0f2728d90d7b"><td class="memItemLeft" align="right" valign="top"><a id="ab0ed46ece3f8d301125a0f2728d90d7b" name="ab0ed46ece3f8d301125a0f2728d90d7b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$p</b> = ''</td></tr>
-<tr class="separator:ab0ed46ece3f8d301125a0f2728d90d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2da975a8c74aa547010bf1ed579b6b1d"><td class="memItemLeft" align="right" valign="top"><a id="a2da975a8c74aa547010bf1ed579b6b1d" name="a2da975a8c74aa547010bf1ed579b6b1d"></a>
-if(isset($_REQUEST['selection']) &amp;&amp;isset($_SESSION['testsql'])) elseif(isset( $_REQUEST[ 'lang'])) elseif(isset($_REQUEST['text']))&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { <a class="el" href="kernel__utility_8php.html#a66b15236d14629cb1bc2f6ed300bd38e">my_die</a>(&quot;do_test_test.php called with wrong parameters&quot;)</td></tr>
-<tr class="separator:a2da975a8c74aa547010bf1ed579b6b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa26e601be1ae7cebda5313544d26829"><td class="memItemLeft" align="right" valign="top"><a id="afa26e601be1ae7cebda5313544d26829" name="afa26e601be1ae7cebda5313544d26829"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$testtype</b> = <a class="el" href="kernel__utility_8php.html#ac115eb0ce0c99aef0bc68dc184a491d6">getreq</a>('type') + 0</td></tr>
-<tr class="separator:afa26e601be1ae7cebda5313544d26829"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea5d805de20a8292e06416e58839df02"><td class="memItemLeft" align="right" valign="top"><a id="aea5d805de20a8292e06416e58839df02" name="aea5d805de20a8292e06416e58839df02"></a>
-if( $testtype&lt; 1) if($testtype &gt; 5)&#160;</td><td class="memItemRight" valign="bottom"><b>$nosent</b> = 0</td></tr>
-<tr class="separator:aea5d805de20a8292e06416e58839df02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc32183c89ff1b113ba04bfa963bd90c"><td class="memItemLeft" align="right" valign="top"><a id="abc32183c89ff1b113ba04bfa963bd90c" name="abc32183c89ff1b113ba04bfa963bd90c"></a>
-if($testtype &gt; 3)&#160;</td><td class="memItemRight" valign="bottom"><b>$totaltests</b> = $_SESSION['testtotal']</td></tr>
-<tr class="separator:abc32183c89ff1b113ba04bfa963bd90c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8605034f7ea91804227517959930593"><td class="memItemLeft" align="right" valign="top"><a id="aa8605034f7ea91804227517959930593" name="aa8605034f7ea91804227517959930593"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wrong</b> = $_SESSION['testwrong']</td></tr>
-<tr class="separator:aa8605034f7ea91804227517959930593"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac62a90afdb53dca02ebbdbe9345ea751"><td class="memItemLeft" align="right" valign="top"><a id="ac62a90afdb53dca02ebbdbe9345ea751" name="ac62a90afdb53dca02ebbdbe9345ea751"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$correct</b> = $_SESSION['testcorrect']</td></tr>
-<tr class="separator:ac62a90afdb53dca02ebbdbe9345ea751"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad1cb49941ea462bdc1c2e045aad1313"><td class="memItemLeft" align="right" valign="top"><a id="aad1cb49941ea462bdc1c2e045aad1313" name="aad1cb49941ea462bdc1c2e045aad1313"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$cntlang</b> = <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('select count(distinct WoLgID) as value from ' . $testsql)</td></tr>
-<tr class="separator:aad1cb49941ea462bdc1c2e045aad1313"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f48fbb3abafd0fff5a54b09fdfe1be1"><td class="memItemLeft" align="right" valign="top"><a id="a2f48fbb3abafd0fff5a54b09fdfe1be1" name="a2f48fbb3abafd0fff5a54b09fdfe1be1"></a>
-if($cntlang &gt; 1)&#160;</td><td class="memItemRight" valign="bottom"><b>$count</b> = <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('SELECT count(distinct WoID) as value FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore &lt; 0')</td></tr>
-<tr class="separator:a2f48fbb3abafd0fff5a54b09fdfe1be1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04ab1249b1858c7581d246fe47e05569"><td class="memItemLeft" align="right" valign="top"><a id="a04ab1249b1858c7581d246fe47e05569" name="a04ab1249b1858c7581d246fe47e05569"></a>
-if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$notyettested</b> = $count</td></tr>
-<tr class="separator:a04ab1249b1858c7581d246fe47e05569"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a047170d6020a882807665812a27e2525"><td class="memItemLeft" align="right" valign="top"><a id="a047170d6020a882807665812a27e2525" name="a047170d6020a882807665812a27e2525"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select LgName, LgDict1URI, LgDict2URI, LgGoogleTranslateURI, LgTextSize, LgRemoveSpaces, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang</td></tr>
-<tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
-<tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memItemLeft" align="right" valign="top"><a id="acbcb6dcb11c8755d5ffab0b45aac7a22" name="acbcb6dcb11c8755d5ffab0b45aac7a22"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$record</b> = mysqli_fetch_assoc($res)</td></tr>
-<tr class="separator:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bfce9702007c5c1de994840eab25d2d"><td class="memItemLeft" align="right" valign="top"><a id="a3bfce9702007c5c1de994840eab25d2d" name="a3bfce9702007c5c1de994840eab25d2d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wb1</b> = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : &quot;&quot;</td></tr>
-<tr class="separator:a3bfce9702007c5c1de994840eab25d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a588034c95b1d06993121c28d98eb7b"><td class="memItemLeft" align="right" valign="top"><a id="a0a588034c95b1d06993121c28d98eb7b" name="a0a588034c95b1d06993121c28d98eb7b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wb2</b> = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : &quot;&quot;</td></tr>
-<tr class="separator:a0a588034c95b1d06993121c28d98eb7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24600f812b7c49a743ef30dd2dae8305"><td class="memItemLeft" align="right" valign="top"><a id="a24600f812b7c49a743ef30dd2dae8305" name="a24600f812b7c49a743ef30dd2dae8305"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wb3</b> = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : &quot;&quot;</td></tr>
-<tr class="separator:a24600f812b7c49a743ef30dd2dae8305"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bc08cf5dc5c12ec1928274e3b9989b2"><td class="memItemLeft" align="right" valign="top"><a id="a1bc08cf5dc5c12ec1928274e3b9989b2" name="a1bc08cf5dc5c12ec1928274e3b9989b2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$textsize</b> = $record['LgTextSize']</td></tr>
-<tr class="separator:a1bc08cf5dc5c12ec1928274e3b9989b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a863e4beb006afbb16290637682e85504"><td class="memItemLeft" align="right" valign="top"><a id="a863e4beb006afbb16290637682e85504" name="a863e4beb006afbb16290637682e85504"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$removeSpaces</b> = $record['LgRemoveSpaces']</td></tr>
-<tr class="separator:a863e4beb006afbb16290637682e85504"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2b5b0a9358adc5a80213253353cf345"><td class="memItemLeft" align="right" valign="top"><a id="ac2b5b0a9358adc5a80213253353cf345" name="ac2b5b0a9358adc5a80213253353cf345"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$regexword</b> = $record['LgRegexpWordCharacters']</td></tr>
-<tr class="separator:ac2b5b0a9358adc5a80213253353cf345"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55aa997bd2236d086fcf325908b0b680"><td class="memItemLeft" align="right" valign="top"><a id="a55aa997bd2236d086fcf325908b0b680" name="a55aa997bd2236d086fcf325908b0b680"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$rtlScript</b> = $record['LgRightToLeft']</td></tr>
-<tr class="separator:a55aa997bd2236d086fcf325908b0b680"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc9ec9e3931f5f94efa431c14206a705"><td class="memItemLeft" align="right" valign="top"><a id="adc9ec9e3931f5f94efa431c14206a705" name="adc9ec9e3931f5f94efa431c14206a705"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$langname</b> = $record['LgName']</td></tr>
-<tr class="separator:adc9ec9e3931f5f94efa431c14206a705"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12ec2780b52bd1c54d38c2f981c0349f"><td class="memItemLeft" align="right" valign="top"><a id="a12ec2780b52bd1c54d38c2f981c0349f" name="a12ec2780b52bd1c54d38c2f981c0349f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$pass</b> = 0</td></tr>
-<tr class="separator:a12ec2780b52bd1c54d38c2f981c0349f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a606c9dff2aade84f01338c3c4cd8016b"><td class="memItemLeft" align="right" valign="top"><a id="a606c9dff2aade84f01338c3c4cd8016b" name="a606c9dff2aade84f01338c3c4cd8016b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$num</b> = 0</td></tr>
-<tr class="separator:a606c9dff2aade84f01338c3c4cd8016b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fc62fd062300c58c188533cbe23e1e5"><td class="memItemLeft" align="right" valign="top"><a id="a3fc62fd062300c58c188533cbe23e1e5" name="a3fc62fd062300c58c188533cbe23e1e5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$l</b> = mb_strlen($sent, 'utf-8')</td></tr>
-<tr class="separator:a3fc62fd062300c58c188533cbe23e1e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8abe176bc41afd728f32ba8c506cbd98"><td class="memItemLeft" align="right" valign="top"><a id="a8abe176bc41afd728f32ba8c506cbd98" name="a8abe176bc41afd728f32ba8c506cbd98"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$r</b> = ''</td></tr>
-<tr class="separator:a8abe176bc41afd728f32ba8c506cbd98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00e6dff44e00c36820da5508c6d9aba3"><td class="memItemLeft" align="right" valign="top"><a id="a00e6dff44e00c36820da5508c6d9aba3" name="a00e6dff44e00c36820da5508c6d9aba3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$save</b> = ''</td></tr>
-<tr class="separator:a00e6dff44e00c36820da5508c6d9aba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b9830573372702cbdc30248e696ca27"><td class="memItemLeft" align="right" valign="top"><a id="a5b9830573372702cbdc30248e696ca27" name="a5b9830573372702cbdc30248e696ca27"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$on</b> = 0</td></tr>
-<tr class="separator:a5b9830573372702cbdc30248e696ca27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad31c1ebe57d37067a2d3f3b7824f20c1"><td class="memItemLeft" align="right" valign="top"><a id="ad31c1ebe57d37067a2d3f3b7824f20c1" name="ad31c1ebe57d37067a2d3f3b7824f20c1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>for</b> ( $i=0;$i&lt; $l;$i++)</td></tr>
-<tr class="separator:ad31c1ebe57d37067a2d3f3b7824f20c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abac256efc885ca75d05d729cc923db95"><td class="memItemLeft" align="right" valign="top"><a id="abac256efc885ca75d05d729cc923db95" name="abac256efc885ca75d05d729cc923db95"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$totaltestsdiv</b> = 1</td></tr>
-<tr class="separator:abac256efc885ca75d05d729cc923db95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2d2de693ef1e6c5a421deec516b4ac9"><td class="memItemLeft" align="right" valign="top"><a id="ab2d2de693ef1e6c5a421deec516b4ac9" name="ab2d2de693ef1e6c5a421deec516b4ac9"></a>
-if($totaltests &gt; 0)&#160;</td><td class="memItemRight" valign="bottom"><b>$l_notyet</b> = round(($notyettested * $totaltestsdiv)*100, 0)</td></tr>
-<tr class="separator:ab2d2de693ef1e6c5a421deec516b4ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab93baca5152ce800e4a1334a1eb663b9"><td class="memItemLeft" align="right" valign="top"><a id="ab93baca5152ce800e4a1334a1eb663b9" name="ab93baca5152ce800e4a1334a1eb663b9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$b_notyet</b> = ($l_notyet == 0) ? '' : 'borderl'</td></tr>
-<tr class="separator:ab93baca5152ce800e4a1334a1eb663b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51e80220f8e1f241ec8a10299af1be20"><td class="memItemLeft" align="right" valign="top"><a id="a51e80220f8e1f241ec8a10299af1be20" name="a51e80220f8e1f241ec8a10299af1be20"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$l_wrong</b> = round(($wrong * $totaltestsdiv)*100, 0)</td></tr>
-<tr class="separator:a51e80220f8e1f241ec8a10299af1be20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add1f3b00491b088041952213cada088f"><td class="memItemLeft" align="right" valign="top"><a id="add1f3b00491b088041952213cada088f" name="add1f3b00491b088041952213cada088f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$b_wrong</b> = ($l_wrong == 0) ? '' : 'borderl'</td></tr>
-<tr class="separator:add1f3b00491b088041952213cada088f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af73fd96a9db964c0f3aef6a4924a65e2"><td class="memItemLeft" align="right" valign="top"><a id="af73fd96a9db964c0f3aef6a4924a65e2" name="af73fd96a9db964c0f3aef6a4924a65e2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$l_correct</b> = round(($correct * $totaltestsdiv)*100, 0)</td></tr>
-<tr class="separator:af73fd96a9db964c0f3aef6a4924a65e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d13ff84a1c8bd1249308ea371891eee"><td class="memItemLeft" align="right" valign="top"><a id="a0d13ff84a1c8bd1249308ea371891eee" name="a0d13ff84a1c8bd1249308ea371891eee"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$b_correct</b> = ($l_correct == 0) ? 'borderr' : 'borderl borderr'</td></tr>
-<tr class="separator:a0d13ff84a1c8bd1249308ea371891eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7789b50321d13368f90132e9907403de"><td class="memItemLeft" align="right" valign="top"><a id="a7789b50321d13368f90132e9907403de" name="a7789b50321d13368f90132e9907403de"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$waittime</b> = <a class="el" href="session__utility_8php.html#a272e6920bd0ac3690730a62edebae42d">getSettingWithDefault</a>('set-test-edit-frame-waiting-time') + 0</td></tr>
-<tr class="separator:a7789b50321d13368f90132e9907403de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespace_lwt"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_lwt.html">Lwt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab5d43bc9e6c0a4d95ea8a583b4742132"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#ab5d43bc9e6c0a4d95ea8a583b4742132">get_test_sql</a> ()</td></tr>
+<tr class="separator:ab5d43bc9e6c0a4d95ea8a583b4742132"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b2902b7ce73fac2c5e01f5d7ed1f2ed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#a5b2902b7ce73fac2c5e01f5d7ed1f2ed">get_test_type</a> ()</td></tr>
+<tr class="separator:a5b2902b7ce73fac2c5e01f5d7ed1f2ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c4334b196d9bd47151acf0c9ec66f5b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#a7c4334b196d9bd47151acf0c9ec66f5b">do_test_test_css</a> ()</td></tr>
+<tr class="separator:a7c4334b196d9bd47151acf0c9ec66f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc2738af4a6e13f743527c145faa498a"><td class="memItemLeft" align="right" valign="top">&lt;/style &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#adc2738af4a6e13f743527c145faa498a">do_test_test_finished</a> ($testsql, $totaltests)</td></tr>
+<tr class="separator:adc2738af4a6e13f743527c145faa498a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa70f8227962ddb5a5236fa6552a295b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#aa70f8227962ddb5a5236fa6552a295b8">do_test_test_sentence</a> ($wid, $lang, $wordlc)</td></tr>
+<tr class="separator:aa70f8227962ddb5a5236fa6552a295b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4dcc9f7101f95be23101b1faa93f777"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#aa4dcc9f7101f95be23101b1faa93f777">print_term_test</a> ($wo_record, $sent, $testtype, $nosent, $regexword)</td></tr>
+<tr class="separator:aa4dcc9f7101f95be23101b1faa93f777"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2d52017b291ec92dd04c977a6291314"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#af2d52017b291ec92dd04c977a6291314">prepare_test_area</a> ($testsql, $totaltests, $count, $testtype)</td></tr>
+<tr class="separator:af2d52017b291ec92dd04c977a6291314"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace5feea6e11f500431d9e2995b9a9cae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#ace5feea6e11f500431d9e2995b9a9cae">do_test_test_javascript_interaction</a> ($wo_record, $wb1, $wb2, $wb3, $testtype, $nosent, $save)</td></tr>
+<tr class="separator:ace5feea6e11f500431d9e2995b9a9cae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c6c344ac760375da097f1067b235fb8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#a5c6c344ac760375da097f1067b235fb8">prepare_test_footer</a> ($notyettested)</td></tr>
+<tr class="separator:a5c6c344ac760375da097f1067b235fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7969c45405f1b03afa5c5e28e492f974"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#a7969c45405f1b03afa5c5e28e492f974">do_test_footer</a> ($notyettested, $wrong, $correct)</td></tr>
+<tr class="separator:a7969c45405f1b03afa5c5e28e492f974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adceed1992f524508b7c5c8f6dc2ea0ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#adceed1992f524508b7c5c8f6dc2ea0ff">do_test_test_javascript</a> ($count)</td></tr>
+<tr class="separator:adceed1992f524508b7c5c8f6dc2ea0ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b0a54e7b69e5998866f2230731fe22f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test__test_8php.html#a3b0a54e7b69e5998866f2230731fe22f">do_test_test_content</a> ()</td></tr>
+<tr class="separator:a3b0a54e7b69e5998866f2230731fe22f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Show test frame. </p>
 <p >Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;lang=[langid] Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;text=[textid] Call: <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>?type=[testtype]&amp;selection=1 <br  />
- (SQL via $_SESSION['testsql'])</p>
-<dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@h'+'to'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@ht<span style="display: none;">.nosp@m.</span>omai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.0.3 </dd></dl>
-</div></div><!-- contents -->
+ (SQL via $_SESSION['testsql']) </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a7969c45405f1b03afa5c5e28e492f974" name="a7969c45405f1b03afa5c5e28e492f974"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7969c45405f1b03afa5c5e28e492f974">&#9670;&nbsp;</a></span>do_test_footer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_test_footer </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$notyettested</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wrong</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$correct</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Echoes HTML code for the footer of a words test page.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$notyettested</td><td>Number of words left to be tested </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$wrong</td><td>Number of failed tests </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$correct</td><td>Number of correct answers.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="a3b0a54e7b69e5998866f2230731fe22f" name="a3b0a54e7b69e5998866f2230731fe22f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b0a54e7b69e5998866f2230731fe22f">&#9670;&nbsp;</a></span>do_test_test_content()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_test_test_content </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Do the main content of a test page.</p>
+<p >@global int $debug Show debug informations</p>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="a7c4334b196d9bd47151acf0c9ec66f5b" name="a7c4334b196d9bd47151acf0c9ec66f5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c4334b196d9bd47151acf0c9ec66f5b">&#9670;&nbsp;</a></span>do_test_test_css()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_test_test_css </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Prepare the css code for tests.</p>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="adc2738af4a6e13f743527c145faa498a" name="adc2738af4a6e13f743527c145faa498a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc2738af4a6e13f743527c145faa498a">&#9670;&nbsp;</a></span>do_test_test_finished()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">&lt;/style &gt; do_test_test_finished </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$testsql</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$totaltests</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Output a message for a finished test, with the number of tests for tomorrow.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$testsql</td><td>Query used to select words. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$totaltests</td><td>Total number of tests.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="adceed1992f524508b7c5c8f6dc2ea0ff" name="adceed1992f524508b7c5c8f6dc2ea0ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adceed1992f524508b7c5c8f6dc2ea0ff">&#9670;&nbsp;</a></span>do_test_test_javascript()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_test_test_javascript </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$count</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Prepare JavaScript code for interacting between the different frames.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$count</td><td>1 for timer.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="ace5feea6e11f500431d9e2995b9a9cae" name="ace5feea6e11f500431d9e2995b9a9cae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace5feea6e11f500431d9e2995b9a9cae">&#9670;&nbsp;</a></span>do_test_test_javascript_interaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_test_test_javascript_interaction </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wo_record</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wb1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wb2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wb3</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$testtype</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nosent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$save</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Prepare JavaScript code so that you can click on words.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$wo_record</td><td>Word record. Associative array with keys 'WoID', 'WoTranslation'. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$wb1</td><td>URL of the first dictionary. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$wb2</td><td>URL of the secondary dictionary. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$wb3</td><td>URL of the google translate dictionary. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$testtype</td><td>Type of test </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$nosent</td><td>1 to use single word instead of sentence. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$save</td><td>Word or sentence to use for the test</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="aa70f8227962ddb5a5236fa6552a295b8" name="aa70f8227962ddb5a5236fa6552a295b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa70f8227962ddb5a5236fa6552a295b8">&#9670;&nbsp;</a></span>do_test_test_sentence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_test_test_sentence </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lang</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wordlc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get a sentence containing the word.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$wid</td><td>The word to test. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$lang</td><td>ID of the language </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$wordlc</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>@global string $tbpref Table prefix @global int $debug Echo the passage number if 1.</p>
+<dl class="section return"><dt>Returns</dt><dd>array{0: int, 1: int} Sentence with escaped word and a confirmation number if sentence was found.</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="ab5d43bc9e6c0a4d95ea8a583b4742132" name="ab5d43bc9e6c0a4d95ea8a583b4742132"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5d43bc9e6c0a4d95ea8a583b4742132">&#9670;&nbsp;</a></span>get_test_sql()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_test_sql </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Set sql request for the word test.</p>
+<dl class="section return"><dt>Returns</dt><dd>string SQL request string</dd></dl>
+<p>@global string $tbpref Table prefix</p>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="a5b2902b7ce73fac2c5e01f5d7ed1f2ed" name="a5b2902b7ce73fac2c5e01f5d7ed1f2ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b2902b7ce73fac2c5e01f5d7ed1f2ed">&#9670;&nbsp;</a></span>get_test_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_test_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Give the test type.</p>
+<dl class="section return"><dt>Returns</dt><dd>int&lt;1, 5&gt; Test type between 1 and 5 (included)</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="af2d52017b291ec92dd04c977a6291314" name="af2d52017b291ec92dd04c977a6291314"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2d52017b291ec92dd04c977a6291314">&#9670;&nbsp;</a></span>prepare_test_area()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">prepare_test_area </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$testsql</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$totaltests</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$testtype</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Preforms the HTML of the test area.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$testsql</td><td>SQL query of for the words that should be tested. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$totaltests</td><td>Total number of tests to do. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$count</td><td>Number of tests left. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$testtype</td><td>Type of test.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int Number of tests left to do.</dd></dl>
+<p>@global string $tbpref Table prefix @global int $debug Show the SQL query used if 1.</p>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork</dd></dl>
+<p>@psalm-return int&lt;0, max&gt; </p>
+
+</div>
+</div>
+<a id="a5c6c344ac760375da097f1067b235fb8" name="a5c6c344ac760375da097f1067b235fb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c6c344ac760375da097f1067b235fb8">&#9670;&nbsp;</a></span>prepare_test_footer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">prepare_test_footer </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$notyettested</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get the data and echoes the footer.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$notyettested</td><td>Number of words left to be tested.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+<a id="aa4dcc9f7101f95be23101b1faa93f777" name="aa4dcc9f7101f95be23101b1faa93f777"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4dcc9f7101f95be23101b1faa93f777">&#9670;&nbsp;</a></span>print_term_test()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">print_term_test </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wo_record</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$sent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$testtype</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nosent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$regexword</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Echo the test relative to a word.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$wo_record</td><td>Query from the database regarding a word. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$sent</td><td>Sentence containing the word. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$testtype</td><td>Type of test </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$nosent</td><td>1 if you want to hide sentences. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$regexword</td><td>Regex to select the desired word.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>array{0: string, 1: string} HTML-escaped and raw text sentences (or word)</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.0.5-fork </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3

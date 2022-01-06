@@ -81,10 +81,10 @@ Variables</h2></td></tr>
 <tr class="memitem:a681fa5bf613ef69436cec22b497e3a77"><td class="memItemLeft" align="right" valign="top">if($tbpref=='')&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="index_8php.html#a681fa5bf613ef69436cec22b497e3a77">else</a></td></tr>
 <tr class="separator:a681fa5bf613ef69436cec22b497e3a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5aa4fc1f2b62bde86af501cedb7707c8"><td class="memItemLeft" align="right" valign="top"><a id="a5aa4fc1f2b62bde86af501cedb7707c8" name="a5aa4fc1f2b62bde86af501cedb7707c8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentlang</b> = <a class="el" href="session__utility_8php.html#a81cd47da0bcdaa2bf17382266982720b">getSetting</a>('currentlanguage')</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currentlang</b> = <a class="el" href="database__connect_8php.html#a81cd47da0bcdaa2bf17382266982720b">getSetting</a>('currentlanguage')</td></tr>
 <tr class="separator:a5aa4fc1f2b62bde86af501cedb7707c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc895e37cbd652ce881d958620c26d3a"><td class="memItemLeft" align="right" valign="top"><a id="adc895e37cbd652ce881d958620c26d3a" name="adc895e37cbd652ce881d958620c26d3a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttext</b> = <a class="el" href="session__utility_8php.html#a81cd47da0bcdaa2bf17382266982720b">getSetting</a>('currenttext')</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttext</b> = <a class="el" href="database__connect_8php.html#a81cd47da0bcdaa2bf17382266982720b">getSetting</a>('currenttext')</td></tr>
 <tr class="separator:adc895e37cbd652ce881d958620c26d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ba1f0867b7ed4128bd77359aca8fc3b"><td class="memItemLeft" align="right" valign="top"><a id="a4ba1f0867b7ed4128bd77359aca8fc3b" name="a4ba1f0867b7ed4128bd77359aca8fc3b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$langcnt</b> = <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('select count(*) as value from ' . $tbpref . 'languages')</td></tr>
@@ -94,15 +94,15 @@ Variables</h2></td></tr>
 <tr class="separator:ab0ed46ece3f8d301125a0f2728d90d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f47c6e4921a40bac4fc82fcddb441ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="index_8php.html#a0f47c6e4921a40bac4fc82fcddb441ac">$mb</a></td></tr>
 <tr class="separator:a0f47c6e4921a40bac4fc82fcddb441ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34a01ec65a5660cf1ed7c56a5fc38af6"><td class="memItemLeft" align="right" valign="top"><a id="a34a01ec65a5660cf1ed7c56a5fc38af6" name="a34a01ec65a5660cf1ed7c56a5fc38af6"></a>
-if(! isset($mb))&#160;</td><td class="memItemRight" valign="bottom"><b>$serversoft</b> = explode(' ', $_SERVER['SERVER_SOFTWARE'])</td></tr>
-<tr class="separator:a34a01ec65a5660cf1ed7c56a5fc38af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f959a189ec297f7eb2376208a287b58"><td class="memItemLeft" align="right" valign="top"><a id="a2f959a189ec297f7eb2376208a287b58" name="a2f959a189ec297f7eb2376208a287b58"></a>
+if(!isset($mb))&#160;</td><td class="memItemRight" valign="bottom"><b>$serversoft</b> = explode(' ', $_SERVER['SERVER_SOFTWARE'])</td></tr>
+<tr class="separator:a2f959a189ec297f7eb2376208a287b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a001962ed54ec83ffb4e12cd382c9a54a"><td class="memItemLeft" align="right" valign="top"><a id="a001962ed54ec83ffb4e12cd382c9a54a" name="a001962ed54ec83ffb4e12cd382c9a54a"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$apache</b> = &quot;Apache/?&quot;</td></tr>
 <tr class="separator:a001962ed54ec83ffb4e12cd382c9a54a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8a718232b7ec8c8ee956d5cafda3b26"><td class="memItemLeft" align="right" valign="top"><a id="aa8a718232b7ec8c8ee956d5cafda3b26" name="aa8a718232b7ec8c8ee956d5cafda3b26"></a>
-if(count($serversoft) &gt;=1)&#160;</td><td class="memItemRight" valign="bottom"><b>$php</b> = &quot;PHP/&quot; . phpversion()</td></tr>
-<tr class="separator:aa8a718232b7ec8c8ee956d5cafda3b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4047c6a3222a5174b2e40ed2e6eba62"><td class="memItemLeft" align="right" valign="top"><a id="aa4047c6a3222a5174b2e40ed2e6eba62" name="aa4047c6a3222a5174b2e40ed2e6eba62"></a>
+if(substr($serversoft[0], 0, 7)==&quot;Apache/&quot;)&#160;</td><td class="memItemRight" valign="bottom"><b>$php</b> = &quot;PHP/&quot; . phpversion()</td></tr>
+<tr class="separator:aa4047c6a3222a5174b2e40ed2e6eba62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac62d1c231e5b3d4c5dd314d5482601d8"><td class="memItemLeft" align="right" valign="top"><a id="ac62d1c231e5b3d4c5dd314d5482601d8" name="ac62d1c231e5b3d4c5dd314d5482601d8"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$mysql</b> = &quot;MySQL/&quot; . get_first_value(&quot;SELECT VERSION() as value&quot;)</td></tr>
 <tr class="separator:ac62d1c231e5b3d4c5dd314d5482601d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,23 +129,27 @@ if(count($serversoft) &gt;=1)&#160;</td><td class="memItemRight" valign="bottom"
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= <a class="code hl_function" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>(</div>
-<div class="line">    <span class="stringliteral">&quot;SELECT round(sum(data_length+index_length)/1024/1024,1) as value FROM information_schema.TABLES where table_schema = &quot;</span> . convert_string_to_sqlsyntax($dbname) . <span class="stringliteral">&quot; and table_name in (&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;archivedtexts&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;archtexttags&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;feedlinks&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;languages&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;newsfeeds&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;sentences&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;settings&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;tags&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;tags2&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;textitems2&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;texts&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;texttags&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;words&#39;),&quot;</span> .</div>
-<div class="line">    <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;wordtags&#39;))&quot;</span></div>
+<div class="line">    <span class="stringliteral">&quot;SELECT round(sum(data_length+index_length)/1024/1024,1) AS value </span></div>
+<div class="line"><span class="stringliteral">    FROM information_schema.TABLES </span></div>
+<div class="line"><span class="stringliteral">    WHERE table_schema = &quot;</span> . convert_string_to_sqlsyntax($dbname) . <span class="stringliteral">&quot; </span></div>
+<div class="line"><span class="stringliteral">    AND table_name IN (&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;archivedtexts&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;archtexttags&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;feedlinks&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;languages&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;newsfeeds&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;sentences&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;settings&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;tags&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;tags2&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;textitems2&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;texts&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;texttags&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;words&#39;),&quot;</span> .</div>
+<div class="line">        <span class="stringliteral">&quot;CONCAT(&quot;</span> . $p . <span class="stringliteral">&quot;,&#39;wordtags&#39;)</span></div>
+<div class="line"><span class="stringliteral">    )&quot;</span></div>
 <div class="line">)</div>
-<div class="ttc" id="adatabase__connect_8php_html_a9c4a52b3d9b10360dce64ad0464bfad5"><div class="ttname"><a href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a></div><div class="ttdeci">get_first_value($sql)</div><div class="ttdef"><b>Definition:</b> database_connect.php:20</div></div>
+<div class="ttc" id="adatabase__connect_8php_html_a9c4a52b3d9b10360dce64ad0464bfad5"><div class="ttname"><a href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a></div><div class="ttdeci">get_first_value($sql)</div><div class="ttdef"><b>Definition:</b> database_connect.php:80</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -156,13 +160,13 @@ if(count($serversoft) &gt;=1)&#160;</td><td class="memItemRight" valign="bottom"
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">if (count(getprefixes()) &gt; 0) else</td>
+          <td class="memname">if (count(<a class="el" href="session__utility_8php.html#aba9e22ad328ef099ee55bf9c5d6a1ac4">getprefixes</a>()) &gt; 0) else</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
 <div class="line">    $span2 = <span class="stringliteral">&quot;Table Set: &lt;i&gt;&quot;</span> . <a class="code hl_function" href="kernel__utility_8php.html#af4362eee92858a6e12fa46716fc30dad">tohtml</a>(substr($tbpref, 0, -1)) . <span class="stringliteral">&quot;&lt;/i&gt;&lt;/span&gt;&quot;</span></div>
-<div class="ttc" id="akernel__utility_8php_html_af4362eee92858a6e12fa46716fc30dad"><div class="ttname"><a href="kernel__utility_8php.html#af4362eee92858a6e12fa46716fc30dad">tohtml</a></div><div class="ttdeci">tohtml($s)</div><div class="ttdef"><b>Definition:</b> kernel_utility.php:64</div></div>
+<div class="ttc" id="akernel__utility_8php_html_af4362eee92858a6e12fa46716fc30dad"><div class="ttname"><a href="kernel__utility_8php.html#af4362eee92858a6e12fa46716fc30dad">tohtml</a></div><div class="ttdeci">tohtml($s)</div><div class="ttdef"><b>Definition:</b> kernel_utility.php:67</div></div>
 </div><!-- fragment -->
 </div>
 </div>

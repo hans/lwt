@@ -85,6 +85,8 @@ Functions</h2></td></tr>
 <tr class="separator:af30c00754d4168dac0ca05d8ea086857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1d6295c4d9f7b70316dd4af59061fd2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#af1d6295c4d9f7b70316dd4af59061fd2">mainWordLoop</a> ($textid, $showAll)</td></tr>
 <tr class="separator:af1d6295c4d9f7b70316dd4af59061fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae71caba9eee9a49733ebaa7e3c16a8ed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#ae71caba9eee9a49733ebaa7e3c16a8ed">prepareStyle</a> ($showLearning, $mode_trans, $textsize, $ann_exists)</td></tr>
+<tr class="separator:ae71caba9eee9a49733ebaa7e3c16a8ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae58010dca8bdbf061ec2c93823386b0b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#ae58010dca8bdbf061ec2c93823386b0b">do_text_javascript</a> ($var_array)</td></tr>
 <tr class="separator:ae58010dca8bdbf061ec2c93823386b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -193,11 +195,11 @@ Functions</h2></td></tr>
 <p >Return the settings relative to this language.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$langid</td><td>Language ID as defined in the database. @global string $tbpref Table name prefix </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$langid</td><td>Language ID as defined in the database. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>string[]|null|false Record corresponding to this language. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>array{LgName: string, LgDict1URI: string, LgDict2URI: string, LgGoogleTranslateURI: string, LgTextSize: int, LgRemoveSpaces: int, LgRightToLeft: int}|false|null Record corresponding to this language. @global string $tbpref Table name prefix </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
 
 </div>
@@ -224,8 +226,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>string[]|null|false Record corresponding to this text. @global string $tbpref Table name prefix </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>array{TxLgID: int, TxTitle: string, TxAnnotatedText: string, TxPosition: int}|false|null Record corresponding to this text.</dd></dl>
+<p>@global string $tbpref Table name prefix </p><dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
 
 </div>
 </div>
@@ -255,7 +257,50 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Get all words and start the iterate over them.</p>
-<p >@global string $tbpref Table name prefix </p><dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<p >@global string $tbpref Table name prefix</p>
+<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+
+</div>
+</div>
+<a id="ae71caba9eee9a49733ebaa7e3c16a8ed" name="ae71caba9eee9a49733ebaa7e3c16a8ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae71caba9eee9a49733ebaa7e3c16a8ed">&#9670;&nbsp;</a></span>prepareStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">prepareStyle </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showLearning</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$mode_trans</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$textsize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$ann_exists</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Prepare style for showing word status. Write a now STYLE object</p>
+<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
 
 </div>
 </div>

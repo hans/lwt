@@ -12,5 +12,6 @@ var searchData=
   ['ajax_5fshow_5fsentences_2ephp_9',['ajax_show_sentences.php',['../ajax__show__sentences_8php.html',1,'']]],
   ['ajax_5fshow_5fsimilar_5fterms_2ephp_10',['ajax_show_similar_terms.php',['../ajax__show__similar__terms_8php.html',1,'']]],
   ['ajax_5fupdate_5fmedia_5fselect_2ephp_11',['ajax_update_media_select.php',['../ajax__update__media__select_8php.html',1,'']]],
-  ['ajax_5fword_5fcounts_2ephp_12',['ajax_word_counts.php',['../ajax__word__counts_8php.html',1,'']]]
+  ['ajax_5fword_5fcounts_2ephp_12',['ajax_word_counts.php',['../ajax__word__counts_8php.html',1,'']]],
+  ['all_5fwords_5fwellknown_2ephp_13',['all_words_wellknown.php',['../all__words__wellknown_8php.html',1,'']]]
 ];

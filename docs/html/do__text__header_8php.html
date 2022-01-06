@@ -122,8 +122,8 @@ Functions</h2></td></tr>
 <p >Print the main title row.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$textid</td><td>Text ID </td></tr>
-    <tr><td class="paramtype">string</td><td class="paramname">$langid</td><td>Language ID to navigate between texts of same language </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$textid</td><td>Text ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$langid</td><td>Language ID to navigate between texts of same language</td></tr>
   </table>
   </dd>
 </dl>
@@ -249,11 +249,14 @@ Functions</h2></td></tr>
 <p >Get the text and language data associated with the text.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$textid</td><td>ID of the text @global string $tbpref Table name prefix </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$textid</td><td>ID of the text</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<p>@global string $tbpref Table name prefix</p>
+<dl class="section since"><dt>Since</dt><dd>2.0.3-fork</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>null|string[]</dd></dl>
+<p>@psalm-return array&lt;string, string&gt;|null </p>
 
 </div>
 </div>

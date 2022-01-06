@@ -9,7 +9,7 @@
  * Call: do_test_test.php?type=[testtype]&selection=1  
  *          (SQL via $_SESSION['testsql'])
  * 
- * @package lwt
+ * @package Lwt
  * @author  LWT Project <lwt-project@hotmail.com>
  * @link    https://hugofara.github.io/lwt/docs/html/do__test__test_8php.html
  * @since   1.0.3

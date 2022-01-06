@@ -79,17 +79,11 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:aa1774b100543d6fe8f9c6a9758f7ba68"><td class="memItemLeft" align="right" valign="top"><a id="aa1774b100543d6fe8f9c6a9758f7ba68" name="aa1774b100543d6fe8f9c6a9758f7ba68"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$imported_feed</b> =0</td></tr>
-<tr class="separator:aa1774b100543d6fe8f9c6a9758f7ba68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a530de829dff1f0e5bb4cee25a7c6f732"><td class="memItemLeft" align="right" valign="top"><a id="a530de829dff1f0e5bb4cee25a7c6f732" name="a530de829dff1f0e5bb4cee25a7c6f732"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$nif</b> =0</td></tr>
-<tr class="separator:a530de829dff1f0e5bb4cee25a7c6f732"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6d03110f85aaf4f69a16159c246d889"><td class="memItemLeft" align="right" valign="top"><a id="af6d03110f85aaf4f69a16159c246d889" name="af6d03110f85aaf4f69a16159c246d889"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$msg</b> =''</td></tr>
 <tr class="separator:af6d03110f85aaf4f69a16159c246d889"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c64e1f194986e6f51a67a8144fa305f"><td class="memItemLeft" align="right" valign="top"><a id="a0c64e1f194986e6f51a67a8144fa305f" name="a0c64e1f194986e6f51a67a8144fa305f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$feed</b> = get_links_from_rss($_POST['NfSourceURI'], get_nf_option($_POST['NfOptions'], 'article_source'))</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$feed</b> = <a class="el" href="session__utility_8php.html#aecb1fcccaad37d3508887b76b6321a87">get_links_from_rss</a>($_POST['NfSourceURI'], get_nf_option($_POST['NfOptions'], 'article_source'))</td></tr>
 <tr class="separator:a0c64e1f194986e6f51a67a8144fa305f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92448cb0d52f80033b3c6b6f20707bea"><td class="memItemLeft" align="right" valign="top">if(empty($feed))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__load__feed_8php.html#a92448cb0d52f80033b3c6b6f20707bea">else</a></td></tr>
 <tr class="separator:a92448cb0d52f80033b3c6b6f20707bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,11 +93,17 @@ Variables</h2></td></tr>
 <tr class="memitem:ad44137b2dfc7fcbbdaae5f37582b41f6"><td class="memItemLeft" align="right" valign="top"><a id="ad44137b2dfc7fcbbdaae5f37582b41f6" name="ad44137b2dfc7fcbbdaae5f37582b41f6"></a>
 foreach($feed as $data)&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = implode(',', $valuesArr)</td></tr>
 <tr class="separator:ad44137b2dfc7fcbbdaae5f37582b41f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1774b100543d6fe8f9c6a9758f7ba68"><td class="memItemLeft" align="right" valign="top"><a id="aa1774b100543d6fe8f9c6a9758f7ba68" name="aa1774b100543d6fe8f9c6a9758f7ba68"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$imported_feed</b> =mysqli_affected_rows($GLOBALS[&quot;DBCONNECTION&quot;])</td></tr>
+<tr class="separator:aa1774b100543d6fe8f9c6a9758f7ba68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a530de829dff1f0e5bb4cee25a7c6f732"><td class="memItemLeft" align="right" valign="top"><a id="a530de829dff1f0e5bb4cee25a7c6f732" name="a530de829dff1f0e5bb4cee25a7c6f732"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$nif</b> =count($valuesArr)-$imported_feed</td></tr>
+<tr class="separator:a530de829dff1f0e5bb4cee25a7c6f732"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1041e821ece1096bf05a200549536b39"><td class="memItemLeft" align="right" valign="top"><a id="a1041e821ece1096bf05a200549536b39" name="a1041e821ece1096bf05a200549536b39"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$nf_max_links</b> =null</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$nf_max_links</b> =get_nf_option($_POST['NfOptions'], 'max_links')</td></tr>
 <tr class="separator:a1041e821ece1096bf05a200549536b39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe41109a73bdd3b6974ad67d4be36b48"><td class="memItemLeft" align="right" valign="top"><a id="afe41109a73bdd3b6974ad67d4be36b48" name="afe41109a73bdd3b6974ad67d4be36b48"></a>
-if( $nif &gt;1) if($nif==1)&#160;</td><td class="memItemRight" valign="bottom"><b>$result</b> =<a class="el" href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>(&quot;SELECT COUNT(*) AS total FROM &quot; . $tbpref . &quot;feedlinks WHERE FlNfID in (&quot;.$_POST['NfID'].&quot;)&quot;)</td></tr>
+if( $nif &gt;1) if($nif==1)&#160;</td><td class="memItemRight" valign="bottom"><b>$result</b> =<a class="el" href="database__connect_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>(&quot;SELECT COUNT(*) AS total FROM &quot; . $tbpref . &quot;feedlinks WHERE FlNfID in (&quot;.$_POST['NfID'].&quot;)&quot;)</td></tr>
 <tr class="separator:afe41109a73bdd3b6974ad67d4be36b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1d731aa570613e5bcff831bb10e9b87"><td class="memItemLeft" align="right" valign="top"><a id="aa1d731aa570613e5bcff831bb10e9b87" name="aa1d731aa570613e5bcff831bb10e9b87"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$row</b> = mysqli_fetch_assoc($result)</td></tr>

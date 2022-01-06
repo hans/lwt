@@ -85,10 +85,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a6b5ad2ac55f9df46e8f34e78fbd6f176"><td class="memItemLeft" align="right" valign="top"><a id="a6b5ad2ac55f9df46e8f34e78fbd6f176" name="a6b5ad2ac55f9df46e8f34e78fbd6f176"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$up</b> = $_REQUEST['data']</td></tr>
 <tr class="separator:a6b5ad2ac55f9df46e8f34e78fbd6f176"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a239f1a5297b8601550b2556acf428931"><td class="memItemLeft" align="right" valign="top"><a id="a239f1a5297b8601550b2556acf428931" name="a239f1a5297b8601550b2556acf428931"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currstatus</b> = <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>('SELECT WoStatus as value FROM ' . $tbpref . 'words where WoID = ' . $wid)</td></tr>
-<tr class="separator:a239f1a5297b8601550b2556acf428931"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac296913b29735524bbde2790a0482db"><td class="memItemLeft" align="right" valign="top">if(! isset($currstatus))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__chg__term__status_8php.html#aac296913b29735524bbde2790a0482db">else</a></td></tr>
+<tr class="memitem:ab4c8ab301d412efe031c96a29c39cb4e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__chg__term__status_8php.html#ab4c8ab301d412efe031c96a29c39cb4e">$tempstatus</a></td></tr>
+<tr class="separator:ab4c8ab301d412efe031c96a29c39cb4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac296913b29735524bbde2790a0482db"><td class="memItemLeft" align="right" valign="top">if(!isset($tempstatus))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__chg__term__status_8php.html#aac296913b29735524bbde2790a0482db">else</a></td></tr>
 <tr class="separator:aac296913b29735524bbde2790a0482db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -97,6 +96,25 @@ Variables</h2></td></tr>
 <dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@h'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@ho<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>1.5.4 </dd></dl>
 </div><h2 class="groupheader">Variable Documentation</h2>
+<a id="ab4c8ab301d412efe031c96a29c39cb4e" name="ab4c8ab301d412efe031c96a29c39cb4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4c8ab301d412efe031c96a29c39cb4e">&#9670;&nbsp;</a></span>$tempstatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">$tempstatus</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code hl_function" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>(</div>
+<div class="line">    <span class="stringliteral">&#39;SELECT WoStatus as value FROM &#39;</span> . $tbpref . <span class="stringliteral">&#39;words </span></div>
+<div class="line"><span class="stringliteral">    WHERE WoID = &#39;</span> . $wid</div>
+<div class="line">)</div>
+<div class="ttc" id="adatabase__connect_8php_html_a9c4a52b3d9b10360dce64ad0464bfad5"><div class="ttname"><a href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a></div><div class="ttdeci">get_first_value($sql)</div><div class="ttdef"><b>Definition:</b> database_connect.php:80</div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="aac296913b29735524bbde2790a0482db" name="aac296913b29735524bbde2790a0482db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aac296913b29735524bbde2790a0482db">&#9670;&nbsp;</a></span>else</h2>
 
@@ -109,7 +127,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">    $currstatus = $currstatus + 0</div>
+<div class="line">    $currstatus = (int)$tempstatus</div>
 </div><!-- fragment -->
 </div>
 </div>

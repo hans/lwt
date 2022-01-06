@@ -79,8 +79,8 @@ Functions</h2></td></tr>
 <tr class="separator:a592931013a3470133c8fe45400403dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19e576d913af3a5d35d840a77aa9e251"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="insert__word__wellknown_8php.html#a19e576d913af3a5d35d840a77aa9e251">insert_word_wellknown_to_database</a> ($textid, $word)</td></tr>
 <tr class="separator:a19e576d913af3a5d35d840a77aa9e251"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa84884568e47777ca1ed6ff40907bb07"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="insert__word__wellknown_8php.html#aa84884568e47777ca1ed6ff40907bb07">do_javascript_action</a> ($word, $wid, $hex, $textid)</td></tr>
-<tr class="separator:aa84884568e47777ca1ed6ff40907bb07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3773318fdd972697565f8cd071746ef4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="insert__word__wellknown_8php.html#a3773318fdd972697565f8cd071746ef4">insert_word_wellknown_javascript</a> ($word, $wid, $hex, $textid)</td></tr>
+<tr class="separator:a3773318fdd972697565f8cd071746ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f8fc5732049367a37f4abff14af9d0f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="insert__word__wellknown_8php.html#a7f8fc5732049367a37f4abff14af9d0f">show_page_insert_word_wellknown</a> ($word, $wid, $hex, $textid)</td></tr>
 <tr class="separator:a7f8fc5732049367a37f4abff14af9d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a072f52b3eda505c7bd0abf0490459f21"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="insert__word__wellknown_8php.html#a072f52b3eda505c7bd0abf0490459f21">do_insert_word_wellknown</a> ($textid, $textpos)</td></tr>
@@ -130,14 +130,52 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa84884568e47777ca1ed6ff40907bb07" name="aa84884568e47777ca1ed6ff40907bb07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa84884568e47777ca1ed6ff40907bb07">&#9670;&nbsp;</a></span>do_javascript_action()</h2>
+<a id="a592931013a3470133c8fe45400403dfd" name="a592931013a3470133c8fe45400403dfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a592931013a3470133c8fe45400403dfd">&#9670;&nbsp;</a></span>get_word()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">do_javascript_action </td>
+          <td class="memname">get_word </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$textid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$textpos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Return the word at a specific position in a text.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$textid</td><td>ID of the text </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$textpos</td><td>Position of the word in the text.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string|null A word</dd></dl>
+<p>@global string $tbpref </p>
+
+</div>
+</div>
+<a id="a3773318fdd972697565f8cd071746ef4" name="a3773318fdd972697565f8cd071746ef4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3773318fdd972697565f8cd071746ef4">&#9670;&nbsp;</a></span>insert_word_wellknown_javascript()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">insert_word_wellknown_javascript </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>$word</em>, </td>
@@ -182,44 +220,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a592931013a3470133c8fe45400403dfd" name="a592931013a3470133c8fe45400403dfd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a592931013a3470133c8fe45400403dfd">&#9670;&nbsp;</a></span>get_word()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">get_word </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$textid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$textpos</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Return the word at a specific position in a text.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$textid</td><td>ID of the text </td></tr>
-    <tr><td class="paramtype">string</td><td class="paramname">$textpos</td><td>Position of the word in the text.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>string A word</dd></dl>
-<p>@global string $tbpref </p>
-
-</div>
-</div>
 <a id="a19e576d913af3a5d35d840a77aa9e251" name="a19e576d913af3a5d35d840a77aa9e251"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a19e576d913af3a5d35d840a77aa9e251">&#9670;&nbsp;</a></span>insert_word_wellknown_to_database()</h2>
 
@@ -253,7 +253,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>string Word ID</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>string|null Word ID</dd></dl>
 <p>@global string $tbpref </p>
 
 </div>

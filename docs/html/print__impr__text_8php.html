@@ -73,7 +73,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a023626592a25cd2baba8feb6eee16401"><td class="memItemLeft" align="right" valign="top"><a id="a023626592a25cd2baba8feb6eee16401" name="a023626592a25cd2baba8feb6eee16401"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$textid</b> = <a class="el" href="kernel__utility_8php.html#ac115eb0ce0c99aef0bc68dc184a491d6">getreq</a>('text')+0</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$textid</b> = (int)<a class="el" href="kernel__utility_8php.html#ac115eb0ce0c99aef0bc68dc184a491d6">getreq</a>('text')</td></tr>
 <tr class="separator:a023626592a25cd2baba8feb6eee16401"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a668bd65121fbba9c162bcdd876450ea8"><td class="memItemLeft" align="right" valign="top"><a id="a668bd65121fbba9c162bcdd876450ea8" name="a668bd65121fbba9c162bcdd876450ea8"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$editmode</b> = <a class="el" href="kernel__utility_8php.html#ac115eb0ce0c99aef0bc68dc184a491d6">getreq</a>('edit')</td></tr>
@@ -91,7 +91,7 @@ Variables</h2></td></tr>
 if($ann_exists) if( $textid==0) if($delmode)&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select TxLgID, TxTitle, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $textid</td></tr>
 <tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="db__accessors_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="database__connect_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
 <tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memItemLeft" align="right" valign="top"><a id="acbcb6dcb11c8755d5ffab0b45aac7a22" name="acbcb6dcb11c8755d5ffab0b45aac7a22"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$record</b> = mysqli_fetch_assoc($res)</td></tr>
@@ -105,20 +105,16 @@ if($ann_exists) if( $textid==0) if($delmode)&#160;</td><td class="memItemRight" 
 <tr class="memitem:a5c72c72a6db8b2dec28ffd70d6b4fd92"><td class="memItemLeft" align="right" valign="top"><a id="a5c72c72a6db8b2dec28ffd70d6b4fd92" name="a5c72c72a6db8b2dec28ffd70d6b4fd92"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$langid</b> = $record['TxLgID']</td></tr>
 <tr class="separator:a5c72c72a6db8b2dec28ffd70d6b4fd92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8f4b3d9f0ce25faf5cfe54a3bc0e76d"><td class="memItemLeft" align="right" valign="top"><a id="ae8f4b3d9f0ce25faf5cfe54a3bc0e76d" name="ae8f4b3d9f0ce25faf5cfe54a3bc0e76d"></a>
+<tr class="memitem:aa20321910db204c5ece282202ef8bfa0"><td class="memItemLeft" align="right" valign="top"><a id="aa20321910db204c5ece282202ef8bfa0" name="aa20321910db204c5ece282202ef8bfa0"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$audio</b> = $record['TxAudioURI']</td></tr>
-<tr class="separator:ae8f4b3d9f0ce25faf5cfe54a3bc0e76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:aa20321910db204c5ece282202ef8bfa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bc08cf5dc5c12ec1928274e3b9989b2"><td class="memItemLeft" align="right" valign="top"><a id="a1bc08cf5dc5c12ec1928274e3b9989b2" name="a1bc08cf5dc5c12ec1928274e3b9989b2"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$textsize</b> = $record['LgTextSize']</td></tr>
 <tr class="separator:a1bc08cf5dc5c12ec1928274e3b9989b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a863e4beb006afbb16290637682e85504"><td class="memItemLeft" align="right" valign="top"><a id="a863e4beb006afbb16290637682e85504" name="a863e4beb006afbb16290637682e85504"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$removeSpaces</b> = $record['LgRemoveSpaces']</td></tr>
-<tr class="separator:a863e4beb006afbb16290637682e85504"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55aa997bd2236d086fcf325908b0b680"><td class="memItemLeft" align="right" valign="top"><a id="a55aa997bd2236d086fcf325908b0b680" name="a55aa997bd2236d086fcf325908b0b680"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$rtlScript</b> = $record['LgRightToLeft']</td></tr>
 <tr class="separator:a55aa997bd2236d086fcf325908b0b680"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b29a38052bcf4f35ce990fc9d59bc17"><td class="memItemLeft" align="right" valign="top"><a id="a7b29a38052bcf4f35ce990fc9d59bc17" name="a7b29a38052bcf4f35ce990fc9d59bc17"></a>
-if(!empty($record['LgGoogleTranslateURI']))&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { $ttsClass=''</td></tr>
+<tr class="memitem:a7b29a38052bcf4f35ce990fc9d59bc17"><td class="memItemLeft" align="right" valign="top">if(!empty($record['LgGoogleTranslateURI']))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="print__impr__text_8php.html#a7b29a38052bcf4f35ce990fc9d59bc17">else</a></td></tr>
 <tr class="separator:a7b29a38052bcf4f35ce990fc9d59bc17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a737abdef83dabb219182c1e88887c6c3"><td class="memItemLeft" align="right" valign="top"><a id="a737abdef83dabb219182c1e88887c6c3" name="a737abdef83dabb219182c1e88887c6c3"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$items</b> = preg_split('/[\n]/u', $ann)</td></tr>
@@ -130,7 +126,24 @@ if(!empty($record['LgGoogleTranslateURI']))&#160;</td><td class="memItemRight" v
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Print/Edit an improved annotated text</p>
 <p >Call: <a class="el" href="print__impr__text_8php.html">print_impr_text.php</a>?text=[textid]&amp;... ... edit=1 ... edit own annotation ... del=1 ... delete own annotation </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a7b29a38052bcf4f35ce990fc9d59bc17" name="a7b29a38052bcf4f35ce990fc9d59bc17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b29a38052bcf4f35ce990fc9d59bc17">&#9670;&nbsp;</a></span>else</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">if ( $editmode) else</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{ </div>
+<div class="line">    $ttsClass=<span class="stringliteral">&#39;&#39;</span></div>
+</div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3

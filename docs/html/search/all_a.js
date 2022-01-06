@@ -1,18 +1,10 @@
 var searchData=
 [
-  ['mainwordloop_0',['mainWordLoop',['../do__text__text_8php.html#af1d6295c4d9f7b70316dd4af59061fd2',1,'do_text_text.php']]],
-  ['makeaudioplayer_1',['makeAudioPlayer',['../session__utility_8php.html#ac0ee983a50524bad932d9db1b867dc80',1,'session_utility.php']]],
-  ['makestatusclassfilter_2',['makeStatusClassFilter',['../session__utility_8php.html#aa49fc9e748c0fe20c642e7474a6a6fc2',1,'session_utility.php']]],
-  ['makestatusclassfilterhelper_3',['makeStatusClassFilterHelper',['../session__utility_8php.html#acf342c486d80ed923cc2e40bcbe0134c',1,'session_utility.php']]],
-  ['makevideoplayer_4',['makeVideoPlayer',['../session__utility_8php.html#a1e6d9a38462e0c5b68705dde339a60e5',1,'session_utility.php']]],
-  ['markdown_5fconverter_5',['markdown_converter',['../markdown__converter_8php.html#adcd6ced7d8a8277f17839ee403b4fe9f',1,'markdown_converter.php']]],
-  ['markdown_5fconverter_2ephp_6',['markdown_converter.php',['../markdown__converter_8php.html',1,'']]],
-  ['markdownconvertertest_7',['MarkdownConverterTest',['../class_markdown_converter_test.html',1,'']]],
-  ['minifier_2ephp_8',['minifier.php',['../minifier_8php.html',1,'']]],
-  ['minifyallcss_9',['minifyAllCSS',['../minifier_8php.html#a0b4491a5794ce7f4853727736116e2dc',1,'minifier.php']]],
-  ['minifyalljs_10',['minifyAllJS',['../minifier_8php.html#a1f3f639fda5fba4d6f3dd22ba4dba582',1,'minifier.php']]],
-  ['minifycss_11',['minifyCSS',['../minifier_8php.html#a642f36bdb39201d18ebac2d4b4f08e26',1,'minifier.php']]],
-  ['minifyjs_12',['minifyJS',['../minifier_8php.html#abdc82ffc0d382f3b60097c3239833994',1,'minifier.php']]],
-  ['mobile_2ephp_13',['mobile.php',['../mobile_8php.html',1,'']]],
-  ['my_5fdie_14',['my_die',['../kernel__utility_8php.html#a66b15236d14629cb1bc2f6ed300bd38e',1,'kernel_utility.php']]]
+  ['langdefs_2ephp_0',['langdefs.php',['../langdefs_8php.html',1,'']]],
+  ['learning_20with_20texts_1',['Learning with Texts',['../index.html',1,'']]],
+  ['letterpairs_2',['letterPairs',['../simterms_8php.html#a3e3a7c7054ca98a3eb429743b15d534d',1,'simterms.php']]],
+  ['license_3',['License',['../md__u_n_l_i_c_e_n_s_e.html',1,'']]],
+  ['lowercase_5fterm_5fnot_5fequal_4',['lowercase_term_not_equal',['../edit__word_8php.html#a33dc93ccc75abf0d96a2f9ad51258c5f',1,'edit_word.php']]],
+  ['lwt_5',['Lwt',['../namespace_lwt.html',1,'']]],
+  ['lwttablecheck_6',['LWTTableCheck',['../database__connect_8php.html#aa238ca54e7fb04ab59f8e19e90b8d64f',1,'database_connect.php']]]
 ];

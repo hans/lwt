@@ -8,6 +8,7 @@ var searchData=
   ['connect_2einc_2ephp_5',['connect.inc.php',['../connect_8inc_8php.html',1,'']]],
   ['connect_5feasyphp_2einc_2ephp_6',['connect_easyphp.inc.php',['../connect__easyphp_8inc_8php.html',1,'']]],
   ['connect_5fmamp_2ephp_7',['connect_mamp.php',['../connect__mamp_8php.html',1,'']]],
-  ['connect_5fwordpress_2einc_2ephp_8',['connect_wordpress.inc.php',['../connect__wordpress_8inc_8php.html',1,'']]],
-  ['createthedictlink_9',['createTheDictLink',['../session__utility_8php.html#adbd4355000bfd2a29b85befad555348a',1,'session_utility.php']]]
+  ['connect_5fto_5fdatabase_8',['connect_to_database',['../database__connect_8php.html#a6e362f15877268f0dcff6be0c499f493',1,'database_connect.php']]],
+  ['connect_5fwordpress_2einc_2ephp_9',['connect_wordpress.inc.php',['../connect__wordpress_8inc_8php.html',1,'']]],
+  ['createthedictlink_10',['createTheDictLink',['../session__utility_8php.html#adbd4355000bfd2a29b85befad555348a',1,'session_utility.php']]]
 ];

@@ -80,13 +80,13 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a023626592a25cd2baba8feb6eee16401"><td class="memItemLeft" align="right" valign="top"><a id="a023626592a25cd2baba8feb6eee16401" name="a023626592a25cd2baba8feb6eee16401"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$textid</b> = $_POST['id'] + 0</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$textid</b> = (int)$_POST['id']</td></tr>
 <tr class="separator:a023626592a25cd2baba8feb6eee16401"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79417a13f0c24eda4c0ccc996a3c962b"><td class="memItemLeft" align="right" valign="top"><a id="a79417a13f0c24eda4c0ccc996a3c962b" name="a79417a13f0c24eda4c0ccc996a3c962b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$elem</b> = $_POST['elem']</td></tr>
 <tr class="separator:a79417a13f0c24eda4c0ccc996a3c962b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e616221a0c750630690a423cc8a8db6"><td class="memItemLeft" align="right" valign="top"><a id="a3e616221a0c750630690a423cc8a8db6" name="a3e616221a0c750630690a423cc8a8db6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$stringdata</b> = stripTheSlashesIfNeeded($_POST['data'])</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$stringdata</b> = $_POST['data']</td></tr>
 <tr class="separator:a3e616221a0c750630690a423cc8a8db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6efc15b5a2314dd4b5aaa556a375c6d6"><td class="memItemLeft" align="right" valign="top"><a id="a6efc15b5a2314dd4b5aaa556a375c6d6" name="a6efc15b5a2314dd4b5aaa556a375c6d6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$data</b> = json_decode($stringdata)</td></tr>
@@ -95,7 +95,7 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$val</b> = $data-&gt;{$elem}</td></tr>
 <tr class="separator:aac81a74a7b30767af29bfd9a695636df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2250097285081a5fd5400a115fc5cd15"><td class="memItemLeft" align="right" valign="top"><a id="a2250097285081a5fd5400a115fc5cd15" name="a2250097285081a5fd5400a115fc5cd15"></a>
-if(substr($elem, 0, 2)==&quot;rg&quot;)&#160;</td><td class="memItemRight" valign="bottom"><b>$line</b> = substr($elem, 2) + 0</td></tr>
+if(substr($elem, 0, 2)==&quot;rg&quot;)&#160;</td><td class="memItemRight" valign="bottom"><b>$line</b> = (int)substr($elem, 2)</td></tr>
 <tr class="separator:a2250097285081a5fd5400a115fc5cd15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a944564ee11ad329573548875b62a269e"><td class="memItemLeft" align="right" valign="top"><a id="a944564ee11ad329573548875b62a269e" name="a944564ee11ad329573548875b62a269e"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$success</b> = &quot;NOTOK&quot;</td></tr>

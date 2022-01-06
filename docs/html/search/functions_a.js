@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quickmenu_0',['quickMenu',['../kernel__utility_8php.html#a968ebfd30d4d63e55078ab5668e991ff',1,'kernel_utility.php']]]
+  ['optimizedb_0',['optimizedb',['../database__connect_8php.html#a8ac89d832d3a95c00b38bad4b46bbe19',1,'database_connect.php']]]
 ];

@@ -67,6 +67,5 @@ function setCookie(name,value,expires,path,domain,secure){const today=new Date()
 const expires_date=new Date(today.getTime()+(expires));document.cookie=name+'='+escape(value)+((expires)?';expires='+expires_date.toGMTString():'')+((path)?';path='+path:'')+((domain)?';domain='+domain:'')+((secure)?';secure':'')}
 function deleteCookie(name,path,domain){if(getCookie(name)){document.cookie=name+'='+((path)?';path='+path:'')+((domain)?';domain='+domain:'')+';expires=Thu, 01-Jan-1970 00:00:01 GMT'}}
 function iknowall(t){const answer=confirm('Are you sure?');if(answer){top.frames.ro.location.href='all_words_wellknown.php?text='+t}}
-function check_table_prefix(p){let r=!1;const re=/^[_a-zA-Z0-9]*$/;if(p.length<=20&&p.length>0){if(p.match(re))r=!0}
-if(!r){alert('Table Set Name (= Table Prefix) must\ncontain 1 to 20 characters (only 0-9, a-z, A-Z and _).\nPlease correct your input.')}
+function check_table_prefix(p){const re=/^[_a-zA-Z0-9]*$/;const r=p.length<=20&&p.length>0&&p.match(re);if(!r){alert('Table Set Name (= Table Prefix) must\ncontain 1 to 20 characters (only 0-9, a-z, A-Z and _).\nPlease correct your input.')}
 return r}
