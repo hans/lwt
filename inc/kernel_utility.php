@@ -345,7 +345,8 @@ function echodebug($var,$text): void
 /**
  * Return an associative array of all possible statuses 
  * 
- * @return array[] Statues, keys are 1, 2, 3, 4, 5, 98, 99. 
+ * @return array<int<1, 5>|98|99, array<string, string>> 
+ * Statues, keys are 1, 2, 3, 4, 5, 98, 99. 
  * Values are associative arrays of keys abbr and name 
  */  
 function get_statuses() 

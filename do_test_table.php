@@ -193,12 +193,41 @@ while ($record = mysqli_fetch_assoc($res)) {
     );
     ?>
 <tr>
-<td class="td1 center" nowrap="nowrap"><a href="edit_tword.php?wid=<?php echo $record['WoID']; ?>" target="ro"><img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" /></a></td>
-<td class="td1 center" nowrap="nowrap"><span id="STAT<?php echo $record['WoID']; ?>"><?php echo make_status_controls_test_table($record['Score'], $record['WoStatus'], $record['WoID']); ?></span></td>
-<td class="td1 center" style="font-size:<?php echo $textsize; ?>%;"><?php echo $span1; ?><span id="TERM<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoText']); ?></span><?php echo $span2; ?></td>
-<td class="td1 center"><span id="TRAN<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoTranslation']); ?></span></td>
-<td class="td1 center"><span id="ROMA<?php echo $record['WoID']; ?>"><?php echo tohtml($record['WoRomanization']); ?></span></td>
-<td class="td1 center" style="color:#000;"><?php echo $span1; ?><span id="SENT<?php echo $record['WoID']; ?>"><?php echo $sent1; ?></span><?php echo $span2; ?></td>
+    <td class="td1 center" nowrap="nowrap">
+        <a 
+            href="edit_tword.php?wid=<?php echo $record['WoID']; ?>" target="ro"
+            onclick="showRightFrames();"
+        >
+            <img src="icn/sticky-note--pencil.png" title="Edit Term" alt="Edit Term" />
+        </a>
+    </td>
+    <td class="td1 center" nowrap="nowrap">
+        <span id="STAT<?php echo $record['WoID']; ?>">
+            <?php echo make_status_controls_test_table($record['Score'], $record['WoStatus'], $record['WoID']); ?>
+        </span>
+    </td>
+    <td class="td1 center" style="font-size:<?php echo $textsize; ?>%;">
+        <?php echo $span1; ?>
+        <span id="TERM<?php echo $record['WoID']; ?>">
+            <?php echo tohtml($record['WoText']); ?>
+        </span>
+        <?php echo $span2; ?>
+    </td>
+    <td class="td1 center">
+        <span id="TRAN<?php echo $record['WoID']; ?>">
+            <?php echo tohtml($record['WoTranslation']); ?>
+        </span>
+    </td>
+    <td class="td1 center">
+        <span id="ROMA<?php echo $record['WoID']; ?>">
+            <?php echo tohtml($record['WoRomanization']); ?>
+        </span>
+    </td>
+    <td class="td1 center" style="color:#000;">
+        <?php echo $span1; ?>
+        <span id="SENT<?php echo $record['WoID']; ?>">
+        <?php echo $sent1; ?></span><?php echo $span2; ?>
+    </td>
 </tr>
     <?php
 }

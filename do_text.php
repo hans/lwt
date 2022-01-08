@@ -145,7 +145,7 @@ if (isset($_REQUEST['start'])) {
         </frameset>
         <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
     </frameset>-->
-    <div class="resizable" style="width: 65%;">
+    <div class="resizable" style="width: 95%;" onclick="hideRightFrames();">
         <div id="frame-h">
             <?php
             require_once 'do_text_header.php';
@@ -160,7 +160,7 @@ if (isset($_REQUEST['start'])) {
             ?>
         </div>
     </div>
-    <div class="resizable" style="position: fixed; top: 0; right: 5px; width: 35%; height: 99%;">
+    <div class="resizable" id="frames-r" style="position: fixed; top: 0; right: -50%; width: 50%; height: 99%;">
         <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
             Your browser doesn't support iFrames, update it!
         </iframe>

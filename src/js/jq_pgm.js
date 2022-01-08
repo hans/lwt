@@ -1,3 +1,13 @@
+/**
+ * \file
+ * \brief Interaction between LWT and jQuery
+ * 
+ * @package Lwt
+ * @license unlicense
+ * @since   1.6.16-fork
+ * @author  andreask7 <andreasks7@users.noreply.github.com>
+ */
+
 /**************************************************************
 "Learning with Texts" (LWT) is free and unencumbered software
 released into the PUBLIC DOMAIN.
@@ -28,25 +38,26 @@ THE SOFTWARE.
 For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
-/**
- * \file
- * \brief Interaction between LWT and jQuery
- */
-
 /**************************************************************
 Global variables used in LWT jQuery functions
 ***************************************************************/
 
 var TEXTPOS = -1;
 var OPENED = 0;
-var WID = 0;      /// Word ID
-var TID = 0;      /// Text ID
-var WBLINK1 = ''; /// First dictionary URL
-var WBLINK2 = ''; /// Second dictionary URL
-var WBLINK3 = ''; /// Google Translate
+/** @var {int} WID - Word ID */
+var WID = 0;
+/** Text ID (int) */
+var TID = 0;
+/** First dictionary URL */
+var WBLINK1 = '';
+/** Second dictionary URL */
+var WBLINK2 = '';
+/** Google Translate */
+var WBLINK3 = '';
 var SOLUTION = '';
 var ADDFILTER = '';
-var RTL = 0;      /// Right-to-left indicator
+/** Right-to-left indicator */
+var RTL = 0;
 var ANN_ARRAY = {};
 var DELIMITER = '';
 var JQ_TOOLTIP = 0;
@@ -276,10 +287,10 @@ function showAllwordsClick () {
   const showAll = $('#showallwords').prop('checked');
   const showLeaning = $('#showlearningtranslations').prop('checked');
   const text = $('#thetextid').text();
-  window.parent.frames.ro.location.href =
-		'set_text_mode.php?mode=' + (showAll ? 1 : 0) +
+  //window.parent.frames.ro.location.href =
+	showRightFrames('set_text_mode.php?mode=' + (showAll ? 1 : 0) +
 		'&showLearning=' + (showLeaning ? 1 : 0) +
-		'&text=' + text;
+		'&text=' + text);
 }
 
 function textareaKeydown (event) {
@@ -309,7 +320,8 @@ function word_click_event_do_test_test () {
     $(this).attr('data_rom'),
     $(this).attr('data_status'),
     $(this).attr('data_sent'),
-    $(this).attr('data_todo'));
+    $(this).attr('data_todo')
+  );
   $('.todo').text(SOLUTION);
   return false;
 }
@@ -318,46 +330,47 @@ function keydown_event_do_test_test (e) {
   if (e.which == 32 && OPENED == 0) { // space : show sol.
     $('.word').click();
     cClick();
-    window.parent.frames.ro.location.href = 'show_word.php?wid=' + $('.word').attr('data_wid') + '&ann=';
+    //window.parent.frames.ro.location.href = 
+    showRightFrames('show_word.php?wid=' + $('.word').attr('data_wid') + '&ann=');
     OPENED = 1;
     return false;
   }
   if (OPENED == 0) return true;
   if (e.which == 38) { // up : status+1
-    window.parent.frames.ro.location.href =
-			'set_test_status.php?wid=' + WID + '&stchange=1';
+    //window.parent.frames.ro.location.href =
+		showRightFrames('set_test_status.php?wid=' + WID + '&stchange=1');
     return false;
   }
   if (e.which == 40) { // down : status-1
-    window.parent.frames.ro.location.href =
-			'set_test_status.php?wid=' + WID + '&stchange=-1';
+    //window.parent.frames.ro.location.href =
+		showRightFrames('set_test_status.php?wid=' + WID + '&stchange=-1');
     return false;
   }
   if (e.which == 27) { // esc : dont change status
-    window.parent.frames.ro.location.href =
-			'set_test_status.php?wid=' + WID + '&status=' + $('.word').attr('data_status');
+    //window.parent.frames.ro.location.href =
+		showRightFrames('set_test_status.php?wid=' + WID + '&status=' + $('.word').attr('data_status'));
     return false;
   }
   for (let i = 1; i <= 5; i++) {
     if (e.which == (48 + i) || e.which == (96 + i)) { // 1,.. : status=i
-      window.parent.frames.ro.location.href =
-				'set_test_status.php?wid=' + WID + '&status=' + i;
+      //window.parent.frames.ro.location.href =
+			showRightFrames('set_test_status.php?wid=' + WID + '&status=' + i);
       return false;
     }
   }
   if (e.which == 73) { // I : status=98
-    window.parent.frames.ro.location.href =
-			'set_test_status.php?wid=' + WID + '&status=98';
+    //window.parent.frames.ro.location.href =
+		showRightFrames('set_test_status.php?wid=' + WID + '&status=98');
     return false;
   }
   if (e.which == 87) { // W : status=99
-    window.parent.frames.ro.location.href =
-			'set_test_status.php?wid=' + WID + '&status=99';
+    //window.parent.frames.ro.location.href =
+		showRightFrames('set_test_status.php?wid=' + WID + '&status=99');
     return false;
   }
   if (e.which == 69) { // E : EDIT
-    window.parent.frames.ro.location.href =
-			'edit_tword.php?wid=' + WID;
+    //window.parent.frames.ro.location.href =
+		showRightFrames('edit_tword.php?wid=' + WID);
     return false;
   }
   return true;
@@ -422,32 +435,61 @@ function word_dblclick_event_do_text_text () {
   if (t == 0) return;
   let p = 100 * ($(this).attr('data_pos') - 5) / t;
   if (p < 0) p = 0;
-  if (typeof (window.parent.frames.h.new_pos) === 'function') { window.parent.frames.h.new_pos(p); }
+  if (typeof (window.parent.frames.h.new_pos) === 'function') { 
+    window.parent.frames.h.new_pos(p); 
+  }
 }
 
+/**
+ * Do a word edition window. Usually called when the user clicks on a word.
+ * 
+ * @returns {bool} false
+ */
 function word_click_event_do_text_text () {
   const status = $(this).attr('data_status');
   let ann = '';
-  if ($(this).attr('data_ann') !== undefined) { ann = $(this).attr('data_ann'); }
+  if ($(this).attr('data_ann') !== undefined) { 
+    ann = $(this).attr('data_ann'); 
+  }
 
   let hints;
-  if (JQ_TOOLTIP) { hints = make_tooltip($(this).text(), $(this).attr('data_trans'), $(this).attr('data_rom'), status); } else { hints = $(this).attr('title'); }
+  if (JQ_TOOLTIP) { 
+    hints = make_tooltip(
+      $(this).text(), $(this).attr('data_trans'), $(this).attr('data_rom'), status
+    ); 
+  } else { 
+    hints = $(this).attr('title'); 
+  }
   const multi_words = Array(7);
-  for (let i = 0; i < 7; i++) { multi_words[i] = $(this).attr('data_mw' + (i + 2)); }
+  for (let i = 0; i < 7; i++) { 
+    multi_words[i] = $(this).attr('data_mw' + (i + 2)); 
+  }
   if (status < 1) {
-    run_overlib_status_unknown(WBLINK1, WBLINK2, WBLINK3, hints,
-      TID, $(this).attr('data_order'), $(this).text(), multi_words, RTL);
-    top.frames.ro.location.href = 'edit_word.php?tid=' + TID + '&ord=' +
-			$(this).attr('data_order') + '&wid=';
+    run_overlib_status_unknown(
+      WBLINK1, WBLINK2, WBLINK3, hints,
+      TID, $(this).attr('data_order'), $(this).text(), multi_words, RTL
+    );
+    showRightFrames(
+      'edit_word.php?tid=' + TID + '&ord=' + $(this).attr('data_order') + '&wid='
+    );
   } else if (status == 99) {
-    run_overlib_status_99(WBLINK1, WBLINK2, WBLINK3, hints,
-      TID, $(this).attr('data_order'), $(this).text(), $(this).attr('data_wid'), multi_words, RTL, ann);
+    run_overlib_status_99(
+      WBLINK1, WBLINK2, WBLINK3, hints,
+      TID, $(this).attr('data_order'), 
+      $(this).text(), $(this).attr('data_wid'), multi_words, RTL, ann
+    );
   } else if (status == 98) {
-    run_overlib_status_98(WBLINK1, WBLINK2, WBLINK3, hints,
-      TID, $(this).attr('data_order'), $(this).text(), $(this).attr('data_wid'), multi_words, RTL, ann);
+    run_overlib_status_98(
+      WBLINK1, WBLINK2, WBLINK3, hints,
+      TID, $(this).attr('data_order'), 
+      $(this).text(), $(this).attr('data_wid'), multi_words, RTL, ann
+    );
   } else {
-    run_overlib_status_1_to_5(WBLINK1, WBLINK2, WBLINK3, hints,
-      TID, $(this).attr('data_order'), $(this).text(), $(this).attr('data_wid'), status, multi_words, RTL, ann);
+    run_overlib_status_1_to_5(
+      WBLINK1, WBLINK2, WBLINK3, hints,
+      TID, $(this).attr('data_order'), 
+      $(this).text(), $(this).attr('data_wid'), status, multi_words, RTL, ann
+    );
   }
   return false;
 }
@@ -528,10 +570,12 @@ function mword_drag_n_drop_select (event) {
               if (text.length > 250) {
                 alert('selected text is too long!!!');
               } else {
-                top.frames.ro.location.href = 'edit_mword.php?tid=' + TID + '&len=' + len + '&ord=' + g + '&txt=' + text;
+                //top.frames.ro.location.href = 
+                showRightFrames('edit_mword.php?tid=' + TID + '&len=' + len + '&ord=' + g + '&txt=' + text);
               }
             } else {
-              top.frames.ro.location.href = 'edit_word.php?tid=' + TID + '&ord=' + g + '&txt=' + $('#ID-' + g + '-1').text();
+              //top.frames.ro.location.href = 
+              showRightFrames('edit_word.php?tid=' + TID + '&ord=' + g + '&txt=' + $('#ID-' + g + '-1').text());
             }
           }
           $('span', context).removeClass('tword nword');
@@ -656,8 +700,11 @@ function keydown_event_do_text_text (e) {
     curr.addClass('kwordmarked');
     $(window).scrollTo(curr, { axis: 'y', offset: -150 });
     var ann = '';
-    if ((typeof curr.attr('data_ann')) !== 'undefined') { ann = curr.attr('data_ann'); }
-    window.parent.frames.ro.location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
+    if ((typeof curr.attr('data_ann')) !== 'undefined') { 
+      ann = curr.attr('data_ann');
+    }
+    //window.parent.frames.ro.location.href = 
+    showRightFrames('show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann));
     return false;
   }
   if (e.which == 35) { // end : known word navigation -> last
@@ -667,8 +714,11 @@ function keydown_event_do_text_text (e) {
     curr.addClass('kwordmarked');
     $(window).scrollTo(curr, { axis: 'y', offset: -150 });
     var ann = '';
-    if ((typeof curr.attr('data_ann')) !== 'undefined') { ann = curr.attr('data_ann'); }
-    window.parent.frames.ro.location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
+    if ((typeof curr.attr('data_ann')) !== 'undefined') { 
+      ann = curr.attr('data_ann');
+    }
+    //window.parent.frames.ro.location.href = 
+    showRightFrames('show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann));
     return false;
   }
   if (e.which == 37) { // left : known word navigation
@@ -693,8 +743,11 @@ function keydown_event_do_text_text (e) {
     curr.addClass('kwordmarked');
     $(window).scrollTo(curr, { axis: 'y', offset: -150 });
     var ann = '';
-    if ((typeof curr.attr('data_ann')) !== 'undefined') { ann = curr.attr('data_ann'); }
-    window.parent.frames.ro.location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
+    if ((typeof curr.attr('data_ann')) !== 'undefined') { 
+      ann = curr.attr('data_ann'); 
+    }
+    //window.parent.frames.ro.location.href = 
+    showRightFrames('show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann));
     return false;
   }
   if (e.which == 39 || e.which == 32) { // space /right : known word navigation
@@ -720,7 +773,8 @@ function keydown_event_do_text_text (e) {
     $(window).scrollTo(curr, { axis: 'y', offset: -150 });
     var ann = '';
     if ((typeof curr.attr('data_ann')) !== 'undefined') { ann = curr.attr('data_ann'); }
-    window.parent.frames.ro.location.href = 'show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann);
+    //window.parent.frames.ro.location.href = 
+    showRightFrames('show_word.php?wid=' + curr.attr('data_wid') + '&ann=' + encodeURIComponent(ann));
     return false;
   }
 
@@ -744,32 +798,32 @@ function keydown_event_do_text_text (e) {
           const tl = WBLINK3.replace(/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/, '$1');
           if (sl != WBLINK3 && tl != WBLINK3)i = i + '&sl=' + sl + '&tl=' + tl;
         }
-        window.parent.frames.ro.location.href =
-			'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=' + i;
+        //window.parent.frames.ro.location.href =
+        showRightFrames('set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=' + i);
       } else {
-        window.parent.frames.ro.location.href =
-					'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i;
+        //window.parent.frames.ro.location.href =
+				showRightFrames('set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=' + i);
         return false;
       }
     }
   }
   if (e.which == 73) { // I : status=98
     if (stat == '0') {
-      window.parent.frames.ro.location.href =
-			'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=98';
+      //window.parent.frames.ro.location.href =
+			showRightFrames('set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=98');
     } else {
-      window.parent.frames.ro.location.href =
-			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=98';
+      //window.parent.frames.ro.location.href =
+			showRightFrames('set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=98');
       return false;
     }
   }
   if (e.which == 87) { // W : status=99
     if (stat == '0') {
-      window.parent.frames.ro.location.href =
-			'set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=99';
+      //window.parent.frames.ro.location.href =
+			showRightFrames('set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=99');
     } else {
-      window.parent.frames.ro.location.href =
-			'set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99';
+      //window.parent.frames.ro.location.href =
+			showRightFrames('set_word_status.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + '&status=99');
     }
     return false;
   }
@@ -784,8 +838,8 @@ function keydown_event_do_text_text (e) {
     if ((WBLINK3.substr(0, 8) == '*http://') || (WBLINK3.substr(0, 9) == '*https://')) {
       owin('trans.php?x=1&i=' + ord + '&t=' + TID);
     } else if ((WBLINK3.substr(0, 7) == 'http://') || (WBLINK3.substr(0, 8) == 'https://') || (WBLINK3.substr(0, 7) == 'ggl.php')) {
-      window.parent.frames.ru.location.href =
-			'trans.php?x=1&i=' + ord + '&t=' + TID;
+      //window.parent.frames.ru.location.href = 'trans.php?x=1&i=' + ord + '&t=' + TID;
+      showRightFrames(undefined, 'trans.php?x=1&i=' + ord + '&t=' + TID);
     }
     return false;
   }
@@ -795,26 +849,37 @@ function keydown_event_do_text_text (e) {
     if (t == 0) return true;
     p = 100 * (p - 5) / t;
     if (p < 0) p = 0;
-    if (typeof (window.parent.frames.h.new_pos) === 'function') { window.parent.frames.h.new_pos(p); } else { return true; }
+    if (typeof (window.parent.frames.h.new_pos) === 'function') { 
+      window.parent.frames.h.new_pos(p); 
+    } else { 
+      return true; 
+    }
     return false;
   }
   if (e.which == 71) { //  G : edit term and open GTr
     dict = '&nodict';
     setTimeout(function () {
-      if ((WBLINK3.substr(0, 8) == '*http://') || (WBLINK3.substr(0, 9) == '*https://')) { owin(createTheDictUrl(WBLINK3.replace('*', ''), txt)); } else { window.parent.frames.ru.location.href = createTheDictUrl(WBLINK3, txt); }
+      if ((WBLINK3.substr(0, 8) == '*http://') || (WBLINK3.substr(0, 9) == '*https://')) { 
+        owin(createTheDictUrl(WBLINK3.replace('*', ''), txt)); 
+      } else { 
+          //window.parent.frames.ru.location.href = createTheDictUrl(WBLINK3, txt);
+          showRightFrames(undefined, createTheDictUrl(WBLINK3, txt));
+      }
     }, 10);
   }
   if (e.which == 69 || e.which == 71) { //  E / G: edit term
+    let url = '';
     if (curr.hasClass('mword')) {
-      window.parent.frames.ro.location.href =
-				'edit_mword.php?wid=' + wid + '&len=' + curr.attr('data_code') + '&tid=' + TID + '&ord=' + ord + dict;
+      //window.parent.frames.ro.location.href = 
+      url = 'edit_mword.php?wid=' + wid + '&len=' + curr.attr('data_code') + '&tid=' + TID + '&ord=' + ord + dict;
     } else if (stat == '0') {
-      window.parent.frames.ro.location.href =
-				'edit_word.php?wid=&tid=' + TID + '&ord=' + ord + dict;
+      //window.parent.frames.ro.location.href =
+			url =	'edit_word.php?wid=&tid=' + TID + '&ord=' + ord + dict;
     } else {
-      window.parent.frames.ro.location.href =
-				'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + dict;
+      //window.parent.frames.ro.location.href =
+			url =	'edit_word.php?wid=' + wid + '&tid=' + TID + '&ord=' + ord + dict;
     }
+    showRightFrames(url);
     return false;
   }
   return true;
@@ -908,7 +973,11 @@ function word_count_click () {
     } else {
       $(this).html('t');
     }
-    SUW = (parseInt($('#chart').attr('data_wo_cnt')) << 4) + (parseInt($('#unknownpercent').attr('data_wo_cnt')) << 3) + (parseInt($('#unknown').attr('data_wo_cnt')) << 2) + (parseInt($('#saved').attr('data_wo_cnt')) << 1) + (parseInt($('#total').attr('data_wo_cnt')));
+    SUW = (parseInt($('#chart').attr('data_wo_cnt')) << 4) + 
+    (parseInt($('#unknownpercent').attr('data_wo_cnt')) << 3) + 
+    (parseInt($('#unknown').attr('data_wo_cnt')) << 2) + 
+    (parseInt($('#saved').attr('data_wo_cnt')) << 1) + 
+    (parseInt($('#total').attr('data_wo_cnt')));
     set_word_counts();
   });
 }
@@ -924,6 +993,40 @@ function do_ajax_edit_impr_text (pagepos, word) {
       $('input.impr-ann-radio').change(changeImprAnnRadio);
     }
   );
+}
+
+/**
+ * Show the right frames if found, and can load an URL in those frames
+ * 
+ * @param {string|undefined} roUrl Upper-right frame URL to laod 
+ * @param {string|undefined} ruUrl Lower-right frame URL to load
+ * @returns {boolean} true if frames were found, false otherwise
+ */
+function showRightFrames(roUrl, ruUrl) {
+  if (roUrl !== undefined) {
+    top.frames.ro.location.href = roUrl;
+  }
+  if (ruUrl !== undefined) {
+    top.frames.ru.location.href = ruUrl;
+  }
+  if ($('#frames-r').length) {
+    $('#frames-r').animate({right: '5px'});
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Hide the right frames if found.
+ * 
+ * @returns {boolean} true if frames were found, false otherwise
+ */
+function hideRightFrames() {
+  if ($('#frames-r').length) {
+    $('#frames-r').animate({right: '-50%'});
+    return true;
+  }
+  return false;
 }
 
 $.fn.serializeObject = function () {
@@ -943,7 +1046,8 @@ $.fn.serializeObject = function () {
 };
 
 $(window).load(function () {
-  $(':input,.wrap_checkbox span,.wrap_radio span,a:not([name^=rec]),select,#mediaselect span.click,#forwbutt,#backbutt').each(function (i) { $(this).attr('tabindex', i + 1); });
+  $(':input,.wrap_checkbox span,.wrap_radio span,a:not([name^=rec]),select,#mediaselect span.click,#forwbutt,#backbutt')
+  .each(function (i) { $(this).attr('tabindex', i + 1); });
   $('.wrap_radio span').bind('keydown', function (e) {
     if (e.keyCode == 32) {
       $(this).parent().parent().find('input[type=radio]').trigger('click');

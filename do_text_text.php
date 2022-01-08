@@ -149,10 +149,19 @@ function echoTerm(
 /**
  * Process each word (can be punction, term, etc...)
  *
+ * @param string[] $record        Record information
+ * @param 0|1      $showAll       Show all words or not
+ * @param int      $currcharcount Current number of caracters 
+ * 
+ * @return int New number of caracters
  * @since 2.0.3-fork
  */
-function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharcount): void
+function wordProcessor($record, $showAll, $currcharcount): int
 {
+    $hideuntil = -1;
+    $cnt = 1;
+    $sid = 0;
+
     if ($sid != $record['TiSeID']) {
         if ($sid != 0) {
             echo '</span>';
@@ -200,11 +209,17 @@ function wordProcessor(&$sid, $record, &$hideuntil, $showAll, &$cnt, &$currcharc
         $cnt++;
     }
 
+    return $currcharcount;
 }
 
 /**
  * Get all words and start the iterate over them.
  *
+ * @param string $textid ID of the text 
+ * @param 0|1 $showAll Show all words or not
+ * 
+ * @return void
+ * 
  * @global string $tbpref Table name prefix
  *
  * @since 2.0.3-fork
@@ -235,16 +250,11 @@ function mainWordLoop($textid, $showAll): void
      WHERE Ti2TxID = ' . $textid . '
      ORDER BY Ti2Order asc, Ti2WordCount desc';
     
-    $hideuntil = -1;
-    $cnt = 1;
-    $sid = 0;
-    
     $res = do_mysqli_query($sql);
 
     // Loop over words and punctuation
     while ($record = mysqli_fetch_assoc($res)) {
-        wordProcessor($sid, $record, $hideuntil, $showAll, $cnt, $currcharcount);
-    
+        $currcharcount = wordProcessor($record, $showAll, $currcharcount);
     } // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
     
     mysqli_free_result($res);
@@ -316,7 +326,7 @@ function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists): void
 }
 
 /**
- * Print JavaScript-formatted content, to put in a SCRIPT tag
+ * Print JavaScript-formatted content.
  *
  * @since 2.0.3-fork
  */
@@ -428,9 +438,9 @@ function do_text_text_content($textid, $only_body=true): void
         'POS' => $pos
     );
     do_text_javascript($var_array);
+    echo prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists);
     ?>
 
-    <?php echo prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists); ?>
     <div id="thetext" <?php echo ($rtlScript ? 'dir="rtl"' : '') ?>>
         <p style="margin-bottom: 10px;
             <?php echo $removeSpaces ? 'word-break:break-all;' : ''; ?>

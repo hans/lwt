@@ -75,7 +75,10 @@ function do_header_row($textid, $langid): void
     <a target="_top" href="edit_texts.php?chg=<?php echo $textid; ?>">
         <img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" />
     </a>&nbsp; | &nbsp;
-    <a href="new_word.php?text=<?php echo $textid; ?>&amp;lang=<?php echo $langid; ?>" target="ro">
+    <a 
+        href="new_word.php?text=<?php echo $textid; ?>&amp;lang=<?php echo $langid; ?>" 
+        target="ro" onclick="showRightFrames();"
+    >
         <img src="icn/sticky-note--plus.png" title="New Term" alt="New Term" />
     </a>
 </h4>

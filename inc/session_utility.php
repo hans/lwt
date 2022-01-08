@@ -971,7 +971,7 @@ function get_text_from_rsslink($feed_data, $NfArticleSection, $NfFilterTags, $Nf
             $redirect = explode(" | ", $NfArticleSection, 2);
             $NfArticleSection = $redirect[1];
             $redirect = substr($redirect[0], 9);
-            parse_url(trim($feed_data[$key]['link']));
+            $feed_host = parse_url(trim($feed_data[$key]['link']));
             foreach ($xPath->query($redirect) as $node) {
                 if (
                     empty(trim($node->localName)) 
@@ -2429,7 +2429,9 @@ function makeStatusClassFilterHelper($status, &$array): void
  * Create and verify a dictionary URL link
  *
  * @param string $u Dictionary URL. It may contain ### that will get parsed
- * @param string $t
+ * @param string $t Text that substite the ###
+ * 
+ * @return string Dictionary link formatted
  */
 
 function createTheDictLink($u, $t) 
@@ -2441,22 +2443,22 @@ function createTheDictLink($u, $t)
     $url = trim($u);
     $trm = trim($t);
     $pos = stripos($url, '###');
-    if ($pos !== false) {  // ### found
-        $pos2 = strripos($url, '###');
-        if (($pos2-$pos-3) > 1 ) {  // 2 ### found
-            $enc = trim(substr($url, $pos+3, $pos2-$pos-3));
-            $r = substr($url, 0, $pos);
-            $r .= urlencode(mb_convert_encoding($trm, $enc, 'UTF-8'));
-            if (($pos2+3) < strlen($url)) { 
-                $r .= substr($url, $pos2+3); 
-            }
-        } 
-        elseif ($pos == $pos2 ) {  // 1 ### found
-            $r = str_replace("###", ($trm == '' ? '+' : urlencode($trm)), $url);
-        }
+    // no ### found
+    if ($pos === false) {
+        $r = $url . urlencode($trm);
+        return $r;
     }
-    else {  // no ### found
-        $r = $url . urlencode($trm); 
+    // ### found
+    $pos2 = strripos($url, '###');
+    if (($pos2-$pos-3) > 1 ) {  // 2 ### found
+        $enc = trim(substr($url, $pos+3, $pos2-$pos-3));
+        $r = substr($url, 0, $pos);
+        $r .= urlencode(mb_convert_encoding($trm, $enc, 'UTF-8'));
+        if (($pos2+3) < strlen($url)) { 
+            $r .= substr($url, $pos2+3); 
+        }
+    } elseif ($pos == $pos2) {  // 1 ### found
+        $r = str_replace("###", ($trm == '' ? '+' : urlencode($trm)), $url);
     }
     return $r;
 }
@@ -2466,7 +2468,9 @@ function createTheDictLink($u, $t)
 function createDictLinksInEditWin($lang,$word,$sentctljs,$openfirst): string 
 {
     global $tbpref;
-    $sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
+    $sql = 'SELECT LgDict1URI, LgDict2URI, LgGoogleTranslateURI 
+    FROM ' . $tbpref . 'languages 
+    WHERE LgID = ' . $lang;
     $res = do_mysqli_query($sql);
     $record = mysqli_fetch_assoc($res);
     $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
@@ -2501,7 +2505,7 @@ function makeOpenDictStr($url, $txt): string
             $r = ' <span class="click" onclick="owin(' . prepare_textdata_js(substr($url, 1)) . ');">' . tohtml($txt) . '</span> ';
         } 
         else {
-            $r = ' <a href="' . $url . '" target="ru">' . tohtml($txt) . '</a> ';
+            $r = ' <a href="' . $url . '" target="ru" onclick="showRightFrames();">' . tohtml($txt) . '</a> ';
         } 
     }
     return $r;
@@ -2582,17 +2586,21 @@ function createDictLinksInEditWin2($lang,$sentctljs,$wordctljs): string
 function makeDictLinks($lang,$wordctljs): string 
 {
     global $tbpref;
-    $sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
+    $sql = 'SELECT LgDict1URI, LgDict2URI, LgGoogleTranslateURI 
+    FROM ' . $tbpref . 'languages WHERE LgID = ' . $lang;
     $res = do_mysqli_query($sql);
     $record = mysqli_fetch_assoc($res);
     $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
-    if(substr($wb1, 0, 1) == '*') { $wb1 = substr($wb1, 1); 
+    if(substr($wb1, 0, 1) == '*') { 
+        $wb1 = substr($wb1, 1); 
     }
     $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
-    if(substr($wb2, 0, 1) == '*') { $wb2 = substr($wb2, 1); 
+    if(substr($wb2, 0, 1) == '*') { 
+        $wb2 = substr($wb2, 1); 
     }
     $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
-    if(substr($wb3, 0, 1) == '*') { $wb3 = substr($wb3, 1); 
+    if(substr($wb3, 0, 1) == '*') { 
+        $wb3 = substr($wb3, 1); 
     }
     mysqli_free_result($res);
     $r ='<span class="smaller">';
@@ -2612,7 +2620,8 @@ function makeDictLinks($lang,$wordctljs): string
 function createDictLinksInEditWin3($lang,$sentctljs,$wordctljs): string 
 {
     global $tbpref;
-    $sql = 'select LgDict1URI, LgDict2URI, LgGoogleTranslateURI from ' . $tbpref . 'languages where LgID = ' . $lang;
+    $sql = 'SELECT LgDict1URI, LgDict2URI, LgGoogleTranslateURI 
+    FROM ' . $tbpref . 'languages WHERE LgID = ' . $lang;
     $res = do_mysqli_query($sql);
     $record = mysqli_fetch_assoc($res);
     

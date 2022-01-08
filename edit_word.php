@@ -142,8 +142,8 @@ function change_term_display($wid, $translation, $hex): void
         .attr('data_trans', trans)
         .attr('data_rom', roman)
         .attr('data_status', status)
-        .attr('data_wid', woid)
-        .attr('title', title);
+        .attr('title', title)
+        .attr('data_wid', woid);
         <?php
     } else {
         ?>

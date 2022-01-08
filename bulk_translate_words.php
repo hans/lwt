@@ -172,6 +172,15 @@ $(window).load(function() {
             $('.term').each(function(){
                 txt=$(this).text();
                 $(this).parent().css('position','relative');
+                $(this).after(
+                    '<div class="dict">' +
+                    // Untested code
+                     (WBLINK1 ? '<span class="dict1">D1</span>' : '') +
+                     (WBLINK2 ? '<span class="dict2">D2</span>' : '') +
+                     (WBLINK1 ? '<span class="dict3">GTr</span>' : '') + // Use WBLINK3 instead?
+                    '</div'
+                );
+                /* Previous version of the code 
                 $(this).after('<div class="dict"><?php 
                 if(!empty($wb1)) { 
                     echo '<span class="dict1">D1</span>'; 
@@ -182,7 +191,7 @@ $(window).load(function() {
                 if(!empty($wb1)) {
                     echo '<span class="dict3">GTr</span>'; 
                 } 
-                ?></div>');            
+                ?></div>');*/            
             });
             $('iframe,#google_translate_element').remove();
             selectToggle(true,'form1');

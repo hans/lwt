@@ -1,3 +1,13 @@
+/**
+ * \file
+ * \brief LWT Javascript functions
+ * 
+ * @package Lwt
+ * @license unlicense
+ * @since   1.6.16-fork
+ * @author  andreask7 <andreasks7@users.noreply.github.com>
+ */
+
 /**************************************************************
 "Learning with Texts" (LWT) is free and unencumbered software
 released into the PUBLIC DOMAIN.
@@ -29,11 +39,6 @@ For more information, please refer to [http://unlicense.org/].
 ***************************************************************/
 
 /**************************************************************
- * \file
- * \brief LWT Javascript functions
-***************************************************************/
-
-/**************************************************************
 Global variables for OVERLIB
 ***************************************************************/
 
@@ -53,7 +58,22 @@ var ol_closecolor = '#FFFFFF';
 Helper functions for overlib
 ***************************************************************/
 
-/// Handle click event on ignored words
+/**
+ * Handle click event on ignored words
+ * 
+ * @param {string}    wblink1     First dictionary URL
+ * @param {string}    wblink2     Second dictionary URL
+ * @param {string}    wblink3     Google Translate dictionary URL
+ * @param {string}    hints       Hint for the word
+ * @param {int}       txid        Text ID
+ * @param {*}         torder 
+ * @param {string}    txt         Text
+ * @param {*} wid 
+ * @param {*} multi_words 
+ * @param {*} rtl 
+ * @param {*} ann 
+ * @returns {boolean}
+ */
 function run_overlib_status_98 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann) {
   return overlib(
     '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
@@ -61,10 +81,27 @@ function run_overlib_status_98 (wblink1, wblink2, wblink3, hints, txid, torder, 
 		make_overlib_link_delete_word(txid, wid) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
-    CAPTION, 'Word');
+    CAPTION, 
+    'Word'
+  );
 }
 
-/// Handle click event on well-known words
+/**
+ * Handle click event on well-known words
+ * 
+ * @param {string}    wblink1     First dictionary URL
+ * @param {string}    wblink2     Second dictionary URL
+ * @param {string}    wblink3     Google Translate dictionary URL
+ * @param {string}    hints       Hint for the word
+ * @param {int}       txid        Text ID
+ * @param {*}         torder 
+ * @param {string}    txt         Text
+ * @param {*} wid 
+ * @param {*} multi_words 
+ * @param {*} rtl 
+ * @param {*} ann 
+ * @returns {boolean}
+ */
 function run_overlib_status_99 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann) {
   return overlib(
     '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
@@ -75,7 +112,23 @@ function run_overlib_status_99 (wblink1, wblink2, wblink3, hints, txid, torder, 
     CAPTION, 'Word');
 }
 
-/// Handle click event on learning words (levels 1 to 5)
+/**
+ * Handle click event on learning words (levels 1 to 5)
+ * 
+ * @param {string}    wblink1     First dictionary URL
+ * @param {string}    wblink2     Second dictionary URL
+ * @param {string}    wblink3     Google Translate dictionary URL
+ * @param {string}    hints       Hint for the word
+ * @param {int}       txid        Text ID
+ * @param {*}         torder 
+ * @param {string}    txt         Text
+ * @param {*} wid 
+ * @param {*} stat 
+ * @param {*} multi_words 
+ * @param {*} rtl 
+ * @param {*} ann 
+ * @returns {boolean}
+ */
 function run_overlib_status_1_to_5 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, multi_words, rtl, ann) {
   return overlib(
     '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
@@ -84,11 +137,27 @@ function run_overlib_status_1_to_5 (wblink1, wblink2, wblink3, hints, txid, tord
 		make_overlib_link_delete_word(txid, wid) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
-    CAPTION, make_overlib_link_edit_word_title(
-      'Word &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;', txid, torder, wid));
+    CAPTION, 
+    make_overlib_link_edit_word_title(
+      'Word &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;', txid, torder, wid
+    )
+  );
 }
 
-/// Handle click event on unknown workds
+/**
+ * Handle click event on unknown workds.
+ * 
+ * @param {string}        wblink1     First dictionary URL
+ * @param {string}        wblink2     Second dictionary URL
+ * @param {string}        wblink3     Google Translate dictionary URL
+ * @param {string}        hints       Hint for the word
+ * @param {int}           txid        Text ID
+ * @param {*}             torder 
+ * @param {string}        txt         Text
+ * @param {array<string>} multi_words 
+ * @param {int}           rtl         1 if right-to-left language
+ * @returns {boolean}
+ */
 function run_overlib_status_unknown (wblink1, wblink2, wblink3, hints, txid, torder, txt, multi_words, rtl) {
   return overlib(
     '<b>' + escape_html_chars(hints) + '</b><br /> ' +
@@ -96,7 +165,9 @@ function run_overlib_status_unknown (wblink1, wblink2, wblink3, hints, txid, tor
 		make_overlib_link_ignore_word(txid, torder) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
-    CAPTION, 'New Word');
+    CAPTION, 
+    'New Word'
+  );
 }
 
 function run_overlib_multiword (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, wcnt, ann) {
@@ -106,7 +177,8 @@ function run_overlib_multiword (wblink1, wblink2, wblink3, hints, txid, torder, 
 		make_overlib_link_edit_multiword(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_multiword(txid, wid) + ' <br /> ' +
 		make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
-    CAPTION, make_overlib_link_edit_multiword_title(wcnt.trim() + '-Word-Expression', txid, torder, wid));
+    CAPTION, make_overlib_link_edit_multiword_title(wcnt.trim() + '-Word-Expression', txid, torder, wid)
+  );
 }
 
 function run_overlib_test (wblink1, wblink2, wblink3, wid, txt, trans, roman, stat, sent, todo, oldstat) {
@@ -115,39 +187,53 @@ function run_overlib_test (wblink1, wblink2, wblink3, wid, txt, trans, roman, st
   if (c > 5) c = 5;
   let w = s - 1;
   if (w < 1) w = 1;
-  let cc = stat + ' ▶ ' + c; if (c == s) cc = c;
-  let ww = stat + ' ▶ ' + w; if (w == s) ww = w;
+  let cc = stat + ' ▶ ' + c; 
+  if (c == s) cc = c;
+  let ww = stat + ' ▶ ' + w; 
+  if (w == s) ww = w;
   return overlib(
-    (todo == 1
+    (
+      todo == 1
       ? '<center><hr noshade size=1 /><b>' +
 		((stat >= 1 && stat <= 5)
 		  ? (
-		  make_overlib_link_change_status_test(wid, 1, '<img src=\x22icn/thumb-up.png\x22 title=\x22Got it!\x22 alt=\x22Got it!\x22 /> Got it! [' + cc + ']') +
+		  make_overlib_link_change_status_test(
+        wid, 
+        1, 
+        '<img src="icn/thumb-up.png" title="Got it!" alt="Got it!" /> Got it! [' + cc + ']'
+      ) +
 		'<hr noshade size=1 />' +
-		make_overlib_link_change_status_test(wid, -1, '<img src=\x22icn/thumb.png\x22 title=\x22Oops!\x22 alt=\x22Oops!\x22 /> Oops! [' + ww + ']') +
+		make_overlib_link_change_status_test(
+      wid, 
+      -1, 
+      '<img src="icn/thumb.png" title="Oops!" alt="Oops!" /> Oops! [' + ww + ']'
+      ) +
 		'<hr noshade size=1 />'
 		    )
 		  : '') +
 		make_overlib_link_change_status_alltest(wid, stat) +
 		'</b></center><hr noshade size=1 />'
       : '') +
-	'<b>' + escape_html_chars(make_tooltip(txt, trans, roman, stat)) +
-	'</b><br />' +
-	' <a href=\x22edit_tword.php?wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a><br />' +
-	createTheDictLink(wblink1, txt, 'Dict1', 'Lookup Term: ') +
-	createTheDictLink(wblink2, txt, 'Dict2', '') +
-	createTheDictLink(wblink3, txt, 'GTr', '') +
-	createTheDictLink(wblink3, sent, 'GTr', '<br />Lookup Sentence:'),
-    CAPTION, 'Got it?');
+    '<b>' + escape_html_chars(make_tooltip(txt, trans, roman, stat)) +
+    '</b><br />' +
+    ' <a href="edit_tword.php?wid=' + wid + 
+    '" target="ro" onclick="showRightFrames();">Edit term</a><br />' +
+      createTheDictLink(wblink1, txt, 'Dict1', 'Lookup Term: ') +
+      createTheDictLink(wblink2, txt, 'Dict2', '') +
+      createTheDictLink(wblink3, txt, 'GTr', '') +
+      createTheDictLink(wblink3, sent, 'GTr', '<br />Lookup Sentence:'),
+    CAPTION, 
+    'Got it?'
+  );
 }
 
 /**
  * Return all multiwords
  *
- * @param {int}     txid Text ID
- * @param {any}     torder 
- * @param {array}   multi_words A list of 8 string elements
- * @param {boolean} rtl Right-to-left indicator
+ * @param {int}             txid        Text ID
+ * @param {any}             torder 
+ * @param {array<string>}   multi_words A list of 8 string elements
+ * @param {boolean}         rtl         Right-to-left indicator
  *
  * @return {string} All multiwords
  */
@@ -186,6 +272,16 @@ function make_overlib_link_new_multiword (txid, torder, multi_words, rtl) {
 	(mw9 ? make_overlib_link_create_edit_multiword(9,txid,torder,mw9) : '') + ' '; */
 }
 
+/**
+ * 
+ * @param {*} wblink1 
+ * @param {*} wblink2 
+ * @param {*} wblink3 
+ * @param {*} txt 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @returns {string}
+ */
 function make_overlib_link_wb (wblink1, wblink2, wblink3, txt, txid, torder) {
   const s =
 	createTheDictLink(wblink1, txt, 'Dict1', 'Lookup Term: ') +
@@ -195,6 +291,16 @@ function make_overlib_link_wb (wblink1, wblink2, wblink3, txt, txid, torder) {
   return s;
 }
 
+/**
+ * 
+ * @param {*} wblink1 
+ * @param {*} wblink2 
+ * @param {*} wblink3 
+ * @param {*} txt 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @returns {string}
+ */
 function make_overlib_link_wbnl (wblink1, wblink2, wblink3, txt, txid, torder) {
   const s =
 	createTheDictLink(wblink1, txt, 'Dict1', 'Term: ') +
@@ -204,15 +310,30 @@ function make_overlib_link_wbnl (wblink1, wblink2, wblink3, txt, txid, torder) {
   return s;
 }
 
+/**
+ * 
+ * @param {*} wblink1 
+ * @param {*} wblink2 
+ * @param {*} wblink3 
+ * @param {*} txt 
+ * @param {*} sent 
+ * @returns {string}
+ */
 function make_overlib_link_wbnl2 (wblink1, wblink2, wblink3, txt, sent) {
-  const s =
-	createTheDictLink(wblink1, txt, 'Dict1', 'Term: ') +
+  return createTheDictLink(wblink1, txt, 'Dict1', 'Term: ') +
 	createTheDictLink(wblink2, txt, 'Dict2', '') +
 	createTheDictLink(wblink3, txt, 'GTr', '') +
 	((sent == '') ? '' : createTheDictLink(wblink3, sent, 'GTr', ' | Sentence:'));
-  return s;
 }
 
+/**
+ * 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @param {*} wid 
+ * @param {*} oldstat 
+ * @returns {string}
+ */
 function make_overlib_link_change_status_all (txid, torder, wid, oldstat) {
   let result = 'St: ';
   for (let newstat = 1; newstat <= 5; newstat++) { result += make_overlib_link_change_status(txid, torder, wid, oldstat, newstat); }
@@ -221,113 +342,227 @@ function make_overlib_link_change_status_all (txid, torder, wid, oldstat) {
   return result;
 }
 
+/**
+ * 
+ * @param {*} wid 
+ * @param {*} oldstat 
+ * @returns {string}
+ */
 function make_overlib_link_change_status_alltest (wid, oldstat) {
   let result = '';
-  for (let newstat = 1; newstat <= 5; newstat++) { result += make_overlib_link_change_status_test2(wid, oldstat, newstat); }
+  for (let newstat = 1; newstat <= 5; newstat++) { 
+    result += make_overlib_link_change_status_test2(wid, oldstat, newstat); 
+  }
   result += make_overlib_link_change_status_test2(wid, oldstat, 99);
   result += make_overlib_link_change_status_test2(wid, oldstat, 98);
   return result;
 }
 
+/**
+ * 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @param {*} wid 
+ * @param {*} oldstat 
+ * @param {*} newstat 
+ * @returns {string}
+ */
 function make_overlib_link_change_status (txid, torder, wid, oldstat, newstat) {
   if (oldstat == newstat) {
-    return '<span title=\x22' +
-			getStatusName(oldstat) + '\x22>◆</span>';
-  } else {
-    return ' <a href=\x22set_word_status.php?tid=' + txid +
-			'&amp;ord=' + torder +
-			'&amp;wid=' + wid +
-			'&amp;status=' + newstat + '\x22 target=\x22ro\x22><span title=\x22' +
-			getStatusName(newstat) + '\x22>[' +
-			getStatusAbbr(newstat) + ']</span></a> ';
-  }
+    return '<span title="' +
+			getStatusName(oldstat) + '">◆</span>';
+  } 
+  return ' <a href="set_word_status.php?tid=' + txid +
+    '&amp;ord=' + torder +
+    '&amp;wid=' + wid +
+    '&amp;status=' + newstat + '" target="ro" onclick="showRightFrames();"><span title="' +
+    getStatusName(newstat) + '">[' +
+    getStatusAbbr(newstat) + ']</span></a> ';
 }
 
+/**
+ * Prepare an HTML-formated string containing the new status
+ * 
+ * @param {string} wid     ID of the word
+ * @param {int}    oldstat Old status
+ * @param {int}    newstat New status
+ * @returns {string}
+ */
 function make_overlib_link_change_status_test2 (wid, oldstat, newstat) {
-  if (oldstat == newstat) {
-    return ' <a href=\x22set_test_status.php?wid=' + wid +
-				'&amp;status=' + newstat + '\x22 target=\x22ro\x22><span title=\x22' +
-			getStatusName(newstat) + '\x22>[◆]</span></a> ';
-  } else {
-    return ' <a href=\x22set_test_status.php?wid=' + wid +
-				'&amp;status=' + newstat + '\x22 target=\x22ro\x22><span title=\x22' +
-			getStatusName(newstat) + '\x22>[' +
-				getStatusAbbr(newstat) + ']</span></a> ';
-  }
+  let output = ' <a href="set_test_status.php?wid=' + wid +
+  '&amp;status=' + newstat + '" target="ro" onclick="showRightFrames();">' + 
+  '<span title="' + getStatusName(newstat) + '">[';
+  output += (oldstat == newstat) ? '◆' : getStatusAbbr(newstat);
+  output += ']</span></a> ';
+  return output;
 }
 
+/**
+ * 
+ * @param {string} wid     ID of the word
+ * @param {*} plusminus 
+ * @param {*} text 
+ * @returns {string}
+ */
 function make_overlib_link_change_status_test (wid, plusminus, text) {
-  return ' <a href=\x22set_test_status.php?wid=' + wid +
-		'&amp;stchange=' + plusminus + '\x22 target=\x22ro\x22>' + text + '</a> ';
+  return ' <a href="set_test_status.php?wid=' + wid +
+		'&amp;stchange=' + plusminus + '" target="ro" onclick="showRightFrames();">' + 
+    text + '</a> ';
 }
 
+/**
+ * 
+ * @param {int} txid Text ID
+ * @param {*} torder 
+ * @param {int} wid Word ID
+ * @returns {string}
+ */
 function make_overlib_link_new_word (txid, torder, wid) {
-  return ' <a href=\x22edit_word.php?tid=' + txid +
+  return ' <a href="edit_word.php?tid=' + txid +
 		'&amp;ord=' + torder +
-		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Learn term</a> ';
+		'&amp;wid=' + wid + '" target="ro" onclick="showRightFrames();">Learn term</a> ';
 }
 
+/**
+ * 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @param {*} wid 
+ * @returns {string}
+ */
 function make_overlib_link_edit_multiword (txid, torder, wid) {
-  return ' <a href=\x22edit_mword.php?tid=' + txid +
+  return ' <a href="edit_mword.php?tid=' + txid +
 		'&amp;ord=' + torder +
-		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a> ';
+		'&amp;wid=' + wid + '" target="ro" onclick="showRightFrames();">Edit term</a> ';
 }
 
+/**
+ * 
+ * @param {*} text 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @param {*} wid 
+ * @returns {string}
+ */
 function make_overlib_link_edit_multiword_title (text, txid, torder, wid) {
-  return '<a style=\x22color:yellow\x22 href=\x22edit_mword.php?tid=' + txid +
+  return '<a style="color:yellow" href="edit_mword.php?tid=' + txid +
 		'&amp;ord=' + torder +
-		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>' + text + '</a>';
+		'&amp;wid=' + wid + '" target="ro" onclick="showRightFrames();">' + 
+    text + '</a>';
 }
 
+/**
+ * 
+ * @param {*} len 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @param {*} txt 
+ * @returns {string}
+ */
 function make_overlib_link_create_edit_multiword (len, txid, torder, txt) {
-  return ' <a href=\x22edit_mword.php?tid=' + txid +
+  return ' <a href="edit_mword.php?tid=' + txid +
 		'&amp;ord=' + torder +
 		'&amp;txt=' + txt +
-		'\x22 target=\x22ro\x22>' + len + '..' + escape_html_chars(txt.substr(-2).trim()) + '</a> ';
+		'" target="ro" onclick="showRightFrames();">' + 
+    len + '..' + escape_html_chars(txt.substr(-2).trim()) + '</a> ';
 }
 
+/**
+ * 
+ * @param {*} len 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @param {*} txt 
+ * @returns {string}
+ */
 function make_overlib_link_create_edit_multiword_rtl (len, txid, torder, txt) {
-  return ' <a dir=\x22rtl\x22 href=\x22edit_mword.php?tid=' + txid +
+  return ' <a dir="rtl" href="edit_mword.php?tid=' + txid +
 		'&amp;ord=' + torder +
 		'&amp;txt=' + txt +
-		'\x22 target=\x22ro\x22>' + len + '..' + escape_html_chars(txt.substr(-2).trim()) + '</a> ';
+		'" target="ro" onclick="showRightFrames();">' + 
+    len + '..' + escape_html_chars(txt.substr(-2).trim()) + '</a> ';
 }
 
+/**
+ * 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @param {*} wid 
+ * @returns {string}
+ */
 function make_overlib_link_edit_word (txid, torder, wid) {
-  return ' <a href=\x22edit_word.php?tid=' + txid +
-		'&amp;ord=' + torder +
-		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>Edit term</a> ';
+  const url = 'edit_word.php?tid=' + txid + 
+  '&amp;ord=' + torder +
+  '&amp;wid=' + wid;
+  return ' <a href="' + url + ' " target="ro" onclick="showRightFrames()">Edit term</a> ';
 }
 
+/**
+ * 
+ * @param {*} text 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @param {*} wid 
+ * @returns {string}
+ */
 function make_overlib_link_edit_word_title (text, txid, torder, wid) {
-  return '<a style=\x22color:yellow\x22 href=\x22edit_word.php?tid=' +
+  return '<a style="color:yellow" href="edit_word.php?tid=' +
 		txid + '&amp;ord=' + torder +
-		'&amp;wid=' + wid + '\x22 target=\x22ro\x22>' + text + '</a>';
+		'&amp;wid=' + wid + '" target="ro" onclick="showRightFrames();">' + 
+    text + '</a>';
 }
 
+/**
+ * 
+ * @param {*} txid 
+ * @param {*} wid 
+ * @returns {string}
+ */
 function make_overlib_link_delete_word (txid, wid) {
-  return ' <a onclick=\x22return confirmDelete();\x22 href=\x22delete_word.php?wid=' +
-		wid + '&amp;tid=' + txid + '\x22 target=\x22ro\x22>Delete term</a> ';
+  return ' <a onclick="showRightFrames(); return confirmDelete();" href="delete_word.php?wid=' +
+		wid + '&amp;tid=' + txid + '" target="ro">Delete term</a> ';
 }
 
+/**
+ * 
+ * @param {*} txid 
+ * @param {*} wid 
+ * @returns {string}
+ */
 function make_overlib_link_delete_multiword (txid, wid) {
-  return ' <a onclick=\x22return confirmDelete();\x22 href=\x22delete_mword.php?wid=' +
-		wid + '&amp;tid=' + txid + '\x22 target=\x22ro\x22>Delete term</a> ';
+  return ' <a onclick="showRightFrames(); return confirmDelete();" href="delete_mword.php?wid=' +
+		wid + '&amp;tid=' + txid + '" target="ro">Delete term</a> ';
 }
 
+/**
+ * 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @returns {string}
+ */
 function make_overlib_link_wellknown_word (txid, torder) {
-  return ' <a href=\x22insert_word_wellknown.php?tid=' +
-		txid + '&amp;ord=' + torder + '\x22 target=\x22ro\x22>I know this term well</a> ';
+  return ' <a href="insert_word_wellknown.php?tid=' +
+		txid + '&amp;ord=' + torder + 
+    '" target="ro" onclick="showRightFrames();">I know this term well</a> ';
 }
 
+/**
+ * 
+ * @param {*} txid 
+ * @param {*} torder 
+ * @returns {string}
+ */
 function make_overlib_link_ignore_word (txid, torder) {
-  return ' <a href=\x22insert_word_ignore.php?tid=' + txid +
-		'&amp;ord=' + torder + '\x22 target=\x22ro\x22>Ignore this term</a> ';
+  return ' <a href="insert_word_ignore.php?tid=' + txid +
+		'&amp;ord=' + torder + 
+    '" target="ro" onclick="showRightFrames();">Ignore this term</a> ';
 }
 
 /**************************************************************
 String extensions
-***************************************************************/
+
+Still in use?
+***************************************************************
 
 String.prototype.rtrim = function () {
   return this.replace(/\s+$/, '');
@@ -339,16 +574,28 @@ String.prototype.ltrim = function () {
 
 String.prototype.trim = function (clist) {
   return this.ltrim().rtrim();
-};
+};*/
 
 /**************************************************************
 Other JS utility functions
 ***************************************************************/
 
+/**
+ * Return the name of a given status.
+ * 
+ * @param {int} status Status number (int<1, 5>|98|99)
+ * @returns {string}
+ */
 function getStatusName (status) {
   return (STATUSES[status] ? STATUSES[status].name : 'Unknown');
 }
 
+/**
+ * Return the abbreviation of a status
+ * 
+ * @param {int} status Status number (int<1, 5>|98|99)
+ * @returns {string}
+ */
 function getStatusAbbr (status) {
   return (STATUSES[status] ? STATUSES[status].abbr : '?');
 }
@@ -357,8 +604,8 @@ function translateSentence (url, sentctl) {
   if ((typeof sentctl !== 'undefined') && (url != '')) {
     text = sentctl.value;
     if (typeof text === 'string') {
-      window.parent.frames.ru.location.href =
-			createTheDictUrl(url, text.replace(/[{}]/g, ''));
+      showRightFrames(undefined, createTheDictUrl(url, text.replace(/[{}]/g, '')));
+      //window.parent.frames.ru.location.href = createTheDictUrl(url, text.replace(/[{}]/g, ''));
     }
   }
 }
@@ -378,8 +625,8 @@ function translateWord (url, wordctl) {
   if ((typeof wordctl !== 'undefined') && (url != '')) {
     text = wordctl.value;
     if (typeof text === 'string') {
-      window.parent.frames.ru.location.href =
-				createTheDictUrl(url, text);
+      showRightFrames(undefined, createTheDictUrl(url, text));
+      //window.parent.frames.ru.location.href = createTheDictUrl(url, text);
     }
   }
 }
@@ -397,6 +644,15 @@ function translateWord3 (url, word) {
   owin(createTheDictUrl(url, word));
 }
 
+/**
+ * Return a tooltip, a short string describing the word (word, translation and romanization) 
+ * 
+ * @param {string} word   The word 
+ * @param {string} trans  Translation of the word
+ * @param {string} roman  Romanized version 
+ * @param {int}    status Learnign status of the word 
+ * @returns {string} Toottip for this word
+ */
 function make_tooltip (word, trans, roman, status) {
   const nl = '\x0d';
   let title = word;
@@ -415,12 +671,21 @@ function make_tooltip (word, trans, roman, status) {
   return title;
 }
 
+/**
+ * Escape the HTML characters, with an eventual annotation
+ * 
+ * @param {string} title String to be escaped
+ * @param {string} ann   An annotation to show in red
+ * @returns {string} Escaped string
+ */
 function escape_html_chars_2 (title, ann) {
   if (ann != '') {
     const ann2 = escape_html_chars(ann);
     return escape_html_chars(title).replace(ann2,
       '<span style="color:red">' + ann2 + '</span>');
-  } else { return escape_html_chars(title); }
+  } else { 
+    return escape_html_chars(title); 
+  }
 }
 
 function owin (url) {
@@ -455,10 +720,11 @@ function createTheDictLink (u, w, t, b) {
   if (url != '' && txt != '') {
     if (url.substr(0, 1) == '*') {
       r = ' ' + txtbefore +
-			' <span class=\x22click\x22 onclick=\x22owin(\'' + createTheDictUrl(url.substring(1), escape_apostrophes(trm)) + '\');\x22>' + txt + '</span> ';
+			' <span class="click" onclick="owin(\'' + createTheDictUrl(url.substring(1), escape_apostrophes(trm)) + '\');">' + txt + '</span> ';
     } else {
       r = ' ' + txtbefore +
-			' <a href=\x22' + createTheDictUrl(url, trm) + '\x22 target=\x22ru\x22>' + txt + '</a> ';
+			' <a href="' + createTheDictUrl(url, trm) + 
+      '" target="ru" onclick="showRightFrames();">' + txt + '</a> ';
     }
   }
   return r;
@@ -470,16 +736,24 @@ function createSentLookupLink (torder, txid, url, txt) {
   let r = '';
   if (url != '' && txt != '') {
     if ((url.substr(0, 8) == '*http://') || (url.substr(0, 9) == '*https://')) {
-      r = ' <span class=\x22click\x22 onclick=\x22owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');\x22>' + txt + '</span> ';
+      r = ' <span class="click" onclick="owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');">' + txt + '</span> ';
     } else if ((url.substr(0, 7) == 'http://') || (url.substr(0, 8) == 'https://')) {
-      r = ' <a href=\x22trans.php?x=1&i=' + torder + '&t=' + txid + '\x22 target=\x22ru\x22>' + txt + '</a> ';
+      r = ' <a href="trans.php?x=1&i=' + torder + '&t=' + txid + 
+      '" target="ru" onclick="showRightFrames();">' + txt + '</a> ';
     }
   }
   return r;
 }
 
+/**
+ * 
+ * @param {string} s 
+ * @returns {string}
+ */
 function escape_html_chars (s) {
-  return s.replace(/&/g, '%AMP%').replace(/</g, '&#060;').replace(/>/g, '&#062;').replace(/"/g, '&#034;').replace(/'/g, '&#039;').replace(/%AMP%/g, '&#038;').replace(/\x0d/g, '<br />');
+  return s.replace(/&/g, '%AMP%').replace(/</g, '&#060;')
+  .replace(/>/g, '&#062;').replace(/"/g, '&#034;').replace(/'/g, '&#039;')
+  .replace(/%AMP%/g, '&#038;').replace(/\x0d/g, '<br />');
 }
 
 function escape_apostrophes (s) {
@@ -648,7 +922,8 @@ function deleteCookie (name, path, domain) {
 function iknowall(t) {
   const answer = confirm('Are you sure?');
   if (answer) { 
-    top.frames.ro.location.href = 'all_words_wellknown.php?text=' + t; 
+    //top.frames.ro.location.href = 'all_words_wellknown.php?text=' + t;
+    showRightFrames('all_words_wellknown.php?text=' + t);
   }
 }
 

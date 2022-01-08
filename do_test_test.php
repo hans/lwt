@@ -354,6 +354,10 @@ function prepare_test_area($testsql, $totaltests, $count, $testtype): int
         if ($record) {
             $num = 1;
             $wid = $record['WoID'];
+            $word = $record['WoText'];
+            $wordlc = $record['WoTextLC'];
+            $sent = repl_tab_nl($record['WoSentence']);
+            $notvalid = $record['notvalid'];
             $pass = 2;
         }
         mysqli_free_result($res);
