@@ -2,17 +2,18 @@ Changelog
 =========
 
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
+For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
-## 2.1.0-fork (December 09 2021)
+## 2.1.0-fork (January 09 2022)
 ### Added
-* Badges in the README providing updated informatiosn of the state of the project.
+* Badges in the README providing up-to-date information on the state of the project.
 * When reading, right frames are hidden and will slide into screen when needed.
 
 ### Changed
 * PHP >=7.4 is now the official PHP version.
 * Refactored the do_tests* pages.
 * Better CSS minification.
-* Code base unconsistencies and security issues fixed 
+* Code base inconsistencies and security issues fixed 
 (level 5 and above psalm errors fixed).
 * Code is much more strongly typed (~80% of the code base). Level 4 psalm errors partially fixed.
 * GitHub continuous integration reviewed.
@@ -22,11 +23,14 @@ This project's changelog. Version marked with "-fork" come from the community, o
 * ``composer.json`` is now working! Thanks [chaosarium](https://github.com/chaosarium) for signaling 
 this [issue #4](https://github.com/HugoFara/lwt/issues/4)!
 * Since 2.0.3-fork, it was difficult to get annotations. This is no longer the case.
-* tag-it, jquery-hoverintent, and jquery-xpath are now copied from raw code, and no longer integrated by composer.
+* [tag-it](https://github.com/aehlke/tag-it), [jquery-hoverintent](https://github.com/briancherne/jquery-hoverIntent), 
+and [jquery-xpath](https://github.com/ilinsky/jquery-xpath) are now copied from raw code, and no longer integrated by composer.
 
 ### Removed
 * Effectively dropped support for PHP <=7.
 
+## Full Changelog
+* [v2.0.4-fork...v2.1.0](https://github.com/HugoFara/lwt/compare/v2.0.4-fork...v2.1.0)
 
 ## 2.0.4-fork (December 03 2021)
 This version brings a better composer compatibility, and starts revamping 
@@ -44,24 +48,8 @@ mobile compatibility.
 
 ### Removed
 * ``composer.phar`` and ``composer.lock`` are now git ignored.
-
-## 2.0.4-fork (December 03 2021):
-This version brings a better composer compatibility, and starts revamping mobile compatibility.
-
-### Changed
-
-* Starting to refactor for post-2010 HTML!
-* Much less iframes for reading texts.
-* Now you can read texts on mobile without the experimental mobile LWT.
-* Texts can be read using "focus mode" on most browsers.
-* Updated documentation (expanded and refactored).
-* Composer is now the recommended way to download lwt.
-* PHP_codesniffer is now recommended, and no longer dev-required.
-* Refactored many parts of the code, that gets easier to read.
-
-### Removed
-* ``composer.phar`` and ``composer.lock`` are now git ignored.
-
+## Full Changelog
+* [v2.0.3-fork...v2.0.4-fork](https://github.com/HugoFara/lwt/compare/v2.0.3-fork...v2.0.4-fork)
 
 ## 2.0.3-fork (November 26 2021):
 Serious maintaining is back!
@@ -86,7 +74,8 @@ This version should be the stable merge between official v2.0.2 and community ma
 * Code liniting.
 * Important code refactors.
 
-Full Changelog: [v1.6.31-fork...v2.0.3-fork](https://github.com/HugoFara/lwt/compare/v1.6.31-fork...v2.0.3-fork)
+### Full Changelog 
+* [v1.6.31-fork...v2.0.3-fork](https://github.com/HugoFara/lwt/compare/v1.6.31-fork...v2.0.3-fork)
 
 ## 2.0.2 (September 07 2021)
 ### Fixed

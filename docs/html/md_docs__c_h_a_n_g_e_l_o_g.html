@@ -67,13 +67,13 @@ $(function() {
   <div class="headertitle"><div class="title">Changelog </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p >This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).</p>
+<div class="textblock"><p >This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git). For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".</p>
 <h1><a class="anchor" id="autotoc_md0"></a>
-2.1.0-fork (December 09 2021)</h1>
+2.1.0-fork (January 09 2022)</h1>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Added</h2>
 <ul>
-<li>Badges in the README providing updated informatiosn of the state of the project.</li>
+<li>Badges in the README providing up-to-date information on the state of the project.</li>
 <li>When reading, right frames are hidden and will slide into screen when needed.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md2"></a>
@@ -82,7 +82,7 @@ Changed</h2>
 <li>PHP &gt;=7.4 is now the official PHP version.</li>
 <li>Refactored the do_tests* pages.</li>
 <li>Better CSS minification.</li>
-<li>Code base unconsistencies and security issues fixed (level 5 and above psalm errors fixed).</li>
+<li>Code base inconsistencies and security issues fixed (level 5 and above psalm errors fixed).</li>
 <li>Code is much more strongly typed (~80% of the code base). Level 4 psalm errors partially fixed.</li>
 <li>GitHub continuous integration reviewed.</li>
 <li>Regenerated documentation.</li>
@@ -92,7 +92,7 @@ Fixed</h2>
 <ul>
 <li><code>composer.json</code> is now working! Thanks <a href="https://github.com/chaosarium">chaosarium</a> for signaling this <a href="https://github.com/HugoFara/lwt/issues/4">issue #4</a>!</li>
 <li>Since 2.0.3-fork, it was difficult to get annotations. This is no longer the case.</li>
-<li>tag-it, jquery-hoverintent, and jquery-xpath are now copied from raw code, and no longer integrated by composer.</li>
+<li><a href="https://github.com/aehlke/tag-it">tag-it</a>, <a href="https://github.com/briancherne/jquery-hoverIntent">jquery-hoverintent</a>, and <a href="https://github.com/ilinsky/jquery-xpath">jquery-xpath</a> are now copied from raw code, and no longer integrated by composer.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Removed</h2>
@@ -100,9 +100,14 @@ Removed</h2>
 <li>Effectively dropped support for PHP &lt;=7.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md5"></a>
+Full Changelog</h1>
+<ul>
+<li><a href="https://github.com/HugoFara/lwt/compare/v2.0.4-fork...v2.1.0">v2.0.4-fork...v2.1.0</a></li>
+</ul>
+<h1><a class="anchor" id="autotoc_md6"></a>
 2.0.4-fork (December 03 2021)</h1>
 <p >This version brings a better composer compatibility, and starts revamping mobile compatibility.</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Changed</h2>
 <ul>
 <li>Starting to refactor for 2021 HTML!</li>
@@ -114,36 +119,21 @@ Changed</h2>
 <li>PHP_codesniffer is now recommended, and no longer dev-required.</li>
 <li>Refactored many parts of the code, that gets easier to read.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Removed</h2>
 <ul>
-<li><code>composer.phar</code> and <code>composer.lock</code> are now git ignored.</li>
+<li><code>composer.phar</code> and <code>composer.lock</code> are now git ignored. </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md8"></a>
-2.0.4-fork (December 03 2021):</h1>
-<p >This version brings a better composer compatibility, and starts revamping mobile compatibility.</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
-Changed</h2>
+<h1><a class="anchor" id="autotoc_md9"></a>
+Full Changelog</h1>
 <ul>
-<li>Starting to refactor for post-2010 HTML!</li>
-<li>Much less iframes for reading texts.</li>
-<li>Now you can read texts on mobile without the experimental mobile LWT.</li>
-<li>Texts can be read using "focus mode" on most browsers.</li>
-<li>Updated documentation (expanded and refactored).</li>
-<li>Composer is now the recommended way to download lwt.</li>
-<li>PHP_codesniffer is now recommended, and no longer dev-required.</li>
-<li>Refactored many parts of the code, that gets easier to read.</li>
+<li><a href="https://github.com/HugoFara/lwt/compare/v2.0.3-fork...v2.0.4-fork">v2.0.3-fork...v2.0.4-fork</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md10"></a>
-Removed</h2>
-<ul>
-<li><code>composer.phar</code> and <code>composer.lock</code> are now git ignored.</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 2.0.3-fork (November 26 2021):</h1>
 <p >Serious maintaining is back!</p>
 <p >This version should be the stable merge between official v2.0.2 and community maintained 1.6.31-fork. </p>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Added</h2>
 <ul>
 <li>Show Learning translation setting.</li>
@@ -156,7 +146,7 @@ Added</h2>
 <li>Video player for texts.</li>
 <li>Makefile to simplify workflows.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md12"></a>
 Changed</h2>
 <ul>
 <li>MeCab is now the default way to learn Japanese.</li>
@@ -164,7 +154,11 @@ Changed</h2>
 <li>Code liniting.</li>
 <li>Important code refactors.</li>
 </ul>
-<p >Full Changelog: <a href="https://github.com/HugoFara/lwt/compare/v1.6.31-fork...v2.0.3-fork">v1.6.31-fork...v2.0.3-fork</a></p>
+<h2><a class="anchor" id="autotoc_md13"></a>
+Full Changelog</h2>
+<ul>
+<li><a href="https://github.com/HugoFara/lwt/compare/v1.6.31-fork...v2.0.3-fork">v1.6.31-fork...v2.0.3-fork</a></li>
+</ul>
 <h1><a class="anchor" id="autotoc_md14"></a>
 2.0.2 (September 07 2021)</h1>
 <h2><a class="anchor" id="autotoc_md15"></a>

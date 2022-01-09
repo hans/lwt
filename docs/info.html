@@ -2336,11 +2336,12 @@ KEY NfUpdate (NfUpdate)</p>
 
       <dd>
 		  <h1>Changelog</h1>
-<p>This project's changelog. Version marked with &quot;-fork&quot; come from the community, other version come from the canonical LWT (&quot;official&quot; branch on Git).</p>
-<h2>2.1.0-fork (December 09 2021)</h2>
+<p>This project's changelog. Version marked with &quot;-fork&quot; come from the community, other version come from the canonical LWT (&quot;official&quot; branch on Git).
+For git tags, official relases are marked as &quot;v1.0.0&quot;, while unofficial ones a marked &quot;v1.0.0-fork&quot;.</p>
+<h2>2.1.0-fork (January 09 2022)</h2>
 <h3>Added</h3>
 <ul>
-<li>Badges in the README providing updated informatiosn of the state of the project.</li>
+<li>Badges in the README providing up-to-date information on the state of the project.</li>
 <li>When reading, right frames are hidden and will slide into screen when needed.</li>
 </ul>
 <h3>Changed</h3>
@@ -2348,7 +2349,7 @@ KEY NfUpdate (NfUpdate)</p>
 <li>PHP &gt;=7.4 is now the official PHP version.</li>
 <li>Refactored the do_tests* pages.</li>
 <li>Better CSS minification.</li>
-<li>Code base unconsistencies and security issues fixed
+<li>Code base inconsistencies and security issues fixed
 (level 5 and above psalm errors fixed).</li>
 <li>Code is much more strongly typed (~80% of the code base). Level 4 psalm errors partially fixed.</li>
 <li>GitHub continuous integration reviewed.</li>
@@ -2360,11 +2361,19 @@ KEY NfUpdate (NfUpdate)</p>
 <code>composer.json</code> is now working! Thanks <a href="https://github.com/chaosarium">chaosarium</a> for signaling
 this <a href="https://github.com/HugoFara/lwt/issues/4">issue #4</a>!</li>
 <li>Since 2.0.3-fork, it was difficult to get annotations. This is no longer the case.</li>
-<li>tag-it, jquery-hoverintent, and jquery-xpath are now copied from raw code, and no longer integrated by composer.</li>
+<li>
+<a href="https://github.com/aehlke/tag-it">tag-it</a>, <a href="https://github.com/briancherne/jquery-hoverIntent">jquery-hoverintent</a>,
+and <a href="https://github.com/ilinsky/jquery-xpath">jquery-xpath</a> are now copied from raw code, and no longer integrated by composer.</li>
 </ul>
 <h3>Removed</h3>
 <ul>
 <li>Effectively dropped support for PHP &lt;=7.</li>
+</ul>
+<h2>Full Changelog</h2>
+<ul>
+<li>
+<a href="https://github.com/HugoFara/lwt/compare/v2.0.4-fork...v2.1.0">v2.0.4-fork...v2.1.0</a>
+</li>
 </ul>
 <h2>2.0.4-fork (December 03 2021)</h2>
 <p>This version brings a better composer compatibility, and starts revamping
@@ -2385,23 +2394,11 @@ mobile compatibility.</p>
 <li>
 <code>composer.phar</code> and <code>composer.lock</code> are now git ignored.</li>
 </ul>
-<h2>2.0.4-fork (December 03 2021):</h2>
-<p>This version brings a better composer compatibility, and starts revamping mobile compatibility.</p>
-<h3>Changed</h3>
-<ul>
-<li>Starting to refactor for post-2010 HTML!</li>
-<li>Much less iframes for reading texts.</li>
-<li>Now you can read texts on mobile without the experimental mobile LWT.</li>
-<li>Texts can be read using &quot;focus mode&quot; on most browsers.</li>
-<li>Updated documentation (expanded and refactored).</li>
-<li>Composer is now the recommended way to download lwt.</li>
-<li>PHP_codesniffer is now recommended, and no longer dev-required.</li>
-<li>Refactored many parts of the code, that gets easier to read.</li>
-</ul>
-<h3>Removed</h3>
+<h2>Full Changelog</h2>
 <ul>
 <li>
-<code>composer.phar</code> and <code>composer.lock</code> are now git ignored.</li>
+<a href="https://github.com/HugoFara/lwt/compare/v2.0.3-fork...v2.0.4-fork">v2.0.3-fork...v2.0.4-fork</a>
+</li>
 </ul>
 <h2>2.0.3-fork (November 26 2021):</h2>
 <p>Serious maintaining is back!</p>
@@ -2425,7 +2422,12 @@ mobile compatibility.</p>
 <li>Code liniting.</li>
 <li>Important code refactors.</li>
 </ul>
-<p>Full Changelog: <a href="https://github.com/HugoFara/lwt/compare/v1.6.31-fork...v2.0.3-fork">v1.6.31-fork...v2.0.3-fork</a></p>
+<h3>Full Changelog</h3>
+<ul>
+<li>
+<a href="https://github.com/HugoFara/lwt/compare/v1.6.31-fork...v2.0.3-fork">v1.6.31-fork...v2.0.3-fork</a>
+</li>
+</ul>
 <h2>2.0.2 (September 07 2021)</h2>
 <h3>Fixed</h3>
 <ul>
