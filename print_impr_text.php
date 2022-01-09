@@ -3,11 +3,17 @@
 
 /**
  * \file
- * Print/Edit an improved annotated text
+ * \brief Print/Edit an improved annotated text
  * 
  * Call: print_impr_text.php?text=[textid]&...
  *      ... edit=1 ... edit own annotation 
  *      ... del=1  ... delete own annotation
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/print__impr__text_8php.html
+ * @since   1.5.0
  */
 
 require_once 'inc/session_utility.php';

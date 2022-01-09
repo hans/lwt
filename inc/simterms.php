@@ -2,14 +2,16 @@
 
 /**
  * \file
- * PHP Utility Functions to calculate similar terms of a term.
+ * \brief PHP Utility Functions to calculate similar terms of a term.
  * 
- * @author LWT Project
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/simterms_8php.html
  */
 
- require_once 'session_utility.php';
+require_once 'session_utility.php';
 
-// -------------------------------------------------------------
 
 /**
  * @return string[]

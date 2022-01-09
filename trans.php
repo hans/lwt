@@ -2,14 +2,18 @@
 
 /**
  * \file
- * Get a translation from Web Dictionary
+ * \brief Get a translation from Web Dictionary
  * 
  * Call 1: trans.php?x=1&t=[textid]&i=[textpos]
  *         GTr translates sentence in Text t, Pos i
  * Call 2: trans.php?x=2&t=[text]&i=[dictURI]
  *         translates text t with dict via dict-url i
  * 
- * @since 1.0.3
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/trans_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';

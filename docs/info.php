@@ -92,7 +92,7 @@ $(document).ready( function() {
 		<div style="margin-right:100px;">
 
 		<h4>
-			<a href="index.php" target="_top"><img src="../img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
+			<a href="../index.php" target="_top"><img src="../img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
 			<br />
 			<br />
 			<span class="bigger">Help/Information</span>
@@ -247,7 +247,7 @@ $(document).ready( function() {
 					</li>
 
 					<li>
-						Documentation: try either <a href="index.html">local link</a> or <a href="https://hugofara.github.io/lwt/index.html">absolute link</a>.
+						<b>Documentation</b>: try either the <a href="index.html">local link</a> or the <a href="https://hugofara.github.io/lwt/index.html">absolute link</a>.
 					</li>
 <!--
 					<li>

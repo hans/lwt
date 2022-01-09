@@ -81,7 +81,7 @@ $(document).ready( function() {
 		<div style="margin-right:100px;">
 
 		<h4>
-			<a href="index.php" target="_top"><img src="../img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
+			<a href="../index.php" target="_top"><img src="../img/lwt_icon_big.png" class="lwtlogoright" alt="Logo" />Learning with Texts</a>
 			<br />
 			<br />
 			<span class="bigger">Help/Information</span>
@@ -203,7 +203,7 @@ $(document).ready( function() {
 
 			<dd>
 				<ul>
-					<li>The current version is 2.0.4-fork (December 03 2021).
+					<li>The current version is 2.1.0-fork (December 09 2021).
 					</li>
 
 					<li>
@@ -233,7 +233,7 @@ $(document).ready( function() {
 					</li>
 
 					<li>
-						Documentation: try either <a href="index.html">local link</a> or <a href="https://hugofara.github.io/lwt/index.html">absolute link</a>.
+						<b>Documentation</b>: try either the <a href="index.html">local link</a> or the <a href="https://hugofara.github.io/lwt/index.html">absolute link</a>.
 					</li>
 <!--
 					<li>
@@ -521,6 +521,13 @@ $(document).ready( function() {
 <li>Term import with more options (i.e.: combine translations, multiple tag import,...)</li>
 <li>Two database backup modes (new or old structure)</li>
 <li>Mobile compatibility when reading texts</li>
+<li>HTML code was reviewed to follow standards better. It has several effect:
+<ul>
+<li>You can read texts in &quot;reader mode&quot; in most browsers.</li>
+<li>Simple mobile compatibility</li>
+<li>You can use LWT on small screens.</li>
+</ul>
+</li>
 </ul>
 </dd>
 		 
@@ -2330,11 +2337,11 @@ KEY NfUpdate (NfUpdate)</p>
       <dd>
 		  <h1>Changelog</h1>
 <p>This project's changelog. Version marked with &quot;-fork&quot; come from the community, other version come from the canonical LWT (&quot;official&quot; branch on Git).</p>
-<h2>[Unreleased]</h2>
+<h2>2.1.0-fork (December 09 2021)</h2>
 <h3>Added</h3>
 <ul>
 <li>Badges in the README providing updated informatiosn of the state of the project.</li>
-<li>When riding, right frames are hidden and will come sliding when needed.</li>
+<li>When reading, right frames are hidden and will slide into screen when needed.</li>
 </ul>
 <h3>Changed</h3>
 <ul>
@@ -2349,7 +2356,11 @@ KEY NfUpdate (NfUpdate)</p>
 </ul>
 <h3>Fixed</h3>
 <ul>
+<li>
+<code>composer.json</code> is now working! Thanks <a href="https://github.com/chaosarium">chaosarium</a> for signaling
+this <a href="https://github.com/HugoFara/lwt/issues/4">issue #4</a>!</li>
 <li>Since 2.0.3-fork, it was difficult to get annotations. This is no longer the case.</li>
+<li>tag-it, jquery-hoverintent, and jquery-xpath are now copied from raw code, and no longer integrated by composer.</li>
 </ul>
 <h3>Removed</h3>
 <ul>

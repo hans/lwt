@@ -3,7 +3,11 @@
  * \file
  * \brief Proceed to the general settings.
  * 
- * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
+ * @package Lwt
+ * @author  HugoFara <hugo.farajallah@protonmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/settings_8php.html
+ * @since   2.0.3-fork
  */
 
 // Debug switch / Display PHP error settings

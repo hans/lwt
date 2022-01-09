@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.4-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.1.0-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -69,12 +69,12 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p >This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).</p>
 <h1><a class="anchor" id="autotoc_md0"></a>
-[Unreleased]</h1>
+2.1.0-fork (December 09 2021)</h1>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Added</h2>
 <ul>
 <li>Badges in the README providing updated informatiosn of the state of the project.</li>
-<li>When riding, right frames are hidden and will come sliding when needed.</li>
+<li>When reading, right frames are hidden and will slide into screen when needed.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Changed</h2>
@@ -90,7 +90,9 @@ Changed</h2>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Fixed</h2>
 <ul>
+<li><code>composer.json</code> is now working! Thanks <a href="https://github.com/chaosarium">chaosarium</a> for signaling this <a href="https://github.com/HugoFara/lwt/issues/4">issue #4</a>!</li>
 <li>Since 2.0.3-fork, it was difficult to get annotations. This is no longer the case.</li>
+<li>tag-it, jquery-hoverintent, and jquery-xpath are now copied from raw code, and no longer integrated by composer.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Removed</h2>
@@ -1113,7 +1115,7 @@ Fixed</h2>
 <h1><a class="anchor" id="autotoc_md164"></a>
 1.4.0 (September 09 2011):</h1>
 <ul>
-<li>Mobile Version (experimental, via <a class="el" href="mobile_8php.html">mobile.php</a>): Selection of Language, Text, and Sentence, Playing the audio (if exists), Reading the text either sentence-by-sentence or term-by-term (saved words shown with translation, romanization, and status (via color). This mobile interface does not yet allow data manipulations. <br  />
+<li>Mobile Version (experimental, via <a class="el" href="mobile_8php.html" title="LWT Mobile.">mobile.php</a>): Selection of Language, Text, and Sentence, Playing the audio (if exists), Reading the text either sentence-by-sentence or term-by-term (saved words shown with translation, romanization, and status (via color). This mobile interface does not yet allow data manipulations. <br  />
 </li>
 <li>Texts, archived texts and terms can now also be filtered by "untagged". <br  />
 </li>

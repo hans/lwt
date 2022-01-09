@@ -22,3 +22,7 @@
 * Term import with more options (i.e.: combine translations, multiple tag import,...)
 * Two database backup modes (new or old structure)
 * Mobile compatibility when reading texts
+* HTML code was reviewed to follow standards better. It has several effect:
+  * You can read texts in "reader mode" in most browsers.
+  * Simple mobile compatibility
+  * You can use LWT on small screens.

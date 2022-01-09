@@ -3,15 +3,18 @@
 
 /**
  * \file
- * \biref Backup/Restore/Empty LWT Database
+ * \brief Backup/Restore/Empty LWT Database
  * 
  * Call: backup_restore.php?....
  *  ... restore=xxx ... do restore 
  *  ... backup=xxx ... do backup 
  * ... empty=xxx ... do truncate
  * 
- * @author https://sourceforge.net/projects/lwt/ LWT Project
- * @since  1.0.3
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/backup__restore_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';

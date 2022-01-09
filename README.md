@@ -12,7 +12,7 @@ It is quicker, has smaller databse size,
 and is open for contributions. The official version is on 
 [source forge](https://sourceforge.net/projects/learning-with-texts)
 
-[@gustavklopp's LingL](https://github.com/gustavklopp/LingL) is a wonderful alternative written in Python.
+[gustavklopp's LingL](https://github.com/gustavklopp/LingL) is a wonderful alternative written in Python.
 
 ## Installation
 Please see [docs/info.html](https://hugofara.github.io/lwt/docs/info.html) for detailed instructions. 
@@ -20,10 +20,10 @@ As it is self-hosted, you will need a server, which can be your computer.
 
 * [Install Composer](https://getcomposer.org/download/) if you don't have it.
 * **If you installed composer globally**
-  * Run ``composer install hugofara/lwt``.
+  * Run ``composer require hugofara/lwt``.
 * **If you installed composer locally**
   * Got to the folder where composer.phar is located
-  * Run ``php composer.phar install hugofara/lwt``
+  * Run ``php composer.phar require hugofara/lwt``
 * Create ``connect.inc.php`` with an existing database user 
 (read [docs/info.html](https://hugofara.github.io/lwt/docs/info.html)) for the tutorial.
 
@@ -60,6 +60,7 @@ and East-Asian ideographic systems
 * Statistics to record your progress
 
 ### Features not in the official LWT
+See the full list: [newfeatures.md](https://hugofara.github.io/lwt/docs/newfeatures.html)
 * Automatically import texts from RSS feeds
 * Support for different themes
 * Display translations of terms with status(es) in the reading frame

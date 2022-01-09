@@ -2,12 +2,16 @@
 
 /**
  * \file
- * Check (parse & split) a Text (into sentences/words)
+ * \brief Check (parse & split) a Text (into sentences/words)
  * 
- * @author https://sourceforge.net/projects/lwt/ LWT Project
- * @since  1.0.3
  * Call: check_text.php?...
  *      op=Check ... do the check
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/check__text_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';

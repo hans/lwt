@@ -1,10 +1,13 @@
 <?php
 /**
  * \file
- * \biref Simple Mardown to HTML utility file.
+ * \brief Simple Mardown to HTML utility file.
  * 
- * @author HugoFara <hugo.farajallah@protonmail.com>
- * @since  2.0.3-fork
+ * @package Lwt
+ * @author  HugoFara <hugo.farajallah@protonmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/markdown__converter_8php.html
+ * @since   2.0.3-fork
  */
 require __DIR__ . '/../../vendor/autoload.php';
 

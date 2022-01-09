@@ -6,8 +6,11 @@
  * Use this script to minify JS and CSS files from src/js and src/css to js/ and 
  * css/.
  * 
- * @author HugoFara <hugo.farajallah@protonmail.com>
- * @since  2.0.3-fork
+ * @package Lwt
+ * @author  HugoFara <hugo.farajallah@protonmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/minifier_8php.html
+ * @since   2.0.3-fork
  */
 require __DIR__ . '/../../vendor/autoload.php';
 use MatthiasMullie\Minify;

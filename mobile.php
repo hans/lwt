@@ -3,16 +3,20 @@
 
 /**
  * \file
- * LWT Mobile
+ * \brief LWT Mobile
  *
- * @since 1.4.0
- * 
  * Call: mobile.php?...
  *      ...action=1&lang=[langid] ... Language menu
  *      ...action=2&lang=[langid] ... Texts in a language
  *      ...action=3&lang=[langid]&text=[textid] ... Sentences of a text
  *      ...action=4&lang=[langid]&text=[textid]&sent=[sentid] ... Terms of a sentence
  *      ...action=5&lang=[langid]&text=[textid]&sent=[sentid] ... Terms of a sentence (next sent)
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/mobile_8php.html
+ * @since   1.4.0
  */
 
 require_once 'inc/session_utility.php';

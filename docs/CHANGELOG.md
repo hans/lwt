@@ -3,10 +3,10 @@ Changelog
 
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 
-## [Unreleased]
+## 2.1.0-fork (December 09 2021)
 ### Added
 * Badges in the README providing updated informatiosn of the state of the project.
-* When riding, right frames are hidden and will come sliding when needed.
+* When reading, right frames are hidden and will slide into screen when needed.
 
 ### Changed
 * PHP >=7.4 is now the official PHP version.
@@ -19,7 +19,10 @@ This project's changelog. Version marked with "-fork" come from the community, o
 * Regenerated documentation.
 
 ### Fixed
+* ``composer.json`` is now working! Thanks [chaosarium](https://github.com/chaosarium) for signaling 
+this [issue #4](https://github.com/HugoFara/lwt/issues/4)!
 * Since 2.0.3-fork, it was difficult to get annotations. This is no longer the case.
+* tag-it, jquery-hoverintent, and jquery-xpath are now copied from raw code, and no longer integrated by composer.
 
 ### Removed
 * Effectively dropped support for PHP <=7.

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.0.4-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.1.0-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -70,19 +70,19 @@ $(function() {
 <div class="textblock"><p ><a class="anchor" id="md_README"></a><a href="https://packagist.org/packages/hugofara/lwt"><img src="https://poser.pugx.org/hugofara/lwt/v" alt="Latest Stable Version" class="inline"/></a> <a href="https://packagist.org/packages/hugofara/lwt"><img src="https://poser.pugx.org/hugofara/lwt/license" alt="License" class="inline"/></a> <a href="https://packagist.org/packages/hugofara/lwt"><img src="https://poser.pugx.org/hugofara/lwt/require/php" alt="PHP Version Require" class="inline"/></a> <img src="https://github.com/hugofara/lwt/actions/workflows/php.yml/badge.svg" alt="example workflow" style="pointer-events: none;" class="inline"/></p>
 <p ><b>Learning with Texts</b> (LWT) is a tool for language learning by reading. It is a self-hosted web application.</p>
 <p ><b>THIS IS A THIRD PARTY VERSION</b>. This version is not the official one, and brings many improvements and new featuress. It is quicker, has smaller databse size, and is open for contributions. The official version is on <a href="https://sourceforge.net/projects/learning-with-texts">source forge</a></p>
-<p ><a href="https://github.com/gustavklopp/LingL">@gustavklopp's LingL</a> is a wonderful alternative written in Python.</p>
+<p ><a href="https://github.com/gustavklopp/LingL">gustavklopp's LingL</a> is a wonderful alternative written in Python.</p>
 <h1><a class="anchor" id="autotoc_md199"></a>
 Installation</h1>
 <p >Please see <a href="https://hugofara.github.io/lwt/docs/info.html">docs/info.html</a> for detailed instructions. As it is self-hosted, you will need a server, which can be your computer.</p>
 <ul>
 <li><a href="https://getcomposer.org/download/">Install Composer</a> if you don't have it.</li>
 <li><b>If you installed composer globally</b><ul>
-<li>Run <code>composer install hugofara/lwt</code>.</li>
+<li>Run <code>composer require hugofara/lwt</code>.</li>
 </ul>
 </li>
 <li><b>If you installed composer locally</b><ul>
 <li>Got to the folder where composer.phar is located</li>
-<li>Run <code>php composer.phar install hugofara/lwt</code></li>
+<li>Run <code>php composer.phar require hugofara/lwt</code></li>
 </ul>
 </li>
 <li>Create <code><a class="el" href="connect_8inc_8php.html" title="Your own DB variables.">connect.inc.php</a></code> with an existing database user (read <a href="https://hugofara.github.io/lwt/docs/info.html">docs/info.html</a>) for the tutorial.</li>
@@ -108,7 +108,7 @@ Features</h1>
 </ul>
 <h2><a class="anchor" id="autotoc_md202"></a>
 Features not in the official LWT</h2>
-<ul>
+<p >See the full list: <a href="https://hugofara.github.io/lwt/docs/newfeatures.html">newfeatures.md</a></p><ul>
 <li>Automatically import texts from RSS feeds</li>
 <li>Support for different themes</li>
 <li>Display translations of terms with status(es) in the reading frame</li>
