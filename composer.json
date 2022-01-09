@@ -29,7 +29,7 @@
             "type": "package",
             "package": {
                 "name": "ilinsky/jquery-xpath",
-                "version": "0.3.1",
+                "version": "dev-master",
                 "source":{
                     "type": "git",
                     "url": "https://github.com/ilinsky/jquery-xpath",
@@ -41,7 +41,7 @@
             "type": "package",
             "package": {
                 "name": "briancherne/jquery-hoverintent",
-                "version": "1.10.1",
+                "version": "dev-master",
                 "source":{
                     "type": "git",
                     "url": "https://github.com/briancherne/jquery-hoverIntent",
@@ -56,8 +56,8 @@
         "flesler/jquery.scrollto": "^2.1",
         "aehlke/tag-it": "dev-master",
         "happyworm/jplayer": "^2.9",
-        "ilinsky/jquery-xpath": "^0.3",
-        "briancherne/jquery-hoverintent": "^1.10",
+        "ilinsky/jquery-xpath": "dev-master",
+        "briancherne/jquery-hoverintent": "dev-master",
         "mobiledetect/mobiledetectlib": "^2.8",
         "league/commonmark": "^2.0.2"
     },
