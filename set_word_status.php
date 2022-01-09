@@ -7,8 +7,10 @@
  * Call: set_word_status.php?...
  *      ... tid=[textid]&wid=[wordid]&status=1..5/98/99
  * 
- * @author LWT Project <lwt-project@hotmail.com>
- * @since  1.0.3
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';
@@ -79,11 +81,20 @@ function set_word_status_javascript($tid, $wid, $status, $word, $trans, $roman)
     ?>
 <script type="text/javascript">
     //<![CDATA[
-    var context = window.parent.document.getElementById('frame-l');
-    var contexth = window.parent.document.getElementById('frame-h');
-    var status = '<?php echo $status; ?>';
-    var title = window.parent.JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($word); ?>, <?php echo prepare_textdata_js($trans); ?>, <?php echo prepare_textdata_js($roman); ?>, status);
-    $('.word<?php echo $wid; ?>', context).removeClass('status98 status99 status1 status2 status3 status4 status5').addClass('status<?php echo $status; ?>').attr('data_status','<?php echo $status; ?>').attr('title',title);
+    let context = window.parent.document.getElementById('frame-l');
+    let contexth = window.parent.document.getElementById('frame-h');
+    let status = '<?php echo $status; ?>';
+    let title = '';
+    if (!window.parent.JQ_TOOLTIP) {
+        title = make_tooltip(
+            <?php echo prepare_textdata_js($word); ?>, <?php echo prepare_textdata_js($trans); ?>, <?php echo prepare_textdata_js($roman); ?>, status
+        );
+    }
+    $('.word<?php echo $wid; ?>', context)
+    .removeClass('status98 status99 status1 status2 status3 status4 status5')
+    .addClass('status<?php echo $status; ?>')
+    .attr('data_status','<?php echo $status; ?>')
+    .attr('title',title);
     $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
     window.parent.document.getElementById('frame-l').focus();
     window.parent.setTimeout('cClick()', 100);
@@ -129,10 +140,7 @@ function set_word_status_display_page($tid, $wid, $status, $word, $trans, $roman
  */
 function do_set_word_status($textid, $wordid, $status)
 {
-    $word_data = get_word_data($wordid);
-    $word = $word_data[0];
-    $trans = $word_data[1];
-    $roman = $word_data[2];
+    list($word, $trans, $roman) = get_word_data($wordid);
     set_word_status_database($wordid, $status);
     set_word_status_display_page($textid, $wordid, $status, $word, $trans, $roman);
 }

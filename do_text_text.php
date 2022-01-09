@@ -61,11 +61,20 @@ function getLanguagesSettings($langid)
 /**
  * Print the output when the word is a term.
  *
+ * @param int                   $actcode       Action code, > 1 for multiword
+ * @param int                   $showAll       Show all words or not
+ * @param int                   $hideuntil
+ * @param string                $spanid        ID for this span element
+ * @param int                   $currcharcount Current number of caracters
+ * @param array<string, string> $record Various data
+ * 
+ * @return int New $hideuntil number
+ * 
  * @since 2.0.3-fork
  */
 function echoTerm(
-    $actcode, $showAll, &$hideuntil, $spanid, $hidetag, $currcharcount, $record
-): void {
+    $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
+): int {
     if ($actcode > 1) {   
         // A MULTIWORD FOUND
 
@@ -74,7 +83,7 @@ function echoTerm(
         // MULTIWORD FOUND - DISPLAY (Status 1-5, display)
         if (isset($record['WoID'])) {
             if (!$showAll && $hideuntil == -1) {             
-                $hideuntil = $record['TiOrder'] + ($record['Code'] - 1) * 2;
+                $hideuntil = (int)$record['TiOrder'] + ((int)$record['Code'] - 1) * 2;
             }
 
             echo '<span id="' . $spanid . '" 
@@ -143,7 +152,7 @@ function echoTerm(
         //$titext = array('','','','','','','','','','','');
 
     }  // ($actcode == 1)  -- A WORD FOUND
-
+    return $hideuntil;
 }
 
 /**
@@ -199,7 +208,7 @@ function wordProcessor($record, $showAll, $currcharcount): int
 
     } else {   
         // $record['TiIsNotWord'] == 0  -- A TERM
-        echoTerm(
+        $hideuntil = echoTerm(
             $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
         );
     } // $record['TiIsNotWord'] == 0  -- A TERM

@@ -157,7 +157,7 @@ function changeTableTestStatus (wordid, up) {
 
 function check () {
   let count = 0;
-  $('.notempty').each(function (n) {
+  $('.notempty').each(function (_n) {
     if ($(this).val().trim() == '') count++;
   });
   if (count > 0) {
@@ -165,7 +165,7 @@ function check () {
     return false;
   }
   count = 0;
-  $('input.checkurl').each(function (n) {
+  $('input.checkurl').each(function (_n) {
     if ($(this).val().trim().length > 0) {
       if (($(this).val().trim().indexOf('http://') != 0) && ($(this).val().trim().indexOf('https://') != 0) && ($(this).val().trim().indexOf('#') != 0)) {
         alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must start with "http://" or "https://" if not empty.');
@@ -173,7 +173,7 @@ function check () {
       }
     }
   });
-  $('input.checkregexp').each(function (n) {
+  $('input.checkregexp').each(function (_n) {
     const regexp = $(this).val().trim();
     if (regexp.length > 0) {
       $.ajax({
@@ -192,7 +192,7 @@ function check () {
   });
   // To enable limits of custom feed texts/articl.
   // change the following «input[class*="max_int_"]» into «input[class*="maxint_"]»
-  $('input[class*="max_int_"]').each(function (n) {
+  $('input[class*="max_int_"]').each(function (_n) {
     const maxvalue = parseInt($(this).attr('class').replace(/.*maxint_([0-9]+).*/, '$1'));
     if ($(this).val().trim().length > 0) {
       if ($(this).val() > maxvalue) {
@@ -201,7 +201,7 @@ function check () {
       }
     }
   });
-  $('input.checkdicturl').each(function (n) {
+  $('input.checkdicturl').each(function (_n) {
     if ($(this).val().trim().length > 0) {
       if (($(this).val().trim().indexOf('http://') != 0) && ($(this).val().trim().indexOf('https://') != 0) && ($(this).val().trim().indexOf('*http://') != 0) && ($(this).val().trim().indexOf('*https://') != 0) && ($(this).val().trim().indexOf('glosbe_api.php') != 0) && ($(this).val().trim().indexOf('ggl.php') != 0)) {
         alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must start with "http://" or "https://" or "*http://" or "*https://" or "glosbe_api.php" or "ggl.php" if not empty.');
@@ -209,7 +209,7 @@ function check () {
       }
     }
   });
-  $('input.posintnumber').each(function (n) {
+  $('input.posintnumber').each(function (_n) {
     if ($(this).val().trim().length > 0) {
       if (!(isInt($(this).val().trim()) && (parseInt($(this).val().trim(), 10) > 0))) {
         alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number > 0.');
@@ -217,7 +217,7 @@ function check () {
       }
     }
   });
-  $('input.zeroposintnumber').each(function (n) {
+  $('input.zeroposintnumber').each(function (_n) {
     if ($(this).val().trim().length > 0) {
       if (!(isInt($(this).val().trim()) && (parseInt($(this).val().trim(), 10) >= 0))) {
         alert('ERROR\n\nField "' + $(this).attr('data_info') + '" must be an integer number >= 0.');
@@ -225,31 +225,31 @@ function check () {
       }
     }
   });
-  $('input.checkoutsidebmp').each(function (n) {
+  $('input.checkoutsidebmp').each(function (_n) {
     if ($(this).val().trim().length > 0) {
       if (containsCharacterOutsideBasicMultilingualPlane($(this).val())) {
         count += alertFirstCharacterOutsideBasicMultilingualPlane($(this).val(), $(this).attr('data_info'));
       }
     }
   });
-  $('textarea.checklength').each(function (n) {
+  $('textarea.checklength').each(function (_n) {
     if ($(this).val().trim().length > (0 + $(this).attr('data_maxlength'))) {
       alert('ERROR\n\nText is too long in field "' + $(this).attr('data_info') + '", please make it shorter! (Maximum length: ' + $(this).attr('data_maxlength') + ' char.)');
       count++;
     }
   });
-  $('textarea.checkoutsidebmp').each(function (n) {
+  $('textarea.checkoutsidebmp').each(function (_n) {
     if (containsCharacterOutsideBasicMultilingualPlane($(this).val())) {
       count += alertFirstCharacterOutsideBasicMultilingualPlane($(this).val(), $(this).attr('data_info'));
     }
   });
-  $('textarea.checkbytes').each(function (n) {
+  $('textarea.checkbytes').each(function (_n) {
     if (getUTF8Length($(this).val().trim()) > (0 + $(this).attr('data_maxlength'))) {
       alert('ERROR\n\nText is too long in field "' + $(this).attr('data_info') + '", please make it shorter! (Maximum length: ' + $(this).attr('data_maxlength') + ' bytes.)');
       count++;
     }
   });
-  $('input.noblanksnocomma').each(function (n) {
+  $('input.noblanksnocomma').each(function (_n) {
     if ($(this).val().indexOf(' ') > 0 || $(this).val().indexOf(',') > 0) {
       alert('ERROR\n\nNo spaces or commas allowed in field "' + $(this).attr('data_info') + '", please remove!');
       count++;
@@ -284,13 +284,13 @@ function confirmDelete () {
  * Function called when clicking on "Show All".
  */
 function showAllwordsClick () {
-  const showAll = $('#showallwords').prop('checked');
-  const showLeaning = $('#showlearningtranslations').prop('checked');
+  const showAll = $('#showallwords').prop('checked') ? '1' : '0';
+  const showLeaning = $('#showlearningtranslations').prop('checked') ? '1' : '0';
   const text = $('#thetextid').text();
   //window.parent.frames.ro.location.href =
-	showRightFrames('set_text_mode.php?mode=' + (showAll ? 1 : 0) +
-		'&showLearning=' + (showLeaning ? 1 : 0) +
-		'&text=' + text);
+	showRightFrames(
+    'set_text_mode.php?mode=' + showAll + '&showLearning=' + showLeaning + '&text=' + text
+  );
 }
 
 function textareaKeydown (event) {
@@ -376,7 +376,12 @@ function keydown_event_do_test_test (e) {
   return true;
 }
 
-function word_each_do_text_text (i) {
+/**
+ * Add annotations to a word.
+ * 
+ * @param {*} _ Unused, usually word number 
+ */
+function word_each_do_text_text(_) {
   const wid = $(this).attr('data_wid');
   if (wid != '') {
     const order = $(this).attr('data_order');
@@ -399,7 +404,7 @@ function word_each_do_text_text (i) {
   }
 }
 
-function mword_each_do_text_text (i) {
+function mword_each_do_text_text(_) {
   if ($(this).attr('data_status') != '') {
     const wid = $(this).attr('data_wid');
     if (wid != '') {
@@ -623,7 +628,12 @@ function word_hover_out () {
 jQuery.fn.extend({
   tooltip_wsty_content: function () {
     var re = new RegExp('([' + DELIMITER + '])(?! )', 'g');
-    let title = ($(this).hasClass('mwsty')) ? "<p><b style='font-size:120%'>" + $(this).attr('data_text') + '</b></p>' : "<p><b style='font-size:120%'>" + $(this).text() + '</b></p>';
+    let title = '';
+    if ($(this).hasClass('mwsty')) {
+      title =  "<p><b style='font-size:120%'>" + $(this).attr('data_text') + '</b></p>';
+    } else {
+      title = "<p><b style='font-size:120%'>" + $(this).text() + '</b></p>';
+    }
     const roman = $(this).attr('data_rom');
     let trans = $(this).attr('data_trans').replace(re, '$1 ');
     let statname = '';
@@ -1045,7 +1055,10 @@ $.fn.serializeObject = function () {
   return o;
 };
 
-$(window).load(function () {
+/**
+ * Wrap the radio buttons into stylised elements.
+ */
+function wrapRadioButtons() {
   $(':input,.wrap_checkbox span,.wrap_radio span,a:not([name^=rec]),select,#mediaselect span.click,#forwbutt,#backbutt')
   .each(function (i) { $(this).attr('tabindex', i + 1); });
   $('.wrap_radio span').bind('keydown', function (e) {
@@ -1054,9 +1067,12 @@ $(window).load(function () {
       return false;
     }
   });
-});
+}
 
-$(document).ready(function () {
+/**
+ * Do a lot of different DOM manipulations
+ */
+function prepareMainAreas() {
   $('.edit_area').editable('inline_edit.php',
     {
       type: 'textarea',
@@ -1126,7 +1142,7 @@ $(document).ready(function () {
   $('textarea.textarea-noreturn').keydown(textareaKeydown);
   $('#termtags').tagit(
     {
-      beforeTagAdded: function (event, ui) {
+      beforeTagAdded: function (_event, ui) {
         return !(containsCharacterOutsideBasicMultilingualPlane(ui.tag.text()));
       },
       availableTags: TAGS,
@@ -1135,7 +1151,7 @@ $(document).ready(function () {
   );
   $('#texttags').tagit(
     {
-      beforeTagAdded: function (event, ui) {
+      beforeTagAdded: function (_event, ui) {
         return !(containsCharacterOutsideBasicMultilingualPlane(ui.tag.text()));
       },
       availableTags: TEXTTAGS,
@@ -1149,4 +1165,8 @@ $(document).ready(function () {
   	do_ajax_show_similar_terms();
   }
   window.setTimeout(noShowAfter3Secs, 3000);
-});
+}
+
+$(window).load(wrapRadioButtons);
+
+$(document).ready(prepareMainAreas);

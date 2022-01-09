@@ -145,7 +145,7 @@ if (isset($_REQUEST['start'])) {
         </frameset>
         <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
     </frameset>-->
-    <div class="resizable" style="width: 95%;" onclick="hideRightFrames();">
+    <div class="resizable" style="width: 95%;" onclick="setTimeout(hideRightFrames(), 1000);">
         <div id="frame-h">
             <?php
             require_once 'do_text_header.php';

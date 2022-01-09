@@ -74,7 +74,8 @@ function runsql($sql, $m, $sqlerrdie = true): string
 /**
  * Return the record "value" in the first line of the database if found.
  *
- * @param  string $sql MySQL query
+ * @param string $sql MySQL query
+ * 
  * @return string|null
  */
 function get_first_value($sql) 
@@ -83,8 +84,7 @@ function get_first_value($sql)
     $record = mysqli_fetch_assoc($res);
     if ($record) { 
         $d = $record["value"]; 
-    }
-    else {
+    } else {
         $d = null; 
     }
     mysqli_free_result($res);
@@ -156,21 +156,22 @@ function convert_regexp_to_sqlsyntax($input)
  *
  * @param string $currentlang Language ID to validate
  *
- * @global string '' if the language is not valid.
+ * @return string '' if the language is not valid, $currentlang otherwise
+ * 
+ * @global string $tbpref Table name prefix
  */
 function validateLang($currentlang): string 
 {
     global $tbpref;
-    $sql = 
-    'SELECT count(LgID) AS value 
-    FROM ' . $tbpref . 'languages 
-    WHERE LgID=' . ((int)$currentlang);
-    if ($currentlang != '') {
-        if (get_first_value($sql) == 0
-        ) {  
-            $currentlang = ''; 
-        } 
+    if ($currentlang == '') {
+        return '';
     }
+    $sql_string = 'SELECT count(LgID) AS value 
+    FROM ' . $tbpref . 'languages 
+    WHERE LgID=' . $currentlang;
+    if (get_first_value($sql_string) == 0) {  
+        return ''; 
+    } 
     return $currentlang;
 }
 
@@ -179,19 +180,21 @@ function validateLang($currentlang): string
  *
  * @param string $currenttext Text ID to validate
  *
- * @global string '' if the text is not valid.
+ * @global string '' if the text is not valid, $currenttext otherwise
+ * 
+ * @global string $tbpref Table name prefix
  */
 function validateText($currenttext): string 
 {
     global $tbpref;
-    if ($currenttext != '') {
-        if (get_first_value(
-            'select count(TxID) as value from ' . $tbpref . 'texts where TxID=' . 
-            ((int)$currenttext) 
-        ) == 0
-        ) {  
-            $currenttext = ''; 
-        } 
+    if ($currenttext == '') {
+        return '';
+    }
+    $sql_string = 'SELECT count(TxID) AS value 
+    FROM ' . $tbpref . 'texts WHERE TxID=' . 
+    $currenttext;
+    if (get_first_value($sql_string) == 0) {  
+        return ''; 
     }
     return $currenttext;
 }
@@ -202,14 +205,22 @@ function validateTag($currenttag,$currentlang)
 {
     global $tbpref;
     if ($currenttag != '' && $currenttag != -1) {
-        if ($currentlang == '') {
+        $sql = "SELECT (
+            " . $currenttag . " IN (
+                SELECT TgID FROM " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags 
+                WHERE TgID = WtTgID AND WtWoID = WoID" . 
+                ($currentlang != '' ? " AND WoLgID = " . $currentlang : '') .
+                " group by TgID order by TgText
+            )
+        ) AS value";
+        /*if ($currentlang == '') {
             $sql = "select (" . $currenttag . " in (select TgID from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by TgText)) as value"; 
         }
         else {
             $sql = "select (" . $currenttag . " in (select TgID from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $currentlang . " group by TgID order by TgText)) as value"; 
-        }
+        }*/
         $r = get_first_value($sql);
-        if ($r == 0 ) { 
+        if ($r == 0) { 
             $currenttag = ''; 
         } 
     }
@@ -229,7 +240,8 @@ function validateArchTextTag($currenttag,$currentlang)
             $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $currentlang . " group by T2ID order by T2Text)) as value"; 
         }
         $r = get_first_value($sql);
-        if ($r == 0 ) { $currenttag = ''; 
+        if ($r == 0 ) { 
+            $currenttag = ''; 
         } 
     }
     return $currenttag;
@@ -248,7 +260,8 @@ function validateTextTag($currenttag,$currentlang)
             $sql = "select (" . $currenttag . " in (select T2ID from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $currentlang . " group by T2ID order by T2Text)) as value"; 
         }
         $r = get_first_value($sql);
-        if ($r == 0 ) { $currenttag = ''; 
+        if ($r == 0 ) { 
+            $currenttag = ''; 
         } 
     }
     return $currenttag;
@@ -260,9 +273,11 @@ function validateTextTag($currenttag,$currentlang)
  * @param  string     $key The input value
  * @param  string|int $dft Default value to use, should be convertible to string
  * 
- * @return 0|1
+ * @return int
+ * 
+ * @psalm-return 0|1
  */
-function getSettingZeroOrOne($key, $dft) 
+function getSettingZeroOrOne($key, $dft): int
 {
     $r = getSetting($key);
     $r = ($r == '' ? $dft : (((int)$r !== 0) ? 1 : 0));

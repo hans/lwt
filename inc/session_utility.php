@@ -3458,20 +3458,21 @@ function new_expression_interactable($hex, $appendtext, $sid, $len): void
 {
     //$attrs = ' class="click mword ' . (getSettingZeroOrOne('showallwords', 1) ? 'm':'') . 'wsty'
     //$attrs .= ' TERM' . $hex . ' word + woid +  status' + status + '" data_trans="' + trans + '" data_rom="' + roman + '" data_code="' . $len '. " data_status="' + status + '" data_wid="' + woid + '" title="' + title + '"';
-    $showAllWords = json_encode(getSettingZeroOrOne('showallwords', 1) ? false : true);
+    $showAll = (bool)getSettingZeroOrOne('showallwords', 1);
     ?>
 <script type="text/javascript">
+    console.log("this is a test");
     newExpressionInteractable(
         <?php echo json_encode($appendtext); ?>, 
         //?php echo json_encode($sid); ?>,
-        ' class="click mword <?php echo $showAllWords?'':'m'; ?>wsty TERM<?php echo $hex; ?> word' + 
+        ' class="click mword <?php echo $showAll ? 'm':''; ?>wsty TERM<?php echo $hex; ?> word' + 
         woid + ' status' + status + '" data_trans="' + trans + '" data_rom="' + 
         roman + '" data_code="<?php echo $len; ?>" data_status="' + 
         status + '" data_wid="' + woid + 
         '" title="' + title + '"',
         <?php echo json_encode($hex); ?>,
         <?php echo json_encode($len); ?>, 
-        <?php echo $showAllWords; ?>
+        <?php echo json_encode(!$showAll); ?>
         );
     <?php /*
     var obj = <?php echo json_encode($appendtext); ?>;

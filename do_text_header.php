@@ -4,10 +4,13 @@
  * \file
  * \brief Responsible for drawing the header when reading texts
  * 
- * @author https://github.com/HugoFara/lwt/graphs/contributors GitHub contributors
- * @since  1.0.3
- * 
  * Call: do_text_header.php?text=[textid]
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/do__text__header_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';
@@ -33,8 +36,7 @@ function getData($textid): ?array
     $sql = 
     'SELECT LgName, TxLgID, TxText, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition 
     FROM ' . $tbpref . 'texts 
-    JOIN ' . $tbpref . 'languages 
-    ON TxLgID = LgID 
+    JOIN ' . $tbpref . 'languages ON TxLgID = LgID 
     WHERE TxID = ' . $textid;
     $res = do_mysqli_query($sql);
     $record = mysqli_fetch_assoc($res);
@@ -165,7 +167,7 @@ function do_settings($textid): void
  * @param string $text         Text to read
  * @param string $languageName Full name of the language (i. e.: "English")
  *
- * @global array $langDefs Language definitions
+ * @global array $langDefs Definition of all languages. Normally $langDefs[$languageName][1] -> $languageCode
  *
  * @since 2.0.3-fork
  */
@@ -185,38 +187,38 @@ function browser_tts($text, $languageName): void
     ?>
 <script type="text/javascript">
 
-/// Main object for text-to-speech interaction with SpeechSynthesisUtterance
-var text_reader = {
-    /// The text to read
-    text: `<?php echo htmlentities($phoneticText); ?>`,
+    /// Main object for text-to-speech interaction with SpeechSynthesisUtterance
+    var text_reader = {
+        /// The text to read
+        text: `<?php echo htmlentities($phoneticText); ?>`,
 
-    /// {string} ISO code for the language
-    lang: '<?php echo htmlentities($languageCode); ?>',
+        /// {string} ISO code for the language
+        lang: '<?php echo htmlentities($languageCode); ?>',
 
-    /// {string} Rate at wich the speech is done
-    rate: 0.8,
+        /// {string} Rate at wich the speech is done
+        rate: 0.8,
 
-    /**
-     * Reads a text using the browser text reader.
-     */
-    readTextAloud: function () {
-        var msg = new SpeechSynthesisUtterance(this.text);
-        msg.text = this.text;
-        msg.lang = this.lang;
-        msg.rate = this.rate;
-        window.speechSynthesis.speak(msg);
-    },
+        /**
+         * Reads a text using the browser text reader.
+         */
+        readTextAloud: function () {
+            var msg = new SpeechSynthesisUtterance(this.text);
+            msg.text = this.text;
+            msg.lang = this.lang;
+            msg.rate = this.rate;
+            window.speechSynthesis.speak(msg);
+        },
 
-};
+    };
 
-// Check browser compatibility before reading
-function init_reading() {
-    if (!('speechSynthesis' in window)) {
-        alert('Your browser does not support speechSynthesis!');
-    } else {
-        text_reader.readTextAloud();
+    // Check browser compatibility before reading
+    function init_reading() {
+        if (!('speechSynthesis' in window)) {
+            alert('Your browser does not support speechSynthesis!');
+        } else {
+            text_reader.readTextAloud();
+        }
     }
-}
 </script>
     <?php
 }
@@ -233,32 +235,31 @@ function save_audio_position($textid): void
     ?>
 
 <script type="text/javascript">
-
-/**
- * Save audio position
- */
-function saveAudioPosition() {
-    if ($("#jquery_jplayer_1") === null) {
-        return;
+    /**
+     * Save audio position
+     */
+    function saveAudioPosition() {
+        if ($("#jquery_jplayer_1") === null || $("#jquery_jplayer_1").length == 0) {
+            return;
+        }
+        var pos = $("#jquery_jplayer_1").data("jPlayer").status.currentTime;
+        $.ajax({
+            type: "POST",
+            url:'inc/ajax_save_text_position.php', 
+            data: { 
+                id: '<?php echo $textid; ?>', 
+                audioposition: pos
+            }, 
+            async: false
+        });
     }
-    var pos = $("#jquery_jplayer_1").data("jPlayer").status.currentTime;
-    $.ajax({
-        type: "POST",
-        url:'inc/ajax_save_text_position.php', 
-        data: { 
-            id: '<?php echo $textid; ?>', 
-            audioposition: pos
-        }, 
-        async: false
+
+    $(window).on('beforeunload', saveAudioPosition);
+
+    // We need to capture the text-to-speach event manually for Chrome
+    $(document).ready(function() {
+        $('#readTextButton').click(init_reading)
     });
-}
-
-$(window).on('beforeunload', saveAudioPosition);
-
-// We need to capture the text-to-speach event manually for Chrome
-$(document).ready(function() {
-    $('#readTextButton').click(init_reading)
-});
 </script>
     <?php
 }
@@ -274,7 +275,6 @@ $(document).ready(function() {
  */
 function do_text_header_content($textid, $only_body=true): void
 {
-
     $record = getData($textid);
     $title = $record['TxTitle'];
     $media = $record['TxAudioURI'];

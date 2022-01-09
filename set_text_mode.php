@@ -19,99 +19,83 @@ require_once 'inc/session_utility.php';
  * @param int $showAll      Whether all word should be shown
  * @param int $showLearning Whether to show translation of learning words
  *
- * @return 0|1 If show learning was previously true (1) or false (0)
+ * @return int If show learning were previously true (1) or false (0)
+ * 
+ * @psalm-return 0|1
  */
 function text_mode_save_settings($showAll, $showLearning): int
 {
     saveSetting('showallwords', $showAll);
-    $previousShowLearning = getSettingZeroOrOne('showlearningtranslations', 1);
+    $oldShowLearning = getSettingZeroOrOne('showlearningtranslations', 1);
     saveSetting('showlearningtranslations', $showLearning);
-    return $previousShowLearning;
+    return $oldShowLearning;
 }
 
 /**
  * Do the JavaScript action to change the display of translations.
  * 
  * @param int $showLearning         Whether to show translation of learning words
- * @param int $previousShowLearning If show learning was previously true (1) or false (0)
+ * @param int oldShowLearning If show learning was previously true (1) or false (0)
  * 
  * @return void
  */
-function text_mode_javascript($showLearning, $previousShowLearning)
+function text_annotations_mode_javascript($showLearning, $oldShowLearning)
 {
     ?>
 
 <script type="text/javascript">
     //<![CDATA[
-    var method = <?php echo ($showLearning != $previousShowLearning ? '1' : '0'); ?>;  // 0 (jquery) or 1 (reload)
-    if (method) {
-        window.parent.reload();
-    } else {
-        var context = window.parent.document.getElementById('frame-l');
-    <?php
-    /* 
-    (jquery, deact.)
+    /** @var {boolean} showLearningChanged hide all translations status has changed */
+    const showLearningChanged = <?php echo json_encode($showLearning != $oldShowLearning); ?>;  // 0 (jquery) or 1 (reload)
+    const showLearning = <?php echo json_encode($showLearning) ?>;
+    
+    /**
+     * Hide translations for words being learned. Doesn't work.
+     * 
+     * @param {object} context Window containing words
+     */
+    function hideAnnotations(context) {
+        $('.mword',context)
+        .removeClass('wsty')
+        .addClass('mwsty')
+        .each(function(){
+            const c = '&nbsp;' + $(this).attr('data_code') + '&nbsp;';
+            $(this).html(c);
+        });
+        $('span',context).not('#totalcharcount').removeClass('hide');
+    }
 
-    $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiTxID = ' . $tid . ' order by TiOrder asc, TiWordCount desc';
-
-    $res = do_mysqli_query($sql);
-    $hideuntil = -1;
-    $hidetag = "removeClass('hide');";
-
-    while ($record = mysqli_fetch_assoc($res)) {  // MAIN LOOP
-        $actcode = $record['Code'] + 0;
-        $t = $record['TiText'];
-        $order = $record['TiOrder'] + 0;
-        $notword = $record['TiIsNotWord'] + 0;
-        $termex = isset($record['WoID']);
-        $spanid = 'ID-' . $order . '-' . $actcode;
-
-        if ( $hideuntil > 0 ) {
-            if ( $order <= $hideuntil )
-                $hidetag = "addClass('hide');";
-            else {
-                $hideuntil = -1;
-                $hidetag = "removeClass('hide');";
+    /**
+     * Hide translations for all words. Doesn't work.
+     * 
+     * @param {object} context Window containing words
+     */
+    function showAnnotations(context) {
+        $('.mword',context)
+        .removeClass('mwsty')
+        .addClass('wsty')
+        .each(function(){
+            const c = $(this).attr('data_text');
+            $(this).text(c);
+            if($(this).not('.hide').length){
+                let u = parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;
+                $(this).nextUntil('[id^="ID-' + u + '-"]',context).addClass('hide');
             }
+        });
+    }
+    if (showLearningChanged) {
+        window.parent.location.reload(true);
+    } else {
+        const context = window.parent.document.getElementById('frame-l');
+        if (showLearning) {
+            showAnnotations(context);
+        } else {
+            hideAnnotations(context);
         }
-        
-        if ($notword != 0) {  // NOT A TERM
-            echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
-        }  
-        
-        else {   // A TERM
-            if ($actcode > 1) {   // A MULTIWORD FOUND
-                if ($termex) {  // MULTIWORD FOUND - DISPLAY
-                    if (! $showAll) {
-                        if ($hideuntil == -1) {
-                            $hideuntil = $order + ($actcode - 1) * 2;
-                        }
-                    }
-                    echo "$('#" . $spanid . "',context)." .
-                        ($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
-                        ".removeClass('mwsty wsty').addClass('" .
-                        ($showAll ? 'mwsty' : 'wsty') . "')." . 
-                        $hidetag . "\n";
-                }
-                else {  // MULTIWORD PLACEHOLDER - NO DISPLAY 
-                    echo "$('#" . $spanid . "',context)." .
-                        ($showAll ? ("html('&nbsp;" . $actcode . "&nbsp;')") : ('text(' . prepare_textdata_js($t) . ')')) .
-                        ".removeClass('mwsty wsty').addClass('" .
-                        ($showAll ? 'mwsty' : 'wsty') . " hide');\n";
-                }  
-            } // ($actcode > 1) -- A MULTIWORD FOUND
-            else {  // ($actcode == 1)  -- A WORD FOUND
-                echo "$('#" . $spanid . "',context)." . $hidetag . "\n";
-            }  // ($actcode == 1)  -- A WORD FOUND
-        } // $record['TiIsNotWord'] == 0  -- A TERM
-    } // while ($record = mysqli_fetch_assoc($res))  -- MAIN LOOP
-    mysqli_free_result($res);
-
-    (jquery, deact.) 
-    */
-    ?>
     }
     $('#waiting').html('<b>OK -- </b>');
+
+    
     //]]>
 </script>
     <?php
@@ -122,11 +106,11 @@ function text_mode_javascript($showLearning, $previousShowLearning)
  * 
  * @param int $showAll              Whether all word should be shown
  * @param int $showLearning         Whether to show translation of learning words
- * @param int $previousShowLearning If show learning was previously true (1) or false (0)
+ * @param int $oldShowLearning      If show learning was previously true (1) or false (0)
  * 
  * @return void
  */
-function text_mode_page_content($showAll, $showLearning, $previousShowLearning)
+function text_mode_page_content($showAll, $showLearning, $oldShowLearning)
 {
     pagestart("Text Display Mode changed", false);
     
@@ -134,7 +118,7 @@ function text_mode_page_content($showAll, $showLearning, $previousShowLearning)
     get_file_path('icn/waiting.gif') . 
     '" alt="Please wait" title="Please wait" />&nbsp;&nbsp;Please wait ...</span>';
     flush();
-    text_mode_javascript($showLearning, $previousShowLearning);
+    text_annotations_mode_javascript($showLearning, $oldShowLearning);
     if ($showAll == 1) {
         echo '<b><i>Show All</i></b> is set to <b>ON</b>.
         <br /><br />ALL terms are now shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.
@@ -173,8 +157,8 @@ function text_mode_page_content($showAll, $showLearning, $previousShowLearning)
  */
 function change_text_mode($textid, $showAll, $showLearning)
 {
-    $previousShowLearning = text_mode_save_settings($showAll, $showLearning);
-    text_mode_page_content($showAll, $showLearning, $previousShowLearning);
+    $oldShowLearning = text_mode_save_settings($showAll, $showLearning);
+    text_mode_page_content($showAll, $showLearning, $oldShowLearning);
 }
 
 if (getreq('text') != '') {
