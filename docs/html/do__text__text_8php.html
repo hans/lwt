@@ -79,10 +79,10 @@ Functions</h2></td></tr>
 <tr class="separator:a53ff78106923630d0827565967983e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57948423b4ea76ea3fe838c93f425ccb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#a57948423b4ea76ea3fe838c93f425ccb">getLanguagesSettings</a> ($langid)</td></tr>
 <tr class="separator:a57948423b4ea76ea3fe838c93f425ccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59335988d21244e8fbb66b4bd9a3cade"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#a59335988d21244e8fbb66b4bd9a3cade">echoTerm</a> ( $actcode, $showAll, &amp;$hideuntil, $spanid, $hidetag, $currcharcount, $record)</td></tr>
-<tr class="separator:a59335988d21244e8fbb66b4bd9a3cade"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af30c00754d4168dac0ca05d8ea086857"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#af30c00754d4168dac0ca05d8ea086857">wordProcessor</a> (&amp;$sid, $record, &amp;$hideuntil, $showAll, &amp;$cnt, &amp;$currcharcount)</td></tr>
-<tr class="separator:af30c00754d4168dac0ca05d8ea086857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff0e1c7e60b2389153e1165b01fd27e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#aff0e1c7e60b2389153e1165b01fd27e1">echoTerm</a> ( $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record)</td></tr>
+<tr class="separator:aff0e1c7e60b2389153e1165b01fd27e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d79df4f1e92552741b4b26acc5bafa2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#a4d79df4f1e92552741b4b26acc5bafa2">wordProcessor</a> ($record, $showAll, $currcharcount)</td></tr>
+<tr class="separator:a4d79df4f1e92552741b4b26acc5bafa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1d6295c4d9f7b70316dd4af59061fd2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#af1d6295c4d9f7b70316dd4af59061fd2">mainWordLoop</a> ($textid, $showAll)</td></tr>
 <tr class="separator:af1d6295c4d9f7b70316dd4af59061fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae71caba9eee9a49733ebaa7e3c16a8ed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#ae71caba9eee9a49733ebaa7e3c16a8ed">prepareStyle</a> ($showLearning, $mode_trans, $textsize, $ann_exists)</td></tr>
@@ -111,14 +111,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Print JavaScript-formatted content, to put in a SCRIPT tag</p>
+<p >Print JavaScript-formatted content.</p>
 <dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
 <p >Map global variables as a JSON object</p>
 
 </div>
 </div>
-<a id="a59335988d21244e8fbb66b4bd9a3cade" name="a59335988d21244e8fbb66b4bd9a3cade"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59335988d21244e8fbb66b4bd9a3cade">&#9670;&nbsp;</a></span>echoTerm()</h2>
+<a id="aff0e1c7e60b2389153e1165b01fd27e1" name="aff0e1c7e60b2389153e1165b01fd27e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff0e1c7e60b2389153e1165b01fd27e1">&#9670;&nbsp;</a></span>echoTerm()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -138,7 +138,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&amp;&#160;</td>
+          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>$hideuntil</em>, </td>
         </tr>
         <tr>
@@ -173,6 +173,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Print the output when the word is a term.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$actcode</td><td>Action code, &gt; 1 for multiword </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$showAll</td><td>Show all words or not </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$hideuntil</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$spanid</td><td>ID for this span element </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$currcharcount</td><td>Current number of caracters </td></tr>
+    <tr><td class="paramtype"></td><td class="paramname">array&lt;string,string&gt;</td><td>$record Various data</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int New $hideuntil number</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
 
 </div>
@@ -257,7 +269,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Get all words and start the iterate over them.</p>
-<p >@global string $tbpref Table name prefix</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$textid</td><td>ID of the text </td></tr>
+    <tr><td class="paramtype">0&#160;|&#160;1</td><td class="paramname">$showAll</td><td>Show all words or not</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p>@global string $tbpref Table name prefix</p>
 <dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
 
 </div>
@@ -304,8 +324,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af30c00754d4168dac0ca05d8ea086857" name="af30c00754d4168dac0ca05d8ea086857"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af30c00754d4168dac0ca05d8ea086857">&#9670;&nbsp;</a></span>wordProcessor()</h2>
+<a id="a4d79df4f1e92552741b4b26acc5bafa2" name="a4d79df4f1e92552741b4b26acc5bafa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d79df4f1e92552741b4b26acc5bafa2">&#9670;&nbsp;</a></span>wordProcessor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -313,20 +333,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">wordProcessor </td>
           <td>(</td>
-          <td class="paramtype">&amp;&#160;</td>
-          <td class="paramname"><em>$sid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>$record</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&amp;&#160;</td>
-          <td class="paramname"><em>$hideuntil</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -337,13 +345,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&amp;&#160;</td>
-          <td class="paramname"><em>$cnt</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&amp;&#160;</td>
+          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>$currcharcount</em>&#160;</td>
         </tr>
         <tr>
@@ -354,6 +356,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Process each word (can be punction, term, etc...)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string[]</td><td class="paramname">$record</td><td>Record information </td></tr>
+    <tr><td class="paramtype">0&#160;|&#160;1</td><td class="paramname">$showAll</td><td>Show all words or not </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$currcharcount</td><td>Current number of caracters</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int New number of caracters </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
 
 </div>

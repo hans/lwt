@@ -26,8 +26,6 @@ require_once 'inc/session_utility.php';
  * 
  * @return string SQL query to use
  * 
- * @since 2.0.5-fork
- * 
  * @global string $tbpref Database table prefix
  */
 function get_sql_test_data(&$title, &$p)
@@ -60,8 +58,6 @@ function get_sql_test_data(&$title, &$p)
  *
  * @return string SQL query to use
  *
- * @since 2.0.5-fork
- *
  * @global string $tbpref Database table prefix
  */
 function get_lang_test_data(&$title, &$p): string 
@@ -83,8 +79,6 @@ function get_lang_test_data(&$title, &$p): string
  * @param string $p     Property URL to be overwritten
  *
  * @return string SQL query to use
- *
- * @since 2.0.5-fork
  *
  * @global string $tbpref Database table prefix
  */
@@ -131,8 +125,6 @@ function get_test_counts($testsql)
  * @param string $p URL property to use
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_header_row($p)
 {
@@ -165,8 +157,6 @@ function do_test_header_row($p)
 
 /**
  * Prepare JavaScript content for the header.
- * 
- * @since 2.0.5-fork
  * 
  * @return void
  */
@@ -211,8 +201,6 @@ function do_test_header_js()
  * @param string $totalcount    Total number of words.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_header_content($title, $p, $totalcountdue, $totalcount)
 {
@@ -239,8 +227,6 @@ function do_test_header_content($title, $p, $totalcountdue, $totalcount)
  * @param string $p     Property URL to be overwritten
  * 
  * @return array{0: string, 1: string} Total words due and total words learning
- * 
- * @since 2.0.5-fork
  */
 function get_test_data(&$title, &$p)
 {
@@ -269,8 +255,6 @@ function get_test_data(&$title, &$p)
  * @param string $totalcount    Total number of words.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_header_page($title, $p, $totalcountdue, $totalcount)
 {
@@ -295,8 +279,6 @@ function do_test_header_page($title, $p, $totalcountdue, $totalcount)
  * Use requests passed to the page to start it.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function start_test_header_page()
 {

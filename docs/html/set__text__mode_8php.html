@@ -77,10 +77,8 @@ $(function() {
 Functions</h2></td></tr>
 <tr class="memitem:ab53bff84945cd59f2d5dc7c2681f219f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#ab53bff84945cd59f2d5dc7c2681f219f">text_mode_save_settings</a> ($showAll, $showLearning)</td></tr>
 <tr class="separator:ab53bff84945cd59f2d5dc7c2681f219f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2422cf887f7805cf5b74faa0e1424a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#ae2422cf887f7805cf5b74faa0e1424a4">text_mode_javascript</a> ($showLearning, $previousShowLearning)</td></tr>
-<tr class="separator:ae2422cf887f7805cf5b74faa0e1424a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a230a17ee8a5548931b06ace3eb5315dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#a230a17ee8a5548931b06ace3eb5315dc">text_mode_page_content</a> ($showAll, $showLearning, $previousShowLearning)</td></tr>
-<tr class="separator:a230a17ee8a5548931b06ace3eb5315dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8d5be7262a81a588221af49d91454ba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#ac8d5be7262a81a588221af49d91454ba">text_mode_page_content</a> ($showAll, $showLearning, $oldShowLearning)</td></tr>
+<tr class="separator:ac8d5be7262a81a588221af49d91454ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a055404332712b14eb22ea55a070cf0f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__text__mode_8php.html#a055404332712b14eb22ea55a070cf0f2">change_text_mode</a> ($textid, $showAll, $showLearning)</td></tr>
 <tr class="separator:a055404332712b14eb22ea55a070cf0f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -134,45 +132,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae2422cf887f7805cf5b74faa0e1424a4" name="ae2422cf887f7805cf5b74faa0e1424a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2422cf887f7805cf5b74faa0e1424a4">&#9670;&nbsp;</a></span>text_mode_javascript()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">text_mode_javascript </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$showLearning</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$previousShowLearning</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Do the JavaScript action to change the display of translations.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$showLearning</td><td>Whether to show translation of learning words </td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$previousShowLearning</td><td>If show learning was previously true (1) or false (0)</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a230a17ee8a5548931b06ace3eb5315dc" name="a230a17ee8a5548931b06ace3eb5315dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a230a17ee8a5548931b06ace3eb5315dc">&#9670;&nbsp;</a></span>text_mode_page_content()</h2>
+<a id="ac8d5be7262a81a588221af49d91454ba" name="ac8d5be7262a81a588221af49d91454ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8d5be7262a81a588221af49d91454ba">&#9670;&nbsp;</a></span>text_mode_page_content()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -193,7 +154,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$previousShowLearning</em>&#160;</td>
+          <td class="paramname"><em>$oldShowLearning</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -207,7 +168,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramtype">int</td><td class="paramname">$showAll</td><td>Whether all word should be shown </td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$showLearning</td><td>Whether to show translation of learning words </td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$previousShowLearning</td><td>If show learning was previously true (1) or false (0)</td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$oldShowLearning</td><td>If show learning was previously true (1) or false (0)</td></tr>
   </table>
   </dd>
 </dl>
@@ -248,7 +209,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0|1 If show learning was previously true (1) or false (0) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int If show learning were previously true (1) or false (0)</dd></dl>
+<p>@psalm-return 0|1 </p>
 
 </div>
 </div>

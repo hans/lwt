@@ -2330,12 +2330,55 @@ KEY NfUpdate (NfUpdate)</p>
       <dd>
 		  <h1>Changelog</h1>
 <p>This project's changelog. Version marked with &quot;-fork&quot; come from the community, other version come from the canonical LWT (&quot;official&quot; branch on Git).</p>
+<h2>[Unreleased]</h2>
+<h3>Added</h3>
+<ul>
+<li>Badges in the README providing updated informatiosn of the state of the project.</li>
+<li>When riding, right frames are hidden and will come sliding when needed.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>PHP &gt;=7.4 is now the official PHP version.</li>
+<li>Refactored the do_tests* pages.</li>
+<li>Better CSS minification.</li>
+<li>Code base unconsistencies and security issues fixed
+(level 5 and above psalm errors fixed).</li>
+<li>Code is much more strongly typed (~80% of the code base). Level 4 psalm errors partially fixed.</li>
+<li>GitHub continuous integration reviewed.</li>
+<li>Regenerated documentation.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Since 2.0.3-fork, it was difficult to get annotations. This is no longer the case.</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li>Effectively dropped support for PHP &lt;=7.</li>
+</ul>
 <h2>2.0.4-fork (December 03 2021)</h2>
 <p>This version brings a better composer compatibility, and starts revamping
 mobile compatibility.</p>
 <h3>Changed</h3>
 <ul>
 <li>Starting to refactor for 2021 HTML!</li>
+<li>Much less iframes for reading texts.</li>
+<li>Now you can read texts on mobile without the experimental mobile LWT.</li>
+<li>Texts can be read using &quot;focus mode&quot; on most browsers.</li>
+<li>Updated documentation (expanded and refactored).</li>
+<li>Composer is now the recommended way to download lwt.</li>
+<li>PHP_codesniffer is now recommended, and no longer dev-required.</li>
+<li>Refactored many parts of the code, that gets easier to read.</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li>
+<code>composer.phar</code> and <code>composer.lock</code> are now git ignored.</li>
+</ul>
+<h2>2.0.4-fork (December 03 2021):</h2>
+<p>This version brings a better composer compatibility, and starts revamping mobile compatibility.</p>
+<h3>Changed</h3>
+<ul>
+<li>Starting to refactor for post-2010 HTML!</li>
 <li>Much less iframes for reading texts.</li>
 <li>Now you can read texts on mobile without the experimental mobile LWT.</li>
 <li>Texts can be read using &quot;focus mode&quot; on most browsers.</li>
@@ -2437,72 +2480,113 @@ mobile compatibility.</p>
 <li>Google translate API updated.</li>
 </ul>
 <h2>1.6.29-fork (April 21 2016):</h2>
+<h3>Changed</h3>
 <ul>
-<li>Bugfix: ggl.php API doesn't work (Token generation fixed).</li>
-<li>Bugfix: Dictionary doesn't open.</li>
-<li>Bugfix: Negative/uncorrect WordCount in 'edit_texts_php'.</li>
 <li>In appreviations like 'Mr.' the dot is now part of the term. A reparse of texts is needed to take effect.</li>
 <li>Wizard Language: Arabic 'RegExp Word Characters' changed.</li>
 </ul>
+<h3>Fixed</h3>
+<ul>
+<li>ggl.php API doesn't work (Token generation fixed).</li>
+<li>Dictionary doesn't open.</li>
+<li>Negative/uncorrect WordCount in 'edit_texts_php'.</li>
+</ul>
 <h2>1.6.28-fork (April 07 2016):</h2>
+<h3>Added</h3>
 <ul>
 <li>DB collation check added.</li>
-<li>Bugfix: Access denied, LOAD DATA INFILE error (text parsing on a server).</li>
-<li>Bugfix: 'remove spaces' not working.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
 <li>Wizard Language Defaults changed.</li>
 </ul>
+<h3>Fixed</h3>
+<ul>
+<li>Access denied, LOAD DATA INFILE error (text parsing on a server).</li>
+<li>'remove spaces' not working.</li>
+</ul>
 <h2>1.6.27-fork (February 21 2016):</h2>
+<h3>Fixed</h3>
 <ul>
 <li>Bugfix: DB backup/import errors.</li>
 <li>RegExp Word Characters are checked for correct syntax when creating/updating language.</li>
+</ul>
+<h3>Removed</h3>
+<ul>
 <li>thumbnail/image support removed.</li>
 </ul>
 <h2>1.6.26-fork (February 11 2016):</h2>
+<h3>Changed</h3>
 <ul>
-<li>Some bugfixes: errors when emptying database and installing Demo database, added 'follow redirect' to feed.</li>
 <li>Demo Database updated.</li>
 <li>mysqli changes from orig. LWT.</li>
 <li>php-mobile-detect updated.</li>
 </ul>
+<h3>Fixed</h3>
+<ul>
+<li>Some bugfixes: errors when emptying database and installing Demo database, added 'follow redirect' to feed.</li>
+</ul>
 <h2>1.6.25-fork (January 31 2016):</h2>
+<h3>Added</h3>
+<ul>
+<li>Added German Feed 'NachDenkSeiten'(url:'http://www.nachdenkseiten.de/?feed=audiopodcast', Article Section:'//encoded/p', Options:'Article Source:encoded') to DemoDatabase.</li>
+<li>Added saved expressions to CheckText.</li>
+</ul>
+<h3>Changed</h3>
 <ul>
 <li>SplitCheckText rewritten.</li>
-<li>Added saved expressions to CheckText.</li>
-<li>Bugfix: No Word Counts displayed when text has no saved words.</li>
-<li>Added German Feed 'NachDenkSeiten'(url:'http://www.nachdenkseiten.de/?feed=audiopodcast', Article Section:'//encoded/p', Options:'Article Source:encoded') to DemoDatabase.</li>
 <li>Database changes (table 'temptextitems'): added: TiCount, dropped: TiLgID, TiTxID, TiTextLC and index TiTextLC</li>
 <li>Database changes : dropped: index WtWoID, index TtTxID, index AgAtID</li>
 </ul>
+<h3>Fixed</h3>
+<ul>
+<li>Bugfix: No Word Counts displayed when text has no saved words.</li>
+</ul>
 <h2>1.6.0 (January 28 2016):</h2>
+<h3>Changed</h3>
 <ul>
 <li>As mysql_* database calls are deprecated and are no longer supported by PHP, they have been changed to the corresponding mysqli_* calls. If you run a server with PHP version 7.0.0 or higher, you MUST use LWT 1.6.0 or higher. Thanks to Laurens Vercaigne for his work!</li>
 <li>Debugging updated. Status information on start page improved. Documentation updated.</li>
 </ul>
 <h2>1.5.21 (January 14 2016):</h2>
+<h3>Changed</h3>
 <ul>
 <li>
 <a href="https://en.wikipedia.org/wiki/Soft_hyphen">Soft hyphens</a> (U+00AD, UTF-8: 0xC2 0xAD) are now automatically removed during text import.</li>
 <li>&quot;Mobile_Detect.php&quot; updated to v2.8.19.</li>
 </ul>
 <h2>1.6.24-fork (January 11 2016):</h2>
+<h3>Added</h3>
+<ul>
+<li>Added possibility to switch between 'unique' and 'total' word count by clicking on 'u'/'t'-button.</li>
+</ul>
+<h3>Changed</h3>
 <ul>
 <li>HTML lang attribute added in testing frame.</li>
 <li>Speed improvements in 'My Texts' screen.</li>
 <li>Replaced precentage of 'unknown words' by 'word charts' in 'My Texts' screen.</li>
-<li>Added possibility to switch between 'unique' and 'total' word count by clicking on 'u'/'t'-button.</li>
+</ul>
+<h3>Removed</h3>
+<ul>
 <li>Deleted Setting: Show Word Counts of Texts immediately</li>
 </ul>
 <h2>1.6.23-fork (December 13 2015):</h2>
+<h3>Added</h3>
 <ul>
 <li>HTML lang attribute added in reading frame.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
 <li>Jplayer, Jquery, JqueryUI updated.</li>
 <li>Google Translate API changes: random google domain access added (domain can be changed in googleTranslateClass.php), updated generateToken.</li>
 </ul>
 <h2>1.6.22-fork (November 11 2015):</h2>
+<h3>Added</h3>
 <ul>
 <li>Google Translate API(ggl.php): added headers and corrected token.</li>
 </ul>
 <h2>1.6.21-fork (October 16 2015):</h2>
+<h3>Added</h3>
 <ul>
 <li>Google Translate API(ggl.php): added token to URL.</li>
 </ul>
@@ -2537,72 +2621,103 @@ mobile compatibility.</p>
 <li>Minified CSS and Javascript files; the uncompressed files can be found in the directory 'src'.</li>
 </ul>
 <h2>1.6.15-fork (April 10 2015):</h2>
+<h3>Changed</h3>
+<ul>
+<li>Some CSS changes.</li>
+</ul>
+<h3>Fixed</h3>
 <ul>
 <li>Ggl API retrieval error fixed.</li>
-<li>Some CSS changes.</li>
 </ul>
 <h2>1.6.14-fork (March 28 2015):</h2>
 <ul>
 <li>Glosbe API now uses javascript(browser based) instead of php(server based) to prevent possible retrieval errors when LWT is installed on a webhoster for multiple users.</li>
 </ul>
 <h2>1.6.13-fork (March 23 2015):</h2>
+<h3>Added</h3>
 <ul>
-<li>Bugfix: 'error when making backup' fixed</li>
 <li>New Setting: Tooltips (JQueryUI will show images in Tooltips in the Read Text Screen)</li>
 <li>New Feature: You can now add thumbnail images to your terms. If you click on the icon at the left of the translation field in the new_term/edit_term frame/window you can select an thumbnail from 'google image search'. In order to display the images in the Read Text Screen you must set 'Tooltips' to 'JQueryUI'. The thumbnail images are not included in the backup at the moment.</li>
 <li>New Feature: Key binding J for edit term with Google Image Search added</li>
 </ul>
+<h3>Fixed</h3>
+<ul>
+<li>Bugfix: 'error when making backup' fixed</li>
+</ul>
 <h2>1.6.12-fork (March 01 2015):</h2>
+<h3>Changed</h3>
+<ul>
+<li>Jquery, JqueryUI updated</li>
+</ul>
+<h3>Fixed</h3>
 <ul>
 <li>CSS/jquery fixes when selecting multiple word expressions in text frame</li>
 <li>Bugfix: new or imported multiple word expressions are not show in the text with 'remove Spaces' is 1 and 'split Each Char' is 0</li>
-<li>Jquery, JqueryUI updated</li>
 </ul>
 <h2>1.6.11-fork (February 09 2015):</h2>
+<h3>Fixed</h3>
 <ul>
 <li>Bugfix: 'Show term sentences' and 'Create term sentences' fixed</li>
 </ul>
 <h2>1.6.10-fork (January 25 2015):</h2>
+<h3>Changed</h3>
 <ul>
-<li>Bugfixes in bulk import terms</li>
 <li>CSS changes for firefox (version &gt;= 35) in dark themes</li>
 </ul>
-<h2>1.6.9-fork (December 21 2014):</h2>
+<h3>Fixed</h3>
 <ul>
-<li>Bugfix: getting article from feed even if there is no link</li>
+<li>Bugfixes in bulk import terms</li>
+</ul>
+<h2>1.6.9-fork (December 21 2014):</h2>
+<h3>Fixed</h3>
+<ul>
+<li>Getting article from feed even if there is no link</li>
 </ul>
 <h2>1.6.8-fork (December 19 2014):</h2>
+<h3>Changed</h3>
 <ul>
 <li>Google API can now do a requery</li>
 <li>Dict Lookup from bulk import terms frame is now possible</li>
 </ul>
 <h2>1.6.7-fork (December 18 2014):</h2>
+<h3>Fixed</h3>
 <ul>
-<li>Bugfix: db error in newsfeeds</li>
+<li>Database errore in newsfeeds</li>
 </ul>
 <h2>1.6.6-fork (December 16 2014):</h2>
+<h3>Added</h3>
 <ul>
-<li>New Feature: Ability to change audio playback speed (doesn't work when using the flash plugin)</li>
-<li>New Feature: Combine translation field option when importing words ('Merge translation fields' or 'Update existing translations')</li>
+<li>Ability to change audio playback speed (doesn't work when using the flash plugin)</li>
+<li>Combine translation field option when importing words ('Merge translation fields' or 'Update existing translations')</li>
 </ul>
 <h2>1.6.5-fork (December 01 2014):</h2>
+<h3>Fixed</h3>
 <ul>
-<li>Bugfix: error in 'upload_words.php'</li>
+<li>Error in 'upload_words.php'</li>
 </ul>
 <h2>1.6.4-fork (November 29 2014):</h2>
+<h3>Fixed</h3>
 <ul>
-<li>Bugfix: wrong dict links for sentence translate</li>
+<li>Wrong dict links for sentence translate</li>
 </ul>
 <h2>1.6.3-fork (October 12 2014):</h2>
+<h3>Added</h3>
+<ul>
+<li>Key binding G for edit term with Google Translate added</li>
+</ul>
+<h3>Changed</h3>
 <ul>
 <li>Google api rewritten (works on webhoster with cURL-plugin)</li>
-<li>New Feature: Key binding G for edit term with Google Translate added</li>
 </ul>
 <h2>1.6.2-fork (October 06 2014):</h2>
+<h3>Added</h3>
+<ul>
+<li>Key binding T for translating sentence added</li>
+<li>New Backup Option: official LWT backup added</li>
+</ul>
+<h3>Changed</h3>
 <ul>
 <li>Database Changes: indexes changed in table words</li>
-<li>New Feature: Key binding T for translating sentence added</li>
-<li>New Backup Option: official LWT backup added</li>
 </ul>
 <h2>1.6.1-fork (September 28 2014)</h2>
 <h3>Added</h3>
@@ -2639,9 +2754,13 @@ mobile compatibility.</p>
 </li>
 </ul>
 <h2>1.5.20 (September 22 2014):</h2>
+<h3>Changed</h3>
+<ul>
+<li>&quot;Mobile_Detect.php&quot; updated to v2.8.3.</li>
+</ul>
+<h3>Fixed</h3>
 <ul>
 <li>Missing volume controls in audio player (only on mobile devices) fixed.</li>
-<li>&quot;Mobile_Detect.php&quot; updated to v2.8.3.</li>
 </ul>
 <h2>1.5.19 (September 15 2014):</h2>
 <ul>
@@ -2650,85 +2769,132 @@ mobile compatibility.</p>
 <li>Information about <a href="#abstract">which web browser to use for LWT</a> in this document updated.</li>
 </ul>
 <h2>1.5.18 (September 14 2014):</h2>
+<h3>Added</h3>
 <ul>
-<li>
-<strong>New Feature:</strong> Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the &quot;Settings&quot; page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting &quot;Similar terms to be displayed while adding/editing a term&quot; to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense.</li>
+<li>Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the &quot;Settings&quot; page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting &quot;Similar terms to be displayed while adding/editing a term&quot; to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense.</li>
+<li>New sort option for texts, terms or tags: &quot;Oldest first&quot;.</li>
+<li>The Catalan language has been added to the Language Settings Wizard.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
 <li>&quot;https://&quot; dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved. The Glosbe dictionary page has been improved with a simple form to change the term and do a requery if you are unhappy with the query results.</li>
 <li>The jQuery and jPlayer libraries have been updated to v1.11.1 and v2.7.0, respectively. The jQuery.ScrollTo package has been updated to v1.4.13. The Floating Menu package has been updated to v1.12.</li>
-<li>The audio player skin selection has been removed; the &quot;Blue Monday Small&quot; skin is the standard skin beginning with this release.</li>
-<li>The Catalan language has been added to the Language Settings Wizard.</li>
-<li>New sort option for texts, terms or tags: &quot;Oldest first&quot;.</li>
-<li>Some minor bugs fixed: media selection in archived texts, tag import errors, adding existing tag errors, etc.</li>
 <li>Some error messages (term/tag already exists) have been improved.</li>
 <li>Documentation updated.</li>
 </ul>
-<h2>1.6.0-fork (September 12 2014):</h2>
+<h3>Fixed</h3>
 <ul>
-<li>Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added</li>
+<li>Some minor bugs fixed: media selection in archived texts, tag import errors, adding existing tag errors, etc.</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li>The audio player skin selection has been removed; the &quot;Blue Monday Small&quot; skin is the standard skin beginning with this release.</li>
+</ul>
+<h2>1.6.0-fork (September 12 2014):</h2>
+<h3>Added</h3>
+<ul>
 <li>New Feature: Longer (&gt;9) expressions can now be saved</li>
 <li>New Feature: TextToSpeech support for words added</li>
 <li>New Feature: experimental google api (use 'ggl.php' instead of '*<a href="http://translate.google.com">http://translate.google.com</a>' for google translate)</li>
 <li>New Feature: new word select mode in read texts (hold down mouse button)</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added</li>
 <li>statistics.php, upload_words.php rewritten</li>
 </ul>
 <h2>1.5.17 (June 08 2014):</h2>
+<h3>Added</h3>
 <ul>
 <li>New Feature: Selecting terms according to a text tag</li>
 <li>New Feature: Start a document where you left off (only &quot;Read Text Screen&quot;)</li>
 <li>New Feature: Improved Search/Query for Words/Texts</li>
 <li>New Feature: Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)</li>
-<li>JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated</li>
-<li>Database table optimization: first check, only optimize if (Overhead &gt;10% of table and &gt; 100KB) or (Overhead &gt; 1,0MB)</li>
-<li>Database table optimization: data types changed.</li>
 <li>New Setting: Button(s) for &quot;words to do&quot; &quot;IGNORE ALL&quot;/&quot;I KNOW ALL&quot;</li>
 <li>New Setting: Theme</li>
 <li>New Setting: term/word query with standard/regexp/regexp CS</li>
 <li>New Sort option &quot;Oldest First&quot;</li>
 <li>New option &quot;Set Active Term(1-5) Sentences&quot; in My Texts</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated</li>
+<li>Database table optimization: first check, only optimize if (Overhead &gt;10% of table and &gt; 100KB) or (Overhead &gt; 1,0MB)</li>
+<li>Database table optimization: data types changed.</li>
+<li>Documentation updated.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
 <li>Bugfix: importing multiple words with the same tag causes an error</li>
 <li>Bugfix: can't select media in Archived Texts</li>
 <li>Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)</li>
 <li>Bugfix: bottom page select doesn't work in firefox (edit_texts.php, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php)</li>
 <li>Bugfix: setting a tag where tag already exists causes an error</li>
 <li>Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)</li>
-<li>Documentation updated.</li>
 </ul>
 <h2>1.5.17 (August 15 2014, this document updated Aug 17 2014 and Aug 24 2014):</h2>
+<h3>Changed</h3>
 <ul>
-<li>Minor bug in Utilities fixed.</li>
 <li>Documentation updated. Broken links corrected or deleted. From now on, only the installation with EasyPHP for Windows and MAMP for Mac OS X will be explained in detail and is recommended. Other local web server packages, like XAMPP, etc., are of course still possible, but it's beyond the scope of this document to explain all the details for every webserver package (it will also confuse most LWT users who are not familiar with web server packages and their setup).</li>
 <li>Documentation updated on August 17 2014: Installation screencasts added.</li>
 <li>Documentation updated on August 24 2014: Linux (Ubuntu, LinuxMint) installation hints and screencast added.</li>
 </ul>
+<h3>Fixed</h3>
+<ul>
+<li>Minor bug in Utilities fixed.</li>
+</ul>
 <h2>1.5.16 (February 19 2014):</h2>
+<h3>Changed</h3>
+<ul>
+<li>Documentation updated.</li>
+</ul>
+<h3>Fixed</h3>
 <ul>
 <li>Paging (via page select, and only at the bottom of a page) did not work correctly in all cases, has been corrected.</li>
-<li>Documentation updated.</li>
 </ul>
 <h2>1.5.15 (December 17 2013):</h2>
+<h3>Changed</h3>
 <ul>
-<li>Corrected wrong language code (French) within the language wizard definitions.</li>
 <li>Documentation updated.</li>
 </ul>
-<h2>1.5.14 (August 05 2013, this document updated Oct 30 2013):</h2>
+<h3>Fixed</h3>
 <ul>
-<li>Wrong text display in Print Screen corrected. Special handling of word breaks (if &quot;Remove spaces&quot; = Yes) removed.</li>
+<li>Corrected wrong language code (French) within the language wizard definitions.</li>
+</ul>
+<h2>1.5.14 (August 05 2013, this document updated Oct 30 2013):</h2>
+<h3>Changed</h3>
+<ul>
 <li>Documentation updated on October 30 2013.</li>
 </ul>
-<h2>1.5.13 (July 22 2013):</h2>
+<h3>Fixed</h3>
 <ul>
-<li>Removed an erroneous extra space in &quot;wp_logincheck.inc.php&quot;. Thanks to a poster in the help forum for pointing this out!</li>
-<li>Minor bug fixes.</li>
+<li>Wrong text display in Print Screen corrected. Special handling of word breaks (if &quot;Remove spaces&quot; = Yes) removed.</li>
+</ul>
+<h2>1.5.13 (July 22 2013):</h2>
+<h3>Changed</h3>
+<ul>
 <li>License texts updated according to text on <a href="http://unlicense.org/">unlicense.org</a>.</li>
 <li>Documentation updated.</li>
 </ul>
+<h3>Fixed</h3>
+<ul>
+<li>Removed an erroneous extra space in &quot;wp_logincheck.inc.php&quot;. Thanks to a poster in the help forum for pointing this out!</li>
+<li>Minor bug fixes.</li>
+</ul>
 <h2>1.5.12 (July 16 2013):</h2>
+<h3>Added</h3>
 <ul>
 <li>New Sort option for Terms/Expressions: &quot;Word Count in Active Texts&quot; (Descending). Only when you choose this sort option, the word count will be calculated, displayed, and used for sorting the table. This may slow down the term table display. If you prefer faster term table display, choose the other sort options.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
 <li>Much better Tablet/iPad® user experience in screens with several frames. There is a new setting &quot;Frame Set Display Mode&quot; where you can select how frame sets are displayed on different devices (default: &quot;Auto&quot;). If you prefer the old mode also on mobile devices, set this to &quot;Force Non-Mobile&quot;.</li>
 <li>Tagging and JQuery UI updated.</li>
 <li>Better error message when Glosbe API call fails.</li>
 <li>Unsaved changes alerts extended to tag changes.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
 <li>Tags cache updating corrected: when LWT table set has been changed or after restore/emptying tables.</li>
 </ul>
 <h2>1.5.11 (July 12 2013):</h2>

@@ -22,8 +22,6 @@ require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php' ;
  * Return true if we should use mobile mode.
  * 
  * @return bool Mobile mode shoud be activated or not
- * 
- * @since 2.0.5-fork
  */
 function is_mobile()
 {
@@ -60,8 +58,6 @@ function get_test_property()
  * Prepare JS and CSS content for mobile test page.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_mobile_css_and_js() 
 {
@@ -132,8 +128,6 @@ body {
  * @param string $property URL property
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_mobile_page_content($property) 
 {
@@ -162,8 +156,6 @@ function do_test_mobile_page_content($property)
  * @param string $property URL property for HEADER
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_mobile_page($property) 
 {
@@ -177,8 +169,6 @@ function do_test_mobile_page($property)
  * @param string $property URL property for HEADER
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_desktop_page($property) 
 {
@@ -204,8 +194,6 @@ function do_test_desktop_page($property)
  * @param bool   $mobile Set to true to use mobile mode.
  * 
  * @return void
- * 
- * @since 2.0.5-fork 
  */
 function do_test_page($p, $mobile)
 {
@@ -227,8 +215,6 @@ function do_test_page($p, $mobile)
  * If unsifficiant arguments are provided to
  * the page, the page will be redirected to
  * edit_texts.php.
- *
- * @since 2.0.5-fork
  */
 function try_start_test($p): void
 {

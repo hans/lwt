@@ -345,7 +345,7 @@ if(!empty($dspltime))&#160;</td><td class="memItemRight" valign="bottom"><b>$DBC
 <p >Return the record "value" in the first line of the database if found.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$sql</td><td>MySQL query </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$sql</td><td>MySQL query</td></tr>
   </table>
   </dd>
 </dl>
@@ -439,7 +439,8 @@ if(!empty($dspltime))&#160;</td><td class="memItemRight" valign="bottom"><b>$DBC
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0|1 </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int</dd></dl>
+<p>@psalm-return 0|1 </p>
 
 </div>
 </div>
@@ -667,7 +668,8 @@ if(!empty($dspltime))&#160;</td><td class="memItemRight" valign="bottom"><b>$DBC
   </table>
   </dd>
 </dl>
-<p>@global string '' if the language is not valid. </p>
+<dl class="section return"><dt>Returns</dt><dd>string '' if the language is not valid, $currentlang otherwise</dd></dl>
+<p>@global string $tbpref Table name prefix </p>
 
 </div>
 </div>
@@ -693,7 +695,8 @@ if(!empty($dspltime))&#160;</td><td class="memItemRight" valign="bottom"><b>$DBC
   </table>
   </dd>
 </dl>
-<p>@global string '' if the text is not valid. </p>
+<p>@global string '' if the text is not valid, $currenttext otherwise</p>
+<p >@global string $tbpref Table name prefix </p>
 
 </div>
 </div>

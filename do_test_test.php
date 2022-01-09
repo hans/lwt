@@ -24,8 +24,6 @@ require_once 'inc/session_utility.php';
  * @return string SQL request string
  * 
  * @global string $tbpref Table prefix
- * 
- * @since 2.0.5-fork
  */
 function get_test_sql()
 {
@@ -57,8 +55,6 @@ function get_test_sql()
  * Give the test type.
  * 
  * @return int<1, 5> Test type between 1 and 5 (included)
- * 
- * @since 2.0.5-fork
  */
 function get_test_type()
 {
@@ -76,8 +72,6 @@ function get_test_type()
  * Prepare the css code for tests.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_test_css()
 {
@@ -110,8 +104,6 @@ body {
  * @param int    $totaltests Total number of tests.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_test_finished($testsql, $totaltests)
 {
@@ -143,8 +135,6 @@ function do_test_test_finished($testsql, $totaltests)
  * @global int    $debug  Echo the passage number if 1. 
  * 
  * @return array{0: int, 1: int} Sentence with escaped word and a confirmation number if sentence was found.
- * 
- * @since 2.0.5-fork
  */
 function do_test_test_sentence($wid, $lang, $wordlc)
 {
@@ -208,8 +198,6 @@ function do_test_test_sentence($wid, $lang, $wordlc)
  * @param string $regexword Regex to select the desired word.
  * 
  * @return array{0: string, 1: string} HTML-escaped and raw text sentences (or word)
- * 
- * @since 2.0.5-fork
  */
 function print_term_test($wo_record, $sent, $testtype, $nosent, $regexword)
 {
@@ -291,8 +279,6 @@ function print_term_test($wo_record, $sent, $testtype, $nosent, $regexword)
  *
  * @global string $tbpref Table prefix 
  * @global int    $debug  Show the SQL query used if 1.
- *
- * @since 2.0.5-fork
  *
  * @psalm-return int<0, max>
  */
@@ -416,8 +402,6 @@ function prepare_test_area($testsql, $totaltests, $count, $testtype): int
  * @param string $save      Word or sentence to use for the test
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $testtype, $nosent, $save)
 {
@@ -457,8 +441,6 @@ function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $test
  * @param int $notyettested Number of words left to be tested.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function prepare_test_footer($notyettested)
 {
@@ -475,8 +457,6 @@ function prepare_test_footer($notyettested)
  * @param int $correct      Number of correct answers.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_footer($notyettested, $wrong, $correct)
 {
@@ -524,8 +504,6 @@ function do_test_footer($notyettested, $wrong, $correct)
  * @param int $count 1 for timer.
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_test_javascript($count)
 {
@@ -557,8 +535,6 @@ $(document).ready( function() {
  * @global int $debug Show debug informations
  * 
  * @return void
- * 
- * @since 2.0.5-fork
  */
 function do_test_test_content()
 {
