@@ -145,13 +145,13 @@ function do_settings($textid): void
         title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.
 [Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">
             Show All&nbsp;
-            <input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> />
+            <input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> onclick="showAllwordsClick();" />
         </td>
         <td 
         title="[Learning Translations] = ON: Terms with Learning Level&nbsp;1 display their translations under the term.
 [Learning Translations] = OFF: No translations are shown in the reading mode.">
             Learning Translations&nbsp;
-            <input type="checkbox" id="showlearningtranslations" <?php echo get_checked($showLearning); ?> />
+            <input type="checkbox" id="showlearningtranslations" <?php echo get_checked($showLearning); ?> onclick="showAllwordsClick();" />
         </td>
         <td id="thetextid" class="hide"><?php echo $textid; ?></td>
         <td><button id="readTextButton">Read in browser</button></td>
@@ -211,13 +211,23 @@ function browser_tts($text, $languageName): void
 
     };
 
-    // Check browser compatibility before reading
+    /** Check browser compatibility before reading */
     function init_reading() {
         if (!('speechSynthesis' in window)) {
             alert('Your browser does not support speechSynthesis!');
         } else {
             text_reader.readTextAloud();
         }
+    }
+
+    /** 
+     * Change the annotations display mode 
+     * 
+     * @param {string} mode The new annotation mode
+     */
+    function annotationModeChanged(mode) {
+        console.log(mode);
+
     }
 </script>
     <?php

@@ -287,10 +287,12 @@ function showAllwordsClick () {
   const showAll = $('#showallwords').prop('checked') ? '1' : '0';
   const showLeaning = $('#showlearningtranslations').prop('checked') ? '1' : '0';
   const text = $('#thetextid').text();
-  //window.parent.frames.ro.location.href =
-	showRightFrames(
+  // Timeout necessary because the button is clicked on the left (would hide frames)
+	setTimeout(function () {
+    console.log(window.top.location);showRightFrames(
     'set_text_mode.php?mode=' + showAll + '&showLearning=' + showLeaning + '&text=' + text
-  );
+  );}, 500);
+  setTimeout(function () {window.location.reload();}, 4000);
 }
 
 function textareaKeydown (event) {
@@ -1138,7 +1140,6 @@ function prepareMainAreas() {
   $('form.validate').submit(check);
   $('input.markcheck').click(markClick);
   $('.confirmdelete').click(confirmDelete);
-  $('#showallwords').click(showAllwordsClick);
   $('textarea.textarea-noreturn').keydown(textareaKeydown);
   $('#termtags').tagit(
     {

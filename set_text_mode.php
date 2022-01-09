@@ -83,6 +83,7 @@ function text_annotations_mode_javascript($showLearning, $oldShowLearning)
             }
         });
     }
+    /* Doesn't work
     if (showLearningChanged) {
         window.parent.location.reload(true);
     } else {
@@ -93,6 +94,7 @@ function text_annotations_mode_javascript($showLearning, $oldShowLearning)
             hideAnnotations(context);
         }
     }
+    */
     $('#waiting').html('<b>OK -- </b>');
 
     

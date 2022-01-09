@@ -117,8 +117,7 @@ $jsFiles = array(
     'src/js/third_party/sorttable.js', 'src/js/user_interactions.js', 
 
     // Packages integrated by composer (dev mode)
-    'vendor/happyworm/jplayer/src/javascript/jplayer/jquery.jplayer.js',
-    'vendor/aehlke/tag-it/js/tag-it.js'
+    'vendor/happyworm/jplayer/src/javascript/jplayer/jquery.jplayer.js'
 );
 
 /**
@@ -130,6 +129,5 @@ $cssFiles = array(
     'src/css/styles.css',
 
     // Packages integrated by composer (dev mode)
-    'vendor/aehlke/tag-it/css/jquery.tagit.css'
 );
 ?>
