@@ -12,52 +12,11 @@
         "issues": "https://github.com/HugoFara/lwt/issues",
         "source": "https://github.com/HugoFara/lwt"
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "aehlke/tag-it",
-                "version": "dev-master",
-                "source":{
-                    "type": "git",
-                    "url": "https://github.com/aehlke/tag-it",
-                    "reference": "master"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "ilinsky/jquery-xpath",
-                "version": "dev-master",
-                "source":{
-                    "type": "git",
-                    "url": "https://github.com/ilinsky/jquery-xpath",
-                    "reference": "master"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "briancherne/jquery-hoverintent",
-                "version": "dev-master",
-                "source":{
-                    "type": "git",
-                    "url": "https://github.com/briancherne/jquery-hoverIntent",
-                    "reference": "master"
-                }
-            }
-        }
-    ],
     "require": {
         "php": "^7.4",
         "components/jquery": "^3.6",
         "flesler/jquery.scrollto": "^2.1",
-        "aehlke/tag-it": "dev-master",
         "happyworm/jplayer": "^2.9",
-        "ilinsky/jquery-xpath": "dev-master",
-        "briancherne/jquery-hoverintent": "dev-master",
         "mobiledetect/mobiledetectlib": "^2.8",
         "league/commonmark": "^2.0.2"
     },
