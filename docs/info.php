@@ -3,8 +3,10 @@
  * \file
  * \brief LWT Information / Help
  *
- * @author     LWT Project
- * @since      1.0.3
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense
+ * @since   1.0.3
  */
 
 require_once __DIR__ . '/../src/php/markdown_converter.php';
@@ -50,8 +52,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
     </title>
   </head>
   <body>
-	<div id="floatdivv" 
-	style="position:fixed; width:auto; height:auto; top:10px; right:10px; 
+	<div style="position:fixed; width:auto; height:auto; top:10px; right:10px; 
 	padding:5px; z-index:2; font-size: 10pt; text-align:center;">
 		<a href="#">↑ TOP ↑</a><br /><br />
 		<a href="#preface">Preface</a><br />
@@ -64,7 +65,6 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 		<a href="#restrictions">Restrictions</a><br />
 		<a href="#license">(Un-) License</a><br />
 		<a href="#thirdpartylicenses">Third Party</a><br />
-		<a href="#disclaimer">Disclaimer</a><br /><br />
 		<a href="#install">Installation</a><br />
 		<a href="#learn">How to learn</a><br />
 		<a href="#howto">How to use</a><br />
@@ -73,21 +73,10 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 		<a href="#langsetup">Lang. Setup</a><br /> 
 		<a href="#termscores">Term Scores</a><br />
 		<a href="#keybind">Key Bindings</a><br />
+		<a href="#wordpress">Database</a><br />
 		<a href="#database">Database</a><br />
 		<a href="#history">Changelog</a>
 	</div>	
-	
-<script type="text/javascript">	
-//<![CDATA[
-$(document).ready( function() {
-	$('#floatdiv').addFloating( {	
-		targetRight: 10,	
-		targetTop: 10,
-		snap: true	
-	} );	
-});
-//]]>
-</script>
 
 		<div style="margin-right:100px;">
 
@@ -131,9 +120,6 @@ $(document).ready( function() {
 				<option value="license">
 					(Un-) License
 				</option>
-				<option value="disclaimer">
-					Disclaimer
-				</option>
 				<option value="install">
 					Installation
 				</option>
@@ -158,7 +144,7 @@ $(document).ready( function() {
 				<option value="keybind">
 					Key Bindings
 				</option>
-				<option value="wp">
+				<option value="wordpress">
 				  WordPress Integration
 				</option>
 				<option value="database">
@@ -179,31 +165,7 @@ $(document).ready( function() {
 			</dt>
 
 			<dd>
-				<ul>
-					<li><b><strong>THIS IS A THIRD PARTY VERSION - 
-	   IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_features">here</a>)</strong></b>
-					</li>
-					<li>I started this software application in 2010 as a hobby project for my personal learning (reading &amp; listening to foreign texts, saving &amp; reviewing new words and expressions). 
-					</li>
-
-					<li>In June 2011, I decided to publish the software in the hope that it will be useful to other language learners around the world.
-					</li>
-
-					<li>The software is 100 % free, open source, and in the public domain. You may do with it what you like: use it, improve it, change it, publish an improved version, even use it within a commercial product.
-					</li>
-
-					<li>English is not my mother tongue - so please forgive me any mistakes.
-					</li>
-
-					<li>A piece of software will be never completely free of "bugs" - please inform me of any problem you will encounter. Your feedback and ideas are always welcome.</li>
-
-					<li>My programming style is quite chaotic, and my software is mostly undocumented. This will annoy people with much better programming habits than mine, but please bear in mind that LWT is a one-man hobby project and completely free.
-					</li>
-
-					<li>Thank you for your attention. I hope you will enjoy this application as I do every day.
-					</li>
-					
-				</ul>
+				<?php echo markdown_converter(__DIR__ . "/preface.md"); ?>
 			</dd>
 			
 			<!-- ================================================================ -->
@@ -233,148 +195,7 @@ $(document).ready( function() {
 			</dt>
 
 			<dd>
-				<ul style="margin-bottom: 20px;">
-					<li>
-						<a href="http://sourceforge.net/projects/learning-with-texts/" target="_blank"><b>Project Page</b> @ Sourceforge</a>
-					</li>
-
-					<li>
-						<a href="http://sourceforge.net/projects/learning-with-texts/files/" target="_blank"><b>Download Page</b> @ Sourceforge</a>
-					</li>
-
-					<li>
-						<a href="https://github.com/HugoFara/lwt" target="_blank"><b>Community Maintained Version</b> @ GitHub</a>
-					</li>
-
-					<li>
-						<b>Documentation</b>: try either the <a href="index.html">local link</a> or the <a href="https://hugofara.github.io/lwt/index.html">absolute link</a>.
-					</li>
-<!--
-					<li>
-						<a href="http://sourceforge.net/projects/lwt/forums/forum/1813497" target="_blank"><b>Help Forum</b> @ Sourceforge</a><br /><br />
-					</li>
--->
-				</ul>
-				<ul>
-					<li>
-						<b>LWT Online Demo</b> - <b>try it out:</b>
-						<ul>
-							<li><b>General Hints:</b>
-								<ul>
-								<li>Do not use for productive work!!</li>
-								<li>Your data may be deleted at any time by other users!!</li>
-								<li>Only one LWT table set is available - the multiple table set feature has been deactivated.</li>
-								<li>You may "reset" the demo by going to "Backup/Restore", and by clicking on "Install LWT Demo Database".</li>
-							</ul>
-							<li><a href="https://learning-with-texts.sourceforge.io/testdb/index.php" target="_blank"><b>START ONLINE DEMO</b></a>
-							</li>
-						</ul>
-						<br />
-					</li>
-					
-					<li>
-						<b>LWT Reviews and Blog Posts</b>
-						<ul>
-							<li>
-								<a href="https://www.mezzoguild.com/how-to-install-learning-with-texts-lwt/" target="_blank">The Mezzofanti Guild: How To Install Learning With Texts On Your Own Computer</a>
-							</li>
-							<li>
-								Street-Smart Language Learning™: Using Learning with Texts with Anki 2 (in five parts):<br />
-								Part <a href="http://www.streetsmartlanguagelearning.com/2012/12/using-learning-with-texts-with-anki-2.html" target="_blank">1</a> / <a href="http://www.streetsmartlanguagelearning.com/2013/01/using-learning-with-texts-with-anki-2.html" target="_blank">2</a> / <a href="http://www.streetsmartlanguagelearning.com/2013/01/using-learning-with-texts-with-anki-2_8.html" target="_blank">3</a> / <a href="http://www.streetsmartlanguagelearning.com/2013/01/using-learning-with-texts-with-anki-2_15.html" target="_blank">4</a> / <a href="http://www.streetsmartlanguagelearning.com/2013/01/using-learning-with-texts-with-anki-2_21.html" target="_blank">5</a>
-							</li> 
-							<li>
-								<a href="https://diyclassics.com/2014/04/11/learning-with-texts-for-classical-languages/" target="_blank">Learning with Texts for classical languages</a>
-							</li> 
-							<li>
-								<a href="http://chicagoseoul.wordpress.com/2011/07/19/learning-with-texts/" target="_blank">Chicagoseoul's Blog: Learning with Texts</a>
-							</li> 
-							<li>
-								<a href="http://mikotoneko.wordpress.com/2012/03/09/lwtp1/" target="_blank">Mikoto's Adventures in Japanese: LWT - Learning With Text Introduction</a>
-							</li> 
-							<li>
-								<a href="http://mikotoneko.wordpress.com/2012/03/13/lwt-a-guide-to-setting-up-for-japanese-learning/" target="_blank">Mikoto's Adventures in Japanese: LWT - A Guide to Setting up for Japanese Learning</a>
-							</li> 
-							<li>
-								<a href="http://mikotoneko.wordpress.com/2012/04/06/lwt-tricks-of-the-trade/" target="_blank">Mikoto's Adventures in Japanese: LWT - Tricks of the Trade</a>
-							</li> 
-							<li>
-								<a href="http://mikotoneko.wordpress.com/2012/04/17/lwt-daniels-guide-for-japanese-useage/" target="_blank">Mikoto's Adventures in Japanese: LWT - Daniel’s Guide for Japanese Usage</a>
-							</li> 
-							<li>
-								<a target="_blank" href="http://www.youtube.com/watch?v=QSLPOATWAU4">Video about Learning With Texts from Language Vlogger FluentCzech</a>
-							</li>
-							<li>
-								<a href="http://www.fluentin3months.com/learning-with-texts/" target="_blank">Fluent In 3 Months: Introducing LWT</a><br />
-							</li> 
-						</ul>
-						<br />
-					</li>
-
-					<li>
-						<b>LWT Forum Threads</b>
-						<ul>
-							<li>
-								<a href="http://how-to-learn-any-language.com/forum/forum_posts.asp?TID=28312&amp;PN=1&amp;TPN=1" target="_blank">How-To-Learn-Any-Language Forum Thread about LWT</a>
-							</li>
-							<li>
-								<a href="https://forum.language-learners.org/viewtopic.php?f=19&t=1993" target="_blank">Sites/Apps like Readlang, Lingq, Lingua.ly, etc.</a>
-							</li>
-							<li>
-								<a href="https://forum.language-learners.org/viewtopic.php?f=19&t=5648" target="_blank">Best dictionaries for use with LWT?</a>
-							</li>
-							<li>
-								<a href="https://forum.language-learners.org/viewtopic.php?f=19&t=7156" target="_blank">Getting the most out of LWT</a>
-							</li>
-							<br />
-						</ul>
-
-					<li>
-						<b>Additional Resources</b>
-						<ul>
-							<li>
-								Similar software or services
-								<ul>
-									<li>
-										<a href="https://sourceforge.net/projects/foreign-language-text-reader/" target="_blank">FLTR - Foreign Language Text Reader</a> (Open Source Java Desktop Application).
-									</li>
-									<li>
-										<a href="http://lingq.com" target="_blank">LingQ.com</a> (Web based service with tutoring. An account costs US$ 10 per month).
-									</li>
-									<li>
-										<a href="http://lingro.com/" target="_blank">lingro.com</a> (An on-line environment that allows anyone learning a language to quickly look up and learn the vocabulary).
-									</li>
-									<li>
-										<a href="http://readlang.com/" target="_blank">readlang.com</a> (An on-line service where you can import articles, read and translate them, and learn new words. Price: US$ 5 per month or US$ 48 per year).
-									</li>
-								</ul>
-							</li>
-							<li>
-								Resources for various languages 
-								<ul>
-									<li>
-										<a href="http://tinyurl.com/cbpndlt" target="_blank">GoogleDocs Spreadsheet</a> with recommendations for LWT Language Settings ("Templates")<br/><b>Important:</b> Please be careful when making additions or corrections!
-									</li>
-								</ul>
-							</li>
-							<li>
-								For learners of Japanese 
-								<ul>
-									<li>
-										<a href="http://taku910.github.io/mecab/" target="_blank">MeCab - Yet Another Part-of-Speech and Morphological Analyzer</a>
-									</li>
-								</ul>
-							</li>
-							<li>
-								For learners of Chinese 
-								<ul>
-									<li>
-										<a href="https://github.com/fxsjy/jieba" target="_blank">"Jieba" Chinese text segmentation</a> (<a href ="https://www.python.org/" target="_blank">Python</a> needed). Usage: Download, unzip, run: <i>python -m jieba -d '&nbsp;' input.txt >output.txt</i>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-				</ul>
+				<?php echo markdown_converter(__DIR__ . "/links.md"); ?>
 			</dd>
 			
 			<!-- ================================================================ -->
@@ -582,24 +403,6 @@ $(document).ready( function() {
 			<dd>
 				<?php echo markdown_converter(__DIR__ . "/thirdpartylicenses.md" ) ?>
 			</dd>
-
-			<dt>
-				▶ <b><a name="disclaimer" id="disclaimer">Disclaimer</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<ul>
-					<li>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-						EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
-						WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-						AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE 
-						FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-						OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
-						CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-						THE SOFTWARE.
-					</li>
-				</ul>
-			</dd>
 			
 			<!-- ================================================================ -->
 
@@ -620,27 +423,7 @@ $(document).ready( function() {
 			</dt>
 
 			<dd>
-				<ul>
-					<li>Find an interesting text (preferably with an mp3 audio file) in the Internet and load it into LWT. If you are a beginner, look for beginner courses or podcasts in the Internet.
-					</li>
-					<li>You don't know where to find texts with audio? The <a href="http://lingq.com" target="_blank">LingQ Library</a> has many (only a free registration is needed). Or look into <a href="https://www.lingq.com/en/forum/updates-tips-and-known-issues/where-to-find-good-content-to-import/" target="_blank">this thread</a> in the LingQ Forum, you will find there lots of great links to resources. Or click (within the LingQ library) on "My Imports" - you will find a list of links of "Suggested resources".
-					</li>
-					<li>Read the text, look up the new words and expressions (=terms) and save them for review and test.
-					</li>
-					<li>The good thing with LWT: Every saved term will show up with its translation, status, etc. in all other occurrences of the same text and every other text! So you'll see immediately what you already know and how well you know it. And of course you'll see what you don't know!
-					</li>
-					<li>Load the MP3 file also on your portable MP3 player and listen to it often.
-					</li>
-					<li>Review (by reading again) or test your saved words and expressions.<br /><br />
-					</li>
-					<li>Listen ▶ Read ▶ Review/Test.<br />
-					Listen ▶ Read ▶ Review/Test.<br />
-					......<br /><br />
-					</li>
-					<li>That's it. It's that simple. </li>
-					<li>If you want to know more, watch <a href="http://www.youtube.com/user/lingosteve" target="_blank">Steve Kaufmann's videos on YouTube</a>: "The 7 secrets of language learning", "Language learning FAQ", and many more.
-					</li>
-				</ul>
+				<?php echo markdown_converter(__DIR__ . "/learn.md"); ?>
 			</dd>
 			
 			<!-- ================================================================ -->
@@ -753,34 +536,6 @@ $(document).ready( function() {
 					</li>
 				</ul>
       
-      </dd>
-
-      <dt>
-        ▶ <b><a name="learn" id="learn">How to learn with LWT</a></b> - <a href="#">[↑]</a>
-      </dt>
-
-      <dd>
-        <ul>
-          <li>Find an interesting text (preferably with an mp3 audio file) in the Internet and load it into LWT. If you are a beginner, look for beginner courses or podcasts in the Internet.
-          </li>
-          <li>You don't know where to find texts with audio? The <a href="http://lingq.com" target="_blank">LingQ Library</a> has many (only a free registration is needed). Or look into <a href="http://lingq.com/learn/en/forum/3/8297" target="_blank">this thread</a> in the LingQ Forum, you will find there lots of great links to resources. Or click (within the LingQ library) on "My Imports" - you will find a list of links of "Suggested resources".
-          </li>
-          <li>Read the text, look up the new words and expressions (=terms) and save them for review and test.
-          </li>
-          <li>The good thing with LWT: Every saved term will show up with its translation, status, etc. in all other occurrences of the same text and every other text! So you'll see immediately what you already know and how well you know it. And of course you'll see what you don't know!
-          </li>
-          <li>Load the MP3 file also on your portable MP3 player and listen to it often.
-          </li>
-          <li>Review (by reading again) or test your saved words and expressions.<br /><br />
-          </li>
-          <li>Listen ▶ Read ▶ Review/Test.<br />
-          Listen ▶ Read ▶ Review/Test.<br />
-          ......<br /><br />
-          </li>
-          <li>That's it. It's that simple. </li>
-          <li>If you want know more, watch <a href="http://www.youtube.com/user/lingosteve" target="_blank">Steve Kaufmann's videos on YouTube</a>: "The 7 secrets of language learning", "Language learning FAQ", and many more.
-          </li>
-        </ul>
       </dd>
 
 
@@ -1666,14 +1421,7 @@ $(document).ready( function() {
 			</dt>
 
 			<dd>
-				<ul>
-					<li>If you want to use LWT on a tablet: that's possible (even the audio player works!). </li>
-					<li>In "Settings/Preferences", set the "Frame Set Display Mode" to "Auto" or "Force Mobile". On other mobile devices, you may also try "Force Non-Mobile" if you are unhappy with the results.</li>
-					<li>Try to reduce the length of your texts to reduce scrolling.</li>
-					<li>It's also a good idea to install and run LWT at a web hoster. So you can access LWT easily if you are often on the go.</li>
-					<li>I hope you will enjoy using LWT on a tablet although creating new terms and copy &amp; paste can be a bit tedious. 
-					<br /><br /></li>
-				</ul>
+				<?php echo markdown_converter(__DIR__ . "/ipad.md"); ?>
 			</dd>
 				
 			<!-- ================================================================ -->
@@ -2014,39 +1762,11 @@ $(document).ready( function() {
       </dd>
       
       <dt>
-        ▶ <b><a name="wp" id="wp">WordPress Integration</a></b> - <a href="#">[↑]</a>
+        ▶ <b><a name="wordpress" id="wordpress">WordPress Integration</a></b> - <a href="#">[↑]</a>
       </dt>
 
       <dd>
-        <ul>
-        	<li><b>IMPORTANT: Please read this <a href="#mue">THIS WARNING</a> first! </b><br />I CANNOT give any support for this feature, NOR can I help you with any WordPress problems!<br /><b>USE AT YOUR OWN RISK! </b><br /><br />
-          </li>
-        	<li>The following instructions are for users who have installed WordPress, and want to install LWT for multiple WordPress users in conjunction with WordPress authentication. Every WordPress user will have his/her own LWT table set.<br /><br /> 
-          </li>
-        </ul>
-        <ol>
-        	<li><a href="http://wordpress.org/" target="_blank">Download</a> and install WordPress. 
-          </li>
-        	<li><a href="http://sourceforge.net/projects/learning-with-texts/files/" target="_blank">Download</a> and install LWT into a new subdirectory "lwt", located in the main directory of your WordPress installation.
-          </li>
-        	<li>In subdirectory "lwt", rename the file <i>connect_wordpress.inc.php</i> into <i>connect.inc.php</i>, and enter the database parameters $server (database server), $userid (database user id), $passwd (database password), and $dbname (database name, can be the same like your wordpress database, or a different one) by editing the file with a text editor. 
-          </li>
-        	<li>In the WordPress General Settings, decide whether anyone can register and use LWT (Membership = "Anyone can register"), or not (an administrator must create new users). The "New User Default Role" should be "Subscriber".
-          </li>
-        	<li>The link to start LWT with <b>complete</b> WordPress authentication is: <br />
-					<i>http://...path-to-wp-blog.../lwt/wp_lwt_start.php</i>
-					</li>
-        	<li>The link to start LWT (without WordPress authentication, only by checking the session cookie that is valid until the browser is closed) is: <br />
-					<i>http://...path-to-wp-blog.../lwt/</i><br />
-					If the session cookie does not exist, both above start methods are the same. 
-					</li>
-        	<li>To properly log out from both WordPress and LWT, use the link:<br />
-					<i>http://...path-to-wp-blog.../lwt/wp_lwt_stop.php</i><br />
-					The LWT home page has such a link. If you only log out via the links on the WordPress pages, you will still be  able to use LWT until the browser is closed. If you want to log out from both WordPress and LWT, use the above link, or click on the link on the LWT home page!
-          </li>
-          <li>If you delete a user, you must find out its user number (table "wp_users"). After deleting the user in WordPress, you can delete all LWT tables with table names beginning with the user number plus an underscore "_". You can do this in phpMyAdmin. 
-					</li>
-				</ol>
+		  <?php echo markdown_converter(__DIR__ . "/wordpress.md"); ?>
       </dd>
       
       <dt>

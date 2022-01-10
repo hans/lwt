@@ -1,4 +1,4 @@
-# New feature not available in the official LWT
+## New feature not available in the official LWT
 
 * Database improvements (db size is much smaller now)
 * Automatically import texts from RSS feeds (for more info see: [Newsfeed Import](#feed_imp))

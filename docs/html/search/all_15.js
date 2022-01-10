@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['wordletterpairs_0',['wordLetterPairs',['../simterms_8php.html#ace4ea5e98908a4bc596903c80b038d82',1,'simterms.php']]],
-  ['wordprocessor_1',['wordProcessor',['../do__text__text_8php.html#a4d79df4f1e92552741b4b26acc5bafa2',1,'do_text_text.php']]],
-  ['wp_5flogincheck_2ephp_2',['wp_logincheck.php',['../wp__logincheck_8php.html',1,'']]],
-  ['wp_5flwt_5fstart_2ephp_3',['wp_lwt_start.php',['../wp__lwt__start_8php.html',1,'']]]
+  ['validatelang_0',['validateLang',['../database__connect_8php.html#a02d40918dc384387272eb42f065925c6',1,'database_connect.php']]],
+  ['validatetext_1',['validateText',['../database__connect_8php.html#a79bc2cd98f888142e3e9ccc0c0b5f7c0',1,'database_connect.php']]]
 ];

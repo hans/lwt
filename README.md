@@ -12,7 +12,6 @@ It is quicker, has smaller databse size,
 and is open for contributions. The official version is on 
 [source forge](https://sourceforge.net/projects/learning-with-texts)
 
-[gustavklopp's LingL](https://github.com/gustavklopp/LingL) is a wonderful alternative written in Python.
 
 ## Installation
 Please see [docs/info.html](https://hugofara.github.io/lwt/docs/info.html) for detailed instructions. 
@@ -20,10 +19,11 @@ As it is self-hosted, you will need a server, which can be your computer.
 
 * [Install Composer](https://getcomposer.org/download/) if you don't have it.
 * **If you installed composer globally**
-  * Run ``composer require hugofara/lwt``.
+  * Run ``composer create-project hugofara/lwt``.
 * **If you installed composer locally**
   * Got to the folder where composer.phar is located
-  * Run ``php composer.phar require hugofara/lwt``
+  * Run ``php composer.phar create-project hugofara/lwt``
+* Got to the newly created ``lwt/`` folder. 
 * Create ``connect.inc.php`` with an existing database user 
 (read [docs/info.html](https://hugofara.github.io/lwt/docs/info.html)) for the tutorial.
 
@@ -115,6 +115,12 @@ Any other branch if considered under development.
 * General documentation at [docs/info.html](https://hugofara.github.io/lwt/docs/info.html).
 * Please find more help at [docs/index.html](https://hugofara.github.io/lwt/docs/index.html).
 * You can also contact the community by GitHub.
+
+## Alternatives
+LWT is written for web, but you have many choices if you want a standalone installation:
+* [LingL](https://github.com/gustavklopp/LingL) is a wonderful alternative written in Python, by [gustavklopp](https://github.com/gustavklopp).
+* [FLTR ◆ Foreign Language Text Reader](https://sourceforge.net/projects/foreign-language-text-reader/), a Java clone, by the same 
+author as LWT ([lang-learn-guy](https://sourceforge.net/u/lang-learn-guy/profile/))
 
 ## Unlicense
 Under unlicense, view [UNLICENSE.md](UNLICENSE.md), please refer to [http://unlicense.org/].

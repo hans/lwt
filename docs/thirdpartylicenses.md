@@ -1,4 +1,4 @@
-# Third Party Licenses
+## Third Party Licenses
 
 *   The following software packages, bundled within the LWT software, have different licenses:
     
