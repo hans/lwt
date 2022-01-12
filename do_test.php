@@ -55,14 +55,29 @@ function get_test_property()
 }
 
 /**
- * Prepare JS and CSS content for mobile test page.
+ * Echo the CSS and JS content for the mobile test page.
  * 
  * @return void
+ * 
+ * @deprecated 2.1.1-fork
+ * @deprecated was not respecting the single responsibility principle, 
+ * use do_test_mobile_css and do_test_mobile_js instead.
  */
 function do_test_mobile_css_and_js() 
 {
+    do_test_mobile_css();
+    do_test_mobile_js();
+}
 
-    ?>
+/**
+ * Echo the CSS content for mobile test page.
+ * 
+ * @return void
+ */
+function do_test_mobile_css() 
+{
+?>
+
 <style type="text/css"> 
 body {
     background-color: #cccccc;
@@ -78,6 +93,18 @@ body {
     display:inline-block;    
 }
 </style>
+
+<?php
+}
+
+/**
+ * Echo the JS content for the mobile test page.
+ * 
+ * @return void
+ */
+function do_test_mobile_js() {
+
+?>    
 <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 
 <script type="text/javascript">
@@ -159,7 +186,8 @@ function do_test_mobile_page_content($property)
  */
 function do_test_mobile_page($property) 
 {
-    do_test_mobile_css_and_js();
+    do_test_mobile_css();
+    do_test_mobile_js();
     do_test_mobile_page_content($property);
 }
 

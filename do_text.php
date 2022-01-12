@@ -7,44 +7,76 @@
  * Call: do_text.php?start=[textid]
  *      Create the main window when reading texts.
  * 
- * @author LWT Project <lwt-project@hotmail.com>
- * @since  1.0.3
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/do__text_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php'; 
 require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php';
 
-$detect = new Mobile_Detect;
-$mobileDisplayMode = (int)getSettingWithDefault('set-mobile-display-mode');
-$mobile = ($mobileDisplayMode == 0 && $detect->isMobile()) || $mobileDisplayMode == 2;
-
-if (isset($_REQUEST['start'])) {
-    
-    $audio = get_first_value(
-        'SELECT TxAudioURI AS value 
-        FROM ' . $tbpref . 'texts 
-        WHERE TxID = ' . $_REQUEST['start']
+/**
+ * Return true if we should use mobile mode.
+ * 
+ * @return bool Mobile mode shoud be activated or not
+ */
+function is_mobile()
+{
+    $detect = new Mobile_Detect;
+    $mobileDisplayMode = (int)getSettingWithDefault('set-mobile-display-mode');
+    $mobile = (
+        ($mobileDisplayMode == 0 && $detect->isMobile()) 
+        || $mobileDisplayMode == 2
     );
-    
-    //framesetheader('Read');
-    pagestart_nobody(
-        tohtml('Read'), 
-        '.resizable
-    {
-     min-height: 30px;
-     min-width: 30px;
-     resize: both;
-     overflow: auto;
-     max-height: fit-content;
-     max-width: fit-content;
-    }'
-    );
-    
-    if ($mobile ) {
+    return $mobile;
+}
 
-        ?>
+if (!isset($_REQUEST['start'])) {
+    // Document not ready
+    header("Location: edit_texts.php");
+    exit();
+}
+    
+$audio = get_first_value(
+    'SELECT TxAudioURI AS value 
+    FROM ' . $tbpref . 'texts 
+    WHERE TxID = ' . $_REQUEST['start']
+);
 
-    <style type="text/css"> 
+//framesetheader('Read');
+pagestart_nobody(
+    tohtml('Read'), 
+    '.resizable
+{
+    min-height: 30px;
+    min-width: 30px;
+    resize: both;
+    overflow: auto;
+    max-height: fit-content;
+    max-width: fit-content;
+}'
+);
+
+if (is_mobile()) {
+    do_text_mobile_css();
+    do_text_mobile_js();
+    do_text_desktop_content();
+} else {
+    // Not mobile
+    do_text_desktop_content();
+}
+
+/**
+ * Echo the CSS for the mobile version of do_text.
+ * 
+ * @return void
+ */
+function do_text_mobile_css() {
+    ?>
+
+<style type="text/css"> 
     body {
      background-color: #cccccc;
      margin: 0;
@@ -58,11 +90,20 @@ if (isset($_REQUEST['start'])) {
     #frame-h-2, #frame-l-2, #frame-ro-2, #frame-ru-2 {
      display:inline-block;    
     }
-    </style>
-     
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+</style>
+<?php
+}
 
-    <script type="text/javascript">
+/**
+ * Echo the JS code for the mobile version of do_text.
+ * 
+ * @return void
+ */
+function do_text_mobile_js() {
+?>    
+<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+
+<script type="text/javascript">
    //<![CDATA[
    function rsizeIframes() {
         var h_height = <?php 
@@ -105,30 +146,43 @@ if (isset($_REQUEST['start'])) {
 
     $(document).ready(init);
     //]]>
-    </script>
-    
-    <div id="frame-h">
-        <iframe id="frame-h-2" src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="h"></iframe>
-    </div>
-    <div id="frame-ro">
-    <iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
-    </div>
-    <div id="frame-l">
-        <iframe id="frame-l-2" src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l"></iframe>
-    </div>
-    <div id="frame-ru">
-        <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
-    </div>
+</script>
 
-        <?php 
+<?php
 
-    } 
-    else 
-    {
-        // Not mobile
-        ?>
+} 
 
+/**
+ * Echo the page content for the mobile version of do_text.
+ * 
+ * @return void
+ */
+function do_text_mobile_content() {
+?>
+<div id="frame-h">
+    <iframe id="frame-h-2" src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="h"></iframe>
+</div>
+<div id="frame-ro">
+<iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
+</div>
+<div id="frame-l">
+    <iframe id="frame-l-2" src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l"></iframe>
+</div>
+<div id="frame-ru">
+    <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
+</div>
 
+<?php 
+}
+
+/**
+ * Echo the page content for the desktop version of do_text.
+ * 
+ * @return void
+ */
+function do_text_desktop_content() {
+
+?>
     <!--<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
         <frameset rows="<?php 
         if (isset($audio)) { 
@@ -145,7 +199,7 @@ if (isset($_REQUEST['start'])) {
         </frameset>
         <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
     </frameset>-->
-    <div class="resizable" style="width: 95%;" onclick="setTimeout(hideRightFrames(), 1000);">
+    <div class="resizable" style="width: 95%;" onclick="setTimeout(hideRightFrames, 1000);">
         <div id="frame-h">
             <?php
             require_once 'do_text_header.php';
@@ -172,14 +226,6 @@ if (isset($_REQUEST['start'])) {
 </html>
         <?php
 
-    }
-
-}
-else 
-{
-    // Document not ready
-    header("Location: edit_texts.php");
-    exit();
 }
 
 ?>

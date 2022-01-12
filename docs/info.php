@@ -5,7 +5,8 @@
  *
  * @package Lwt
  * @author  LWT Project <lwt-project@hotmail.com>
- * @license Unlicense
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/info_8php.html
  * @since   1.0.3
  */
 
@@ -329,51 +330,53 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 				▶ <b><a name="new_features" id="new_features">New in this Version (not available in the OFFICIAL LWT)</a></b> - <a href="#">[↑]</a>
 			  </dt>
 
-			<dd><?php echo markdown_converter(__DIR__ . "/newfeatures.md"); ?></dd>
+			<dd>
+				<?php echo markdown_converter(__DIR__ . "/newfeatures.md"); ?>
+			</dd>
 		 
 		 
-			   <dt>
-				 ▶ <b><a name="screencasts" id="screencasts">Screencasts/Videos</a></b> - <a href="#">[↑]</a>
-			   </dt>
-		 
-			   <dd>
-				 <ul>
-				   <li>
-					   <a href="http://www.youtube.com/watch?v=TkcVJ6SpK2Q" target="_blank">01 - Starting with French</a> (created with version 1.0.2)
-					   <br />
-					 Finding learning material, importing a text with audio, saving words and expressions, changing the status, printing.
-					 <br /><br />
-					 <iframe width="640" height="510" src="http://www.youtube.com/embed/TkcVJ6SpK2Q" frameborder="0" allowfullscreen></iframe>
-					 <br /><br />
-					 Mentioned websites in this screencast:
-					 <ul>
-					 <li><a href="http://lingq.com" target="_blank">LingQ - Library</a></li>
-					 <li><a href="http://fluentin3months.com/learning-materials/" target="_blank">Fluent in 3 months - Learning materials</a></li>
-					 <li><a href="http://ielanguages.com/french1.html" target="_blank">ieLanguages - French I Tutorial</a></li>
-					 </ul>
-					 <br />
-					 
-				   </li>
-				   
-				   <li>
-					   A <a target="_blank" href="http://www.youtube.com/watch?v=QSLPOATWAU4">video</a> from <a target="_blank" href="http://www.youtube.com/user/FluentCzech">FluentCzech</a>:
-					 <br /><br />
-					   <iframe width="640" height="360" src="http://www.youtube.com/embed/QSLPOATWAU4" frameborder="0" allowfullscreen></iframe>
-					   <br /><br />
-					   Please have a look at the other great videos of <a target="_blank" href="http://www.youtube.com/user/FluentCzech">FluentCzech</a> that contain many good ideas for language learning! <br />
-					   <a target="_blank" href="http://www.anthonylauder.com">Website of FluentCzech (anthonylauder.com)</a>
-					 <br /><br />
-				   </li>
-		 
-				   <li>
-					   A <a target="_blank" href="http://www.youtube.com/watch?v=QnGG-_urLKk">video</a> from <a target="_blank" href="http://www.youtube.com/user/irishpolyglot">Benny the Irish polyglot</a>:
-					 <br /><br />
-					   <iframe width="640" height="360" src="http://www.youtube.com/embed/QnGG-_urLKk" frameborder="0" allowfullscreen></iframe>
-					   <br /><br />
-					   <a href="http://www.fluentin3months.com/learning-with-texts/" target="_blank">Fluent In 3 Months: Introducing LWT</a>, with <a target="_blank" href="http://lwtfi3m.co/">Benny's own (free) version of LWT</a>.<br />
-				   </li>
-				 </ul>
-			   </dd>
+			<dt>
+				▶ <b><a name="screencasts" id="screencasts">Screencasts/Videos</a></b> - <a href="#">[↑]</a>
+			</dt>
+		
+			<dd>
+				<ul>
+				<li>
+					<a href="http://www.youtube.com/watch?v=TkcVJ6SpK2Q" target="_blank">01 - Starting with French</a> (created with version 1.0.2)
+					<br />
+					Finding learning material, importing a text with audio, saving words and expressions, changing the status, printing.
+					<br /><br />
+					<iframe width="640" height="510" src="http://www.youtube.com/embed/TkcVJ6SpK2Q" frameborder="0" allowfullscreen></iframe>
+					<br /><br />
+					Mentioned websites in this screencast:
+					<ul>
+					<li><a href="http://lingq.com" target="_blank">LingQ - Library</a></li>
+					<li><a href="http://fluentin3months.com/learning-materials/" target="_blank">Fluent in 3 months - Learning materials</a></li>
+					<li><a href="http://ielanguages.com/french1.html" target="_blank">ieLanguages - French I Tutorial</a></li>
+					</ul>
+					<br />
+					
+				</li>
+				
+				<li>
+					A <a target="_blank" href="http://www.youtube.com/watch?v=QSLPOATWAU4">video</a> from <a target="_blank" href="http://www.youtube.com/user/FluentCzech">FluentCzech</a>:
+					<br /><br />
+					<iframe width="640" height="360" src="http://www.youtube.com/embed/QSLPOATWAU4" frameborder="0" allowfullscreen></iframe>
+					<br /><br />
+					Please have a look at the other great videos of <a target="_blank" href="http://www.youtube.com/user/FluentCzech">FluentCzech</a> that contain many good ideas for language learning! <br />
+					<a target="_blank" href="http://www.anthonylauder.com">Website of FluentCzech (anthonylauder.com)</a>
+					<br /><br />
+				</li>
+		
+				<li>
+					A <a target="_blank" href="http://www.youtube.com/watch?v=QnGG-_urLKk">video</a> from <a target="_blank" href="http://www.youtube.com/user/irishpolyglot">Benny the Irish polyglot</a>:
+					<br /><br />
+					<iframe width="640" height="360" src="http://www.youtube.com/embed/QnGG-_urLKk" frameborder="0" allowfullscreen></iframe>
+					<br /><br />
+					<a href="http://www.fluentin3months.com/learning-with-texts/" target="_blank">Fluent In 3 Months: Introducing LWT</a>, with <a target="_blank" href="http://lwtfi3m.co/">Benny's own (free) version of LWT</a>.<br />
+				</li>
+				</ul>
+			</dd>
 			
 			<!-- ================================================================ -->
 
@@ -425,118 +428,6 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 			<dd>
 				<?php echo markdown_converter(__DIR__ . "/learn.md"); ?>
 			</dd>
-			
-			<!-- ================================================================ -->
-
-			<dt>
-				▶ <b><a name="howto" id="howto">How to use</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<ul>
-					<li>
-						<b>LWT home screen after installation</b>
-						<br />
-						<br />
-						This is home screen of LWT if the database is empty. Please install the demo database or start with the definition of a language you want to learn.
-						<br />
-						<br />
-						<img class="grayborder" src="../img/23.jpg" alt="Image" />
-						<br />
-						<br />
-					</li>
-
-					<li>
-						<b>LWT home screen</b>
-						<br />
-						<br />
-						This is normal home screen of LWT. You may choose a language here, but you can do this also later. If you you choose a language, the language filter is pre-set to that language in some other screens. The last text you've read or tested is shown, and you may jump directly into reading, testing or printing of this last text.
-						<br />
-						<br />
-						<img class="grayborder" src="../img/01.jpg" alt="Image" />
-						<br />
-						<br />
-					</li>
-
-					<li>
-						<b>My Languages</b>
-						<br />
-						<br />
-						The list of languages. Here you can add a new or edit an existent language. If no texts and no saved terms in a language exist, you can delete a language. If you change a language, all texts may be	be automatically reparsed to refresh (and correct) the cache of sentences and text items (depends on what language settings you have changed). You can do this also manually by clicking on the yellow flash icon. You can also test all (due) terms of a language or set a language as "current" language.
-						<br />
-						<br />
-						<img class="grayborder" src="../img/02.jpg" alt="Image" />
-						<br />
-						<br />
-					</li>
-
-					<li>
-						<b><a name="howtolang" id="howtolang">New/Edit Language</a></b><a name="go1" id="go1">&nbsp;</a>
-						<br />
-						<br />
-						This is the place to define or edit a language you want to study.
-						<br />
-						<br />
-						<b>If you are new to the system, use the "Language Settings Wizard" first.</b> You only select your native (L1) and study (L2) languages, and let the wizard set all language settings that are marked in yellow. You can always adjust the settings afterwards.
-						<br />
-						<br />
-						<b>Explainations of the input fields</b> - please read also <a href="#langsetup">this section</a>:
-						<br />
-						<br />
-
-						<ul>
-							<li>The three Uniform Resource Identifiers (<a href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank">URIs</a>) are URIs to three web dictionaries (the second and third is optional). Use ### as a placeholder for the searchword in the URIs. If ### is missing, the searchword will be appended. If the URI to query "travailler" in WordReference is "http://www.wordreference.com/fren/travailler", you enter: "http://www.wordreference.com/fren/###" or "http://www.wordreference.com/fren/". 
-							Another example: The URI to query "travailler" in sansagent is "http://dictionary.sensagent.com/travailler/fr-en/", so you enter in LWT "http://dictionary.sensagent.com/###/fr-en/". <br /> <br />						
-							As URI No. 3 ("Google Translate URI") is also used to translate whole sentences, I would recommend to enter here always the link to Google Translate, like shown in the examples. The link to Google Translate is	"http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###", where the two-character codes after "sl=" and "tl=" designate the <a href="http://www.iana.org/assignments/language-subtag-registry" target=_blank">language codes (or "subtags")</a> for the source and the target language. But a different third web dictionary is of course possible, but sentence translations may not work.<br /><br /> 
-							If the searchword in the three URIs needs to be converted into a different encoding (standard is UTF-8), you can use ###encoding### as a placeholder. Normally you see this right away if terms show up wrongly in the web dictionary. Example: Linguee expects the searchword in ISO-8859-15, not in UTF-8, so you define it this way: "http://www.linguee.de/search?direction=auto&query=###ISO-8859-15###".	A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php" target=_blank">here</a>.<br /><br /> 
-							<b>IMPORTANT:</b> Some dictionaries (including "Google Translate") don't allow to be opened within a frame set. Put an asterisk * in front of the URI (Examples: *http://mywebdict.com?q=### or *http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###) to open such a dictionary not within the frame set but in a popup window (please don't forget to deactivate popup window blocking in your browser!).<br /> <br /> <a name="glosbe"></a>
-							One dictionary (<a href="http://glosbe.com/" target="_blank">Glosbe</a>) has been closely integrated into LWT via the Glosbe API. To use this dictionary, input the "special" dictionary link "<i>glosbe_api.php?from=...&dest=...&phrase=###</i>" (NO "http://" at the beginning!!) with <i>from</i>: "L2 language code" (the language of your texts) and <i>dest</i>: "L1 language code" (e.g. mother tongue). To find the language codes, open <a href="http://glosbe.com/all-languages" target="_blank">this page</a> to select the "from" (L2) language. On the next page, select the "L2 - L1" language pair. The URL of the next page shows the two language codes, here as an example "French - English": http://glosbe.com/<b>fr</b>/<b>en</b>/. The "from" code is "fr", the "dest" code is "en". Using this dictionary makes the transfer of translation(s) from the Glosbe to LWT very easy: just click on the icon next to the translations to copy them into the LWT edit screen. I recommend to use the LWT-integrated Glosbe dictionary as the "Dictionary 1 URI". Note: I cannot guarantee that the Glosbe API and this special integration will work in the future! glosbe_api.php is just an example how one can integrate a dictionary into LWT.<br /> <br /> 
-							You don't know how and where to find a good web dictionary? Try these dictionary directories:<ul>
-							<li><a href="http://www.alphadictionary.com/langdir.html" target="_blank">http://www.alphadictionary.com/langdir.html</a></li>
-							<li><a href="http://www.lexicool.com/" target="_blank">http://www.lexicool.com/</a></li>
-							</ul>
-							If you have found a suitable web dictionary, try to translate some words and look whether the word is part of the web address (URI/URL). If yes, replace the word with ### and put this in one of the URI fields within LWT.<br /> <br /> 
-							</li>
-
-							<li>The entry "Text Size" defines the relative font size of the text. This is great for Chinese, etc.<br /> <br /> 
-							</li>
-
-							<li>"Character Substitutions" is an optional list of "from=to" items with "|" as list separator. The "from" character is replaced by the "to" character ("to" may be also empty). So different kinds of apostrophes can unified or deleted.<br /> <br /> 
-							</li>
-
-							<li>"RegExp Split Sentences" is a list of characters that signify a sentence ending (ALWAYS together with a following space or newline!). The space can be omitted (and it is normally), if you set "Make each character a word" to Yes (see below). Whether you include here ":" and ";" - that's your decision. See also <a href="#langsetup">this table</a>. Characters can be also defined in <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">Unicode</a> form: "\x{....}"; the Chinese/Japanese full stop "。" is then "\x{3002}" (always without "). Please inform yourself about Unicode <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">here (general information)</a> and <a href="http://unicode.coeurlumiere.com/" target="_blank">here (Table of Unicode characters)</a>.<br /> <br /> 
-							</li>
-
-							<li>"Exceptions Split Sentences" are a list of exceptions that are NOT to be treated as sentence endings with "|" as list separator. [A-Z] is a character range. If you don't want to split sentences after Mr. / Dr. / A. to Z. / Vd. / Vds. / U.S.A., then you should specify these here: "Mr.|Dr.|[A-Z].|Vd.|Vds.|U.S.A." (without ").<br /> <br /> 
-							</li>
-
-							<li>"RegExp Word Characters" is a list of characters OR character ranges "x-y" that defines all characters in a word, e.g. English: "a-zA-Z", German: "a-zA-ZaöüÄÖÜß", Chinese: 一-龥. See also <a href="#langsetup">this table</a>. Characters can be also defined in <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">Unicode</a> form: "\x{....}"; the Chinese/Japanese character "one" "一" is then "\x{4E00}" (always without "). So the above specification for the range of characters in Chinese "一-龥" can also be specified: "\x{4E00}-\x{9FA5}".<br /> <br /> 
-							</li>
-
-							<li>"Make each character a word" is a special option for Chinese, etc. This makes EVERY character a single word (normally words are split by any non-word character or a space). See also <a href="#langsetup">this table</a>.<br /> <br /> 
-							</li>
-
-							<li>"Remove spaces" is another option for Chinese, etc. It removes all spaces from the text (and the example sentences). See also <a href="#langsetup">this table</a>.<br /> <br />
-							</li>
-							
-							<li>"Right-To-Left Script" must be set to "Yes" if the language/script is written from right to left, like Arabic, Hebrew, Farsi, Urdu, etc. <br /> <br />
-							</li>
-							
-							<li><a name="extmpl"></a>"Export Template". The export template controls "Flexible" Term Exports for the terms of that language. It consists of a string of characters. Some parts of this string are placeholders that are replaced by the actual term data, <a target="_blank" href="export_template.html">see this table</a>. For each term (word or expression), that has been selected for export, the placeholders of the export template will be replaced by the term data and the string will be written to the export file. If the export template is empty, nothing will be exported.
-							</li>
-						</ul>
-
-						<br />
-						To understand all these options, please study also <a href="#langsetup">this</a>, look at the examples and play around with different settings and different texts.
-						<br />
-						<br />
-						<img class="grayborder" src="../img/03.jpg" alt="Image" />
-						<br />
-						<br />
-					</li>
-				</ul>
-      
-      </dd>
 
 
       <dt>
@@ -573,7 +464,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
             <b>My Languages</b>
             <br />
             <br />
-            The list of languages. Here you can add a new or edit an existent language. If no texts and no saved terms in a language exist, you can delete a language. If you change a language, all texts may be  be automatically reparsed to refresh (and correct) the cache of sentences and text items (depends on what language settings you have changed). You can do this also manually by clicking on the yellow flash icon. You can also test all (due) terms of a language or set a language as "current" language.
+            The list of languages. Here you can add a new or edit an existent language. If no texts and no saved terms in a language exist, you can delete a language. If you change a language, all texts may be automatically reparsed to refresh (and correct) the cache of sentences and text items (depends on what language settings you have changed). You can do this also manually by clicking on the yellow flash icon. You can also test all (due) terms of a language or set a language as "current" language.
             <br />
             <br />
             <img class="grayborder" src="../img/02.jpg" alt="Image" />
@@ -601,7 +492,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
               As URI No. 3 ("Google Translate URI") is also used to translate whole sentences, I would recommend to enter here always the link to Google Translate, like shown in the examples. The link to Google Translate is  "http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###", where the two-character codes after "sl=" and "tl=" designate the <a href="http://www.iana.org/assignments/language-subtag-registry" target=_blank">language codes (or "subtags")</a> for the source and the target language. But a different third web dictionary is of course possible, but sentence translations may not work.<br /><br /> 
               If the searchword in the three URIs needs to be converted into a different encoding (standard is UTF-8), you can use ###encoding### as a placeholder. Normally you see this right away if terms show up wrongly in the web dictionary. Example: Linguee expects the searchword in ISO-8859-15, not in UTF-8, so you define it this way: "http://www.linguee.de/search?direction=auto&query=###ISO-8859-15###".	A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php" target=_blank">here</a>.<br /><br /> 
               <b>IMPORTANT:</b> Some dictionaries (including "Google Translate") don't allow to be opened within a frame set. Put an asterisk * in front of the URI (Examples: *http://mywebdict.com?q=### or *http://translate.google.com/?ie=UTF-8&sl=..&tl=..&text=###) to open such a dictionary not within the frame set but in a popup window (please don't forget to deactivate popup window blocking in your browser!).<br /> <br /> <a name="glosbe"></a>
-              One dictionary (<a href="http://glosbe.com/" target="_blank">Glosbe</a>) has been closely integrated into LWT via the Glosbe API. To use this dictionary, input the "special" dictionary link "<i>glosbe_api.php?from=...&dest=...&phrase=###</i>" (NO "http://" at the beginning!!) with <i>from</i>: "L2 language code" (the language of your texts) and <i>dest</i>: "L1 language code" (e.g. mother tongue). To find the language codes, open <a href="http://glosbe.com/all-languages" target="_blank">this page</a> to select the "from" (L2) language. On the next page, select the "L2 - L1" language pair. The URL of the next page shows the two language codes, here as an example "French - English": http://glosbe.com/<b>fr</b>/<b>en</b>/. The "from" code is "fr", the "dest" code is "en". Using this dictionary makes the transfer of translation(s) from the Glosbe to LWT very easy: just click on the icon next to the translations to copy them into the LWT edit screen. I recommend to use the LWT-integrated Glosbe dictionary as the "Dictionary 1 URI". Note: I cannot guarantee that the Glosbe API and this special integration will work in the future!<br /> <br /> 
+              One dictionary (<a href="http://glosbe.com/" target="_blank">Glosbe</a>) has been closely integrated into LWT via the Glosbe API. To use this dictionary, input the "special" dictionary link "<i>glosbe_api.php?from=...&dest=...&phrase=###</i>" (NO "http://" at the beginning!!) with <i>from</i>: "L2 language code" (the language of your texts) and <i>dest</i>: "L1 language code" (e.g. mother tongue). To find the language codes, open <a href="http://glosbe.com/all-languages" target="_blank">this page</a> to select the "from" (L2) language. On the next page, select the "L2 - L1" language pair. The URL of the next page shows the two language codes, here as an example "French - English": http://glosbe.com/<b>fr</b>/<b>en</b>/. The "from" code is "fr", the "dest" code is "en". Using this dictionary makes the transfer of translation(s) from the Glosbe to LWT very easy: just click on the icon next to the translations to copy them into the LWT edit screen. I recommend to use the LWT-integrated Glosbe dictionary as the "Dictionary 1 URI". Note: I cannot guarantee that the Glosbe API and this special integration will work in the future! glosbe_api.php is just an example how one can integrate a dictionary into LWT.<br /> <br /> 
               You don't know how and where to find a good web dictionary? Try these dictionary directories:<ul>
               <li><a href="http://www.alphadictionary.com/langdir.html" target="_blank">http://www.alphadictionary.com/langdir.html</a></li>
               <li><a href="http://dir.yahoo.com/reference/dictionaries/" target="_blank">http://dir.yahoo.com/reference/dictionaries/</a></li>

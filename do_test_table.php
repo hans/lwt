@@ -9,47 +9,43 @@
  * Call: do_test_test.php?&selection=1 (SQL via $_SESSION['testsql'])
  * 
  * @package Lwt
- * @author LWT Project <lwt-project@hotmail.com>
+ * @author  LWT Project <lwt-project@hotmail.com>
  * @license Unlicense <http://unlicense.org/>
- * @since  1.5.4
+ * @since   1.5.4
  */
 
 require_once 'inc/session_utility.php';
 
 if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) {
     $testsql = $_SESSION['testsql']; 
-}
-
-elseif (isset($_REQUEST['lang'])) {
-    $testsql = ' ' . $tbpref . 'words where WoLgID = ' . $_REQUEST['lang'] . ' '; 
-}
-
-elseif (isset($_REQUEST['text'])) {
-    $testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 where Ti2LgID = WoLgID and Ti2WoID = WoID and Ti2TxID = ' . $_REQUEST['text'] . ' ';
-}
-
-else { 
+} elseif (isset($_REQUEST['lang'])) {
+    $testsql = ' ' . $tbpref . 'words WHERE WoLgID = ' . $_REQUEST['lang'] . ' '; 
+} elseif (isset($_REQUEST['text'])) {
+    $testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 
+    WHERE Ti2LgID = WoLgID AND Ti2WoID = WoID and Ti2TxID = ' . $_REQUEST['text'] . ' ';
+} else { 
     my_die("do_test_table.php called with wrong parameters"); 
 }
 
 pagestart_nobody('', 'html, body { margin:3px; padding:0; }');
 
-$cntlang = get_first_value('select count(distinct WoLgID) as value from ' . $testsql);
+$cntlang = get_first_value('SELECT COUNT(DISTINCT WoLgID) AS value FROM ' . $testsql);
 if ($cntlang > 1) {
     echo '<p>Sorry - The selected terms are in ' . $cntlang . ' languages, but tests are only possible in one language at a time.</p>';
     pageend();
     exit();
 }
 
-$lang = get_first_value('select WoLgID as value from ' . $testsql . ' limit 1');
+$lang = get_first_value('SELECT WoLgID AS value FROM ' . $testsql . ' LIMIT 1');
 
-if (! isset($lang)) {
+if (!isset($lang)) {
     echo '<p class="center">&nbsp;<br />Sorry - No terms to display or to test at this time.</p>';
     pageend();
     exit();
 }
 
-$sql = 'select LgTextSize, LgRegexpWordCharacters, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $lang;
+$sql = 'SELECT LgTextSize, LgRegexpWordCharacters, LgRightToLeft 
+FROM ' . $tbpref . 'languages WHERE LgID = ' . $lang;
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $textsize = round(((int)$record['LgTextSize']-100)/2, 0)+100;
@@ -70,117 +66,124 @@ $currenttabletestsetting6 = getSettingZeroOrOne('currenttabletestsetting6', 1);
 ?>
 <script type="text/javascript">
 //<![CDATA[
-$(document).ready( function() {
-    $('#cbEdit').change(function() {
-        if($('#cbEdit').is(':checked')) {
-            $('td:nth-child(1),th:nth-child(1)').show();
-            do_ajax_save_setting('currenttabletestsetting1','1');
-        } else { 
-            $('td:nth-child(1),th:nth-child(1)').hide();
-            do_ajax_save_setting('currenttabletestsetting1','0');
-        }
-        $('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
-        $('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
-        $('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');                    
+    $(document).ready( function() {
+        $('#cbEdit').change(function() {
+            if($('#cbEdit').is(':checked')) {
+                $('td:nth-child(1),th:nth-child(1)').show();
+                do_ajax_save_setting('currenttabletestsetting1','1');
+            } else { 
+                $('td:nth-child(1),th:nth-child(1)').hide();
+                do_ajax_save_setting('currenttabletestsetting1','0');
+            }
+            $('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
+            $('th:visible').eq(0).css('border-top-left-radius','inherit')
+            .css('border-bottom-left-radius','0px');
+            $('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');                    
+        });
+        
+        $('#cbStatus').change(function() {
+            if($('#cbStatus').is(':checked')) {
+                $('td:nth-child(2),th:nth-child(2)').show();
+                do_ajax_save_setting('currenttabletestsetting2','1');
+            } else { 
+                $('td:nth-child(2),th:nth-child(2)').hide();
+                do_ajax_save_setting('currenttabletestsetting2','0');
+            }
+            $('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
+            $('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
+            $('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');                    
+        });
+        
+        $('#cbTerm').change(function() {
+            if($('#cbTerm').is(':checked')) {
+                $('td:nth-child(3)').css('color', 'black').css('cursor', 'auto');
+                do_ajax_save_setting('currenttabletestsetting3','1');
+            } else { 
+                $('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
+                do_ajax_save_setting('currenttabletestsetting3','0');
+            }
+        });
+        
+        $('#cbTrans').change(function() {
+            if($('#cbTrans').is(':checked')) {
+                $('td:nth-child(4)').css('color', 'black').css('cursor', 'auto');
+                do_ajax_save_setting('currenttabletestsetting4','1');
+            } else {
+                $('td:nth-child(4)').css('color', 'white').css('cursor', 'pointer');
+                do_ajax_save_setting('currenttabletestsetting4','0');
+            }
+        });
+        
+        $('#cbRom').change(function() {
+            if($('#cbRom').is(':checked')) {
+                $('td:nth-child(5),th:nth-child(5)').show();
+                do_ajax_save_setting('currenttabletestsetting5','1');
+            } else {
+                $('td:nth-child(5),th:nth-child(5)').hide();
+                do_ajax_save_setting('currenttabletestsetting5','0');
+            }
+            $('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
+            $('th:visible:last').css('border-top-right-radius','inherit');
+            $('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');                    
+        });
+        
+        $('#cbSentence').change(function() {
+            if($('#cbSentence').is(':checked')) {
+                $('td:nth-child(6),th:nth-child(6)').show();
+                do_ajax_save_setting('currenttabletestsetting6','1');
+            } else {
+                $('td:nth-child(6),th:nth-child(6)').hide();
+                do_ajax_save_setting('currenttabletestsetting6','0');
+            }
+            $('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
+            $('th:visible:last').css('border-top-right-radius','inherit');
+            $('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');                    
+        });
+        
+        $('td').click(function() {
+            $(this).css('color', 'black').css('cursor', 'auto');
+        });
+        
+        $('td').css('background-color', 'white');
+        
+        $('#cbEdit').change();
+        $('#cbStatus').change();
+        $('#cbTerm').change();
+        $('#cbTrans').change();
+        $('#cbRom').change();
+        $('#cbSentence').change();
+        
     });
-    
-    $('#cbStatus').change(function() {
-        if($('#cbStatus').is(':checked')) {
-            $('td:nth-child(2),th:nth-child(2)').show();
-            do_ajax_save_setting('currenttabletestsetting2','1');
-        } else { 
-            $('td:nth-child(2),th:nth-child(2)').hide();
-            do_ajax_save_setting('currenttabletestsetting2','0');
-        }
-        $('th,td').css('border-top-left-radius','').css('border-bottom-left-radius','');
-        $('th:visible').eq(0).css('border-top-left-radius','inherit').css('border-bottom-left-radius','0px');
-        $('tr:last-child>td:visible').eq(0).css('border-bottom-left-radius','inherit');                    
-    });
-    
-    $('#cbTerm').change(function() {
-        if($('#cbTerm').is(':checked')) {
-            $('td:nth-child(3)').css('color', 'black').css('cursor', 'auto');
-            do_ajax_save_setting('currenttabletestsetting3','1');
-        } else { 
-            $('td:nth-child(3)').css('color', 'white').css('cursor', 'pointer');
-            do_ajax_save_setting('currenttabletestsetting3','0');
-        }
-    });
-    
-    $('#cbTrans').change(function() {
-        if($('#cbTrans').is(':checked')) {
-            $('td:nth-child(4)').css('color', 'black').css('cursor', 'auto');
-            do_ajax_save_setting('currenttabletestsetting4','1');
-        } else {
-            $('td:nth-child(4)').css('color', 'white').css('cursor', 'pointer');
-            do_ajax_save_setting('currenttabletestsetting4','0');
-        }
-    });
-    
-    $('#cbRom').change(function() {
-        if($('#cbRom').is(':checked')) {
-            $('td:nth-child(5),th:nth-child(5)').show();
-            do_ajax_save_setting('currenttabletestsetting5','1');
-        } else {
-            $('td:nth-child(5),th:nth-child(5)').hide();
-            do_ajax_save_setting('currenttabletestsetting5','0');
-        }
-        $('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
-        $('th:visible:last').css('border-top-right-radius','inherit');
-        $('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');                    
-    });
-    
-    $('#cbSentence').change(function() {
-        if($('#cbSentence').is(':checked')) {
-            $('td:nth-child(6),th:nth-child(6)').show();
-            do_ajax_save_setting('currenttabletestsetting6','1');
-        } else {
-            $('td:nth-child(6),th:nth-child(6)').hide();
-            do_ajax_save_setting('currenttabletestsetting6','0');
-        }
-        $('th,td').css('border-top-right-radius','').css('border-bottom-right-radius','');
-        $('th:visible:last').css('border-top-right-radius','inherit');
-        $('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');                    
-    });
-    
-    $('td').click(function() {
-        $(this).css('color', 'black').css('cursor', 'auto');
-    });
-    
-    $('td').css('background-color', 'white');
-    
-    $('#cbEdit').change();
-    $('#cbStatus').change();
-    $('#cbTerm').change();
-    $('#cbTrans').change();
-    $('#cbRom').change();
-    $('#cbSentence').change();
-     
-});
 //]]>
 </script>
 <p>
-<input type="checkbox" id="cbEdit" <?php echo get_checked($currenttabletestsetting1); ?> /> Edit
-<input type="checkbox" id="cbStatus" <?php echo get_checked($currenttabletestsetting2); ?> /> Status
-<input type="checkbox" id="cbTerm" <?php echo get_checked($currenttabletestsetting3); ?> /> Term
-<input type="checkbox" id="cbTrans" <?php echo get_checked($currenttabletestsetting4); ?> /> Translation
-<input type="checkbox" id="cbRom" <?php echo get_checked($currenttabletestsetting5); ?> /> Romanization
-<input type="checkbox" id="cbSentence" <?php echo get_checked($currenttabletestsetting6); ?> /> Sentence
+    <input type="checkbox" id="cbEdit" <?php echo get_checked($currenttabletestsetting1); ?> /> Edit
+    <input type="checkbox" id="cbStatus" <?php echo get_checked($currenttabletestsetting2); ?> /> Status
+    <input type="checkbox" id="cbTerm" <?php echo get_checked($currenttabletestsetting3); ?> /> Term
+    <input type="checkbox" id="cbTrans" <?php echo get_checked($currenttabletestsetting4); ?> /> Translation
+    <input type="checkbox" id="cbRom" <?php echo get_checked($currenttabletestsetting5); ?> /> Romanization
+    <input type="checkbox" id="cbSentence" <?php echo get_checked($currenttabletestsetting6); ?> /> Sentence
 </p>
 
 <table class="sortable tab1" style="width:auto;" cellspacing="0" cellpadding="5">
-<tr>
-<th class="th1">Ed</th>
-<th class="th1 clickable">Status</th>
-<th class="th1 clickable">Term</th>
-<th class="th1 clickable">Translation</th>
-<th class="th1 clickable">Romanization</th>
-<th class="th1 clickable">Sentence</th>
-</tr>
+    <tr>
+        <th class="th1">Ed</th>
+        <th class="th1 clickable">Status</th>
+        <th class="th1 clickable">Term</th>
+        <th class="th1 clickable">Translation</th>
+        <th class="th1 clickable">Romanization</th>
+        <th class="th1 clickable">Sentence</th>
+    </tr>
 <?php
 
-$sql = 'SELECT DISTINCT WoID, WoText, WoTranslation, WoRomanization, WoSentence, WoStatus, WoTodayScore As Score FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' AND WoTranslation != \'*\' order by WoTodayScore, WoRandom*RAND()';
-if ($debug) { echo $sql; 
+$sql = 'SELECT DISTINCT WoID, WoText, WoTranslation, WoRomanization, 
+WoSentence, WoStatus, WoTodayScore As Score 
+FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 
+AND WoTranslation != \'\' AND WoTranslation != \'*\' 
+ORDER BY WoTodayScore, WoRandom*RAND()';
+
+if ($debug) { 
+    echo $sql; 
 }
 $res = do_mysqli_query($sql);
 while ($record = mysqli_fetch_assoc($res)) {
