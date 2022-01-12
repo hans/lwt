@@ -289,8 +289,8 @@ function showAllwordsClick () {
   const text = $('#thetextid').text();
   // Timeout necessary because the button is clicked on the left (would hide frames)
 	setTimeout(function () {
-    console.log(window.top.location);showRightFrames(
-    'set_text_mode.php?mode=' + showAll + '&showLearning=' + showLeaning + '&text=' + text
+    showRightFrames(
+      'set_text_mode.php?mode=' + showAll + '&showLearning=' + showLeaning + '&text=' + text
   );}, 500);
   setTimeout(function () {window.location.reload();}, 4000);
 }

@@ -27,7 +27,7 @@ if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) {
     my_die("do_test_table.php called with wrong parameters"); 
 }
 
-pagestart_nobody('', 'html, body { margin:3px; padding:0; }');
+//pagestart_nobody('', 'html, body { margin:3px; padding:0; }');
 
 $cntlang = get_first_value('SELECT COUNT(DISTINCT WoLgID) AS value FROM ' . $testsql);
 if ($cntlang > 1) {

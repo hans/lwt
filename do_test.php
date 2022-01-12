@@ -159,21 +159,20 @@ function do_test_mobile_js() {
 function do_test_mobile_page_content($property) 
 {
     ?>
-<body>
-    <div id="frame-h">
-        <iframe id="frame-h-2" src="do_test_header.php?<?php echo $property; ?>" scrolling="yes" name="h">
-        </iframe>
-    </div>
-    <div id="frame-ro">
-        <iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
-    </div>
-    <div id="frame-l">
-        <iframe  id="frame-l-2" src="empty.html" scrolling="yes" name="l"></iframe>
-    </div>
-    <div id="frame-ru">
-        <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
-    </div>
-</body>
+<div id="frame-h">
+    <iframe id="frame-h-2" 
+    src="do_test_header.php?<?php echo $property; ?>" scrolling="yes" name="h">
+    </iframe>
+</div>
+<div id="frame-ro">
+    <iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
+</div>
+<div id="frame-l">
+    <iframe  id="frame-l-2" src="empty.html" scrolling="yes" name="l"></iframe>
+</div>
+<div id="frame-ru">
+    <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
+</div>
         <?php 
 }
 
@@ -200,19 +199,43 @@ function do_test_mobile_page($property)
  */
 function do_test_desktop_page($property) 
 {
-    ?>
-    <frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
-     <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
-         <frame src="do_test_header.php?<?php echo $property; ?>" scrolling="auto" name="h" />            
-         <frame src="empty.html" scrolling="auto" name="l" />
-     </frameset>    
-     <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-r-frameheight-percent')); ?>%,*">
-         <frame src="empty.html" scrolling="auto" name="ro" />
-         <frame src="empty.html" scrolling="auto" name="ru" />
-     </frameset>
-     <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
- </frameset>
-         <?php
+?>
+<!--<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
+    <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
+        <frame src="do_test_header.php?<?php echo $property; ?>" scrolling="auto" name="h" />            
+        <frame src="empty.html" scrolling="auto" name="l" />
+    </frameset>    
+    <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-r-frameheight-percent')); ?>%,*">
+        <frame src="empty.html" scrolling="auto" name="ro" />
+        <frame src="empty.html" scrolling="auto" name="ru" />
+    </frameset>
+    <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
+</frameset>-->
+
+<div style="width: 95%;" onclick="setTimeout(hideRightFrames, 1000);">
+    <div id="frame-h">
+        <?php
+    require_once 'do_test_header.php';
+    //start_test_header_page();
+        ?>
+    </div>
+    <hr />
+    <div id="frame-l">
+        <?php
+    require_once 'do_test_test.php';
+    //do_test_test_content($_REQUEST['start'], true);
+        ?>
+    </div>
+</div>
+<div id="frames-r" style="position: fixed; top: 0; right: -50%; width: 50%; height: 99%;">
+    <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
+        Your browser doesn't support iFrames, update it!
+    </iframe>
+    <iframe src="empty.html" scrolling="auto" name="ru" style="height: 50%; width: 100%;">
+        Your browser doesn't support iFrames, update it!
+    </iframe>
+</div>
+<?php
 }
 
 /**
@@ -225,15 +248,16 @@ function do_test_desktop_page($property)
  */
 function do_test_page($p, $mobile)
 {
-    framesetheader('Test');
+    //framesetheader('Test');
+    pagestart_nobody('Test');
     
-    if ($mobile) {
+    if ($mobile && false) {
         do_test_mobile_page($p);
     } else {
         do_test_desktop_page($p);
     }
 
-    echo '</html>';
+    pageend();
 }
 
 

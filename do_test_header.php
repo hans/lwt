@@ -177,8 +177,9 @@ function do_test_header_js()
      */
     function startWordTest(type, property) {
         resetFrames();
-        parent.frames['l'].location.href = 
-        'do_test_test.php?type=' + type + '&' + property;
+        //parent.frames['l'].location.href = 
+        //'do_test_test.php?type=' + type + '&' + property;
+        window.location.href = 'do_test.php?type=' + type + '&' + property;
     }
 
     /** 
@@ -186,7 +187,8 @@ function do_test_header_js()
      */
     function startTestTable(property) {
         resetFrames();
-        parent.frames['l'].location.href='do_test_table.php?' + property;
+        //parent.frames['l'].location.href='do_test_table.php?' + property;
+        window.location.href='do_test_table.php?' + property;
     }
     </script>
     <?php
@@ -259,7 +261,7 @@ function get_test_data(&$title, &$p)
 function do_test_header_page($title, $p, $totalcountdue, $totalcount)
 {
 
-    pagestart_nobody(tohtml($title), 'html, body {margin-bottom:0;}');
+    //pagestart_nobody($title, 'html, body {margin-bottom:0;}');
     do_test_header_js();
 
     $_SESSION['teststart'] = time() + 2;
@@ -271,7 +273,7 @@ function do_test_header_page($title, $p, $totalcountdue, $totalcount)
     do_test_header_row($p);
     do_test_header_content($title, $p, $totalcountdue, $totalcount);
 
-    pageend();
+    //pageend();
 }
 
 

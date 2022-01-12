@@ -415,7 +415,7 @@ function do_text_text_content($textid, $only_body=true): void
 
     if (!$only_body) {
         // Start the page with a HEAD and opens a BODY tag 
-        pagestart_nobody(tohtml($title));
+        pagestart_nobody($title);
     }
     ?>
     <script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>

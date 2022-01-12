@@ -4255,8 +4255,14 @@ function makeAudioPlayer($audio, $offset=0)
 }
 
 
-// -------------------------------------------------------------
 
+/** 
+ * Echo a HEAD tag for using with frames
+ * 
+ * @param string $title Title to use
+ * 
+ * @return void
+ */
 function framesetheader($title): void 
 {
     @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
@@ -4281,15 +4287,15 @@ function framesetheader($title): void
 /**
  * Write a page header and start writing its body.
  *
- * @param string $titletext Title of the page
+ * @param string $title Title of the page
  * @param bool   $close Set to true if you are closing the header;
  *
  * @global bool $debug Show a DEBUG span if true
  */
-function pagestart($titletext, $close): void 
+function pagestart($title, $close): void 
 {
     global $debug;
-    pagestart_nobody($titletext);
+    pagestart_nobody($title);
     echo '<h4>';
     if ($close) { 
         echo '<a href="index.php" target="_top">'; 
@@ -4301,20 +4307,20 @@ function pagestart($titletext, $close): void
         quickMenu();
         echo '</span>';
     }
-    echo '</h4><h3>' . $titletext . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
+    echo '</h4><h3>' . tohtml($title) . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
     echo "<p>&nbsp;</p>";
 } 
 
 /**
  * Start a standard page with a complete header and a non-closed body.
  *
- * @param string $titletext Title of the page
+ * @param string $title     Title of the page
  * @param string $addcss    Some CSS to be embed in a style tag
  *
  * @global bool $debug Show the requests if true
  * @global string $tbpref The database table prefix if true
  */
-function pagestart_nobody($titletext, $addcss=''): void 
+function pagestart_nobody($title, $addcss=''): void 
 {
     global $debug;
     global $tbpref;
@@ -4365,7 +4371,7 @@ function pagestart_nobody($titletext, $addcss=''): void
     <script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
     
-    <title>LWT :: <?php echo $titletext; ?></title>
+    <title>LWT :: <?php echo tohtml($title); ?></title>
 </head>
 <body>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>

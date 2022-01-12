@@ -16,6 +16,8 @@
 
 require_once 'inc/session_utility.php'; 
 require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php';
+require_once 'do_text_header.php';
+require_once 'do_text_text.php';
 
 /**
  * Return true if we should use mobile mode.
@@ -33,40 +35,6 @@ function is_mobile()
     return $mobile;
 }
 
-if (!isset($_REQUEST['start'])) {
-    // Document not ready
-    header("Location: edit_texts.php");
-    exit();
-}
-    
-$audio = get_first_value(
-    'SELECT TxAudioURI AS value 
-    FROM ' . $tbpref . 'texts 
-    WHERE TxID = ' . $_REQUEST['start']
-);
-
-//framesetheader('Read');
-pagestart_nobody(
-    tohtml('Read'), 
-    '.resizable
-{
-    min-height: 30px;
-    min-width: 30px;
-    resize: both;
-    overflow: auto;
-    max-height: fit-content;
-    max-width: fit-content;
-}'
-);
-
-if (is_mobile()) {
-    do_text_mobile_css();
-    do_text_mobile_js();
-    do_text_desktop_content();
-} else {
-    // Not mobile
-    do_text_desktop_content();
-}
 
 /**
  * Echo the CSS for the mobile version of do_text.
@@ -97,9 +65,12 @@ function do_text_mobile_css() {
 /**
  * Echo the JS code for the mobile version of do_text.
  * 
+ * @param string|null Audio URI
+ * 
  * @return void
  */
-function do_text_mobile_js() {
+function do_text_mobile_js($audio) {
+
 ?>    
 <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 
@@ -160,13 +131,18 @@ function do_text_mobile_js() {
 function do_text_mobile_content() {
 ?>
 <div id="frame-h">
-    <iframe id="frame-h-2" src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="h"></iframe>
+    <iframe id="frame-h-2" 
+    src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" 
+    scrolling="yes" name="h">
+    </iframe>
 </div>
 <div id="frame-ro">
 <iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
 </div>
 <div id="frame-l">
-    <iframe id="frame-l-2" src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l"></iframe>
+    <iframe id="frame-l-2" 
+    src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="yes" name="l">
+    </iframe>
 </div>
 <div id="frame-ru">
     <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
@@ -178,54 +154,89 @@ function do_text_mobile_content() {
 /**
  * Echo the page content for the desktop version of do_text.
  * 
+ * @param string|null Audio URI
+ * 
  * @return void
  */
-function do_text_desktop_content() {
+function do_text_desktop_content($audio) {
 
 ?>
-    <!--<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
-        <frameset rows="<?php 
-        if (isset($audio)) { 
-            echo getSettingWithDefault('set-text-h-frameheight-with-audio');
-        } else {
-            echo getSettingWithDefault('set-text-h-frameheight-no-audio'); 
-        } ?>,*">
-            <frame src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="h" />
-            <frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />
-        </frameset>
-        <<frameset rows="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')); ?>%,*">
-            <frame src="empty.html" scrolling="auto" name="ro" />
-            <frame src="empty.html" scrolling="auto" name="ru" />
-        </frameset>
-        <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
-    </frameset>-->
-    <div class="resizable" style="width: 95%;" onclick="setTimeout(hideRightFrames, 1000);">
-        <div id="frame-h">
-            <?php
-            require_once 'do_text_header.php';
-            do_text_header_content($_REQUEST['start'], true);
-            ?>
-        </div>
-        <hr />
-        <div id="frame-l">
-            <?php
-            require_once 'do_text_text.php';
-            do_text_text_content($_REQUEST['start'], true);
-            ?>
-        </div>
+<!--<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
+    <frameset rows="<?php 
+    if (isset($audio)) { 
+        echo getSettingWithDefault('set-text-h-frameheight-with-audio');
+    } else {
+        echo getSettingWithDefault('set-text-h-frameheight-no-audio'); 
+    } ?>,*">
+        <frame src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="h" />
+        <frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />
+    </frameset>
+    <<frameset rows="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')); ?>%,*">
+        <frame src="empty.html" scrolling="auto" name="ro" />
+        <frame src="empty.html" scrolling="auto" name="ru" />
+    </frameset>
+    <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
+</frameset>-->
+<div style="width: 95%;" onclick="setTimeout(hideRightFrames, 1000);">
+    <div id="frame-h">
+        <?php do_text_header_content($_REQUEST['start'], true); ?>
     </div>
-    <div class="resizable" id="frames-r" style="position: fixed; top: 0; right: -50%; width: 50%; height: 99%;">
-        <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
-            Your browser doesn't support iFrames, update it!
-        </iframe>
-        <iframe src="empty.html" scrolling="auto" name="ru" style="height: 50%; width: 100%;">
-            Your browser doesn't support iFrames, update it!
-        </iframe>
+    <hr />
+    <div id="frame-l">
+        <?php do_text_text_content($_REQUEST['start'], true); ?>
     </div>
-    </body>
-</html>
-        <?php
+</div>
+<div id="frames-r" style="position: fixed; top: 0; right: -50%; width: 50%; height: 99%;">
+    <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
+        Your browser doesn't support iFrames, update it!
+    </iframe>
+    <iframe src="empty.html" scrolling="auto" name="ru" style="height: 50%; width: 100%;">
+        Your browser doesn't support iFrames, update it!
+    </iframe>
+</div>
 
+<?php
+}
+
+/**
+ * Echo the text page.
+ * 
+ * @param bool Set to true if you want the mobile version of the page.
+ * 
+ * @return void
+ * 
+ * @global string $tbpref Database table prefix.
+ */
+function do_text_page($mobile)
+{
+    global $tbpref;
+
+    //framesetheader('Read');
+    pagestart_nobody('Read');
+    
+    $audio = get_first_value(
+        'SELECT TxAudioURI AS value 
+        FROM ' . $tbpref . 'texts 
+        WHERE TxID = ' . $_REQUEST['start']
+    );
+    
+    if ($mobile && false) {
+        do_text_mobile_css();
+        do_text_mobile_js($audio);
+        do_text_mobile_content();
+    } else {
+        // Not mobile
+        do_text_desktop_content($audio);
+    }
+    pageend();
+}
+
+if (isset($_REQUEST['start'])) {
+    do_text_page(is_mobile());
+} else {
+    // Document not ready
+    header("Location: edit_texts.php");
+    exit();
 }
 
 ?>

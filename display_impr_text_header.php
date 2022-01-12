@@ -29,7 +29,7 @@ mysqli_free_result($res);
 
 saveSetting('currenttext', $textid);
 
-pagestart_nobody(tohtml($title));
+pagestart_nobody($title);
 echo '<h2 class="center" style="margin:5px;margin-top:-10px;">';
 
 ?>

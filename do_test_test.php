@@ -472,7 +472,7 @@ function do_test_footer($notyettested, $wrong, $correct)
     $l_correct = round(($correct * $totaltestsdiv)*100, 0);
     $b_correct = ($l_correct == 0) ? 'borderr' : 'borderl borderr';
     ?>
-<div id="footer">
+<footer id="footer">
     <img src="icn/clock.png" title="Elapsed Time" alt="Elapsed Time" />
     <span id="timer" title="Elapsed Time"></span>
     &nbsp; &nbsp; &nbsp; 
@@ -494,7 +494,7 @@ function do_test_footer($notyettested, $wrong, $correct)
     <span class="donewrongsty" title="Wrong"><?php echo $wrong; ?></span>
     + 
     <span class="doneoksty" title="Correct"><?php echo $correct; ?></span>
-</div>
+</footer>
     <?php
 }
 
@@ -539,7 +539,7 @@ $(document).ready( function() {
 function do_test_test_content()
 {
     global $debug;
-    pagestart_nobody('');
+    //pagestart_nobody('');
     do_test_test_css();
     
     $testsql = get_test_sql();
@@ -561,7 +561,7 @@ function do_test_test_content()
     $count2 = prepare_test_area($testsql, $totaltests, $notyettested, $testtype);
     prepare_test_footer($notyettested);
     do_test_test_javascript($count2);
-    pageend();
+    //pageend();
 
 }
 

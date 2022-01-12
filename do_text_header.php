@@ -297,7 +297,7 @@ function do_text_header_content($textid, $only_body=true): void
     saveSetting('currenttext', $textid);
 
     if (!$only_body) {
-        pagestart_nobody(tohtml($title), 'html, body {margin-bottom:0;}');
+        pagestart_nobody($title, 'html, body {margin-bottom:0;}');
     }
     save_audio_position($textid);
     do_header_row((int) $textid, $record['TxLgID']);
