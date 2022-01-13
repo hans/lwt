@@ -20,18 +20,21 @@ code_doc: Doxyfile
 	doxygen Doxyfile
 
 # Regenerate minified JS&CSS
-minify: src/js/ src/css/
+minify: src/js/ src/css/ src/themes/
 	echo "Minifying JS..."
 	php -r "require 'src/php/minifier.php'; minifyAllJS();"
 	echo "Minifying CSS..."
 	php -r "require 'src/php/minifier.php'; minifyAllCSS();"
+	echo "Regenerating themes..."
+	php -r "require 'src/php/minifier.php'; regenerateThemes();"
 
 # Do not minify for development version!
-no-minify: src/js/ src/css/
+no-minify: src/js/ src/css/ src/themes/
 	cp -r src/js/ .
 	cp src/js/third_party/* js/
 	rm -rf js/third_party
 	cp -r src/css .
+	cp -r src/themes/ .
 
 # Clear documentation
 clean: 

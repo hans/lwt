@@ -16,45 +16,16 @@
 
 require_once 'inc/session_utility.php';
 
-
-function start_set_text_status()
-{
-    global $tbpref;
-
-    if (!is_numeric(getreq('status')) && !is_numeric(getreq('stchange'))) {
-        my_die('status or stchange should be specified!');
-    }
-
-    $wid = (int)getreq('wid');
-    $oldstatus = (int)get_first_value(
-        "SELECT WoStatus AS value FROM " . $tbpref . "words 
-        WHERE WoID = " . $wid
-    );
-
-    if (!is_numeric(getreq('stchange'))) {
-        $status = (int)getreq('status');
-        $stchange = $status - $oldstatus;
-        if ($stchange <= 0) { 
-            $stchange=-1; 
-        }
-        if ($stchange > 0) { 
-            $stchange=1; 
-        }
-        
-    } else {
-        $stchange = (int)getreq('stchange');
-        $status = $oldstatus + $stchange;
-        if ($status < 1) { 
-            $status=1; 
-        }
-        if ($status > 5) { 
-            $status=5; 
-        }
-        
-    }
-    do_set_test_status_content($wid, $status, $oldstatus, $stchange);
-}
-
+/**
+ * Echo the page HTML content when setting word status.
+ * 
+ * @param int $status    New learning status for the word
+ * @param int $oldstatus Previous learning status
+ * @param int $newscore  New score for the word
+ * @param int $oldscore  Previous score
+ * 
+ * @return void
+ */
 function do_set_test_status_html($status, $oldstatus, $newscore, $oldscore) 
 {
     if ($oldstatus == $status) {
@@ -65,7 +36,7 @@ function do_set_test_status_html($status, $oldstatus, $newscore, $oldscore)
         ' to ' . get_colored_status_msg($status) . '
         .</p>'; 
         echo '<audio autoplay>
-            <source src="themes/Lingocracy_Dark/' . (
+            <source src="' . get_file_path("sounds/" .
                 ($status > $oldstatus) ? "success.mp3" : "failure.mp3"
             ) . '" type="audio/mpeg" />
             Your browser does not support audio element!
@@ -75,14 +46,21 @@ function do_set_test_status_html($status, $oldstatus, $newscore, $oldscore)
     echo "<p>Old score was $oldscore, new score is now $newscore.</p>";
 }
 
+/**
+ * Increment the session progress in learning new words.
+ * 
+ * @param int $stchange -1, 0, or 1 if status is rising or not
+ * 
+ * @return void
+ */
 function set_test_status_change_progress($stchange)
 {
     $totaltests = $_SESSION['testtotal'];
     $wrong = $_SESSION['testwrong'];
     $correct = $_SESSION['testcorrect'];
     $notyettested = $totaltests - $correct - $wrong;
-    if ($notyettested > 0 ) {
-        if ($stchange >= 0 ) { 
+    if ($notyettested > 0) {
+        if ($stchange >= 0) { 
             $_SESSION['testcorrect']++; 
         }
         else {
@@ -91,6 +69,15 @@ function set_test_status_change_progress($stchange)
     }
 }        
 
+/**
+ * Make the JavaScript action for setting a word status.
+ * 
+ * @param int $wid       Word ID
+ * @param int $status    New learning status for the word
+ * @param int $stchange  -1, 0, or 1 if status is rising or not
+ * 
+ * @return void
+ */
 function do_set_test_status_javascript($wid, $status, $stchange)
 {
 ?>
@@ -118,7 +105,18 @@ function do_set_test_status_javascript($wid, $status, $stchange)
 <?php
 }
 
-
+/**
+ * Make the page content of the word status page.
+ * 
+ * @param int $wid       Word ID
+ * @param int $status    New learning status for the word
+ * @param int $oldstatus Previous learning status
+ * @param int $stchange  -1, 0, or 1 if status is rising or not
+ * 
+ * @return void
+ * 
+ * @global string $tbpref Database table prefix 
+ */
 function do_set_test_status_content($wid, $status, $oldstatus, $stchange) 
 {
     global $tbpref;
@@ -149,6 +147,48 @@ function do_set_test_status_content($wid, $status, $oldstatus, $stchange)
     set_test_status_change_progress($stchange);
     do_set_test_status_javascript($wid, $status, $stchange);
     pageend();
+}
+
+/**
+ * Start the word status set page. 
+ * 
+ * @return void
+ * 
+ * @global string $tbpref Database table prefix
+ */
+function start_set_text_status()
+{
+    global $tbpref;
+
+    if (!is_numeric(getreq('status')) && !is_numeric(getreq('stchange'))) {
+        my_die('status or stchange should be specified!');
+    }
+
+    $wid = (int)getreq('wid');
+    $oldstatus = (int)get_first_value(
+        "SELECT WoStatus AS value FROM " . $tbpref . "words 
+        WHERE WoID = " . $wid
+    );
+
+    if (!is_numeric(getreq('stchange'))) {
+        $status = (int)getreq('status');
+        $stchange = $status - $oldstatus;
+        if ($stchange <= 0) { 
+            $stchange = -1; 
+        } else if ($stchange > 0) { 
+            $stchange = 1; 
+        }
+        
+    } else {
+        $stchange = (int)getreq('stchange');
+        $status = $oldstatus + $stchange;
+        if ($status < 1) { 
+            $status = 1; 
+        } else if ($status > 5) { 
+            $status = 5; 
+        }
+    }
+    do_set_test_status_content($wid, $status, $oldstatus, $stchange);
 }
 
 start_set_text_status();
