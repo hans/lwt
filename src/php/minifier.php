@@ -110,6 +110,35 @@ function minifyAllCSS()
 }
 
 /**
+ * Regenerate all themes. CSS is minified while other files are copied.
+ * 
+ * Nested folders are ignored.
+ * 
+ * @return void 
+ */
+function regenerate_themes()
+{
+    $folder = 'src/themes/';
+    $folder_scan = scandir($folder);
+    foreach ($folder_scan as $parent_file) {
+        if (is_dir($folder . $parent_file) && $parent_file != '.') {
+            $file_scan = scandir($folder . $parent_file);
+            foreach ($file_scan as $file) {
+                if (!is_dir($file)) {
+                    $filepath = $folder . $parent_file . '/' . $file;
+                    $outputpath = 'themes/{$parent_file}/{$file}';
+                    if (str_ends_with($filepath, '.css')) {
+                        minifyCSS($filepath, $outputpath);
+                    } else {
+                        copy($filepath, $outputpath);
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
  * @var array<string> All the paths of JS files to be minified
  */
 $jsFiles = array(

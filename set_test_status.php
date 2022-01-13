@@ -16,67 +16,63 @@
 
 require_once 'inc/session_utility.php';
 
-$status = (int)getreq('status');
-$wid = (int)getreq('wid');
 
-$oldstatus = (int)get_first_value(
-    "SELECT WoStatus AS value FROM " . $tbpref . "words 
-    WHERE WoID = " . $wid
-);
+function start_set_text_status()
+{
+    global $tbpref;
 
-$oldscore = (int)get_first_value(
-    'SELECT greatest(0,round(WoTodayScore,0)) AS value FROM ' . $tbpref . 'words 
-    WHERE WoID = ' . $wid
-);
+    if (!is_numeric(getreq('status')) && !is_numeric(getreq('stchange'))) {
+        my_die('status or stchange should be specified!');
+    }
 
-if (getreq('stchange') != '') {
-    $stchange = $status - $oldstatus;
-    if ($stchange <= 0) { 
-        $stchange=-1; 
+    $wid = (int)getreq('wid');
+    $oldstatus = (int)get_first_value(
+        "SELECT WoStatus AS value FROM " . $tbpref . "words 
+        WHERE WoID = " . $wid
+    );
+
+    if (!is_numeric(getreq('stchange'))) {
+        $status = (int)getreq('status');
+        $stchange = $status - $oldstatus;
+        if ($stchange <= 0) { 
+            $stchange=-1; 
+        }
+        if ($stchange > 0) { 
+            $stchange=1; 
+        }
+        
+    } else {
+        $stchange = (int)getreq('stchange');
+        $status = $oldstatus + $stchange;
+        if ($status < 1) { 
+            $status=1; 
+        }
+        if ($status > 5) { 
+            $status=5; 
+        }
+        
     }
-    if ($stchange > 0) { 
-        $stchange=1; 
-    }
-    
-} else {
-    $stchange = (int)getreq('stchange');
-    $status = $oldstatus + $stchange;
-    if ($status < 1) { 
-        $status=1; 
-    }
-    if ($status > 5) { 
-        $status=5; 
-    }
-    
+    do_set_test_status_content($wid, $status, $oldstatus, $stchange);
 }
-
-$word = get_first_value(
-    "SELECT WoText AS value FROM " . $tbpref . "words 
-    WHERE WoID = " . $wid
-);
-pagestart("Term: " . $word, false);
-
-runsql(
-    'UPDATE ' . $tbpref . 'words SET WoStatus = ' . 
-    $status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' 
-    WHERE WoID = ' . $wid, 
-    'Status changed'
-);
-    
-$newscore = (int)get_first_value(
-    'SELECT greatest(0,round(WoTodayScore,0)) AS value 
-    FROM ' . $tbpref . 'words where WoID = ' . $wid
-);
 
 function do_set_test_status_html($status, $oldstatus, $newscore, $oldscore) 
 {
     if ($oldstatus == $status) {
         echo '<p>Status ' . get_colored_status_msg($status) . ' not changed.</p>'; 
     } else {
-        echo '<p>Status changed from ' . get_colored_status_msg($oldstatus) . ' to ' . get_colored_status_msg($status) . '.</p>'; 
+        echo '<p>
+        Status changed from ' . get_colored_status_msg($oldstatus) . 
+        ' to ' . get_colored_status_msg($status) . '
+        .</p>'; 
+        echo '<audio autoplay>
+            <source src="themes/Lingocracy_Dark/' . (
+                ($status > $oldstatus) ? "success.mp3" : "failure.mp3"
+            ) . '" type="audio/mpeg" />
+            Your browser does not support audio element!
+        </audio>';
     }
 
-    echo "<p>Old score was " . $oldscore . ", new score is now " . $newscore . ".</p>";
+    echo "<p>Old score was $oldscore, new score is now $newscore.</p>";
 }
 
 function set_test_status_change_progress($stchange)
@@ -122,9 +118,39 @@ function do_set_test_status_javascript($wid, $status, $stchange)
 <?php
 }
 
-do_set_test_status_html($status, $oldstatus, $newscore, $oldscore);
-set_test_status_change_progress($stchange);
-do_set_test_status_javascript($wid, $status, $stchange);
-pageend();
+
+function do_set_test_status_content($wid, $status, $oldstatus, $stchange) 
+{
+    global $tbpref;
+    $word = get_first_value(
+        "SELECT WoText AS value FROM " . $tbpref . "words 
+        WHERE WoID = " . $wid
+    );
+
+    $oldscore = (int)get_first_value(
+        'SELECT greatest(0,round(WoTodayScore,0)) AS value FROM ' . $tbpref . 'words 
+        WHERE WoID = ' . $wid
+    );
+
+
+    runsql(
+        'UPDATE ' . $tbpref . 'words SET WoStatus = ' . 
+        $status . ', WoStatusChanged = NOW(),' . make_score_random_insert_update('u') . ' 
+        WHERE WoID = ' . $wid, 
+        'Status changed'
+    );
+        
+    $newscore = (int)get_first_value(
+        'SELECT greatest(0,round(WoTodayScore,0)) AS value 
+        FROM ' . $tbpref . 'words where WoID = ' . $wid
+    );
+    pagestart("Term: " . $word, false);
+    do_set_test_status_html($status, $oldstatus, $newscore, $oldscore);
+    set_test_status_change_progress($stchange);
+    do_set_test_status_javascript($wid, $status, $stchange);
+    pageend();
+}
+
+start_set_text_status();
 
 ?>

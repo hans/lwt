@@ -510,20 +510,25 @@ function do_test_test_javascript($count)
     ?>
 <script type="text/javascript">
     //<![CDATA[
-    const waitTime = <?php echo (int)getSettingWithDefault('set-test-edit-frame-waiting-time') ?>;
+    const waitTime = <?php 
+    echo json_encode((int)getSettingWithDefault('set-test-edit-frame-waiting-time')) 
+    ?>;
 
-$(document).ready( function() {
-    window.parent.frames['ru'].location.href='empty.html';
-    if (waitTime <= 0 ) {
-        window.parent.frames['ro'].location.href='empty.html';
-
-    } else {
-        setTimeout('window.parent.frames[\'ro\'].location.href=\'empty.html\';', waitTime);
-    }
-    new CountUp(<?php echo time() . ', ' . $_SESSION['teststart']; ?>, 
-        'timer', <?php echo ($count ? 0 : 1); ?>);
-    }
-);
+    $(document).ready(function() {
+        window.parent.frames['ru'].location.href='empty.html';
+        if (waitTime <= 0) {
+            window.parent.frames['ro'].location.href='empty.html';
+        } else {
+            setTimeout(
+                'window.parent.frames["ro"].location.href="empty.html";', 
+                waitTime
+            );
+        }
+        new CountUp(
+            <?php echo time() . ', ' . $_SESSION['teststart']; ?>, 
+            'timer', <?php echo ($count ? 0 : 1); ?>
+        );
+    });
 //]]>
 </script>
     <?php

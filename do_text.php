@@ -177,7 +177,7 @@ function do_text_desktop_content($audio) {
     </frameset>
     <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
 </frameset>-->
-<div style="width: 95%;" onclick="setTimeout(hideRightFrames, 1000);">
+<div style="width: 95%; height: 100%;" onclick="setTimeout(hideRightFrames, 1000);">
     <div id="frame-h">
         <?php do_text_header_content($_REQUEST['start'], true); ?>
     </div>

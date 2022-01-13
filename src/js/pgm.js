@@ -181,7 +181,25 @@ function run_overlib_multiword (wblink1, wblink2, wblink3, hints, txid, torder, 
   );
 }
 
-function run_overlib_test (wblink1, wblink2, wblink3, wid, txt, trans, roman, stat, sent, todo, oldstat) {
+/**
+ * Make an overlib dialog so that the user can say if he knows the word or not.
+ * 
+ * @param {string} wblink1 Dictionary 1 URI
+ * @param {string} wblink2 Dictionary 2 URI
+ * @param {string} wblink3 Google Translate URI
+ * @param {*}      wid     Word ID
+ * @param {string} txt     Word text
+ * @param {string} trans   Word translation 
+ * @param {string} roman   Word romanization 
+ * @param {string} stat    Word learning status
+ * @param {string} sent    Lookup sentence in Google Translate
+ * @param {int}    todo    If 1, the user should say if he knows the word.
+ * @param {*}      oldstat 
+ * @returns 
+ */
+function run_overlib_test(
+  wblink1, wblink2, wblink3, wid, txt, trans, roman, stat, sent, todo, oldstat
+  ) {
   const s = parseInt(stat, 10);
   let c = s + 1;
   if (c > 5) c = 5;
@@ -191,12 +209,11 @@ function run_overlib_test (wblink1, wblink2, wblink3, wid, txt, trans, roman, st
   if (c == s) cc = c;
   let ww = stat + ' ▶ ' + w; 
   if (w == s) ww = w;
-  return overlib(
-    (
-      todo == 1
-      ? '<center><hr noshade size=1 /><b>' +
-		((stat >= 1 && stat <= 5)
-		  ? (
+  let overlib_string = '';
+  if (todo == 1) {
+    overlib_string += '<center><hr noshade size=1 /><b>';
+    if (stat >= 1 && stat <= 5) {
+      overlib_string += 
 		  make_overlib_link_change_status_test(
         wid, 
         1, 
@@ -208,23 +225,22 @@ function run_overlib_test (wblink1, wblink2, wblink3, wid, txt, trans, roman, st
       -1, 
       '<img src="icn/thumb.png" title="Oops!" alt="Oops!" /> Oops! [' + ww + ']'
       ) +
-		'<hr noshade size=1 />'
-		    )
-		  : '') +
+		'<hr noshade size=1 />';
+    }
+    overlib_string +=
 		make_overlib_link_change_status_alltest(wid, stat) +
-		'</b></center><hr noshade size=1 />'
-      : '') +
-    '<b>' + escape_html_chars(make_tooltip(txt, trans, roman, stat)) +
-    '</b><br />' +
-    ' <a href="edit_tword.php?wid=' + wid + 
-    '" target="ro" onclick="showRightFrames();">Edit term</a><br />' +
-      createTheDictLink(wblink1, txt, 'Dict1', 'Lookup Term: ') +
-      createTheDictLink(wblink2, txt, 'Dict2', '') +
-      createTheDictLink(wblink3, txt, 'GTr', '') +
-      createTheDictLink(wblink3, sent, 'GTr', '<br />Lookup Sentence:'),
-    CAPTION, 
-    'Got it?'
-  );
+		'</b></center><hr noshade size=1 />';
+  }
+  overlib_string += '<b>' + escape_html_chars(make_tooltip(txt, trans, roman, stat)) +
+  '</b><br />' +
+  ' <a href="edit_tword.php?wid=' + wid + 
+  '" target="ro" onclick="showRightFrames();">Edit term</a><br />' +
+    createTheDictLink(wblink1, txt, 'Dict1', 'Lookup Term: ') +
+    createTheDictLink(wblink2, txt, 'Dict2', '') +
+    createTheDictLink(wblink3, txt, 'GTr', '') +
+    createTheDictLink(wblink3, sent, 'GTr', '<br />Lookup Sentence:');
+
+  return overlib(overlib_string, CAPTION, 'Got it?');
 }
 
 /**

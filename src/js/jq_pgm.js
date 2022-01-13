@@ -313,6 +313,11 @@ function setTheFocus () {
   $('.setfocus').focus().select();
 }
 
+/**
+ * Prepare a dialog when the user clicks a word during a test.
+ * 
+ * @returns false
+ */
 function word_click_event_do_test_test () {
   run_overlib_test(
     WBLINK1, WBLINK2, WBLINK3,
@@ -328,6 +333,12 @@ function word_click_event_do_test_test () {
   return false;
 }
 
+/**
+ * Handle keyboard interaction when testing a word.
+ * 
+ * @param {object} e A keystroke object 
+ * @returns {bool} true if nothing was done, false otherwise
+ */
 function keydown_event_do_test_test (e) {
   if (e.which == 32 && OPENED == 0) { // space : show sol.
     $('.word').click();

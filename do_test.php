@@ -212,7 +212,7 @@ function do_test_desktop_page($property)
     <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
 </frameset>-->
 
-<div style="width: 95%;" onclick="setTimeout(hideRightFrames, 1000);">
+<div style="width: 95%; height: 100%;" onclick="setTimeout(hideRightFrames, 1000);">
     <div id="frame-h">
         <?php
     require_once 'do_test_header.php';

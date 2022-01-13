@@ -25,7 +25,7 @@ function isInt(value){for(let i=0;i<value.length;i++){if((value.charAt(i)<'0')||
 return!0}
 function markClick(){if($('input.markcheck:checked').length>0){$('#markaction').removeAttr('disabled')}else{$('#markaction').attr('disabled','disabled')}}
 function confirmDelete(){return confirm('CONFIRM\n\nAre you sure you want to delete?')}
-function showAllwordsClick(){const showAll=$('#showallwords').prop('checked')?'1':'0';const showLeaning=$('#showlearningtranslations').prop('checked')?'1':'0';const text=$('#thetextid').text();setTimeout(function(){console.log(window.top.location);showRightFrames('set_text_mode.php?mode='+showAll+'&showLearning='+showLeaning+'&text='+text)},500);setTimeout(function(){window.location.reload()},4000)}
+function showAllwordsClick(){const showAll=$('#showallwords').prop('checked')?'1':'0';const showLeaning=$('#showlearningtranslations').prop('checked')?'1':'0';const text=$('#thetextid').text();setTimeout(function(){showRightFrames('set_text_mode.php?mode='+showAll+'&showLearning='+showLeaning+'&text='+text)},500);setTimeout(function(){window.location.reload()},4000)}
 function textareaKeydown(event){if(event.keyCode&&event.keyCode=='13'){if(check())
 $('input:submit').last().click();return!1}else{return!0}}
 function noShowAfter3Secs(){$('#hide3').slideUp()}
