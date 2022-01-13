@@ -74,7 +74,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 		<a href="#langsetup">Lang. Setup</a><br /> 
 		<a href="#termscores">Term Scores</a><br />
 		<a href="#keybind">Key Bindings</a><br />
-		<a href="#wordpress">Database</a><br />
+		<a href="#wordpress">WordPress Integration</a><br />
 		<a href="#database">Database</a><br />
 		<a href="#history">Changelog</a>
 	</div>	

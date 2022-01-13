@@ -107,17 +107,18 @@ function get_text_test_data(&$title, &$p): string
 function get_test_counts($testsql) 
 {
     $totalcountdue = get_first_value(
-        'SELECT count(distinct WoID) AS value 
-        FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 
-        AND WoTranslation != \'\' AND WoTranslation != \'*\' AND WoTodayScore < 0'
+        "SELECT count(distinct WoID) AS value 
+        FROM " . $testsql . " AND WoStatus BETWEEN 1 AND 5 
+        AND WoTranslation != '' AND WoTranslation != '*' AND WoTodayScore < 0"
     );
     $totalcount = get_first_value(
-        'SELECT count(distinct WoID) AS value 
-        FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != \'\' 
-        AND WoTranslation != \'*\''
+        "SELECT count(distinct WoID) AS value 
+        FROM " . $testsql . " AND WoStatus BETWEEN 1 AND 5 AND WoTranslation != '' 
+        AND WoTranslation != '*'"
     );
     return array($totalcountdue, $totalcount);
 }
+
 
 /**
  * Make the header row for tests.
@@ -136,7 +137,7 @@ function do_test_header_row($p)
     <?php 
     quickMenu();
     // This part only works if $textid is set
-    if (substr($p, 0, 4) != 'text') {
+    if (!is_numeric(getreq('text'))) {
         return;
     }
     $textid = (int) getreq('text');
@@ -201,10 +202,11 @@ function do_test_header_js()
  * @param string $p             URL property to use
  * @param string $totalcountdue Number of words due for today
  * @param string $totalcount    Total number of words.
+ * @param string $language      L2 language name
  * 
  * @return void
  */
-function do_test_header_content($title, $p, $totalcountdue, $totalcount)
+function do_test_header_content($title, $p, $totalcountdue, $totalcount, $language)
 {
     ?>
 <h2>TEST&nbsp;▶
@@ -212,12 +214,15 @@ function do_test_header_content($title, $p, $totalcountdue, $totalcount)
     . ' (Due: ' . $totalcountdue . ' of ' . $totalcount . ')'; ?>
 </h2>
 <div>
-    <input type="button" value="..[L2].." onclick="startWordTest(1, '<?php echo $p; ?>')" />
+    <input type="button" value="..[<?php echo $language; ?>].." 
+    onclick="startWordTest(1, '<?php echo $p; ?>')" />
     <input type="button" value="..[L1].." onclick="startWordTest(2, '<?php echo $p; ?>')" />
     <input type="button" value="..[••].." onclick="startWordTest(3, '<?php echo $p; ?>')" /> &nbsp; | &nbsp; 
-    <input type="button" value="[L2]" onclick="startWordTest(4, '<?php echo $p; ?>')" />
+    <input type="button" value="[<?php echo $language; ?>]" 
+    onclick="startWordTest(4, '<?php echo $p; ?>')" />
     <input type="button" value="[L1]" onclick="startWordTest(5, '<?php echo $p; ?>')" /> &nbsp; | &nbsp; 
-    <input type="button" value="Table" onclick="startTestTable('<?php echo $p; ?>')" />
+    <input type="button" value="Table" onclick="startTestTable('<?php echo $p; ?>')" /> &nbsp; | &nbsp; 
+    <input type="checkbox" id="utterance-allowed">Read words aloud</input>
 </div>
     <?php
 }
@@ -255,10 +260,11 @@ function get_test_data(&$title, &$p)
  * @param string $p             URL property to use
  * @param string $totalcountdue Number of words due for today
  * @param string $totalcount    Total number of words.
+ * @param string $language      L2 Language name 
  * 
  * @return void
  */
-function do_test_header_page($title, $p, $totalcountdue, $totalcount)
+function do_test_header_page($title, $p, $totalcountdue, $totalcount, $language)
 {
 
     //pagestart_nobody($title, 'html, body {margin-bottom:0;}');
@@ -271,7 +277,7 @@ function do_test_header_page($title, $p, $totalcountdue, $totalcount)
 
 
     do_test_header_row($p);
-    do_test_header_content($title, $p, $totalcountdue, $totalcount);
+    do_test_header_content($title, $p, $totalcountdue, $totalcount, $language);
 
     //pageend();
 }
@@ -280,20 +286,22 @@ function do_test_header_page($title, $p, $totalcountdue, $totalcount)
 /**
  * Use requests passed to the page to start it.
  * 
+ * @param string $language L2 language name
+ * 
  * @return void
  */
-function start_test_header_page()
+function start_test_header_page($language='L2')
 {
     $title = $p = '';
     list($totalcountdue, $totalcount) = get_test_data($title, $p);
-    do_test_header_page($title, $p, $totalcountdue, $totalcount);
+    do_test_header_page($title, $p, $totalcountdue, $totalcount, $language);
 }
 
 if ((isset($_REQUEST['selection']) && isset($_SESSION['testsql']))
     || isset($_REQUEST['lang'])  
     || isset($_REQUEST['text'])
 ) {
-    start_test_header_page();
+    //start_test_header_page();
 } 
 
 ?>

@@ -11,11 +11,13 @@
  * 
  * @package Lwt
  * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
  * @link    https://hugofara.github.io/lwt/docs/html/do__test__test_8php.html
  * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';
+require_once 'inc/langdefs.php';
 
 
 /**
@@ -77,22 +79,22 @@ function do_test_test_css()
 {
     ?>
 <style type="text/css">
-html, body {
-    width:100%; 
-    height:100%; 
-} 
+    html, body {
+        width:100%; 
+        height:100%; 
+    } 
 
-html {
-    display:table;
-} 
-body { 
-    display:table-cell; 
-    vertical-align:middle; 
-} 
-#body { 
-    max-width:95%; 
-    margin:0 auto; 
-}
+    html {
+        display:table;
+    } 
+    body { 
+        display:table-cell; 
+        vertical-align:middle; 
+    } 
+    #body { 
+        max-width:95%; 
+        margin:0 auto; 
+    }
 </style>
     <?php
 }
@@ -325,7 +327,8 @@ function prepare_test_area($testsql, $totaltests, $count, $testtype): int
     $wordlc = null;
     while ($pass < 2) {
         $pass++;
-        $sql = "SELECT DISTINCT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, WoSentence, 
+        $sql = "SELECT DISTINCT WoID, WoText, WoTextLC, WoTranslation, WoRomanization, 
+        WoSentence, WoLgID, 
         (IFNULL(WoSentence,'') NOT LIKE CONCAT('%{',WoText,'}%')) AS notvalid, WoStatus, 
         DATEDIFF( NOW( ), WoStatusChanged ) AS Days, WoTodayScore AS Score 
         FROM " . $testsql . " AND WoStatus BETWEEN 1 AND 5 
@@ -402,14 +405,42 @@ function prepare_test_area($testsql, $totaltests, $count, $testtype): int
  * @param string $save      Word or sentence to use for the test
  * 
  * @return void
+ * 
+ * @global string $tbpref  Database table prefix
+ * @global string $angDefs Languages definition array
  */
 function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $testtype, $nosent, $save)
 {
+    global $tbpref, $langDefs;
+
     $wid = $wo_record['WoID'];
     $trans = repl_tab_nl($wo_record['WoTranslation']) . getWordTagList($wid, ' ', 1, 0);
+    $lang = get_first_value(
+        'SELECT LgName AS value FROM ' . $tbpref . 'languages
+        WHERE LgID = ' . $wo_record['WoLgID'] . '
+        LIMIT 1'        
+    );
+    $abbr = $langDefs[$lang][1];
+    $phoneticText = phonetic_reading($wo_record['WoText'], $abbr);
     ?>
 <script type="text/javascript">
     //<![CDATA[
+
+    /** 
+     * Read the word aloud
+     */
+    function read_word() {
+        if (('speechSynthesis' in window) && 
+        document.getElementById('utterance-allowed').checked) {
+            const text = <?php echo json_encode($phoneticText); ?>;
+            let msg = new SpeechSynthesisUtterance(text);
+            msg.text = text;
+            msg.lang = <?php echo json_encode($abbr); ?>;
+            msg.rate = 0.8;
+            speechSynthesis.speak(msg);
+        }
+    }
+
     WBLINK1 = '<?php echo $wb1; ?>';
     WBLINK2 = '<?php echo $wb2; ?>';
     WBLINK3 = '<?php echo $wb3; ?>';
@@ -428,7 +459,9 @@ function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $test
     WID = <?php echo $wid; ?>;
     $(document).ready(function() {
         $(document).keydown(keydown_event_do_test_test);
-        $('.word').click(word_click_event_do_test_test);
+        $('.word')
+        .click(word_click_event_do_test_test)
+        .click(read_word);
     });
     //]]>
 </script>
@@ -571,7 +604,7 @@ function do_test_test_content()
 }
 
 if (isset($_REQUEST['selection']) || isset($_REQUEST['lang']) || isset($_REQUEST['text'])) {
-    do_test_test_content();
+    //do_test_test_content();
 }
 
 

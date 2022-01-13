@@ -10,13 +10,16 @@
  * Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
  * 
  * @package Lwt
- * @author LWT Project <lwt-project@hotmail.com>
+ * @author  LWT Project <lwt-project@hotmail.com>
  * @license Unlicense <http://unlicense.org/>
- * @since  1.0.3
+ * @link    https://hugofara.github.io/lwt/docs/html/do__test_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';
-require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php' ;
+require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php';
+require_once 'do_test_header.php';    
+require_once 'do_test_test.php';
 
 /**
  * Return true if we should use mobile mode.
@@ -32,6 +35,52 @@ function is_mobile()
         || $mobileDisplayMode == 2
     );
     return $mobile;
+}
+
+/**
+ * Find the L2 language name.
+ * 
+ * @return string Language name
+ * 
+ * @global string $tbpref Database table prefix
+ */
+function get_l2_language_name()
+{
+    global $tbpref;
+
+    $lang = 'L2';
+    if (getreq('lang') != '') {
+        $langid = (int) getreq('lang');
+        $lang = (string) get_first_value(
+            'SELECT LgName AS value FROM ' . $tbpref . 'languages 
+            WHERE LgID = ' . $langid . '
+            LIMIT 1'
+        ); 
+    } else if (getreq('text') != '') {
+        $textid = (int) getreq('text');
+        $lang = (string) get_first_value(
+            'SELECT LgName AS value 
+            FROM ' . $tbpref . 'texts
+            NATURAL JOIN ' . $tbpref . 'languages
+            WHERE TxID = ' . $textid . '
+            LIMIT 1'
+        );
+    } else if (getreq('selection')) { 
+        $testsql = $_SESSION['testsql'];
+        $cntlang = get_first_value(
+            'SELECT count(distinct WoLgID) AS value FROM ' . $testsql
+        );
+        if ($cntlang == 1) {
+            $lang = (string) get_first_value(
+                'SELECT LgName AS value 
+                FROM ' . $tbpref . 'languages, ' . $testsql . ' AND LgID = WoLgID 
+                LIMIT 1'
+            ); 
+        }
+
+    }
+
+    return $lang;
 }
 
 /**
@@ -199,6 +248,7 @@ function do_test_mobile_page($property)
  */
 function do_test_desktop_page($property) 
 {
+    $language = get_l2_language_name();
 ?>
 <!--<frameset border="3" bordercolor="" cols="<?php echo tohtml(getSettingWithDefault('set-test-l-framewidth-percent')); ?>%,*">
     <frameset rows="<?php echo tohtml(getSettingWithDefault('set-test-h-frameheight')); ?>,*">
@@ -215,15 +265,13 @@ function do_test_desktop_page($property)
 <div style="width: 95%; height: 100%;" onclick="setTimeout(hideRightFrames, 1000);">
     <div id="frame-h">
         <?php
-    require_once 'do_test_header.php';
-    //start_test_header_page();
+    start_test_header_page($language);
         ?>
     </div>
     <hr />
     <div id="frame-l">
         <?php
-    require_once 'do_test_test.php';
-    //do_test_test_content($_REQUEST['start'], true);
+    do_test_test_content();
         ?>
     </div>
 </div>
