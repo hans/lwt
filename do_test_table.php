@@ -11,58 +11,81 @@
  * @package Lwt
  * @author  LWT Project <lwt-project@hotmail.com>
  * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/do__test__table_8php.html
  * @since   1.5.4
  */
 
 require_once 'inc/session_utility.php';
 
-if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) {
-    $testsql = $_SESSION['testsql']; 
-} elseif (isset($_REQUEST['lang'])) {
-    $testsql = ' ' . $tbpref . 'words WHERE WoLgID = ' . $_REQUEST['lang'] . ' '; 
-} elseif (isset($_REQUEST['text'])) {
-    $testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 
-    WHERE Ti2LgID = WoLgID AND Ti2WoID = WoID and Ti2TxID = ' . $_REQUEST['text'] . ' ';
-} else { 
-    my_die("do_test_table.php called with wrong parameters"); 
+/**
+ * Set sql request for the word test.
+ * 
+ * @return string SQL request string
+ * 
+ * @global string $tbpref Table prefix
+ */
+function get_test_table_sql()
+{
+    global $tbpref;
+    if (isset($_REQUEST['selection']) && isset($_SESSION['testsql'])) { 
+        $testsql = $_SESSION['testsql'];
+        $cntlang = get_first_value('SELECT count(distinct WoLgID) AS value FROM ' . $testsql);
+        if ($cntlang > 1) {
+            //pagestart('', false);
+            echo '<p>Sorry - The selected terms are in ' . $cntlang . 
+            ' languages, but tests are only possible in one language at a time.</p>';
+            //pageend();
+            exit();
+        }
+    } else if (isset($_REQUEST['lang'])) {
+        $testsql = ' ' . $tbpref . 'words where WoLgID = ' . $_REQUEST['lang'] . ' ';
+    } else if (isset($_REQUEST['text'])) {
+        $testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 
+        WHERE Ti2LgID = WoLgID AND Ti2WoID = WoID AND Ti2TxID = ' . $_REQUEST['text'] . ' ';
+    } else { 
+        my_die("do_test_table.php called with wrong parameters"); 
+    }
+    return $testsql;
 }
 
-//pagestart_nobody('', 'html, body { margin:3px; padding:0; }');
 
-$cntlang = get_first_value('SELECT COUNT(DISTINCT WoLgID) AS value FROM ' . $testsql);
-if ($cntlang > 1) {
-    echo '<p>Sorry - The selected terms are in ' . $cntlang . ' languages, but tests are only possible in one language at a time.</p>';
-    pageend();
-    exit();
+function do_test_table_language_settings($testsql)
+{
+    global $tbpref;
+
+    $lang = get_first_value('SELECT WoLgID AS value FROM ' . $testsql . ' LIMIT 1');
+
+    if (!isset($lang)) {
+        echo '<p class="center">&nbsp;<br />
+        Sorry - No terms to display or to test at this time.</p>';
+        pageend();
+        exit();
+    }
+
+    $sql = 'SELECT LgTextSize, LgRegexpWordCharacters, LgRightToLeft 
+    FROM ' . $tbpref . 'languages WHERE LgID = ' . $lang;
+    $res = do_mysqli_query($sql);
+    $record = mysqli_fetch_assoc($res);
+    mysqli_free_result($res);
+    return $record;
 }
 
-$lang = get_first_value('SELECT WoLgID AS value FROM ' . $testsql . ' LIMIT 1');
-
-if (!isset($lang)) {
-    echo '<p class="center">&nbsp;<br />Sorry - No terms to display or to test at this time.</p>';
-    pageend();
-    exit();
+function get_test_table_settings() 
+{
+    $currenttabletestsetting1 = getSettingZeroOrOne('currenttabletestsetting1', 1);
+    $currenttabletestsetting2 = getSettingZeroOrOne('currenttabletestsetting2', 1);
+    $currenttabletestsetting3 = getSettingZeroOrOne('currenttabletestsetting3', 0);
+    $currenttabletestsetting4 = getSettingZeroOrOne('currenttabletestsetting4', 1);
+    $currenttabletestsetting5 = getSettingZeroOrOne('currenttabletestsetting5', 0);
+    $currenttabletestsetting6 = getSettingZeroOrOne('currenttabletestsetting6', 1);
+    return array(
+        $currenttabletestsetting1, $currenttabletestsetting2, $currenttabletestsetting3, 
+        $currenttabletestsetting4, $currenttabletestsetting5, $currenttabletestsetting6
+    );
 }
 
-$sql = 'SELECT LgTextSize, LgRegexpWordCharacters, LgRightToLeft 
-FROM ' . $tbpref . 'languages WHERE LgID = ' . $lang;
-$res = do_mysqli_query($sql);
-$record = mysqli_fetch_assoc($res);
-$textsize = round(((int)$record['LgTextSize']-100)/2, 0)+100;
-
-$regexword = $record['LgRegexpWordCharacters'];
-$rtlScript = $record['LgRightToLeft'];
-mysqli_free_result($res);
-$span1 = ($rtlScript ? '<span dir="rtl">' : '');
-$span2 = ($rtlScript ? '</span>' : '');
-
-$currenttabletestsetting1 = getSettingZeroOrOne('currenttabletestsetting1', 1);
-$currenttabletestsetting2 = getSettingZeroOrOne('currenttabletestsetting2', 1);
-$currenttabletestsetting3 = getSettingZeroOrOne('currenttabletestsetting3', 0);
-$currenttabletestsetting4 = getSettingZeroOrOne('currenttabletestsetting4', 1);
-$currenttabletestsetting5 = getSettingZeroOrOne('currenttabletestsetting5', 0);
-$currenttabletestsetting6 = getSettingZeroOrOne('currenttabletestsetting6', 1);
-
+function do_test_table_javascript()
+{
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -156,16 +179,28 @@ $currenttabletestsetting6 = getSettingZeroOrOne('currenttabletestsetting6', 1);
     });
 //]]>
 </script>
-<p>
-    <input type="checkbox" id="cbEdit" <?php echo get_checked($currenttabletestsetting1); ?> /> Edit
-    <input type="checkbox" id="cbStatus" <?php echo get_checked($currenttabletestsetting2); ?> /> Status
-    <input type="checkbox" id="cbTerm" <?php echo get_checked($currenttabletestsetting3); ?> /> Term
-    <input type="checkbox" id="cbTrans" <?php echo get_checked($currenttabletestsetting4); ?> /> Translation
-    <input type="checkbox" id="cbRom" <?php echo get_checked($currenttabletestsetting5); ?> /> Romanization
-    <input type="checkbox" id="cbSentence" <?php echo get_checked($currenttabletestsetting6); ?> /> Sentence
-</p>
+<?php
+}
 
-<table class="sortable tab1" style="width:auto;" cellspacing="0" cellpadding="5">
+
+function do_test_table_settings($settings)
+{
+?>
+<p>
+    <input type="checkbox" id="cbEdit" <?php echo get_checked($settings[0]); ?> /> Edit
+    <input type="checkbox" id="cbStatus" <?php echo get_checked($settings[1]); ?> /> Status
+    <input type="checkbox" id="cbTerm" <?php echo get_checked($settings[2]); ?> /> Term
+    <input type="checkbox" id="cbTrans" <?php echo get_checked($settings[3]); ?> /> Translation
+    <input type="checkbox" id="cbRom" <?php echo get_checked($settings[4]); ?> /> Romanization
+    <input type="checkbox" id="cbSentence" <?php echo get_checked($settings[5]); ?> /> Sentence
+</p>
+<?php
+}
+
+
+function do_test_table_header()
+{
+?>
     <tr>
         <th class="th1">Ed</th>
         <th class="th1 clickable">Status</th>
@@ -175,18 +210,37 @@ $currenttabletestsetting6 = getSettingZeroOrOne('currenttabletestsetting6', 1);
         <th class="th1 clickable">Sentence</th>
     </tr>
 <?php
-
-$sql = 'SELECT DISTINCT WoID, WoText, WoTranslation, WoRomanization, 
-WoSentence, WoStatus, WoTodayScore As Score 
-FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 
-AND WoTranslation != \'\' AND WoTranslation != \'*\' 
-ORDER BY WoTodayScore, WoRandom*RAND()';
-
-if ($debug) { 
-    echo $sql; 
 }
-$res = do_mysqli_query($sql);
-while ($record = mysqli_fetch_assoc($res)) {
+
+function do_test_table_table_content($lang_record, $testsql) 
+{
+    global $debug;
+
+    $textsize = round(((int)$lang_record['LgTextSize']-100)/2, 0)+100;
+    
+    $regexword = $lang_record['LgRegexpWordCharacters'];
+    $rtlScript = $lang_record['LgRightToLeft'];
+    $span1 = ($rtlScript ? '<span dir="rtl">' : '');
+    $span2 = ($rtlScript ? '</span>' : '');
+
+    $sql = 'SELECT DISTINCT WoID, WoText, WoTranslation, WoRomanization, 
+    WoSentence, WoStatus, WoTodayScore As Score 
+    FROM ' . $testsql . ' AND WoStatus BETWEEN 1 AND 5 
+    AND WoTranslation != \'\' AND WoTranslation != \'*\' 
+    ORDER BY WoTodayScore, WoRandom*RAND()';
+
+    if ($debug) { 
+        echo $sql; 
+    }
+    $res = do_mysqli_query($sql);
+    while ($record = mysqli_fetch_assoc($res)) {
+        do_test_table_row($record, $regexword, $textsize, $span1, $span2);
+    }
+    mysqli_free_result($res);
+}
+
+function do_test_table_row($record, $regexword, $textsize, $span1, $span2)
+{
     $sent = tohtml(repl_tab_nl($record["WoSentence"]));
     $sent1 = str_replace(
         "{", ' <b>[', str_replace(
@@ -232,14 +286,24 @@ while ($record = mysqli_fetch_assoc($res)) {
         <?php echo $sent1; ?></span><?php echo $span2; ?>
     </td>
 </tr>
-    <?php
-}
-mysqli_free_result($res);
-
-?>
-</table>
 <?php
+}
 
-pageend();
+function do_test_table()
+{
+    //pagestart_nobody('', 'html, body { margin:3px; padding:0; }');
+    $testsql = get_test_table_sql();
+    $lang_record = do_test_table_language_settings($testsql);
+    $settings = get_test_table_settings();
+    do_test_table_javascript();
+    do_test_table_settings($settings);
 
+    echo '<table class="sortable tab1" style="width:auto;" cellspacing="0" cellpadding="5">';
+    
+    do_test_table_header();
+    do_test_table_table_content($lang_record, $testsql);
+    echo '</table>';
+
+    //pageend();
+}
 ?>

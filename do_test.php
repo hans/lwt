@@ -20,6 +20,7 @@ require_once 'inc/session_utility.php';
 require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php';
 require_once 'do_test_header.php';    
 require_once 'do_test_test.php';
+require_once 'do_test_table.php';
 
 /**
  * Return true if we should use mobile mode.
@@ -271,7 +272,11 @@ function do_test_desktop_page($property)
     <hr />
     <div id="frame-l">
         <?php
-    do_test_test_content();
+    if (getreq('type') == 'table') {
+        do_test_table();
+    } else {
+        do_test_test_content();
+    }
         ?>
     </div>
 </div>

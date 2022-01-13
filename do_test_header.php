@@ -189,7 +189,8 @@ function do_test_header_js()
     function startTestTable(property) {
         resetFrames();
         //parent.frames['l'].location.href='do_test_table.php?' + property;
-        window.location.href='do_test_table.php?' + property;
+        //window.location.href='do_test_table.php?' + property;
+        window.location.href = 'do_test.php?type=table&' + property;
     }
     </script>
     <?php

@@ -34,9 +34,9 @@ function get_test_sql()
         $testsql = $_SESSION['testsql'];
         $cntlang = get_first_value('SELECT count(distinct WoLgID) AS value FROM ' . $testsql);
         if ($cntlang > 1) {
-            pagestart('', false);
+            //pagestart('', false);
             echo '<p>Sorry - The selected terms are in ' . $cntlang . ' languages, but tests are only possible in one language at a time.</p>';
-            pageend();
+            //pageend();
             exit();
         }
     } else if (isset($_REQUEST['lang'])) {
@@ -45,9 +45,9 @@ function get_test_sql()
         $testsql = ' ' . $tbpref . 'words, ' . $tbpref . 'textitems2 
         WHERE Ti2LgID = WoLgID AND Ti2WoID = WoID AND Ti2TxID = ' . $_REQUEST['text'] . ' ';
     } else { 
-        $testsql = '';
-        $title = 'Request Error!';
-        pagestart($title, true);
+        //$testsql = '';
+        //$title = 'Request Error!';
+        //pagestart($title, true);
         my_die("do_test_test.php called with wrong parameters"); 
     }
     return $testsql;
