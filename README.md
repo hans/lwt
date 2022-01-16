@@ -6,6 +6,8 @@
 
 **Learning with Texts** (LWT) is a tool for language learning by reading. It is a self-hosted web application.
 
+You feel that you won't learn much by translating dumb sentences or using grammar books? Learning with Texts offers you the possibility to learn by reading texts in your objective language. The idea: when you don't know a word in a text, just click it. We show you the translation, and you will have regular tests to remember it. Ready to go?
+
 **THIS IS A THIRD PARTY VERSION**. This version is not the 
 official one, and brings many improvements and new featuress. 
 It is quicker, has smaller databse size, 
@@ -14,18 +16,18 @@ and is open for contributions. The official version is on
 
 
 ## Installation
-Please see [docs/info.html](https://hugofara.github.io/lwt/docs/info.html) for detailed instructions. 
-As it is self-hosted, you will need a server, which can be your computer.
+* Please see [docs/installation.md](https://hugofara.github.io/lwt/docs/installation.md) for detailed instructions. 
+
+As it is self-hosted, you will need a server, which can be your computer. We recommand installing from the[hugofara/lwt composer package](https://packagist.org/packages/hugofara/lwt).
 
 * [Install Composer](https://getcomposer.org/download/) if you don't have it.
 * **If you installed composer globally**
   * Run ``composer create-project hugofara/lwt``.
 * **If you installed composer locally**
-  * Got to the folder where composer.phar is located
+  * Go to the folder where composer.phar is located
   * Run ``php composer.phar create-project hugofara/lwt``
 * Got to the newly created ``lwt/`` folder. 
-* Create ``connect.inc.php`` with an existing database user 
-(read [docs/info.html](https://hugofara.github.io/lwt/docs/info.html)) for the tutorial.
+* Create ``connect.inc.php`` with an existing database user. Everything is explained at [docs/info.html](https://hugofara.github.io/lwt/docs/info.html).
 
 And you are ready to go!
 
@@ -51,7 +53,7 @@ context to help you. By the way, we also ship
 an Anki exporter.
 
 ## Features
-* Support for many languages
+* Support for almost 40 languages.
 * Text parsing for roman languages, right-to-left,
 and East-Asian ideographic systems
 * Translate words on-the-fly
@@ -61,22 +63,18 @@ and East-Asian ideographic systems
 
 ### Features not in the official LWT
 See the full list: [newfeatures.md](https://hugofara.github.io/lwt/docs/newfeatures.html)
+* Support for mobile
 * Automatically import texts from RSS feeds
 * Support for different themes
-* Display translations of terms with status(es) in the reading frame
+* Display translations of terms with status in the reading frame
 * Multiwords selection (click and hold on a word 
 → move to another word → release mouse button)
-* Key bindings work when you hover over a word
 * Bulk translate new words in the reading frame
-* Text to speech support (only words)
+* Text to speech
 * Optional "ignore all" button in read texts
-* New key bindings in the reading frame: 
-  * T (translate sentence), 
-  * P (pronounce term), 
-  * G (edit term with Google Translate)
+* Key bindings in the reading frame
 * Selecting terms according to a text tag
 * Two database backup modes (new or old structure)
-* Support for text to speech with no provided audio.
 
 ### Improvements compared to the official LWT
 * Database improvements (db size is much smaller now)
@@ -89,7 +87,6 @@ See the full list: [newfeatures.md](https://hugofara.github.io/lwt/docs/newfeatu
 * You can include video files from popular video platforms.
 * Code documentation.
 * Code is well organised, making debugging and contribution easier.
-* Server caching improved.
 
 ## Contribute
 To contribute, you need to clone or fork this repository.
@@ -117,6 +114,7 @@ Any other branch if considered under development.
 * You can also contact the community by GitHub.
 
 ## Alternatives
+* *See also*: [docs/links.md](https://hugofara.github.io/lwt/docs/links.md)
 LWT is written for web, but you have many choices if you want a standalone installation:
 * [LingL](https://github.com/gustavklopp/LingL) is a wonderful alternative written in Python, by [gustavklopp](https://github.com/gustavklopp).
 * [FLTR ◆ Foreign Language Text Reader](https://sourceforge.net/projects/foreign-language-text-reader/), a Java clone, by the same 

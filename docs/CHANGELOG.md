@@ -4,6 +4,16 @@ Changelog
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
+## [Unreleased]
+### Added
+* Sounds while testing terms!
+* New minifier for themes: it is now very easy to create new themes.
+
+## Changed
+* All the do_test*.php part do no longer use frames.
+* It means LWT is now mobile-friendly! 
+* Regenerated themes.
+
 ## 2.1.0-fork (January 09 2022)
 ### Added
 * Badges in the README providing up-to-date information on the state of the project.
@@ -11,7 +21,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 
 ### Changed
 * PHP >=7.4 is now the official PHP version.
-* Refactored the do_tests* pages.
+* Refactored the do_test* pages.
 * Better CSS minification.
 * Code base inconsistencies and security issues fixed 
 (level 5 and above psalm errors fixed).
@@ -29,7 +39,7 @@ and [jquery-xpath](https://github.com/ilinsky/jquery-xpath) are now copied from 
 ### Removed
 * Effectively dropped support for PHP <=7.
 
-## Full Changelog
+### Full Changelog
 * [v2.0.4-fork...v2.1.0](https://github.com/HugoFara/lwt/compare/v2.0.4-fork...v2.1.0)
 
 ## 2.0.4-fork (December 03 2021)
@@ -48,7 +58,7 @@ mobile compatibility.
 
 ### Removed
 * ``composer.phar`` and ``composer.lock`` are now git ignored.
-## Full Changelog
+### Full Changelog
 * [v2.0.3-fork...v2.0.4-fork](https://github.com/HugoFara/lwt/compare/v2.0.3-fork...v2.0.4-fork)
 
 ## 2.0.3-fork (November 26 2021):
@@ -232,31 +242,39 @@ This version should be the stable merge between official v2.0.2 and community ma
       
     
 ## 1.6.20-fork (September 26 2015):  
-* Bugfix: Google TextToSpeech callback fixed.  
+### Changed
 * Jquery Changes in the reading frame for hover\_over/highlight words.  
+### Fixed
+* Google TextToSpeech callback fixed.  
       
     
 ## 1.6.19-fork (August 29 2015):  
-* Bugfix: Mysql login process changed.  
-* JPlayer CSS and Skin changes. Skin are now integrated into 'Themes'.  
+### Added
 * New default settings: 'Tooltips' (new Default: 'JqueryUI') and 'Position of translations' (new Default: 'below').  
+### Changed
+* Mysql login process changed.  
+* JPlayer CSS and Skin changes. Skin are now integrated into 'Themes'.  
       
     
 ## 1.6.18-fork (June 11 2015):  
+### Added
 * New Setting: Position of translation  
 * Translations can now be displayed 'behind', 'in front of', 'above' or 'below' the term in the reading frame.  
 * Improved encoding detection in 'newsfeed import'.  
+### Fixed
 * Bugfix: Words that are created by 'bulk import' are not updated in the reading frame (i.e. when new translations are added afterwards).  
 * Bugfix: mysql error 'duplicate entry' in 'newsfeed import'.  
       
     
 ## 1.6.17-fork (May 09 2015):  
+### Fixed
 * Bugfix: Newsfeed Import doesn't load new links if WordPress is used for multiple users.  
       
     
-## 1.6.16-fork (May 01 2015):  
+## 1.6.16-fork (May 01 2015):   
+### Changed
 * Improved Sentence Bondary Detection when parsing texts.  
-* User ID is saved in the PHP Session Variable (instead of a Cookie) if wordpress is used to log in.  
+* User ID is saved in the PHP Session Variable (instead of a Cookie) if wordpress is used to log in. 
 * Switch to mysqli extension for database connection.  
 * Minified CSS and Javascript files; the uncompressed files can be found in the directory 'src'.  
       
@@ -269,7 +287,8 @@ This version should be the stable merge between official v2.0.2 and community ma
       
     
 ## 1.6.14-fork (March 28 2015):  
-* Glosbe API now uses javascript(browser based) instead of php(server based) to prevent possible retrieval errors when LWT is installed on a webhoster for multiple users.  
+### Changed
+* Glosbe API now uses javascript (browser based) instead of php(server based) to prevent possible retrieval errors when LWT is installed on a webhoster for multiple users.  
       
     
 ## 1.6.13-fork (March 23 2015):  
@@ -489,12 +508,15 @@ Changes from official LWT version 1.5.20 imported:
       
     
 ## 1.5.11 (July 12 2013):  
+### Added
 * If an improved annotated text exists, highlight the selected term translation in red in the text window popup and the text display frame (when using the keyboard).  
 * New language settings wizard.  
+### Changed
 * Better check on duplicate language names.  
 * Text window popup title is now a link (text color: yellow) to make editing an existent term a little easier.  
-* Some minor bug fixes.  
 * Documentation updated.  
+### Fixed
+* Some minor bug fixes.  
       
     
 ## 1.5.10 (July 07 2013):  
@@ -663,19 +685,22 @@ Changes from official LWT version 1.5.20 imported:
       
     
 ## 1.1.0 (August 16 2011):  
-* DB design altered: Table "words" changed: 3 new columns to make random word selection (in tests) and score calculation/query faster.  
-* Translation, romanization and sentence are now optional. An empty translation or an asterisk in the translation field are equivalent. Terms without translation or in status "Well Known" or "Ignore" will never be tested. Import of terms without translation is now possible.  
-* Textarea input boxes have now all a maximum text/bytes length check.  
+### Added
 * New status display during tests: "Elapsed Time / Total = Not yet tested + Wrong + Correct", plus a small bar graph.  
-* Testing algorithm revised, simplified and optimized.  
 * Tests can now be done also via key strokes (but you must first click in the test frame): SPACE: show solution, UP/DOWN: Status +1/-1, ESC: don't change status, NUMBER KEYS 1-5: set status to 1-5, I: set "Ignored", W: set "Well known", E: edit term.  
-* Terms due today and tomorrow are marked in score column (red/yellow) in terms table.  
 * In the "Read Text" frame, the next unknown (blue) word in the text can now be shown for term creation just by pressing the RETURN key. The term will be marked by a red border. You type in the translation, etc., and press RETURN to save the word. Now you can press RETURN again to show the next unknown (blue) word, enter a translation, save it, and so on... There is sometimes the problem that some external dictionaries catch the focus although the cursor should be in the translation field in the edit frame. Especially Chrome behaves badly, and I cannot change this. Please try different dictionaries and/or browsers.  
 * You can also review/manage saved (non-blue) terms with key strokes in the "Read Text" frame (RIGHT or SPACE: next term, LEFT: previous term, PAGE-UP or HOME: first term, PAGE-DOWN or END: last term, NUMBER KEYS 1-5: set current term status to 1-5, I: set current term status to "Ignored", W: set current term status to "Well known", E: edit current term, ESC: reset). The current term has a black border and the frame scrolls automatically. The term is displayed in the top right frame.  
 * New refresh button refreshes media files combo box (without page reload) on the text input/edit screen.  
 * Information added how to install LWT at a (free) webhoster.  
-* EasyPHP installation corrected.  
+### Changed
+* DB design altered: Table "words" changed: 3 new columns to make random word selection (in tests) and score calculation/query faster.  
+* Translation, romanization and sentence are now optional. An empty translation or an asterisk in the translation field are equivalent. Terms without translation or in status "Well Known" or "Ignore" will never be tested. Import of terms without translation is now possible.  
+* Textarea input boxes have now all a maximum text/bytes length check.  
+* Testing algorithm revised, simplified and optimized.  
+* Terms due today and tomorrow are marked in score column (red/yellow) in terms table.  
 * Documentation and screenshots updated, new floating menu.  
+### Fixed
+* EasyPHP installation corrected.  
       
     
 ## 1.0.4 (August 11 2011):  

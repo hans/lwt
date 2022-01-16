@@ -145,9 +145,17 @@ function addTermTranslation (wordid, txid, word, lang) {
   );
 }
 
+/**
+ * Set a new status for a word in the test table.
+ * 
+ * @param {string} wordid Word ID
+ * @param {bool}   up     true if status sould be increased, false otherwise
+ */
 function changeTableTestStatus (wordid, up) {
-  $.post('inc/ajax_chg_term_status.php', { id: wordid, data: (up ? 1 : 0) }
-    , function (data) {
+  $.post(
+    'inc/ajax_chg_term_status.php', 
+    { id: wordid, data: (up ? 1 : 0) }, 
+    function (data) {
       if (data != '') {
         $('#STAT' + wordid).html(data);
       }

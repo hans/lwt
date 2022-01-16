@@ -18,3 +18,4 @@
   * License: [Simplified Pixabay License](https://pixabay.com/service/license/)
   * Source: https://pixabay.com/sound-effects/kurze-synth-floten-melodie-loop-9675/
   * Use: when failing on a word test
+  * It is a shortened version

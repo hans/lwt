@@ -1,4 +1,4 @@
-## Databse Information
+## Database Information
 
 *   The following seventeen tables are one "LWT table set". The default table set has no table name prefix, so the tables are named just as written below: "settings", "languages", etc.  
       

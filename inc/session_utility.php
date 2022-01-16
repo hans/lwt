@@ -1845,27 +1845,32 @@ function get_selected($value, $selval)
     return '';
 }
 
-// -------------------------------------------------------------
 
+/**
+ * Make the plus and minus controls in a test table for a word.
+ * 
+ * @param int $score  Score associated to this word
+ * @param int $status Status for this word
+ * @param int $wordid Word ID
+ * 
+ * @return string the HTML-formatted string to use
+ */
 function make_status_controls_test_table($score, $status, $wordid): string 
 {
-    if ($score < 0 ) { 
+    if ($score < 0) { 
         $scoret = '<span class="red2">' . get_status_abbr($status) . '</span>'; 
-    }
-    else {
+    } else {
         $scoret = get_status_abbr($status); 
     }
         
-    if ($status <= 5 || $status == 98 ) { 
+    if ($status <= 5 || $status == 98) { 
         $plus = '<img src="icn/plus.png" class="click" title="+" alt="+" onclick="changeTableTestStatus(' . $wordid .',true);" />'; 
-    }
-    else {
+    } else {
         $plus = '<img src="'.get_file_path('icn/placeholder.png').'" title="" alt="" />'; 
     }
-    if ($status >= 1 ) { 
+    if ($status >=1 ) { 
         $minus = '<img src="icn/minus.png" class="click" title="-" alt="-" onclick="changeTableTestStatus(' . $wordid .',false);" />'; 
-    }
-    else {
+    } else {
         $minus = '<img src="'.get_file_path('icn/placeholder.png').'" title="" alt="" />'; 
     }
     return ($status == 98 ? '' : $minus . ' ') . $scoret . ($status == 99 ? '' : ' ' . $plus);
@@ -1898,7 +1903,8 @@ function get_languages_selectoptions($v,$dt): string
 
 function get_languagessize_selectoptions($v): string 
 {
-    if (! isset($v) ) { $v = 100; 
+    if (!isset($v)) { 
+        $v = 100; 
     }
     $r = "<option value=\"100\"" . get_selected($v, 100);
     $r .= ">100 %</option>";
@@ -1915,7 +1921,8 @@ function get_languagessize_selectoptions($v): string
 
 function get_wordstatus_radiooptions($v): string 
 {
-    if (! isset($v) ) { $v = 1; 
+    if (!isset($v)) { 
+        $v = 1; 
     }
     $r = "";
     $statuses = get_statuses();
@@ -1934,9 +1941,10 @@ function get_wordstatus_radiooptions($v): string
 function get_wordstatus_selectoptions($v, $all, $not9899, $off=true): string 
 {
     if (! isset($v) ) {
-        if ($all ) { $v = ""; 
-        }
-        else { $v = 1; 
+        if ($all ) { 
+            $v = ""; 
+        } else { 
+            $v = 1; 
         }
     }
     $r = "";
@@ -2035,7 +2043,8 @@ function get_paging_selectoptions($currentpage, $pages): string
 
 function get_wordssort_selectoptions($v): string 
 {
-    if (! isset($v) ) { $v = 1; 
+    if (! isset($v) ) { 
+        $v = 1; 
     }
     $r  = "<option value=\"1\"" . get_selected($v, 1);
     $r .= ">Term A-Z</option>";
@@ -2060,7 +2069,8 @@ function get_wordssort_selectoptions($v): string
 
 function get_tagsort_selectoptions($v): string 
 {
-    if (! isset($v) ) { $v = 1; 
+    if (! isset($v) ) { 
+        $v = 1; 
     }
     $r  = "<option value=\"1\"" . get_selected($v, 1);
     $r .= ">Tag Text A-Z</option>";
@@ -2077,7 +2087,8 @@ function get_tagsort_selectoptions($v): string
 
 function get_textssort_selectoptions($v): string 
 { 
-    if (! isset($v) ) { $v = 1; 
+    if (! isset($v) ) { 
+        $v = 1; 
     }
     $r  = "<option value=\"1\"" . get_selected($v, 1);
     $r .= ">Title A-Z</option>";
