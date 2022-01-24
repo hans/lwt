@@ -1054,12 +1054,13 @@ function showRightFrames(roUrl, ruUrl) {
  */
 function hideRightFrames() {
   if ($('#frames-r').length) {
-    $('#frames-r').animate({right: '-50%'});
+    $('#frames-r').animate({right: '-100%'});
     return true;
   }
   return false;
 }
 
+// Present data in a handy way, for instance in a form
 $.fn.serializeObject = function () {
   const o = {};
   const a = this.serializeArray();

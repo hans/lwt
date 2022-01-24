@@ -186,13 +186,17 @@ function do_text_desktop_content($audio) {
         <?php do_text_text_content($_REQUEST['start'], true); ?>
     </div>
 </div>
-<div id="frames-r" style="position: fixed; top: 0; right: -50%; width: 50%; height: 99%;">
-    <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
-        Your browser doesn't support iFrames, update it!
-    </iframe>
-    <iframe src="empty.html" scrolling="auto" name="ru" style="height: 50%; width: 100%;">
-        Your browser doesn't support iFrames, update it!
-    </iframe>
+<div id="frames-r" style="position: fixed; top: 0; right: -100%; width: 100%; height: 100%;" 
+onclick="hideRightFrames();">
+    <!-- iFrames wrapper for events -->
+    <div style="margin-left: 50%; height: 99%;">
+        <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
+            Your browser doesn't support iFrames, update it!
+        </iframe>
+        <iframe src="empty.html" scrolling="auto" name="ru" style="height: 50%; width: 100%;">
+            Your browser doesn't support iFrames, update it!
+        </iframe>
+    </div>
 </div>
 
 <?php

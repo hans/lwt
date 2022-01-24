@@ -14,6 +14,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * It means LWT is now mobile-friendly! 
 * Regenerated themes.
 
+## Fixed
+* It is easier to close the right frames in do_text.php.
+
 ## 2.1.0-fork (January 09 2022)
 ### Added
 * Badges in the README providing up-to-date information on the state of the project.

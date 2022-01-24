@@ -4359,7 +4359,7 @@ function pagestart_nobody($title, $addcss=''): void
     <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery.tagit.css');?>" />
     <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
     <style type="text/css">
-    <?php echo $addcss . "\n"; ?>
+        <?php echo $addcss . "\n"; ?>
     </style>
     
     <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
