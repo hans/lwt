@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['databse_20information_0',['Databse Information',['../md_docs_database.html',1,'']]]
+  ['changelog_0',['Changelog',['../md_docs__c_h_a_n_g_e_l_o_g.html',1,'']]]
 ];

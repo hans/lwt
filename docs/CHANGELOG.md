@@ -8,13 +8,14 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ### Added
 * Sounds while testing terms!
 * New minifier for themes: it is now very easy to create new themes.
+* JS files added to documentation.
 
-## Changed
+### Changed
 * All the do_test*.php part do no longer use frames.
 * It means LWT is now mobile-friendly! 
 * Regenerated themes.
 
-## Fixed
+### Fixed
 * It is easier to close the right frames in do_text.php.
 
 ## 2.1.0-fork (January 09 2022)

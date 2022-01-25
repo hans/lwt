@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.1.0-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.1.0-fork-RC1</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -67,19 +67,16 @@ $(function() {
   <div class="headertitle"><div class="title">New feature not available in the official LWT </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><ul>
-<li>Database improvements (db size is much smaller now)</li>
-<li>Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)</li>
+<div class="textblock"><h2><a class="anchor" id="autotoc_md232"></a>
+User Interface</h2>
+<ul>
+<li>Real mobile support for reading and testing</li>
 <li>Support for different themes</li>
-<li>Longer (&gt;9) expressions can now be saved (up to 250 characters)</li>
-<li>Display translations of terms with status(es) in the reading frame</li>
+<li>Display translations of terms with status in the reading frame</li>
 <li>Save text/audio position in the reading frame</li>
-<li>Multiwords selection (click and hold on a word -&gt; move to another word -&gt; release mouse button)</li>
+<li>Multiwords selection (click and hold on a word → move to another word → release mouse button)</li>
 <li>Key bindings work when you hover over a word</li>
 <li>Bulk translate new words in the reading frame</li>
-<li>Google api (use 'ggl.php' instead of '*http://translate.google.com' for Google Translate)</li>
-<li>Text to speech support (only words)</li>
-<li>Optional "ignore all" button in read texts</li>
 <li>New key bindings in the reading frame:<ul>
 <li>T (translate sentence),</li>
 <li>P (pronounce term),</li>
@@ -87,17 +84,29 @@ $(function() {
 </ul>
 </li>
 <li>Ability to change audio playback speed (doesn't work when using the flash plugin)</li>
+<li>Improved HTML organization. It has several effect:<ul>
+<li>You can read texts in "reader mode" in most browsers.</li>
+<li>Simple mobile compatibility</li>
+<li>You can use LWT on small screens.</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md233"></a>
+More than LWT</h2>
+<ul>
+<li>Automatically import texts from RSS feeds (for more info see: <a href="#feed_imp">Newsfeed Import</a>)</li>
+<li>Longer (&gt; 9 characters) expressions can now be saved (up to 250 characters)</li>
+<li>Text to speech</li>
 <li>Improved Search/Query for Words/Texts</li>
 <li>Selecting terms according to a text tag</li>
 <li>Term import with more options (i.e.: combine translations, multiple tag import,...)</li>
 <li>Two database backup modes (new or old structure)</li>
-<li>Mobile compatibility when reading texts</li>
-<li>HTML code was reviewed to follow standards better. It has several effect:<ul>
-<li>You can read texts in "reader mode" in most browsers.</li>
-<li>Simple mobile compatibility</li>
-<li>You can use LWT on small screens. </li>
 </ul>
-</li>
+<h2><a class="anchor" id="autotoc_md234"></a>
+Server load</h2>
+<ul>
+<li>Database improvements: the database takes much less space on the server</li>
+<li>Better caching due to an improved file management </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
