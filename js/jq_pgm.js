@@ -105,7 +105,7 @@ function showRightFrames(roUrl,ruUrl){if(roUrl!==undefined){top.frames.ro.locati
 if(ruUrl!==undefined){top.frames.ru.location.href=ruUrl}
 if($('#frames-r').length){$('#frames-r').animate({right:'5px'});return!0}
 return!1}
-function hideRightFrames(){if($('#frames-r').length){$('#frames-r').animate({right:'-50%'});return!0}
+function hideRightFrames(){if($('#frames-r').length){$('#frames-r').animate({right:'-100%'});return!0}
 return!1}
 $.fn.serializeObject=function(){const o={};const a=this.serializeArray();$.each(a,function(){if(o[this.name]!==undefined){if(!o[this.name].push){o[this.name]=[o[this.name]]}
 o[this.name].push(this.value||'')}else{o[this.name]=this.value||''}});return o};function wrapRadioButtons(){$(':input,.wrap_checkbox span,.wrap_radio span,a:not([name^=rec]),select,#mediaselect span.click,#forwbutt,#backbutt').each(function(i){$(this).attr('tabindex',i+1)});$('.wrap_radio span').bind('keydown',function(e){if(e.keyCode==32){$(this).parent().parent().find('input[type=radio]').trigger('click');return!1}})}
