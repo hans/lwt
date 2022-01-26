@@ -9,27 +9,28 @@
  * @package Lwt
  * @author  LWT Project <lwt-project@hotmail.com>
  * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/display__impr__text__text_8php.html
  * @since   1.5.0
  */
 
 require_once 'inc/session_utility.php';
 
 $textid = (int)getreq('text');
-$ann = get_first_value("select TxAnnotatedText as value from " . $tbpref . "texts where TxID = " . $textid);
+$ann = get_first_value("SELECT TxAnnotatedText AS value FROM " . $tbpref . "texts WHERE TxID = " . $textid);
 $ann_exists = (strlen($ann) > 0);
 
-if($textid==0 || !$ann_exists) {
+if ($textid==0 || !$ann_exists) {
     header("Location: edit_texts.php");
     exit();
 }
 
-$sql = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid;
+$sql = 'SELECT TxLgID, TxTitle FROM ' . $tbpref . 'texts WHERE TxID = ' . $textid;
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $langid = $record['TxLgID'];
 mysqli_free_result($res);
 
-$sql = 'select LgTextSize, LgRemoveSpaces, LgRightToLeft from ' . $tbpref . 'languages where LgID = ' . $langid;
+$sql = 'SELECT LgTextSize, LgRemoveSpaces, LgRightToLeft FROM ' . $tbpref . 'languages WHERE LgID = ' . $langid;
 $res = do_mysqli_query($sql);
 $record = mysqli_fetch_assoc($res);
 $textsize = $record['LgTextSize'];
@@ -38,49 +39,59 @@ mysqli_free_result($res);
 
 saveSetting('currenttext', $textid);
 
-pagestart_nobody('Display');
 
+function do_diplay_impr_text_text_js() {  
 ?>
 <script type="text/javascript">
-//<![CDATA[
+    //<![CDATA[
+    function click_ann() {var attr = $(this).attr('style');
+        if(typeof attr !== 'undefined' && attr !== false && attr !== '') {
+            $(this).removeAttr( 'style' );
+        }
+        else {
+            $(this).css('color','#C8DCF0');
+            $(this).css('background-color','#C8DCF0');
+        }
+    }
 
-function click_ann() {var attr = $(this).attr('style');
-    if(typeof attr !== 'undefined' && attr !== false && attr !== '') {
-        $(this).removeAttr( 'style' );
+    function click_text() {bc=$('body').css('color');
+        if($(this).css('color') != bc) {
+            $(this).css('color','inherit');
+            $(this).css('background-color','');
+        }
+        else {
+            $(this).css('color','#E5E4E2');
+            $(this).css('background-color','#E5E4E2');
+        }
     }
-    else {
-        $(this).css('color','#C8DCF0');
-        $(this).css('background-color','#C8DCF0');
-    }
-}
 
-function click_text() {bc=$('body').css('color');
-    if($(this).css('color') != bc) {
-        $(this).css('color','inherit');
-        $(this).css('background-color','');
-    }
-    else {
-        $(this).css('color','#E5E4E2');
-        $(this).css('background-color','#E5E4E2');
-    }
-}
-
-$(document).ready(function(){
-  $('.anntransruby2').click(click_ann);
-  $('.anntermruby').click(click_text);
-});
-//]]>
+    $(document).ready(function(){
+    $('.anntransruby2').click(click_ann);
+    $('.anntermruby').click(click_text);
+    });
+    //]]>
 </script>
 
 <?php
 
-echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
+}
 
-echo '<p style="font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">';
+//pagestart_nobody('Display');
+do_diplay_impr_text_text_js();
+function do_diplay_impr_text_text_area($ann, $textsize, $rtlScript) {
+    echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 
-$items = preg_split('/[\n]/u', $ann);
+    echo '<p style="font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">';
 
-foreach ($items as $item) {
+    $items = preg_split('/[\n]/u', $ann);
+    foreach ($items as $item) {
+        do_display_impr_text_text_word($item, $textsize);
+    }
+    echo "</p></div>";
+}
+
+function do_display_impr_text_text_word($item, $textsize) {
+    global $tbpref;
     $vals = preg_split('/[\t]/u', $item);
     if ((int)$vals[0] > -1) {
         $trans = '';
@@ -89,7 +100,7 @@ foreach ($items as $item) {
         if ($c > 2) {
             if ($vals[2] !== '') {
                 $wid = (int)$vals[2];
-                $rom = get_first_value("select WoRomanization as value from " . $tbpref . "words where WoID = " . $wid);
+                $rom = get_first_value("SELECT WoRomanization AS value FROM " . $tbpref . "words WHERE WoID = " . $wid);
                 if (!isset($rom)) {
                     $rom = ''; 
                 }
@@ -113,8 +124,7 @@ foreach ($items as $item) {
     }
 }
 
-echo "</p></div>";
-
-pageend();
+do_diplay_impr_text_text_area($ann, $textsize, $rtlScript);
+//pageend();
 
 ?>

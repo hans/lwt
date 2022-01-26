@@ -9,106 +9,84 @@
  * @package Lwt
  * @author  LWT Project <lwt-project@hotmail.com>
  * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/display__impr__text_8php.html
  * @since   1.5.0
  */
 
 require_once 'inc/session_utility.php'; 
-require_once 'vendor/mobiledetect/mobiledetectlib/Mobile_Detect.php' ;
+require_once 'inc/mobile_interactions.php';
 
-$detect = new Mobile_Detect;
-$mobileDisplayMode = (int)getSettingWithDefault('set-mobile-display-mode');
-$mobile = (($mobileDisplayMode == 0 && $detect->isMobile()) || ($mobileDisplayMode == 2));
+function do_mobile_display_impr_text($audio) {
+    do_frameset_mobile_css();
+    do_frameset_mobile_js($audio);
 
-if (isset($_REQUEST['text'])) {
-    
-    $audio = get_first_value('select TxAudioURI as value from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['text']);
-    
-    framesetheader('Display');
+    ?>
 
-    if ($mobile) {
-
-        ?>
-
-    <style type="text/css"> 
-    body {
-     background-color: #cccccc;
-     margin: 0;
-     overflow: hidden;
-    }
-    #frame-h, #frame-l {
-     position:absolute; 
-     overflow:scroll; 
-     -webkit-overflow-scrolling: touch;
-    }
-    #frame-h-2, #frame-l-2 {
-     display:inline-block;    
-    }
-    </style> 
-    
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-    
-    <script type="text/javascript">
-   //<![CDATA[
-   function rsizeIframes() {
-    var h_height = <?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio')); ?> - 80;
-    var w = $(window).width();
-    var h = $(window).height();
-    var l_height = h - h_height;
-    $('#frame-h').width(w-5).height(h_height-5).
-        css('top',0).css('left',0);
-    $('#frame-h-2').width('100%').height('100%').
-        css('top',0).css('left',0);
-    $('#frame-l').width(w-5).height(l_height-5).
-        css('top',h_height).css('left',0);
-    $('#frame-l-2').width('100%').height('100%').
-        css('top',0).css('left',0);
-}
-
-function init() {
-    rsizeIframes();
-    $(window).resize(rsizeIframes);
-}
-
-$(document).ready(init);
-//]]>
-</script>
- 
 <div id="frame-h">
-    <iframe id="frame-h-2" src="display_impr_text_header.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="yes" name="header"></iframe>
+    <iframe id="frame-h-2" src="display_impr_text_header.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="yes" name="header">
+    </iframe>
 </div>
 <div id="frame-l">
-    <iframe id="frame-l-2" src="display_impr_text_text.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="yes" name="text"></iframe>
+    <iframe id="frame-l-2" src="display_impr_text_text.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="yes" name="text">
+    </iframe>
 </div>
 
-        <?php 
+    <?php 
+}
 
-    } else {
+function do_desktop_display_impr_text($audio) {
     
-        ?>
+    ?>
 
-   <frameset border="3" bordercolor="" rows="<?php 
-    if (isset($audio)) { 
-        echo (int)getSettingWithDefault('set-text-h-frameheight-with-audio')-90;
-    } else { 
-        echo (int)getSettingWithDefault('set-text-h-frameheight-no-audio')-90;
-    } ?>,*">
+<!--
+<frameset border="3" bordercolor="" rows="<?php 
+if (isset($audio)) { 
+    echo (int)getSettingWithDefault('set-text-h-frameheight-with-audio')-90;
+} else { 
+    echo (int)getSettingWithDefault('set-text-h-frameheight-no-audio')-90;
+} ?>,*">
     <frame src="display_impr_text_header.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="no" name="header" />            
     <frame src="display_impr_text_text.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="auto" name="text" />
 </frameset>
 <noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
 </frameset>
-</html>
-        <?php
-
-    }
-
+</html>-->
+<div style="width: 95%; height: 100%;">
+    <div id="frame-h">
+        <?php require_once 'display_impr_text_header.php' ?>
+    </div>
+    <hr />
+    <div id="frame-l">
+        <?php require_once 'display_impr_text_text.php'; ?>
+    </div>
+</div>
+    <?php
 }
 
-else {
+function do_display_impr_text_page() {
+    global $tbpref;
 
+    $audio = get_first_value(
+        'SELECT TxAudioURI AS value FROM ' . $tbpref . 'texts 
+        WHERE TxID = ' . $_REQUEST['text']
+    );
+    pagestart_nobody('Display');
+    //framesetheader('Display');
+
+    if (is_mobile() && false) {
+        do_mobile_display_impr_text($audio);
+    } else {
+        do_desktop_display_impr_text($audio);
+    }
+
+    pageend();
+}
+
+if (isset($_REQUEST['text'])) {
+    do_display_impr_text_page();
+} else {
     header("Location: edit_texts.php");
     exit();
-
 }
 
 ?>
