@@ -14,12 +14,21 @@
 
 require_once 'inc/session_utility.php';
 
-function do_diplay_impr_text_header_data() {
+/**
+ * Return the useful data for the header part of a printed text.
+ * 
+ * @param int $textid Text ID
+ * 
+ * @return array{0: string, 1: string, 2: string} Text title, 
+ * text audio and source URI
+ * 
+ * @global string $tbpref Database table prefix.
+ */
+function do_diplay_impr_text_header_data($textid) {
     global $tbpref;
 
-    $textid = (int) getreq('text');
-    $sql 
-    = 'SELECT TxLgID, TxTitle, TxAudioURI, TxSourceURI 
+    $sql = 
+    'SELECT TxLgID, TxTitle, TxAudioURI, TxSourceURI 
     FROM ' . $tbpref . 'texts
     WHERE TxID = ' . $textid;
     $res = do_mysqli_query($sql);
@@ -37,51 +46,73 @@ function do_diplay_impr_text_header_data() {
     mysqli_free_result($res); 
 
     saveSetting('currenttext', $textid);
-    return array($title, $textid, $audio, $sourceURI);
+    return array($title, $audio, $sourceURI);
 }
 
+/**
+ * Echo JavaScript area containing behaviors to show/hide 
+ * translations and annotations.
+ * 
+ * @return void
+ */
 function do_diplay_impr_text_header_js() {
 
 ?>
 
 <script type="text/javascript">
-//<![CDATA[
+    //<![CDATA[
+
+    /** Hide traslations. */
     function do_hide_t() {
         $('#showt').show(); 
         $('#hidet').hide();
         $('.anntermruby')
         .css('color','#E5E4E2').css('background-color', '#E5E4E2');
     }
+
+    /** Show translations. */
     function do_show_t() {
         $('#showt').hide(); 
         $('#hidet').show();
         $('.anntermruby')
         .css('color','inherit').css('background-color', '');
     }
+
+    /** Hide annotations. */
     function do_hide_a() {
         $('#show').show(); 
         $('#hide').hide(); 
         $('.anntransruby2')
         .css('color','#C8DCF0').css('background-color', '#C8DCF0');
     }
+
+    /** Show annotations. */
     function do_show_a() {
         $('#show').hide(); 
         $('#hide').show();
         $('.anntransruby2')
         .css('color','').css('background-color', '');
     }
-//]]>
+    //]]>
 </script>
 
 <?php
 
 }
 
+/**
+ * Make the header content to display a printed text.
+ * 
+ * @param string $title     Text title
+ * @param int    $textid    Text ID
+ * @param string $audio     Audio URI
+ * @param string $sourceURI Text source link
+ * 
+ * @return void
+ */
 function do_diplay_impr_text_header_content($title, $textid, $audio, $sourceURI) {
-    //pagestart_nobody($title);
-    do_diplay_impr_text_header_js();
     ?>
-    <h2 class="center" style="margin:5px;margin-top:-10px;">
+<h2 class="center" style="margin:5px;margin-top:-10px;">
     <img id="hidet" style="margin-bottom:-5px;" class="click" src="icn/light-bulb-T.png" title="Toggle Text Display (Now ON)" alt="Toggle Text Display (Now ON)" onclick="do_hide_t();" />
     <img id="showt" style="display:none; margin-bottom:-5px;" class="click" src="icn/light-bulb-off-T.png" title="Toggle Text Display (Now OFF)" alt="Toggle Text Display (Now OFF)" onclick="do_show_t();" />
     <img id="hide" style="margin-bottom:-5px;" class="click" src="icn/light-bulb-A.png" title="Toggle Annotation Display (Now ON)" alt="Toggle Annotation Display (Now ON)" onclick="do_hide_a();" />
@@ -96,7 +127,8 @@ function do_diplay_impr_text_header_content($title, $textid, $audio, $sourceURI)
         }
         echo getPreviousAndNextTextLinks($textid, 'display_impr_text.php?text=', true, ' &nbsp; &nbsp; ');
      ?>
-     <img class="click" src="icn/cross.png" title="Close Window" alt="Close Window" onclick="top.close();" /></span></h2>
+     <img class="click" src="icn/cross.png" title="Close Window" alt="Close Window" onclick="top.close();" />
+</h2>
         <?php
     makeMediaPlayer($audio);
 
@@ -105,10 +137,17 @@ function do_diplay_impr_text_header_content($title, $textid, $audio, $sourceURI)
     //pageend();
 }
 
-function do_diplay_impr_text_header_main() {
-    list($title, $textid, $audio, $sourceURI) = do_diplay_impr_text_header_data();
+/**
+ * Main function to generate a complete header for a specific text.
+ * 
+ * @param int $textid Text ID.
+ * 
+ * @return void
+ */
+function do_diplay_impr_text_header_main($textid) {
+    do_diplay_impr_text_header_js();
+    list($title, $audio, $sourceURI) = do_diplay_impr_text_header_data($textid);
     do_diplay_impr_text_header_content($title, $textid, $audio, $sourceURI);
 }
 
-do_diplay_impr_text_header_main();
 ?>

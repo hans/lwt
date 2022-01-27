@@ -12,6 +12,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 
 ### Changed
 * All the do_test*.php part do no longer use frames.
+* All the display_impr_text*.php part do no longer use frames.
 * It means LWT is now mobile-friendly! 
 * Regenerated themes.
 

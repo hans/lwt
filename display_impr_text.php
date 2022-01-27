@@ -15,26 +15,47 @@
 
 require_once 'inc/session_utility.php'; 
 require_once 'inc/mobile_interactions.php';
+require_once 'display_impr_text_header.php';
+require_once 'display_impr_text_text.php';
 
-function do_mobile_display_impr_text($audio) {
+/**
+ * Make the page content to display printed texts on mobile.
+ * 
+ * @param int    $textid Text ID
+ * @param string $audio  Media URI
+ * 
+ * @return void
+ * @deprecated 
+ * @since 2.2.0 This function should not longer be used, and should cause issues. Use
+ * do_desktop_display_impr_text instead.
+ */
+function do_mobile_display_impr_text($textid, $audio) {
     do_frameset_mobile_css();
     do_frameset_mobile_js($audio);
 
     ?>
 
 <div id="frame-h">
-    <iframe id="frame-h-2" src="display_impr_text_header.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="yes" name="header">
+    <iframe id="frame-h-2" src="display_impr_text_header.php?text=<?php echo $textid; ?>" scrolling="yes" name="header">
     </iframe>
 </div>
 <div id="frame-l">
-    <iframe id="frame-l-2" src="display_impr_text_text.php?text=<?php echo $_REQUEST['text']; ?>" scrolling="yes" name="text">
+    <iframe id="frame-l-2" src="display_impr_text_text.php?text=<?php echo $textid; ?>" scrolling="yes" name="text">
     </iframe>
 </div>
 
     <?php 
 }
 
-function do_desktop_display_impr_text($audio) {
+/**
+ * Make the main page content to display printed texts for desktop.
+ * 
+ * @param int    $textid Text ID
+ * @param string $audio  Media URI
+ * 
+ * @return void
+ */
+function do_desktop_display_impr_text($textid, $audio) {
     
     ?>
 
@@ -53,19 +74,27 @@ if (isset($audio)) {
 </html>-->
 <div style="width: 95%; height: 100%;">
     <div id="frame-h">
-        <?php require_once 'display_impr_text_header.php' ?>
+        <?php do_diplay_impr_text_header_main($textid);?>
     </div>
     <hr />
     <div id="frame-l">
-        <?php require_once 'display_impr_text_text.php'; ?>
+        <?php do_display_impr_text_text_main($textid); ?>
     </div>
 </div>
     <?php
 }
 
-function do_display_impr_text_page() {
+/**
+ * Do the page to display printed text.
+ * 
+ * @param int $textid Text ID
+ * 
+ * @global string $tbpref Database table prefix
+ * 
+ * @return void
+ */
+function do_display_impr_text_page($textid) {
     global $tbpref;
-
     $audio = get_first_value(
         'SELECT TxAudioURI AS value FROM ' . $tbpref . 'texts 
         WHERE TxID = ' . $_REQUEST['text']
@@ -74,16 +103,16 @@ function do_display_impr_text_page() {
     //framesetheader('Display');
 
     if (is_mobile() && false) {
-        do_mobile_display_impr_text($audio);
+        do_mobile_display_impr_text($textid, $audio);
     } else {
-        do_desktop_display_impr_text($audio);
+        do_desktop_display_impr_text($textid, $audio);
     }
 
     pageend();
 }
 
 if (isset($_REQUEST['text'])) {
-    do_display_impr_text_page();
+    do_display_impr_text_page((int) getreq('text'));
 } else {
     header("Location: edit_texts.php");
     exit();
