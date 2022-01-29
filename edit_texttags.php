@@ -190,7 +190,7 @@ else {
     
     $maxperpage = (int) getSettingWithDefault('set-tags-per-page');
 
-    $pages = $recno == 0 ? 0 : (($recno-1) / $maxperpage + 1);
+    $pages = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1);
     
     if ($currentpage < 1) { $currentpage = 1; 
     }

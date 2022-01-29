@@ -247,8 +247,9 @@ else {  // if (! isset($_REQUEST['op']))
     $wid = getreq('wid');
     
     if ($wid == '') {    
-        $sql = 'select Ti2Text, Ti2LgID from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['tid'] . ' and Ti2WordCount = 1 and Ti2Order = ' . $_REQUEST['ord'];
-        //$sql = 'select TiText, TiLgID from ' . $tbpref . 'textitems where TiTxID = ' . $_REQUEST['tid'] . ' and TiWordCount = 1 and TiOrder = ' . $_REQUEST['ord'];
+        $sql = 
+        'SELECT Ti2Text, Ti2LgID FROM ' . $tbpref . 'textitems2 
+        WHERE Ti2TxID = ' . $_REQUEST['tid'] . ' AND Ti2WordCount = 1 AND Ti2Order = ' . $_REQUEST['ord'];
         $res = do_mysqli_query($sql);
         $record = mysqli_fetch_assoc($res);
         if ($record) {
@@ -261,11 +262,15 @@ else {  // if (! isset($_REQUEST['op']))
         
         $termlc = mb_strtolower($term, 'UTF-8');
         
-        $wid = get_first_value("select WoID as value from " . $tbpref . "words where WoLgID = " . $lang . " and WoTextLC = " . convert_string_to_sqlsyntax($termlc)); 
+        $wid = get_first_value(
+            "SELECT WoID AS value 
+            FROM " . $tbpref . "words 
+            WHERE WoLgID = " . $lang . " AND WoTextLC = " . convert_string_to_sqlsyntax($termlc)
+        ); 
         
     } else {
 
-        $sql = 'select WoText, WoLgID from ' . $tbpref . 'words where WoID = ' . $wid;
+        $sql = 'SELECT WoText, WoLgID FROM ' . $tbpref . 'words WHERE WoID = ' . $wid;
         $res = do_mysqli_query($sql);
         $record = mysqli_fetch_assoc($res);
         if ($record ) {
@@ -297,7 +302,10 @@ $(window).on('beforeunload',function() {
     
     if ($new) {
          
-        $seid = get_first_value("select Ti2SeID as value from " . $tbpref . "textitems2 where Ti2TxID = " . $_REQUEST['tid'] . " and Ti2WordCount = 1 and Ti2Order = " . $_REQUEST['ord']);
+        $seid = get_first_value(
+            "SELECT Ti2SeID AS value FROM " . $tbpref . "textitems2 
+            WHERE Ti2TxID = " . $_REQUEST['tid'] . " AND Ti2WordCount = 1 AND Ti2Order = " . $_REQUEST['ord']
+        );
         $sent = getSentence($seid, $termlc, (int) getSettingWithDefault('set-term-sentence-count'));
             
         ?>

@@ -28,18 +28,20 @@ if ($status == 98) {
     pagestart("Setting all blue words to Well-known", false); 
 }
 
-$sql = 'SELECT DISTINCT TiText, TiTextLC 
-FROM (' . $tbpref . 'textitems 
-LEFT JOIN ' . $tbpref . 'words ON (TiTextLC = WoTextLC) AND (TiLgID = WoLgID)) 
-WHERE TiIsNotWord = 0 AND WoID IS NULL AND TiWordCount = 1 AND TiTxID = ' . $_REQUEST['text'] . ' 
-ORDER BY TiOrder';
+$sql = 'SELECT DISTINCT Ti2Text, Ti2TextLC 
+FROM (' . 
+    $tbpref . 'textitems2 
+    LEFT JOIN ' . $tbpref . 'words ON (Ti2TextLC = WoTextLC) AND (Ti2LgID = WoLgID)
+) 
+WHERE Ti2IsNotWord = 0 AND WoID IS NULL AND Ti2WordCount = 1 AND Ti2TxID = ' . $_REQUEST['text'] . ' 
+ORDER BY Ti2Order';
 $res = do_mysqli_query($sql);
 $count = 0;
 $javascript = "var title='';";
 $sqlarr = null;
 while ($record = mysqli_fetch_assoc($res)) {
-    $term = $record['TiText'];    
-    $termlc = $record['TiTextLC'];    
+    $term = $record['Ti2Text'];
+    $termlc = $record['Ti2TextLC'];    
     $count1 = (int)runsql(
         'INSERT INTO ' . $tbpref . 'words (
             WoLgID, WoText, WoTextLC, WoStatus, WoStatusChanged,' 

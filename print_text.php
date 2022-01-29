@@ -171,7 +171,19 @@ echo "</p></div> <!-- noprint -->";
 echo "<div id=\"print\"" . ($rtlScript ? ' dir="rtl"' : '') . ">";
 echo '<p style="font-size:' . $textsize . '%;line-height: 1.35; margin-bottom: 10px; ">' . tohtml($title) . '<br /><br />';
 
-$sql = 'select CASE WHEN Ti2WordCount>0 THEN Ti2WordCount ELSE 1 END as Code, CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN Ti2Text ELSE WoText END as TiText, Ti2Order, CASE WHEN Ti2WordCount > 0 THEN 0 ELSE 1 END as TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2TxID = ' . $textid . ' order by Ti2Order asc, Ti2WordCount desc';
+$sql = 
+'SELECT 
+CASE WHEN Ti2WordCount>0 THEN Ti2WordCount ELSE 1 END AS Code, 
+CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN Ti2Text ELSE WoText END AS TiText, 
+Ti2Order, 
+CASE WHEN Ti2WordCount > 0 THEN 0 ELSE 1 END as TiIsNotWord, 
+WoID, WoTranslation, WoRomanization, WoStatus 
+FROM (
+    ' . $tbpref . 'textitems2 
+    LEFT JOIN ' . $tbpref . 'words ON (Ti2WoID = WoID) AND (Ti2LgID = WoLgID)
+) 
+WHERE Ti2TxID = ' . $textid . ' 
+ORDER BY Ti2Order asc, Ti2WordCount desc';
 
 $saveterm = '';
 $savetrans = '';

@@ -633,15 +633,27 @@ function splitCheckText($text, $lid, $id)
           TiCount = (@d:=@d+CHAR_LENGTH(@c))+1-CHAR_LENGTH(@c),
           TiOrder = if(
             CASE
-                WHEN @f = \'7\' then if(@c="EOS",(@g:=2) and (@c:="¶"),@g:=2) 
-                WHEN LOCATE(@e,\'267\') then @g:=@h else @g:=1 end is null, null, @a:=@a+if((@i=1) and (@g=1),0,1)+if((@i=0) and (@g=0),1,0)), TiText = @c, TiWordCount=
+                WHEN @f = \'7\' THEN IF(@c="EOS",(@g:=2) AND (@c:="¶"), @g:=2) 
+                WHEN LOCATE(@e,\'267\') THEN @g:=@h ELSE @g:=1 END IS null, 
+                null, 
+                @a:=@a+IF((@i=1) AND (@g=1), 0, 1)+IF((@i=0) AND (@g=0), 1, 0)), 
+                TiText = @c, 
+                TiWordCount=
                     CASE 
                         WHEN (@i:=@g) IS NULL THEN NULL
                         WHEN @g=0 THEN 1 ELSE 0 
                     END';
         do_mysqli_query($sql);
         do_mysqli_query('DELETE FROM ' . $tbpref . 'temptextitems2 WHERE TiOrder=@a');
-        do_mysqli_query('INSERT INTO ' . $tbpref . 'temptextitems (TiCount, TiSeID, TiOrder, TiWordCount, TiText) SELECT min(TiCount) s, TiSeID, TiOrder, TiWordCount, group_concat(TiText order by TiCount SEPARATOR \'\') FROM ' . $tbpref . 'temptextitems2 WHERE 1 group by TiOrder');
+        do_mysqli_query(
+            'INSERT INTO ' . $tbpref . 'temptextitems (
+                TiCount, TiSeID, TiOrder, TiWordCount, TiText
+            ) 
+            SELECT min(TiCount) s, TiSeID, TiOrder, TiWordCount, group_concat(TiText order by TiCount SEPARATOR \'\') 
+            FROM ' . $tbpref . 'temptextitems2 
+            WHERE 1 
+            GROUP BY TiOrder'
+        );
         do_mysqli_query('DROP TABLE ' . $tbpref . 'temptextitems2');
     } else {
         $s = str_replace("\n", " ¶", $s);
@@ -719,8 +731,20 @@ function splitCheckText($text, $lid, $id)
         do_mysqli_query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL);');
         do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'numbers');
         do_mysqli_query('INSERT IGNORE INTO ' . $tbpref . 'numbers(n) VALUES (' . implode('),(', $wl) . ');');
-        $sql = (($id>0)?'SELECT straight_join WoID, sent, TiOrder - (2*(n-1)) TiOrder, n TiWordCount,word':'SELECT straight_join count(WoID) cnt, n as len, lower(WoText) as word, WoTranslation');
-        $sql .= ' FROM (SELECT straight_join if(@b=TiSeID and @h=TiOrder,if((@h:=TiOrder+@a0) is null,TiSeID,TiSeID),if(@b=TiSeID, IF((@d=1) and (0<>TiWordCount), CASE ' . $set_wo_sql_2 . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END, CASE ' . $set_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END), CASE '  . $del_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(TiText,@f)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END)) sent, if(@d=0,NULL,if(CRC32(@z:=substr(@c,case n' . $mw_sql . ' end))<>CRC32(lower(@z)),@z,"")) word,if(@d=0 or ""=@z,NULL,lower(@z)) lword, TiOrder,n FROM ' . $tbpref . 'numbers , ' . $tbpref . 'temptextitems) ti, ' . $tbpref . 'words where lword is not null and WoLgID=' . $lid . ' and WoTextLC=lword and WoWordCount=n' . (($id>0)?' union all ':' group by WoID order by WoTextLC');
+        if ($id>0) {
+            $sql = 'SELECT straight_join WoID, sent, TiOrder - (2*(n-1)) TiOrder, n TiWordCount,word';
+        } else {
+            $sql = 'SELECT straight_join count(WoID) cnt, n as len, lower(WoText) as word, WoTranslation';
+        }
+        $sql .= 
+        ' FROM (
+            SELECT straight_join 
+            if(@b=TiSeID and @h=TiOrder,
+                if((@h:=TiOrder+@a0) is null,TiSeID,TiSeID),
+                if(@b=TiSeID, IF((@d=1) and (0<>TiWordCount), CASE ' . $set_wo_sql_2 . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END, CASE ' . $set_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END), CASE '  . $del_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(TiText,@f)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END)) sent, if(@d=0,NULL,if(CRC32(@z:=substr(@c,case n' . $mw_sql . ' end))<>CRC32(lower(@z)),@z,"")) word,if(@d=0 or ""=@z,NULL,lower(@z)) lword, TiOrder,n FROM ' . $tbpref . 'numbers , ' . $tbpref . 'temptextitems) ti, 
+        ' . $tbpref . 'words 
+        WHERE lword is not null and WoLgID=' . $lid . ' and WoTextLC=lword and WoWordCount=n';
+        $sql .= ($id>0) ? ' UNION ALL ' : ' GROUP BY WoID ORDER BY WoTextLC';
     }//text has expressions end
     if($id>0) {
         do_mysqli_query('ALTER TABLE ' . $tbpref . 'textitems2 ALTER Ti2LgID SET DEFAULT ' . $lid . ', ALTER Ti2TxID SET DEFAULT ' . $id);
@@ -837,9 +861,34 @@ function check_update_db($debug, $tbpref, $dbname): void
         if ($debug) { 
             echo '<p>DEBUG: rebuilding textitems2</p>'; 
         }
-        runsql("CREATE TABLE IF NOT EXISTS " . $tbpref . "textitems2 ( Ti2WoID mediumint(8) unsigned NOT NULL, Ti2LgID tinyint(3) unsigned NOT NULL, Ti2TxID smallint(5) unsigned NOT NULL, Ti2SeID mediumint(8) unsigned NOT NULL, Ti2Order smallint(5) unsigned NOT NULL, Ti2WordCount tinyint(3) unsigned NOT NULL, Ti2Text varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, PRIMARY KEY (Ti2TxID,Ti2Order,Ti2WordCount), KEY Ti2WoID (Ti2WoID)) ENGINE=MyISAM DEFAULT CHARSET=utf8", '');
+        runsql(
+            "CREATE TABLE IF NOT EXISTS " . $tbpref . "textitems2 (
+                Ti2WoID mediumint(8) unsigned NOT NULL, 
+                Ti2LgID tinyint(3) unsigned NOT NULL, 
+                Ti2TxID smallint(5) unsigned NOT NULL, 
+                Ti2SeID mediumint(8) unsigned NOT NULL, 
+                Ti2Order smallint(5) unsigned NOT NULL, 
+                Ti2WordCount tinyint(3) unsigned NOT NULL, 
+                Ti2Text varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL, 
+                PRIMARY KEY (Ti2TxID,Ti2Order,Ti2WordCount), KEY Ti2WoID (Ti2WoID)
+            ) 
+            ENGINE=MyISAM DEFAULT CHARSET=utf8", 
+            ''
+        );
+        // Add data from the old database system
         if (in_array($tbpref . 'textitems', $tables) != false) {
-            //runsql('INSERT INTO ' . $tbpref . 'textitems2 (Ti2WoID,Ti2LgID,Ti2TxID,Ti2SeID,Ti2Order,Ti2WordCount,Ti2Text) select IFNULL(WoID,0), TiLgID,TiTxID, TiSeID, TiOrder, CASE WHEN TiIsNotWord = 1 THEN 0 ELSE TiWordCount END as WordCount, CASE WHEN STRCMP( TiText COLLATE utf8_bin ,TiTextLC)!=0 OR TiWordCount = 1 THEN TiText ELSE "" END as Text from ' . $tbpref . 'textitems left join ' . $tbpref . 'words on TiTextLC=WoTextLC and TiLgID=WoLgID where TiWordCount<2 or WoID IS NOT NULL','');
+            runsql(
+                'INSERT INTO ' . $tbpref . 'textitems2 (
+                    Ti2WoID, Ti2LgID, Ti2TxID, Ti2SeID, Ti2Order, Ti2WordCount, Ti2Text
+                ) 
+                SELECT IFNULL(WoID,0), TiLgID, TiTxID, TiSeID, TiOrder, 
+                CASE WHEN TiIsNotWord = 1 THEN 0 ELSE TiWordCount END as WordCount, 
+                CASE WHEN STRCMP( TiText COLLATE utf8_bin ,TiTextLC)!=0 OR TiWordCount = 1 THEN TiText ELSE "" END as Text 
+                FROM ' . $tbpref . 'textitems 
+                LEFT JOIN ' . $tbpref . 'words ON TiTextLC=WoTextLC AND TiLgID=WoLgID 
+                WHERE TiWordCount<2 OR WoID IS NOT NULL',
+                ''
+            );
             runsql('TRUNCATE ' . $tbpref . 'textitems', '');
         }
         $count++;

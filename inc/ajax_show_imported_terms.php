@@ -17,7 +17,7 @@ $recno = $_REQUEST['count'];
 $rtl = $_REQUEST['rtl'];
 $maxperpage = 100;
 
-$pages = ($recno-1) / $maxperpage + 1;
+$pages = intval(($recno-1) / $maxperpage) + 1;
     
 if ($currentpage < 1) { 
     $currentpage = 1; 

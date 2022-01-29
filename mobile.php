@@ -141,10 +141,30 @@ if (isset($_REQUEST["action"])) {  // Action
         $lang = $_REQUEST["lang"];
         $text = $_REQUEST["text"];
         $sent = $_REQUEST["sent"];
-        $senttext = get_first_value('select SeText as value from ' . $tbpref . 'sentences where SeID = ' . $sent);
-        $nextsent = get_first_value('select SeID as value from ' . $tbpref . 'sentences where SeTxID = ' . $text . ' and trim(SeText) != \'¶\' and SeID > ' . $sent . ' order by SeID limit 1');
-        $sql = 'select CASE WHEN Ti2WordCount>0 THEN Ti2WordCount ELSE 1 END as Code, CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN Ti2Text ELSE WoText END as TiText, Ti2Order, CASE WHEN Ti2WordCount > 0 THEN 0 ELSE 1 END as TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems2 left join ' . $tbpref . 'words on (Ti2WoID = WoID) and (Ti2LgID = WoLgID)) where Ti2SeID = ' . $sent . ' order by Ti2Order asc, Ti2WordCount desc';
-        // $sql = 'select TiWordCount as Code, TiText, TiOrder, TiIsNotWord, WoID, WoTranslation, WoRomanization, WoStatus from (' . $tbpref . 'textitems left join ' . $tbpref . 'words on (TiTextLC = WoTextLC) and (TiLgID = WoLgID)) where TiSeID = ' . $sent . ' and (not (TiWordCount > 1 and WoID is null)) order by TiOrder asc, TiWordCount desc';
+        $senttext = get_first_value(
+            'SELECT SeText AS value FROM ' . $tbpref . 'sentences WHERE SeID = ' . $sent
+        );
+        $nextsent = get_first_value(
+            'SELECT SeID AS value 
+            FROM ' . $tbpref . 'sentences 
+            WHERE SeTxID = ' . $text . ' AND trim(SeText) != \'¶\' AND SeID > ' . $sent . ' 
+            ORDER BY SeID 
+            LIMIT 1'
+        );
+        $sql = 
+            'SELECT 
+            CASE WHEN Ti2WordCount>0 THEN Ti2WordCount ELSE 1 END as Code, 
+            CASE WHEN CHAR_LENGTH(Ti2Text)>0 THEN Ti2Text ELSE WoText END AS TiText, 
+            Ti2Order, 
+            CASE WHEN Ti2WordCount > 0 THEN 0 ELSE 1 END AS TiIsNotWord, 
+            WoID, WoTranslation, WoRomanization, WoStatus 
+            FROM (' . 
+                $tbpref . 'textitems2 
+                LEFT JOIN ' . $tbpref . 'words 
+                ON (Ti2WoID = WoID) AND (Ti2LgID = WoLgID)
+            ) 
+            WHERE Ti2SeID = ' . $sent . ' 
+            ORDER BY Ti2Order asc, Ti2WordCount desc';
         $res = do_mysqli_query($sql);
         
         if ($action == 4) {
