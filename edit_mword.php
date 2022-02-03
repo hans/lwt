@@ -100,13 +100,12 @@ if (isset($_REQUEST['op'])) {
     ?>
 <script type="text/javascript">
 //<![CDATA[
-var context = window.parent.frames['l'].document;
-var contexth = window.parent.frames['h'].document;
+const context = window.parent.document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
 var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
 var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid, ' ', 1, 0)); ?>;
 var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
+var title = window.parent.JQ_TOOLTIP ? '':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
 //]]>
 </script>
     <?php
@@ -124,8 +123,8 @@ var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prep
     }
     ?>
 <script type="text/javascript">
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
+window.parent.getElementById('frame-l').focus();
+window.parent.setTimeout('cClick()', 100);
 </script>
 
     <?php

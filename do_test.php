@@ -8,6 +8,8 @@
  * Call: do_test.php?lang=[langid]
  * Call: do_test.php?text=[textid]
  * Call: do_test.php?selection=1  (SQL via $_SESSION['testsql'])
+ * Call: do_test.php?type=table for a table of words
+ * Call: do_test.php?type=[1-5] for a test of words.
  * 
  * @package Lwt
  * @author  LWT Project <lwt-project@hotmail.com>

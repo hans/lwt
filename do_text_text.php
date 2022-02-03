@@ -6,8 +6,11 @@
  * 
  * Call: do_text_text.php?text=[textid]
  * 
- * @author LWT Project <lwt-project@hotmail.com>
- * @since  1.0.3
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/do__text__text_8php.html
+ * @since   1.0.3
  */
 
 require_once 'inc/session_utility.php';
@@ -470,7 +473,7 @@ function do_text_text_content($textid, $only_body=true): void
 }
 
 // This code runs when calling this script, be careful!
-if (isset($_REQUEST['text'])) {
+if (false && isset($_REQUEST['text'])) {
     do_text_text_content($_REQUEST['text'], false);
 }
 ?>

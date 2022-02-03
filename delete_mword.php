@@ -30,8 +30,7 @@ echo "<p>OK, term deleted (" . $m1 . ").</p>";
 ?>
 <script type="text/javascript">
 //<![CDATA[
-var context = window.parent.frames['l'].document;
-var contexth = window.parent.frames['h'].document;
+var context = window.parent.document;
 $('.word<?php echo $wid; ?>', context).each(function(){
 sid = $(this).parent();
 $(this).remove();
@@ -49,9 +48,9 @@ $('.mword', sid).each(function(){
 ?>
 
 });
-$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
+$('#learnstatus', context).html('<?php echo addslashes(texttodocount2($tid)); ?>');
+window.parent.focus();
+window.parent.setTimeout('cClick()', 100);
 //]]>
 </script>
 <?php

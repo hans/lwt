@@ -79,10 +79,10 @@ if ($status == 98) {
 ?>
 <script type="text/javascript">
     //<![CDATA[
-    var contexth = window.parent.frames['h'].document;
+    const context = window.parent.document;
     <?php echo $javascript; ?> 
-    $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['text'])); ?>');
-    window.parent.frames['l'].setTimeout('cClick()', 1000);
+    $('#learnstatus', context).html('<?php echo addslashes(texttodocount2($_REQUEST['text'])); ?>');
+    window.parent.setTimeout('cClick()', 1000);
     //]]>
 </script>
 <?php

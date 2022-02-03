@@ -72,8 +72,7 @@ function delete_word_javascript($wid, $tid)
     ?>
 <script type="text/javascript">
     //<![CDATA[
-    var context = window.parent.document.getElementById('frame-l');
-    var contexth = window.parent.document.getElementById('frame-h');
+    var context = window.parent.document;
     var title;
     if (window.parent.document.getElementById('frame-l').JQ_TOOLTIP) {
         title = ''
@@ -91,9 +90,8 @@ function delete_word_javascript($wid, $tid)
     .attr('data_wid','')
     .attr('title', title)
     .removeAttr("data_img");
-    $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($tid)); ?>');
+    $('#learnstatus', context).html('<?php echo addslashes(texttodocount2($tid)); ?>');
     window.parent.document.getElementById('frame-l').focus();
-    //window.parent.frames['l'].setTimeout('cClick()', 100);
     window.parent.setTimeout('cClick()', 100);
     //]]>
 </script>

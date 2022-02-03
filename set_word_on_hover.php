@@ -49,15 +49,20 @@ $langid = get_first_value("select TxLgID as value from " . $tbpref . "texts wher
 
             ?>
 <script type="text/javascript">
-//<![CDATA[
-var context = window.parent.frames['l'].document;
-var contexth = window.parent.frames['h'].document;
-var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST['text']); ?>,<?php echo prepare_textdata_js($translation); ?>,'','<?php echo $_REQUEST["status"]; ?>');
-$('.TERM<?php echo $hex; ?>', context).removeClass('status0').addClass('status<?php echo $_REQUEST["status"]; ?> word<?php echo $wid; ?>').attr('data_status','<?php echo $_REQUEST["status"]; ?>').attr('data_wid','<?php echo $wid; ?>').attr('title',title).attr('data_trans','<?php echo tohtml($translation); ?>');
-$('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
-//]]>
+    //<![CDATA[
+    var context = window.parent.document;
+    var title = window.parent.JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST['text']); ?>,<?php echo prepare_textdata_js($translation); ?>,'','<?php echo $_REQUEST["status"]; ?>');
+    $('.TERM<?php echo $hex; ?>', context)
+    .removeClass('status0')
+    .addClass('status<?php echo $_REQUEST["status"]; ?> word<?php echo $wid; ?>')
+    .attr('data_status','<?php echo $_REQUEST["status"]; ?>')
+    .attr('data_wid','<?php echo $wid; ?>')
+    .attr('title',title)
+    .attr('data_trans','<?php echo tohtml($translation); ?>');
+    $('#learnstatus', context).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
+    window.parent.getElementById('frame-l').focus();
+    window.parent.setTimeout('cClick()', 100);
+    //]]>
 </script>
 <?php
 

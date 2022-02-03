@@ -12,7 +12,8 @@ pagestart_nobody('Term');
 $wid = getreq('wid');
 $ann = $_REQUEST["ann"];
 
-if ($wid == '') { my_die('Word not found in show_word.php'); 
+if ($wid == '') { 
+    my_die('Word not found in show_word.php'); 
 }
 
 $sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
@@ -20,7 +21,8 @@ $res = do_mysqli_query($sql);
 if ($record = mysqli_fetch_assoc($res)) {
 
     $transl = repl_tab_nl($record['WoTranslation']);
-    if($transl == '*') { $transl=''; 
+    if($transl == '*') { 
+        $transl=''; 
     }
     
     $tags = getWordTagList($wid, '', 0, 0);
@@ -41,11 +43,13 @@ if ($record = mysqli_fetch_assoc($res)) {
 if(!empty($ann)) {
     echo 
     str_replace_first(
-        tohtml($ann), '<span style="color:red">' . tohtml($ann) . 
-        '</span>', tohtml($transl)
+        tohtml($ann), 
+        '<span style="color:red">' . tohtml($ann) . '</span>', 
+        tohtml($transl)
     );
 }
-else { echo tohtml($transl); 
+else { 
+    echo tohtml($transl); 
 }
 ?></b></td>
 </tr>
@@ -76,8 +80,8 @@ else { echo tohtml($transl);
 
 <script type="text/javascript">
 //<![CDATA[
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
+window.parent.getElementById('frame-l').focus();
+window.parent.setTimeout('cClick()', 100);
 //]]>
 </script>
 

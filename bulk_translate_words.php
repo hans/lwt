@@ -49,9 +49,9 @@ if (isset($_REQUEST['term'])) {
     echo "</script>";
     flush();
     do_mysqli_query('UPDATE ' . $tbpref . 'textitems2 join ' . $tbpref . 'words on lower(Ti2Text)=WoTextLC AND Ti2WordCount =1 and Ti2LgID=WoLgID and WoID > ' . $max . ' set Ti2WoID = WoID');
-    echo "<script type=\"text/javascript\">$('#learnstatus', window.parent.frames['h'].document).html('",addslashes(texttodocount2($tid)),"');$('#displ_message').remove();";
+    echo "<script type=\"text/javascript\">$('#learnstatus', window.parent.document).html('",addslashes(texttodocount2($tid)),"');$('#displ_message').remove();";
     if(!isset($pos)) {
-        echo "window.parent.frames['l'].focus();window.parent.frames['l'].setTimeout('cClick()', 100);";
+        echo "window.parent.getElementById('frame-l').focus();window.parent.setTimeout('cClick()', 100);";
     }
     echo "</script>";
     flush();

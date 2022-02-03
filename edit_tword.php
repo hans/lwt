@@ -104,9 +104,9 @@ if (isset($_REQUEST['op'])) {
 
 <script type="text/javascript">
 //<![CDATA[
-var context = window.parent.frames['l'].document;
+var context = window.parent.document;
 var woid = <?php echo prepare_textdata_js($wid); ?>;
-if(window.parent.frames['l'].location.href.indexOf('do_test_table') !== -1) {
+if(window.parent.location.href.includes('type=table')) {
     // Table Test
     $('#STAT' + woid, context).html(<?php echo prepare_textdata_js(make_status_controls_test_table(1, $_REQUEST["WoStatus"], $wid)); ?>);
     $('#TERM' + woid, context).html(<?php echo prepare_textdata_js(tohtml($_REQUEST["WoText"])); ?>);
@@ -121,8 +121,8 @@ if(window.parent.frames['l'].location.href.indexOf('do_test_table') !== -1) {
     var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
     $('.word' + woid, context).attr('data_text',wotext).attr('data_trans',trans).attr('data_rom',roman).attr('data_status',status);
 }  
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
+window.parent.getElementById('frame-l').focus();
+window.parent.setTimeout('cClick()', 100);
 //]]>
 </script>
     

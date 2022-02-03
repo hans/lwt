@@ -311,7 +311,7 @@ function do_text_header_content($textid, $only_body=true): void
 }
 
 // Show the content automatically if text is in the request
-if (getreq('text')) {
+if (false && getreq('text')) {
     do_text_header_content(getreq('text'), false);
 }
 ?>

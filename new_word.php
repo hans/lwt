@@ -60,21 +60,19 @@ if (isset($_REQUEST['op'])) {
         if (substr($message, 0, 5) != 'Error') {?>
 <script type="text/javascript">
     //<![CDATA[
-    var context = window.parent.frames['l'].document;
-    var contexth = window.parent.frames['h'].document;
+    var context = window.parent.document;
     var woid = <?php echo prepare_textdata_js($wid); ?>;
     var status = <?php echo prepare_textdata_js($_REQUEST["WoStatus"]); ?>;
     var trans = <?php echo prepare_textdata_js($translation . getWordTagList($wid, ' ', 1, 0)); ?>;
     var roman = <?php echo prepare_textdata_js($_REQUEST["WoRomanization"]); ?>;
-    var title = window.parent.frames['l'].JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
+    var title = window.parent.JQ_TOOLTIP?'':make_tooltip(<?php echo prepare_textdata_js($_REQUEST["WoText"]); ?>,trans,roman,status);
     //]]>
 </script>
             <?php
             $len = get_first_value('select WoWordCount as value from ' . $tbpref . 'words where WoID = ' . $wid);
             if ($len > 1) {
                 insertExpressions($textlc, $_REQUEST["WoLgID"], $wid, $len, 0);
-            }
-            else if($len == 1) {
+            } else if ($len == 1) {
                 $hex = strToClassName(prepare_textdata($textlc));
                 do_mysqli_query(
                     'UPDATE ' . $tbpref . 'textitems2 SET Ti2WoID = ' . $wid . ' 
@@ -84,15 +82,15 @@ if (isset($_REQUEST['op'])) {
 <script type="text/javascript">
     //<![CDATA[
     if($('.TERM<?php echo $hex; ?>', context).length){
-    $('.TERM<?php echo $hex; ?>', context)
-    .removeClass('status0')
-    .addClass('word' + woid + ' ' + 'status' + status)
-    .attr('data_trans',trans)
-    .attr('data_rom',roman)
-    .attr('data_status',status)
-    .attr('data_wid',woid)
-    .attr('title',title);
-    $('#learnstatus', contexth).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
+        $('.TERM<?php echo $hex; ?>', context)
+        .removeClass('status0')
+        .addClass('word' + woid + ' ' + 'status' + status)
+        .attr('data_trans',trans)
+        .attr('data_rom',roman)
+        .attr('data_status',status)
+        .attr('data_wid',woid)
+        .attr('title',title);
+        $('#learnstatus', context).html('<?php echo addslashes(texttodocount2($_REQUEST['tid'])); ?>');
     }
     //]]>
 </script>
@@ -100,8 +98,8 @@ if (isset($_REQUEST['op'])) {
                 flush();
             } ?>
 <script type="text/javascript">
-    window.parent.frames['l'].focus();
-    window.parent.frames['l'].setTimeout('cClick()', 100);
+    window.parent.getElementById('frame-l').focus();
+    window.parent.setTimeout('cClick()', 100);
 </script>
             <?php
         } // (substr($message,0,5) != 'Error')
