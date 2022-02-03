@@ -41,7 +41,8 @@
  * For more information, please refer to [http://unlicense.org/].
  */
 
-if (!file_exists('connect.inc.php')) {
+function no_connectinc_error_page() 
+{
     ?>
     <html>
         <body>
@@ -59,7 +60,12 @@ if (!file_exists('connect.inc.php')) {
     die('');
 }
 
+if (!file_exists('connect.inc.php')) {
+    no_connectinc_error_page();
+}
+
 require_once 'inc/session_utility.php';
+
 
 function get_span_groups() {
     global $tbpref, $fixed_tbpref;
@@ -84,150 +90,70 @@ function get_span_groups() {
     return array($span1, $span2, $span3);
 }
 
-list($span1, $span2, $span3) = get_span_groups();
-pagestart_nobody("Home");
-echo '<h4>' . $span3;
-echo_lwt_logo();
-echo "Learning With Texts (LWT)";
-echo '</span></h4><h3>Home' . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h3>';
-echo "<p>&nbsp;</p>";
 
-$currentlang = getSetting('currentlanguage');
-$currenttext = getSetting('currenttext');
-
-$langcnt = get_first_value('SELECT count(*) AS value FROM ' . $tbpref . 'languages');
-
-if ($langcnt == 0) {
-    echo '<table class="tab3" cellspacing="0" cellpadding="5">
-        <tr>
-            <th class="th1">Hint: The database seems to be empty.<br />
-            <a href="install_demo.php">You may install the LWT demo database, </a>
-            <br />
-            or
-            <br /><a href="edit_languages.php?new=1">define the first language you want to learn.</a>
-            </th>
-        </tr>
-    </table>';
-}
-
-?>
-
-<script type="text/javascript">
-    //<![CDATA[
-    if (!areCookiesEnabled()) 
-        document.write('<p class="red">*** Cookies are not enabled! Please enable them! ***</p>');
-    //]]>
-</script>
-<p>Welcome to your language learning app!</p> 
-
-<?php if ($langcnt > 0 ) { ?>
-
-<ul>
-    <li>Language: 
-        <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}">
-            <?php echo get_languages_selectoptions($currentlang, '[Select...]'); ?>
-        </select>
-    </li>
-</ul>
-    
-    <?php
-    if ($currenttext != '') {
-        $txttit = get_first_value('SELECT TxTitle AS value FROM ' . $tbpref . 'texts WHERE TxID=' . (int)$currenttext);
-        if (isset($txttit)) {    
-            $txtlng = get_first_value('SELECT TxLgID AS value FROM ' . $tbpref . 'texts WHERE TxID=' . (int)$currenttext);
-            $lngname = getLanguage($txtlng);
+function do_current_text_info($currenttext)
+{
+    global $tbpref;
+    $txttit = get_first_value('SELECT TxTitle AS value FROM ' . $tbpref . 'texts WHERE TxID=' . (int)$currenttext);
+    if (isset($txttit)) {    
+        $txtlng = get_first_value('SELECT TxLgID AS value FROM ' . $tbpref . 'texts WHERE TxID=' . (int)$currenttext);
+        $lngname = getLanguage($txtlng);
+        ?>
+ 
+ <li>Last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
+ <br />
+ <a href="do_text.php?start=<?php echo $currenttext; ?>"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read</a>
+ &nbsp; &nbsp; 
+ <a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
+ &nbsp; &nbsp; 
+ <a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
+        <?php
+        $record = (int)get_first_value(
+            "SELECT length(TxAnnotatedText) AS value 
+            FROM " . $tbpref . "texts 
+            WHERE TxID = " . $currenttext
+        ); 
+        if ($record > 0) {
             ?>
-     <ul>
-     <li>Last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
-     <br />
-     <a href="do_text.php?start=<?php echo $currenttext; ?>"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read</a>
-     &nbsp; &nbsp; 
-     <a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
-     &nbsp; &nbsp; 
-     <a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
-            <?php
-            $record = (int)get_first_value(
-                "SELECT length(TxAnnotatedText) AS value 
-                FROM " . $tbpref . "texts 
-                WHERE TxID = " . $currenttext
-            ); 
-            if ($record > 0) {
-                ?>
-    &nbsp; &nbsp; 
-    <a href="print_impr_text.php?text=<?php echo $currenttext; ?>">
-        <img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text
-    </a>
-                <?php
-            }
-            ?>
-     </li>
-     </ul>
+&nbsp; &nbsp; 
+<a href="print_impr_text.php?text=<?php echo $currenttext; ?>">
+    <img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text
+</a>
             <?php
         }
+        ?>
+ </li>
+        <?php
+    }
+
+}
+
+function do_language_selectable($currentlang, $currenttext)
+{
+    ?>
+<li>Language: 
+    <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}">
+        <?php echo get_languages_selectoptions($currentlang, '[Select...]'); ?>
+    </select>
+</li>
+        
+<?php
+    if ($currenttext != '') {
+        do_current_text_info($currenttext);
     }
 }
-?>
 
-<ul>
-<li><a href="edit_texts.php">Texts</a></li>
-<li><a href="edit_archivedtexts.php">Text Archive</a></li>
-<li>
-    <a href="edit_texttags.php">Text Tags</a>
-    <br />
-    <br />
-</li>
-<li><a href="edit_languages.php">Languages</a>
-    <br /><br /></li>
-<li><a href="edit_words.php">Terms (Words and Expressions)</a></li>
-<li><a href="edit_tags.php">Term Tags</a>
-    <br /><br /></li>
-<li><a href="statistics.php">Statistics</a>
-    <br /><br /></li>
-<li><a href="check_text.php">Check a Text</a></li>
-<li><a href="long_text_import.php">Long Text Import</a></li>
-<li><a href="do_feeds.php?check_autoupdate=1">Newsfeed Import</a></li>
-<li><a href="upload_words.php">Import Terms</a></li>
-<li><a href="backup_restore.php">Backup/Restore/Empty Database</a>
-    <br /><br /></li>
-<li><a href="settings.php">Settings/Preferences</a>
-
-<?php
 function wordpress_logout_link() {
     // ********* WORDPRESS LOGOUT *********
     if (isset($_SESSION['LWT-WP-User'])) {
         ?>
-        <br /><br /></li>
-    <li><a href="wp_lwt_stop.php"><span style="font-size:115%; font-weight:bold; color:red;">LOGOUT</span></a> (from WordPress and LWT)
+    <li>
+        <a href="wp_lwt_stop.php"><span style="font-size:115%; font-weight:bold; color:red;">LOGOUT</span></a> (from WordPress and LWT)
+        <br /><br />
+    </li>
         <?php
     }
 }
-
-wordpress_logout_link();
-?>
-
-    <br /><br /></li>
-<li><a href="docs/info.php">Help/Information</a></li>
-<li><a href="mobile.php">Mobile LWT (Experimental)</a></li>
-</ul>
-
-<p class="smallgray graydotted">&nbsp;</p>
-<table>
-    <tr>
-        <td class="width50px">
-            <a target="_blank" href="http://unlicense.org/">
-                <img alt="Public Domain" title="Public Domain" src="img/public_domain.png" />
-            </a>
-        </td>
-        <td>
-            <p class="small">
-                <a href="https://sourceforge.net/projects/learning-with-texts/" target="_blank">"Learning with Texts" (LWT)</a> is free 
-                and unencumbered software released<br />into the 
-                <a href="https://en.wikipedia.org/wiki/Public_domain_software" target="_blank">PUBLIC DOMAIN</a>. 
-                <a href="http://unlicense.org/" target="_blank">More information and detailed Unlicense ...</a><br />
-
-<?php
-
-flush();
 
 function get_server_data() 
 {
@@ -265,30 +191,148 @@ function get_server_data()
             $apache = $serversoft[0]; 
         }
     // }
-    $php = "PHP/" . phpversion();
-    $mysql = "MySQL/" . get_first_value("SELECT VERSION() as value");
+    $php = phpversion();
+    $mysql = get_first_value("SELECT VERSION() as value");
     return array($p, $mb, $serversoft, $apache, $php, $mysql);
 }
 
+
+list($span1, $span2, $span3) = get_span_groups();
+$currentlang = (int) getSetting('currentlanguage');
+$currenttext = (int) getSetting('currenttext');
+
+$langcnt = (int) get_first_value('SELECT count(*) AS value FROM ' . $tbpref . 'languages');
+
 list($p, $mb, $serversoft, $apache, $php, $mysql) = get_server_data();
 
+pagestart_nobody("Home");
+echo '<div>' . 
+    echo_lwt_logo() . '<h1>' . 
+        $span3 . 'Learning With Texts (LWT)</span>
+    </h1>
+    <h2>Home' . ($debug ? ' <span class="red">DEBUG</span>' : '') . '</h2>
+</div>';
+
 ?>
+<script type="text/javascript">
+    //<![CDATA[
+    if (!areCookiesEnabled()) 
+        document.write('<p class="red">*** Cookies are not enabled! Please enable them! ***</p>');
+    //]]>
+</script>
 
-                This is LWT Version <?php echo get_version(); ?>
-                <br />
-                <a href="https://en.wikipedia.org/wiki/Database" target="_blank">Database</a>: <i><?php echo $dbname; ?></i> on 
-                <i><?php echo $server; ?></i> / <?php echo $span1 . $span2; ?> / 
-                Size: <?php echo $mb; ?> MB
-                <br />
-                <a href="https://en.wikipedia.org/wiki/Web_server" target="_blank">Web Server</a>: <i><?php echo $_SERVER['HTTP_HOST']; ?></i> / 
-                Server Software: <a href="https://en.wikipedia.org/wiki/Apache_HTTP_Server" target="_blank"><?php echo $apache; ?></a>&nbsp;&nbsp;
-                <a href="https://en.wikipedia.org/wiki/PHP" target="_blank"><?php echo $php; ?></a>&nbsp;&nbsp;
-                <a href="https://en.wikipedia.org/wiki/MySQL" target="_blank"><?php echo $mysql; ?></a>
-            </p>
-        </td>
-    </tr>
-</table>
+<p>Welcome to your language learning app!</p> 
 
+<div style="display: flex; justify-content: space-evenly;">
+    <div>
+        <ul>
+            <?php
+if ($langcnt == 0) {
+            ?> 
+            <li>
+                Hint: The database seems to be empty.<br />
+                <a href="install_demo.php">You may install the LWT demo database, </a>
+                <br /> or <br />
+                <a href="edit_languages.php?new=1">define the first language you want to learn.</a>
+            </li>
+            <?php
+} else if ($langcnt > 0) {
+    do_language_selectable($currentlang, $currenttext);
+} 
+            ?>
+            <li><a href="edit_texts.php">Texts</a></li>
+            <li><a href="edit_archivedtexts.php">Text Archive</a></li>
+            <li>
+                <a href="edit_texttags.php">Text Tags</a>
+                <br /><br />
+            </li>
+            <li>
+                <a href="edit_languages.php">Languages</a>
+                <br /><br />
+            </li>
+            <li><a href="edit_words.php">Terms (Words and Expressions)</a></li>
+            <li>
+                <a href="edit_tags.php">Term Tags</a>
+                <br /><br />
+            </li>
+            <li>
+                <a href="statistics.php">Statistics</a>
+                <br /><br />
+            </li>
+            <li><a href="check_text.php">Check a Text</a></li>
+            <li><a href="long_text_import.php">Long Text Import</a></li>
+            <li><a href="do_feeds.php?check_autoupdate=1">Newsfeed Import</a></li>
+            <li><a href="upload_words.php">Import Terms</a></li>
+            <li>
+                <a href="backup_restore.php">Backup/Restore/Empty Database</a>
+                <br /><br />
+            </li>
+            <li>
+                <a href="settings.php">Settings/Preferences</a>
+                <br /><br />
+            </li>
+            <?php wordpress_logout_link(); ?>
+            <li><a href="docs/info.php">Help/Information</a></li>
+            <li><a href="mobile.php">Mobile LWT (Experimental)</a></li>
+        </ul>
+        <p>This is LWT Version <?php echo get_version(); ?></p>
+    </div>
+
+    <table>
+        <tbody>
+            <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Database" target="_blank">Database</a> name</td>
+                <td><i><?php echo $dbname; ?></i></td>
+            </tr>
+            <tr>
+                <td>Database Location</td>
+                <td><i><?php echo $server; ?></i></td>
+            </tr>
+            <tr>
+                <td>Database Size</td>
+                <td><?php echo $mb; ?> MB</td>
+            </tr>
+            <tr>
+                <td><a href="https://en.wikipedia.org/wiki/Web_server" target="_blank">Web Server</a></td>
+                <td><i><?php echo $_SERVER['HTTP_HOST']; ?></i></td>
+            </tr>
+            <tr>
+                <td>Server Software</td>
+                <td><a href="https://en.wikipedia.org/wiki/Apache_HTTP_Server" target="_blank"><?php echo $apache; ?></a></td>
+            </tr>
+            <tr>
+                <td><a href="https://en.wikipedia.org/wiki/PHP" target="_blank">PHP</a> Version</td>
+                <td><?php echo $php; ?></td>
+            </tr>
+            <tr>
+                <td><a href="https://en.wikipedia.org/wiki/MySQL" target="_blank">MySQL</a> Version</td>
+                <td><?php echo $mysql; ?></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<hr />
+<footer>
+    <table>
+        <tr>
+            <td class="width50px">
+                <a target="_blank" href="http://unlicense.org/">
+                    <img alt="Public Domain" title="Public Domain" src="img/public_domain.png" />
+                </a>
+            </td>
+            <td>
+                <p class="small">
+                    <a href="https://sourceforge.net/projects/learning-with-texts/" target="_blank">"Learning with Texts" (LWT)</a> is free 
+                    and unencumbered software released<br />into the 
+                    <a href="https://en.wikipedia.org/wiki/Public_domain_software" target="_blank">PUBLIC DOMAIN</a>. 
+                    <a href="http://unlicense.org/" target="_blank">More information and detailed Unlicense ...</a>
+                    <br />
+                </p>
+            </td>
+        </tr>
+    </table>
+</footer>
 <?php
 
 pageend();

@@ -1385,23 +1385,29 @@ function echo_lwt_logo(): void
     if ($pref == '') { 
         $pref = 'Default Table Set'; 
     }
-    echo '<img class="lwtlogo" src="';
-    print_file_path('img/lwt_icon.png'); 
-    echo '" title="LWT - Current Table Set: ' . tohtml($pref) . 
+    echo '<img class="lwtlogo" src="' . 
+    get_file_path('img/lwt_icon.png') . 
+    '" title="LWT - Current Table Set: ' . tohtml($pref) . 
     '" alt="LWT - Current Table Set: ' . tohtml($pref) . '" />';
 }
 
 // -------------------------------------------------------------
 
 /**
- * @return (false|string)[]
+ * Return all different database prefixes that are in use.
+ * 
+ * @return (false|string)[] A list of prefixes.
  *
  * @psalm-return list<false|string>
  */
 function getprefixes(): array 
 {
     $prefix = array();
-    $res = do_mysqli_query(str_replace('_', "\\_", "SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings')));
+    $res = do_mysqli_query(str_replace(
+        '_', 
+        "\\_", 
+        "SHOW TABLES LIKE " . convert_string_to_sqlsyntax_nonull('%_settings'))
+    );
     while ($row = mysqli_fetch_row($res)) {
         $prefix[] = substr($row[0], 0, -9); 
     }
