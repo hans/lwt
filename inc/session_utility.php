@@ -1597,7 +1597,7 @@ function print_file_path($filename): void
  * 
  * @param string $filename Filename
  * 
- * @return string string|string[]|null File path if it exists, otherwise the filename
+ * @return string File path if it exists, otherwise the filename
  */
 function get_file_path($filename)
 {

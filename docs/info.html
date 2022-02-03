@@ -21,19 +21,21 @@
 		</style>
 		<script type="text/javascript" src="../js/jquery.js"></script>  
 		<script type="text/javascript" src="../js/floating.js"></script>
- 		<!--<script type="text/javascript">
+ 		<script type="text/javascript">
 		$.ajax(
 			{
 				type: 'POST',
-				url:'inc/ajax_get_theme.php',
+				url: '../inc/ajax_get_theme.php',
 				async: false, 
-				data: { file:'../css/styles.css' }, 
+				data: { file: '../css/styles.css' }, 
 				success: function (data) {
+					console.log("theme path loaded");
+					console.log(data);
 					if (data.match(/styles.css$/g)) 
 						$('style').text( "@import url(" + data + ");" );
 			}
 		});
-		</script>-->
+		</script>
     <title>
       Learning with Texts :: Help/Information
     </title>
@@ -96,7 +98,7 @@
 					Features
 				</option>
 				<option value="new_features">
-				  New  in this Version
+				  New in this Version
 				</option>
 				<option value="screencasts">
 				  Screencasts
@@ -477,22 +479,6 @@ The installation is explained <a href="#install">here</a>.</li>
 		
 			<dd>
 				<ul>
-				<li>
-					<a href="http://www.youtube.com/watch?v=TkcVJ6SpK2Q" target="_blank">01 - Starting with French</a> (created with version 1.0.2)
-					<br />
-					Finding learning material, importing a text with audio, saving words and expressions, changing the status, printing.
-					<br /><br />
-					<iframe width="640" height="510" src="http://www.youtube.com/embed/TkcVJ6SpK2Q" frameborder="0" allowfullscreen></iframe>
-					<br /><br />
-					Mentioned websites in this screencast:
-					<ul>
-					<li><a href="http://lingq.com" target="_blank">LingQ - Library</a></li>
-					<li><a href="http://fluentin3months.com/learning-materials/" target="_blank">Fluent in 3 months - Learning materials</a></li>
-					<li><a href="http://ielanguages.com/french1.html" target="_blank">ieLanguages - French I Tutorial</a></li>
-					</ul>
-					<br />
-					
-				</li>
 				
 				<li>
 					A <a target="_blank" href="http://www.youtube.com/watch?v=QSLPOATWAU4">video</a> from <a target="_blank" href="http://www.youtube.com/user/FluentCzech">FluentCzech</a>:
@@ -521,10 +507,8 @@ The installation is explained <a href="#install">here</a>.</li>
 			</dt>
 
 			<dd>
-				<ul>
-					<li>Texts and vocabulary terms with Unicode characters outside the <a href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane" target="_blank">Basic Multilingual Plane</a> (BMP; U+0000 to U+FFFF), i.e. with Unicode characters U+10000 and higher, are not supported. Therefore, characters for almost all modern languages, and a large number of symbols, are supported; but historic scripts, certain symbols and notations, and	Emojis are not supported. 
-					</li>
-				</ul>
+				<h1>Restrictions</h1>
+<p>Texts and vocabulary terms with Unicode characters outside the <a href="https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane">Basic Multilingual Plane</a> (BMP; U+0000 to U+FFFF), i.e. with Unicode characters U+10000 and higher, are not supported. Therefore, characters for almost all modern languages, and a large number of symbols, are supported; but historic scripts, certain symbols and notations, and Emojis are not supported.</p>
 			</dd>
 			
 			<!-- ================================================================ -->
@@ -1270,226 +1254,108 @@ Now execute:<br />
 			</dt>
 
 			<dd>
-				<ul>
-					<li>This section shows some language setups ("RegExp Split Sentences", "RegExp Word Characters", "Make each character a word", "Remove spaces") for different languages. They are only recommendations, and you may change them according to your needs (and texts). See also <a href="#go1">here</a>.
-					<br /><br /></li>
-					
-					<li>If you are unsure, try the "Language Settings Wizard" first. Later you can adjust the settings.
-						<br />
-						<br />
-					</li>
-
-					<li>Please inform yourself about Unicode <a href="http://en.wikipedia.org/wiki/Unicode" target="_blank">here (general information)</a> and <a href="http://unicode.coeurlumiere.com/" target="_blank">here (Table of Unicode characters)</a> and about the characters that occur in the language you learn!
-					<br /><br />
-					
-						<table class="tab3" cellspacing="0" cellpadding="5">
-							<tr class="tr1">
-								<th class="th1">
-									Language
-								</th>
-								<th class="th1">
-									RegExp
-									<br />
-									Split
-									<br />
-									Sentences
-								</th>
-								<th class="th1">
-									RegExp
-									<br />
-									Word
-									<br />
-									Characters
-								</th>
-								<th class="th1">
-									Make each
-									<br />
-									character
-									<br />
-									a word
-								</th>
-								<th class="th1">
-									Remove
-									<br />
-									spaces
-								</th>
-							</tr>
-
-							<tr class="tr1">
-								<td class="td1">
-									Latin and all languages
-									<br />
-									with a Latin derived alphabet
-									<br />
-									(English, French, German, etc.)
-								</td>
-								<td class="td1">
-									.!?:;
-								</td>
-								<td class="td1">
-									a-zA-ZÀ-ÖØ-öø-ȳ
-								</td>
-								<td class="td1">
-									No
-								</td>
-								<td class="td1">
-									No
-								</td>
-							</tr>
-
-							<tr class="tr1">
-								<td class="td1">
-									Languages with a
-									<br />
-									Cyrillic-derived alphabet
-									<br />
-									(Russian, Bulgarian, Ukrainian, etc.)
-								</td>
-								<td class="td1">
-									.!?:;
-								</td>
-								<td class="td1">
-									a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ
-								</td>
-								<td class="td1">
-									No
-								</td>
-								<td class="td1">
-									No
-								</td>
-							</tr>
-
-							<tr class="tr1">
-								<td class="td1">
-									Greek
-								</td>
-								<td class="td1">
-									.!?:;
-								</td>
-								<td class="td1">
-									\x{0370}-\x{03FF}\x{1F00}-\x{1FFF}
-								</td>
-								<td class="td1">
-									No
-								</td>
-								<td class="td1">
-									No
-								</td>
-							</tr>
-
-							<tr class="tr1">
-								<td class="td1">
-									Hebrew (Right-To-Left = Yes)
-								</td>
-								<td class="td1">
-									.!?:;
-								</td>
-								<td class="td1">
-									\x{0590}-\x{05FF}
-								</td>
-								<td class="td1">
-									No
-								</td>
-								<td class="td1">
-									No
-								</td>
-							</tr>
-						 
-							<tr class="tr1">
-								<td class="td1">
-									Thai
-								</td>
-								<td class="td1">
-									.!?:;
-								</td>
-								<td class="td1">
-									ก-๛
-								</td>
-								<td class="td1">
-									No
-								</td>
-								<td class="td1">
-									Yes
-								</td>
-							</tr>
-
-							<tr class="tr1">
-								<td class="td1">
-									Chinese
-								</td>
-								<td class="td1">
-									.!?:;。！？：；
-								</td>
-								<td class="td1">
-									一-龥
-								</td>
-								<td class="td1">
-									Yes or No
-								</td>
-								<td class="td1">
-									Yes
-								</td>
-							</tr>
-
-							<tr class="tr1">
-								<td class="td1">
-									Japanese
-								</td>
-								<td class="td1">
-									.!?:;。！？：；
-								</td>
-								<td class="td1">
-									一-龥ぁ-ヾ
-								</td>
-								<td class="td1">
-									Yes or No
-								</td>
-								<td class="td1">
-									Yes
-								</td>
-							</tr>
-
-							<tr class="tr1">
-								<td class="td1">
-									Korean
-								</td>
-								<td class="td1">
-									.!?:;。！？：；
-								</td>
-								<td class="td1">
-									가-힣ᄀ-ᇂ
-								</td>
-								<td class="td1">
-									No
-								</td>
-								<td class="td1">
-									No or Yes
-								</td>
-							</tr>
-						</table>
-
-						<br />
-					</li>
-
-					<li>"\'" = Apostrophe, and/or "\-" = Dash, may be added to "RegExp Word Characters", then words like "aujourd'hui" or "non-government-owned" are one word, instead of two or more single words. If you omit "\'" and/or "\-" here, you can still create a multi-word expression "aujourd'hui", etc., later.
-						<br />
-						<br />
-					</li>
-					
-					<li>":" and ";" may be omitted in "RegExp Split Sentences", but longer example sentences may result from this.
-						<br />
-						<br />
-					</li>
-
-					<li>"Make each character a word" = "Yes" should only be set in Chinese, Japanese, and similar languages. Normally words are split by any non-word character or whitespace. If you choose "Yes", then you do not need to insert spaces to specify word endings. If you choose "No", then you must prepare texts without whitespace by inserting whitespace to specify words. If you are a beginner, "Yes" may be better for you. If you are an advanced learner, and you have a possibility to prepare a text in the above described way, then "No" may be better for you.
-						<br />
-						<br />
-					</li>
-
-					<li>"Remove spaces" = "Yes" should only be set in Chinese, Japanese, and similar languages to remove whitespace that has been automatically or manually inserted to specify words.
-					</li>
-
-				</ul>
+				<h1>Language Setup</h1>
+<ul>
+<li>
+<p>This section shows some language setups (&quot;RegExp Split Sentences&quot;, &quot;RegExp Word Characters&quot;, &quot;Make each character a word&quot;, &quot;Remove spaces&quot;) for different languages. They are only recommendations, and you may change them according to your needs (and texts). See also <a href="#go1">here</a>.</p>
+</li>
+<li>
+<p>If you are unsure, try the &quot;Language Settings Wizard&quot; first. Later you can adjust the settings.</p>
+</li>
+<li>
+<p>Please inform yourself about Unicode <a href="http://en.wikipedia.org/wiki/Unicode">here (general information)</a> and <a href="http://unicode.coeurlumiere.com/">here (Table of Unicode characters)</a> and about the characters that occur in the language you learn!</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Language</strong></th>
+<th><strong>RegExp Split Sentences</strong></th>
+<th><strong>RegExp Word Characters</strong></th>
+<th><strong>Make each character a word</strong></th>
+<th><strong>Remove spaces</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latin derived alphabet (English, French, German, etc.)</td>
+<td>.!?:;</td>
+<td>a-zA-ZÀ-ÖØ-öø-ȳ</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Languages with a Cyrillic-derived alphabet (Russian, Bulgarian, Ukrainian, etc.)</td>
+<td>.!?:;</td>
+<td>a-zA-ZÀ-ÖØ-öø-ȳЀ-ӹ</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Greek</td>
+<td>.!?:;</td>
+<td>\x{0370}-\x{03FF}\x{1F00}-\x{1FFF}</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Hebrew (Right-To-Left = Yes)</td>
+<td>.!?:;</td>
+<td>\x{0590}-\x{05FF}</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Thai</td>
+<td>.!?:;</td>
+<td>ก-๛</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Chinese</td>
+<td>.!?:;。！？：；</td>
+<td>一-龥</td>
+<td>Yes or No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Japanese (Without MeCab)</td>
+<td>.!?:;。！？：；</td>
+<td>一-龥ぁ-ヾ</td>
+<td>Yes or No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Japanese (With MeCab)</td>
+<td>.!?:;。！？：；</td>
+<td>mecab</td>
+<td>Yes or No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Korean</td>
+<td>.!?:;。！？：；</td>
+<td>가-힣ᄀ-ᇂ</td>
+<td>No</td>
+<td>No or Yes</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>&quot;\'&quot; = Apostrophe, and/or &quot;\-&quot; = Dash, may be added to &quot;RegExp Word Characters&quot;, then words like &quot;aujourd'hui&quot; or &quot;non-government-owned&quot; are one word, instead of two or more single words. If you omit &quot;\'&quot; and/or &quot;\-&quot; here, you can still create a multi-word expression &quot;aujourd'hui&quot;, etc., later.</p>
+</li>
+<li>
+<p>&quot;:&quot; and &quot;;&quot; may be omitted in &quot;RegExp Split Sentences&quot;, but longer example sentences may result from this.</p>
+</li>
+<li>
+<p>&quot;Make each character a word&quot; = &quot;Yes&quot; should only be set in Chinese, Japanese, and similar languages. Normally words are split by any non-word character or whitespace. If you choose &quot;Yes&quot;, then you do not need to insert spaces to specify word endings. If you choose &quot;No&quot;, then you must prepare texts without whitespace by inserting whitespace to specify words. If you are a beginner, &quot;Yes&quot; may be better for you. If you are an advanced learner, and you have a possibility to prepare a text in the above described way, then &quot;No&quot; may be better for you.</p>
+</li>
+<li>
+<p>&quot;Remove spaces&quot; = &quot;Yes&quot; should only be set in Chinese, Japanese, and similar languages to remove whitespace that has been automatically or manually inserted to specify words.</p>
+</li>
+</ul>
 			</dd>
 			
 			<!-- ================================================================ -->
@@ -1527,73 +1393,134 @@ Now execute:<br />
 			</dt>
 
 			<dd>
-				<ul>
-					<li>Important: Before using the keyboard you must set the focus within the frame by clicking once on the frame!<br /><br /></li>
-					<li>Key Bindings in the TEXT Frame<br />
-					<table class="tab3" cellspacing="0" cellpadding="5">
-					<tr class="tr1"><th class="th1">Key(s)</th><th class="th1">Action(s)</th></tr>
-					<tr class="tr1"><td class="td1">RETURN</td>
-					<td class="td1">The next UNKNOWN (blue) word in the text will be shown for creation</td></tr>
-					<tr class="tr1"><td class="td1">RIGHT or SPACE</td>
-					<td class="td1">Mark next SAVED (non-blue) term (*)</td></tr>
-					<tr class="tr1"><td class="td1">LEFT</td>
-					<td class="td1">Mark previous SAVED (non-blue) term (*)</td></tr>
-					<tr class="tr1"><td class="td1">HOME</td>
-					<td class="td1">Mark first SAVED (non-blue) term (*)</td></tr>
-					<tr class="tr1"><td class="td1">END</td>
-					<td class="td1">Mark last SAVED (non-blue) term (*)</td></tr>
-					<tr class="tr1"><td class="td1">1, 2, 3, 4, 5</td>
-					<td class="td1">Set status of marked term to 1, 2, 3, 4, or 5</td></tr>
-					<tr class="tr1"><td class="td1">I</td>
-					<td class="td1">Set status of marked term to "Ignored"</td></tr>
-					<tr class="tr1"><td class="td1">W</td>
-					<td class="td1">Set status of marked term to "Well Known"</td></tr>
-					<tr class="tr1"><td class="td1">E</td>
-					<td class="td1">Edit marked term</td></tr>
-					<tr class="tr1"><td class="td1">G</td>
-					<td class="td1">Edit marked term and open Google Translate</td></tr>
-					<tr class="tr1"><td class="td1">J</td>
-					<td class="td1">Edit marked term and open Google Image Search</td></tr>
-					<tr class="tr1"><td class="td1">A</td>
-					<td class="td1">Set audio position according to position of marked term.</td></tr>
-					<tr class="tr1"><td class="td1">T</td>
-					<td class="td1">Translate sentence</td></tr>
-					<tr class="tr1"><td class="td1">P</td>
-					<td class="td1">Pronounce term</td></tr>
-					<tr class="tr1"><td class="td1">ESC</td>
-					<td class="td1">Reset marked term(s)</td></tr>
-					</table>
-					(*) Only saved terms with the status(es) defined/filtered in the settings are visited and marked!<br /><br />
-					</li>
-					<li>Key Bindings in the TEST Frame<br />
-					<table class="tab3" cellspacing="0" cellpadding="5">
-					<tr class="tr1"><th class="th1">Key(s)</th><th class="th1">Action(s)</th></tr>
-					<tr class="tr1"><td class="td1">SPACE</td>
-					<td class="td1">Show solution</td></tr>
-					<tr class="tr1"><td class="td1">UP</td>
-					<td class="td1">Set status of tested term to (old status plus 1)</td></tr>
-					<tr class="tr1"><td class="td1">DOWN</td>
-					<td class="td1">Set status of tested term to (old status minus 1)</td></tr>
-					<tr class="tr1"><td class="td1">ESC</td>
-					<td class="td1">Do not change status of tested term</td></tr>
-					<tr class="tr1"><td class="td1">1, 2, 3, 4, 5</td>
-					<td class="td1">Set status of tested term to 1, 2, 3, 4, or 5</td></tr>
-					<tr class="tr1"><td class="td1">I</td>
-					<td class="td1">Set status of tested term to "Ignored"</td></tr>
-					<tr class="tr1"><td class="td1">W</td>
-					<td class="td1">Set status of tested term to "Well Known"</td></tr>
-					<tr class="tr1"><td class="td1">E</td>
-					<td class="td1">Edit tested term</td></tr>
-					</table>
-          </li>
-      </dd>
-      
-      <dt>
-        ▶ <b><a name="wordpress" id="wordpress">WordPress Integration</a></b> - <a href="#">[↑]</a>
-      </dt>
+				<h1>Key Bindings</h1>
+<ul>
+<li>
+<strong>Important</strong>: Before using the keyboard you must set the focus within the frame by clicking once on the frame!</li>
+</ul>
+<p>Key Bindings in the TEXT Frame</p>
+<table>
+<thead>
+<tr>
+<th>Key(s)</th>
+<th>Action(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RETURN</td>
+<td>The next UNKNOWN (blue) word in the text will be shown for creation</td>
+</tr>
+<tr>
+<td>RIGHT or SPACE</td>
+<td>Mark next SAVED (non-blue) term (*)</td>
+</tr>
+<tr>
+<td>LEFT</td>
+<td>Mark previous SAVED (non-blue) term (*)</td>
+</tr>
+<tr>
+<td>HOME</td>
+<td>Mark first SAVED (non-blue) term (*)</td>
+</tr>
+<tr>
+<td>END</td>
+<td>Mark last SAVED (non-blue) term (*)</td>
+</tr>
+<tr>
+<td>1, 2, 3, 4, 5</td>
+<td>Set status of marked term to 1, 2, 3, 4, or 5</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Set status of marked term to &quot;Ignored&quot;</td>
+</tr>
+<tr>
+<td>W</td>
+<td>Set status of marked term to &quot;Well Known&quot;</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Edit marked term</td>
+</tr>
+<tr>
+<td>G</td>
+<td>Edit marked term and open Google Translate</td>
+</tr>
+<tr>
+<td>J</td>
+<td>Edit marked term and open Google Image Search</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Set audio position according to position of marked term.</td>
+</tr>
+<tr>
+<td>T</td>
+<td>Translate sentence</td>
+</tr>
+<tr>
+<td>P</td>
+<td>Pronounce term</td>
+</tr>
+<tr>
+<td>ESC</td>
+<td>Reset marked term(s)</td>
+</tr>
+</tbody>
+</table>
+<p>(*) Only saved terms with the status(es) defined/filtered in the settings are visited and marked!</p>
+<p>Key Bindings in the TEST Frame</p>
+<table>
+<thead>
+<tr>
+<th>Key(s)</th>
+<th>Action(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPACE</td>
+<td>Show solution</td>
+</tr>
+<tr>
+<td>UP</td>
+<td>Set status of tested term to (old status plus 1)</td>
+</tr>
+<tr>
+<td>DOWN</td>
+<td>Set status of tested term to (old status minus 1)</td>
+</tr>
+<tr>
+<td>ESC</td>
+<td>Do not change status of tested term</td>
+</tr>
+<tr>
+<td>1, 2, 3, 4, 5</td>
+<td>Set status of tested term to 1, 2, 3, 4, or 5</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Set status of tested term to &quot;Ignored&quot;</td>
+</tr>
+<tr>
+<td>W</td>
+<td>Set status of tested term to &quot;Well Known&quot;</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Edit tested term</td>
+</tr>
+</tbody>
+</table>
+			</dd>
+			
+			<dt>
+				▶ <b><a name="wordpress" id="wordpress">WordPress Integration</a></b> - <a href="#">[↑]</a>
+			</dt>
 
-      <dd>
-		  <h2>Wordpress Integration</h2>
+			<dd>
+				<h2>Wordpress Integration</h2>
 <ul>
 <li>
 <p><strong>IMPORTANT: Please read this <a href="#mue">THIS WARNING</a> first!</strong><br />
@@ -1622,14 +1549,14 @@ If the session cookie does not exist, both above start methods are the same.</li
 The LWT home page has such a link. If you only log out via the links on the WordPress pages, you will still be able to use LWT until the browser is closed. If you want to log out from both WordPress and LWT, use the above link, or click on the link on the LWT home page!</li>
 <li>If you delete a user, you must find out its user number (table &quot;wp_users&quot;). After deleting the user in WordPress, you can delete all LWT tables with table names beginning with the user number plus an underscore &quot;_&quot;. You can do this in phpMyAdmin.</li>
 </ol>
-      </dd>
-      
-      <dt>
-        ▶ <b><a name="database" id="database">Database Structure</a></b> - <a href="#">[↑]</a>
-      </dt>
+			</dd>
+			
+			<dt>
+				▶ <b><a name="database" id="database">Database Structure</a></b> - <a href="#">[↑]</a>
+			</dt>
 
-      <dd>
-		<h2>Database Information</h2>
+			<dd>
+				<h2>Database Information</h2>
 <ul>
 <li>
 <p>The following seventeen tables are one &quot;LWT table set&quot;. The default table set has no table name prefix, so the tables are named just as written below: &quot;settings&quot;, &quot;languages&quot;, etc.</p>
@@ -1827,14 +1754,14 @@ KEY NfLgID (NfLgID),<br />
 KEY NfUpdate (NfUpdate)</p>
 </li>
 </ul>
-      </dd>
+			</dd>
 
-      <dt>
-        ▶ <b><a name="history" id="history">Changelog</a></b> - <a href="#">[↑]</a>
-      </dt>
+			<dt>
+				▶ <b><a name="history" id="history">Changelog</a></b> - <a href="#">[↑]</a>
+			</dt>
 
-      <dd>
-		  <h1>Changelog</h1>
+			<dd>
+				<h1>Changelog</h1>
 <p>This project's changelog. Version marked with &quot;-fork&quot; come from the community, other version come from the canonical LWT (&quot;official&quot; branch on Git).
 For git tags, official relases are marked as &quot;v1.0.0&quot;, while unofficial ones a marked &quot;v1.0.0-fork&quot;.</p>
 <h2>[Unreleased]</h2>
@@ -1843,16 +1770,22 @@ For git tags, official relases are marked as &quot;v1.0.0&quot;, while unofficia
 <li>Sounds while testing terms!</li>
 <li>New minifier for themes: it is now very easy to create new themes.</li>
 <li>JS files added to documentation.</li>
+<li>info_export_template.md was imported and adapted from official documentation.</li>
 </ul>
 <h3>Changed</h3>
 <ul>
 <li>All the do_test*.php part do no longer use frames.</li>
+<li>All the display_impr_text*.php part do no longer use frames.</li>
 <li>It means LWT is now mobile-friendly!</li>
 <li>Regenerated themes.</li>
+<li>&quot;do_text.php?text=...&quot; is the official way to call texts. The &quot;start&quot; argument is still supported.</li>
 </ul>
 <h3>Fixed</h3>
 <ul>
+<li>Several database flaws fixed. Now the database shoulc stop rotting with time.</li>
 <li>It is easier to close the right frames in do_text.php.</li>
+<li>When viewing the maximum number of results per page (edit_text.php for instance),
+the maximum value was shown as a floating point value.</li>
 </ul>
 <h2>2.1.0-fork (January 09 2022)</h2>
 <h3>Added</h3>
@@ -2763,8 +2696,8 @@ mobile compatibility.</p>
 <ul>
 <li>Initial release.</li>
 </ul>
-      </dd>
-    </dl>
+			</dd>
+		</dl>
 
         <p class="smallgray graydotted">
             &nbsp;

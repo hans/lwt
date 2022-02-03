@@ -9,12 +9,14 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * Sounds while testing terms!
 * New minifier for themes: it is now very easy to create new themes.
 * JS files added to documentation.
+* info_export_template.md was imported and adapted from official documentation.
 
 ### Changed
 * All the do_test*.php part do no longer use frames.
 * All the display_impr_text*.php part do no longer use frames.
 * It means LWT is now mobile-friendly! 
 * Regenerated themes.
+* "do_text.php?text=..." is the official way to call texts. The "start" argument is still supported.
 
 ### Fixed
 * Several database flaws fixed. Now the database shoulc stop rotting with time.
