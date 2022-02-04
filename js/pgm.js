@@ -3,9 +3,9 @@
  * \brief LWT Javascript functions
  * 
  * @package Lwt
- * @license unlicense
- * @since   1.6.16-fork
  * @author  andreask7 <andreasks7@users.noreply.github.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @since   1.6.16-fork
  */
 var ol_textfont='"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';var ol_textsize=3;var ol_sticky=1;var ol_captionfont='"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';var ol_captionsize=3;var ol_width=260;var ol_close='Close';var ol_offsety=30;var ol_offsetx=3;var ol_fgcolor='#FFFFE8';var ol_closecolor='#FFFFFF';function run_overlib_status_98(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,multi_words,rtl,ann){return overlib('<b>'+escape_html_chars_2(hints,ann)+'</b><br /> '+make_overlib_link_new_word(txid,torder,wid)+' | '+make_overlib_link_delete_word(txid,wid)+make_overlib_link_new_multiword(txid,torder,multi_words,rtl)+' <br /> '+make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),CAPTION,'Word')}
 function run_overlib_status_99(wblink1,wblink2,wblink3,hints,txid,torder,txt,wid,multi_words,rtl,ann){return overlib('<b>'+escape_html_chars_2(hints,ann)+'</b><br /> '+make_overlib_link_new_word(txid,torder,wid)+' | '+make_overlib_link_delete_word(txid,wid)+make_overlib_link_new_multiword(txid,torder,multi_words,rtl)+' <br /> '+make_overlib_link_wb(wblink1,wblink2,wblink3,txt,txid,torder),CAPTION,'Word')}
@@ -27,7 +27,7 @@ result+=make_overlib_link_change_status_test2(wid,oldstat,99);result+=make_overl
 function make_overlib_link_change_status(txid,torder,wid,oldstat,newstat){if(oldstat==newstat){return'<span title="'+getStatusName(oldstat)+'">◆</span>'}
 return' <a href="set_word_status.php?tid='+txid+'&amp;ord='+torder+'&amp;wid='+wid+'&amp;status='+newstat+'" target="ro" onclick="showRightFrames();"><span title="'+getStatusName(newstat)+'">['+getStatusAbbr(newstat)+']</span></a> '}
 function make_overlib_link_change_status_test2(wid,oldstat,newstat){let output=' <a href="set_test_status.php?wid='+wid+'&amp;status='+newstat+'" target="ro" onclick="showRightFrames();">'+'<span title="'+getStatusName(newstat)+'">[';output+=(oldstat==newstat)?'◆':getStatusAbbr(newstat);output+=']</span></a> ';return output}
-function make_overlib_link_change_status_test(wid,plusminus,text){return' <a href="set_test_status.php?wid='+wid+'&amp;stchange='+plusminus+'" target="ro" onclick="showRightFrames();">'+text+'</a> '}
+function make_overlib_link_change_status_test(wid,plusminus,text){return' <a href="set_test_status.php?wid='+wid+'&amp;stchange='+plusminus+'" target="ro" onclick="showRightFrames();'+(plusminus>0?'successSound()':'failureSound()')+';">'+text+'</a> '}
 function make_overlib_link_new_word(txid,torder,wid){return' <a href="edit_word.php?tid='+txid+'&amp;ord='+torder+'&amp;wid='+wid+'" target="ro" onclick="showRightFrames();">Learn term</a> '}
 function make_overlib_link_edit_multiword(txid,torder,wid){return' <a href="edit_mword.php?tid='+txid+'&amp;ord='+torder+'&amp;wid='+wid+'" target="ro" onclick="showRightFrames();">Edit term</a> '}
 function make_overlib_link_edit_multiword_title(text,txid,torder,wid){return'<a style="color:yellow" href="edit_mword.php?tid='+txid+'&amp;ord='+torder+'&amp;wid='+wid+'" target="ro" onclick="showRightFrames();">'+text+'</a>'}

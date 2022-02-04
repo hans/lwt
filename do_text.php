@@ -27,10 +27,10 @@ require_once 'do_text_text.php';
  * @return int|null Text ID or null
  */
 function get_text_id() {
-    if (isset($_REQUEST['text']) && is_integer($_REQUEST['text'])) {
+    if (isset($_REQUEST['text']) && is_numeric($_REQUEST['text'])) {
         return (int)$_REQUEST['text'];
     }
-    if (isset($_REQUEST['start']) && is_integer($_REQUEST['start'])) {
+    if (isset($_REQUEST['start']) && is_numeric($_REQUEST['start'])) {
         return (int)$_REQUEST['start'];
     }
     return null;

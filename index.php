@@ -75,6 +75,9 @@ require_once 'inc/session_utility.php';
  * Prepare the different SPAN opening tags
  * 
  * @return string[] 3 different span levels 
+ * 
+ * @global string $tbpref       Database table prefix
+ * @global string $fixed_tbpref Fixed database table prefix
  */
 function get_span_groups() {
     global $tbpref, $fixed_tbpref;
@@ -103,6 +106,8 @@ function get_span_groups() {
  * Display the current text options.
  * 
  * @return void
+ * 
+ * @global string $tbpref Database table prefix
  */
 function do_current_text_info($textid)
 {
@@ -126,8 +131,8 @@ function do_current_text_info($textid)
     ) > 0;
 ?>
  
- <div>
-    Last Text (in <?php echo tohtml($lngname); ?>):<br /> 
+ <div style="height: 85px;">
+    Last Text (<?php echo tohtml($lngname); ?>):<br /> 
     <i><?php echo tohtml($txttit); ?></i>
     <br />
     <a href="do_text.php?start=<?php echo $textid; ?>">
@@ -194,6 +199,9 @@ function wordpress_logout_link() {
  * Return a lot of different server state variables.
  * 
  * @return string[]
+ * 
+ * @global string $tbpref Database table prefix
+ * @global string $dbname Database name
  */
 function get_server_data() 
 {
@@ -240,12 +248,12 @@ function get_server_data()
 list($span1, $span2, $span3) = get_span_groups();
 
 $currentlang = null;
-if (is_int(getSetting('currentlanguage'))) {
+if (is_numeric(getSetting('currentlanguage'))) {
     $currentlang = (int) getSetting('currentlanguage');
 }
 
 $currenttext = null;
-if (is_int(getSetting('currenttext'))) {
+if (is_numeric(getSetting('currenttext'))) {
     $currenttext = (int) getSetting('currenttext');
 }
 

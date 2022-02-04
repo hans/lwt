@@ -1060,6 +1060,28 @@ function hideRightFrames() {
   return false;
 }
 
+/**
+ * Play the success sound.
+ *  
+ * @returns {object} Promise on the status of sound
+ */
+function successSound() {
+  document.getElementById('success_sound').pause();
+  document.getElementById('failure_sound').pause();
+  return document.getElementById('success_sound').play();
+}
+
+/**
+ * Play the failure sound.
+ *
+ * @returns {object} Promise on the status of sound
+ */
+function failureSound() {
+  document.getElementById('success_sound').pause();
+  document.getElementById('failure_sound').pause();
+  return document.getElementById('failure_sound').play();
+}
+
 // Present data in a handy way, for instance in a form
 $.fn.serializeObject = function () {
   const o = {};

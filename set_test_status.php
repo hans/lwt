@@ -34,13 +34,7 @@ function do_set_test_status_html($status, $oldstatus, $newscore, $oldscore)
         echo '<p>
         Status changed from ' . get_colored_status_msg($oldstatus) . 
         ' to ' . get_colored_status_msg($status) . '
-        .</p>'; 
-        echo '<audio autoplay>
-            <source src="' . get_file_path("sounds/" .
-                ($status > $oldstatus) ? "success.mp3" : "failure.mp3"
-            ) . '" type="audio/mpeg" />
-            Your browser does not support audio element!
-        </audio>';
+        .</p>';
     }
 
     echo "<p>Old score was $oldscore, new score is now $newscore.</p>";

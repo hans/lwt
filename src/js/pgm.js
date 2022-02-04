@@ -3,9 +3,9 @@
  * \brief LWT Javascript functions
  * 
  * @package Lwt
- * @license unlicense
- * @since   1.6.16-fork
  * @author  andreask7 <andreasks7@users.noreply.github.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @since   1.6.16-fork
  */
 
 /**************************************************************
@@ -414,23 +414,30 @@ function make_overlib_link_change_status_test2 (wid, oldstat, newstat) {
 }
 
 /**
+ * Make a link for a word status change
  * 
- * @param {string} wid     ID of the word
- * @param {*} plusminus 
- * @param {*} text 
- * @returns {string}
+ * @param {string} wid       ID of the word
+ * @param {int}    plusminus Amplitude of the change (normally 1 or -1) 
+ * @param {string} text      Text to be embed
+ *  
+ * @returns {string} A A tag contaning formatted text
  */
 function make_overlib_link_change_status_test (wid, plusminus, text) {
   return ' <a href="set_test_status.php?wid=' + wid +
-		'&amp;stchange=' + plusminus + '" target="ro" onclick="showRightFrames();">' + 
+		'&amp;stchange=' + plusminus + 
+    '" target="ro" onclick="showRightFrames();' + 
+      (plusminus > 0 ? 'successSound()' : 'failureSound()') + ';">' + 
     text + '</a> ';
 }
 
 /**
+ * Make a link to learn a new word.
+ * 
  * 
  * @param {int} txid Text ID
  * @param {*} torder 
  * @param {int} wid Word ID
+ * 
  * @returns {string}
  */
 function make_overlib_link_new_word (txid, torder, wid) {

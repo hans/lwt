@@ -19,10 +19,11 @@ require_once 'inc/session_utility.php';
  * Get the record for this text in the database.
  * 
  * @param  string $textid ID of the text
- * @return array{TxLgID: int, TxTitle: string, TxAnnotatedText: string, TxPosition: int}|false|null Record corresponding to this text.
+ * 
+ * @return array{TxLgID: int, TxTitle: string, TxAnnotatedText: string, 
+ * TxPosition: int}|false|null Record corresponding to this text.
  * 
  * @global string $tbpref Table name prefix
- * @since  2.0.3-fork
  */
 function getTextData($textid)
 {
@@ -41,11 +42,13 @@ function getTextData($textid)
 /**
  * Return the settings relative to this language.
  * 
- * @param  int $langid Language ID as defined in the database.
- * @return array{LgName: string, LgDict1URI: string, LgDict2URI: string, LgGoogleTranslateURI: string,
- * LgTextSize: int, LgRemoveSpaces: int, LgRightToLeft: int}|false|null Record corresponding to this language.
+ * @param int $langid Language ID as defined in the database.
+ * 
+ * @return array{LgName: string, LgDict1URI: string, 
+ * LgDict2URI: string, LgGoogleTranslateURI: string, LgTextSize: int, 
+ * LgRemoveSpaces: int, LgRightToLeft: int}|false|null Record corresponding to this language.
+ * 
  * @global string $tbpref Table name prefix
- * @since  2.0.3-fork
  */
 function getLanguagesSettings($langid)
 {
@@ -69,11 +72,9 @@ function getLanguagesSettings($langid)
  * @param int                   $hideuntil
  * @param string                $spanid        ID for this span element
  * @param int                   $currcharcount Current number of caracters
- * @param array<string, string> $record Various data
+ * @param array<string, string> $record        Various data
  * 
  * @return int New $hideuntil number
- * 
- * @since 2.0.3-fork
  */
 function echoTerm(
     $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
@@ -166,7 +167,6 @@ function echoTerm(
  * @param int      $currcharcount Current number of caracters 
  * 
  * @return int New number of caracters
- * @since 2.0.3-fork
  */
 function wordProcessor($record, $showAll, $currcharcount): int
 {
@@ -189,8 +189,7 @@ function wordProcessor($record, $showAll, $currcharcount): int
     if ($hideuntil > 0) {
         if ($record['Ti2Order'] <= $hideuntil) {
             $hidetag = ' hide'; 
-        }
-        else {
+        } else {
             $hideuntil = -1;
             $hidetag = '';
         }
@@ -227,14 +226,12 @@ function wordProcessor($record, $showAll, $currcharcount): int
 /**
  * Get all words and start the iterate over them.
  *
- * @param string $textid ID of the text 
- * @param 0|1 $showAll Show all words or not
+ * @param string $textid  ID of the text 
+ * @param 0|1    $showAll Show all words or not
  * 
  * @return void
  * 
  * @global string $tbpref Table name prefix
- *
- * @since 2.0.3-fork
  */
 function mainWordLoop($textid, $showAll): void
 {
@@ -276,12 +273,17 @@ function mainWordLoop($textid, $showAll): void
 
 /**
  * Prepare style for showing word status. Write a now STYLE object
+ * 
+ * @param int        $showLearning 1 to show learning translations
+ * @param int<1, 4>  $mode_trans   Annotation position
+ * @param int        $textsize     Text font size
+ * @param bool       $ann_exist    Does annotations exist for this text
  *
- * @since 2.0.3-fork
+ * @return void
  */
 function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists): void
 {
-    $displaystattrans = getSettingWithDefault('set-display-text-frame-term-translation');
+    $displaystattrans = (int)getSettingWithDefault('set-display-text-frame-term-translation');
     $pseudo_element = ($mode_trans<3) ? 'after' : 'before';
     $data_trans = $ann_exists ? 'data_ann' : 'data_trans';
     $stat_arr = array(1, 2, 3, 4, 5, 98, 99);
@@ -340,8 +342,10 @@ function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists): void
 
 /**
  * Print JavaScript-formatted content.
- *
- * @since 2.0.3-fork
+ * 
+ * @param array<string, mixed> Associative array of all global variables for JS
+ * 
+ * @return void
  */
 function do_text_javascript($var_array): void
 {
@@ -392,7 +396,6 @@ function do_text_text_content($textid, $only_body=true): void
     $title = $record['TxTitle'];
     $langid = $record['TxLgID'];
     $ann = $record['TxAnnotatedText'];
-    $ann_exists = strlen($ann) > 0;
     $pos = $record['TxPosition'];
     
     // Language settings
@@ -411,7 +414,7 @@ function do_text_text_content($textid, $only_body=true): void
     /**
      * @var int $mode_trans Annotation position between 0 and 4
      */
-    $mode_trans = getSettingWithDefault('set-text-frame-annotation-position');
+    $mode_trans = (int) getSettingWithDefault('set-text-frame-annotation-position');
     /**
      * @var bool $ruby Ruby annotations
      */
@@ -451,7 +454,7 @@ function do_text_text_content($textid, $only_body=true): void
         'POS' => $pos
     );
     do_text_javascript($var_array);
-    echo prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists);
+    echo prepareStyle($showLearning, $mode_trans, $textsize, strlen($ann) > 0);
     ?>
 
     <div id="thetext" <?php echo ($rtlScript ? 'dir="rtl"' : '') ?>>

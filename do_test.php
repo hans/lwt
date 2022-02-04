@@ -142,7 +142,7 @@ function do_test_desktop_page($property)
 {
     $language = get_l2_language_name();
 ?>
-<div style="width: 95%; height: 100%;" onclick="setTimeout(hideRightFrames, 1000);">
+<div style="width: 95%; height: 100%;">
     <div id="frame-h">
         <?php
     start_test_header_page($language);
@@ -171,6 +171,14 @@ onclick="hideRightFrames();">
         </iframe>
     </div>
 </div>
+<audio id="success_sound">
+    <source src="<?php print_file_path("sounds/success.mp3") ?>" type="audio/mpeg" />
+    Your browser does not support audio element!
+</audio>
+<audio id="failure_sound">
+    <source src="<?php print_file_path("sounds/failure.mp3") ?>" type="audio/mpeg" />
+    Your browser does not support audio element!
+</audio>
 <?php
 }
 
