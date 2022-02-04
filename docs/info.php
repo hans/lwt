@@ -38,19 +38,38 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 		<script type="text/javascript" src="../js/jquery.js"></script>  
 		<script type="text/javascript" src="../js/floating.js"></script>
  		<script type="text/javascript">
-		$.ajax(
-			{
-				type: 'POST',
-				url: '../inc/ajax_get_theme.php',
-				async: false, 
-				data: { file: '../css/styles.css' }, 
-				success: function (data) {
-					console.log("theme path loaded");
-					console.log(data);
-					if (data.match(/styles.css$/g)) 
-						$('style').text( "@import url(" + data + ");" );
+			/**
+			 * Perform an AJAX query to get the current theme style sheet.
+			 */
+			function ajaxGetTheme () {
+				$.ajax(
+					{
+						type: 'POST',
+						url: '../inc/ajax_get_theme.php',
+						async: false, 
+						data: { file: '../css/styles.css' }, 
+						success: function (data) {
+							console.log("theme path loaded");
+							console.log(data);
+							if (data.match(/styles.css$/g)) 
+								$('style').text( "@import url(" + data + ");" );
+					}
+				});
 			}
-		});
+
+			/**
+			 * Jump to a specific element
+			 */
+			function topicJump (qm) { 
+				const val = qm.options[qm.selectedIndex].value;
+				if (val != '') {
+					location.href = '#' + val;
+				}
+				qm.selectedIndex = 0;
+			}
+
+			ajaxGetTheme();
+
 		</script>
 		<title>
 			Learning with Texts :: Help/Information
@@ -80,6 +99,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 			<a href="#langsetup">Lang. Setup</a>
 			<a href="#termscores">Term Scores</a>
 			<a href="#keybind">Key Bindings</a>
+			<a href="#export">Export Template</a>
 			<a href="#wordpress">WordPress Integration</a>
 			<a href="#database">Database</a>
 			<a href="#CHANGELOG">Changelog</a>
@@ -98,7 +118,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 
 			<p class="inline">
 				Jump to topic:
-				<select id="topicjump" onchange="{var qm = document.getElementById('topicjump'); var val=qm.options[qm.selectedIndex].value; qm.selectedIndex=0; if (val != '') { location.href = '#' + val;}}">
+				<select id="topicjump" onchange="topicJump(this);">
 					<option value="" selected="selected">
 						[Select...]
 					</option>
@@ -153,11 +173,14 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 					<option value="keybind">
 						Key Bindings
 					</option>
+					<option value="export">
+						Export Template
+					</option>
 					<option value="wordpress">
-					WordPress Integration
+						WordPress Integration
 					</option>
 					<option value="database">
-					Database Structure
+						Database Structure
 					</option>
 					<option value="CHANGELOG">
 						Changelog
@@ -232,6 +255,8 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 			<?php echo markdown_integration(__DIR__ . "/termscores.md"); ?>
 
 			<?php echo markdown_integration(__DIR__ . "/keybind.md"); ?>
+
+			<?php echo markdown_integration(__DIR__ . "/export.md"); ?>
 			
 			<?php echo markdown_integration(__DIR__ . "/wordpress.md"); ?>
 			

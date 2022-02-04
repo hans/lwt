@@ -41,6 +41,11 @@
  * For more information, please refer to [http://unlicense.org/].
  */
 
+ /**
+  * Echo an error page if connect.inc.php was not found.
+  * 
+  * @return void
+  */
 function no_connectinc_error_page() 
 {
     ?>
@@ -66,7 +71,11 @@ if (!file_exists('connect.inc.php')) {
 
 require_once 'inc/session_utility.php';
 
-
+/**
+ * Prepare the different SPAN opening tags
+ * 
+ * @return string[] 3 different span levels 
+ */
 function get_span_groups() {
     global $tbpref, $fixed_tbpref;
 
@@ -90,15 +99,25 @@ function get_span_groups() {
     return array($span1, $span2, $span3);
 }
 
-
+/**
+ * Display the current text options.
+ * 
+ * @return void
+ */
 function do_current_text_info($textid)
 {
     global $tbpref;
-    $txttit = get_first_value('SELECT TxTitle AS value FROM ' . $tbpref . 'texts WHERE TxID=' . $textid);
+    $txttit = get_first_value(
+        'SELECT TxTitle AS value 
+        FROM ' . $tbpref . 'texts 
+        WHERE TxID=' . $textid
+    );
     if (!isset($txttit)) {
         return;
     } 
-    $txtlng = get_first_value('SELECT TxLgID AS value FROM ' . $tbpref . 'texts WHERE TxID=' . $textid);
+    $txtlng = get_first_value(
+        'SELECT TxLgID AS value FROM ' . $tbpref . 'texts WHERE TxID=' . $textid
+    );
     $lngname = getLanguage($txtlng);
     $annotated = (int)get_first_value(
         "SELECT LENGTH(TxAnnotatedText) AS value 
@@ -133,10 +152,14 @@ function do_current_text_info($textid)
     }
     ?>
  </div>
- <div class="menu-separator" ></div>
 <?php
 }
 
+/**
+ * Echo a select element to switch between languages.
+ * 
+ * @return void
+ */
 function do_language_selectable($langid)
 {
     ?>
@@ -148,6 +171,11 @@ function do_language_selectable($langid)
 <?php
 }
 
+/**
+ * When on a WordPress server, make a logout button
+ * 
+ * @return void 
+ */
 function wordpress_logout_link() {
     // ********* WORDPRESS LOGOUT *********
     if (isset($_SESSION['LWT-WP-User'])) {
@@ -162,6 +190,11 @@ function wordpress_logout_link() {
     }
 }
 
+/**
+ * Return a lot of different server state variables.
+ * 
+ * @return string[]
+ */
 function get_server_data() 
 {
     global $tbpref, $dbname;
@@ -231,17 +264,12 @@ pagestart_nobody(
     }
 
     .menu > * {
-        width: 500px;
+        width: 400px;
         height: 30px;
         margin: 5px;
         text-align: center;
         background-color: #8883;
         padding-top: 15px;
-    }
-    
-    .menu > .menu-separator {
-        background-color: initial;
-        height: 0px;
     }"
 );
 echo '<div>' . 
@@ -266,26 +294,21 @@ echo '<div>' .
         <?php
 if ($langcnt == 0) {
         ?> 
-        <div>
-            Hint: The database seems to be empty.<br />
-            <a href="install_demo.php">You may install the LWT demo database, </a>
-            <br /> or <br />
-            <a href="edit_languages.php?new=1">define the first language you want to learn.</a>
-        </div>
+        <div><p>Hint: The database seems to be empty.</p></div>
+        <a href="install_demo.php">Install the LWT demo database, </a>
+        <a href="edit_languages.php?new=1">Define the first language you want to learn.</a>
         <?php
 } else if ($langcnt > 0) {
     do_language_selectable($currentlang);
+    if ($currenttext !== null) {
+        do_current_text_info($currenttext);
+    }
 } 
             ?>
             <a href="edit_languages.php">Languages</a>
     </div>
 
     <div class="menu">
-        <?php 
-if ($currenttext != '') {
-    do_current_text_info($currenttext);
-}
-        ?>
         <a href="edit_texts.php">Texts</a>
         <a href="edit_archivedtexts.php">Text Archive</a>
         
