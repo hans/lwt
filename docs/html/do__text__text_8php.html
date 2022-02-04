@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.1.0-fork-RC1</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.0-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -65,6 +65,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">do_text_text.php File Reference</div></div>
 </div><!--header-->
@@ -73,6 +74,11 @@ $(function() {
 <p>Show text header frame.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespace_lwt"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_lwt.html">Lwt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a53ff78106923630d0827565967983e7f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#a53ff78106923630d0827565967983e7f">getTextData</a> ($textid)</td></tr>
@@ -92,9 +98,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Show text header frame. </p>
-<p >Call: <a class="el" href="do__text__text_8php.html" title="Show text header frame.">do_text_text.php</a>?text=[textid]</p>
-<dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@h'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@ho<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.0.3 </dd></dl>
+<p >Call: <a class="el" href="do__text__text_8php.html" title="Show text header frame.">do_text_text.php</a>?text=[textid] </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="ae58010dca8bdbf061ec2c93823386b0b" name="ae58010dca8bdbf061ec2c93823386b0b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae58010dca8bdbf061ec2c93823386b0b">&#9670;&nbsp;</a></span>do_text_javascript()</h2>
@@ -112,7 +116,13 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Print JavaScript-formatted content.</p>
-<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array&lt;string,mixed&gt;</td><td>Associative array of all global variables for JS</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 <p >Map global variables as a JSON object</p>
 
 </div>
@@ -184,8 +194,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>int New $hideuntil number</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int New $hideuntil number </dd></dl>
 
 </div>
 </div>
@@ -207,12 +216,12 @@ Functions</h2></td></tr>
 <p >Return the settings relative to this language.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$langid</td><td>Language ID as defined in the database. </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$langid</td><td>Language ID as defined in the database.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>array{LgName: string, LgDict1URI: string, LgDict2URI: string, LgGoogleTranslateURI: string, LgTextSize: int, LgRemoveSpaces: int, LgRightToLeft: int}|false|null Record corresponding to this language. @global string $tbpref Table name prefix </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>array{LgName: string, LgDict1URI: string, LgDict2URI: string, LgGoogleTranslateURI: string, LgTextSize: int, LgRemoveSpaces: int, LgRightToLeft: int}|false|null Record corresponding to this language.</dd></dl>
+<p>@global string $tbpref Table name prefix </p>
 
 </div>
 </div>
@@ -234,12 +243,12 @@ Functions</h2></td></tr>
 <p >Get the record for this text in the database.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$textid</td><td>ID of the text </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$textid</td><td>ID of the text</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>array{TxLgID: int, TxTitle: string, TxAnnotatedText: string, TxPosition: int}|false|null Record corresponding to this text.</dd></dl>
-<p>@global string $tbpref Table name prefix </p><dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<p>@global string $tbpref Table name prefix </p>
 
 </div>
 </div>
@@ -277,8 +286,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
-<p>@global string $tbpref Table name prefix</p>
-<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<p>@global string $tbpref Table name prefix </p>
 
 </div>
 </div>
@@ -320,7 +328,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >Prepare style for showing word status. Write a now STYLE object</p>
-<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$showLearning</td><td>1 to show learning translations </td></tr>
+    <tr><td class="paramtype"></td><td class="paramname">int&lt;1,4&gt;</td><td>$mode_trans Annotation position </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$textsize</td><td>Text font size </td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$ann_exist</td><td>Does annotations exist for this text</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
@@ -365,7 +382,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int New number of caracters </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>2.0.3-fork </dd></dl>
 
 </div>
 </div>

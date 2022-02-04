@@ -9,12 +9,14 @@ var searchData=
   ['makevideoplayer_6',['makeVideoPlayer',['../session__utility_8php.html#a1e6d9a38462e0c5b68705dde339a60e5',1,'session_utility.php']]],
   ['markdown_5fconverter_7',['markdown_converter',['../markdown__converter_8php.html#adcd6ced7d8a8277f17839ee403b4fe9f',1,'markdown_converter.php']]],
   ['markdown_5fconverter_2ephp_8',['markdown_converter.php',['../markdown__converter_8php.html',1,'']]],
-  ['markdownconvertertest_9',['MarkdownConverterTest',['../class_markdown_converter_test.html',1,'']]],
-  ['minifier_2ephp_10',['minifier.php',['../minifier_8php.html',1,'']]],
-  ['minifyallcss_11',['minifyAllCSS',['../minifier_8php.html#a0b4491a5794ce7f4853727736116e2dc',1,'minifier.php']]],
-  ['minifyalljs_12',['minifyAllJS',['../minifier_8php.html#a1f3f639fda5fba4d6f3dd22ba4dba582',1,'minifier.php']]],
-  ['minifycss_13',['minifyCSS',['../minifier_8php.html#a642f36bdb39201d18ebac2d4b4f08e26',1,'minifier.php']]],
-  ['minifyjs_14',['minifyJS',['../minifier_8php.html#abdc82ffc0d382f3b60097c3239833994',1,'minifier.php']]],
-  ['mobile_2ephp_15',['mobile.php',['../mobile_8php.html',1,'']]],
-  ['my_5fdie_16',['my_die',['../kernel__utility_8php.html#a66b15236d14629cb1bc2f6ed300bd38e',1,'kernel_utility.php']]]
+  ['markdown_5fintegration_9',['markdown_integration',['../markdown__converter_8php.html#a1b294d23f012009d78227880fa059d9f',1,'markdown_converter.php']]],
+  ['markdownconvertertest_10',['MarkdownConverterTest',['../class_markdown_converter_test.html',1,'']]],
+  ['minifier_2ephp_11',['minifier.php',['../minifier_8php.html',1,'']]],
+  ['minifyallcss_12',['minifyAllCSS',['../minifier_8php.html#a0b4491a5794ce7f4853727736116e2dc',1,'minifier.php']]],
+  ['minifyalljs_13',['minifyAllJS',['../minifier_8php.html#a1f3f639fda5fba4d6f3dd22ba4dba582',1,'minifier.php']]],
+  ['minifycss_14',['minifyCSS',['../minifier_8php.html#a642f36bdb39201d18ebac2d4b4f08e26',1,'minifier.php']]],
+  ['minifyjs_15',['minifyJS',['../minifier_8php.html#abdc82ffc0d382f3b60097c3239833994',1,'minifier.php']]],
+  ['mobile_2ephp_16',['mobile.php',['../mobile_8php.html',1,'']]],
+  ['mobile_5finteractions_2ephp_17',['mobile_interactions.php',['../mobile__interactions_8php.html',1,'']]],
+  ['my_5fdie_18',['my_die',['../kernel__utility_8php.html#a66b15236d14629cb1bc2f6ed300bd38e',1,'kernel_utility.php']]]
 ];

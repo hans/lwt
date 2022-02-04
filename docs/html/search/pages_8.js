@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['preface_0',['Preface',['../md_docs_preface.html',1,'']]]
+  ['new_20feature_20not_20available_20in_20the_20official_20lwt_0',['New feature not available in the official LWT',['../md_docs_newfeatures.html',1,'']]]
 ];

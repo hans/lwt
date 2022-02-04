@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.1.0-fork-RC1</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.0-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -95,7 +95,7 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$maxperpage</b> = 100</td></tr>
 <tr class="separator:a442bcd8c7101d3dd03430cc0dca65c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a263621399c53f2952c2329ee13ad8e4e"><td class="memItemLeft" align="right" valign="top"><a id="a263621399c53f2952c2329ee13ad8e4e" name="a263621399c53f2952c2329ee13ad8e4e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$pages</b> = ($recno-1) / $maxperpage + 1</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$pages</b> = intval(($recno-1) / $maxperpage) + 1</td></tr>
 <tr class="separator:a263621399c53f2952c2329ee13ad8e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad84bdbdacae6af920368246394625d59"><td class="memItemLeft" align="right" valign="top"><a id="ad84bdbdacae6af920368246394625d59" name="ad84bdbdacae6af920368246394625d59"></a>
 if( $currentpage&lt; 1) if($currentpage &gt; $pages)&#160;</td><td class="memItemRight" valign="bottom"><b>$limit</b> = ' LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage</td></tr>

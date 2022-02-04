@@ -4,7 +4,7 @@ Changelog
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
-## [Unreleased]
+## 2.2.0-fork (February 04 2022)
 ### Added
 * Sounds while testing terms!
 * New minifier for themes: it is now very easy to create new themes.
@@ -19,6 +19,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * "do_text.php?text=..." is the official way to call texts. The "start" argument is still supported.
 * New and enhanced design for the welcome page (``index.php``)
 * Enhanced semantic for ``docs/info.html``, and for ``docs/*.md`` files.
+* The Doxygen-generated content now uses LWT default style.
 
 ### Fixed
 * Several database flaws fixed. Now the database shoulc stop rotting with time.

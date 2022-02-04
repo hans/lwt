@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.1.0-fork-RC1</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.0-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -87,6 +87,8 @@ Namespaces</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:adcd6ced7d8a8277f17839ee403b4fe9f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="markdown__converter_8php.html#adcd6ced7d8a8277f17839ee403b4fe9f">markdown_converter</a> ($file_path)</td></tr>
 <tr class="separator:adcd6ced7d8a8277f17839ee403b4fe9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b294d23f012009d78227880fa059d9f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="markdown__converter_8php.html#a1b294d23f012009d78227880fa059d9f">markdown_integration</a> ($file_path)</td></tr>
+<tr class="separator:a1b294d23f012009d78227880fa059d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Simple Mardown to HTML utility file. </p>
@@ -110,6 +112,33 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$file_path</td><td>Full path for the file to use, including extension.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string An HTML-formatted string </dd></dl>
+
+</div>
+</div>
+<a id="a1b294d23f012009d78227880fa059d9f" name="a1b294d23f012009d78227880fa059d9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b294d23f012009d78227880fa059d9f">&#9670;&nbsp;</a></span>markdown_integration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">markdown_integration </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$file_path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Prepapre the integration of a Markdown file into info.html.</p>
+<p >Headers are incremented by one level. File name become an ID.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$file_path</td><td>Full path for the file to use, including extension (should be ".md")</td></tr>
   </table>
   </dd>
 </dl>

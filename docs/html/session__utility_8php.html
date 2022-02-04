@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.1.0-fork-RC1</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.0-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -421,8 +421,7 @@ Functions</h2></td></tr>
 <tr class="separator:afd119c74e55252be9f87505cc45f2bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c05bfcd7542596ade6e8e0604a4c0a7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#a1c05bfcd7542596ade6e8e0604a4c0a7">phonetic_reading</a> ($text, $lang)</td></tr>
 <tr class="separator:a1c05bfcd7542596ade6e8e0604a4c0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee9ee100264b8ab008c86fe82c0cbf37"><td class="memItemLeft" align="right" valign="top"><a id="aee9ee100264b8ab008c86fe82c0cbf37" name="aee9ee100264b8ab008c86fe82c0cbf37"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>refreshText</b> ($word, $tid)</td></tr>
+<tr class="memitem:aee9ee100264b8ab008c86fe82c0cbf37"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#aee9ee100264b8ab008c86fe82c0cbf37">refreshText</a> ($word, $tid)</td></tr>
 <tr class="separator:aee9ee100264b8ab008c86fe82c0cbf37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e6d9a38462e0c5b68705dde339a60e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#a1e6d9a38462e0c5b68705dde339a60e5">makeVideoPlayer</a> ($path, $offset=0)</td></tr>
 <tr class="separator:a1e6d9a38462e0c5b68705dde339a60e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -607,7 +606,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>string string|string[]|null File path if it exists, otherwise the filename </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>string File path if it exists, otherwise the filename </dd></dl>
 
 </div>
 </div>
@@ -889,7 +888,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>(false|string)[]</dd></dl>
+<p >Return all different database prefixes that are in use.</p>
+<dl class="section return"><dt>Returns</dt><dd>(false|string)[] A list of prefixes.</dd></dl>
 <p>@psalm-return list&lt;false|string&gt; </p>
 
 </div>
@@ -1454,6 +1454,37 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="aee9ee100264b8ab008c86fe82c0cbf37" name="aee9ee100264b8ab008c86fe82c0cbf37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee9ee100264b8ab008c86fe82c0cbf37">&#9670;&nbsp;</a></span>refreshText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">refreshText </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$word</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$tid</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Refresh a text.</p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>No longer used, incompatible with new database system. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>1.6.25-fork Not compatible with the database </dd></dl>
 
 </div>
 </div>
