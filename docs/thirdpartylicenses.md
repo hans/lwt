@@ -10,7 +10,6 @@ The following software packages, bundled within the LWT software, have different
 *   sorttable - Copyright © Stuart Langridge, [http://www.kryogenix.org/code/browser/sorttable/](http://www.kryogenix.org/code/browser/sorttable/) (../js/sorttable/...)
 *   CountUp - Copyright © Praveen Lobo, [http://PraveenLobo.com/techblog/javascript-countup-timer/](http://PraveenLobo.com/techblog/javascript-countup-timer/) (../js/third\_party/countuptimer.js)
 *   jPlayer - Copyright © Happyworm Ltd, [http://www.jplayer.org/about/](http://www.jplayer.org/about/) (../js/jquery.jplayer.js, ../js/Jplayer.swf)
-*   Floating Menu - Copyright © JTricks.com, [http://www.jtricks.com/licensing.html](http://www.jtricks.com/licensing.html) (../js/third\_party/floating.js)
 *   mobiledetect - Copyright © Șerban Ghiță & Victor Stanciu, [http://mobiledetect.net](http://mobiledetect.net/) (vendor/mobiledetect/mobiledetectlib/Mobile\_Detect.php)
 *   iUI - Copyright © iUI, [http://www.iui-js.org/](http://www.iui-js.org/) (iui)
 *   Query.Xpath - Copyright © Sergey Ilinsky, [https://github.com/ilinsky/jquery-xpath](https://github.com/ilinsky/jquery-xpath) (../js/jquery.xpath.js)

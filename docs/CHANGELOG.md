@@ -26,6 +26,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * When viewing the maximum number of results per page (edit_text.php for instance),
 the maximum value was shown as a floating point value.
 
+### Removed
+* Floating Menu from JTricks.com was unused since 2.0.4-fork. It is now deleted.
+
 ## 2.1.0-fork (January 09 2022)
 ### Added
 * Badges in the README providing up-to-date information on the state of the project.

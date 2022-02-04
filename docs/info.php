@@ -35,8 +35,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 		<style type="text/css">
 		@import url(../css/styles.css);
 		</style>
-		<script type="text/javascript" src="../js/jquery.js"></script>  
-		<script type="text/javascript" src="../js/floating.js"></script>
+		<script type="text/javascript" src="../js/jquery.js"></script>
  		<script type="text/javascript">
 			/**
 			 * Perform an AJAX query to get the current theme style sheet.
@@ -77,7 +76,7 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 	</head>
 
 	<body>
-		<div class="floatingmenu">
+		<div id="floatdiv">
 			<a href="#">↑ TOP ↑</a>
 			<div>&nbsp;</div>
 			<a href="#preface">Preface</a>

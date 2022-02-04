@@ -162,7 +162,7 @@ function regenerateThemes()
  */
 $jsFiles = array(
     'src/js/audio_controller.js', 'src/js/third_party/countuptimer.js', 
-    'src/js/third_party/floating.js', 'src/js/jq_feedwizard.js', 
+    'src/js/jq_feedwizard.js', 
     'src/js/jq_pgm.js', 'src/js/pgm.js', 
     'src/js/translation_api.js', 'src/js/unloadformcheck.js',
     'src/js/third_party/sorttable.js', 'src/js/user_interactions.js', 
