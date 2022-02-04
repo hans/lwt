@@ -1,4 +1,4 @@
-## How to Learn
+# How to Learn
 
 *   Find an interesting text (preferably with an mp3 audio file) in the Internet and load it into LWT. If you are a beginner, look for beginner courses or podcasts in the Internet.
 *   You don't know where to find texts with audio? The [LingQ Library](http://lingq.com) has many (only a free registration is needed). Or look into [this thread](https://www.lingq.com/en/forum/updates-tips-and-known-issues/where-to-find-good-content-to-import/) in the LingQ Forum, you will find there lots of great links to resources. Or click (within the LingQ library) on "My Imports" - you will find a list of links of "Suggested resources".

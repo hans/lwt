@@ -18,6 +18,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * Regenerated themes.
 * "do_text.php?text=..." is the official way to call texts. The "start" argument is still supported.
 * New and enhanced design for the welcome page (``index.php``)
+* Enhanced semantic for ``docs/info.html``, and for ``docs/*.md`` files.
 
 ### Fixed
 * Several database flaws fixed. Now the database shoulc stop rotting with time.

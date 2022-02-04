@@ -1,4 +1,4 @@
-## Features
+# Features
 
 *   You define languages you want to learn.
 *   You define the web dictionaries you want to use.

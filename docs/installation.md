@@ -1,8 +1,8 @@
-## LWT_INSTALLATION
+# LWT Installation
 * *Last update*: January 10 2022
 
 ## Windows 10
-### Possibility (a): Installation EasyPHP & LWT on Win10
+### Possibility (a): Installation EasyPHP / LWT on Win10
 
 Step 1a: Download "vcredist_x86.exe" from https://www.microsoft.com/en-us/download/details.aspx?id=30679 
 Step 1b: Choose the x86 version and download.
@@ -35,7 +35,7 @@ If you want to start EasyPHP every time you start Windows and avoid Step 6a, put
 
 Now you must only do step 6b to start LWT.
 
-### Possibility (b): Installation XAMPP & LWT on Win10
+### Possibility (b): Installation XAMPP / LWT on Win10
 
 Step 1a: Go to https://www.apachefriends.org/download.html 
 Step 1b: Download "XAMPP for Windows 7.3.30 (64 bit)" (or a higher PHP 7 version).

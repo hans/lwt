@@ -163,13 +163,8 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 			
 			<!-- ================================================================ -->
 			
-			<dt>
-				▶ <b><a name="preface" id="preface">Preface</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/preface.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/preface.md"); ?>
+			
 			
 			<!-- ================================================================ -->
 
@@ -193,44 +188,19 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="links" id="links">Important Links</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/links.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/links.md"); ?>
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="abstract" id="abstract">Abstract</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/abstract.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/abstract.md"); ?>
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="features" id="features">Features</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/features.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/features.md"); ?>
 
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="new_features" id="new_features">New in this Version (not available in the OFFICIAL LWT)</a></b> - <a href="#">[↑]</a>
-			  </dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/newfeatures.md"); ?>
-			</dd>
-		 
+			<?php echo markdown_integration(__DIR__ . "/newfeatures.md"); ?>
 		 
 			<dt>
 				▶ <b><a name="screencasts" id="screencasts">Screencasts/Videos</a></b> - <a href="#">[↑]</a>
@@ -261,134 +231,59 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="restrictions" id="restrictions">Restrictions</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/restrictions.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/restrictions.md"); ?>
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="license" id="license">(Un-) License</a></b> - <a href="#">[↑]</a>
-			</dt>
+			<?php echo markdown_integration(__DIR__ . "/../UNLICENSE.md" ) ?>
 
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/../UNLICENSE.md" ) ?>
-			</dd>
-			<dt>
-				▶ <b><a name="thirdpartylicenses" id="thirdpartylicenses">Third party licenses</a></b> - <a href="#">[↑]</a>
-			</dt>
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/thirdpartylicenses.md" ) ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/thirdpartylicenses.md" ) ?>
 			
 			<!-- ================================================================ -->
-
-			<dt>
-				▶ <b><a name="install" id="install">Installation on MS Windows, macOS, Linux</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
+			
 				<!--<ul>
 					<li><a target="_blank" href="http://learning-with-texts.sourceforge.io/LWT_INSTALLATION.txt">Please follow the up-to-date instructions <b><u><bigger>HERE</bigger></u></b> (you must be online!).</a><br /></li>
 				</ul>-->
-				<?php echo markdown_converter(__DIR__ . "/installation.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/installation.md"); ?>
 					 
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="learn" id="learn">How to learn with LWT</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/learn.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/learn.md"); ?>
 
 
-			<dt>
-				▶ <b><a name="howto" id="howto">How to use</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-		  		<?php echo markdown_converter(__DIR__ . "/howto.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/howto.md"); ?>
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="faq" id="faq">Questions and Answers</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/faq.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/faq.md"); ?>
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="ipad" id="ipad">Setup for Tablets</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/ipad.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/ipad.md"); ?>
 				
 			<!-- ================================================================ -->
 		
-			<dt>
-				▶ <b><a name="langsetup" id="langsetup">Language Setup</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . '/langsetup.md'); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . '/langsetup.md'); ?>
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="termscores" id="termscores">Term Scores</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/termscores.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/termscores.md"); ?>
 			
 			<!-- ================================================================ -->
 
-			<dt>
-				▶ <b><a name="keybind" id="keybind">Key Bindings</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/keybind.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/keybind.md"); ?>
 			
-			<dt>
-				▶ <b><a name="wordpress" id="wordpress">WordPress Integration</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/wordpress.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/wordpress.md"); ?>
 			
-			<dt>
-				▶ <b><a name="database" id="database">Database Structure</a></b> - <a href="#">[↑]</a>
-			</dt>
-
-			<dd>
-				<?php echo markdown_converter(__DIR__ . "/database.md"); ?>
-			</dd>
+			<?php echo markdown_integration(__DIR__ . "/database.md"); ?>
+			
 
 			<dt>
 				▶ <b><a name="history" id="history">Changelog</a></b> - <a href="#">[↑]</a>
 			</dt>
 
 			<dd>
-				<?php echo markdown_converter(__DIR__ . "/CHANGELOG.md"); ?>
+				<?php echo markdown_integration(__DIR__ . "/CHANGELOG.md"); ?>
 			</dd>
 		</dl>
 

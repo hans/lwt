@@ -1,4 +1,5 @@
-## Setup for Tablets
+# Setup for Tablets
+
 *   If you want to use LWT on a tablet: that's possible (even the audio player works!).
 *   In "Settings/Preferences", set the "Frame Set Display Mode" to "Auto" or "Force Mobile". On other mobile devices, you may also try "Force Non-Mobile" if you are unhappy with the results.
 *   Try to reduce the length of your texts to reduce scrolling.

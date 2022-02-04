@@ -1,11 +1,11 @@
-## Wordpress Integration
+# Wordpress Integration
 
 *   **IMPORTANT: Please read this [THIS WARNING](#mue) first!**  
     I CANNOT give any support for this feature, NOR can I help you with any WordPress problems!  
     **USE AT YOUR OWN RISK!**  
       
     
-*   The following instructions are for users who have installed WordPress, and want to install LWT for multiple WordPress users in conjunction with WordPress authentication. Every WordPress user will have his/her own LWT table set.  
+The following instructions are for users who have installed WordPress, and want to install LWT for multiple WordPress users in conjunction with WordPress authentication. Every WordPress user will have his/her own LWT table set.  
       
     
 

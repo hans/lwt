@@ -1,4 +1,4 @@
-## Preface
+# Preface
 
 *   ****THIS IS A THIRD PARTY VERSION - IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more [here](#new_features))****
 *   I started this software application in 2010 as a hobby project for my personal learning (reading & listening to foreign texts, saving & reviewing new words and expressions).

@@ -1,4 +1,4 @@
-## How to Use
+# How to Use
 *   **LWT home screen after installation**  
       
     This is home screen of LWT if the database is empty. Please install the demo database or start with the definition of a language you want to learn.  

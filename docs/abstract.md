@@ -1,4 +1,4 @@
-## Abstract
+# Abstract
 
 *   [_Learning with Texts_ (LWT)](http://sourceforge.net/projects/learning-with-texts/) is a tool for Language Learning, inspired by:
     *   [Stephen Krashen's](http://sdkrashen.com) principles in Second Language Acquisition,

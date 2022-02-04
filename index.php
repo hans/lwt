@@ -91,67 +91,74 @@ function get_span_groups() {
 }
 
 
-function do_current_text_info($currenttext)
+function do_current_text_info($textid)
 {
     global $tbpref;
-    $txttit = get_first_value('SELECT TxTitle AS value FROM ' . $tbpref . 'texts WHERE TxID=' . (int)$currenttext);
-    if (isset($txttit)) {    
-        $txtlng = get_first_value('SELECT TxLgID AS value FROM ' . $tbpref . 'texts WHERE TxID=' . (int)$currenttext);
-        $lngname = getLanguage($txtlng);
-        ?>
+    $txttit = get_first_value('SELECT TxTitle AS value FROM ' . $tbpref . 'texts WHERE TxID=' . $textid);
+    if (!isset($txttit)) {
+        return;
+    } 
+    $txtlng = get_first_value('SELECT TxLgID AS value FROM ' . $tbpref . 'texts WHERE TxID=' . $textid);
+    $lngname = getLanguage($txtlng);
+    $annotated = (int)get_first_value(
+        "SELECT LENGTH(TxAnnotatedText) AS value 
+        FROM " . $tbpref . "texts 
+        WHERE TxID = " . $textid
+    ) > 0;
+?>
  
- <li>Last Text (in <?php echo tohtml($lngname); ?>):<br /> <i><?php echo tohtml($txttit); ?></i>
- <br />
- <a href="do_text.php?start=<?php echo $currenttext; ?>"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read</a>
- &nbsp; &nbsp; 
- <a href="do_test.php?text=<?php echo $currenttext; ?>"><img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test</a>
- &nbsp; &nbsp; 
- <a href="print_text.php?text=<?php echo $currenttext; ?>"><img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print</a>
-        <?php
-        $record = (int)get_first_value(
-            "SELECT length(TxAnnotatedText) AS value 
-            FROM " . $tbpref . "texts 
-            WHERE TxID = " . $currenttext
-        ); 
-        if ($record > 0) {
-            ?>
-&nbsp; &nbsp; 
-<a href="print_impr_text.php?text=<?php echo $currenttext; ?>">
-    <img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text
-</a>
-            <?php
-        }
-        ?>
- </li>
-        <?php
+ <div>
+    Last Text (in <?php echo tohtml($lngname); ?>):<br /> 
+    <i><?php echo tohtml($txttit); ?></i>
+    <br />
+    <a href="do_text.php?start=<?php echo $textid; ?>">
+        <img src="icn/book-open-bookmark.png" title="Read" alt="Read" />&nbsp;Read
+    </a>
+    &nbsp; &nbsp; 
+    <a href="do_test.php?text=<?php echo $textid; ?>">
+        <img src="icn/question-balloon.png" title="Test" alt="Test" />&nbsp;Test
+    </a>
+    &nbsp; &nbsp; 
+    <a href="print_text.php?text=<?php echo $textid; ?>">
+        <img src="icn/printer.png" title="Print" alt="Print" />&nbsp;Print
+    </a>
+    <?php
+    if ($annotated) {
+    ?>
+    &nbsp; &nbsp; 
+    <a href="print_impr_text.php?text=<?php echo $textid; ?>">
+        <img src="icn/tick.png" title="Improved Annotated Text" alt="Improved Annotated Text" />&nbsp;Ann. Text
+    </a>
+    <?php
     }
-
+    ?>
+ </div>
+ <div class="menu-separator" ></div>
+<?php
 }
 
-function do_language_selectable($currentlang, $currenttext)
+function do_language_selectable($langid)
 {
     ?>
-<li>Language: 
+<div for="filterlang">Language: 
     <select id="filterlang" onchange="{setLang(document.getElementById('filterlang'),'index.php');}">
-        <?php echo get_languages_selectoptions($currentlang, '[Select...]'); ?>
+        <?php echo get_languages_selectoptions($langid, '[Select...]'); ?>
     </select>
-</li>
-        
+</div>   
 <?php
-    if ($currenttext != '') {
-        do_current_text_info($currenttext);
-    }
 }
 
 function wordpress_logout_link() {
     // ********* WORDPRESS LOGOUT *********
     if (isset($_SESSION['LWT-WP-User'])) {
-        ?>
-    <li>
-        <a href="wp_lwt_stop.php"><span style="font-size:115%; font-weight:bold; color:red;">LOGOUT</span></a> (from WordPress and LWT)
-        <br /><br />
-    </li>
-        <?php
+?>
+
+<div class="menu">
+    <a href="wp_lwt_stop.php">
+        <span style="font-size:115%; font-weight:bold; color:red;">LOGOUT</span> (from WordPress and LWT)
+    </a>
+</div>
+<?php
     }
 }
 
@@ -198,14 +205,45 @@ function get_server_data()
 
 
 list($span1, $span2, $span3) = get_span_groups();
-$currentlang = (int) getSetting('currentlanguage');
-$currenttext = (int) getSetting('currenttext');
 
-$langcnt = (int) get_first_value('SELECT count(*) AS value FROM ' . $tbpref . 'languages');
+$currentlang = null;
+if (is_int(getSetting('currentlanguage'))) {
+    $currentlang = (int) getSetting('currentlanguage');
+}
+
+$currenttext = null;
+if (is_int(getSetting('currenttext'))) {
+    $currenttext = (int) getSetting('currenttext');
+}
+
+$langcnt = (int) get_first_value('SELECT COUNT(*) AS value FROM ' . $tbpref . 'languages');
 
 list($p, $mb, $serversoft, $apache, $php, $mysql) = get_server_data();
 
-pagestart_nobody("Home");
+pagestart_nobody(
+    "Home", 
+    "
+    .menu {
+        display: flex; 
+        flex-direction: column; 
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .menu > * {
+        width: 500px;
+        height: 30px;
+        margin: 5px;
+        text-align: center;
+        background-color: #8883;
+        padding-top: 15px;
+    }
+    
+    .menu > .menu-separator {
+        background-color: initial;
+        height: 0px;
+    }"
+);
 echo '<div>' . 
     echo_lwt_logo() . '<h1>' . 
         $span3 . 'Learning With Texts (LWT)</span>
@@ -223,62 +261,63 @@ echo '<div>' .
 
 <p>Welcome to your language learning app!</p> 
 
-<div style="display: flex; justify-content: space-evenly;">
-    <div>
-        <ul>
-            <?php
+<div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+    <div class="menu">
+        <?php
 if ($langcnt == 0) {
-            ?> 
-            <li>
-                Hint: The database seems to be empty.<br />
-                <a href="install_demo.php">You may install the LWT demo database, </a>
-                <br /> or <br />
-                <a href="edit_languages.php?new=1">define the first language you want to learn.</a>
-            </li>
-            <?php
+        ?> 
+        <div>
+            Hint: The database seems to be empty.<br />
+            <a href="install_demo.php">You may install the LWT demo database, </a>
+            <br /> or <br />
+            <a href="edit_languages.php?new=1">define the first language you want to learn.</a>
+        </div>
+        <?php
 } else if ($langcnt > 0) {
-    do_language_selectable($currentlang, $currenttext);
+    do_language_selectable($currentlang);
 } 
             ?>
-            <li><a href="edit_texts.php">Texts</a></li>
-            <li><a href="edit_archivedtexts.php">Text Archive</a></li>
-            <li>
-                <a href="edit_texttags.php">Text Tags</a>
-                <br /><br />
-            </li>
-            <li>
-                <a href="edit_languages.php">Languages</a>
-                <br /><br />
-            </li>
-            <li><a href="edit_words.php">Terms (Words and Expressions)</a></li>
-            <li>
-                <a href="edit_tags.php">Term Tags</a>
-                <br /><br />
-            </li>
-            <li>
-                <a href="statistics.php">Statistics</a>
-                <br /><br />
-            </li>
-            <li><a href="check_text.php">Check a Text</a></li>
-            <li><a href="long_text_import.php">Long Text Import</a></li>
-            <li><a href="do_feeds.php?check_autoupdate=1">Newsfeed Import</a></li>
-            <li><a href="upload_words.php">Import Terms</a></li>
-            <li>
-                <a href="backup_restore.php">Backup/Restore/Empty Database</a>
-                <br /><br />
-            </li>
-            <li>
-                <a href="settings.php">Settings/Preferences</a>
-                <br /><br />
-            </li>
-            <?php wordpress_logout_link(); ?>
-            <li><a href="docs/info.php">Help/Information</a></li>
-            <li><a href="mobile.php">Mobile LWT (Experimental)</a></li>
-        </ul>
-        <p>This is LWT Version <?php echo get_version(); ?></p>
+            <a href="edit_languages.php">Languages</a>
     </div>
 
-    <table>
+    <div class="menu">
+        <?php 
+if ($currenttext != '') {
+    do_current_text_info($currenttext);
+}
+        ?>
+        <a href="edit_texts.php">Texts</a>
+        <a href="edit_archivedtexts.php">Text Archive</a>
+        
+        <a href="edit_texttags.php">Text Tags</a>
+        <a href="check_text.php">Check a Text</a>
+        <a href="long_text_import.php">Long Text Import</a>
+    </div>
+    
+    <div class="menu">
+        <a href="edit_words.php">Terms (Words and Expressions)</a>
+        <a href="edit_tags.php">Term Tags</a>
+        <a href="upload_words.php">Import Terms</a>
+    </div>
+    
+    <div class="menu">
+        <a href="do_feeds.php?check_autoupdate=1">Newsfeed Import</a>
+        <a href="backup_restore.php">Backup/Restore/Empty Database</a>
+    </div>
+
+    <div class="menu">
+        <a href="statistics.php">Statistics</a>
+    </div>
+
+    <div class="menu">
+        <a href="settings.php">Settings/Preferences</a>
+        <a href="docs/info.php">Help/Information</a>
+        <a href="mobile.php">Mobile LWT (Deprecated)</a>
+    </div>
+        
+    <?php wordpress_logout_link(); ?>
+
+    <table style="width: 500px; margin: 5px;">
         <tbody>
             <tr>
                 <td><a href="https://en.wikipedia.org/wiki/Database" target="_blank">Database</a> name</td>
@@ -310,8 +349,9 @@ if ($langcnt == 0) {
             </tr>
         </tbody>
     </table>
-</div>
 
+</div>
+<p>This is LWT Version <?php echo get_version(); ?></p>
 <hr />
 <footer>
     <table>
