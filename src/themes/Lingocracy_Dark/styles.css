@@ -618,10 +618,11 @@ img {
     /*border: 1pt solid #808080;*/
     border: 1pt solid #8f8f8f;
 }
+
+/* Separate a footer section from the document */
 .graydotted {
     margin-top: 30px; 
-    padding-top: 5px; 
-    /*border-top: 1px dotted #808080;*/
+    padding-top: 5px;
     border-top: 1px dotted #8f8f8f;
 }
 #printoptions {
@@ -646,6 +647,22 @@ dd {
 }
 dt { 
     margin-top: 10pt; 
+}
+
+/* Floating menu in docs/info.html */
+.floatingmenu {
+ position: fixed;
+ top: 10px;
+ right: 10px; 
+ padding: 5px;
+ z-index: 2;
+ font-size: 10pt;
+ text-align:center;
+}
+
+.floatingmenu > * {
+  display: block;
+  width: 75px;
 }
 .annterm {
     font-weight: bold;

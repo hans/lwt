@@ -31,6 +31,10 @@ function markdown_converter($file_path)
  * Prepapre the integration of a Markdown file into info.html.
  * 
  * Headers are incremented by one level. File name become an ID.
+ * 
+ * @param string $file_path Full path for the file to use, including extension (should be ".md")
+ * 
+ * @return string An HTML-formatted string
  */
 function markdown_integration($file_path) 
 {
@@ -58,6 +62,7 @@ function markdown_integration($file_path)
         }
     }
     $output = $dom->saveHTML($dom->lastChild->firstChild);
+    // Delete the <body></body> tags
     $output = substr(substr($output, 6), 0, -7);
     echo $output;
 }

@@ -68,136 +68,52 @@ h4 {
     cursor: pointer;
     color: #C00000;
 }
+
 .status0 {
-
-    color: #FFF;border-radius: 3px;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
-/* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #6868C8 50%, #7D8FEA 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #6868C8 50%, #7D8FEA 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #6868C8 50%, #7D8FEA 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #6868C8), color-stop(1, #7D8FEA));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #6868C8 50%, #7D8FEA 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #6868C8 50%, #7D8FEA 100%);
+    color: #FFF;
+    border-radius: 3px;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+    background-image: radial-gradient(ellipse farthest-corner at center, #6868C8 50%, #7D8FEA 100%);
 }
 
 
 .status1 {
-    color: #FFF;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
-border-radius: 3px;
-/* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #F57869 50%, #BB4433 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #F57869 50%, #BB4433 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #F57869 50%, #BB4433 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #F57869), color-stop(1, #BB4433));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #F57869 50%, #BB4433 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #F57869 50%, #BB4433 100%);
+    color: #FFF;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+    border-radius: 3px;
+    background-image: radial-gradient(ellipse farthest-corner at center, #F57869 50%, #BB4433 100%);
 }
+
 .status2 {
-    color: #FFF;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
-   border-radius: 3px;
-/* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #ED9D7B 50%, #F5B08B 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #ED9D7B 50%, #F5B08B 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #ED9D7B 50%, #F5B08B 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #ED9D7B), color-stop(1, #F5B08B));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #ED9D7B 50%, #F5B08B 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #ED9D7B 50%, #F5B08B 100%);
+    color: #FFF;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+    border-radius: 3px;
+    background-image: radial-gradient(ellipse farthest-corner at center, #ED9D7B 50%, #F5B08B 100%);
 }
+
 .status3 {
-border-radius: 3px;
-    color: #FFF;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
-/* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #F7CF66 50%, #F5E8A8 100%);
+    border-radius: 3px;
+    color: #FFF;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+    background-image: radial-gradient(ellipse farthest-corner at center, #F7CF66 50%, #F5E8A8 100%);
+}
 
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #F7CF66 50%, #F5E8A8 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #F7CF66 50%, #F5E8A8 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #F7CF66), color-stop(1, #F5E8A8));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #F7CF66 50%, #F5E8A8 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #F7CF66 50%, #F5E8A8 100%);}
 .status4 {
-border-radius: 3px;
-
-    color: #FFF;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
-
-/* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #FAFA44 50%, #F5F388 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #FAFA44 50%, #F5F388 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #FAFA44 50%, #F5F388 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #FAFA44), color-stop(1, #F5F388));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #FAFA44 50%, #F5F388 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #FAFA44 50%, #F5F388 100%);
+    border-radius: 3px;
+    color: #FFF;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+    background-image: radial-gradient(ellipse farthest-corner at center, #FAFA44 50%, #F5F388 100%);
 }
+
 .status5 {
-border-radius: 3px;    color: #FFF;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
- /* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #66CC66 50%, #B2FFB2 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #66CC66 50%, #B2FFB2 100%);was
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #66CC66 50%, #B2FFB2 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #66CC66), color-stop(1, #B2FFB2));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #66CC66 50%, #B2FFB2 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #66CC66 50%, #B2FFB2 100%);
+    border-radius: 3px;
+    color: #FFF;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+    background-image: radial-gradient(ellipse farthest-corner at center, #66CC66 50%, #B2FFB2 100%);
 }
+
 .status99 {
-/*    background-color: #080808;*/
+    /* background-color: #080808;*/
     border-radius: 3px;
     /*border-bottom: solid 2px #CCFFCC;
     color: #000000;*/
@@ -233,22 +149,12 @@ background-image: radial-gradient(ellipse farthest-corner at center, #66CC66 50%
 	opacity:1
 }
 .tword.lword,.nword.lword{
-	background-image: -ms-radial-gradient(center, ellipse farthest-corner, #AA2244 50%, #CE3557 100%);
-	background-image: -moz-radial-gradient(center, ellipse farthest-corner, #AA2244 50%, #CE3557 100%);
-	background-image: -o-radial-gradient(center, ellipse farthest-corner, #AA2244 50%, #CE3557 100%);
-	background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #AA2244), color-stop(1, #CE3557));
-	background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #AA2244 50%, #CE3557 100%);
 	background-image: radial-gradient(ellipse farthest-corner at center, #AA2244 50%, #CE3557 100%);
 	box-shadow: 2px 0 0 0 #AA2244, -1px 0 0 0 #AA2244;
 }
 .tword{
 	box-shadow: 0 0 0px 1px #000;
 	border-radius: 3px;
-	background-image: -ms-radial-gradient(center, ellipse farthest-corner, #996688 50%, #BB88AA 100%);
-	background-image: -moz-radial-gradient(center, ellipse farthest-corner, #996688 50%, #BB88AA 100%);
-	background-image: -o-radial-gradient(center, ellipse farthest-corner, #996688 50%, #BB88AA 100%);
-	background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #996688), color-stop(1, #BB88AA));
-	background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #996688 50%, #BB88AA 100%);
 	background-image: radial-gradient(ellipse farthest-corner at center, #996688 50%, #BB88AA 100%);
 }
 .nword{
@@ -262,86 +168,33 @@ background-image: radial-gradient(ellipse farthest-corner at center, #66CC66 50%
 	-ms-user-select: none;
 	user-select: none;
 }
-.todosty {border-radius: 3px;padding: 1px 2px;
-    /* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #fbdb89 50%, #F5E1A9 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #fbdb89 50%, #F5E1A9 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #fbdb89 50%, #F5E1A9 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #fbdb89), color-stop(1, #F5E1A9));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #fbdb89 50%, #F5E1A9 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #fbdb89 50%, #F5E1A9 100%);
-    color: #FFF;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+.todosty {
+    border-radius: 3px;
+    padding: 1px 2px;
+    background-image: radial-gradient(ellipse farthest-corner at center, #fbdb89 50%, #F5E1A9 100%);
+    color: #FFF;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
 }
-.doneoksty {border-radius: 3px;padding: 1px 2px;
-    /* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #64e56a 50%, #A9F5A9 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #64e56a 50%, #A9F5A9 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #64e56a 50%, #A9F5A9 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #64e56a), color-stop(1, #A9F5A9));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #64e56a 50%, #A9F5A9 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #64e56a 50%, #A9F5A9 100%);
-    color: #FFF;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+.doneoksty {
+    border-radius: 3px;
+    padding: 1px 2px;
+    background-image: radial-gradient(ellipse farthest-corner at center, #64e56a 50%, #A9F5A9 100%);
+    color: #FFF;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
 }
-.donewrongsty {border-radius: 3px;padding: 1px 2px;
-    /* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #f99689 50%, #F5B8A9 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #f99689 50%, #F5B8A9 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #f99689 50%, #F5B8A9 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #f99689), color-stop(1, #F5B8A9));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #f99689 50%, #F5B8A9 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #f99689 50%, #F5B8A9 100%);
-    color: #FFF;text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
+.donewrongsty {
+    border-radius: 3px;
+    padding: 1px 2px;
+    background-image: radial-gradient(ellipse farthest-corner at center, #f99689 50%, #F5B8A9 100%);
+    color: #FFF;
+    text-shadow: 0 -1px #666, 1px 0 #666, 0 1px #666, -1px 0 #666;
 }
-.status5stat {border-radius: 3px;
-/* IE10 Consumer Preview */ 
-background-image: -ms-radial-gradient(center, ellipse farthest-corner, #22CC33 50%, #88FF88 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-radial-gradient(center, ellipse farthest-corner, #22CC33 50%, #88FF88 100%);
-
-/* Opera */ 
-background-image: -o-radial-gradient(center, ellipse farthest-corner, #22CC33 50%, #88FF88 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(radial, center center, 0, center center, 467, color-stop(0.5, #22CC33), color-stop(1, #88FF88));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #22CC33 50%, #88FF88 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: radial-gradient(ellipse farthest-corner at center, #22CC33 50%, #88FF88 100%);
+.status5stat {
+    border-radius: 3px;
+    background-image: radial-gradient(ellipse farthest-corner at center, #22CC33 50%, #88FF88 100%);
     /*color: #000000;*/
-	color: #FFF;text-shadow: 0 -1px #888, 1px 0 #888, 0 1px #888, -1px 0 #888;
+	color: #FFF;
+    text-shadow: 0 -1px #888, 1px 0 #888, 0 1px #888, -1px 0 #888;
 }
 textarea {
 	font: 85% "Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu;
@@ -736,10 +589,11 @@ img {
     /*border: 1pt solid #808080;*/
     border: 1pt solid #8f8f8f;
 }
+
+/* Separate a footer section from the document */
 .graydotted {
-    margin-top: 30px; 
-    padding-top: 5px; 
-    /*border-top: 1px dotted #808080;*/
+    margin-top: 30px;
+    padding-top: 5px;
     border-top: 1px dotted #8f8f8f;
 }
 #printoptions {
@@ -764,6 +618,22 @@ dd {
 }
 dt { 
     margin-top: 10pt; 
+}
+
+/* Floating menu in docs/info.html */
+.floatingmenu {
+ position: fixed;
+ top: 10px;
+ right: 10px; 
+   padding: 5px;
+ z-index: 2;
+ font-size: 10pt;
+ text-align:center;
+}
+
+.floatingmenu > * {
+  display: block;
+  width: 75px;
 }
 .annterm {
     font-weight: bold;
@@ -953,12 +823,14 @@ Additional styles for printing
     .noprint {
         display: none;
     }
+
     #print {
     	color: #000;
         font-size: 75%;
     }
+
     .anntermruby {
-    font-weight: normal;
-    border-bottom: 2px solid #FFFFFF;
-}
+        font-weight: normal;
+        border-bottom: 2px solid #FFFFFF;
+    }
 }
