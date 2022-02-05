@@ -1803,6 +1803,12 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <a href="https://packagist.org/packages/happyworm/jplayer">happyworm/jplayer</a> is no longer integrated by composer (no update since 2014), but it still in use.</li>
 </ul>
 </li>
+<li>The <code>components/</code> folder was also deleted. It was bundling JS code from composer.
+<ul>
+<li>It should have been git ignored at least.</li>
+<li>Its content was unused. The files it was trying to use are duplicated.</li>
+</ul>
+</li>
 </ul>
 <h3>2.2.0-fork (February 04 2022)</h3>
 <h4>Added</h4>

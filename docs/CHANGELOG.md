@@ -22,6 +22,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * [flesler/jquery.scrollto](https://packagist.org/packages/flesler/jquery.scrollto) already bundled by git.
   * [mobiledetect/mobiledetectlib](https://packagist.org/packages/mobiledetect/mobiledetectlib) was unused. It is now removed.
   * [happyworm/jplayer](https://packagist.org/packages/happyworm/jplayer) is no longer integrated by composer (no update since 2014), but it still in use.
+* The ``components/`` folder was also deleted. It was bundling JS code from composer.
+  * It should have been git ignored at least.
+  * Its content was unused. The files it was trying to use are duplicated.
 
 ## 2.2.0-fork (February 04 2022)
 ### Added
