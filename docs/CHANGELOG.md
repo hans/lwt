@@ -4,6 +4,22 @@ Changelog
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
+## [Unreleased]
+### Changed
+* Composer in no longer *required* for standard users (but is still required for contributing).
+* Updated ``README.md``.
+* [league/commonmark](https://packagist.org/packages/league/commonmark) becomes a dev requirement (no longer required for everyone).
+
+### Deprecated
+* The ``is_mobile`` function now always returns false. 
+
+### Removed
+* Removed unnecessary dependencies:
+  * [components/jquery](https://packagist.org/packages/components/jquery) version ^3.6 was required, but only 1.12.4 was in use.
+  * [flesler/jquery.scrollto](https://packagist.org/packages/flesler/jquery.scrollto) already bundled by git.
+  * [mobiledetect/mobiledetectlib](https://packagist.org/packages/mobiledetect/mobiledetectlib) was unused. It is now removed.
+  * [happyworm/jplayer](https://packagist.org/packages/happyworm/jplayer) is no longer integrated by composer (no update since 2014), but it still in use.
+
 ## 2.2.0-fork (February 04 2022)
 ### Added
 * Sounds while testing terms!
@@ -22,13 +38,16 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * The Doxygen-generated content now uses LWT default style.
 
 ### Fixed
-* Several database flaws fixed. Now the database shoulc stop rotting with time.
+* Several database flaws fixed. Now the database should stop rotting with time.
 * It is easier to close the right frames in do_text.php.
 * When viewing the maximum number of results per page (edit_text.php for instance),
 the maximum value was shown as a floating point value.
 
 ### Removed
 * Floating Menu from JTricks.com was unused since 2.0.4-fork. It is now deleted.
+
+### Full Changelog
+* [v2.1.0...v2.2.0](https://github.com/HugoFara/lwt/compare/v2.1.0...v2.2.0)
 
 ## 2.1.0-fork (January 09 2022)
 ### Added

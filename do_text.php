@@ -39,31 +39,23 @@ function get_text_id() {
 /**
  * Echo the page content for the mobile version of do_text.
  * 
- * @param int $textid Text ID
+ * @param int    $textid Text ID
+ * @param string $audio  Audio URI
  * 
  * @return void
+ * 
+ * @deprecated Use do_text_desktop_content instead.
+ * 
+ * @since 2.2.1 It also calls do_frameset_mobile_css and do_frameset_mobile_js
  */
-function do_text_mobile_content($textid) {
-?>
-<div id="frame-h">
-    <iframe id="frame-h-2" 
-    src="do_text_header.php?text=<?php echo $textid; ?>" 
-    scrolling="yes" name="h">
-    </iframe>
-</div>
-<div id="frame-ro">
-<iframe id="frame-ro-2" src="empty.html" scrolling="yes" name="ro"></iframe>
-</div>
-<div id="frame-l">
-    <iframe id="frame-l-2" 
-    src="do_text_text.php?text=<?php echo $textid; ?>" scrolling="yes" name="l">
-    </iframe>
-</div>
-<div id="frame-ru">
-    <iframe id="frame-ru-2" src="empty.html" scrolling="yes" name="ru"></iframe>
-</div>
-
-<?php 
+function do_text_mobile_content($textid, $audio) {
+    do_frameset_mobile_css();
+    do_frameset_mobile_js($audio);
+    do_frameset_mobile_page_content(
+        "do_text_header.php?text=" . $textid, 
+        "do_text_text.php?text=" . $textid, 
+        true
+    );
 }
 
 /**
@@ -107,11 +99,13 @@ onclick="hideRightFrames();">
  * @param int  $textit Text ID
  * @param bool $mobile Set to true if you want the mobile version of the page.
  * 
+ * @since 2.2.1 The $mobile parameter is no longer required.
+ * 
  * @return void
  * 
  * @global string $tbpref Database table prefix.
  */
-function do_text_page($textid, $mobile)
+function do_text_page($textid)
 {
     global $tbpref;
 
@@ -124,10 +118,8 @@ function do_text_page($textid, $mobile)
         WHERE TxID = ' . $_REQUEST['start']
     );
     
-    if ($mobile && false) {
-        do_frameset_mobile_css();
-        do_frameset_mobile_js($audio);
-        do_text_mobile_content($textid);
+    if (is_mobile()) {
+        do_text_mobile_content($textid, $audio);
     } else {
         // Not mobile
         do_text_desktop_content($textid, $audio);
@@ -136,7 +128,7 @@ function do_text_page($textid, $mobile)
 }
 
 if (get_text_id() !== null) {
-    do_text_page(get_text_id(), is_mobile());
+    do_text_page(get_text_id());
 } else {
     // Document not ready
     header("Location: edit_texts.php");

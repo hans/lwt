@@ -32,19 +32,11 @@ require_once 'display_impr_text_text.php';
 function do_mobile_display_impr_text($textid, $audio) {
     do_frameset_mobile_css();
     do_frameset_mobile_js($audio);
-
-    ?>
-
-<div id="frame-h">
-    <iframe id="frame-h-2" src="display_impr_text_header.php?text=<?php echo $textid; ?>" scrolling="yes" name="header">
-    </iframe>
-</div>
-<div id="frame-l">
-    <iframe id="frame-l-2" src="display_impr_text_text.php?text=<?php echo $textid; ?>" scrolling="yes" name="text">
-    </iframe>
-</div>
-
-    <?php 
+    do_frameset_mobile_page_content(
+        "display_impr_text_header.php?text=" . $textid, 
+        "display_impr_text_text.php?text=" . $textid, 
+        false
+    );
 }
 
 /**
@@ -102,7 +94,7 @@ function do_display_impr_text_page($textid) {
     pagestart_nobody('Display');
     //framesetheader('Display');
 
-    if (is_mobile() && false) {
+    if (is_mobile()) {
         do_mobile_display_impr_text($textid, $audio);
     } else {
         do_desktop_display_impr_text($textid, $audio);

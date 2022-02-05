@@ -16,18 +16,12 @@ and is open for contributions. The official version is on
 
 
 ## Installation
-* Please see [docs/installation.md](https://hugofara.github.io/lwt/docs/installation.md) for detailed instructions. 
+As it is self-hosted, you will need a server, which can be your computer. 
 
-As it is self-hosted, you will need a server, which can be your computer. We recommand installing from the[hugofara/lwt composer package](https://packagist.org/packages/hugofara/lwt).
-
-* [Install Composer](https://getcomposer.org/download/) if you don't have it.
-* **If you installed composer globally**
-  * Run ``composer create-project hugofara/lwt``.
-* **If you installed composer locally**
-  * Go to the folder where composer.phar is located
-  * Run ``php composer.phar create-project hugofara/lwt``
-* Got to the newly created ``lwt/`` folder. 
-* Create ``connect.inc.php`` with an existing database user. Everything is explained at [docs/info.html](https://hugofara.github.io/lwt/docs/info.html).
+* Get the [latest GitHub release](https://github.com/HugoFara/lwt/releases).
+  * You can also try to download the [latest stable version](https://github.com/HugoFara/lwt/archive/refs/heads/master.zip) if you want the cutting-edge updates (that may include some bugs).
+* **Please see**: [docs/install.md](docs/install.md) for detailed instructions.
+* Create ``connect.inc.php`` with an existing database user. Everything is explained at [docs/info.html](https://hugofara.github.io/lwt/docs/info.html#install).
 
 And you are ready to go!
 
@@ -89,7 +83,9 @@ See the full list: [newfeatures.md](https://hugofara.github.io/lwt/docs/newfeatu
 * Code is well organised, making debugging and contribution easier.
 
 ## Contribute
-To contribute, you need to clone or fork this repository.
+To contribute, you need to clone or fork this repository, and [Composer](https://getcomposer.org/download/). 
+The composer package is at [hugofara/lwt](https://packagist.org/packages/hugofara/lwt).
+
 Run ``git clone https://github.com/HugoFara/lwt``
 
 Next, got to the lwt folder and use ``composer install --dev``.

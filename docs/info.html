@@ -527,35 +527,48 @@ THE SOFTWARE.</p>
 </ul>
 <h3>Windows 10</h3>
 <h4>Possibility (a): Installation EasyPHP / LWT on Win10</h4>
-<p>Step 1a: Download "vcredist_x86.exe" from <a href="https://www.microsoft.com/en-us/download/details.aspx?id=30679">https://www.microsoft.com/en-us/download/details.aspx?id=30679</a>
-Step 1b: Choose the x86 version and download.
-Step 1c: Run the installer "vcredist_x86.exe" in the Downloads folder.</p>
-<p>Step 2a: Go to <a href="https://www.easyphp.org/easyphp-devserver.php">https://www.easyphp.org/easyphp-devserver.php</a>
-Step 2b: Download "EasyPHP DevServer 17.0".
-Step 2c: Open your Downloads folder and run the downloaded "EasyPHP-Devserver-17.0-setup.exe".
-Step 2d: Install into "C:\Program Files (x86)\EasyPHP-Devserver-17".</p>
-<p>Step 3: <a href="https://getcomposer.org/download/">install Composer</a></p>
-<p>Step 4:</p>
-<ul>
+<ol>
 <li>
-<strong>If you installed composer globally</strong>
-<ul>
-<li>Run <code>composer create-project hugofara/lwt</code>.</li>
-</ul>
+<p>Get Visual C++</p>
+<ol>
+<li>Download "vcredist_x86.exe" from <a href="https://www.microsoft.com/en-us/download/details.aspx?id=30679">https://www.microsoft.com/en-us/download/details.aspx?id=30679</a>
+</li>
+<li>Choose the x86 version and download.</li>
+<li>Run the installer "vcredist_x86.exe" in the Downloads folder.</li>
+</ol>
 </li>
 <li>
-<strong>If you installed composer locally</strong>
-<ul>
-<li>Got to the folder where composer.phar is located</li>
-<li>Run <code>php composer.phar create-project hugofara/lwt</code>
+<p>Get EasyPHP</p>
+<ol>
+<li>Go to <a href="https://www.easyphp.org/easyphp-devserver.php">https://www.easyphp.org/easyphp-devserver.php</a>
 </li>
-</ul>
+<li>Download "EasyPHP DevServer 17.0".</li>
+<li>Open your Downloads folder and run the downloaded "EasyPHP-Devserver-17.0-setup.exe".</li>
+<li>Install into "C:\Program Files (x86)\EasyPHP-Devserver-17".</li>
+</ol>
 </li>
-</ul>
-<p>Step 5: Now go into "C:\Program Files (x86)\EasyPHP-Devserver-17\eds-www\lwt". Rename the file "connect_easyphp.inc.php" to "connect.inc.php". Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.</p>
-<p>Step 6a: Start EasyPHP via Desktop Icon (Devserver 17). In the Task Bar near the clock appears the EasyPHP app icon (it may be hidden!).
-Step 6b: LWT can now be started. Right-Click on the EasyPHP icon in the taskbar, choose "Servers-&gt;Start/Restart all Servers", open a browser, and open <a href="http://127.0.0.1/lwt">http://127.0.0.1/lwt</a> (please bookmark).</p>
-<p>Step 7: You may now install the LWT demo database, or define the first language you want to learn.</p>
+<li>
+<p>Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>, unzip it.</p>
+<p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
+</li>
+<li>
+<p>Install everything</p>
+<ol>
+<li>Go into "C:\Program Files (x86)\EasyPHP-Devserver-17\eds-www\lwt".</li>
+<li>Rename the file "connect_easyphp.inc.php" to "connect.inc.php". Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.</li>
+</ol>
+</li>
+<li>
+<p>Start EasyPHP</p>
+<ol>
+<li>Start EasyPHP via Desktop Icon (Devserver 17). In the Task Bar near the clock appears the EasyPHP app icon (it may be hidden!).</li>
+<li>LWT can now be started. Right-Click on the EasyPHP icon in the taskbar, choose "Servers-&gt;Start/Restart all Servers", open a browser, and open <a href="http://127.0.0.1/lwt">http://127.0.0.1/lwt</a> (please bookmark).</li>
+</ol>
+</li>
+<li>
+<p>You may now install the LWT demo database, or define the first language you want to learn.</p>
+</li>
+</ol>
 <p>If you start up Windows, you must repeat Step 6a+b.</p>
 <p>If you want to start EasyPHP every time you start Windows and avoid Step 6a, put an EasyPHP link into "C:\Users(YourUID)\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup".</p>
 <p>Now you must only do step 6b to start LWT.</p>
@@ -563,28 +576,12 @@ Step 6b: LWT can now be started. Right-Click on the EasyPHP icon in the taskbar,
 <p>Step 1a: Go to <a href="https://www.apachefriends.org/download.html">https://www.apachefriends.org/download.html</a>
 Step 1b: Download "XAMPP for Windows 7.3.30 (64 bit)" (or a higher PHP 7 version).
 Step 1c: Open your Downloads folder and run the downloaded "xampp-windows-x64-xxx-installer.exe". Please install the components Apache, MySQL, PHP and phpMyAdmin into the folder C:\xampp.</p>
-<p>Step 2: <a href="https://getcomposer.org/download/">install Composer</a></p>
-<p>Step 3:</p>
-<ul>
-<li>
-<strong>If you installed composer globally</strong>
-<ul>
-<li>Run <code>composer create-project hugofara/lwt</code>.</li>
-</ul>
-</li>
-<li>
-<strong>If you installed composer locally</strong>
-<ul>
-<li>Got to the folder where composer.phar is located</li>
-<li>Run <code>php composer.phar create-project hugofara/lwt</code>
-</li>
-</ul>
-</li>
-</ul>
-<p>Step 4: Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". (Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.)</p>
-<p>Step 5a: Start the "XAMPP Control Panel" ("C:\xampp\xampp-control.exe") and start the two modules Apache and MySQL. Now the two module names should have a green background color.
-Step 5b: LWT can now be started. Open a browser, and open <a href="http://localhost/lwt">http://localhost/lwt</a> (please bookmark).</p>
-<p>Step 6: You may now install the LWT demo database, or define the first language you want to learn.</p>
+<p>Step 2: Get the [latest GitHub release](<a href="https://github.com/HugoFara/lwt/releases">https://github.com/HugoFara/lwt/releases</a>, unzip it.</p>
+<p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
+<p>Step 3: Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". (Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.)</p>
+<p>Step 4a: Start the "XAMPP Control Panel" ("C:\xampp\xampp-control.exe") and start the two modules Apache and MySQL. Now the two module names should have a green background color.
+Step 4b: LWT can now be started. Open a browser, and open <a href="http://localhost/lwt">http://localhost/lwt</a> (please bookmark).</p>
+<p>Step 5: You may now install the LWT demo database, or define the first language you want to learn.</p>
 <p>If you start up Windows, you must repeat Step 5a+b.</p>
 <p>If you want to start "XAMPP Control Panel" every time you start Windows and to avoid Step 5a, put a "XAMPP Control Panel" link to "C:\xampp\xampp-control.exe" into "C:\Users(YourUID)\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup". To autostart also the Apache and MySQL modules, please open "Config" within the XAMPP Control Panel and check the two checkboxes.</p>
 <p>Hint: To fix a "XAMPP Control Panel" error "Xampp-control.ini Access is denied", please read and do the instructions in <a href="https://www.codermen.com/fix-xampp-server-error-xampp-control-ini-access-is-denied/">https://www.codermen.com/fix-xampp-server-error-xampp-control-ini-access-is-denied/</a></p>
@@ -596,101 +593,94 @@ Your help is very much appreciated.</p>
 <p>Step 1: Go to <a href="https://www.mamp.info/en/downloads/">https://www.mamp.info/en/downloads/</a></p>
 <p>Step 2: Download "MAMP &amp; MAMP PRO" (currently version 6.5).</p>
 <p>Step 3: Double-click on the downloaded installation package "MAMP_MAMP_PRO_xxx.pkg", accept the license, click on "Install for all users..." and on "Continue", on the next panel titled "Standard Install on Macintosh HD" click on "Customize", deselect "MAMP PRO", and click Install. You must enter your password. After this step MAMP is installed within a folder named "MAMP" in the Applications folder.</p>
-<p>Step 4: <a href="https://getcomposer.org/download/">install Composer</a></p>
-<p>Step 5:</p>
-<ul>
-<li>
-<strong>If you installed composer globally</strong>
-<ul>
-<li>Run <code>composer create-project hugofara/lwt</code>.</li>
-</ul>
-</li>
-<li>
-<strong>If you installed composer locally</strong>
-<ul>
-<li>Got to the folder where composer.phar is located</li>
-<li>Run <code>php composer.phar create-project hugofara/lwt</code>
-</li>
-</ul>
-</li>
-</ul>
+<p>Step 4: Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>.</p>
+<p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
+<p>Step 6: Unzip it</p>
 <p>Step 7: Go to /Applications/MAMP/htdocs/lwt. Rename the file connect_mamp.inc.php to connect.inc.php.</p>
 <p>Step 8: Open MAMP.app in /Applications/MAMP. Accept the messages from the firewall. Apache and MySQL start automatically.</p>
 <p>Step 9: LWT can now be started in your web browser, go to: <a href="http://localhost:8888/lwt">http://localhost:8888/lwt</a>.</p>
 <p>Step 10: You may install the LWT demo database, or define the first language you want to learn.</p>
 <p>If you want to use LWT again, just do step 8 and 9.
 The local webserver (MAMP) will be automatically stopped by quitting the MAMP application.</p>
-<h3>Linux (tested Linux Mint 21)</h3>
-<p>Step 1: Open a Terminal, type and execute the following commands:</p>
-<p>Step 1a: Installation of LAMP:</p>
+<h3>Linux (tested Raspbian)</h3>
+<ol>
+<li>
+<p>Open a Terminal, type and execute the following commands:</p>
+<ol>
+<li>Installation of LAMP:</li>
+</ol>
 <pre><code class="language-bash">sudo apt-get update
 sudo apt-get install apache2 libapache2-mod-php php php-mbstring php-mysql mysql-server
 </code></pre>
-<p>Step 1b: Set MySQL root Password to "abcxyz"</p>
-<p>sudo mysql
+<ol start="2">
+<li>Set MySQL root Password to "abcxyz"</li>
+</ol>
+<pre><code class="language-bash">sudo mysql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'abcxyz';
 FLUSH privileges;
-QUIT;</p>
-<p>Step 1c: Check MySQL access:</p>
-<p>mysql -u root -p
+QUIT; 
+</code></pre>
+<ol start="3">
+<li>Check MySQL access:</li>
+</ol>
+<pre><code class="language-bash">mysql -u root -p
 abcxyz
 (if you see the MySQL prompt 'mysql&gt;', everything is OK)
-QUIT;</p>
-<p>Step 3: <a href="https://getcomposer.org/download/">install Composer</a></p>
-<p>Step 4:</p>
-<ul>
-<li>
-<strong>If you installed composer globally</strong>
-<ul>
-<li>Run <code>composer create-project hugofara/lwt</code>.</li>
-</ul>
+QUIT;
+</code></pre>
 </li>
 <li>
-<strong>If you installed composer locally</strong>
-<ul>
-<li>Got to the folder where composer.phar is located</li>
-<li>Run <code>php composer.phar create-project hugofara/lwt</code>
+<p>Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>.</p>
+<p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
 </li>
-</ul>
+<li>
+<p>Unzip it</p>
 </li>
-</ul>
-<p>Step 5: Rename the file connect_xampp.inc.php in /[... Path to downloaded LWT ...]/lwt to connect.inc.php.</p>
-<p>Step 6: Edit this  file connect.inc.php and set the MySQL password in line
-$passwd = "";
-Change it to
-$passwd = "abcxyz";
-Save the edited file connect.inc.php.</p>
-<p>Step 6: Open a Terminal window, type and execute the following commands:</p>
+<li>
+<p>Rename the file connect_xampp.inc.php in /[... Path to downloaded LWT ...]/lwt to connect.inc.php.</p>
+</li>
+<li>
+<p>Edit this  file connect.inc.php and set the MySQL password in line
+<code>$passwd = "";</code>. Change it to <code>$passwd = "abcxyz";</code>. Save the edited file connect.inc.php.</p>
+</li>
+<li>
+<p>Open a Terminal window, type and execute the following commands:</p>
+</li>
+</ol>
 <pre><code class="language-bash">sudo rm /var/www/html/index.html
 sudo mv /[... Path to downloaded LWT ...]/lwt /var/www/html
 sudo chmod -R 755 /var/www/html/lwt
 sudo service apache2 restart
 sudo service mysql restart
 </code></pre>
-<p>Step 7: LWT can now be started in your web browser, go to: <a href="http://localhost/lwt">http://localhost/lwt</a>.</p>
-<p>Step 8: You may install the LWT demo database, or define the first language you want to learn.</p>
+<ol start="7">
+<li>
+<p>LWT can now be started in your web browser, go to: <a href="http://localhost/lwt">http://localhost/lwt</a>.</p>
+</li>
+<li>
+<p>You may install the LWT demo database, or define the first language you want to learn.</p>
+</li>
+</ol>
 <p>If you want to use LWT again, just do step 7.</p>
 <h3>Upgrade LWT</h3>
-<p>Step 1: Backup the LWT directory. Backup your database (within LWT).</p>
-<p>Step 2: go to the LWT folder</p>
-<ul>
+<ol>
 <li>
-<strong>If you installed composer globally</strong>
-<ul>
-<li>Run <code>composer update</code>.</li>
-</ul>
+<p>Backup the LWT directory. Backup your database (within LWT).</p>
 </li>
 <li>
-<strong>If you installed composer locally</strong>
-<ul>
-<li>Got to the folder where composer.phar is located</li>
-<li>Run <code>php composer.phar update</code>
+<p>Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>.</p>
+<p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
 </li>
-</ul>
+<li>
+<p>Unzip it</p>
 </li>
-</ul>
-<p>Step 4: Copy the following (if not already at its place and OK) from your LWT backup into the LWT directory: "connect.inc.php" and the whole "media" sub-directory (if you created one; contains your MP3 audio files).</p>
-<p>Step 5: Clear the web browser cache and open LWT as usual.</p>
+<li>
+<p>Copy the following (if not already at its place and OK) from your LWT backup into the LWT directory: "connect.inc.php" and the whole "media" sub-directory (if you created one; contains your MP3 audio files).</p>
+</li>
+<li>
+<p>Clear the web browser cache and open LWT as usual.</p>
+</li>
+</ol>
 
 			<h2 id="learn" name="learn">▶ How to Learn - <a href="#">[↑]</a></h2>
 <ul>
@@ -1746,6 +1736,33 @@ KEY NfUpdate (NfUpdate)</p>
 			<h2 id="CHANGELOG" name="CHANGELOG">▶ Changelog - <a href="#">[↑]</a></h2>
 <p>This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".</p>
+<h3>[Unreleased]</h3>
+<h4>Changed</h4>
+<ul>
+<li>Composer in no longer <em>required</em> for standard users (but is still required for contributing).</li>
+<li>Updated <code>README.md</code>.</li>
+<li>
+<a href="https://packagist.org/packages/league/commonmark">league/commonmark</a> becomes a dev requirement (no longer required for everyone).</li>
+</ul>
+<h4>Deprecated</h4>
+<ul>
+<li>The <code>is_mobile</code> function now always returns false.</li>
+</ul>
+<h4>Removed</h4>
+<ul>
+<li>Removed unnecessary dependencies:
+<ul>
+<li>
+<a href="https://packagist.org/packages/components/jquery">components/jquery</a> version ^3.6 was required, but only 1.12.4 was in use.</li>
+<li>
+<a href="https://packagist.org/packages/flesler/jquery.scrollto">flesler/jquery.scrollto</a> already bundled by git.</li>
+<li>
+<a href="https://packagist.org/packages/mobiledetect/mobiledetectlib">mobiledetect/mobiledetectlib</a> was unused. It is now removed.</li>
+<li>
+<a href="https://packagist.org/packages/happyworm/jplayer">happyworm/jplayer</a> is no longer integrated by composer (no update since 2014), but it still in use.</li>
+</ul>
+</li>
+</ul>
 <h3>2.2.0-fork (February 04 2022)</h3>
 <h4>Added</h4>
 <ul>
@@ -1768,7 +1785,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 </ul>
 <h4>Fixed</h4>
 <ul>
-<li>Several database flaws fixed. Now the database shoulc stop rotting with time.</li>
+<li>Several database flaws fixed. Now the database should stop rotting with time.</li>
 <li>It is easier to close the right frames in do_text.php.</li>
 <li>When viewing the maximum number of results per page (edit_text.php for instance),
 the maximum value was shown as a floating point value.</li>
@@ -1776,6 +1793,12 @@ the maximum value was shown as a floating point value.</li>
 <h4>Removed</h4>
 <ul>
 <li>Floating Menu from JTricks.com was unused since 2.0.4-fork. It is now deleted.</li>
+</ul>
+<h4>Full Changelog</h4>
+<ul>
+<li>
+<a href="https://github.com/HugoFara/lwt/compare/v2.1.0...v2.2.0">v2.1.0...v2.2.0</a>
+</li>
 </ul>
 <h3>2.1.0-fork (January 09 2022)</h3>
 <h4>Added</h4>

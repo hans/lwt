@@ -166,9 +166,6 @@ $jsFiles = array(
     'src/js/jq_pgm.js', 'src/js/pgm.js', 
     'src/js/translation_api.js', 'src/js/unloadformcheck.js',
     'src/js/third_party/sorttable.js', 'src/js/user_interactions.js', 
-
-    // Packages integrated by composer (dev mode)
-    'vendor/happyworm/jplayer/src/javascript/jplayer/jquery.jplayer.js'
 );
 
 /**
