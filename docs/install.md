@@ -1,5 +1,5 @@
 # LWT Installation
-* *Last update*: January 10 2022
+* *Last update*: February 05 2022
 
 ## Windows 10
 ### Possibility (a): Installation EasyPHP / LWT on Win10
@@ -37,20 +37,22 @@ Now you must only do step 6b to start LWT.
 
 ### Possibility (b): Installation XAMPP / LWT on Win10
 
-Step 1a: Go to https://www.apachefriends.org/download.html 
-Step 1b: Download "XAMPP for Windows 7.3.30 (64 bit)" (or a higher PHP 7 version).
+1. Install XAMPP
+   1. Go to https://www.apachefriends.org/download.html 
+   2.  Download "XAMPP for Windows 7.3.30 (64 bit)" (or a higher PHP 7 version).
 Step 1c: Open your Downloads folder and run the downloaded "xampp-windows-x64-xxx-installer.exe". Please install the components Apache, MySQL, PHP and phpMyAdmin into the folder C:\xampp.
 
-Step 2: Get the [latest GitHub release](https://github.com/HugoFara/lwt/releases, unzip it.
+2. Get the [latest GitHub release](https://github.com/HugoFara/lwt/releases), unzip it.
     
    You can also try to download the [latest stable version](https://github.com/HugoFara/lwt/archive/refs/heads/master.zip) if you want the cutting-edge updates (that may include some bugs)
 
-Step 3: Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". (Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.)
+3. Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". (Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.)
 
-Step 4a: Start the "XAMPP Control Panel" ("C:\xampp\xampp-control.exe") and start the two modules Apache and MySQL. Now the two module names should have a green background color. 
-Step 4b: LWT can now be started. Open a browser, and open http://localhost/lwt (please bookmark).
+4. Start LWT 
+   1. Start the "XAMPP Control Panel" ("C:\xampp\xampp-control.exe") and start the two modules Apache and MySQL. Now the two module names should have a green background color. 
+   2. LWT can now be started. Open a browser, and open http://localhost/lwt (please bookmark).
 
-Step 5: You may now install the LWT demo database, or define the first language you want to learn. 
+5. You may now install the LWT demo database, or define the first language you want to learn. 
 
 If you start up Windows, you must repeat Step 5a+b. 
 
@@ -66,30 +68,29 @@ I no longer use Apple hardware.
 Therefore, I cannot test LWT itself and the following installation instructions on a Mac.
 Your help is very much appreciated.
 
-Step 1: Go to https://www.mamp.info/en/downloads/
+1. Go to https://www.mamp.info/en/downloads/
 
-Step 2: Download "MAMP & MAMP PRO" (currently version 6.5).
+2. Download "MAMP & MAMP PRO" (currently version 6.5).
 
-Step 3: Double-click on the downloaded installation package "MAMP_MAMP_PRO_xxx.pkg", accept the license, click on "Install for all users..." and on "Continue", on the next panel titled "Standard Install on Macintosh HD" click on "Customize", deselect "MAMP PRO", and click Install. You must enter your password. After this step MAMP is installed within a folder named "MAMP" in the Applications folder.
+3. Double-click on the downloaded installation package "MAMP_MAMP_PRO_xxx.pkg", accept the license, click on "Install for all users..." and on "Continue", on the next panel titled "Standard Install on Macintosh HD" click on "Customize", deselect "MAMP PRO", and click Install. You must enter your password. After this step MAMP is installed within a folder named "MAMP" in the Applications folder.
 
-Step 4: Get the [latest GitHub release](https://github.com/HugoFara/lwt/releases).
+4. Get the [latest GitHub release](https://github.com/HugoFara/lwt/releases), unzip it.
     
    You can also try to download the [latest stable version](https://github.com/HugoFara/lwt/archive/refs/heads/master.zip) if you want the cutting-edge updates (that may include some bugs)
 
-Step 6: Unzip it
+5. Go to /Applications/MAMP/htdocs/lwt. Rename the file connect_mamp.inc.php to connect.inc.php.
 
-Step 7: Go to /Applications/MAMP/htdocs/lwt. Rename the file connect_mamp.inc.php to connect.inc.php.
+6. Open MAMP.app in /Applications/MAMP. Accept the messages from the firewall. Apache and MySQL start automatically.
 
-Step 8: Open MAMP.app in /Applications/MAMP. Accept the messages from the firewall. Apache and MySQL start automatically.
+7. LWT can now be started in your web browser, go to: http://localhost:8888/lwt.
 
-Step 9: LWT can now be started in your web browser, go to: http://localhost:8888/lwt.
-
-Step 10: You may install the LWT demo database, or define the first language you want to learn. 
+8. You may install the LWT demo database, or define the first language you want to learn. 
 
 If you want to use LWT again, just do step 8 and 9.
 The local webserver (MAMP) will be automatically stopped by quitting the MAMP application. 
 
-## Linux (tested Raspbian)
+## Linux
+The following instruction were tested on Raspbian Stretch.
 
 1. Open a Terminal, type and execute the following commands:
    1. Installation of LAMP:

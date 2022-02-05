@@ -523,7 +523,7 @@ THE SOFTWARE.</p>
 			<h2 id="install" name="install">▶ LWT Installation - <a href="#">[↑]</a></h2>
 <ul>
 <li>
-<em>Last update</em>: January 10 2022</li>
+<em>Last update</em>: February 05 2022</li>
 </ul>
 <h3>Windows 10</h3>
 <h4>Possibility (a): Installation EasyPHP / LWT on Win10</h4>
@@ -573,15 +573,34 @@ THE SOFTWARE.</p>
 <p>If you want to start EasyPHP every time you start Windows and avoid Step 6a, put an EasyPHP link into "C:\Users(YourUID)\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup".</p>
 <p>Now you must only do step 6b to start LWT.</p>
 <h4>Possibility (b): Installation XAMPP / LWT on Win10</h4>
-<p>Step 1a: Go to <a href="https://www.apachefriends.org/download.html">https://www.apachefriends.org/download.html</a>
-Step 1b: Download "XAMPP for Windows 7.3.30 (64 bit)" (or a higher PHP 7 version).
-Step 1c: Open your Downloads folder and run the downloaded "xampp-windows-x64-xxx-installer.exe". Please install the components Apache, MySQL, PHP and phpMyAdmin into the folder C:\xampp.</p>
-<p>Step 2: Get the [latest GitHub release](<a href="https://github.com/HugoFara/lwt/releases">https://github.com/HugoFara/lwt/releases</a>, unzip it.</p>
+<ol>
+<li>
+<p>Install XAMPP</p>
+<ol>
+<li>Go to <a href="https://www.apachefriends.org/download.html">https://www.apachefriends.org/download.html</a>
+</li>
+<li>Download "XAMPP for Windows 7.3.30 (64 bit)" (or a higher PHP 7 version).
+Step 1c: Open your Downloads folder and run the downloaded "xampp-windows-x64-xxx-installer.exe". Please install the components Apache, MySQL, PHP and phpMyAdmin into the folder C:\xampp.</li>
+</ol>
+</li>
+<li>
+<p>Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>, unzip it.</p>
 <p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
-<p>Step 3: Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". (Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.)</p>
-<p>Step 4a: Start the "XAMPP Control Panel" ("C:\xampp\xampp-control.exe") and start the two modules Apache and MySQL. Now the two module names should have a green background color.
-Step 4b: LWT can now be started. Open a browser, and open <a href="http://localhost/lwt">http://localhost/lwt</a> (please bookmark).</p>
-<p>Step 5: You may now install the LWT demo database, or define the first language you want to learn.</p>
+</li>
+<li>
+<p>Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". (Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.)</p>
+</li>
+<li>
+<p>Start LWT</p>
+<ol>
+<li>Start the "XAMPP Control Panel" ("C:\xampp\xampp-control.exe") and start the two modules Apache and MySQL. Now the two module names should have a green background color.</li>
+<li>LWT can now be started. Open a browser, and open <a href="http://localhost/lwt">http://localhost/lwt</a> (please bookmark).</li>
+</ol>
+</li>
+<li>
+<p>You may now install the LWT demo database, or define the first language you want to learn.</p>
+</li>
+</ol>
 <p>If you start up Windows, you must repeat Step 5a+b.</p>
 <p>If you want to start "XAMPP Control Panel" every time you start Windows and to avoid Step 5a, put a "XAMPP Control Panel" link to "C:\xampp\xampp-control.exe" into "C:\Users(YourUID)\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup". To autostart also the Apache and MySQL modules, please open "Config" within the XAMPP Control Panel and check the two checkboxes.</p>
 <p>Hint: To fix a "XAMPP Control Panel" error "Xampp-control.ini Access is denied", please read and do the instructions in <a href="https://www.codermen.com/fix-xampp-server-error-xampp-control-ini-access-is-denied/">https://www.codermen.com/fix-xampp-server-error-xampp-control-ini-access-is-denied/</a></p>
@@ -590,19 +609,37 @@ Step 4b: LWT can now be started. Open a browser, and open <a href="http://localh
 <p>I no longer use Apple hardware.
 Therefore, I cannot test LWT itself and the following installation instructions on a Mac.
 Your help is very much appreciated.</p>
-<p>Step 1: Go to <a href="https://www.mamp.info/en/downloads/">https://www.mamp.info/en/downloads/</a></p>
-<p>Step 2: Download "MAMP &amp; MAMP PRO" (currently version 6.5).</p>
-<p>Step 3: Double-click on the downloaded installation package "MAMP_MAMP_PRO_xxx.pkg", accept the license, click on "Install for all users..." and on "Continue", on the next panel titled "Standard Install on Macintosh HD" click on "Customize", deselect "MAMP PRO", and click Install. You must enter your password. After this step MAMP is installed within a folder named "MAMP" in the Applications folder.</p>
-<p>Step 4: Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>.</p>
+<ol>
+<li>
+<p>Go to <a href="https://www.mamp.info/en/downloads/">https://www.mamp.info/en/downloads/</a></p>
+</li>
+<li>
+<p>Download "MAMP &amp; MAMP PRO" (currently version 6.5).</p>
+</li>
+<li>
+<p>Double-click on the downloaded installation package "MAMP_MAMP_PRO_xxx.pkg", accept the license, click on "Install for all users..." and on "Continue", on the next panel titled "Standard Install on Macintosh HD" click on "Customize", deselect "MAMP PRO", and click Install. You must enter your password. After this step MAMP is installed within a folder named "MAMP" in the Applications folder.</p>
+</li>
+<li>
+<p>Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>, unzip it.</p>
 <p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
-<p>Step 6: Unzip it</p>
-<p>Step 7: Go to /Applications/MAMP/htdocs/lwt. Rename the file connect_mamp.inc.php to connect.inc.php.</p>
-<p>Step 8: Open MAMP.app in /Applications/MAMP. Accept the messages from the firewall. Apache and MySQL start automatically.</p>
-<p>Step 9: LWT can now be started in your web browser, go to: <a href="http://localhost:8888/lwt">http://localhost:8888/lwt</a>.</p>
-<p>Step 10: You may install the LWT demo database, or define the first language you want to learn.</p>
+</li>
+<li>
+<p>Go to /Applications/MAMP/htdocs/lwt. Rename the file connect_mamp.inc.php to connect.inc.php.</p>
+</li>
+<li>
+<p>Open MAMP.app in /Applications/MAMP. Accept the messages from the firewall. Apache and MySQL start automatically.</p>
+</li>
+<li>
+<p>LWT can now be started in your web browser, go to: <a href="http://localhost:8888/lwt">http://localhost:8888/lwt</a>.</p>
+</li>
+<li>
+<p>You may install the LWT demo database, or define the first language you want to learn.</p>
+</li>
+</ol>
 <p>If you want to use LWT again, just do step 8 and 9.
 The local webserver (MAMP) will be automatically stopped by quitting the MAMP application.</p>
-<h3>Linux (tested Raspbian)</h3>
+<h3>Linux</h3>
+<p>The following instruction were tested on Raspbian Stretch.</p>
 <ol>
 <li>
 <p>Open a Terminal, type and execute the following commands:</p>
@@ -2315,12 +2352,12 @@ mobile compatibility.</p>
 </ul>
 <h4>Fixed</h4>
 <ul>
-<li>Bugfix: importing multiple words with the same tag causes an error</li>
-<li>Bugfix: can't select media in Archived Texts</li>
-<li>Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)</li>
-<li>Bugfix: bottom page select doesn't work in firefox (edit_texts.php, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php)</li>
-<li>Bugfix: setting a tag where tag already exists causes an error</li>
-<li>Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)</li>
+<li>Importing multiple words with the same tag causes an error</li>
+<li>Can't select media in Archived Texts</li>
+<li>Confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)</li>
+<li>Bottom page select doesn't work in firefox (edit_texts.php, edit_words.php, edit_archivedtexts.php, edit_texttags.php, edit_tags.php)</li>
+<li>Setting a tag where tag already exists causes an error</li>
+<li>New tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)</li>
 </ul>
 <h3>1.5.17 (August 15 2014, this document updated Aug 17 2014 and Aug 24 2014):</h3>
 <h4>Changed</h4>
@@ -2404,154 +2441,240 @@ mobile compatibility.</p>
 <li>Some minor bug fixes.</li>
 </ul>
 <h3>1.5.10 (July 07 2013):</h3>
+<h4>Added</h4>
+<ul>
+<li>New alerts in some forms when there are unsaved changes during unload event.</li>
+</ul>
+<h4>Changed</h4>
 <ul>
 <li>Improved database error checking and reporting, better error messages when fatal errors occur, both with traceback information.</li>
-<li>Default values corrected in new language form.</li>
 <li>Some improvements in Glosbe-LWT integration.</li>
-<li>New alerts in some forms when there are unsaved changes during unload event.</li>
-<li>SQL query optimizations in 1.5.8/1.5.9 caused problems, old versions restored.</li>
 <li>Documentation updated.</li>
 </ul>
-<h3>1.5.9 (July 03 2013):</h3>
+<h4>Fixed</h4>
 <ul>
-<li>New Feature: Long Text Import: Importing a long text via file upload or from a text box, with splitting options.</li>
+<li>Default values corrected in new language form.</li>
+<li>SQL query optimizations in 1.5.8/1.5.9 caused problems, old versions restored.</li>
+</ul>
+<h3>1.5.9 (July 03 2013):</h3>
+<h4>Added</h4>
+<ul>
+<li>Long Text Import: Importing a long text via file upload or from a text box, with splitting options.</li>
 <li>Possibility to save the source URI with an active or archived text.</li>
-<li>Missing code in tag management stylesheet restored.</li>
+</ul>
+<h4>Change</h4>
+<ul>
 <li>Documentation and some screenshots updated.</li>
 </ul>
+<h4>Fixed</h4>
+<ul>
+<li>Missing code in tag management stylesheet restored.</li>
+</ul>
 <h3>1.5.8 (June 27 2013):</h3>
+<h4>Changed</h4>
 <ul>
 <li>Optimization of SQL queries for text and print display (reducing query time by up to thirty percent).</li>
 <li>Checking database status and database upgrade program code rewritten.</li>
 <li>Some minor improvements and bugfixes. Documentation updated.</li>
 </ul>
 <h3>1.5.7 (June 25 2013):</h3>
+<h4>Added</h4>
 <ul>
-<li>Some minor corrections in some SQL CREATE/INSERT statements. MySQL session string is now set to an empty string to avoid too strict SQL checking. Thanks to a poster in the help forum for pointing this out!</li>
 <li>A new 3rd "Flexible" term export is introduced, controlled by an "Export Template" in the language settings. <a href="#extmpl">Read more ...</a>
 </li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Texts are now automatically reparsed, however only after changing language settings that influence the sentence and textitems cache.</li>
 <li>Documentation updated.</li>
 </ul>
+<h4>Fixed</h4>
+<ul>
+<li>Some minor corrections in some SQL CREATE/INSERT statements. MySQL session string is now set to an empty string to avoid too strict SQL checking. Thanks to a poster in the help forum for pointing this out!</li>
+</ul>
 <h3>1.5.6 (June 22 2013):</h3>
+<h4>Fixed</h4>
 <ul>
 <li>Two SQL statements (Anki/TSV export of marked terms) corrected. Thanks to a poster in the help forum for pointing this out!</li>
 </ul>
 <h3>1.5.5 (June 21 2013):</h3>
+<h4>Added</h4>
 <ul>
 <li>Integration of the Glosbe API into LWT via a "special" dictionary link. Read more <a href="#glosbe">here</a>.</li>
-<li>Some minor improvements: Window width of dictionary popups changed from 600 to 800 Pixel. No "_lwtgeneral" operations if table prefix is fixed.</li>
 <li>LWT-WordPress integration, read more <a href="#wp">here</a> (only for users who want to use WordPress authentication together with the LWT multiple user/table set feature introduced in version 1.5.3).</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>Some minor improvements: Window width of dictionary popups changed from 600 to 800 Pixel. No "_lwtgeneral" operations if table prefix is fixed.</li>
 <li>Documentation updated.</li>
 </ul>
 <h3>1.5.4 (June 19 2013):</h3>
+<h4>Added</h4>
 <ul>
 <li>If more than one table set exists, and $tbpref was NOT set to a fixed value in "connect.inc.php", you can now select a table set via "start.php", or by clicking on the LWT icon or title in the LWT menu screen "index.php".</li>
 <li>By hovering over the LWT icon in the top left corner of every screen, you can now display the current table set in a yellow tooltip.</li>
 <li>A new test/review type "Table" has been added in the testing area. Words, translations, romanizations, sentences and status are presented in a table. You may hide and/or sort columns. After testing yourself, you can reveal the hidden information by clicking into the table cell, and change your status.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Player appearance improved. Some settings, that were not saved until now, are now automatically saved. Documentation and some screenshots updated.</li>
 </ul>
 <h3>1.5.3 (June 14 2013):</h3>
+<h4>Added</h4>
 <ul>
 <li>New Feature: It is now possible to create and to use not only ONE set of LWT tables within one database. You are now able to create and use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". Read more <a href="#mue">here</a> and <a href="#database">here</a>.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Complete code review. Some minor improvements and bugfixes. Documentation &amp; Anki 1+2 template decks updated.</li>
 </ul>
 <h3>1.5.2 (June 09 2013):</h3>
+<h4>Added</h4>
 <ul>
 <li>Easy navigation to the previous and the next text (according to current text filters and sort order) is now possible.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>"Backup" does not store anymore the tables 'sentences' and 'textitems'. These tables are now automatically recreated (by reparsing the texts) within "Restore". This makes backup faster and the backup file much smaller, while "Restore" will take a bit longer.</li>
 <li>Documentation and all screenshots updated.</li>
 <li>Installation procedures (EasyPHP) updated.</li>
 </ul>
 <h3>1.5.1 (June 07 2013):</h3>
+<h4>Added</h4>
 <ul>
 <li>Display screen of improved annotated texts (= <a href="http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations">hyperliteral translations</a> as <a href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) improved: Clicking the "T" or "A" lightbulb icons hides/shows the complete text or all annotations. You may also click on a single term or a single annotation to show or to hide it. This enables you to test yourself or to concentrate on one text only. Romanizations, if available, appear now while hovering over a term.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.5.0 (April 22 2013):</h3>
+<h4>Addeed</h4>
 <ul>
 <li>New Feature: Create and edit an improved annotated text version (as <a href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>.</li>
 <li>In-Place-editing of translations and romanizations now possible within the terms table.</li>
 <li>You may now empty (= delete the contents of) the LWT database in the "Backup/Restore/Empty Database" screen.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Some minor improvements. Documentation, screenshots and demo database updated.</li>
 </ul>
 <h3>1.4.10 (February 22 2013):</h3>
+<h4>Added</h4>
 <ul>
 <li>New option in "Print" screen: annotation can now also be placed above the term (via <a href="http://en.wikipedia.org/wiki/Ruby_character">Ruby characters</a>). This is especially helpful for Chinese and Japanese, when annotating the text with the romanization (Pinyin, Hiragana, Katakana). Your browser must support ruby markup. Firefox needs the <a href="https://addons.mozilla.org/de/firefox/addon/html-ruby/">HTML Ruby Add-On</a> to display ruby markup properly.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Help document updated.</li>
 </ul>
 <h3>1.4.9 (August 29 2012):</h3>
+<h4>Fixed</h4>
 <ul>
 <li>Anki and TSV export bug fixed (in some cases the term tags were not exported).</li>
 </ul>
 <h3>1.4.8 (May 11 2012, some external links updated June 19 2012):</h3>
+<h4>Added</h4>
+<ul>
+<li>Timing of transactions now possible as an additional debugging option in settings.inc.php ($dspltime = 1; normally switched off = 0).</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>"Important Links" section within this document updated and expanded.</li>
+</ul>
+<h4>Fixed</h4>
 <ul>
 <li>Correction of a small (typo) bug in js/jq_pgm.js that caused an SQL error when pressing the "E" key (Thank you, anthonylauder!). See also <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5265425">this thread</a>.</li>
 <li>Correction in do_text_header.php: fix negative audio positions to zero. See also <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5220016">this thread</a>.</li>
-<li>Timing of transactions now possible as an additional debugging option in settings.inc.php ($dspltime = 1; normally switched off = 0).</li>
-<li>"Important Links" section within this document updated and expanded.</li>
 </ul>
 <h3>1.4.7 (April 6 2012):</h3>
+<h4>Fixed</h4>
 <ul>
 <li>Correction of some minor mistakes and glitches in the code.</li>
 </ul>
 <h3>1.4.6 (March 14 2012):</h3>
+<h4>Fixed</h4>
 <ul>
 <li>Documentation and example database corrected. Google Translate links now open in a popup window, not in a frame of the frameset, as Google now disallows this. Please make sure to deactivate popup window blockers.</li>
 </ul>
 <h3>1.4.5 (October 01 2011, documentation updated Oct 13 2011, external links updated Dec 8 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>Double-Click on a term and "A" key (while going through non-blue terms via keyboard) sets audio position approximately to text position. Hovering over sentence marker (green or red dot) in the terms table shows tooltip with sentence. Some updates and corrections in the documentation.</li>
 </ul>
 <h3>1.4.4 (September 23 2011):</h3>
+<h4>Changed</h4>
 <ul>
 <li>Changed the handling of backslash removal in posted data on servers with magic_quotes_gpc = Off. Documentation updated.</li>
 </ul>
 <h3>1.4.3 (September 21 2011):</h3>
+<h4>Changed</h4>
 <ul>
 <li>Changed some unintentionally written short PHP open tags "&lt;?" to "&lt;?php". Thanks to a poster in the help forum for pointing this out.</li>
 </ul>
 <h3>1.4.2 (September 19 2011):</h3>
+<h4>Removed</h4>
 <ul>
 <li>Removed PGUP/PGDN key bindings (mark first/last non-blue term, use HOME/END keys). Some minor changes in the documentation.</li>
 </ul>
 <h3>1.4.1 (September 15 2011):</h3>
+<h4>Changed</h4>
 <ul>
 <li>Anki Export changed. The full sentence doesn't have brackets anymore.</li>
 <li>Data in Anki template updated.</li>
 </ul>
 <h3>1.4.0 (September 09 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>Mobile Version (experimental, via mobile.php): Selection of Language, Text, and Sentence, Playing the audio (if exists), Reading the text either sentence-by-sentence or term-by-term (saved words shown with translation, romanization, and status (via color). This mobile interface does not yet allow data manipulations.</li>
 <li>Texts, archived texts and terms can now also be filtered by "untagged".</li>
 <li>Added a "Repeat Audio / Single Play" toggle button for media player.</li>
 </ul>
 <h3>1.3.1 (September 05 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>New multi actions for marked/all terms: Set Terms to Lowercase, Capitalize Terms, Delete Sentences of Terms.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Screenshots updated.</li>
 </ul>
 <h3>1.3.0 (September 03 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>Tagging of texts and archived texts introduced. With this feature, it will be easier to categorize and organize your texts. After having tagged your texts, you are able to filter texts according to one or two tags.</li>
 <li>Rudimentary right-to-left (rtl) script support: new db field in languages to set a language to right-to-left script, all relevant parts with respect to rtl support changed. A simple Hebrew example added to demonstrate rtl support.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Documentation, screenshots, Anki example file updated.</li>
 </ul>
 <h3>1.2.2 (August 26 2011):</h3>
+<h4>Added</h4>
+<ul>
+<li>Added column "Percentage Unknown Words" in Texts table.</li>
+<li>During reading a text, you can now create terms that do not occur in the text. Click on the yellow icon in the top left frame, and type in the term, translation, etc. You may now also edit the text directly.</li>
+<li>iPod touchÂ®/iPhoneÂ®/iPadÂ® icons and splash screen added, and HTML header for touch devices modified. (Thanks, Derek!)</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>Documentation and screenshots updated.</li>
+</ul>
+<h4>Fixed</h4>
 <ul>
 <li>Removed a bug that prevented Strg-C/Cmd-C (and other key strokes) in text/test frames.</li>
 <li>Removed a bug in statistics calculation.</li>
 <li>Removed a bug in text selection dropdown control.</li>
-<li>Added column "Percentage Unknown Words" in Texts table.</li>
 <li>Removed language column in Texts/Terms tables if language filter is set.</li>
-<li>During reading a text, you can now create terms that do not occur in the text. Click on the yellow icon in the top left frame, and type in the term, translation, etc. You may now also edit the text directly.</li>
-<li>iPod touchÂ®/iPhoneÂ®/iPadÂ® icons and splash screen added, and HTML header for touch devices modified. (Thanks, Derek!)</li>
-<li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.2.1 (August 25 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>New Rewind and Fast Forward button for audio player. User can set the time to rewind or fast forward from 1 to 10 seconds.</li>
 <li>Added a section in the help document about the setup of LWT for iPadsÂ®, etc.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.2.0 (August 24 2011):</h3>
@@ -2562,12 +2685,19 @@ mobile compatibility.</p>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.1.1 (August 17 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>New option in "Print" screen to select whether annotation should be placed in front (new option) or after (default) the term.</li>
 <li>New option in settings screen "Visit only saved terms with status(es) ..." to specify which terms are visited when using RIGHT/SPACE/LEFT/etc. keys in the text frame (default: ALL non-blue terms = statuses 1..5, Ign, WKn).</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>The Status filter lists have been expanded.</li>
-<li>Fixed problems with non-ASCII characters in media file names (hopefully).</li>
 <li>Documentation and screenshots updated.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Fixed problems with non-ASCII characters in media file names (hopefully).</li>
 </ul>
 <h3>1.1.0 (August 16 2011):</h3>
 <h4>Added</h4>
@@ -2593,31 +2723,47 @@ mobile compatibility.</p>
 <li>EasyPHP installation corrected.</li>
 </ul>
 <h3>1.0.4 (August 11 2011):</h3>
+<h4>Added</h4>
+<ul>
+<li>Checking maximum text length in text input/edit/check screens.</li>
+</ul>
+<h4>Changed</h4>
 <ul>
 <li>Code cleanup and optimization, better code documentation.</li>
-<li>Checking maximum text length in text input/edit/check screens.</li>
 <li>Media directory is not anymore included, user has to create it if needed. The demo media are now all online.</li>
 <li>Demo database installation is now done within LWT (optional). If the database is empty, a hint on the main screen is displayed either to install the demo db or to start with the definition of a language. Backup/Restore now with more hints and an option to install the demo database.</li>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.0.3 (August 09 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>New button to open a new text immediately after saving.</li>
 <li>Dictionaries can now be opened not only within the frame set (default) but also in a popup window (please deactivate popup window blocking in your browser!). To open a dictionary in a separate popup window, put an asterisk * in front of the Uniform Resource Identifier (Example: *<a href="http://mywebdict.com?q=#">http://mywebdict.com?q=#</a>##). Please use this method if a web dictionary does not open properly within the frame set.</li>
 <li>The application now always checks if the current text or language still exist (could have sometimes resulted in empty query results after deleting).</li>
 <li>New settings "Texts per Page", "Show Word Counts of Texts immediately", "Archived Texts per Page" and "Terms per Page". You can now define how many texts or terms are on one page. As the calculation of text word counts can slow down the loading of a long text table, you can switch off this calculation (and do the calculation later).<br>
 "New/Edit Term" now allow dictionary lookup (always in popup window). If you want to enter a term manually, you must first select the language on the "My Terms" page.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.0.2 (August 05 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>Language definition: If the searchword in the Uniform Resource Identifiers (URIs) needs to be converted into a different encoding (standard is UTF-8), you can now use <em>###encoding###</em> as a placeholder. Example: <em><a href="http://mywebdict.com?q=#">http://mywebdict.com?q=#</a>##ISO-8859-15###</em>. A list of encodings can be found <a href="http://php.net/manual/en/mbstring.supported-encodings.php">here</a> (omit the asterisk if one is at the end).</li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Documentation and screenshots updated. Thai example added in demo database.</li>
 </ul>
 <h3>1.0.1 (August 04 2011):</h3>
+<h4>Added</h4>
+<ul>
+<li>Empty database will be created automatically if database does not exist. Tables will be automatically recreated if some or all tables are missing. System handles (future) database changes automatically.</li>
+</ul>
+<h4>Changed</h4>
 <ul>
 <li>Testing: Last term tested will not show up immediately. Automatically selected sentences in tests now must not contain unsaved (blue) words. This does not apply if a sentence saved with a term contains unknown words - such sentences may come up within a test.</li>
-<li>Empty database will be created automatically if database does not exist. Tables will be automatically recreated if some or all tables are missing. System handles (future) database changes automatically.</li>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.0.0 (August 01 2011):</h3>
@@ -2625,6 +2771,7 @@ mobile compatibility.</p>
 <li>First stable release. For some time, there won't be any new releases. I hope you'll understand that. Please post all problems, questions, and (hopefully not too many) bugs <a href="http://sourceforge.net/projects/lwt/forums/forum/1813497">here</a>, and ideas and suggestions for new features <a href="http://lwt.uservoice.com">here</a>. Thanks!</li>
 </ul>
 <h3>0.9.8 (July 31 2011):</h3>
+<h4>Added</h4>
 <ul>
 <li>New Text Display Mode (see new checkbox on the "Read text" screen).
 <ul>
@@ -2632,78 +2779,175 @@ mobile compatibility.</p>
 <li>[Show All] = OFF (new): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts.</li>
 </ul>
 </li>
+</ul>
+<h4>Changed</h4>
+<ul>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>0.9.7 (July 28 2011):</h3>
+<h4>Changed</h4>
 <ul>
 <li>Internal improvements, status names, abbreviations, and tooltips (Thanks, Arthaey!). Printout of texts with optional inline annotation (translation and/or romanization) of terms that are of specified status(es). Documentation and screenshots corrected.</li>
 </ul>
 <h3>0.9.6 (July 26 2011):</h3>
+<h4>Changed</h4>
 <ul>
 <li>More visual improvements (layout, tables, etc.), many improvements and bugfixes. Dictionary Uniform Resource Identifiers (URIs) use now ### as a placeholder for the searchword. If ### is missing, the searchword will be appended (like in older versions). More multi-actions for terms. Translation and sentence fields do NOT accept newlines anymore, now the form is submitted. Status entry changed from dropdown to radio buttons. Backup/Restore improved. CSS and XHTML corrected and validated. Korean example added. An Anki example deck is now provided: "LWT.anki" in directory "anki". Documentation and screenshots improved.</li>
 </ul>
 <h3>0.9.5 (July 23 2011):</h3>
+<h4>Changed</h4>
 <ul>
 <li>Visual improvements (icons), a few bug fixes. Database Restore changed for bigger files. Two new tests to test L2 -&gt; L1 or L1 -&gt; L2 without sentence (just the term). The term filter operates not only on the term field but also on the romanization and translation field.</li>
 </ul>
 <h3>0.9.4 (July 22 2011):</h3>
+<h4>Added</h4>
 <ul>
-<li>"Import of terms" now only needs a translation if the status is set to 1, 2, 3, 4 or 5. Furthermore it not only imports terms as TAB (ASCII 9) separated values (TSV) or "#" separated values, but also as comma separated values (CSV, strings in quotes ("...", if needed), a quote within a string as double quotes (""); this is the format that LingQ uses for exporting terms).</li>
 <li>New buttons to switch easier between active texts and archived texts.</li>
 <li>New settings "Testing: Number of sentences displayed from text, if available" and "Terms: Number of sentences generated from text, if available". Default is "Just ONE". The options "TWO (+ previous)" and "THREE (+ previous, + next)" now allow you to do MCD (Massive-Context Cloze Deletion) testing, as proposed by Khatzumoto @ AJATT.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>"Import of terms" now only needs a translation if the status is set to 1, 2, 3, 4 or 5. Furthermore it not only imports terms as TAB (ASCII 9) separated values (TSV) or "#" separated values, but also as comma separated values (CSV, strings in quotes ("...", if needed), a quote within a string as double quotes (""); this is the format that LingQ uses for exporting terms).</li>
 <li>Some minor bug fixes. Documentation updated.</li>
 </ul>
 <h3>0.9.3 (July 21 2011):</h3>
+<h4>Fixed</h4>
 <ul>
 <li>After a lot of multi-platform/multi-server testing: several bug fixes and improvements. One severe bug that crashed importing and checking of texts on XAMPP/Win removed (Thanks, Kendall!). Within text, archive, and term queries, selected sort order will be retained (saved in database). All other query settings are now retained per session. Documentation updated.</li>
 </ul>
 <h3>0.9.2 (July 19 2011):</h3>
+<h4>Fixed</h4>
 <ul>
-<li>Bugfixes. New "Settings" screen. Documentation updated and improved.</li>
+<li>New "Settings" screen. Documentation updated and improved.</li>
 </ul>
 <h3>0.9.1 (July 18 2011):</h3>
+<h4>Changed</h4>
 <ul>
 <li>Testing totally revamped (and extended). Many, many improvements and bugfixes. Documentation and screenshots updated. EasyPHP for Windows installation explained.</li>
 </ul>
-<h3>0.9.0 (July 14 2011):</h3>
+<h4>Fixed</h4>
 <ul>
-<li>Frame screen "Edit term" is now more compact to save space. TSV export of terms added, Anki export improved. The multi actions drop-down-list is now disabled when no checkboxes are checked. Testing completely revised and improved. New buttons to jump from test to text and vice versa. It is now possible to create expressions with up to 9 words (previous releases: up to 6 words). Important: Re-parsing is necessary to use this feature in existing texts. New texts have this feature will automatically. Documentation and screenshots updated. Questions and answers added.</li>
+<li>Many, many improvements and bugfixes.</li>
+</ul>
+<h3>0.9.0 (July 14 2011):</h3>
+<h4>Added</h4>
+<ul>
+<li>TSV export of terms added.</li>
+<li>New buttons to jump from test to text and vice versa.</li>
+<li>Questions and answers added</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>Frame screen "Edit term" is now more compact to save space.</li>
+<li>Anki export improved.</li>
+<li>The multi actions drop-down-list is now disabled when no checkboxes are checked.</li>
+<li>Testing completely revised and improved.</li>
+<li>It is now possible to create expressions with up to 9 words (previous releases: up to 6 words).
+<ul>
+<li>Important: Re-parsing is necessary to use this feature in existing texts.</li>
+<li>New texts have this feature will automatically.</li>
+</ul>
+</li>
+<li>Documentation and screenshots updated.</li>
 </ul>
 <h3>0.8.2 (July 13 2011):</h3>
+<h4>Changed</h4>
 <ul>
-<li>Minor improvements and bug fixes. Term score formula revised. Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically. Documentation (topic: Term scores) added.</li>
+<li>Minor improvements.</li>
+<li>Term score formula revised.</li>
+<li>Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically.</li>
+<li>Documentation (topic: Term scores) added.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Minor bug fixes.</li>
 </ul>
 <h3>0.8.1 (July 12 2011):</h3>
+<h4>Changed</h4>
 <ul>
 <li>Mac installation and upgrade (see documentation) completely changed.</li>
 </ul>
 <h3>0.8.0 (July 11 2011):</h3>
+<h4>Added</h4>
 <ul>
-<li>Possibility to change term (but only uppercase/lowercase changes allowed). Import terms with overwrite now possible. "Learn/Edit Word/Expression" opens first dictionary automatically. Number of saved words and "To Do" words are now displayed in "My Texts". Backup and Restore of the LWT database. Documentation updated and improved.</li>
+<li>Possibility to change term (but only uppercase/lowercase changes allowed).</li>
+<li>Import terms with overwrite now possible.</li>
+<li>Number of saved words and "To Do" words are now displayed in "My Texts".</li>
+<li>Backup and Restore of the LWT database.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>"Learn/Edit Word/Expression" opens first dictionary automatically.</li>
+<li>Documentation updated and improved.</li>
 </ul>
 <h3>0.7.0 (July 09 2011):</h3>
+<h4>Changed</h4>
 <ul>
-<li>Minor improvements, more documentation, Japanese example added.</li>
+<li>Minor improvements, more documentation.</li>
+<li>Japanese example added.</li>
 </ul>
 <h3>0.6.0 (July 08 2011):</h3>
+<h4>Changed</h4>
 <ul>
-<li>Improvements, bugfixes, more documentation, settings now stored in DB (not in cookies anymore).</li>
+<li>Improvements, more documentation.</li>
+<li>Settings now stored in DB (not in cookies anymore).</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Bugfixes.</li>
 </ul>
 <h3>0.5.0 (June 30 2011):</h3>
+<h4>Added</h4>
 <ul>
-<li>Improvements, bugfixes, text archiving added.</li>
+<li>Text archiving.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>Improvements.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Bugfixes.</li>
 </ul>
 <h3>0.4.0 (June 29 2011):</h3>
+<h4>Added</h4>
 <ul>
-<li>Improvements, bugfixes, basic documentation completed, two new tests.</li>
+<li>Basic documentation completed</li>
+<li>Two new tests.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>Improvements.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Bugfixes.</li>
 </ul>
 <h3>0.3.0 (June 27 2011):</h3>
+<h4>Added</h4>
 <ul>
-<li>Improvements, bugfixes, more documentation.</li>
+<li>More documentation.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>Improvements.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Bugfixes.</li>
 </ul>
 <h3>0.2.0 (June 25 2011):</h3>
+<h4>Added</h4>
 <ul>
-<li>Improvements, bugfixes, more documentation.</li>
+<li>More documentation.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>Improvements.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Bugfixes.</li>
 </ul>
 <h3>0.1.0 (June 24 2011):</h3>
 <ul>
