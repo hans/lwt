@@ -9,6 +9,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * Composer in no longer *required* for standard users (but is still required for contributing).
 * Updated ``README.md``.
 * [league/commonmark](https://packagist.org/packages/league/commonmark) becomes a dev requirement (no longer required for everyone).
+* Re-minified ``jquery.tagit.css``, it may have visual consequences.
 
 ### Fixed
 * Calling ``do_text.php?text=`` created a database error, it does no longer.
