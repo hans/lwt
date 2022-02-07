@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.0-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -91,8 +91,8 @@ Functions</h2></td></tr>
 <tr class="separator:a0f8b684bd0ff832e1d40569467ea12c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad14b811a1266f77af0fe3109099d3b4e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test_8php.html#ad14b811a1266f77af0fe3109099d3b4e">do_test_desktop_page</a> ($property)</td></tr>
 <tr class="separator:ad14b811a1266f77af0fe3109099d3b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6f7ce512729b9fa3dcf496eefa6ec27"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test_8php.html#ad6f7ce512729b9fa3dcf496eefa6ec27">do_test_page</a> ($p, $mobile)</td></tr>
-<tr class="separator:ad6f7ce512729b9fa3dcf496eefa6ec27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa73813432bb87b2de48baaa37623fa5c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test_8php.html#aa73813432bb87b2de48baaa37623fa5c">do_test_page</a> ($p)</td></tr>
+<tr class="separator:aa73813432bb87b2de48baaa37623fa5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafe1f14b0bba0916c64109592e406c29"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__test_8php.html#aafe1f14b0bba0916c64109592e406c29">try_start_test</a> ($p)</td></tr>
 <tr class="separator:aafe1f14b0bba0916c64109592e406c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -148,7 +148,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd>Use do_test_desktop_page instead </dd></dl>
 
 </div>
 </div>
@@ -174,12 +175,13 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>Use do_frameset_mobile_page_content instead </dd></dl>
 
 </div>
 </div>
-<a id="ad6f7ce512729b9fa3dcf496eefa6ec27" name="ad6f7ce512729b9fa3dcf496eefa6ec27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6f7ce512729b9fa3dcf496eefa6ec27">&#9670;&nbsp;</a></span>do_test_page()</h2>
+<a id="aa73813432bb87b2de48baaa37623fa5c" name="aa73813432bb87b2de48baaa37623fa5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa73813432bb87b2de48baaa37623fa5c">&#9670;&nbsp;</a></span>do_test_page()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,29 +190,19 @@ Functions</h2></td></tr>
           <td class="memname">do_test_page </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>$p</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$mobile</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p >Start the test page.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$p</td><td>Some property to add to the URL of <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>. </td></tr>
-    <tr><td class="paramtype">bool</td><td class="paramname">$mobile</td><td>Set to true to use mobile mode.</td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$p</td><td>Some property to add to the URL of <a class="el" href="do__test__test_8php.html" title="Show test frame.">do_test_test.php</a>.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section since"><dt>Since</dt><dd>2.2.1 The $mobile paramater is no longer required.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>

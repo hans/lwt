@@ -190,10 +190,10 @@ function browser_tts($text, $languageName): void
     /// Main object for text-to-speech interaction with SpeechSynthesisUtterance
     var text_reader = {
         /// The text to read
-        text: `<?php echo htmlentities($phoneticText); ?>`,
+        text: <?php echo json_encode($phoneticText); ?>,
 
         /// {string} ISO code for the language
-        lang: '<?php echo htmlentities($languageCode); ?>',
+        lang: <?php echo json_encode($languageCode); ?>,
 
         /// {string} Rate at wich the speech is done
         rate: 0.8,
@@ -206,6 +206,7 @@ function browser_tts($text, $languageName): void
             msg.text = this.text;
             msg.lang = this.lang;
             msg.rate = this.rate;
+            window.speechSynthesis.cancel();
             window.speechSynthesis.speak(msg);
         },
 

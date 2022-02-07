@@ -4,39 +4,9 @@
  * 
  * @package Lwt
  * @license unlicense
- * @since   1.6.16-fork
  * @author  andreask7 <andreasks7@users.noreply.github.com>
+ * @since   1.6.16-fork
  */
-
-/**************************************************************
-"Learning with Texts" (LWT) is free and unencumbered software
-released into the PUBLIC DOMAIN.
-
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the
-detriment of our heirs and successors. We intend this
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-***************************************************************/
 
 /**************************************************************
 Global variables used in LWT jQuery functions
@@ -1020,8 +990,8 @@ function do_ajax_edit_impr_text (pagepos, word) {
     function (data) {
       eval(data);
       $.scrollTo(pagepos);
-      $('input.impr-ann-text').change(changeImprAnnText);
-      $('input.impr-ann-radio').change(changeImprAnnRadio);
+      $('input.impr-ann-text').on('change', changeImprAnnText);
+      $('input.impr-ann-radio').on('change', changeImprAnnRadio);
     }
   );
 }
@@ -1105,7 +1075,7 @@ $.fn.serializeObject = function () {
 function wrapRadioButtons() {
   $(':input,.wrap_checkbox span,.wrap_radio span,a:not([name^=rec]),select,#mediaselect span.click,#forwbutt,#backbutt')
   .each(function (i) { $(this).attr('tabindex', i + 1); });
-  $('.wrap_radio span').bind('keydown', function (e) {
+  $('.wrap_radio span').on('keydown', function (e) {
     if (e.keyCode == 32) {
       $(this).parent().parent().find('input[type=radio]').trigger('click');
       return false;
@@ -1153,35 +1123,40 @@ function prepareMainAreas() {
     }
     $(this).after('<label class="wrap_checkbox" for="' + $(this).attr('id') + '"><span></span></label>');
   });
-  $('span[class*="tts_"]').click(function () {
+  $('span[class*="tts_"]').on('click', function () {
     const lg = $(this).attr('class').replace(/.*tts_([a-zA-Z-]+).*/, '$1');
     const txt = $(this).text();
     const audio = new Audio();
     audio.src = 'tts.php?tl=' + lg + '&q=' + txt;
     audio.play();
   });
-  $(document).mouseup(function () {
+  $(document).on('mouseup', function () {
     $('button,input[type=button],.wrap_radio span,.wrap_checkbox span').blur();
   });
-  $('.wrap_checkbox span').bind('keydown', function (e) {
+  $('.wrap_checkbox span').on('keydown', function (e) {
     if (e.keyCode == 32) {
       $(this).parent().parent().find('input[type=checkbox]').trigger('click');
       return false;
     }
   });
   $('input[type="radio"]').each(function (z) {
-    if (typeof z === 'undefined')z = 1;
+    if (z === undefined) {
+      z = 1;
+    }
     if (typeof $(this).attr('id') === 'undefined') {
       $(this).attr('id', 'rb_' + z++);
     }
     $(this).after('<label class="wrap_radio" for="' + $(this).attr('id') + '"><span></span></label>');
   });
-  $('.button-file').click(function () { $(this).next('input[type="file"]').click(); return false; });
-  $('input.impr-ann-text').change(changeImprAnnText);
-  $('input.impr-ann-radio').change(changeImprAnnRadio);
+  $('.button-file').on('click', function () { 
+    $(this).next('input[type="file"]').click(); 
+    return false; 
+  });
+  $('input.impr-ann-text').on('change', changeImprAnnText);
+  $('input.impr-ann-radio').on('change', changeImprAnnRadio);
   $('form.validate').submit(check);
-  $('input.markcheck').click(markClick);
-  $('.confirmdelete').click(confirmDelete);
+  $('input.markcheck').on('click', markClick);
+  $('.confirmdelete').on('click', confirmDelete);
   $('textarea.textarea-noreturn').keydown(textareaKeydown);
   $('#termtags').tagit(
     {
@@ -1210,6 +1185,6 @@ function prepareMainAreas() {
   window.setTimeout(noShowAfter3Secs, 3000);
 }
 
-$(window).load(wrapRadioButtons);
+$(window).on('load', wrapRadioButtons);
 
 $(document).ready(prepareMainAreas);

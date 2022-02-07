@@ -4,14 +4,24 @@ Changelog
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
-## [Unreleased]
+## 2.2.1-fork (February 07 2022)
 ### Changed
 * Composer in no longer *required* for standard users (but is still required for contributing).
 * Updated ``README.md``.
 * [league/commonmark](https://packagist.org/packages/league/commonmark) becomes a dev requirement (no longer required for everyone).
+* Re-minified ``jquery.tagit.css``, it may have visual consequences.
+* Replaced some jQuery functions by their equivalents. It should not have consequences.
+
+### Fixed
+* Calling ``do_text.php?text=`` created a database error, it does no longer.
+* Long text were laggy in ``do_text_text.php`` since 2.0.3-fork. Some other issues may have been fixed at the same time.
+* Possible unsecure PHP string to JS string conversion in ``do_text_header.php``, function ``browser_tts``.
 
 ### Deprecated
-* The ``is_mobile`` function now always returns false. 
+* The ``is_mobile`` function now always returns false.
+* The ``wordProcessor`` (``do_text_text.php``) function was incorrect. 
+   * It now always return 0.
+   * Please use ``wordParser``, ``sentenceParser`` and some more code instead.
 
 ### Removed
 * Removed unnecessary dependencies:
@@ -19,6 +29,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * [flesler/jquery.scrollto](https://packagist.org/packages/flesler/jquery.scrollto) already bundled by git.
   * [mobiledetect/mobiledetectlib](https://packagist.org/packages/mobiledetect/mobiledetectlib) was unused. It is now removed.
   * [happyworm/jplayer](https://packagist.org/packages/happyworm/jplayer) is no longer integrated by composer (no update since 2014), but it still in use.
+* The ``components/`` folder was also deleted. It was bundling JS code from composer.
+  * It should have been git ignored at least.
+  * Its content was unused. The files it was trying to use are duplicated.
 
 ## 2.2.0-fork (February 04 2022)
 ### Added
@@ -398,6 +411,7 @@ This version should be the stable merge between official v2.0.2 and community ma
 ### Added
 * Key binding T for translating sentence added  
 * New Backup Option: official LWT backup added
+
 ### Changed
 * Database Changes: indexes changed in table words  
       
@@ -427,7 +441,8 @@ Changes from official LWT version 1.5.20 imported:
 
 ## 1.5.20 (September 22 2014):
 ### Changed
-* "Mobile\_Detect.php" updated to v2.8.3.  
+* "Mobile\_Detect.php" updated to v2.8.3.
+
 ### Fixed
 * Missing volume controls in audio player (only on mobile devices) fixed.  
       
@@ -442,7 +457,8 @@ Changes from official LWT version 1.5.20 imported:
 ### Added
 * Possibility to display similar terms while creating or editing a term. This will give you more language insight, and may ease inputting new terms that are similar. The number of displayed similar terms can be set from 0 (old behavior, default) to 9 on the "Settings" page. Clicking on the green icon in front of a similar term will copy the translation and romanization into the form fields for further editing. Important: If you want to use this new feature, you must change the setting "Similar terms to be displayed while adding/editing a term" to a value greater than 0. It will make more sense to do this if you have already many saved terms (e.g. more than 1,000). If you start with a language and have only a few terms, no or not very similar terms will be normally displayed and this feature will not make much sense.
 * New sort option for texts, terms or tags: "Oldest first".  
-* The Catalan language has been added to the Language Settings Wizard.  
+* The Catalan language has been added to the Language Settings Wizard.
+
 ### Changed
 * "https://" dictionary URIs are now allowed in the language settings. Checking of dictionary URIs in the language settings has been improved. The Glosbe dictionary page has been improved with a simple form to change the term and do a requery if you are unhappy with the query results.  
 * The jQuery and jPlayer libraries have been updated to v1.11.1 and v2.7.0, respectively. The jQuery.ScrollTo package has been updated to v1.4.13. The Floating Menu package has been updated to v1.12.  
@@ -450,7 +466,8 @@ Changes from official LWT version 1.5.20 imported:
 * Documentation updated.
 
 ### Fixed
-* Some minor bugs fixed: media selection in archived texts, tag import errors, adding existing tag errors, etc.  
+* Some minor bugs fixed: media selection in archived texts, tag import errors, adding existing tag errors, etc.
+
 ### Removed
 * The audio player skin selection has been removed; the "Blue Monday Small" skin is the standard skin beginning with this release.  
       
@@ -460,7 +477,8 @@ Changes from official LWT version 1.5.20 imported:
 * New Feature: Longer (>9) expressions can now be saved  
 * New Feature: TextToSpeech support for words added  
 * New Feature: experimental google api (use 'ggl.php' instead of '\*http://translate.google.com' for google translate)  
-* New Feature: new word select mode in read texts (hold down mouse button)  
+* New Feature: new word select mode in read texts (hold down mouse button)
+
 ### Changed
 * Database Changes: table textitems replaced by textitems2, temporary tables added, global table tts added  
 * statistics.php, upload\_words.php rewritten  
@@ -476,19 +494,21 @@ Changes from official LWT version 1.5.20 imported:
 * New Setting: Theme  
 * New Setting: term/word query with standard/regexp/regexp CS  
 * New Sort option "Oldest First"  
-* New option "Set Active Term(1-5) Sentences" in My Texts  
+* New option "Set Active Term(1-5) Sentences" in My Texts
+
 ### Changed
 * JQuery, JQuery UI, JPlayer, jQuery.ScrollTo, Tag-it, Sorttable and Floating Menu updated  
 * Database table optimization: first check, only optimize if (Overhead >10% of table and > 100KB) or (Overhead > 1,0MB)  
 * Database table optimization: data types changed.  
-* Documentation updated.  
+* Documentation updated.
+
 ### Fixed
-* Bugfix: importing multiple words with the same tag causes an error  
-* Bugfix: can't select media in Archived Texts  
-* Bugfix: confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)  
-* Bugfix: bottom page select doesn't work in firefox (edit\_texts.php, edit\_words.php, edit\_archivedtexts.php, edit\_texttags.php, edit\_tags.php)  
-* Bugfix: setting a tag where tag already exists causes an error  
-* Bugfix: new tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)  
+* Importing multiple words with the same tag causes an error  
+* Can't select media in Archived Texts  
+* Confirmation-popup when leaving via selectbutton in Settings/Preferences even if there are no changes (chrome-browser)  
+* Bottom page select doesn't work in firefox (edit\_texts.php, edit\_words.php, edit\_archivedtexts.php, edit\_texttags.php, edit\_tags.php)  
+* Setting a tag where tag already exists causes an error  
+* New tag isn't saved in SESSION VAR (when adding a new text with a new tag / may cause an error when editing that text)  
       
     
 ## 1.5.17 (August 15 2014, this document updated Aug 17 2014 and Aug 24 2014):  
@@ -554,153 +574,219 @@ Changes from official LWT version 1.5.20 imported:
 * Some minor bug fixes.  
       
     
-## 1.5.10 (July 07 2013):  
+## 1.5.10 (July 07 2013):
+### Added
+* New alerts in some forms when there are unsaved changes during unload event.
+
+### Changed
 * Improved database error checking and reporting, better error messages when fatal errors occur, both with traceback information.  
-* Default values corrected in new language form.  
-* Some improvements in Glosbe-LWT integration.  
-* New alerts in some forms when there are unsaved changes during unload event.  
+* Some improvements in Glosbe-LWT integration.
+* Documentation updated.
+
+### Fixed
+* Default values corrected in new language form.
 * SQL query optimizations in 1.5.8/1.5.9 caused problems, old versions restored.  
-* Documentation updated.  
       
     
 ## 1.5.9 (July 03 2013):  
-* New Feature: Long Text Import: Importing a long text via file upload or from a text box, with splitting options.  
+### Added
+* Long Text Import: Importing a long text via file upload or from a text box, with splitting options.  
 * Possibility to save the source URI with an active or archived text.  
+
+### Change
+* Documentation and some screenshots updated.
+
+### Fixed
 * Missing code in tag management stylesheet restored.  
-* Documentation and some screenshots updated.  
       
     
 ## 1.5.8 (June 27 2013):  
+### Changed
 * Optimization of SQL queries for text and print display (reducing query time by up to thirty percent).  
 * Checking database status and database upgrade program code rewritten.  
 * Some minor improvements and bugfixes. Documentation updated.  
       
     
 ## 1.5.7 (June 25 2013):  
-* Some minor corrections in some SQL CREATE/INSERT statements. MySQL session string is now set to an empty string to avoid too strict SQL checking. Thanks to a poster in the help forum for pointing this out!  
-* A new 3rd "Flexible" term export is introduced, controlled by an "Export Template" in the language settings. [Read more ...](#extmpl)  
-* Texts are now automatically reparsed, however only after changing language settings that influence the sentence and textitems cache.  
+### Added
+* A new 3rd "Flexible" term export is introduced, controlled by an "Export Template" in the language settings. [Read more ...](#extmpl)
+
+### Changed
+* Texts are now automatically reparsed, however only after changing language settings that influence the sentence and textitems cache.
 * Documentation updated.  
+
+### Fixed
+* Some minor corrections in some SQL CREATE/INSERT statements. MySQL session string is now set to an empty string to avoid too strict SQL checking. Thanks to a poster in the help forum for pointing this out!
       
     
 ## 1.5.6 (June 22 2013):  
+### Fixed
 * Two SQL statements (Anki/TSV export of marked terms) corrected. Thanks to a poster in the help forum for pointing this out!  
       
     
-## 1.5.5 (June 21 2013):  
-* Integration of the Glosbe API into LWT via a "special" dictionary link. Read more [here](#glosbe).  
-* Some minor improvements: Window width of dictionary popups changed from 600 to 800 Pixel. No "\_lwtgeneral" operations if table prefix is fixed.  
-* LWT-WordPress integration, read more [here](#wp) (only for users who want to use WordPress authentication together with the LWT multiple user/table set feature introduced in version 1.5.3).  
+## 1.5.5 (June 21 2013):
+### Added
+* Integration of the Glosbe API into LWT via a "special" dictionary link. Read more [here](#glosbe).
+* LWT-WordPress integration, read more [here](#wp) (only for users who want to use WordPress authentication together with the LWT multiple user/table set feature introduced in version 1.5.3).
+
+### Changed
+* Some minor improvements: Window width of dictionary popups changed from 600 to 800 Pixel. No "\_lwtgeneral" operations if table prefix is fixed.
 * Documentation updated.  
       
     
-## 1.5.4 (June 19 2013):  
+## 1.5.4 (June 19 2013):
+### Added
 * If more than one table set exists, and $tbpref was NOT set to a fixed value in "connect.inc.php", you can now select a table set via "start.php", or by clicking on the LWT icon or title in the LWT menu screen "index.php".  
 * By hovering over the LWT icon in the top left corner of every screen, you can now display the current table set in a yellow tooltip.  
-* A new test/review type "Table" has been added in the testing area. Words, translations, romanizations, sentences and status are presented in a table. You may hide and/or sort columns. After testing yourself, you can reveal the hidden information by clicking into the table cell, and change your status.  
+* A new test/review type "Table" has been added in the testing area. Words, translations, romanizations, sentences and status are presented in a table. You may hide and/or sort columns. After testing yourself, you can reveal the hidden information by clicking into the table cell, and change your status.
+
+### Changed
 * Player appearance improved. Some settings, that were not saved until now, are now automatically saved. Documentation and some screenshots updated.  
       
     
 ## 1.5.3 (June 14 2013):  
+### Added
 * New Feature: It is now possible to create and to use not only ONE set of LWT tables within one database. You are now able to create and use unlimited LWT table sets within one database (as space and MySQL limitations permit). This feature is especially useful for users who want to set up a multi user environment with a set of tables for each user. You can also create one table set for every language you study - this allows you to create different term/text tags for each language. If you don't need this feature, you just use LWT like in earlier versions with the "default table set". Read more [here](#mue) and [here](#database).  
+
+### Changed
 * Complete code review. Some minor improvements and bugfixes. Documentation & Anki 1+2 template decks updated.  
       
     
-## 1.5.2 (June 09 2013):  
-* Easy navigation to the previous and the next text (according to current text filters and sort order) is now possible.  
-* "Backup" does not store anymore the tables 'sentences' and 'textitems'. These tables are now automatically recreated (by reparsing the texts) within "Restore". This makes backup faster and the backup file much smaller, while "Restore" will take a bit longer.  
+## 1.5.2 (June 09 2013):
+### Added
+* Easy navigation to the previous and the next text (according to current text filters and sort order) is now possible.
+
+### Changed
+* "Backup" does not store anymore the tables 'sentences' and 'textitems'. These tables are now automatically recreated (by reparsing the texts) within "Restore". This makes backup faster and the backup file much smaller, while "Restore" will take a bit longer.
 * Documentation and all screenshots updated.  
 * Installation procedures (EasyPHP) updated.  
       
     
-## 1.5.1 (June 07 2013):  
-* Display screen of improved annotated texts (= [hyperliteral translations](http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations) as [interlinear text](http://en.wikipedia.org/wiki/Interlinear_gloss)) improved: Clicking the "T" or "A" lightbulb icons hides/shows the complete text or all annotations. You may also click on a single term or a single annotation to show or to hide it. This enables you to test yourself or to concentrate on one text only. Romanizations, if available, appear now while hovering over a term.  
+## 1.5.1 (June 07 2013):
+### Added
+* Display screen of improved annotated texts (= [hyperliteral translations](http://learnanylanguage.wikia.com/wiki/Hyperliteral_translations) as [interlinear text](http://en.wikipedia.org/wiki/Interlinear_gloss)) improved: Clicking the "T" or "A" lightbulb icons hides/shows the complete text or all annotations. You may also click on a single term or a single annotation to show or to hide it. This enables you to test yourself or to concentrate on one text only. Romanizations, if available, appear now while hovering over a term.
+
+### Changed
 * Documentation and screenshots updated.  
       
     
-## 1.5.0 (April 22 2013):  
+## 1.5.0 (April 22 2013):
+### Addeed
 * New Feature: Create and edit an improved annotated text version (as [interlinear text](http://en.wikipedia.org/wiki/Interlinear_gloss)) for online or offline learning. Read more [here](#il).  
-* In-Place-editing of translations and romanizations now possible within the terms table.  
-* You may now empty (= delete the contents of) the LWT database in the "Backup/Restore/Empty Database" screen.  
+* In-Place-editing of translations and romanizations now possible within the terms table.
+* You may now empty (= delete the contents of) the LWT database in the "Backup/Restore/Empty Database" screen.
+
+### Changed
 * Some minor improvements. Documentation, screenshots and demo database updated.  
       
     
-## 1.4.10 (February 22 2013):  
-* New option in "Print" screen: annotation can now also be placed above the term (via [Ruby characters](http://en.wikipedia.org/wiki/Ruby_character)). This is especially helpful for Chinese and Japanese, when annotating the text with the romanization (Pinyin, Hiragana, Katakana). Your browser must support ruby markup. Firefox needs the [HTML Ruby Add-On](https://addons.mozilla.org/de/firefox/addon/html-ruby/) to display ruby markup properly.  
+## 1.4.10 (February 22 2013):
+### Added
+* New option in "Print" screen: annotation can now also be placed above the term (via [Ruby characters](http://en.wikipedia.org/wiki/Ruby_character)). This is especially helpful for Chinese and Japanese, when annotating the text with the romanization (Pinyin, Hiragana, Katakana). Your browser must support ruby markup. Firefox needs the [HTML Ruby Add-On](https://addons.mozilla.org/de/firefox/addon/html-ruby/) to display ruby markup properly.
+
+### Changed
 * Help document updated.  
       
     
-## 1.4.9 (August 29 2012):  
+## 1.4.9 (August 29 2012):
+### Fixed
 * Anki and TSV export bug fixed (in some cases the term tags were not exported).  
       
     
-## 1.4.8 (May 11 2012, some external links updated June 19 2012):  
-* Correction of a small (typo) bug in js/jq\_pgm.js that caused an SQL error when pressing the "E" key (Thank you, anthonylauder!). See also [this thread](http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5265425).  
-* Correction in do\_text\_header.php: fix negative audio positions to zero. See also [this thread](http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5220016).  
-* Timing of transactions now possible as an additional debugging option in settings.inc.php ($dspltime = 1; normally switched off = 0).  
+## 1.4.8 (May 11 2012, some external links updated June 19 2012):
+### Added
+* Timing of transactions now possible as an additional debugging option in settings.inc.php ($dspltime = 1; normally switched off = 0).
+
+### Changed
 * "Important Links" section within this document updated and expanded.  
+
+### Fixed
+* Correction of a small (typo) bug in js/jq\_pgm.js that caused an SQL error when pressing the "E" key (Thank you, anthonylauder!). See also [this thread](http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5265425).  
+* Correction in do\_text\_header.php: fix negative audio positions to zero. See also [this thread](http://sourceforge.net/projects/lwt/forums/forum/1813497/topic/5220016).
       
     
-## 1.4.7 (April 6 2012):  
+## 1.4.7 (April 6 2012):
+### Fixed
 * Correction of some minor mistakes and glitches in the code.  
       
     
-## 1.4.6 (March 14 2012):  
+## 1.4.6 (March 14 2012):
+### Fixed
 * Documentation and example database corrected. Google Translate links now open in a popup window, not in a frame of the frameset, as Google now disallows this. Please make sure to deactivate popup window blockers.  
       
     
-## 1.4.5 (October 01 2011, documentation updated Oct 13 2011, external links updated Dec 8 2011):  
+## 1.4.5 (October 01 2011, documentation updated Oct 13 2011, external links updated Dec 8 2011):
+### Added
 * Double-Click on a term and "A" key (while going through non-blue terms via keyboard) sets audio position approximately to text position. Hovering over sentence marker (green or red dot) in the terms table shows tooltip with sentence. Some updates and corrections in the documentation.  
       
     
-## 1.4.4 (September 23 2011):  
+## 1.4.4 (September 23 2011):
+### Changed
 * Changed the handling of backslash removal in posted data on servers with magic\_quotes\_gpc = Off. Documentation updated.  
       
     
-## 1.4.3 (September 21 2011):  
+## 1.4.3 (September 21 2011):
+### Changed
 * Changed some unintentionally written short PHP open tags "<?" to "<?php". Thanks to a poster in the help forum for pointing this out.  
       
     
-## 1.4.2 (September 19 2011):  
+## 1.4.2 (September 19 2011):
+### Removed
 * Removed PGUP/PGDN key bindings (mark first/last non-blue term, use HOME/END keys). Some minor changes in the documentation.  
       
     
-## 1.4.1 (September 15 2011):  
+## 1.4.1 (September 15 2011):
+### Changed
 * Anki Export changed. The full sentence doesn't have brackets anymore.  
 * Data in Anki template updated.  
       
     
-## 1.4.0 (September 09 2011):  
+## 1.4.0 (September 09 2011):
+### Added
 * Mobile Version (experimental, via mobile.php): Selection of Language, Text, and Sentence, Playing the audio (if exists), Reading the text either sentence-by-sentence or term-by-term (saved words shown with translation, romanization, and status (via color). This mobile interface does not yet allow data manipulations.  
 * Texts, archived texts and terms can now also be filtered by "untagged".  
 * Added a "Repeat Audio / Single Play" toggle button for media player.  
       
     
-## 1.3.1 (September 05 2011):  
-* New multi actions for marked/all terms: Set Terms to Lowercase, Capitalize Terms, Delete Sentences of Terms.  
+## 1.3.1 (September 05 2011):
+### Added
+* New multi actions for marked/all terms: Set Terms to Lowercase, Capitalize Terms, Delete Sentences of Terms.
+
+### Changed
 * Screenshots updated.  
       
     
-## 1.3.0 (September 03 2011):  
+## 1.3.0 (September 03 2011):
+### Added
 * Tagging of texts and archived texts introduced. With this feature, it will be easier to categorize and organize your texts. After having tagged your texts, you are able to filter texts according to one or two tags.  
-* Rudimentary right-to-left (rtl) script support: new db field in languages to set a language to right-to-left script, all relevant parts with respect to rtl support changed. A simple Hebrew example added to demonstrate rtl support.  
+* Rudimentary right-to-left (rtl) script support: new db field in languages to set a language to right-to-left script, all relevant parts with respect to rtl support changed. A simple Hebrew example added to demonstrate rtl support.
+
+### Changed
 * Documentation, screenshots, Anki example file updated.  
       
     
-## 1.2.2 (August 26 2011):  
+## 1.2.2 (August 26 2011):
+### Added
+* Added column "Percentage Unknown Words" in Texts table.
+* During reading a text, you can now create terms that do not occur in the text. Click on the yellow icon in the top left frame, and type in the term, translation, etc. You may now also edit the text directly.
+* iPod touch®/iPhone®/iPad® icons and splash screen added, and HTML header for touch devices modified. (Thanks, Derek!)
+
+### Changed
+* Documentation and screenshots updated.  
+
+### Fixed
 * Removed a bug that prevented Strg-C/Cmd-C (and other key strokes) in text/test frames.  
 * Removed a bug in statistics calculation.  
-* Removed a bug in text selection dropdown control.  
-* Added column "Percentage Unknown Words" in Texts table.  
-* Removed language column in Texts/Terms tables if language filter is set.  
-* During reading a text, you can now create terms that do not occur in the text. Click on the yellow icon in the top left frame, and type in the term, translation, etc. You may now also edit the text directly.  
-* iPod touch®/iPhone®/iPad® icons and splash screen added, and HTML header for touch devices modified. (Thanks, Derek!)  
-* Documentation and screenshots updated.  
+* Removed a bug in text selection dropdown control.
+* Removed language column in Texts/Terms tables if language filter is set.
       
     
-## 1.2.1 (August 25 2011):  
+## 1.2.1 (August 25 2011):
+### Added
 * New Rewind and Fast Forward button for audio player. User can set the time to rewind or fast forward from 1 to 10 seconds.  
-* Added a section in the help document about the setup of LWT for iPads®, etc.  
+* Added a section in the help document about the setup of LWT for iPads®, etc.
+
+### Changed
 * Documentation and screenshots updated.  
       
     
@@ -711,12 +797,17 @@ Changes from official LWT version 1.5.20 imported:
 * Documentation and screenshots updated.  
       
     
-## 1.1.1 (August 17 2011):  
+## 1.1.1 (August 17 2011):
+### Added
 * New option in "Print" screen to select whether annotation should be placed in front (new option) or after (default) the term.  
-* New option in settings screen "Visit only saved terms with status(es) ..." to specify which terms are visited when using RIGHT/SPACE/LEFT/etc. keys in the text frame (default: ALL non-blue terms = statuses 1..5, Ign, WKn).  
-* The Status filter lists have been expanded.  
-* Fixed problems with non-ASCII characters in media file names (hopefully).  
-* Documentation and screenshots updated.  
+* New option in settings screen "Visit only saved terms with status(es) ..." to specify which terms are visited when using RIGHT/SPACE/LEFT/etc. keys in the text frame (default: ALL non-blue terms = statuses 1..5, Ign, WKn).
+
+### Changed
+* The Status filter lists have been expanded.
+* Documentation and screenshots updated.
+
+### Fixed
+* Fixed problems with non-ASCII characters in media file names (hopefully).
       
     
 ## 1.1.0 (August 16 2011):  
@@ -726,43 +817,57 @@ Changes from official LWT version 1.5.20 imported:
 * In the "Read Text" frame, the next unknown (blue) word in the text can now be shown for term creation just by pressing the RETURN key. The term will be marked by a red border. You type in the translation, etc., and press RETURN to save the word. Now you can press RETURN again to show the next unknown (blue) word, enter a translation, save it, and so on... There is sometimes the problem that some external dictionaries catch the focus although the cursor should be in the translation field in the edit frame. Especially Chrome behaves badly, and I cannot change this. Please try different dictionaries and/or browsers.  
 * You can also review/manage saved (non-blue) terms with key strokes in the "Read Text" frame (RIGHT or SPACE: next term, LEFT: previous term, PAGE-UP or HOME: first term, PAGE-DOWN or END: last term, NUMBER KEYS 1-5: set current term status to 1-5, I: set current term status to "Ignored", W: set current term status to "Well known", E: edit current term, ESC: reset). The current term has a black border and the frame scrolls automatically. The term is displayed in the top right frame.  
 * New refresh button refreshes media files combo box (without page reload) on the text input/edit screen.  
-* Information added how to install LWT at a (free) webhoster.  
+* Information added how to install LWT at a (free) webhoster.
+
 ### Changed
 * DB design altered: Table "words" changed: 3 new columns to make random word selection (in tests) and score calculation/query faster.  
 * Translation, romanization and sentence are now optional. An empty translation or an asterisk in the translation field are equivalent. Terms without translation or in status "Well Known" or "Ignore" will never be tested. Import of terms without translation is now possible.  
 * Textarea input boxes have now all a maximum text/bytes length check.  
 * Testing algorithm revised, simplified and optimized.  
 * Terms due today and tomorrow are marked in score column (red/yellow) in terms table.  
-* Documentation and screenshots updated, new floating menu.  
+* Documentation and screenshots updated, new floating menu.
+
 ### Fixed
 * EasyPHP installation corrected.  
       
     
-## 1.0.4 (August 11 2011):  
-* Code cleanup and optimization, better code documentation.  
+## 1.0.4 (August 11 2011):
+### Added
 * Checking maximum text length in text input/edit/check screens.  
+
+### Changed
+* Code cleanup and optimization, better code documentation.
 * Media directory is not anymore included, user has to create it if needed. The demo media are now all online.  
 * Demo database installation is now done within LWT (optional). If the database is empty, a hint on the main screen is displayed either to install the demo db or to start with the definition of a language. Backup/Restore now with more hints and an option to install the demo database.  
 * Documentation and screenshots updated.  
       
     
-## 1.0.3 (August 09 2011):  
+## 1.0.3 (August 09 2011):
+### Added
 * New button to open a new text immediately after saving.  
 * Dictionaries can now be opened not only within the frame set (default) but also in a popup window (please deactivate popup window blocking in your browser!). To open a dictionary in a separate popup window, put an asterisk \* in front of the Uniform Resource Identifier (Example: \*http://mywebdict.com?q=###). Please use this method if a web dictionary does not open properly within the frame set.  
 * The application now always checks if the current text or language still exist (could have sometimes resulted in empty query results after deleting).  
 * New settings "Texts per Page", "Show Word Counts of Texts immediately", "Archived Texts per Page" and "Terms per Page". You can now define how many texts or terms are on one page. As the calculation of text word counts can slow down the loading of a long text table, you can switch off this calculation (and do the calculation later).  
-    "New/Edit Term" now allow dictionary lookup (always in popup window). If you want to enter a term manually, you must first select the language on the "My Terms" page.  
+    "New/Edit Term" now allow dictionary lookup (always in popup window). If you want to enter a term manually, you must first select the language on the "My Terms" page.
+
+### Changed
 * Documentation and screenshots updated.  
       
     
-## 1.0.2 (August 05 2011):  
-* Language definition: If the searchword in the Uniform Resource Identifiers (URIs) needs to be converted into a different encoding (standard is UTF-8), you can now use _###encoding###_ as a placeholder. Example: _http://mywebdict.com?q=###ISO-8859-15###_. A list of encodings can be found [here](http://php.net/manual/en/mbstring.supported-encodings.php) (omit the asterisk if one is at the end).  
+## 1.0.2 (August 05 2011):
+### Added
+* Language definition: If the searchword in the Uniform Resource Identifiers (URIs) needs to be converted into a different encoding (standard is UTF-8), you can now use _###encoding###_ as a placeholder. Example: _http://mywebdict.com?q=###ISO-8859-15###_. A list of encodings can be found [here](http://php.net/manual/en/mbstring.supported-encodings.php) (omit the asterisk if one is at the end).
+
+### Changed
 * Documentation and screenshots updated. Thai example added in demo database.  
       
     
-## 1.0.1 (August 04 2011):  
-* Testing: Last term tested will not show up immediately. Automatically selected sentences in tests now must not contain unsaved (blue) words. This does not apply if a sentence saved with a term contains unknown words - such sentences may come up within a test.  
+## 1.0.1 (August 04 2011):
+### Added
 * Empty database will be created automatically if database does not exist. Tables will be automatically recreated if some or all tables are missing. System handles (future) database changes automatically.  
+
+### Changed
+* Testing: Last term tested will not show up immediately. Automatically selected sentences in tests now must not contain unsaved (blue) words. This does not apply if a sentence saved with a term contains unknown words - such sentences may come up within a test.
 * Documentation and screenshots updated.  
       
     
@@ -770,83 +875,162 @@ Changes from official LWT version 1.5.20 imported:
 * First stable release. For some time, there won't be any new releases. I hope you'll understand that. Please post all problems, questions, and (hopefully not too many) bugs [here](http://sourceforge.net/projects/lwt/forums/forum/1813497), and ideas and suggestions for new features [here](http://lwt.uservoice.com). Thanks!  
       
     
-## 0.9.8 (July 31 2011):  
+## 0.9.8 (July 31 2011):
+### Added
 * New Text Display Mode (see new checkbox on the "Read text" screen).  
   * \[Show All\] = ON (the only mode in previous releases): ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.  
-  * \[Show All\] = OFF (new): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts.  
+  * \[Show All\] = OFF (new): Multi-word terms now hide single words and shorter or overlapping multi-word terms. This makes it easier to concentrate on multi-word terms while displaying them without superscripts, but creation and deletion of multi-word terms can be a bit slow in long texts.
+
+### Changed 
 * Documentation and screenshots updated.  
       
     
-## 0.9.7 (July 28 2011):  
+## 0.9.7 (July 28 2011):
+### Changed
 * Internal improvements, status names, abbreviations, and tooltips (Thanks, Arthaey!). Printout of texts with optional inline annotation (translation and/or romanization) of terms that are of specified status(es). Documentation and screenshots corrected.  
       
     
-## 0.9.6 (July 26 2011):  
+## 0.9.6 (July 26 2011):
+### Changed
 * More visual improvements (layout, tables, etc.), many improvements and bugfixes. Dictionary Uniform Resource Identifiers (URIs) use now ### as a placeholder for the searchword. If ### is missing, the searchword will be appended (like in older versions). More multi-actions for terms. Translation and sentence fields do NOT accept newlines anymore, now the form is submitted. Status entry changed from dropdown to radio buttons. Backup/Restore improved. CSS and XHTML corrected and validated. Korean example added. An Anki example deck is now provided: "LWT.anki" in directory "anki". Documentation and screenshots improved.  
       
     
-## 0.9.5 (July 23 2011):  
+## 0.9.5 (July 23 2011):
+### Changed
 * Visual improvements (icons), a few bug fixes. Database Restore changed for bigger files. Two new tests to test L2 -> L1 or L1 -> L2 without sentence (just the term). The term filter operates not only on the term field but also on the romanization and translation field.  
       
     
-## 0.9.4 (July 22 2011):  
-* "Import of terms" now only needs a translation if the status is set to 1, 2, 3, 4 or 5. Furthermore it not only imports terms as TAB (ASCII 9) separated values (TSV) or "#" separated values, but also as comma separated values (CSV, strings in quotes ("...", if needed), a quote within a string as double quotes (""); this is the format that LingQ uses for exporting terms).  
+## 0.9.4 (July 22 2011):
+### Added
 * New buttons to switch easier between active texts and archived texts.  
 * New settings "Testing: Number of sentences displayed from text, if available" and "Terms: Number of sentences generated from text, if available". Default is "Just ONE". The options "TWO (+ previous)" and "THREE (+ previous, + next)" now allow you to do MCD (Massive-Context Cloze Deletion) testing, as proposed by Khatzumoto @ AJATT.  
+
+### Changed
+* "Import of terms" now only needs a translation if the status is set to 1, 2, 3, 4 or 5. Furthermore it not only imports terms as TAB (ASCII 9) separated values (TSV) or "#" separated values, but also as comma separated values (CSV, strings in quotes ("...", if needed), a quote within a string as double quotes (""); this is the format that LingQ uses for exporting terms).
 * Some minor bug fixes. Documentation updated.  
       
     
-## 0.9.3 (July 21 2011):  
+## 0.9.3 (July 21 2011):
+### Fixed
 * After a lot of multi-platform/multi-server testing: several bug fixes and improvements. One severe bug that crashed importing and checking of texts on XAMPP/Win removed (Thanks, Kendall!). Within text, archive, and term queries, selected sort order will be retained (saved in database). All other query settings are now retained per session. Documentation updated.  
       
     
-## 0.9.2 (July 19 2011):  
-* Bugfixes. New "Settings" screen. Documentation updated and improved.  
+## 0.9.2 (July 19 2011):
+### Fixed
+* New "Settings" screen. Documentation updated and improved.  
       
     
-## 0.9.1 (July 18 2011):  
-* Testing totally revamped (and extended). Many, many improvements and bugfixes. Documentation and screenshots updated. EasyPHP for Windows installation explained.  
+## 0.9.1 (July 18 2011):
+### Changed
+* Testing totally revamped (and extended). Many, many improvements and bugfixes. Documentation and screenshots updated. EasyPHP for Windows installation explained.
+
+### Fixed
+* Many, many improvements and bugfixes.
       
     
-## 0.9.0 (July 14 2011):  
-* Frame screen "Edit term" is now more compact to save space. TSV export of terms added, Anki export improved. The multi actions drop-down-list is now disabled when no checkboxes are checked. Testing completely revised and improved. New buttons to jump from test to text and vice versa. It is now possible to create expressions with up to 9 words (previous releases: up to 6 words). Important: Re-parsing is necessary to use this feature in existing texts. New texts have this feature will automatically. Documentation and screenshots updated. Questions and answers added.  
+## 0.9.0 (July 14 2011):
+### Added
+* TSV export of terms added.
+* New buttons to jump from test to text and vice versa.
+* Questions and answers added
+
+### Changed
+* Frame screen "Edit term" is now more compact to save space. 
+* Anki export improved. 
+* The multi actions drop-down-list is now disabled when no checkboxes are checked.
+* Testing completely revised and improved. 
+* It is now possible to create expressions with up to 9 words (previous releases: up to 6 words). 
+   * Important: Re-parsing is necessary to use this feature in existing texts. 
+   * New texts have this feature will automatically. 
+* Documentation and screenshots updated.  
       
     
-## 0.8.2 (July 13 2011):  
-* Minor improvements and bug fixes. Term score formula revised. Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically. Documentation (topic: Term scores) added.  
+## 0.8.2 (July 13 2011):
+### Changed
+* Minor improvements.
+* Term score formula revised.
+* Clicking on a blue (unknown) word opens "New Term" and first dictionary automatically.
+* Documentation (topic: Term scores) added.
+
+### Fixed
+* Minor bug fixes.
       
     
-## 0.8.1 (July 12 2011):  
+## 0.8.1 (July 12 2011):
+### Changed
 * Mac installation and upgrade (see documentation) completely changed.  
       
     
-## 0.8.0 (July 11 2011):  
-* Possibility to change term (but only uppercase/lowercase changes allowed). Import terms with overwrite now possible. "Learn/Edit Word/Expression" opens first dictionary automatically. Number of saved words and "To Do" words are now displayed in "My Texts". Backup and Restore of the LWT database. Documentation updated and improved.  
+## 0.8.0 (July 11 2011):
+### Added
+* Possibility to change term (but only uppercase/lowercase changes allowed). 
+* Import terms with overwrite now possible.
+* Number of saved words and "To Do" words are now displayed in "My Texts". 
+* Backup and Restore of the LWT database.
+
+### Changed
+* "Learn/Edit Word/Expression" opens first dictionary automatically. 
+* Documentation updated and improved.  
       
     
-## 0.7.0 (July 09 2011):  
-* Minor improvements, more documentation, Japanese example added.  
+## 0.7.0 (July 09 2011):
+### Changed
+* Minor improvements, more documentation.
+* Japanese example added.  
       
     
-## 0.6.0 (July 08 2011):  
-* Improvements, bugfixes, more documentation, settings now stored in DB (not in cookies anymore).  
+## 0.6.0 (July 08 2011):
+### Changed
+* Improvements, more documentation.
+* Settings now stored in DB (not in cookies anymore).  
+
+### Fixed
+* Bugfixes.
       
     
-## 0.5.0 (June 30 2011):  
-* Improvements, bugfixes, text archiving added.  
+## 0.5.0 (June 30 2011): 
+### Added
+* Text archiving.
+
+### Changed
+* Improvements.
+
+### Fixed
+* Bugfixes.
       
     
 ## 0.4.0 (June 29 2011):  
-* Improvements, bugfixes, basic documentation completed, two new tests.  
+### Added
+* Basic documentation completed
+* Two new tests.
+
+### Changed
+* Improvements.
+
+### Fixed
+* Bugfixes.
       
     
 ## 0.3.0 (June 27 2011):  
-* Improvements, bugfixes, more documentation.  
+### Added
+* More documentation.
+
+### Changed
+* Improvements.
+
+### Fixed
+* Bugfixes.
       
     
 ## 0.2.0 (June 25 2011):  
-* Improvements, bugfixes, more documentation.  
+### Added
+* More documentation.
+### Changed
+* Improvements.
+
+### Fixed
+* Bugfixes.
       
     
-## 0.1.0 (June 24 2011):  
+## 0.1.0 (June 24 2011):
 * Initial release.

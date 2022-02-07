@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.0-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -89,6 +89,11 @@ Functions</h2></td></tr>
 <tr class="separator:aff0e1c7e60b2389153e1165b01fd27e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d79df4f1e92552741b4b26acc5bafa2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#a4d79df4f1e92552741b4b26acc5bafa2">wordProcessor</a> ($record, $showAll, $currcharcount)</td></tr>
 <tr class="separator:a4d79df4f1e92552741b4b26acc5bafa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4a9f5cfb61e7139a6613d96370bf3d4"><td class="memItemLeft" align="right" valign="top"><a id="aa4a9f5cfb61e7139a6613d96370bf3d4" name="aa4a9f5cfb61e7139a6613d96370bf3d4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>sentenceParser</b> ($sid, $old_sid)</td></tr>
+<tr class="separator:aa4a9f5cfb61e7139a6613d96370bf3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23d32e2fd497f2342e314bc1e7729b80"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#a23d32e2fd497f2342e314bc1e7729b80">wordParser</a> ($record, $showAll, $currcharcount, $hideuntil)</td></tr>
+<tr class="separator:a23d32e2fd497f2342e314bc1e7729b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1d6295c4d9f7b70316dd4af59061fd2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#af1d6295c4d9f7b70316dd4af59061fd2">mainWordLoop</a> ($textid, $showAll)</td></tr>
 <tr class="separator:af1d6295c4d9f7b70316dd4af59061fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae71caba9eee9a49733ebaa7e3c16a8ed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text__text_8php.html#ae71caba9eee9a49733ebaa7e3c16a8ed">prepareStyle</a> ($showLearning, $mode_trans, $textsize, $ann_exists)</td></tr>
@@ -187,14 +192,15 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramtype">int</td><td class="paramname">$actcode</td><td>Action code, &gt; 1 for multiword </td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$showAll</td><td>Show all words or not </td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$hideuntil</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$hideuntil</td><td>Unused </td></tr>
     <tr><td class="paramtype">string</td><td class="paramname">$spanid</td><td>ID for this span element </td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$currcharcount</td><td>Current number of caracters </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$currcharcount</td><td>Current number of characters </td></tr>
     <tr><td class="paramtype"></td><td class="paramname">array&lt;string,string&gt;</td><td>$record Various data</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>int New $hideuntil number </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int 0</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.2.1 Return 0 instead of a new value for $hideuntil </dd></dl>
 
 </div>
 </div>
@@ -341,6 +347,59 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a23d32e2fd497f2342e314bc1e7729b80" name="a23d32e2fd497f2342e314bc1e7729b80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23d32e2fd497f2342e314bc1e7729b80">&#9670;&nbsp;</a></span>wordParser()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">wordParser </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$record</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showAll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currcharcount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$hideuntil</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Process each word (can be punction, term, etc...)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string[]</td><td class="paramname">$record</td><td>Record information </td></tr>
+    <tr><td class="paramtype">0&#160;|&#160;1</td><td class="paramname">$showAll</td><td>Show all words or not </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$currcharcount</td><td>Current number of caracters </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$cnt</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$sid</td><td>Sentence ID </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$hideuntil</td><td>Should the value be hidden or not</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int New value for $hideuntil </dd></dl>
+
+</div>
+</div>
 <a id="a4d79df4f1e92552741b4b26acc5bafa2" name="a4d79df4f1e92552741b4b26acc5bafa2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4d79df4f1e92552741b4b26acc5bafa2">&#9670;&nbsp;</a></span>wordProcessor()</h2>
 
@@ -372,7 +431,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Process each word (can be punction, term, etc...)</p>
+<p >Process each word (can be punction, term, etc...). Caused laggy texts, replaced by wordParser.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">string[]</td><td class="paramname">$record</td><td>Record information </td></tr>
@@ -381,7 +440,8 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>int New number of caracters </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int New number of caracters</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd>Use sentenceParser and wordParser instead. </dd></dl>
 
 </div>
 </div>

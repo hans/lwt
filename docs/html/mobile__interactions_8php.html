@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.0-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -88,6 +88,8 @@ Namespaces</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a7106057ba2bbe65a6d09124025279339"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mobile__interactions_8php.html#a7106057ba2bbe65a6d09124025279339">is_mobile</a> ()</td></tr>
 <tr class="separator:a7106057ba2bbe65a6d09124025279339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d5e0e85b0cd7c350111cccc45ff19e8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mobile__interactions_8php.html#a7d5e0e85b0cd7c350111cccc45ff19e8">do_frameset_mobile_page_content</a> ($frame_h_uri, $frame_l_uri, $right_frames)</td></tr>
+<tr class="separator:a7d5e0e85b0cd7c350111cccc45ff19e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6adba33b5151669da078474bc0253c1b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mobile__interactions_8php.html#a6adba33b5151669da078474bc0253c1b">do_frameset_mobile_css</a> ()</td></tr>
 <tr class="separator:a6adba33b5151669da078474bc0253c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1cb513d47c034d45ec5058530cd41ba"><td class="memItemLeft" align="right" valign="top">&lt;/style &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mobile__interactions_8php.html#af1cb513d47c034d45ec5058530cd41ba">do_frameset_mobile_js</a> ($audio=null)</td></tr>
@@ -147,6 +149,50 @@ display&#160;</td><td class="memItemRight" valign="bottom"><b>__pad0__</b></td><
 
 </div>
 </div>
+<a id="a7d5e0e85b0cd7c350111cccc45ff19e8" name="a7d5e0e85b0cd7c350111cccc45ff19e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d5e0e85b0cd7c350111cccc45ff19e8">&#9670;&nbsp;</a></span>do_frameset_mobile_page_content()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_frameset_mobile_page_content </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$frame_h_uri</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$frame_l_uri</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$right_frames</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Echo frameset content for a mobile page.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$frame_h_uri</td><td>URI for the frame-h-2 iframe. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$frame_l_uri</td><td>URI for the frame-l-2 iframe. </td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$right_frames</td><td>Create or not a space for right frames.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
 <a id="a7106057ba2bbe65a6d09124025279339" name="a7106057ba2bbe65a6d09124025279339"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7106057ba2bbe65a6d09124025279339">&#9670;&nbsp;</a></span>is_mobile()</h2>
 
@@ -161,8 +207,10 @@ display&#160;</td><td class="memItemRight" valign="bottom"><b>__pad0__</b></td><
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Return true if we should use mobile mode.</p>
-<dl class="section return"><dt>Returns</dt><dd>bool Mobile mode shoud be activated or not </dd></dl>
+<p >Return false. Before 2.2.1, return true if we should use mobile mode.</p>
+<dl class="section return"><dt>Returns</dt><dd>bool Mobile mode shoud be activated or not</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000006">Deprecated:</a></b></dt><dd>Will always return false</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.2.1 You should not use this function since mobiledetect is no longer used. </dd></dl>
 
 </div>
 </div>

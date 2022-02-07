@@ -69,16 +69,19 @@ function getLanguagesSettings($langid)
  *
  * @param int                   $actcode       Action code, > 1 for multiword
  * @param int                   $showAll       Show all words or not
- * @param int                   $hideuntil
+ * @param int                   $hideuntil     Unused
  * @param string                $spanid        ID for this span element
- * @param int                   $currcharcount Current number of caracters
+ * @param int                   $currcharcount Current number of characters
  * @param array<string, string> $record        Various data
  * 
- * @return int New $hideuntil number
+ * @return int 0
+ * 
+ * @since 2.2.1 Return 0 instead of a new value for $hideuntil
  */
 function echoTerm(
     $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
 ): int {
+    $actcode = (int)$record['Code'];
     if ($actcode > 1) {   
         // A MULTIWORD FOUND
 
@@ -86,9 +89,6 @@ function echoTerm(
 
         // MULTIWORD FOUND - DISPLAY (Status 1-5, display)
         if (isset($record['WoID'])) {
-            if (!$showAll && $hideuntil == -1) {             
-                $hideuntil = (int)$record['Ti2Order'] + ((int)$record['Code'] - 1) * 2;
-            }
 
             echo '<span id="' . $spanid . '" 
             class="' . $hidetag . ' click mword ' . 
@@ -156,17 +156,20 @@ function echoTerm(
         //$titext = array('','','','','','','','','','','');
 
     }  // ($actcode == 1)  -- A WORD FOUND
-    return $hideuntil;
+    return 0;
 }
 
+
 /**
- * Process each word (can be punction, term, etc...)
+ * Process each word (can be punction, term, etc...). Caused laggy texts, replaced by wordParser.
  *
  * @param string[] $record        Record information
  * @param 0|1      $showAll       Show all words or not
  * @param int      $currcharcount Current number of caracters 
  * 
  * @return int New number of caracters
+ * 
+ * @deprecated Use sentenceParser and wordParser instead.
  */
 function wordProcessor($record, $showAll, $currcharcount): int
 {
@@ -224,6 +227,72 @@ function wordProcessor($record, $showAll, $currcharcount): int
 }
 
 /**
+ * 
+ */
+function sentenceParser($sid, $old_sid) {
+    if ($sid == $old_sid) {
+        return $sid;
+    }
+    if ($sid != 0) {
+        echo '</span>';
+    }
+    $sid = $old_sid;
+    echo '<span id="sent_', $sid, '">';
+    return $sid;
+}
+
+/**
+ * Process each word (can be punction, term, etc...)
+ *
+ * @param string[] $record        Record information
+ * @param 0|1      $showAll       Show all words or not
+ * @param int      $currcharcount Current number of caracters 
+ * @param int      $cnt
+ * @param int      $sid           Sentence ID
+ * @param int      $hideuntil     Should the value be hidden or not
+ * 
+ * @return int New value for $hideuntil
+ */
+function wordParser($record, $showAll, $currcharcount, $hideuntil): int
+{
+    $actcode = (int)$record['Code'];
+    $spanid = 'ID-' . $record['Ti2Order'] . '-' . $actcode;
+
+    // Check if word should be hidden
+    $hidetag = '';
+    if ($hideuntil > 0) {
+        if ($record['Ti2Order'] <= $hideuntil) {
+            $hidetag = ' hide'; 
+        } else {
+            $hideuntil = -1;
+            $hidetag = '';
+        }
+    }
+
+    // The current word is not a term
+    if ($record['TiIsNotWord'] != 0) {
+        echo '<span id="' . $spanid . '" class="' .
+        $hidetag . '">' .
+        str_replace(
+            "¶",
+            '<br />',
+            tohtml($record['TiText'])
+        ) . '</span>';
+
+    } else {   
+        // $record['TiIsNotWord'] == 0  -- A TERM
+        if (isset($record['WoID']) && !$showAll && $hideuntil == -1) {
+            $hideuntil = (int)$record['Ti2Order'] + ($actcode - 1) * 2;
+        }
+        echoTerm(
+            $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
+        );
+    } // $record['TiIsNotWord'] == 0  -- A TERM
+
+    return $hideuntil;
+}
+
+/**
  * Get all words and start the iterate over them.
  *
  * @param string $textid  ID of the text 
@@ -236,7 +305,6 @@ function wordProcessor($record, $showAll, $currcharcount): int
 function mainWordLoop($textid, $showAll): void
 {
     global $tbpref;
-    $currcharcount = 0;
     
     $sql = 
     'SELECT
@@ -261,10 +329,24 @@ function mainWordLoop($textid, $showAll): void
      ORDER BY Ti2Order asc, Ti2WordCount desc';
     
     $res = do_mysqli_query($sql);
+    $currcharcount = 0;
+    $hideuntil = -1;
+    $cnt = 1;
+    $sid = 0;
 
     // Loop over words and punctuation
     while ($record = mysqli_fetch_assoc($res)) {
-        $currcharcount = wordProcessor($record, $showAll, $currcharcount);
+        $actcode = (int)$record['Code'];
+        $sid = sentenceParser($sid, $record['Ti2SeID']);
+        if ($cnt < $record['Ti2Order']) {
+            echo '<span id="ID-' . $cnt++ . '-1"></span>';
+        }
+        $hideuntil = wordParser($record, $showAll, $currcharcount, $hideuntil);
+        if ($actcode == 1) { 
+            $currcharcount += $record['TiTextLength']; 
+            $cnt++;
+        }
+
     } // while ($record = mysql_fetch_assoc($res))  -- MAIN LOOP
     
     mysqli_free_result($res);
