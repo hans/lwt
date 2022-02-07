@@ -4,7 +4,7 @@ Changelog
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
-## [Unreleased]
+## 2.2.1-fork (February 07 2022)
 ### Changed
 * Composer in no longer *required* for standard users (but is still required for contributing).
 * Updated ``README.md``.

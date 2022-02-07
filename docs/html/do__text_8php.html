@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.0-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -84,12 +84,12 @@ Namespaces</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:ab05a051359199643b62561554ae8316e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text_8php.html#ab05a051359199643b62561554ae8316e">get_text_id</a> ()</td></tr>
 <tr class="separator:ab05a051359199643b62561554ae8316e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24f25a6a9eea0ca439e87cf7af312616"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text_8php.html#a24f25a6a9eea0ca439e87cf7af312616">do_text_mobile_content</a> ($textid)</td></tr>
-<tr class="separator:a24f25a6a9eea0ca439e87cf7af312616"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a0bbbaae76c9c2b792ad9b3d9e733b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text_8php.html#a0a0bbbaae76c9c2b792ad9b3d9e733b7">do_text_mobile_content</a> ($textid, $audio)</td></tr>
+<tr class="separator:a0a0bbbaae76c9c2b792ad9b3d9e733b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8fe2a6ae451c4df7aaaf6d30574f9af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text_8php.html#ab8fe2a6ae451c4df7aaaf6d30574f9af">do_text_desktop_content</a> ($textid, $audio)</td></tr>
 <tr class="separator:ab8fe2a6ae451c4df7aaaf6d30574f9af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30ba057b7ce248729b4fed1ac6019aed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text_8php.html#a30ba057b7ce248729b4fed1ac6019aed">do_text_page</a> ($textid, $mobile)</td></tr>
-<tr class="separator:a30ba057b7ce248729b4fed1ac6019aed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a814290276deb84322414589444037d65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="do__text_8php.html#a814290276deb84322414589444037d65">do_text_page</a> ($textid)</td></tr>
+<tr class="separator:a814290276deb84322414589444037d65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -137,8 +137,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a24f25a6a9eea0ca439e87cf7af312616" name="a24f25a6a9eea0ca439e87cf7af312616"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24f25a6a9eea0ca439e87cf7af312616">&#9670;&nbsp;</a></span>do_text_mobile_content()</h2>
+<a id="a0a0bbbaae76c9c2b792ad9b3d9e733b7" name="a0a0bbbaae76c9c2b792ad9b3d9e733b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a0bbbaae76c9c2b792ad9b3d9e733b7">&#9670;&nbsp;</a></span>do_text_mobile_content()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,24 +147,37 @@ Variables</h2></td></tr>
           <td class="memname">do_text_mobile_content </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$textid</em></td><td>)</td>
+          <td class="paramname"><em>$textid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$audio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p >Echo the page content for the mobile version of do_text.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$textid</td><td>Text ID</td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$textid</td><td>Text ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$audio</td><td>Audio URI</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>Use do_text_desktop_content instead.</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>2.2.1 It also calls do_frameset_mobile_css and do_frameset_mobile_js </dd></dl>
 
 </div>
 </div>
-<a id="a30ba057b7ce248729b4fed1ac6019aed" name="a30ba057b7ce248729b4fed1ac6019aed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30ba057b7ce248729b4fed1ac6019aed">&#9670;&nbsp;</a></span>do_text_page()</h2>
+<a id="a814290276deb84322414589444037d65" name="a814290276deb84322414589444037d65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a814290276deb84322414589444037d65">&#9670;&nbsp;</a></span>do_text_page()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -173,18 +186,8 @@ Variables</h2></td></tr>
           <td class="memname">do_text_page </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$textid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>$textid</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$mobile</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -196,6 +199,7 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section since"><dt>Since</dt><dd>2.2.1 The $mobile parameter is no longer required.</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
 <p>@global string $tbpref Database table prefix. </p>
 
