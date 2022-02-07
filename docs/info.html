@@ -1784,10 +1784,18 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <h4>Fixed</h4>
 <ul>
 <li>Calling <code>do_text.php?text=</code> created a database error, it does no longer.</li>
+<li>Long text were laggy in <code>do_text_text.php</code> since 2.0.3-fork. Some other issues may have been fixed at the same time.</li>
+<li>Possible unsecure PHP string to JS string conversion in <code>do_text_header.php</code>, function <code>browser_tts</code>.</li>
 </ul>
 <h4>Deprecated</h4>
 <ul>
 <li>The <code>is_mobile</code> function now always returns false.</li>
+<li>The <code>wordProcessor</code> (<code>do_text_text.php</code>) function was incorrect.
+<ul>
+<li>It now always return 0.</li>
+<li>Please use <code>wordParser</code>, <code>sentenceParser</code> and some more code instead.</li>
+</ul>
+</li>
 </ul>
 <h4>Removed</h4>
 <ul>

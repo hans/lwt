@@ -12,9 +12,14 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 
 ### Fixed
 * Calling ``do_text.php?text=`` created a database error, it does no longer.
+* Long text were laggy in ``do_text_text.php`` since 2.0.3-fork. Some other issues may have been fixed at the same time.
+* Possible unsecure PHP string to JS string conversion in ``do_text_header.php``, function ``browser_tts``.
 
 ### Deprecated
-* The ``is_mobile`` function now always returns false. 
+* The ``is_mobile`` function now always returns false.
+* The ``wordProcessor`` (``do_text_text.php``) function was incorrect. 
+   * It now always return 0.
+   * Please use ``wordParser``, ``sentenceParser`` and some more code instead.
 
 ### Removed
 * Removed unnecessary dependencies:
