@@ -1,5 +1,5 @@
 # LWT Installation
-* *Last update*: February 05 2022
+* *Last update*: February 07 2022
 
 ## Windows 10
 ### Possibility (a): Installation EasyPHP / LWT on Win10
@@ -46,7 +46,7 @@ Step 1c: Open your Downloads folder and run the downloaded "xampp-windows-x64-xx
     
    You can also try to download the [latest stable version](https://github.com/HugoFara/lwt/archive/refs/heads/master.zip) if you want the cutting-edge updates (that may include some bugs)
 
-3. Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". (Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.)
+3. Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.
 
 4. Start LWT 
    1. Start the "XAMPP Control Panel" ("C:\xampp\xampp-control.exe") and start the two modules Apache and MySQL. Now the two module names should have a green background color. 
@@ -95,34 +95,33 @@ The following instruction were tested on Raspbian Stretch.
 1. Open a Terminal, type and execute the following commands:
    1. Installation of LAMP:
 
-    ```bash
-    sudo apt-get update
-    sudo apt-get install apache2 libapache2-mod-php php php-mbstring php-mysql mysql-server
-    ```
+      ```bash
+      sudo apt-get update
+      sudo apt-get install apache2 libapache2-mod-php php php-mbstring php-mysql mysql-server
+      ```
 
    2. Set MySQL root Password to "abcxyz" 
 
-    ```bash 
-    sudo mysql
-    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'abcxyz';
-    FLUSH privileges;
-    QUIT; 
-    ```
+      ```bash 
+      sudo mysql
+      ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'abcxyz';
+      FLUSH privileges;
+      QUIT; 
+      ```
 
-    3. Check MySQL access:
+    3. Check MySQL access (if you see the MySQL prompt ``mysql>`` after the first command, everything is OK):
 
-    ```bash
-    mysql -u root -p
-    abcxyz
-    (if you see the MySQL prompt 'mysql>', everything is OK)
-    QUIT;
-    ```
+       ```bash
+       mysql -u root -p
+       abcxyz
+       QUIT;
+       ```
 
 2. Get the [latest GitHub release](https://github.com/HugoFara/lwt/releases).
     
    You can also try to download the [latest stable version](https://github.com/HugoFara/lwt/archive/refs/heads/master.zip) if you want the cutting-edge updates (that may include some bugs)
   
-3. Unzip it
+3. Unzip it.
 
 4. Rename the file connect_xampp.inc.php in /[... Path to downloaded LWT ...]/lwt to connect.inc.php.
 
@@ -131,13 +130,13 @@ The following instruction were tested on Raspbian Stretch.
 
 6. Open a Terminal window, type and execute the following commands:
 
-```bash
-sudo rm /var/www/html/index.html
-sudo mv /[... Path to downloaded LWT ...]/lwt /var/www/html
-sudo chmod -R 755 /var/www/html/lwt
-sudo service apache2 restart
-sudo service mysql restart
-```
+   ```bash
+   sudo rm /var/www/html/index.html
+   sudo mv /[... Path to downloaded LWT ...]/lwt /var/www/html
+   sudo chmod -R 755 /var/www/html/lwt
+   sudo service apache2 restart
+   sudo service mysql restart
+   ```
 
 7. LWT can now be started in your web browser, go to: http://localhost/lwt.
 
@@ -153,7 +152,7 @@ If you want to use LWT again, just do step 7.
     
    You can also try to download the [latest stable version](https://github.com/HugoFara/lwt/archive/refs/heads/master.zip) if you want the cutting-edge updates (that may include some bugs)
 
-3. Unzip it
+3. Unzip it.
 
 4. Copy the following (if not already at its place and OK) from your LWT backup into the LWT directory: "connect.inc.php" and the whole "media" sub-directory (if you created one; contains your MP3 audio files).
 

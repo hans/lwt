@@ -174,8 +174,10 @@
 			<h2 id="preface" name="preface">▶ Preface - <a href="#">[↑]</a></h2>
 <ul>
 <li>
-<strong><strong>THIS IS A THIRD PARTY VERSION - IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (more <a href="#new_features">here</a>)</strong></strong>
-</li>
+<strong>THIS IS A THIRD PARTY VERSION</strong> - IT DIFFERS IN MANY RESPECTS FROM THE OFFICIAL LWT-VERSION (see the <a href="#newfeatures">new features</a>)</li>
+</ul>
+<h3>Preface by lang-learn-guy (original author)</h3>
+<ul>
 <li>I started this software application in 2010 as a hobby project for my personal learning (reading &amp; listening to foreign texts, saving &amp; reviewing new words and expressions).</li>
 <li>In June 2011, I decided to publish the software in the hope that it will be useful to other language learners around the world.</li>
 <li>The software is 100 % free, open source, and in the public domain. You may do with it what you like: use it, improve it, change it, publish an improved version, even use it within a commercial product.</li>
@@ -184,6 +186,25 @@
 <li>My programming style is quite chaotic, and my software is mostly undocumented. This will annoy people with much better programming habits than mine, but please bear in mind that LWT is a one-man hobby project and completely free.</li>
 <li>Thank you for your attention. I hope you will enjoy this application as I do every day.</li>
 </ul>
+<h3>Contributions by HugoFara (GitHub  version maintainer)</h3>
+<p>I started using LWT in 2021, and continued its development almost instantly. I felt that the core idea was very good, but its implementation seemed unnadapted, and the code was quite obfuscated. While I do not have any official responsibility to LWT (I don't know lang-learn-guy), I am the the <em>de facto</em> maintainer of the community version. I dedicated myself to the following points (see the <a href="https://github.com/HugoFara/lwt/discussions/6">GitHub post</a>):</p>
+<ul>
+<li>Make LWT Open Source: document and refactor code</li>
+<li>Meet the HTML5 standards: the interface was relying on deprecated systmes like frames, making it difficult to use on small screens.</li>
+</ul>
+<p>If you spot any problem, please post any <a href="https://github.com/HugoFara/lwt/issues">issue on GitHub</a>, and we will look at it.</p>
+<p>While work is not yet finished, I also aim to expand LWT:</p>
+<ul>
+<li>Better UI: custom themes and better default appearance</li>
+<li>Better UX: as of today (2022), 60 % of the web is done through mobile devices. It means less content at once and more intuitive behaviors.</li>
+<li>Sounds: language learning is not just language reading.
+<ul>
+<li>Motivational sounds to keep users motivated.</li>
+<li>Text-to-speech features.</li>
+</ul>
+</li>
+</ul>
+<p>But there is much more! The community version of LWT is no longer feat of one man, it belongs to everyone. As such, it gets well easier to implement new features, discuss and exchange code and ideas. I don't know if LWT contains <em>your</em> killer feature, but I can say that it <em>can be implemented</em> with this version. Enjoy!</p>
 
 			<h2 name="current" id="current">
 				▶ Current Version - <a href="#">[↑]</a>
@@ -523,7 +544,7 @@ THE SOFTWARE.</p>
 			<h2 id="install" name="install">▶ LWT Installation - <a href="#">[↑]</a></h2>
 <ul>
 <li>
-<em>Last update</em>: February 05 2022</li>
+<em>Last update</em>: February 07 2022</li>
 </ul>
 <h3>Windows 10</h3>
 <h4>Possibility (a): Installation EasyPHP / LWT on Win10</h4>
@@ -588,7 +609,7 @@ Step 1c: Open your Downloads folder and run the downloaded "xampp-windows-x64-xx
 <p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
 </li>
 <li>
-<p>Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". (Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.)</p>
+<p>Now go into "C:\xampp\htdocs\lwt". Rename the file "connect_xampp.inc.php" to "connect.inc.php". Sometimes the "php" extension is hidden, so be careful! You can display file extensions via the Windows Explorer settings and check it.</p>
 </li>
 <li>
 <p>Start LWT</p>
@@ -644,34 +665,35 @@ The local webserver (MAMP) will be automatically stopped by quitting the MAMP ap
 <li>
 <p>Open a Terminal, type and execute the following commands:</p>
 <ol>
-<li>Installation of LAMP:</li>
-</ol>
+<li>
+<p>Installation of LAMP:</p>
 <pre><code class="language-bash">sudo apt-get update
 sudo apt-get install apache2 libapache2-mod-php php php-mbstring php-mysql mysql-server
 </code></pre>
-<ol start="2">
-<li>Set MySQL root Password to "abcxyz"</li>
-</ol>
+</li>
+<li>
+<p>Set MySQL root Password to "abcxyz"</p>
 <pre><code class="language-bash">sudo mysql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'abcxyz';
 FLUSH privileges;
 QUIT; 
 </code></pre>
-<ol start="3">
-<li>Check MySQL access:</li>
-</ol>
+</li>
+<li>
+<p>Check MySQL access (if you see the MySQL prompt <code>mysql&gt;</code> after the first command, everything is OK):</p>
 <pre><code class="language-bash">mysql -u root -p
 abcxyz
-(if you see the MySQL prompt 'mysql&gt;', everything is OK)
 QUIT;
 </code></pre>
+</li>
+</ol>
 </li>
 <li>
 <p>Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>.</p>
 <p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
 </li>
 <li>
-<p>Unzip it</p>
+<p>Unzip it.</p>
 </li>
 <li>
 <p>Rename the file connect_xampp.inc.php in /[... Path to downloaded LWT ...]/lwt to connect.inc.php.</p>
@@ -682,15 +704,13 @@ QUIT;
 </li>
 <li>
 <p>Open a Terminal window, type and execute the following commands:</p>
-</li>
-</ol>
 <pre><code class="language-bash">sudo rm /var/www/html/index.html
 sudo mv /[... Path to downloaded LWT ...]/lwt /var/www/html
 sudo chmod -R 755 /var/www/html/lwt
 sudo service apache2 restart
 sudo service mysql restart
 </code></pre>
-<ol start="7">
+</li>
 <li>
 <p>LWT can now be started in your web browser, go to: <a href="http://localhost/lwt">http://localhost/lwt</a>.</p>
 </li>
@@ -709,7 +729,7 @@ sudo service mysql restart
 <p>You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
 </li>
 <li>
-<p>Unzip it</p>
+<p>Unzip it.</p>
 </li>
 <li>
 <p>Copy the following (if not already at its place and OK) from your LWT backup into the LWT directory: "connect.inc.php" and the whole "media" sub-directory (if you created one; contains your MP3 audio files).</p>
