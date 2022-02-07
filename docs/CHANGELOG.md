@@ -10,6 +10,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * Updated ``README.md``.
 * [league/commonmark](https://packagist.org/packages/league/commonmark) becomes a dev requirement (no longer required for everyone).
 * Re-minified ``jquery.tagit.css``, it may have visual consequences.
+* Replaced some jQuery functions by their equivalents. It should not have consequences.
 
 ### Fixed
 * Calling ``do_text.php?text=`` created a database error, it does no longer.
