@@ -2,7 +2,7 @@
 [![Latest Stable Version](https://poser.pugx.org/hugofara/lwt/v)](https://packagist.org/packages/hugofara/lwt)
 [![License](https://poser.pugx.org/hugofara/lwt/license)](https://packagist.org/packages/hugofara/lwt) 
 [![PHP Version Require](https://poser.pugx.org/hugofara/lwt/require/php)](https://packagist.org/packages/hugofara/lwt)
-![example workflow](https://github.com/hugofara/lwt/actions/workflows/php.yml/badge.svg)
+![Composer Continuous Integration](https://github.com/hugofara/lwt/actions/workflows/php.yml/badge.svg)
 
 **Learning with Texts** (LWT) is a tool for language learning by reading. It is a self-hosted web application.
 
@@ -83,6 +83,7 @@ See the full list: [newfeatures.md](https://hugofara.github.io/lwt/docs/newfeatu
 * Code is well organised, making debugging and contribution easier.
 
 ## Contribute
+* **Complete explanation**: [docs/contribute.md](docs/contribute.md)
 To contribute, you need to clone or fork this repository, and [Composer](https://getcomposer.org/download/). 
 The composer package is at [hugofara/lwt](https://packagist.org/packages/hugofara/lwt).
 

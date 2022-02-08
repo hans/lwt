@@ -83,6 +83,8 @@
 			<a href="#termscores">Term Scores</a>
 			<a href="#keybind">Key Bindings</a>
 			<a href="#export">Export Template</a>
+			<div>&nbsp;</div>
+			<a href="#contribute">Contribute</a>
 			<a href="#wordpress">WordPress Integration</a>
 			<a href="#database">Database</a>
 			<a href="#CHANGELOG">Changelog</a>
@@ -158,6 +160,9 @@
 					</option>
 					<option value="export">
 						Export Template
+					</option>
+					<option value="contribute">
+						Contribute
 					</option>
 					<option value="wordpress">
 						WordPress Integration
@@ -1563,6 +1568,54 @@ Now execute:<br>
 </tbody>
 </table>
 			
+			<h2 id="contribute" name="contribute">▶ Contributing to LWT - <a href="#">[↑]</a></h2>
+<p>This guide is mainly aimed for developers, but it can give useful insights on how LWT is structured, which could help you for debugging. The first step you need to take is to clone LWT from the official GitHub repository (<a href="https://github.com/HugoFara/lwt">HugoFara/lwt</a>).</p>
+<h3>Get Composer</h3>
+<p>Getting <a href="https://getcomposer.org/download/">Composer</a> is required if you want to edit LWT on the server side, but it will also make be useful to edit JS and CSS code, so it is <em>highly recommended</em>. Composer is a light-weight dependency manager that <em>does not need</em> a server for running.</p>
+<p>Once Composer is ready, go the the lwt folder (most likely <code>lwt/</code>), and type</p>
+<pre><code class="language-bash">composer install --dev
+</code></pre>
+<p>This will automatically dowload all the required dependencies.</p>
+<h3>Create and Edit Themes</h3>
+<p>Themes are stored at <code>src/themes/</code>. If you want to create a new theme, simply add it in a subfolder. You can also edit existing themes.</p>
+<p>To apply the changes you made on a theme, run</p>
+<pre><code class="language-bash">make minify
+</code></pre>
+<p>This command will minify all CSS and JS.</p>
+<p>Alternatively, you can run</p>
+<pre><code class="language-bash">php -r "require 'src/php/minifier.php'; minifyAllCSS();"
+</code></pre>
+<p>It minifies CSS only.</p>
+<h4>Debug your theme</h4>
+<p>You may not want to see your code minified, so you can use</p>
+<pre><code class="language-bash">make no-minify
+</code></pre>
+<p>It has the same effect as copying the folder <code>scr/themes/</code> to <code>themes/</code>.</p>
+<h4>My theme does not contain all the Skinning Files!</h4>
+<p>That's not a problem at all. When LWT looks for a file that should be contained in <code>src/themes/{{The Theme}}/</code>, it checks if the file exists. If not, it goes to <code>css/</code> and tries to get the same file. With this system, your themes <strong>does not need to have the same files as <code>src/css/</code></strong>.</p>
+<h3>Change JS behaviour</h3>
+<p>As with themes, LWT minifies JS code for a better user experience. Please refer to the previous section for detailed explanations, this section will only go through import points.</p>
+<h4>Edit JS code</h4>
+<p>Clear code is stored at <code>src/js/</code>. Once again, the <em>actual</em> code used by LWT should be at <code>js/</code>. After you have done any modification, either run <code>make minify</code> or <code>php -r "require 'src/php/minifier.php'; minifyAllJS();"</code>.</p>
+<h4>Debug JS code</h4>
+<p>To copy code in a non-obfuscated form, run <code>make no-minify</code>, or replace the content of <code>js/</code> by <code>src/js/</code>.</p>
+<h3>Improving Documentation</h3>
+<p>To regenerate all documentation, use <code>make doc</code>.</p>
+<h4>General Documentation</h4>
+<p>The documentation in split across Markdown (<code>.md</code>) files in <code>docs/</code>. Then, those files are requested by <code>info.php</code>. The final version is <code>info.html</code>, that contains all files.</p>
+<p>To regenerate <code>info.hml</code>, run <code>make info.html</code>.</p>
+<h4>Code Documentation</h4>
+<p>Code documentation (everything under <code>docs/html/</code>) is automatically generated. If you see an error, the PHP code is most likely at fault. However, don't hesitate to signal the issue.</p>
+<p>Currently, the documentation is generated through Doxygen (run <code>doxygen Doxyfile</code> to regenerate it), but this is likely to change.</p>
+<h3>Other ways of Contribution</h3>
+<h4>Drop a star on GitHub</h4>
+<p>This is an Open-Source project. It means that anyone can contribute, but nobody gets paid for improving it. Dropping a star, leaving a comment or posting an issue is <em>essential</em>, because the only retributions developers get from time spent on LWT is to discuss with users.</p>
+<h4>Share the Word</h4>
+<p>LWT is a non-profitable software, so we won't have much time, and no money, to advertise LWT. If you enjoy LWT and want to see it grow, share it!</p>
+<h4>Discuss</h4>
+<p>Either go to the forum of the <a href="https://sourceforge.net/p/learning-with-texts/discussion/">official LWT version</a>, or come and <a href="https://github.com/HugoFara/lwt/discussions">discuss on the community version</a>.</p>
+<p>Thanks for your interest in contributiong!</p>
+
 			<h2 id="wordpress" name="wordpress">▶ Wordpress Integration - <a href="#">[↑]</a></h2>
 <ul>
 <li>
@@ -1821,7 +1874,8 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 </ul>
 <h4>Removed</h4>
 <ul>
-<li>Removed unnecessary dependencies:
+<li>
+<p>Removed unnecessary dependencies:</p>
 <ul>
 <li>
 <a href="https://packagist.org/packages/components/jquery">components/jquery</a> version ^3.6 was required, but only 1.12.4 was in use.</li>
@@ -1833,11 +1887,16 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <a href="https://packagist.org/packages/happyworm/jplayer">happyworm/jplayer</a> is no longer integrated by composer (no update since 2014), but it still in use.</li>
 </ul>
 </li>
-<li>The <code>components/</code> folder was also deleted. It was bundling JS code from composer.
+<li>
+<p>The <code>components/</code> folder was also deleted. It was bundling JS code from composer.</p>
 <ul>
 <li>It should have been git ignored at least.</li>
 <li>Its content was unused. The files it was trying to use are duplicated.</li>
 </ul>
+<h4>Full Changelog</h4>
+</li>
+<li>
+<p><a href="https://github.com/HugoFara/lwt/compare/v2.2.0...v2.2.1">v2.2.0...v2.2.1</a></p>
 </li>
 </ul>
 <h3>2.2.0-fork (February 04 2022)</h3>
@@ -1874,7 +1933,7 @@ the maximum value was shown as a floating point value.</li>
 <h4>Full Changelog</h4>
 <ul>
 <li>
-<a href="https://github.com/HugoFara/lwt/compare/v2.1.0...v2.2.0">v2.1.0...v2.2.0</a>
+<a href="https://github.com/HugoFara/lwt/compare/2.1.0...v2.2.0">2.1.0...v2.2.0</a>
 </li>
 </ul>
 <h3>2.1.0-fork (January 09 2022)</h3>

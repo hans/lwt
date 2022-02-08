@@ -33,6 +33,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * It should have been git ignored at least.
   * Its content was unused. The files it was trying to use are duplicated.
 
+  ### Full Changelog
+* [v2.2.0...v2.2.1](https://github.com/HugoFara/lwt/compare/v2.2.0...v2.2.1)
+
 ## 2.2.0-fork (February 04 2022)
 ### Added
 * Sounds while testing terms!
@@ -60,7 +63,7 @@ the maximum value was shown as a floating point value.
 * Floating Menu from JTricks.com was unused since 2.0.4-fork. It is now deleted.
 
 ### Full Changelog
-* [v2.1.0...v2.2.0](https://github.com/HugoFara/lwt/compare/v2.1.0...v2.2.0)
+* [2.1.0...v2.2.0](https://github.com/HugoFara/lwt/compare/2.1.0...v2.2.0)
 
 ## 2.1.0-fork (January 09 2022)
 ### Added

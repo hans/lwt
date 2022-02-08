@@ -99,6 +99,8 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 			<a href="#termscores">Term Scores</a>
 			<a href="#keybind">Key Bindings</a>
 			<a href="#export">Export Template</a>
+			<div>&nbsp;</div>
+			<a href="#contribute">Contribute</a>
 			<a href="#wordpress">WordPress Integration</a>
 			<a href="#database">Database</a>
 			<a href="#CHANGELOG">Changelog</a>
@@ -174,6 +176,9 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 					</option>
 					<option value="export">
 						Export Template
+					</option>
+					<option value="contribute">
+						Contribute
 					</option>
 					<option value="wordpress">
 						WordPress Integration
@@ -257,6 +262,8 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 
 			<?php echo markdown_integration(__DIR__ . "/export.md"); ?>
 			
+			<?php echo markdown_integration(__DIR__ . "/contribute.md"); ?>
+
 			<?php echo markdown_integration(__DIR__ . "/wordpress.md"); ?>
 			
 			<?php echo markdown_integration(__DIR__ . "/database.md"); ?>
