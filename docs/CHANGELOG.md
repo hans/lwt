@@ -8,6 +8,12 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ### Added
 * A contribution guide at ``docs/contribute.md``.
 
+### Fixed
+* Some AJAX files could not work properly since 2.0.3-fork.
+   * Refreshing the list of audio files in ``edit_texts.php`` works again.
+   * Theme in ``info.html`` works now.
+   * Some other problems may have been fixed.
+
 ## 2.2.1-fork (February 07 2022)
 ### Changed
 * Composer in no longer *required* for standard users (but is still required for contributing).

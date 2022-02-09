@@ -27,15 +27,13 @@
 			function ajaxGetTheme () {
 				$.ajax(
 					{
-						type: 'POST',
+						type: 'GET',
 						url: '../inc/ajax_get_theme.php',
 						async: false, 
 						data: { file: '../css/styles.css' }, 
 						success: function (data) {
-							console.log("theme path loaded");
-							console.log(data);
 							if (data.match(/styles.css$/g)) 
-								$('style').text( "@import url(" + data + ");" );
+								$('style').text( "@import url(../" + data.trim() + ");" );
 					}
 				});
 			}
@@ -1868,6 +1866,16 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <h4>Added</h4>
 <ul>
 <li>A contribution guide at <code>docs/contribute.md</code>.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Some AJAX files could not work properly since 2.0.3-fork.
+<ul>
+<li>Refreshing the list of audio files in <code>edit_texts.php</code> works again.</li>
+<li>Theme in <code>info.html</code> works now.</li>
+<li>Some other problems may have been fixed.</li>
+</ul>
+</li>
 </ul>
 <h3>2.2.1-fork (February 07 2022)</h3>
 <h4>Changed</h4>

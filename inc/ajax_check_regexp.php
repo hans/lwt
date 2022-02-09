@@ -6,18 +6,23 @@
  * Call: inc/ajax_check_regexp.php?....
  *      ... regex=regular_expression
  *  
- * @author andreask7 <andreask7@users.noreply.github.com>
- * @since  1.6.27-fork
+ * @package Lwt
+ * @author  andreask7 <andreask7@users.noreply.github.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/ajax__check__regex_8php.html
+ * @since   1.6.27-fork
  */
 
 require_once __DIR__ . '/session_utility.php';
 
 
+chdir('..');
 $regex = $_REQUEST['regex'];
 $old_error = error_reporting(0); // Turn off error reporting
 $err = 0;
 
-if('MECAB'== strtoupper(trim($regex))) {
+function check_mecab_regex()
+{
     $conf = '';
     $handle = popen(get_mecab_path(" -P"), 'r');
     while (!feof($handle)) {
@@ -52,17 +57,26 @@ if('MECAB'== strtoupper(trim($regex))) {
     } else {
         echo "ERROR\n\nCould not find '" . get_mecab_path() . "'\n";
     }
+
 }
-else{
+
+function check_standard_regex($regex)
+{
     $match = preg_match('/[' . $regex . ']/u', 'test');
     if ($match === false) {
         $err = 1;
     } else if (mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_regexp_to_sqlsyntax('['.$regex.']'))===false) {
         $err = 1;
     }
+    if ($err == 1) { 
+        echo "ERROR\n\nIncorrect Syntax of Field 'Word Regexp Characters'"; 
+    }
 }
-if ($err == 1) { 
-    echo "ERROR\n\nIncorrect Syntax of Field 'Word Regexp Characters'"; 
+
+if('MECAB'== strtoupper(trim($regex))) {
+    check_mecab_regex();
+} else {
+    check_standard_regex($regex);
 }
 error_reporting($old_error);  // Set error reporting to old level
 

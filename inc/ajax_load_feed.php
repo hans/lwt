@@ -3,20 +3,22 @@
  * \file
  * \brief Load a RSS feed.
  *  
- * @author andreask7 <andreask7@users.noreply.github.com>
- * @since  1.6.0-fork
+ * @author  andreask7 <andreask7@users.noreply.github.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/ajax__load__feed_8php.html
+ * @since   1.6.0-fork
  */
 
 require_once __DIR__ . '/session_utility.php';
 
 session_write_close();
-$msg='';
+chdir('..');
+$msg = '';
 $feed = get_links_from_rss($_POST['NfSourceURI'], get_nf_option($_POST['NfOptions'], 'article_source'));
-if(empty($feed)) {
-    $msg.= 'Error: Could not load "' .$_POST['NfName']. '" ! ';
-    echo "<div class=\"red\"><p> $msg </p></div>";        
-}
-else{
+
+function get_feeds_list($feed)
+{
+    global $tbpref;
     $sql = 'INSERT IGNORE INTO ' . $tbpref . 'feedlinks (FlTitle,FlLink,FlText,FlDescription,FlDate,FlAudio,FlNfID) VALUES ';
     $valuesArr = array();
     foreach ($feed as $data){
@@ -34,24 +36,34 @@ else{
     $imported_feed=mysqli_affected_rows($GLOBALS["DBCONNECTION"]);
     $nif=count($valuesArr)-$imported_feed;
     unset($valuesArr);
+    return array($imported_feed, $nif);
+}
+
+function print_feed_result($imported_feed, $nif)
+{
+    global $tbpref;
     do_mysqli_query('UPDATE ' . $tbpref . 'newsfeeds SET NfUpdate="'.time().'" where NfID='.$_POST['NfID']);
     $nf_max_links=get_nf_option($_POST['NfOptions'], 'max_links');
     if(!$nf_max_links) {
         if (get_nf_option($_POST['NfOptions'], 'article_source')) {
             $nf_max_links=getSettingWithDefault('set-max-articles-with-text');
-        }
-        else { $nf_max_links=getSettingWithDefault('set-max-articles-without-text'); 
+        } else { 
+            $nf_max_links=getSettingWithDefault('set-max-articles-without-text'); 
         }
     }
-    if(!$imported_feed) { $imported_feed="no"; 
+    if(!$imported_feed) { 
+        $imported_feed="no"; 
     }
     $msg= $_POST['NfName'] . ": $imported_feed new article";
-    if($imported_feed>1) { $msg.= "s"; 
+    if($imported_feed>1) { 
+        $msg.= "s"; 
     }
     $msg.= " imported";
-    if($nif>1) { $msg.= ", $nif articles are dublicates"; 
+    if($nif>1) { 
+        $msg.= ", $nif articles are dublicates"; 
     }
-    if($nif==1) { $msg.= ", $nif dublicated article"; 
+    if($nif==1) { 
+        $msg.= ", $nif dublicated article"; 
     }
     $result=do_mysqli_query("SELECT COUNT(*) AS total FROM " . $tbpref . "feedlinks WHERE FlNfID in (".$_POST['NfID'].")");
     $row = mysqli_fetch_assoc($result);
@@ -62,7 +74,16 @@ else{
     }
     echo "<div class=\"msgblue\"><p> $msg </p></div>";
 }
+
+if(empty($feed)) {
+    $msg.= 'Error: Could not load "' . $_POST['NfName'] . '" ! ';
+    echo "<div class=\"red\"><p> $msg </p></div>";        
+} else{
+    list($imported_feed, $nif) = get_feeds_list($feed);
+    print_feed_result($imported_feed, $nif);
+}
+
 session_start();
-$_SESSION['feed_loaded'][$_POST['cnt']]=$msg;
+$_SESSION['feed_loaded'][$_POST['cnt']] = $msg;
 session_write_close();
 ?>

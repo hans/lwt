@@ -43,15 +43,13 @@ require_once __DIR__ . '/../src/php/markdown_converter.php';
 			function ajaxGetTheme () {
 				$.ajax(
 					{
-						type: 'POST',
+						type: 'GET',
 						url: '../inc/ajax_get_theme.php',
 						async: false, 
 						data: { file: '../css/styles.css' }, 
 						success: function (data) {
-							console.log("theme path loaded");
-							console.log(data);
 							if (data.match(/styles.css$/g)) 
-								$('style').text( "@import url(" + data + ");" );
+								$('style').text( "@import url(../" + data.trim() + ");" );
 					}
 				});
 			}

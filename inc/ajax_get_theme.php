@@ -8,13 +8,14 @@
  * @package Lwt
  * @author  HugoFara <hugo.farajallah@protonmail.com>
  * @license Unlicense <http://unlicense.org/>
- * @link    https://hugofara.github.io/lwt/docs/html/kernel__utility_8php.html
+ * @link    https://hugofara.github.io/lwt/docs/html/ajax__get__theme_8php.html
  * @since   2.2.0-fork
  */
 require_once 'session_utility.php';
 
-if (isset($_POST['file'])) {
-    print_file_path($_POST['file']);
+chdir('..');
+if (isset($_GET['file'])) {
+    print_file_path($_GET['file']);
 }
 
 ?>
