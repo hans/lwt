@@ -14,21 +14,17 @@
 
 require_once __DIR__ . '/session_utility.php';
 
-chdir('..');
-$textid = (int)$_POST['id'];
-$elem = $_POST['elem'];
-$stringdata = $_POST['data'];
-$data = json_decode($stringdata);
-
-$val = $data->{$elem};
-if (substr($elem, 0, 2) == "rg") {
-    if($val == "") { 
-        $val = $data->{'tx' . substr($elem, 2)}; 
-    } 
-}
-$line = (int)substr($elem, 2);
-
-// Save data
+/**
+ * Save data from printed text.
+ * 
+ * @param int    $textid Text ID
+ * @param int    $line Line number to save
+ * @param string $val
+ * 
+ * @return string Success string
+ * 
+ * @global string $tbpref Database table prefix.
+ */
 function save_impr_text_data($textid, $line, $val)
 {
     global $tbpref;
@@ -55,10 +51,35 @@ function save_impr_text_data($textid, $line, $val)
     return $success;
 }
 
-$success = save_impr_text_data($textid, $line, $val);
+/**
+ * Save a printed text.
+ * 
+ * @param int    $textid Text ID
+ * @param string $elem   Element to edit
+ * @param mixed  $data   JSON data
+ * 
+ * @return string Success string
+ */
+function do_ajax_save_impr_text($textid, $elem, $data) 
+{
+    chdir('..');
 
-// error_log ("ajax_save_impr_text / " . $success . " / " . $stringdata);
+    $val = $data->{$elem};
+    if (substr($elem, 0, 2) == "rg" && $val == "") {
+        $val = $data->{'tx' . substr($elem, 2)};
+    }
+    $line = (int)substr($elem, 2);
+    return save_impr_text_data($textid, $line, $val);
 
-echo $success;
+    // error_log ("ajax_save_impr_text / " . $success . " / " . $stringdata);
+}
+
+if (isset($_POST['id']) && isset($_POST['elem']) && isset($_POST['data'])) {
+    echo do_ajax_save_impr_text(
+        (int)$_POST['id'], 
+        $_POST['elem'], 
+        json_decode($_POST['data'])
+    );
+}
 
 ?>

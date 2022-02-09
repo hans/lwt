@@ -16,8 +16,14 @@
 
 require_once __DIR__ . '/session_utility.php';
 
-chdir('..');
+/**
+ * Change the current working directory and find media path
+ */
+function do_ajax_update_media_select() {
+    chdir('..');
+    return selectmediapath('TxAudioURI');
+}
 
-echo selectmediapath('TxAudioURI');
+echo do_ajax_update_media_select(); 
 
 ?>

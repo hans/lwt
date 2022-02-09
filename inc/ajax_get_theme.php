@@ -13,9 +13,21 @@
  */
 require_once 'session_utility.php';
 
-chdir('..');
+/**
+ * Get the file path using theme.
+ * 
+ * @param string $filepath Standard file path.
+ * 
+ * @return string Relative filepath using theme.
+ */
+function do_ajax_get_theme($filepath)
+{
+    chdir('..');
+    return get_file_path($filepath);
+}
+
 if (isset($_GET['file'])) {
-    print_file_path($_GET['file']);
+    echo do_ajax_get_theme($_GET['file']);
 }
 
 ?>

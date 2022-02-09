@@ -15,11 +15,23 @@
 
 require_once __DIR__ . '/session_utility.php';
 
-chdir('..');
+/**
+ * Save a setting.
+ * 
+ * @param string $key   Setting key
+ * @param mixed  $value Setting value
+ * 
+ * @return void
+ */
+function do_ajax_save_setting($key, $value) 
+{
+    chdir('..');
 
-saveSetting(
-    getreq('k'), 
-    getreq('v')
-);
+    saveSetting($key, $value);
+}
+
+if (isset($_GET['k']) && isset($_GET['v'])) {
+    do_ajax_save_setting(getreq('k'), getreq('v'));
+}
 
 ?>

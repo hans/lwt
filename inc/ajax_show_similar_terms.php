@@ -17,8 +17,22 @@
 
 require_once __DIR__ . '/simterms.php';
 
-chdir('..');
+/**
+ * Return the terms similar to a word.
+ * 
+ * @param int    $langid Language ID
+ * @param string $word   Word to be looked at
+ * 
+ * @return string A list of similar terms
+ */
+function do_ajax_show_similar_terms($langid, $word)
+{
+    chdir('..');
+    return print_similar_terms($langid, $word);
+}
 
-echo print_similar_terms((int)$_POST['lang'], $_POST['word']);
+if (isset($_POST['lang']) && isset($_POST['word'])) {
+    echo do_ajax_show_similar_terms((int)$_POST['lang'], $_POST['word']);
+}
 
 ?>
