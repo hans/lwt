@@ -52,6 +52,31 @@ Clear code is stored at ``src/js/``. Once again, the *actual* code used by LWT s
 ### Debug JS code
 To copy code in a non-obfuscated form, run ``make no-minify``, or replace the content of ``js/`` by ``src/js/``.
 
+## Edit PHP code
+The PHP codebase is not yet well structured, but here is a general organisation:
+* The visible for the user is under the root folder (``do_text.php``, ``do_test.php``, etc...)
+* Files that should not be rendered directly are under the ``inc/`` ("include") folder.
+* Other files useful for *development only* are under ``src/php/``.
+
+### Testing your Code
+It is higly advised to test your code. Tests should be wrote under ``tests/``. We use PHP Unit for testing.
+
+To run all tests:
+
+ ``composer test``
+
+Alternatively:
+
+ ``./vendor/bin/phpunit``
+
+### Security Check
+We use Psalm to find code flaws and inconsistencies. Use ``./vendor/bin/psalm``. 
+
+Your can configure the reporting level in ``psalm.xml``.
+
+### Advice: follow Code Style Standards
+Nobody likes to debug unreadable code. A good way to avoid thinking about it is to include phpcs directly into your IDE. You can also download it and run it regularly on your code.
+
 ## Improving Documentation
 
 To regenerate all documentation, use ``make doc``.

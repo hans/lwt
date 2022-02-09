@@ -1599,6 +1599,24 @@ Now execute:<br>
 <p>Clear code is stored at <code>src/js/</code>. Once again, the <em>actual</em> code used by LWT should be at <code>js/</code>. After you have done any modification, either run <code>make minify</code> or <code>php -r "require 'src/php/minifier.php'; minifyAllJS();"</code>.</p>
 <h4>Debug JS code</h4>
 <p>To copy code in a non-obfuscated form, run <code>make no-minify</code>, or replace the content of <code>js/</code> by <code>src/js/</code>.</p>
+<h3>Edit PHP code</h3>
+<p>The PHP codebase is not yet well structured, but here is a general organisation:</p>
+<ul>
+<li>The visible for the user is under the root folder (<code>do_text.php</code>, <code>do_test.php</code>, etc...)</li>
+<li>Files that should not be rendered directly are under the <code>inc/</code> ("include") folder.</li>
+<li>Other files useful for <em>development only</em> are under <code>src/php/</code>.</li>
+</ul>
+<h4>Testing your Code</h4>
+<p>It is higly advised to test your code. Tests should be wrote under <code>tests/</code>. We use PHP Unit for testing.</p>
+<p>To run all tests:</p>
+<p><code>composer test</code></p>
+<p>Alternatively:</p>
+<p><code>./vendor/bin/phpunit</code></p>
+<h4>Security Check</h4>
+<p>We use Psalm to find code flaws and inconsistencies. Use <code>./vendor/bin/psalm</code>.</p>
+<p>Your can configure the reporting level in <code>psalm.xml</code>.</p>
+<h4>Advice: follow Code Style Standards</h4>
+<p>Nobody likes to debug unreadable code. A good way to avoid thinking about it is to include phpcs directly into your IDE. You can also download it and run it regularly on your code.</p>
 <h3>Improving Documentation</h3>
 <p>To regenerate all documentation, use <code>make doc</code>.</p>
 <h4>General Documentation</h4>
@@ -1846,6 +1864,11 @@ KEY NfUpdate (NfUpdate)</p>
 			<h2 id="CHANGELOG" name="CHANGELOG">▶ Changelog - <a href="#">[↑]</a></h2>
 <p>This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".</p>
+<h3>[Unreleased]</h3>
+<h4>Added</h4>
+<ul>
+<li>A contribution guide at <code>docs/contribute.md</code>.</li>
+</ul>
 <h3>2.2.1-fork (February 07 2022)</h3>
 <h4>Changed</h4>
 <ul>
