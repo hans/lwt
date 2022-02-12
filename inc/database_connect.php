@@ -549,6 +549,84 @@ function set_word_count(): void
 }
 
 /**
+ * Echo the sentences in a text. Prepare JS data for words and word count.
+ * 
+ * @global string $tbpref Database table prefix
+ * 
+ * @return void
+ */
+function check_text_valid($lid)
+{
+    global $tbpref;
+    $wo = $nw = array();
+    $res = do_mysqli_query('SELECT GROUP_CONCAT(TiText order by TiOrder SEPARATOR "") Sent FROM ' . $tbpref . 'temptextitems group by TiSeID');
+    echo '<h4>Sentences</h4><ol>';
+    while($record = mysqli_fetch_assoc($res)){
+        echo "<li>" . tohtml($record['Sent']) . "</li>";
+    }
+    mysqli_free_result($res);
+    echo '</ol>';
+    $res = do_mysqli_query('SELECT count(`TiOrder`) cnt, if(0=TiWordCount,0,1) as len, lower(TiText) as word, WoTranslation from ' . $tbpref . 'temptextitems left join ' . $tbpref . 'words on lower(TiText)=WoTextLC and WoLgID=' . $lid . ' group by lower(TiText)');
+    while($record = mysqli_fetch_assoc($res)){
+        if($record['len']==1) {
+            $wo[]= array(tohtml($record['word']),$record['cnt'],tohtml($record['WoTranslation']));
+        }
+        else{
+            $nw[]= array(tohtml($record['word']),tohtml($record['cnt']));
+        }
+    }
+    mysqli_free_result($res);
+    echo "<script type=\"text/javascript\">\nWORDS = ", json_encode($wo), ";\nNOWORDS = ", json_encode($nw), ";\n</script>";
+}
+
+/**
+ * Check a text that contains expressions.
+ * 
+ * @param int    $id     Text ID
+ * @param int    $lid    Language ID
+ * @param int[]  $wl     Word length
+ * @param int    $wl_max Maximum word length
+ * @param string $mw_sql SQL-formatted string
+ * 
+ * @return string SQL-formatted query string
+ * 
+ * @global string $tbpref Database table prefix
+ */
+function check_text_with_expressions($id, $lid, $wl, $wl_max, $mw_sql)
+{
+    global $tbpref;
+
+    $set_wo_sql = $set_wo_sql_2 = $del_wo_sql = $init_var = '';
+    do_mysqli_query('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2');
+    do_mysqli_query('SET GLOBAL tmp_table_size = 1024 * 1024 * 1024 * 2');
+    for ($i=$wl_max*2 -1; $i>1; $i--) {
+        $set_wo_sql = 'WHEN (@a' . strval($i) . ':=@a' . strval($i-1) . ') IS NULL THEN NULL ';
+        $set_wo_sql_2 = 'WHEN (@a' . strval($i) . ':=@a' . strval($i-2) . ') IS NULL THEN NULL ';
+        $del_wo_sql = 'WHEN (@a' . strval($i) . ':=@a0) IS NULL THEN NULL ';
+        $init_var = '@a' . strval($i) . '=0,';
+    }
+    do_mysqli_query('set ' . $init_var . '@a1=0,@a0=0,@b=0,@c="",@d=0,@e=0,@f="",@h=0;');
+    do_mysqli_query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL);');
+    do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'numbers');
+    do_mysqli_query('INSERT IGNORE INTO ' . $tbpref . 'numbers(n) VALUES (' . implode('),(', $wl) . ');');
+    if ($id>0) {
+        $sql = 'SELECT straight_join WoID, sent, TiOrder - (2*(n-1)) TiOrder, n TiWordCount,word';
+    } else {
+        $sql = 'SELECT straight_join count(WoID) cnt, n as len, lower(WoText) as word, WoTranslation';
+    }
+    $sql .= 
+    ' FROM (
+        SELECT straight_join 
+        if(@b=TiSeID and @h=TiOrder,
+            if((@h:=TiOrder+@a0) is null,TiSeID,TiSeID),
+            if(@b=TiSeID, IF((@d=1) and (0<>TiWordCount), CASE ' . $set_wo_sql_2 . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END, CASE ' . $set_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END), CASE '  . $del_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(TiText,@f)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END)) sent, if(@d=0,NULL,if(CRC32(@z:=substr(@c,case n' . $mw_sql . ' end))<>CRC32(lower(@z)),@z,"")) word,if(@d=0 or ""=@z,NULL,lower(@z)) lword, TiOrder,n FROM ' . $tbpref . 'numbers , ' . $tbpref . 'temptextitems) ti, 
+    ' . $tbpref . 'words 
+    WHERE lword is not null and WoLgID=' . $lid . ' and WoTextLC=lword and WoWordCount=n';
+    $sql .= ($id>0) ? ' UNION ALL ' : ' GROUP BY WoID ORDER BY WoTextLC';
+    return $sql;
+}
+
+/**
  * Parse the input text.
  *
  * @param string $text Text to parse
@@ -567,9 +645,9 @@ function set_word_count(): void
 function splitCheckText($text, $lid, $id) 
 {
     global $tbpref;
-    $wo = $nw = $mw = $wl = array();
+    $mw = $wl = array();
     $wl_max = 0;
-    $set_wo_sql = $set_wo_sql_2 = $del_wo_sql = $init_var = $mw_sql = '';
+    $mw_sql = '';
     $sql = "SELECT * FROM " . $tbpref . "languages WHERE LgID=" . $lid;
     $res = do_mysqli_query($sql);
     $record = mysqli_fetch_assoc($res);
@@ -668,7 +746,8 @@ function splitCheckText($text, $lid, $id)
         //    "\r" => Sentence delimiter, "\t" and "\n" => Word delimiter
         $s = preg_replace_callback(
             "/(\S+)\s*((\.+)|([$splitSentence]))([]'`\"”)‘’‹›“„«»』」]*)(?=(\s*)(\S+|$))/u", 
-            fn ($matches) => find_latin_sentence_end($matches, $noSentenceEnd), 
+            //fn ($matches) => find_latin_sentence_end($matches, $noSentenceEnd), Arrow functions got introduced in PHP 7.4
+            function ($matches) use ($noSentenceEnd) { return find_latin_sentence_end($matches, $noSentenceEnd); },
             $s
         );
         $s = str_replace(array("¶"," ¶"), array("¶\r","\r¶"), $s);
@@ -687,25 +766,7 @@ function splitCheckText($text, $lid, $id)
     unlink($file_name);
 
     if ($id==-1) {//check text
-    
-        $res = do_mysqli_query('SELECT GROUP_CONCAT(TiText order by TiOrder SEPARATOR "") Sent FROM ' . $tbpref . 'temptextitems group by TiSeID');
-        echo '<h4>Sentences</h4><ol>';
-        while($record = mysqli_fetch_assoc($res)){
-            echo "<li>" . tohtml($record['Sent']) . "</li>";
-        }
-        mysqli_free_result($res);
-        echo '</ol>';
-        $res = do_mysqli_query('SELECT count(`TiOrder`) cnt, if(0=TiWordCount,0,1) as len, lower(TiText) as word, WoTranslation from ' . $tbpref . 'temptextitems left join ' . $tbpref . 'words on lower(TiText)=WoTextLC and WoLgID=' . $lid . ' group by lower(TiText)');
-        while($record = mysqli_fetch_assoc($res)){
-            if($record['len']==1) {
-                $wo[]= array(tohtml($record['word']),$record['cnt'],tohtml($record['WoTranslation']));
-            }
-            else{
-                $nw[]= array(tohtml($record['word']),tohtml($record['cnt']));
-            }
-        }
-        mysqli_free_result($res);
-        echo "<script type=\"text/javascript\">\nWORDS = ", json_encode($wo), ";\nNOWORDS = ", json_encode($nw), ";\n</script>";
+        check_text_valid($lid);
     }//check text end
 
     $res = do_mysqli_query("SELECT WoWordCount as len, count(WoWordCount) as cnt FROM " . $tbpref . "words where WoLgID = " . $lid . " and WoWordCount > 1 group by WoWordCount");
@@ -719,32 +780,7 @@ function splitCheckText($text, $lid, $id)
     mysqli_free_result($res);
     $sql = '';
     if(!empty($wl)) {//text has expressions
-        do_mysqli_query('SET GLOBAL max_heap_table_size = 1024 * 1024 * 1024 * 2');
-        do_mysqli_query('SET GLOBAL tmp_table_size = 1024 * 1024 * 1024 * 2');
-        for ($i=$wl_max*2 -1; $i>1; $i--) {
-            $set_wo_sql .= 'WHEN (@a' . strval($i) . ':=@a' . strval($i-1) . ') IS NULL THEN NULL ';
-            $set_wo_sql_2 .= 'WHEN (@a' . strval($i) . ':=@a' . strval($i-2) . ') IS NULL THEN NULL ';
-            $del_wo_sql .= 'WHEN (@a' . strval($i) . ':=@a0) IS NULL THEN NULL ';
-            $init_var .= '@a' . strval($i) . '=0,';
-        }
-        do_mysqli_query('set ' . $init_var . '@a1=0,@a0=0,@b=0,@c="",@d=0,@e=0,@f="",@h=0;');
-        do_mysqli_query('CREATE TEMPORARY TABLE IF NOT EXISTS ' . $tbpref . 'numbers( n  tinyint(3) unsigned NOT NULL);');
-        do_mysqli_query('TRUNCATE TABLE ' . $tbpref . 'numbers');
-        do_mysqli_query('INSERT IGNORE INTO ' . $tbpref . 'numbers(n) VALUES (' . implode('),(', $wl) . ');');
-        if ($id>0) {
-            $sql = 'SELECT straight_join WoID, sent, TiOrder - (2*(n-1)) TiOrder, n TiWordCount,word';
-        } else {
-            $sql = 'SELECT straight_join count(WoID) cnt, n as len, lower(WoText) as word, WoTranslation';
-        }
-        $sql .= 
-        ' FROM (
-            SELECT straight_join 
-            if(@b=TiSeID and @h=TiOrder,
-                if((@h:=TiOrder+@a0) is null,TiSeID,TiSeID),
-                if(@b=TiSeID, IF((@d=1) and (0<>TiWordCount), CASE ' . $set_wo_sql_2 . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END, CASE ' . $set_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(@c,TiText)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END), CASE '  . $del_wo_sql . ' WHEN (@a1:=TiCount+@a0) IS NULL THEN NULL WHEN (@b:=TiSeID+@a0) IS NULL THEN NULL WHEN (@h:=TiOrder+@a0) IS NULL THEN NULL WHEN (@c:=concat(TiText,@f)) IS NULL THEN NULL WHEN (@d:=(0<>TiWordCount)+@a0) IS NULL THEN NULL ELSE TiSeID END)) sent, if(@d=0,NULL,if(CRC32(@z:=substr(@c,case n' . $mw_sql . ' end))<>CRC32(lower(@z)),@z,"")) word,if(@d=0 or ""=@z,NULL,lower(@z)) lword, TiOrder,n FROM ' . $tbpref . 'numbers , ' . $tbpref . 'temptextitems) ti, 
-        ' . $tbpref . 'words 
-        WHERE lword is not null and WoLgID=' . $lid . ' and WoTextLC=lword and WoWordCount=n';
-        $sql .= ($id>0) ? ' UNION ALL ' : ' GROUP BY WoID ORDER BY WoTextLC';
+        $sql = check_text_with_expressions($id, $lid, $wl, $wl_max, $mw_sql);
     }//text has expressions end
     if($id>0) {
         do_mysqli_query('ALTER TABLE ' . $tbpref . 'textitems2 ALTER Ti2LgID SET DEFAULT ' . $lid . ', ALTER Ti2TxID SET DEFAULT ' . $id);
@@ -763,21 +799,24 @@ function splitCheckText($text, $lid, $id)
             }
             mysqli_free_result($res);
         }
-        echo "<script type=\"text/javascript\">\nMWORDS = ", json_encode($mw), ";\n";
+    ?>
+<script type="text/javascript">
+    MWORDS = <?php echo json_encode($mw) ?>;
+    <?php 
         if($rtlScript) {
             echo '$(function() {$("li").attr("dir","rtl");});';
         }
-        ?>
-   h='<h4>Word List <span class="red2">(red = already saved)</span></h4><ul class="wordlist">';
-   $.each(WORDS,function(k,v){h+= '<li><span' + (v[2]==""?"":' class="red2"') + '>[' + v[0] + '] — ' + v[1] + (v[2]==""?"":' — ' + v[2]) + '</span></li>';});
-   $('#check_text').append(h);
-   h='</ul><p>TOTAL: ' + WORDS.length +'</p><h4>Expression List</span></h4><ul class="expressionlist">';
-   $.each(MWORDS,function(k,v){h+= '<li><span>[' + v[0] + '] — ' + v[1] + (v[2]==""?"":' — ' + v[2]) + '</span></li>';});
-   $('#check_text').append(h);
-   h='</ul><p>TOTAL: ' + MWORDS.length +'</p><h4>Non-Word List</span></h4><ul class="nonwordlist">';
-   $.each(NOWORDS,function(k,v){h+= '<li>[' + v[0] + '] — ' + v[1] + '</li>';});
-   $('#check_text').append(h + '</ul><p>TOTAL: ' + NOWORDS.length +'</p>');
-   </script>
+    ?>
+    h='<h4>Word List <span class="red2">(red = already saved)</span></h4><ul class="wordlist">';
+    $.each(WORDS,function(k,v){h+= '<li><span' + (v[2]==""?"":' class="red2"') + '>[' + v[0] + '] — ' + v[1] + (v[2]==""?"":' — ' + v[2]) + '</span></li>';});
+    $('#check_text').append(h);
+    h='</ul><p>TOTAL: ' + WORDS.length +'</p><h4>Expression List</span></h4><ul class="expressionlist">';
+    $.each(MWORDS,function(k,v){h+= '<li><span>[' + v[0] + '] — ' + v[1] + (v[2]==""?"":' — ' + v[2]) + '</span></li>';});
+    $('#check_text').append(h);
+    h='</ul><p>TOTAL: ' + MWORDS.length +'</p><h4>Non-Word List</span></h4><ul class="nonwordlist">';
+    $.each(NOWORDS,function(k,v){h+= '<li>[' + v[0] + '] — ' + v[1] + '</li>';});
+    $('#check_text').append(h + '</ul><p>TOTAL: ' + NOWORDS.length +'</p>');
+</script>
 
         <?php
     }//check text end
@@ -1171,9 +1210,19 @@ function get_database_prefixes(&$tbpref)
 if (!empty($dspltime)) {
     get_execution_time(); 
 }
+
+/**
+ * @var mysqli $DBCONNECTION Connection to the database
+ */
 $DBCONNECTION = connect_to_database($server, $userid, $passwd, $dbname);
+/** 
+ * @var string $tbpref Database table prefix 
+ */
 $tbpref = null;
-get_database_prefixes($tbpref);
+/** 
+ * @var int $fixed_tbpref Database prefix is fixed (1) or not (0)
+ */
+$fixed_tbpref = get_database_prefixes($tbpref);
 // check/update db
 check_update_db($debug, $tbpref, $dbname);
 

@@ -14,6 +14,8 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
    * Theme in ``info.html`` works now.
    * Some other problems may have been fixed.
 * With ``do_test?text=``, the language name displayed instead of "[L2]" was often wrong.
+* ``$fixed_tbpref`` was never declared at global scope.
+* Fixed an incompatibility in ``database_connect.php``, ``splitCheckText`` with PHP <7.4.
 
 ## 2.2.1-fork (February 07 2022)
 ### Changed

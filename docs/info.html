@@ -1877,6 +1877,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 </ul>
 </li>
 <li>With <code>do_test?text=</code>, the language name displayed instead of "[L2]" was often wrong.</li>
+<li>
+<code>$fixed_tbpref</code> was never declared at global scope.</li>
+<li>Fixed an incompatibility in <code>database_connect.php</code>, <code>splitCheckText</code> with PHP &lt;7.4.</li>
 </ul>
 <h3>2.2.1-fork (February 07 2022)</h3>
 <h4>Changed</h4>
