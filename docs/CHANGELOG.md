@@ -13,6 +13,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
    * Refreshing the list of audio files in ``edit_texts.php`` works again.
    * Theme in ``info.html`` works now.
    * Some other problems may have been fixed.
+* With ``do_test?text=``, the language name displayed instead of "[L2]" was often wrong.
 
 ## 2.2.1-fork (February 07 2022)
 ### Changed
