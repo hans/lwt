@@ -474,7 +474,7 @@ if(mysqli_data_seek($result, 0)) {
 }
 ?>
 <script type="text/javascript">
-$('img.not_found').click(function () {
+$('img.not_found').on('click', function () {
     var id = $(this).attr('name');
     $(this).after('<label class="wrap_checkbox" for="'+id+'"><span></span></label>');
     $(this).replaceWith( '<input type="checkbox" class="markcheck" onchange="markClick()" id=' + id +' value=' + id +' name="marked_items[]" />' );

@@ -3036,20 +3036,18 @@ function texttodocount2($textid): string
         return '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>'; 
     }
     $show_buttons = getSettingWithDefault('set-words-to-do-buttons');
-    /*
+    
     $dict = get_first_value(
         'SELECT LgGoogleTranslateURI AS value 
         FROM ' . $tbpref . 'languages, ' . $tbpref . 'texts 
-        WHERE LgID = TxLgID and TxID = ' . $text
+        WHERE LgID = TxLgID and TxID = ' . $textid
     );
     $tl = preg_replace('/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/', '$1', $dict);
     $sl = preg_replace('/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/', '$1', $dict);
-    */
+    
     $res = '<span title="To Do" class="status0">&nbsp;' . $c . '&nbsp;</span>&nbsp;';
-    if(1==1) { 
-        $res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=10&offset=0&sl=fr&tl=en\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;'; 
-    }
-    // if(1==1)$res .='<img src="icn/script-import.png" onclick="{top.frames[\'ro\'].location.href=\'bulk_translate_words.php?tid=' . $text . '&offset=0&sl=' . $sl . '&tl=' . $tl . '\';}" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;';
+    //$res .='<img src="icn/script-import.png" onclick="showRightFrames(\'bulk_translate_words.php?tid=10&offset=0&sl=fr&tl=en\');" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;'; 
+    $res .='<img src="icn/script-import.png" onclick="showRightFrames(\'bulk_translate_words.php?tid=' . $textid . '&offset=0&sl=' . $sl . '&tl=' . $tl . '\');" style="cursor: pointer;vertical-align:middle" title="Lookup New Words" alt="Lookup New Words" />&nbsp;&nbsp;&nbsp;';
     if ($show_buttons!=2) { 
         $res .='<input type="button" onclick="iknowall(' . $textid . ');" value=" I KNOW ALL " />'; 
     }
@@ -4263,22 +4261,22 @@ function makeAudioPlayer($audio, $offset=0)
     }
   });
 
-  $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
+  $("#jquery_jplayer_1").on('bind', $.jPlayer.event.timeupdate, function(event) { 
       $("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
     });
   
-  $("#jquery_jplayer_1").bind($.jPlayer.event.play, function(event) { 
+  $("#jquery_jplayer_1").on('bind', $.jPlayer.event.play, function(event) { 
       set_current_playbackrate();
       // console.log("play");
     });
   
-  $("#slower").click(click_slower);
-  $("#faster").click(click_faster);
-  $("#stdspeed").click(click_stdspeed);
-  $("#backbutt").click(click_back);
-  $("#forwbutt").click(click_forw);
-  $("#do-single").click(click_single);
-  $("#do-repeat").click(click_repeat);
+  $("#slower").on('click', click_slower);
+  $("#faster").on('click', click_faster);
+  $("#stdspeed").on('click', click_stdspeed);
+  $("#backbutt").on('click', click_back);
+  $("#forwbutt").on('click', click_forw);
+  $("#do-single").on('click', click_single);
+  $("#do-repeat").on('click', click_repeat);
   $("#playbackrate").change(set_new_playbackrate);
   $("#backtime").change(set_new_playerseconds);
   

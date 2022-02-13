@@ -163,7 +163,7 @@ function do_test_table_javascript()
             $('tr:last-child>td:visible:last').css('border-bottom-right-radius','inherit');                    
         });
         
-        $('td').click(function() {
+        $('td').on('click', function() {
             $(this).css('color', 'black').css('cursor', 'auto');
         });
         

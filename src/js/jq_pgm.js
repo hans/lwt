@@ -133,6 +133,11 @@ function changeTableTestStatus (wordid, up) {
   );
 }
 
+/**
+ * Check if there is no problem with the text.
+ * 
+ * @returns {boolean} true if all checks were successfull
+ */
 function check () {
   let count = 0;
   $('.notempty').each(function (_n) {
@@ -276,7 +281,7 @@ function showAllwordsClick () {
 function textareaKeydown (event) {
   if (event.keyCode && event.keyCode == '13') {
     if (check()) 
-      $('input:submit').last().click();
+      $('input:submit').last().trigger('click');
     return false;
   } else {
     return true;
@@ -287,8 +292,15 @@ function noShowAfter3Secs () {
   $('#hide3').slideUp();
 }
 
+/**
+ * Set the focus on an element with the "focus" class.
+ * 
+ * @returns undefined
+ */
 function setTheFocus () {
-  $('.setfocus').focus().select();
+  $('.setfocus')
+  .trigger('focus')
+  .trigger('select');
 }
 
 /**
@@ -319,7 +331,7 @@ function word_click_event_do_test_test () {
  */
 function keydown_event_do_test_test (e) {
   if (e.which == 32 && OPENED == 0) { // space : show sol.
-    $('.word').click();
+    $('.word').trigger('click');
     cClick();
     //window.parent.frames.ro.location.href = 
     showRightFrames('show_word.php?wid=' + $('.word').attr('data_wid') + '&ann=');
@@ -539,9 +551,25 @@ function mword_drag_n_drop_select (event) {
     $('.word', context).not('.hide').each(function () {
       $(this).html('<span class="tword" data_order="' + $(this).attr('data_order') + '">' + $(this).text() + '</span>');
     });
-    if (event.data.annotation == 1)$('.wsty', context).not('.hide').each(function () { $(this).children('.tword').last().attr('data_ann', $(this).attr('data_ann')).attr('data_trans', $(this).attr('data_trans')).addClass('content' + $(this).removeClass('status1 status2 status3 status4 status5 status98 status99').attr('data_status')); });
-    if (event.data.annotation == 3)$('.wsty', context).not('.hide').each(function () { $(this).children('.tword').first().attr('data_ann', $(this).attr('data_ann')).attr('data_trans', $(this).attr('data_trans')).addClass('content' + $(this).removeClass('status1 status2 status3 status4 status5 status98 status99').attr('data_status')); });
-    $(context).one('mouseover', '.tword', function () {
+    if (event.data.annotation == 1) {
+      $('.wsty', context)
+      .not('.hide')
+      .each(function () { 
+        $(this).children('.tword').last()
+        .attr('data_ann', $(this).attr('data_ann'))
+        .attr('data_trans', $(this).attr('data_trans'))
+        .addClass('content' + $(this).removeClass('status1 status2 status3 status4 status5 status98 status99').attr('data_status')); });
+    } else if (event.data.annotation == 3) {
+      $('.wsty', context)
+      .not('.hide')
+      .each(function () { 
+        $(this).children('.tword').first()
+        .attr('data_ann', $(this).attr('data_ann'))
+        .attr('data_trans', $(this).attr('data_trans'))
+        .addClass('content' + $(this).removeClass('status1 status2 status3 status4 status5 status98 status99').attr('data_status')); 
+      });
+    }
+      $(context).one('mouseover', '.tword', function () {
       $('html').one('mouseup', function () {
         $('.wsty', context).each(function () { $(this).addClass('status' + $(this).attr('data_status')); });
         if (!$(this).hasClass('tword')) {
@@ -683,7 +711,7 @@ function keydown_event_do_text_text (e) {
     const unknownwordlist = $('span.status0.word:not(.hide):first');
     if (unknownwordlist.size() == 0) return false;
     $(window).scrollTo(unknownwordlist, { axis: 'y', offset: -150 });
-    unknownwordlist.addClass('uwordmarked').click();
+    unknownwordlist.addClass('uwordmarked').trigger('click');
     cClick();
     return false;
   }
@@ -1131,7 +1159,8 @@ function prepareMainAreas() {
     audio.play();
   });
   $(document).on('mouseup', function () {
-    $('button,input[type=button],.wrap_radio span,.wrap_checkbox span').blur();
+    $('button,input[type=button],.wrap_radio span,.wrap_checkbox span')
+    .trigger('blur');
   });
   $('.wrap_checkbox span').on('keydown', function (e) {
     if (e.keyCode == 32) {
@@ -1149,19 +1178,19 @@ function prepareMainAreas() {
     $(this).after('<label class="wrap_radio" for="' + $(this).attr('id') + '"><span></span></label>');
   });
   $('.button-file').on('click', function () { 
-    $(this).next('input[type="file"]').click(); 
+    $(this).next('input[type="file"]').trigger('click'); 
     return false; 
   });
   $('input.impr-ann-text').on('change', changeImprAnnText);
   $('input.impr-ann-radio').on('change', changeImprAnnRadio);
-  $('form.validate').submit(check);
+  $('form.validate').on('submit', check);
   $('input.markcheck').on('click', markClick);
   $('.confirmdelete').on('click', confirmDelete);
-  $('textarea.textarea-noreturn').keydown(textareaKeydown);
+  $('textarea.textarea-noreturn').on('keydown', textareaKeydown);
   $('#termtags').tagit(
     {
       beforeTagAdded: function (_event, ui) {
-        return !(containsCharacterOutsideBasicMultilingualPlane(ui.tag.text()));
+        return !containsCharacterOutsideBasicMultilingualPlane(ui.tag.text());
       },
       availableTags: TAGS,
       fieldName: 'TermTags[TagList][]'
@@ -1170,7 +1199,7 @@ function prepareMainAreas() {
   $('#texttags').tagit(
     {
       beforeTagAdded: function (_event, ui) {
-        return !(containsCharacterOutsideBasicMultilingualPlane(ui.tag.text()));
+        return !containsCharacterOutsideBasicMultilingualPlane(ui.tag.text());
       },
       availableTags: TEXTTAGS,
       fieldName: 'TextTags[TagList][]'
@@ -1179,7 +1208,7 @@ function prepareMainAreas() {
   markClick();
   setTheFocus();
   if ($('#simwords').length > 0 && $('#langfield').length > 0 && $('#wordfield').length > 0) {
-  	$('#wordfield').blur(do_ajax_show_similar_terms);
+  	$('#wordfield').on('blur', do_ajax_show_similar_terms);
   	do_ajax_show_similar_terms();
   }
   window.setTimeout(noShowAfter3Secs, 3000);

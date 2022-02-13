@@ -8,6 +8,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ### Added
 * A contribution guide at ``docs/contribute.md``.
 
+### Changed
+* Updated the jQuery deprecated events. It should have no consequence.
+
 ### Fixed
 * Some AJAX files could not work properly since 2.0.3-fork.
    * Refreshing the list of audio files in ``edit_texts.php`` works again.
@@ -16,6 +19,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * With ``do_test?text=``, the language name displayed instead of "[L2]" was often wrong.
 * ``$fixed_tbpref`` was never declared at global scope.
 * Fixed an incompatibility in ``database_connect.php``, ``splitCheckText`` with PHP <7.4.
+* Impossible to start bulk_translate_new_words from ``do_text.php``.
 
 ## 2.2.1-fork (February 07 2022)
 ### Changed

@@ -104,8 +104,8 @@ function do_diplay_impr_text_text_js() {
     }
 
     $(document).ready(function(){
-        $('.anntransruby2').click(click_ann);
-        $('.anntermruby').click(click_text);
+        $('.anntransruby2').on('click', click_ann);
+        $('.anntermruby').on('click', click_text);
     });
     //]]>
 </script>

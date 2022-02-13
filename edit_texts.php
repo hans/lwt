@@ -736,7 +736,8 @@ select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) a
 <script type="text/javascript">
 var WORDCOUNTS = '', SUW = SHOWUNIQUE = <?php echo intval($showCounts, 2); ?>;
 $(document).ready( function() {
-    $('#total,#saved,#unknown,#chart,#unknownpercent').click(function( event ) {
+    $('#total,#saved,#unknown,#chart,#unknownpercent')
+    .on('click', function( event ) {
         $(this).attr('data_wo_cnt',parseInt($(this).attr('data_wo_cnt'))^1);
         word_count_click();
         event.stopImmediatePropagation();

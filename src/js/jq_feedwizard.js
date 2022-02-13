@@ -79,7 +79,7 @@ $(function(){
 	if($('#lwt_sel').html()=='' && $('input[name=\'step\']').val()==2)$('#next').prop('disabled', true);
 	else $('#next').prop('disabled', false);
 	$('#lwt_last').css('margin-top',$('#lwt_header').height());
-	$('#lwt_header').nextAll().click(function(event) {
+	$('#lwt_header').nextAll().on('click', function(event) {
 		if(!($(event.target).hasClass( "lwt_selected_text" ))){
 			if(!($(event.target).hasClass( "lwt_filtered_text" ))){
 			if($(event.target).hasClass( "lwt_marked_text" )){
@@ -225,7 +225,8 @@ $(function(){
 	$('*[style=\'\']').removeAttr( 'style' );
 	$( "#lwt_header select" ).wrap( "<label class='wrap_select'></label>" );
 	$(document).mouseup(function(){
-		$("select:not(:active),button,input[type=button],.wrap_radio span,.wrap_checkbox span").blur();
+		$("select:not(:active),button,input[type=button],.wrap_radio span,.wrap_checkbox span")
+		.trigger('blur');
 	});
 });
 
