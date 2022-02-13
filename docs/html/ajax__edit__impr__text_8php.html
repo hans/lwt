@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.2-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -69,8 +69,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ajax_edit_impr_text.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -78,85 +78,155 @@ $(function() {
 <p>Display table for Improved Annotation (Edit Mode),.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespace_lwt"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_lwt.html">Lwt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a35b4d591810c252fb05abbb0cc735246"><td class="memItemLeft" align="right" valign="top"><a id="a35b4d591810c252fb05abbb0cc735246" name="a35b4d591810c252fb05abbb0cc735246"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>make_trans</b> ($i, $wid, $trans, $word, $lang)</td></tr>
+<tr class="memitem:a35b4d591810c252fb05abbb0cc735246"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__edit__impr__text_8php.html#a35b4d591810c252fb05abbb0cc735246">make_trans</a> ($i, $wid, $trans, $word, $lang)</td></tr>
 <tr class="separator:a35b4d591810c252fb05abbb0cc735246"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a023626592a25cd2baba8feb6eee16401"><td class="memItemLeft" align="right" valign="top"><a id="a023626592a25cd2baba8feb6eee16401" name="a023626592a25cd2baba8feb6eee16401"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$textid</b> = (int)$_POST[&quot;id&quot;]</td></tr>
-<tr class="separator:a023626592a25cd2baba8feb6eee16401"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b3680736ff07d3d8623d294ff0833d9"><td class="memItemLeft" align="right" valign="top"><a id="a0b3680736ff07d3d8623d294ff0833d9" name="a0b3680736ff07d3d8623d294ff0833d9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wordlc</b> = $_POST['word']</td></tr>
-<tr class="separator:a0b3680736ff07d3d8623d294ff0833d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a047170d6020a882807665812a27e2525"><td class="memItemLeft" align="right" valign="top"><a id="a047170d6020a882807665812a27e2525" name="a047170d6020a882807665812a27e2525"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select TxLgID, TxTitle from ' . $tbpref . 'texts where TxID = ' . $textid</td></tr>
-<tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="database__connect_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
-<tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memItemLeft" align="right" valign="top"><a id="acbcb6dcb11c8755d5ffab0b45aac7a22" name="acbcb6dcb11c8755d5ffab0b45aac7a22"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$record</b> = mysqli_fetch_assoc($res)</td></tr>
-<tr class="separator:acbcb6dcb11c8755d5ffab0b45aac7a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af637005b7c6445634c4b6578ce6228c5"><td class="memItemLeft" align="right" valign="top"><a id="af637005b7c6445634c4b6578ce6228c5" name="af637005b7c6445634c4b6578ce6228c5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$record</b> ['TxTitle']</td></tr>
-<tr class="separator:af637005b7c6445634c4b6578ce6228c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c72c72a6db8b2dec28ffd70d6b4fd92"><td class="memItemLeft" align="right" valign="top"><a id="a5c72c72a6db8b2dec28ffd70d6b4fd92" name="a5c72c72a6db8b2dec28ffd70d6b4fd92"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$langid</b> = $record['TxLgID']</td></tr>
-<tr class="separator:a5c72c72a6db8b2dec28ffd70d6b4fd92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bc08cf5dc5c12ec1928274e3b9989b2"><td class="memItemLeft" align="right" valign="top"><a id="a1bc08cf5dc5c12ec1928274e3b9989b2" name="a1bc08cf5dc5c12ec1928274e3b9989b2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$textsize</b> = (int)$record['LgTextSize']</td></tr>
-<tr class="separator:a1bc08cf5dc5c12ec1928274e3b9989b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99848c863fab4f376120e786711a7a68"><td class="memItemLeft" align="right" valign="top"><a id="a99848c863fab4f376120e786711a7a68" name="a99848c863fab4f376120e786711a7a68"></a>
-if($textsize &gt; 100)&#160;</td><td class="memItemRight" valign="bottom"><b>$rtlScript</b> = $record['LgRightToLeft']</td></tr>
-<tr class="separator:a99848c863fab4f376120e786711a7a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1133312994729a5afbd6d73f5ec9501"><td class="memItemLeft" align="right" valign="top"><a id="ae1133312994729a5afbd6d73f5ec9501" name="ae1133312994729a5afbd6d73f5ec9501"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$ann</b> = <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>(&quot;select TxAnnotatedText as value from &quot; . $tbpref . &quot;texts where TxID = &quot; . $textid)</td></tr>
-<tr class="separator:ae1133312994729a5afbd6d73f5ec9501"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5f3d307d6a7dbddef0bb949354273a0"><td class="memItemLeft" align="right" valign="top"><a id="aa5f3d307d6a7dbddef0bb949354273a0" name="aa5f3d307d6a7dbddef0bb949354273a0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$ann_exists</b> = (strlen($ann) &gt; 0)</td></tr>
-<tr class="separator:aa5f3d307d6a7dbddef0bb949354273a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b2daddd6e87bc2ce5678e8c3f8c8ee6"><td class="memItemLeft" align="right" valign="top"><a id="a0b2daddd6e87bc2ce5678e8c3f8c8ee6" name="a0b2daddd6e87bc2ce5678e8c3f8c8ee6"></a>
-if($ann_exists)&#160;</td><td class="memItemRight" valign="bottom"><b>$rr</b> = &quot;&quot;</td></tr>
-<tr class="separator:a0b2daddd6e87bc2ce5678e8c3f8c8ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8abe176bc41afd728f32ba8c506cbd98"><td class="memItemLeft" align="right" valign="top"><a id="a8abe176bc41afd728f32ba8c506cbd98" name="a8abe176bc41afd728f32ba8c506cbd98"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$r</b> = &quot;&quot;</td></tr>
-<tr class="separator:a8abe176bc41afd728f32ba8c506cbd98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a737abdef83dabb219182c1e88887c6c3"><td class="memItemLeft" align="right" valign="top"><a id="a737abdef83dabb219182c1e88887c6c3" name="a737abdef83dabb219182c1e88887c6c3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$items</b> = preg_split('/[\n]/u', $ann)</td></tr>
-<tr class="separator:a737abdef83dabb219182c1e88887c6c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83018d9153d17d91fbcf3bc10158d34f"><td class="memItemLeft" align="right" valign="top"><a id="a83018d9153d17d91fbcf3bc10158d34f" name="a83018d9153d17d91fbcf3bc10158d34f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$i</b> = 0</td></tr>
-<tr class="separator:a83018d9153d17d91fbcf3bc10158d34f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a227307f40b52b45d87c4ee4bb5581162"><td class="memItemLeft" align="right" valign="top"><a id="a227307f40b52b45d87c4ee4bb5581162" name="a227307f40b52b45d87c4ee4bb5581162"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$nontermbuffer</b> =''</td></tr>
-<tr class="separator:a227307f40b52b45d87c4ee4bb5581162"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26ee66e0c715af30104ac3618481ec24"><td class="memItemLeft" align="right" valign="top">if($wordlc=='')&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__edit__impr__text_8php.html#a26ee66e0c715af30104ac3618481ec24">else</a></td></tr>
-<tr class="separator:a26ee66e0c715af30104ac3618481ec24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46e63dae67b9dbb66315a4a04bbe03c3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__edit__impr__text_8php.html#a46e63dae67b9dbb66315a4a04bbe03c3">make_form</a> ($textid, $wordlc)</td></tr>
+<tr class="separator:a46e63dae67b9dbb66315a4a04bbe03c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b6e5d2b3be3908a9bf07ac22911a9f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__edit__impr__text_8php.html#a3b6e5d2b3be3908a9bf07ac22911a9f3">do_ajax_edit_impr_text</a> ($textid, $wordlc)</td></tr>
+<tr class="separator:a3b6e5d2b3be3908a9bf07ac22911a9f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Display table for Improved Annotation (Edit Mode),. </p>
-<p >Ajax call in <a class="el" href="print__impr__text_8php.html" title="Print/Edit an improved annotated text.">print_impr_text.php</a> Call: <a class="el" href="ajax__edit__impr__text_8php.html" title="Display table for Improved Annotation (Edit Mode),.">inc/ajax_edit_impr_text.php</a>?id=[textid]</p>
-<dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@h'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@ho<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.5.0 </dd></dl>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a26ee66e0c715af30104ac3618481ec24" name="a26ee66e0c715af30104ac3618481ec24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26ee66e0c715af30104ac3618481ec24">&#9670;&nbsp;</a></span>else</h2>
+<p >Ajax call in <a class="el" href="print__impr__text_8php.html" title="Print/Edit an improved annotated text.">print_impr_text.php</a> Call: <a class="el" href="ajax__edit__impr__text_8php.html" title="Display table for Improved Annotation (Edit Mode),.">inc/ajax_edit_impr_text.php</a>?id=[textid] </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a3b6e5d2b3be3908a9bf07ac22911a9f3" name="a3b6e5d2b3be3908a9bf07ac22911a9f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b6e5d2b3be3908a9bf07ac22911a9f3">&#9670;&nbsp;</a></span>do_ajax_edit_impr_text()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">if ( $wordlc=='') else</td>
+          <td class="memname">do_ajax_edit_impr_text </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$textid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wordlc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">    echo $rr</div>
-</div><!-- fragment -->
+<p >Do the AJAX modification for editing a printed text.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$textid</td><td>Text ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$wordlc</td><td>Word lowercase. Can be left empty.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a46e63dae67b9dbb66315a4a04bbe03c3" name="a46e63dae67b9dbb66315a4a04bbe03c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46e63dae67b9dbb66315a4a04bbe03c3">&#9670;&nbsp;</a></span>make_form()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">make_form </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$textid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wordlc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Prepare the form for printed text.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$textid</td><td>Text ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$wordlc</td><td>Lowercase word</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string[] $r and $rr.</dd></dl>
+<p>@global string $tbpref Database table prefix. </p>
+
+</div>
+</div>
+<a id="a35b4d591810c252fb05abbb0cc735246" name="a35b4d591810c252fb05abbb0cc735246"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35b4d591810c252fb05abbb0cc735246">&#9670;&nbsp;</a></span>make_trans()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">make_trans </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$trans</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$word</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lang</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Make the translation for a word.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$i</td><td>Index </td></tr>
+    <tr><td class="paramtype">int&#160;|&#160;null</td><td class="paramname">$wid</td><td>Word ID or null </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$trans</td><td>Translation </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$word</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$lang</td><td>Language ID</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string HTML-formatted string </dd></dl>
+
 </div>
 </div>
 </div><!-- contents -->

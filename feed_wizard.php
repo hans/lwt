@@ -170,7 +170,7 @@ if(get_nf_option($_SESSION['wizard']['options'], 'charset')==null) {
             $(this).parent().find('select').attr('disabled','disabled');
         }
     });
-    $('[type="submit"]').click(function(){
+    $('[type="submit"]').on('click', function(){
         var str;
         str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
         $('[name^="c_"]').each(function(){        

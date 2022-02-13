@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.2-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -69,7 +69,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ajax_add_term_transl.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -77,33 +78,106 @@ $(function() {
 <p>Add a translation to term.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a7a0680bb685ea7aa05526d97342ee209"><td class="memItemLeft" align="right" valign="top"><a id="a7a0680bb685ea7aa05526d97342ee209" name="a7a0680bb685ea7aa05526d97342ee209"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wid</b> = (int)$_POST['id']</td></tr>
-<tr class="separator:a7a0680bb685ea7aa05526d97342ee209"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6efc15b5a2314dd4b5aaa556a375c6d6"><td class="memItemLeft" align="right" valign="top"><a id="a6efc15b5a2314dd4b5aaa556a375c6d6" name="a6efc15b5a2314dd4b5aaa556a375c6d6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$data</b> = trim($_POST['data'])</td></tr>
-<tr class="separator:a6efc15b5a2314dd4b5aaa556a375c6d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf95f30eaafccead90ab5e2cdb55e9b9"><td class="memItemLeft" align="right" valign="top"><a id="adf95f30eaafccead90ab5e2cdb55e9b9" name="adf95f30eaafccead90ab5e2cdb55e9b9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$text</b> = trim($_POST['text'])</td></tr>
-<tr class="separator:adf95f30eaafccead90ab5e2cdb55e9b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7714b111b644017933931ec69a154102"><td class="memItemLeft" align="right" valign="top"><a id="a7714b111b644017933931ec69a154102" name="a7714b111b644017933931ec69a154102"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$lang</b> = (int)$_POST['lang']</td></tr>
-<tr class="separator:a7714b111b644017933931ec69a154102"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a944564ee11ad329573548875b62a269e"><td class="memItemLeft" align="right" valign="top"><a id="a944564ee11ad329573548875b62a269e" name="a944564ee11ad329573548875b62a269e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$success</b> = &quot;&quot;</td></tr>
-<tr class="separator:a944564ee11ad329573548875b62a269e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02ea07f4ba7a33d7da85341217df0c12"><td class="memItemLeft" align="right" valign="top"><a id="a02ea07f4ba7a33d7da85341217df0c12" name="a02ea07f4ba7a33d7da85341217df0c12"></a>
-if( $wid==0) else&#160;</td><td class="memItemRight" valign="bottom"><b>if</b> (<a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>(&quot;select count(WoID) as value from &quot; . $tbpref . &quot;words where WoID = &quot; . $wid)==1)</td></tr>
-<tr class="separator:a02ea07f4ba7a33d7da85341217df0c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespace_lwt"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_lwt.html">Lwt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae95444187deb18ec23aaae657a69bfcb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__add__term__transl_8php.html#ae95444187deb18ec23aaae657a69bfcb">add_new_term_transl</a> ($text, $lang, $data)</td></tr>
+<tr class="separator:ae95444187deb18ec23aaae657a69bfcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae2fbf960fa44cb2a3b37ec7d34ef249"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__add__term__transl_8php.html#aae2fbf960fa44cb2a3b37ec7d34ef249">edit_term_transl</a> ($wid, $new_trans)</td></tr>
+<tr class="separator:aae2fbf960fa44cb2a3b37ec7d34ef249"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Add a translation to term. </p>
-<p >Call: <a class="el" href="ajax__add__term__transl_8php.html" title="Add a translation to term.">inc/ajax_add_term_transl.php</a></p>
-<dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@h'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@ho<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.5.0 </dd></dl>
-</div></div><!-- contents -->
+<p >Call: <a class="el" href="ajax__add__term__transl_8php.html" title="Add a translation to term.">inc/ajax_add_term_transl.php</a> </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="ae95444187deb18ec23aaae657a69bfcb" name="ae95444187deb18ec23aaae657a69bfcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae95444187deb18ec23aaae657a69bfcb">&#9670;&nbsp;</a></span>add_new_term_transl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">add_new_term_transl </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lang</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Add the translation for a new term.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$text</td><td>Associated text </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$lang</td><td>Language ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$data</td><td>Translation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Error message if failure, lowercase $text otherwise</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+<a id="aae2fbf960fa44cb2a3b37ec7d34ef249" name="aae2fbf960fa44cb2a3b37ec7d34ef249"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae2fbf960fa44cb2a3b37ec7d34ef249">&#9670;&nbsp;</a></span>edit_term_transl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_term_transl </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$new_trans</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Edit the translation for an existing term.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$wid</td><td>Word ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$new_trans</td><td>New translation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string WoTextLC, lower version of the word</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3

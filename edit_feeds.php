@@ -110,7 +110,7 @@ $('[name^="c_"]').change(function(){
         $(this).parent().find('select').attr('disabled','disabled');
     }
 });
-$('[type="submit"]').click(function(){
+$('[type="submit"]').on('click', function(){
     var str;
     str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
     $('[name^="c_"]').each(function(){        
@@ -238,7 +238,7 @@ $('[name^="c_"]').change(function(){
         $(this).parent().find('select').attr('disabled','disabled');
     }
 });
-$('[type="submit"]').click(function(){
+$('[type="submit"]').on('click', function(){
     var str;
     str=$('[name="edit_text"]:checked').length > 0?"edit_text=1,":"";
     $('[name^="c_"]').each(function(){        
@@ -300,7 +300,7 @@ elseif(isset($_REQUEST['multi_load_feed'])) {
 </table></form>
 
 <script type="text/javascript">
-$( "button" ).click(function() {
+$( "button" ).on('click', function() {
     $("#map").val( $('input[type="checkbox"]:checked').map(function(){
         return $(this).val();
     }).get().join(", ") );

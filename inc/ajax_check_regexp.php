@@ -6,18 +6,22 @@
  * Call: inc/ajax_check_regexp.php?....
  *      ... regex=regular_expression
  *  
- * @author andreask7 <andreask7@users.noreply.github.com>
- * @since  1.6.27-fork
+ * @package Lwt
+ * @author  andreask7 <andreask7@users.noreply.github.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/ajax__check__regex_8php.html
+ * @since   1.6.27-fork
  */
 
 require_once __DIR__ . '/session_utility.php';
 
-
-$regex = $_REQUEST['regex'];
-$old_error = error_reporting(0); // Turn off error reporting
-$err = 0;
-
-if('MECAB'== strtoupper(trim($regex))) {
+/**
+ * Check if mecab is installed and accessible under the 'mecab' alias.
+ * 
+ * @return void
+ */
+function check_mecab_accessibility()
+{
     $conf = '';
     $handle = popen(get_mecab_path(" -P"), 'r');
     while (!feof($handle)) {
@@ -41,29 +45,68 @@ if('MECAB'== strtoupper(trim($regex))) {
         pclose($handle);
         $dic_data = array();
         foreach (explode("\n", $dic) as $cLine) {
-            if($cLine) {
+            if ($cLine) {
                 list ($cKey, $cValue) = explode(":", $cLine, 2);
                 $dic_data[$cKey] = trim($cValue);
             }
         }
-        if ($dic_data["charset"]!="UTF-8") { 
+        if ($dic_data["charset"] != "UTF-8") { 
             echo "ERROR\n\nWRONG ENCODING!\nMeCab Dictionary must compiled with UTF-8!\n"; 
         }
     } else {
         echo "ERROR\n\nCould not find '" . get_mecab_path() . "'\n";
     }
+
 }
-else{
+
+/**
+ * Check if string 'test' is consistently recorgnized a word.
+ * 
+ * @return void
+ */
+function check_standard_regex($regex)
+{
     $match = preg_match('/[' . $regex . ']/u', 'test');
+    $err = false;
     if ($match === false) {
-        $err = 1;
-    } else if (mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_regexp_to_sqlsyntax('['.$regex.']'))===false) {
-        $err = 1;
+        $err = true;
+    } else {
+        $record = mysqli_query(
+            $GLOBALS["DBCONNECTION"], 
+            'SELECT "test" RLIKE ' . convert_regexp_to_sqlsyntax('['.$regex.']')
+        );
+        if ($record === false) {
+            $err = true;
+        }
+    }
+    if ($err) { 
+        echo "ERROR\n\nIncorrect Syntax of Field 'Word Regexp Characters'"; 
     }
 }
-if ($err == 1) { 
-    echo "ERROR\n\nIncorrect Syntax of Field 'Word Regexp Characters'"; 
+
+/**
+ * Make the actual query to check the regex.
+ * 
+ * @param string $regex Regex to test
+ * 
+ * @return void
+ */
+function do_ajax_check_regexp($regex)
+{
+    chdir('..');
+    // Turn off error reporting
+    $old_error = error_reporting(0); 
+    if('MECAB'== strtoupper(trim($regex))) {
+        check_mecab_accessibility();
+    } else {
+        check_standard_regex($regex);
+    }
+    // Set error reporting to old level
+    error_reporting($old_error);  
 }
-error_reporting($old_error);  // Set error reporting to old level
+
+if (getreq('regex')) {
+    do_ajax_check_regexp(getreq('regex'));
+}
 
 ?>

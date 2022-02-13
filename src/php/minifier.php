@@ -23,23 +23,14 @@ use MatthiasMullie\Minify;
  * 
  * @return string Minified content
  * 
- * @since 2.0.3-fork
+ * @since 2.2.2-fork Relative paths in the returned content is the same as the saved content.
  */
 function minifyJS($path, $outputPath) 
 {
     $minifier = new Minify\JS();
     $minifier->add($path);
-
-    // we can even add another file, they'll then be
-    // joined in 1 output file
-    // $sourcePath2 = '/path/to/second/source/js/file.js';
-    // $minifier->add($sourcePath2);
-
-    // save minified file to disk
-    $minifier->minify($outputPath);
-
-    // or just output the content
-    return $minifier->minify();
+    // Save minified file to disk
+    return $minifier->minify($outputPath);
 }
 
 /**
@@ -50,23 +41,14 @@ function minifyJS($path, $outputPath)
  * 
  * @return string Minified content
  * 
- * @since 2.0.3-fork
+ * @since 2.2.2-fork Relative paths in the returned content is the same as the saved content.
  */
 function minifyCSS($path, $outputPath) 
 {
     $minifier = new Minify\CSS();
     $minifier->add($path);
-
-    // we can even add another file, they'll then be
-    // joined in 1 output file
-    // $sourcePath2 = '/path/to/second/source/css/file.css';
-    // $minifier->add($sourcePath2);
-
-    // save minified file to disk
-    $minifier->minify($outputPath);
-
-    // or just output the content
-    return $minifier->minify();
+    // Save minified file to disk
+    return $minifier->minify($outputPath);
 }
 
 /**

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.2-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -69,7 +69,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ajax_load_feed.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -77,66 +77,165 @@ $(function() {
 <p>Load a RSS feed.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:af6d03110f85aaf4f69a16159c246d889"><td class="memItemLeft" align="right" valign="top"><a id="af6d03110f85aaf4f69a16159c246d889" name="af6d03110f85aaf4f69a16159c246d889"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$msg</b> =''</td></tr>
-<tr class="separator:af6d03110f85aaf4f69a16159c246d889"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c64e1f194986e6f51a67a8144fa305f"><td class="memItemLeft" align="right" valign="top"><a id="a0c64e1f194986e6f51a67a8144fa305f" name="a0c64e1f194986e6f51a67a8144fa305f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$feed</b> = <a class="el" href="session__utility_8php.html#aecb1fcccaad37d3508887b76b6321a87">get_links_from_rss</a>($_POST['NfSourceURI'], get_nf_option($_POST['NfOptions'], 'article_source'))</td></tr>
-<tr class="separator:a0c64e1f194986e6f51a67a8144fa305f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92448cb0d52f80033b3c6b6f20707bea"><td class="memItemLeft" align="right" valign="top">if(empty($feed))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__load__feed_8php.html#a92448cb0d52f80033b3c6b6f20707bea">else</a></td></tr>
-<tr class="separator:a92448cb0d52f80033b3c6b6f20707bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58b893452afde72c9dcbc0a339aa2c30"><td class="memItemLeft" align="right" valign="top"><a id="a58b893452afde72c9dcbc0a339aa2c30" name="a58b893452afde72c9dcbc0a339aa2c30"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$valuesArr</b> = array()</td></tr>
-<tr class="separator:a58b893452afde72c9dcbc0a339aa2c30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad44137b2dfc7fcbbdaae5f37582b41f6"><td class="memItemLeft" align="right" valign="top"><a id="ad44137b2dfc7fcbbdaae5f37582b41f6" name="ad44137b2dfc7fcbbdaae5f37582b41f6"></a>
-foreach($feed as $data)&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = implode(',', $valuesArr)</td></tr>
-<tr class="separator:ad44137b2dfc7fcbbdaae5f37582b41f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1774b100543d6fe8f9c6a9758f7ba68"><td class="memItemLeft" align="right" valign="top"><a id="aa1774b100543d6fe8f9c6a9758f7ba68" name="aa1774b100543d6fe8f9c6a9758f7ba68"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$imported_feed</b> =mysqli_affected_rows($GLOBALS[&quot;DBCONNECTION&quot;])</td></tr>
-<tr class="separator:aa1774b100543d6fe8f9c6a9758f7ba68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a530de829dff1f0e5bb4cee25a7c6f732"><td class="memItemLeft" align="right" valign="top"><a id="a530de829dff1f0e5bb4cee25a7c6f732" name="a530de829dff1f0e5bb4cee25a7c6f732"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$nif</b> =count($valuesArr)-$imported_feed</td></tr>
-<tr class="separator:a530de829dff1f0e5bb4cee25a7c6f732"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1041e821ece1096bf05a200549536b39"><td class="memItemLeft" align="right" valign="top"><a id="a1041e821ece1096bf05a200549536b39" name="a1041e821ece1096bf05a200549536b39"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$nf_max_links</b> =get_nf_option($_POST['NfOptions'], 'max_links')</td></tr>
-<tr class="separator:a1041e821ece1096bf05a200549536b39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe41109a73bdd3b6974ad67d4be36b48"><td class="memItemLeft" align="right" valign="top"><a id="afe41109a73bdd3b6974ad67d4be36b48" name="afe41109a73bdd3b6974ad67d4be36b48"></a>
-if( $nif &gt;1) if($nif==1)&#160;</td><td class="memItemRight" valign="bottom"><b>$result</b> =<a class="el" href="database__connect_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>(&quot;SELECT COUNT(*) AS total FROM &quot; . $tbpref . &quot;feedlinks WHERE FlNfID in (&quot;.$_POST['NfID'].&quot;)&quot;)</td></tr>
-<tr class="separator:afe41109a73bdd3b6974ad67d4be36b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1d731aa570613e5bcff831bb10e9b87"><td class="memItemLeft" align="right" valign="top"><a id="aa1d731aa570613e5bcff831bb10e9b87" name="aa1d731aa570613e5bcff831bb10e9b87"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$row</b> = mysqli_fetch_assoc($result)</td></tr>
-<tr class="separator:aa1d731aa570613e5bcff831bb10e9b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac19f839b525d6d99d063fe56bf2a6d3b"><td class="memItemLeft" align="right" valign="top"><a id="ac19f839b525d6d99d063fe56bf2a6d3b" name="ac19f839b525d6d99d063fe56bf2a6d3b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$to</b> =($row['total']-$nf_max_links)</td></tr>
-<tr class="separator:ac19f839b525d6d99d063fe56bf2a6d3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ac0569372b1bfaf415f209d64007ece"><td class="memItemLeft" align="right" valign="top"><a id="a1ac0569372b1bfaf415f209d64007ece" name="a1ac0569372b1bfaf415f209d64007ece"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>if</b> ( $to &gt;0)</td></tr>
-<tr class="separator:a1ac0569372b1bfaf415f209d64007ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0bb3cea0d70cd37d58d7888b3f569af"><td class="memItemLeft" align="right" valign="top"><a id="ac0bb3cea0d70cd37d58d7888b3f569af" name="ac0bb3cea0d70cd37d58d7888b3f569af"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$_SESSION</b> ['feed_loaded'][$_POST['cnt']] =$msg</td></tr>
-<tr class="separator:ac0bb3cea0d70cd37d58d7888b3f569af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aeda06da436948e664db158b03ff0e059"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__load__feed_8php.html#aeda06da436948e664db158b03ff0e059">get_feeds_list</a> ($feed, $nfid)</td></tr>
+<tr class="separator:aeda06da436948e664db158b03ff0e059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88b565ab6a89b31bf4e5d3d2bfb986a8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__load__feed_8php.html#a88b565ab6a89b31bf4e5d3d2bfb986a8">print_feed_result</a> ($imported_feed, $nif, $nfname, $nfid, $nfoptions)</td></tr>
+<tr class="separator:a88b565ab6a89b31bf4e5d3d2bfb986a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa218df41e95332e70bc3f8426019f925"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__load__feed_8php.html#aa218df41e95332e70bc3f8426019f925">do_ajax_load_feed</a> ($nfname, $nfid, $nfsourceuri, $nfoptions)</td></tr>
+<tr class="separator:aa218df41e95332e70bc3f8426019f925"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Load a RSS feed. </p>
-<dl class="section author"><dt>Author</dt><dd>andreask7 <a href="#" onclick="location.href='mai'+'lto:'+'and'+'re'+'ask'+'7@'+'use'+'rs'+'.no'+'re'+'ply'+'.g'+'ith'+'ub'+'.co'+'m'; return false;">andre<span style="display: none;">.nosp@m.</span>ask7<span style="display: none;">.nosp@m.</span>@user<span style="display: none;">.nosp@m.</span>s.no<span style="display: none;">.nosp@m.</span>reply<span style="display: none;">.nosp@m.</span>.git<span style="display: none;">.nosp@m.</span>hub.c<span style="display: none;">.nosp@m.</span>om</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.6.0-fork </dd></dl>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a92448cb0d52f80033b3c6b6f20707bea" name="a92448cb0d52f80033b3c6b6f20707bea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92448cb0d52f80033b3c6b6f20707bea">&#9670;&nbsp;</a></span>else</h2>
+<p >Call: <a class="el" href="ajax__load__feed_8php.html" title="Load a RSS feed.">inc/ajax_load_feed.php</a></p>
+<dl class="section author"><dt>Author</dt><dd>andreask7 <a href="#" onclick="location.href='mai'+'lto:'+'and'+'re'+'ask'+'7@'+'use'+'rs'+'.no'+'re'+'ply'+'.g'+'ith'+'ub'+'.co'+'m'; return false;">andre<span style="display: none;">.nosp@m.</span>ask7<span style="display: none;">.nosp@m.</span>@user<span style="display: none;">.nosp@m.</span>s.no<span style="display: none;">.nosp@m.</span>reply<span style="display: none;">.nosp@m.</span>.git<span style="display: none;">.nosp@m.</span>hub.c<span style="display: none;">.nosp@m.</span>om</a> @license Unlicense <a href="http://unlicense.org/">http://unlicense.org/</a> <a class="el" href="">1.6.0-fork </a></dd></dl>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="aa218df41e95332e70bc3f8426019f925" name="aa218df41e95332e70bc3f8426019f925"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa218df41e95332e70bc3f8426019f925">&#9670;&nbsp;</a></span>do_ajax_load_feed()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">if (empty( $feed)) else</td>
+          <td class="memname">do_ajax_load_feed </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nfname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nfid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nfsourceuri</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nfoptions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">    $sql = <span class="stringliteral">&#39;INSERT IGNORE INTO &#39;</span> . $tbpref . <span class="stringliteral">&#39;feedlinks (FlTitle,FlLink,FlText,FlDescription,FlDate,FlAudio,FlNfID) VALUES &#39;</span></div>
-</div><!-- fragment -->
+<p >Main function to execute an AJAX query echoing feeds.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$nfname</td><td>Newsfeed name </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$nfid</td><td>News feed ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$nfsourceuri</td><td>News feed source </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$nfoptions</td><td>News feed options</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Message if an error occured, '' otherwise </dd></dl>
+
+</div>
+</div>
+<a id="aeda06da436948e664db158b03ff0e059" name="aeda06da436948e664db158b03ff0e059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeda06da436948e664db158b03ff0e059">&#9670;&nbsp;</a></span>get_feeds_list()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_feeds_list </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$feed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nfid</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get the list of feeds.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string[][]</td><td class="paramname">$feed</td><td>A feed</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>array{0: string|int, 1: int} Number of imported feeds and number of duplicated feeds.</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+<a id="a88b565ab6a89b31bf4e5d3d2bfb986a8" name="a88b565ab6a89b31bf4e5d3d2bfb986a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88b565ab6a89b31bf4e5d3d2bfb986a8">&#9670;&nbsp;</a></span>print_feed_result()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">print_feed_result </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$imported_feed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nif</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nfname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nfid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$nfoptions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Update the feeds database and echo a result message.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$imported_feed</td><td>Number of imported feeds </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$nif</td><td>Number of duplicated feeds </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$nfname</td><td>News feed name </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$nfid</td><td>News feed ID </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$nfoptions</td><td>News feed options</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
 </div>
 </div>
 </div><!-- contents -->

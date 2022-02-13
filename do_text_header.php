@@ -269,7 +269,7 @@ function save_audio_position($textid): void
 
     // We need to capture the text-to-speach event manually for Chrome
     $(document).ready(function() {
-        $('#readTextButton').click(init_reading)
+        $('#readTextButton').on('click', init_reading)
     });
 </script>
     <?php

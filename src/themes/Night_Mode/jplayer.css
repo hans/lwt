@@ -67,17 +67,17 @@ div.jp-audio div.jp-type-single a.jp-pause {
 	border-right: 1px solid rgb(36,37,38);
 }
 a.jp-play {
-	background: url("../../css/images/jplayer-black-and-yellow.png") 0 0 no-repeat;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") 0 0 no-repeat;
 }
 a.jp-play:hover {
-	background: url("../../css/images/jplayer-black-and-yellow.png") -33px 0 no-repeat;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") -33px 0 no-repeat;
 }
 a.jp-pause {
-	background: url("../../css/images/jplayer-black-and-yellow.png") 0 -30px no-repeat;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") 0 -30px no-repeat;
 	display: none;
 }
 a.jp-pause:hover {
-	background: url("../../css/images/jplayer-black-and-yellow.png") -33px -30px no-repeat;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") -33px -30px no-repeat;
 }
 
 div.jp-progress-container {
@@ -98,14 +98,14 @@ div.jp-audio div.jp-type-single div.jp-progress {
 	width: 223px;
 	height: 7px;
 	padding: 1px;
-	background: url("../../css/images/jplayer-black-and-yellow.png") 0 -192px repeat-x ;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") 0 -192px repeat-x ;
 }
 
 div.jp-seek-bar {
 	width: 0px;
 	height: 5px;
 	cursor: pointer;
-	background: url("../../css/images/jplayer-black-and-yellow.png") 0 -163px repeat-x;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") 0 -163px repeat-x;
 	-webkit-border-radius: 1px;
 	-moz-border-radius: 1px;
 	border-radius: 1px;
@@ -113,7 +113,7 @@ div.jp-seek-bar {
 div.jp-play-bar {
 	width: 0px;
 	height: 5px;
-	background: url("../../css/images/jplayer-black-and-yellow.png") 0 -133px repeat-x ;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") 0 -133px repeat-x ;
 	-webkit-border-radius: 1px;
 	-moz-border-radius: 1px;
 	border-radius: 1px;
@@ -121,7 +121,7 @@ div.jp-play-bar {
 
 /* The seeking class is added/removed inside jPlayer
 div.jp-seeking-bg {
-	background: url("../../css/images/pbar-ani.gif");
+	background: url("../../../css/images/pbar-ani.gif");
 }
 */
 
@@ -137,7 +137,7 @@ div.jp-volume-bar-container {
 div.jp-volume-bar {
 	position: relative;
 	overflow: hidden;
-	background: url("../../css/images/jplayer-black-and-yellow.png") 0 -192px repeat-x;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") 0 -192px repeat-x;
 	width: 40px;
 	height: 9px;
 	cursor: pointer;
@@ -151,7 +151,7 @@ div.jp-volume-bar-value {
 	width: 0px;
 	height: 5px;
 	margin: 1px;
-	background: url("../../css/images/jplayer-black-and-yellow.png") 0 -133px repeat-x;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") 0 -133px repeat-x;
 	-webkit-border-radius: 1px;
 	-moz-border-radius: 1px;
 	border-radius: 1px;
@@ -171,17 +171,17 @@ div.jp-audio div.jp-type-single a.jp-unmute {
 }
 
 a.jp-mute {
-	background: url("../../css/images/jplayer-black-and-yellow.png") -10px -68px no-repeat;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") -10px -68px no-repeat;
 }
 a.jp-mute:hover {
-	background: url("../../css/images/jplayer-black-and-yellow.png") -43px -68px no-repeat;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") -43px -68px no-repeat;
 }
 a.jp-unmute {
-	background: url("../../css/images/jplayer-black-and-yellow.png") -10px -98px no-repeat;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") -10px -98px no-repeat;
 	display: none;
 }
 a.jp-unmute:hover {
-	background: url("../../css/images/jplayer-black-and-yellow.png") -43px -98px no-repeat;
+	background: url("../../../css/images/jplayer-black-and-yellow.png") -43px -98px no-repeat;
 }
 
 div.jp-jplayer {

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.2-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -139,6 +139,10 @@ Functions</h2></td></tr>
 <tr class="separator:a8ac89d832d3a95c00b38bad4b46bbe19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82d62f0d7510fc4454deb4ed0f16e9a9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="database__connect_8php.html#a82d62f0d7510fc4454deb4ed0f16e9a9">set_word_count</a> ()</td></tr>
 <tr class="separator:a82d62f0d7510fc4454deb4ed0f16e9a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad99b49a4dbf10bb27e0009c10b033706"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="database__connect_8php.html#ad99b49a4dbf10bb27e0009c10b033706">check_text_valid</a> ($lid)</td></tr>
+<tr class="separator:ad99b49a4dbf10bb27e0009c10b033706"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46d04d108e75a5647dbaf056c3b70758"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="database__connect_8php.html#a46d04d108e75a5647dbaf056c3b70758">check_text_with_expressions</a> ($id, $lid, $wl, $wl_max, $mw_sql)</td></tr>
+<tr class="separator:a46d04d108e75a5647dbaf056c3b70758"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46e8e1270bdf2caa528fee2b393c919c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="database__connect_8php.html#a46e8e1270bdf2caa528fee2b393c919c">splitCheckText</a> ($text, $lid, $id)</td></tr>
 <tr class="separator:a46e8e1270bdf2caa528fee2b393c919c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac536fa1c9af67239c031c2fbebd2ddef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="database__connect_8php.html#ac536fa1c9af67239c031c2fbebd2ddef">reparse_all_texts</a> ()</td></tr>
@@ -152,12 +156,15 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:aedd29c2deb429fa1573e5772a0596155"><td class="memItemLeft" align="right" valign="top"><a id="aedd29c2deb429fa1573e5772a0596155" name="aedd29c2deb429fa1573e5772a0596155"></a>
-if(!empty($dspltime))&#160;</td><td class="memItemRight" valign="bottom"><b>$DBCONNECTION</b> = <a class="el" href="database__connect_8php.html#a6e362f15877268f0dcff6be0c499f493">connect_to_database</a>($server, $userid, $passwd, $dbname)</td></tr>
-<tr class="separator:aedd29c2deb429fa1573e5772a0596155"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84c3eb1bab9d7e3b2366f90cf9beec1c"><td class="memItemLeft" align="right" valign="top"><a id="a84c3eb1bab9d7e3b2366f90cf9beec1c" name="a84c3eb1bab9d7e3b2366f90cf9beec1c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$DBCONNECTION</b> = <a class="el" href="database__connect_8php.html#a6e362f15877268f0dcff6be0c499f493">connect_to_database</a>($server, $userid, $passwd, $dbname)</td></tr>
+<tr class="separator:a84c3eb1bab9d7e3b2366f90cf9beec1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2071c730b3755cc900bc31a4479bebf"><td class="memItemLeft" align="right" valign="top"><a id="ad2071c730b3755cc900bc31a4479bebf" name="ad2071c730b3755cc900bc31a4479bebf"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$tbpref</b> = null</td></tr>
 <tr class="separator:ad2071c730b3755cc900bc31a4479bebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3bb3737cb6aed4cc709b36e46e4d046"><td class="memItemLeft" align="right" valign="top"><a id="ad3bb3737cb6aed4cc709b36e46e4d046" name="ad3bb3737cb6aed4cc709b36e46e4d046"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$fixed_tbpref</b> = <a class="el" href="database__connect_8php.html#a1f4a496e6b66c98af300e5e9005eedb7">get_database_prefixes</a>($tbpref)</td></tr>
+<tr class="separator:ad3bb3737cb6aed4cc709b36e46e4d046"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Connects to the database and check its state. </p>
@@ -190,6 +197,86 @@ if(!empty($dspltime))&#160;</td><td class="memItemRight" valign="bottom"><b>$DBC
 </div><div class="memdoc">
 <p >Adjust the auto-incrementation in the database.</p>
 <p >@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+<a id="ad99b49a4dbf10bb27e0009c10b033706" name="ad99b49a4dbf10bb27e0009c10b033706"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad99b49a4dbf10bb27e0009c10b033706">&#9670;&nbsp;</a></span>check_text_valid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">check_text_valid </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Echo the sentences in a text. Prepare JS data for words and word count.</p>
+<p >@global string $tbpref Database table prefix</p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a46d04d108e75a5647dbaf056c3b70758" name="a46d04d108e75a5647dbaf056c3b70758"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46d04d108e75a5647dbaf056c3b70758">&#9670;&nbsp;</a></span>check_text_with_expressions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">check_text_with_expressions </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$wl_max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$mw_sql</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Check a text that contains expressions.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td>Text ID </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$lid</td><td>Language ID </td></tr>
+    <tr><td class="paramtype">int[]</td><td class="paramname">$wl</td><td>Word length </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$wl_max</td><td>Maximum word length </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$mw_sql</td><td>SQL-formatted string</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string SQL-formatted query string</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
 
 </div>
 </div>

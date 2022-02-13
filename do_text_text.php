@@ -15,6 +15,8 @@
 
 require_once 'inc/session_utility.php';
 
+
+
 /**
  * Get the record for this text in the database.
  * 
@@ -25,7 +27,7 @@ require_once 'inc/session_utility.php';
  * 
  * @global string $tbpref Table name prefix
  */
-function getTextData($textid)
+function get_text_data($textid)
 {
     global $tbpref;
     $sql = 
@@ -38,6 +40,22 @@ function getTextData($textid)
     return $record;
 }
 
+/**
+ * Get the record for this text in the database.
+ * 
+ * @param  string $textid ID of the text
+ * 
+ * @return array{TxLgID: int, TxTitle: string, TxAnnotatedText: string, 
+ * TxPosition: int}|false|null Record corresponding to this text.
+ * 
+ * @global string $tbpref Table name prefix
+ * 
+ * @deprecated Use get_text_data instead.
+ */
+function getTextData($textid)
+{
+    return get_text_data($textid);
+}
 
 /**
  * Return the settings relative to this language.
@@ -50,7 +68,7 @@ function getTextData($textid)
  * 
  * @global string $tbpref Table name prefix
  */
-function getLanguagesSettings($langid)
+function get_language_settings($langid)
 {
     global $tbpref;
     $sql = 
@@ -65,6 +83,25 @@ function getLanguagesSettings($langid)
 }
 
 /**
+ * Return the settings relative to this language.
+ * 
+ * @param int $langid Language ID as defined in the database.
+ * 
+ * @return array{LgName: string, LgDict1URI: string, 
+ * LgDict2URI: string, LgGoogleTranslateURI: string, LgTextSize: int, 
+ * LgRemoveSpaces: int, LgRightToLeft: int}|false|null Record corresponding to this language.
+ * 
+ * @global string $tbpref Table name prefix
+ * 
+ * @deprecated Use get_language_settings instead.
+ */
+function getLanguagesSettings($langid)
+{
+    return get_language_settings($langid);
+}
+
+
+/**
  * Print the output when the word is a term.
  *
  * @param int                   $actcode       Action code, > 1 for multiword
@@ -74,13 +111,10 @@ function getLanguagesSettings($langid)
  * @param int                   $currcharcount Current number of characters
  * @param array<string, string> $record        Various data
  * 
- * @return int 0
- * 
- * @since 2.2.1 Return 0 instead of a new value for $hideuntil
+ * @return void
  */
-function echoTerm(
-    $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
-): int {
+function echo_term($actcode, $showAll, $spanid, $hidetag, $currcharcount, $record)
+{
     $actcode = (int)$record['Code'];
     if ($actcode > 1) {   
         // A MULTIWORD FOUND
@@ -156,6 +190,28 @@ function echoTerm(
         //$titext = array('','','','','','','','','','','');
 
     }  // ($actcode == 1)  -- A WORD FOUND
+}
+
+/**
+ * Print the output when the word is a term.
+ *
+ * @param int                   $actcode       Action code, > 1 for multiword
+ * @param int                   $showAll       Show all words or not
+ * @param int                   $hideuntil     Unused
+ * @param string                $spanid        ID for this span element
+ * @param int                   $currcharcount Current number of characters
+ * @param array<string, string> $record        Various data
+ * 
+ * @return int 0
+ * 
+ * @since 2.2.1 Return 0 instead of a new value for $hideuntil
+ * 
+ * @deprecated Use echo_term instead.
+ */
+function echoTerm(
+    $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
+): int {
+    echo_term($actcode, $showAll, $spanid, $hidetag, $currcharcount, $record);
     return 0;
 }
 
@@ -213,8 +269,8 @@ function wordProcessor($record, $showAll, $currcharcount): int
 
     } else {   
         // $record['TiIsNotWord'] == 0  -- A TERM
-        $hideuntil = echoTerm(
-            $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
+        echo_term(
+            $actcode, $showAll, $spanid, $hidetag, $currcharcount, $record
         );
     } // $record['TiIsNotWord'] == 0  -- A TERM
 
@@ -227,9 +283,15 @@ function wordProcessor($record, $showAll, $currcharcount): int
 }
 
 /**
+ * Check if a new sentence SPAN should be started.
  * 
+ * @param int $sid     Sentence ID
+ * @param int $old_sid Old sentence ID
+ * 
+ * @return int Sentence ID
  */
-function sentenceParser($sid, $old_sid) {
+function sentence_parser($sid, $old_sid)
+{
     if ($sid == $old_sid) {
         return $sid;
     }
@@ -239,6 +301,21 @@ function sentenceParser($sid, $old_sid) {
     $sid = $old_sid;
     echo '<span id="sent_', $sid, '">';
     return $sid;
+}
+
+/**
+ * Check if a new sentence SPAN should be started.
+ * 
+ * @param int $sid     Sentence ID
+ * @param int $old_sid Old sentence ID
+ * 
+ * @return int Sentence ID
+ * 
+ * @deprecated Use sentence_parser instead.
+ */
+function sentenceParser($sid, $old_sid) 
+{
+    return sentence_parser($sid, $old_sid);
 }
 
 /**
@@ -253,7 +330,7 @@ function sentenceParser($sid, $old_sid) {
  * 
  * @return int New value for $hideuntil
  */
-function wordParser($record, $showAll, $currcharcount, $hideuntil): int
+function word_parser($record, $showAll, $currcharcount, $hideuntil): int
 {
     $actcode = (int)$record['Code'];
     $spanid = 'ID-' . $record['Ti2Order'] . '-' . $actcode;
@@ -284,12 +361,31 @@ function wordParser($record, $showAll, $currcharcount, $hideuntil): int
         if (isset($record['WoID']) && !$showAll && $hideuntil == -1) {
             $hideuntil = (int)$record['Ti2Order'] + ($actcode - 1) * 2;
         }
-        echoTerm(
-            $actcode, $showAll, $hideuntil, $spanid, $hidetag, $currcharcount, $record
+        echo_term(
+            $actcode, $showAll, $spanid, $hidetag, $currcharcount, $record
         );
     } // $record['TiIsNotWord'] == 0  -- A TERM
 
     return $hideuntil;
+}
+
+/**
+ * Process each word (can be punction, term, etc...)
+ *
+ * @param string[] $record        Record information
+ * @param 0|1      $showAll       Show all words or not
+ * @param int      $currcharcount Current number of caracters 
+ * @param int      $cnt
+ * @param int      $sid           Sentence ID
+ * @param int      $hideuntil     Should the value be hidden or not
+ * 
+ * @return int New value for $hideuntil
+ * 
+ * @deprecated Use word_parser instead.
+ */
+function wordParser($record, $showAll, $currcharcount, $hideuntil): int
+{
+    return word_parser($record, $showAll, $currcharcount, $hideuntil);
 }
 
 /**
@@ -302,7 +398,7 @@ function wordParser($record, $showAll, $currcharcount, $hideuntil): int
  * 
  * @global string $tbpref Table name prefix
  */
-function mainWordLoop($textid, $showAll): void
+function main_word_loop($textid, $showAll): void
 {
     global $tbpref;
     
@@ -337,11 +433,11 @@ function mainWordLoop($textid, $showAll): void
     // Loop over words and punctuation
     while ($record = mysqli_fetch_assoc($res)) {
         $actcode = (int)$record['Code'];
-        $sid = sentenceParser($sid, $record['Ti2SeID']);
+        $sid = sentence_parser($sid, $record['Ti2SeID']);
         if ($cnt < $record['Ti2Order']) {
             echo '<span id="ID-' . $cnt++ . '-1"></span>';
         }
-        $hideuntil = wordParser($record, $showAll, $currcharcount, $hideuntil);
+        $hideuntil = word_parser($record, $showAll, $currcharcount, $hideuntil);
         if ($actcode == 1) { 
             $currcharcount += $record['TiTextLength']; 
             $cnt++;
@@ -354,6 +450,23 @@ function mainWordLoop($textid, $showAll): void
 }
 
 /**
+ * Get all words and start the iterate over them.
+ *
+ * @param string $textid  ID of the text 
+ * @param 0|1    $showAll Show all words or not
+ * 
+ * @return void
+ * 
+ * @global string $tbpref Table name prefix
+ * 
+ * @deprecated Use main_word_loop instead.
+ */
+function mainWordLoop($textid, $showAll): void
+{
+    main_word_loop($textid, $showAll);
+}
+
+/**
  * Prepare style for showing word status. Write a now STYLE object
  * 
  * @param int        $showLearning 1 to show learning translations
@@ -363,7 +476,7 @@ function mainWordLoop($textid, $showAll): void
  *
  * @return void
  */
-function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists): void
+function do_text_text_style($showLearning, $mode_trans, $textsize, $ann_exists): void
 {
     $displaystattrans = (int)getSettingWithDefault('set-display-text-frame-term-translation');
     $pseudo_element = ($mode_trans<3) ? 'after' : 'before';
@@ -423,13 +536,30 @@ function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists): void
 }
 
 /**
+ * Prepare style for showing word status. Write a now STYLE object
+ * 
+ * @param int        $showLearning 1 to show learning translations
+ * @param int<1, 4>  $mode_trans   Annotation position
+ * @param int        $textsize     Text font size
+ * @param bool       $ann_exist    Does annotations exist for this text
+ *
+ * @return void
+ * 
+ * @deprecated Use do_text_text_style instead.
+ */
+function prepareStyle($showLearning, $mode_trans, $textsize, $ann_exists): void
+{
+    do_text_text_style($showLearning, $mode_trans, $textsize, $ann_exists);
+}
+
+/**
  * Print JavaScript-formatted content.
  * 
  * @param array<string, mixed> Associative array of all global variables for JS
  * 
  * @return void
  */
-function do_text_javascript($var_array): void
+function do_text_text_javascript($var_array): void
 {
     ?>
 <script type="text/javascript">
@@ -466,6 +596,20 @@ function do_text_javascript($var_array): void
 }
 
 /**
+ * Print JavaScript-formatted content.
+ * 
+ * @param array<string, mixed> Associative array of all global variables for JS
+ * 
+ * @return void
+ * 
+ * @deprecated Use do_text_text_javascript instead.
+ */
+function do_text_javascript($var_array): void
+{
+    do_text_text_javascript($var_array);
+}
+
+/**
  * Main function for displaying sentences. It will print HTML content.
  *
  * @param string $textid    ID of the requiered text
@@ -474,14 +618,14 @@ function do_text_javascript($var_array): void
 function do_text_text_content($textid, $only_body=true): void
 {
     // Text settings
-    $record = getTextData($textid);
+    $record = get_text_data($textid);
     $title = $record['TxTitle'];
     $langid = $record['TxLgID'];
     $ann = $record['TxAnnotatedText'];
     $pos = $record['TxPosition'];
     
     // Language settings
-    $record = getLanguagesSettings($langid);
+    $record = get_language_settings($langid);
     $wb1 = isset($record['LgDict1URI']) ? $record['LgDict1URI'] : "";
     $wb2 = isset($record['LgDict2URI']) ? $record['LgDict2URI'] : "";
     $wb3 = isset($record['LgGoogleTranslateURI']) ? $record['LgGoogleTranslateURI'] : "";
@@ -535,8 +679,8 @@ function do_text_text_content($textid, $only_body=true): void
         'ANNOTATIONS_MODE' => $mode_trans,
         'POS' => $pos
     );
-    do_text_javascript($var_array);
-    echo prepareStyle($showLearning, $mode_trans, $textsize, strlen($ann) > 0);
+    do_text_text_javascript($var_array);
+    echo do_text_text_style($showLearning, $mode_trans, $textsize, strlen($ann) > 0);
     ?>
 
     <div id="thetext" <?php echo ($rtlScript ? 'dir="rtl"' : '') ?>>
@@ -546,7 +690,7 @@ function do_text_text_content($textid, $only_body=true): void
             line-height: <?php echo $ruby?'1':'1.4'; ?>;"
         >
             <!-- Start displaying words -->
-            <?php mainWordLoop($textid, $showAll); ?></span>
+            <?php main_word_loop($textid, $showAll); ?></span>
         </p>
         <p style="font-size:<?php echo $textsize; ?>%;line-height: 1.4; margin-bottom: 300px;">&nbsp;</p>
     </div>

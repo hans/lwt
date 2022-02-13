@@ -4,6 +4,36 @@ Changelog
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
+## 2.2.2-fork (February 13 2022)
+### Added
+* A contribution guide at ``docs/contribute.md``.
+
+### Changed
+* Updated the jQuery deprecated events. It should have no consequence.
+* Slightly changed the behavior of the CSS/JS minifiers. The relative paths in the return string were different from the ones in the saved file.
+* Regenerated documentation.
+
+### Fixed
+* Some AJAX files could not work properly since 2.0.3-fork.
+  * Refreshing the list of audio files in ``edit_texts.php`` works again.
+  * Theme in ``info.html`` works now.
+  * Some other problems may have been fixed.
+* With ``do_test?text=``, the language name displayed instead of "[L2]" was often wrong.
+* ``$fixed_tbpref`` was never declared at global scope.
+* Fixed an incompatibility in ``database_connect.php``, ``splitCheckText`` with PHP <7.4.
+* Impossible to start bulk_translate_new_words from ``do_text.php``.
+* The audio player does no longer show at the end of the page (DOM node was not closed).
+* Relative paths in themes were often broken. For instance: no images in audio player.
+  * An explanation was also added on how to add custom images in your theme.
+* Very small errors corrected in some themes.
+
+### Deprecated
+* Deprecated a lot of camelCase functions in ``do_text_text.php`` to their snake_case counterpart. The behavior of the deprecated functions did not change.
+  * camelCase to snake_case: ``getTextData`` to ``get_text_data``, ``sentenceParser`` to ``sentence_parser``, ``wordParser`` to ``word_parser`` and ``mainWordLoop`` to ``main_word_loop`` 
+  * Typo fixing: ``getLanguagesSettings`` to ``get_language_settings`` (use singular)
+  * Signature changed: ``echoTerm`` to ``echo_term`` (no return value, no ``$hideuntil`` parameter)
+  * Name uniformisation: ``prepareStyle`` to ``do_text_text_style`` and  ``do_text_javascript`` to ``do_text_text_javascript``.
+
 ## 2.2.1-fork (February 07 2022)
 ### Changed
 * Composer in no longer *required* for standard users (but is still required for contributing).
@@ -20,8 +50,8 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ### Deprecated
 * The ``is_mobile`` function now always returns false.
 * The ``wordProcessor`` (``do_text_text.php``) function was incorrect. 
-   * It now always return 0.
-   * Please use ``wordParser``, ``sentenceParser`` and some more code instead.
+  * It now always return 0.
+  * Please use ``wordParser``, ``sentenceParser`` and some more code instead.
 
 ### Removed
 * Removed unnecessary dependencies:
@@ -32,6 +62,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * The ``components/`` folder was also deleted. It was bundling JS code from composer.
   * It should have been git ignored at least.
   * Its content was unused. The files it was trying to use are duplicated.
+
+  ### Full Changelog
+* [v2.2.0...v2.2.1](https://github.com/HugoFara/lwt/compare/v2.2.0...v2.2.1)
 
 ## 2.2.0-fork (February 04 2022)
 ### Added
@@ -60,7 +93,7 @@ the maximum value was shown as a floating point value.
 * Floating Menu from JTricks.com was unused since 2.0.4-fork. It is now deleted.
 
 ### Full Changelog
-* [v2.1.0...v2.2.0](https://github.com/HugoFara/lwt/compare/v2.1.0...v2.2.0)
+* [2.1.0...v2.2.0](https://github.com/HugoFara/lwt/compare/2.1.0...v2.2.0)
 
 ## 2.1.0-fork (January 09 2022)
 ### Added

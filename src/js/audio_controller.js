@@ -35,7 +35,7 @@ function set_current_playbackrate() {
 }
 
 function click_single() {
-    $("#jquery_jplayer_1").unbind($.jPlayer.event.ended + ".jp-repeat");
+    $("#jquery_jplayer_1").off('bind', $.jPlayer.event.ended + ".jp-repeat");
     $("#do-single").addClass('hide');
     $("#do-repeat").removeClass('hide');
     do_ajax_save_setting('currentplayerrepeatmode','0');
@@ -43,7 +43,7 @@ function click_single() {
 }
 
 function click_repeat() {
-    $("#jquery_jplayer_1").bind($.jPlayer.event.ended + ".jp-repeat", function(event) { 
+    $("#jquery_jplayer_1").on('bind', $.jPlayer.event.ended + ".jp-repeat", function(event) { 
         $(this).jPlayer("play"); 
     });
     $("#do-repeat").addClass('hide');

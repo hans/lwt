@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.1-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.2-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -69,7 +69,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#var-members">Variables</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ajax_show_imported_terms.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -77,41 +78,162 @@ $(function() {
 <p>Launch an AJAX query to show imported terms.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a4bc747d90a815f4325ec1d11b1fda652"><td class="memItemLeft" align="right" valign="top"><a id="a4bc747d90a815f4325ec1d11b1fda652" name="a4bc747d90a815f4325ec1d11b1fda652"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$last_update</b> =$_REQUEST['last_update']</td></tr>
-<tr class="separator:a4bc747d90a815f4325ec1d11b1fda652"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cf6eb6f2c4d1e6204209a5341ccb537"><td class="memItemLeft" align="right" valign="top"><a id="a2cf6eb6f2c4d1e6204209a5341ccb537" name="a2cf6eb6f2c4d1e6204209a5341ccb537"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentpage</b> =$_REQUEST['page']</td></tr>
-<tr class="separator:a2cf6eb6f2c4d1e6204209a5341ccb537"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1b8d0109388103549a18088bccc9b82"><td class="memItemLeft" align="right" valign="top"><a id="aa1b8d0109388103549a18088bccc9b82" name="aa1b8d0109388103549a18088bccc9b82"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$recno</b> = $_REQUEST['count']</td></tr>
-<tr class="separator:aa1b8d0109388103549a18088bccc9b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfed5e05a3730803680f2b0f6d15b919"><td class="memItemLeft" align="right" valign="top"><a id="acfed5e05a3730803680f2b0f6d15b919" name="acfed5e05a3730803680f2b0f6d15b919"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$rtl</b> = $_REQUEST['rtl']</td></tr>
-<tr class="separator:acfed5e05a3730803680f2b0f6d15b919"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a442bcd8c7101d3dd03430cc0dca65c84"><td class="memItemLeft" align="right" valign="top"><a id="a442bcd8c7101d3dd03430cc0dca65c84" name="a442bcd8c7101d3dd03430cc0dca65c84"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$maxperpage</b> = 100</td></tr>
-<tr class="separator:a442bcd8c7101d3dd03430cc0dca65c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a263621399c53f2952c2329ee13ad8e4e"><td class="memItemLeft" align="right" valign="top"><a id="a263621399c53f2952c2329ee13ad8e4e" name="a263621399c53f2952c2329ee13ad8e4e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$pages</b> = intval(($recno-1) / $maxperpage) + 1</td></tr>
-<tr class="separator:a263621399c53f2952c2329ee13ad8e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad84bdbdacae6af920368246394625d59"><td class="memItemLeft" align="right" valign="top"><a id="ad84bdbdacae6af920368246394625d59" name="ad84bdbdacae6af920368246394625d59"></a>
-if( $currentpage&lt; 1) if($currentpage &gt; $pages)&#160;</td><td class="memItemRight" valign="bottom"><b>$limit</b> = ' LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage</td></tr>
-<tr class="separator:ad84bdbdacae6af920368246394625d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ec8f3b6673f2b74d1ee0eeaea23b4bf"><td class="memItemLeft" align="right" valign="top"><a id="a1ec8f3b6673f2b74d1ee0eeaea23b4bf" name="a1ec8f3b6673f2b74d1ee0eeaea23b4bf"></a>
-if( $recno &gt; 0) if($recno==0) else&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select WoID, WoText, WoTranslation, WoRomanization, WoSentence, ifnull(WoSentence,\'\') like concat(\'%{\',WoText,\'}%\') as SentOK, WoStatus, ifnull(concat(\'[\',group_concat(distinct TgText order by TgText separator \', \'),\']\'),\'\') as taglist from ((' . $tbpref . 'words left JOIN ' . $tbpref . 'wordtags ON WoID = WtWoID) left join ' . $tbpref . 'tags on TgID = WtTgID) where WoStatusChanged &gt; ' . convert_string_to_sqlsyntax($last_update) . ' group by WoID ' . $limit</td></tr>
-<tr class="separator:a1ec8f3b6673f2b74d1ee0eeaea23b4bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="database__connect_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
-<tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespace_lwt"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_lwt.html">Lwt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a37b83d29ea67a121f5ce9b0e9f12b0aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__show__imported__terms_8php.html#a37b83d29ea67a121f5ce9b0e9f12b0aa">get_imported_terms</a> ($recno, $currentpage, $last_update)</td></tr>
+<tr class="separator:a37b83d29ea67a121f5ce9b0e9f12b0aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa912e01ec930bdf3029b68fceefa52c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__show__imported__terms_8php.html#afa912e01ec930bdf3029b68fceefa52c">show_imported_terms</a> ($last_update, $limit, $rtl)</td></tr>
+<tr class="separator:afa912e01ec930bdf3029b68fceefa52c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbcf32ac49fef765eadfc6a5144a01aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ajax__show__imported__terms_8php.html#afbcf32ac49fef765eadfc6a5144a01aa">do_ajax_show_imported_terms</a> ($last_update, $currentpage, $recno, $rtl)</td></tr>
+<tr class="separator:afbcf32ac49fef765eadfc6a5144a01aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Launch an AJAX query to show imported terms. </p>
-<dl class="section author"><dt>Author</dt><dd>andreask7 <a href="#" onclick="location.href='mai'+'lto:'+'and'+'re'+'ask'+'7@'+'use'+'rs'+'.no'+'re'+'ply'+'.g'+'ith'+'ub'+'.co'+'m'; return false;">andre<span style="display: none;">.nosp@m.</span>ask7<span style="display: none;">.nosp@m.</span>@user<span style="display: none;">.nosp@m.</span>s.no<span style="display: none;">.nosp@m.</span>reply<span style="display: none;">.nosp@m.</span>.git<span style="display: none;">.nosp@m.</span>hub.c<span style="display: none;">.nosp@m.</span>om</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.6.0-fork </dd></dl>
-</div></div><!-- contents -->
+<p >Call: inc/ajax_show_imported_terms?last_update=[last_update]&amp;page=[page number]&amp;count=[count]&amp;rt=[rtl] </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="afbcf32ac49fef765eadfc6a5144a01aa" name="afbcf32ac49fef765eadfc6a5144a01aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbcf32ac49fef765eadfc6a5144a01aa">&#9670;&nbsp;</a></span>do_ajax_show_imported_terms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">do_ajax_show_imported_terms </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$last_update</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentpage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$recno</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$rtl</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Show the imported terms.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$last_update</td><td>Last update </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$currentpage</td><td>Current number of the page </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$recno</td><td>Number of record </td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$rtl</td><td>True if this language is right-to-left</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a37b83d29ea67a121f5ce9b0e9f12b0aa" name="a37b83d29ea67a121f5ce9b0e9f12b0aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37b83d29ea67a121f5ce9b0e9f12b0aa">&#9670;&nbsp;</a></span>get_imported_terms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">get_imported_terms </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$recno</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentpage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$last_update</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get the list of imported terms and start the display.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$recno</td><td>Record number </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$currentpage</td><td>Current page </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$last_update</td><td>Last update</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string SQL-formatted query to limit the number of results </dd></dl>
+
+</div>
+</div>
+<a id="afa912e01ec930bdf3029b68fceefa52c" name="afa912e01ec930bdf3029b68fceefa52c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa912e01ec930bdf3029b68fceefa52c">&#9670;&nbsp;</a></span>show_imported_terms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">show_imported_terms </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$last_update</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$limit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$rtl</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Show the imported terms.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$last_update</td><td>Last update </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$limit</td><td>SQL-formatted query to limit the number of results </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3

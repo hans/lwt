@@ -48,7 +48,8 @@ function get_l2_language_name()
         $lang = (string) get_first_value(
             'SELECT LgName AS value 
             FROM ' . $tbpref . 'texts
-            NATURAL JOIN ' . $tbpref . 'languages
+            JOIN ' . $tbpref . 'languages
+            ON TxLgID = LgID
             WHERE TxID = ' . $textid . '
             LIMIT 1'
         );

@@ -45,8 +45,7 @@
   width:auto;
   background:transparent;
   border:none;
-  -moz-box-shadow:none;
-  -webkit-box-shadow:none;
+  box-shadow: none;
   left:99%;
   text-align:right;
   text-indent:-3.4em;

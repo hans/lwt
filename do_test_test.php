@@ -458,10 +458,10 @@ function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $test
     OPENED = 0;
     WID = <?php echo $wid; ?>;
     $(document).ready(function() {
-        $(document).keydown(keydown_event_do_test_test);
+        $(document).on('keydown', keydown_event_do_test_test);
         $('.word')
-        .click(word_click_event_do_test_test)
-        .click(read_word);
+        .on('click', word_click_event_do_test_test)
+        .on('click', read_word);
     });
     //]]>
 </script>
