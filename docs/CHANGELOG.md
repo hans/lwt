@@ -20,6 +20,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * ``$fixed_tbpref`` was never declared at global scope.
 * Fixed an incompatibility in ``database_connect.php``, ``splitCheckText`` with PHP <7.4.
 * Impossible to start bulk_translate_new_words from ``do_text.php``.
+* The audio player does no longer show at the end of the page (DOM node was not closed).
 
 ## 2.2.1-fork (February 07 2022)
 ### Changed

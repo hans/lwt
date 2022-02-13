@@ -4124,165 +4124,204 @@ function makeAudioPlayer($audio, $offset=0)
     if ($audio == '') {
         return;
     }
+    $audio = trim($audio);
     $repeatMode = getSettingZeroOrOne('currentplayerrepeatmode', 0);
     ?>
 <link type="text/css" href="<?php print_file_path('css/jplayer.css');?>" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery.jplayer.js"></script>
 <table align="center" style="margin-top:5px;" cellspacing="0" cellpadding="0">
-<tr>
-<td class="center borderleft" style="padding-left:10px;">
-<span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>" 
-    style="color:#09F;font-weight: bold;" title="Toggle Repeat (Now ON)">↻
-</span>
-<span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>"
-    style="color:grey;font-weight: bold;" title="Toggle Repeat (Now OFF)">↻</span>
-<div id="playbackrateContainer" 
-    style="font-size: 80%;position:relative;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;">
-</div>
-</td>
-<td class="center bordermiddle">&nbsp;</td>
-<td class="bordermiddle">
-<div id="jquery_jplayer_1" class="jp-jplayer">
-</div>
-<div class="jp-audio-container">
-    <div id="jp_container_1" class="jp-audio">
-        <div class="jp-type-single">
-            <div id="jp_interface_1" class="jp-interface">
-                <ul class="jp-controls">
-                    <li><a href="#" class="jp-play">play</a></li>
-                    <li><a href="#" class="jp-pause">pause</a></li>
-                    <li><a href="#" class="jp-stop">stop</a></li>
-                    <li><a href="#" class="jp-mute">mute</a></li>
-                    <li><a href="#" class="jp-unmute">unmute</a></li>
-                </ul>
-                <div class="jp-progress-container">
-                    <div class="jp-progress">
-                        <div class="jp-seek-bar">
-                            <div class="jp-play-bar">
+    <tr>
+        <td class="center borderleft" style="padding-left:10px;">
+            <span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>" 
+                style="color:#09F;font-weight: bold;" title="Toggle Repeat (Now ON)">↻
+            </span>
+            <span id="do-repeat" class="click<?php echo ($repeatMode ? ' hide' : ''); ?>"
+                style="color:grey;font-weight: bold;" title="Toggle Repeat (Now OFF)">↻</span>
+            <div id="playbackrateContainer" 
+                style="font-size: 80%;position:relative;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;">
+            </div>
+        </td>
+        <td class="center bordermiddle">&nbsp;</td>
+        <td class="bordermiddle">
+            <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+            <div class="jp-audio-container">
+                <div id="jp_container_1" class="jp-audio">
+                    <div class="jp-type-single">
+                        <div id="jp_interface_1" class="jp-interface">
+                            <ul class="jp-controls">
+                                <li><a href="#" class="jp-play">play</a></li>
+                                <li><a href="#" class="jp-pause">pause</a></li>
+                                <li><a href="#" class="jp-stop">stop</a></li>
+                                <li><a href="#" class="jp-mute">mute</a></li>
+                                <li><a href="#" class="jp-unmute">unmute</a></li>
+                            </ul>
+                            <div class="jp-progress-container">
+                                <div class="jp-progress">
+                                    <div class="jp-seek-bar">
+                                        <div class="jp-play-bar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jp-volume-bar-container">
+                                <div class="jp-volume-bar">
+                                    <div class="jp-volume-bar-value">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jp-current-time">
+                            </div>
+                            <div class="jp-duration">
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="jp-volume-bar-container">
-                    <div class="jp-volume-bar">
-                        <div class="jp-volume-bar-value">
+                        <div id="jp_playlist_1" class="jp-playlist">
                         </div>
                     </div>
                 </div>
-                <div class="jp-current-time">
-                </div>
-                <div class="jp-duration">
-                </div>
-
             </div>
-            <div id="jp_playlist_1" class="jp-playlist">
-            </div>
-        </div>
-    </div>
-</div>
-</td>
-<td class="center bordermiddle">&nbsp;</td>
-<td class="center bordermiddle">
-    <?php
+        </td>
+        <td class="center bordermiddle">&nbsp;</td>
+        <td class="center bordermiddle">
+            <?php
     $currentplayerseconds = getSetting('currentplayerseconds');
     if ($currentplayerseconds == '') { 
         $currentplayerseconds = 5; 
     }
-    ?>
+            ?>
 <!-- Not merge from master branch (with official)
 <select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
 <span id="backbutt" class="click" title="Rewind n seconds">⇤</span>&nbsp;&nbsp;<span id="forwbutt" class="click" title="Forward n seconds">⇥</span>
 -->
-<select id="backtime" name="backtime">
-    <?php echo get_seconds_selectoptions($currentplayerseconds); ?>
-</select><br />
-<span id="backbutt" class="click">
-    <img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" />
-</span>&nbsp;&nbsp;
-<span id="forwbutt" class="click">
-    <img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" />
-</span>
-<span id="playTime" class="hide"></span>
-</td>
-<td class="center bordermiddle">&nbsp;</td>
-<td class="center borderright" style="padding-right:10px;">
-    <?php
+            <select id="backtime" name="backtime">
+                <?php echo get_seconds_selectoptions($currentplayerseconds); ?>
+            </select>
+            <br />
+            <span id="backbutt" class="click">
+                <img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" />
+            </span>&nbsp;&nbsp;
+            <span id="forwbutt" class="click">
+                <img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" />
+            </span>
+            <span id="playTime" class="hide"></span>
+        </td>
+        <td class="center bordermiddle">&nbsp;</td>
+        <td class="center borderright" style="padding-right:10px;">
+            <?php
     $currentplaybackrate = getSetting('currentplaybackrate');
     if ($currentplaybackrate == '') { 
         $currentplaybackrate = 10; 
     }
-    ?>
-<select id="playbackrate" name="playbackrate">
-    <?php echo get_playbackrate_selectoptions($currentplaybackrate); ?>
-</select><br />
-<span id="slower" class="click">
-    <img src="icn/minus.png" alt="Slower" title="Slower" style="margin-top:3px" />
-</span>&nbsp;<span id="stdspeed" class="click">
-    <img src="icn/status-away.png" alt="Normal" title="Normal" style="margin-top:3px" />
-</span>&nbsp;<span id="faster" class="click">
-    <img src="icn/plus.png" alt="Faster" title="Faster" style="margin-top:3px" />
-</span>
-</td>
-</tr>
+            ?>
+            <select id="playbackrate" name="playbackrate">
+                <?php echo get_playbackrate_selectoptions($currentplaybackrate); ?>
+            </select>
+            <br />
+            <span id="slower" class="click">
+                <img src="icn/minus.png" alt="Slower" title="Slower" style="margin-top:3px" />
+            </span>
+            &nbsp;
+            <span id="stdspeed" class="click">
+                <img src="icn/status-away.png" alt="Normal" title="Normal" style="margin-top:3px" />
+            </span>
+            &nbsp;
+            <span id="faster" class="click">
+                <img src="icn/plus.png" alt="Faster" title="Faster" style="margin-top:3px" />
+            </span>
+        </td>
+    </tr>
+</table>
 <!-- Audio controls before page loading -->
 <script type="text/javascript" src="js/audio_controller.js"></script>
 <!-- Audio controls once that page was loaded -->
 <script type="text/javascript">
-//<![CDATA[
-    $(document).ready(function(){
-      $("#jquery_jplayer_1").jPlayer({
-    ready: function () {
-      $(this).jPlayer("setMedia", { <?php 
-        $audio = trim($audio);
-        if (strcasecmp(substr($audio, -4), '.mp3') == 0) { 
-            echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-        } elseif (strcasecmp(substr($audio, -4), '.ogg') == 0) { 
-            echo 'oga: ' . prepare_textdata_js(encodeURI($audio))  . ", " . 
-            'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-        } elseif (strcasecmp(substr($audio, -4), '.wav') == 0) {
-            echo 'wav: ' . prepare_textdata_js(encodeURI($audio))  . ", " . 
-            'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-        } else {
-            echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-        }
-        ?> }).jPlayer("pause",<?php echo $offset; ?>);
-      if ($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled) {
-          $("#playbackrateContainer").css("margin-top",".2em")
-          .html('<span id="pbSlower" style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" title="Slower" onclick="click_slower();">&nbsp;</span><span id="pbFaster" style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" title="Faster" onclick="click_faster();">&nbsp;</span><span class="ui-widget ui-state-default ui-corner-all" style="padding-left: 0.2em;padding-right: 0.2em;color:grey"><span id="playbackSlower" style="padding-right: 0.15em;">≪</span><span id="pbvalue">1.0</span><span id="playbackFaster" style="padding-left: 0.15em;">≫</span></span>')
-          .css("cursor","pointer");
-      }
-    },
-    swfPath: "js",
-    noVolume: {
-        ipad: /^no$/, iphone: /^no$/, ipod: /^no$/, 
-        android_pad: /^no$/, android_phone: /^no$/, 
-        blackberry: /^no$/, windows_ce: /^no$/, iemobile: /^no$/, webos: /^no$/, 
-        playbook: /^no$/
-    }
-  });
+    //<![CDATA[
 
-  $("#jquery_jplayer_1").on('bind', $.jPlayer.event.timeupdate, function(event) { 
-      $("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
+    /**
+     * Import audio data when jPlayer is ready.
+     * 
+     * @returns void
+     */
+    function addjPlayerMedia () {
+        $(this)
+        .jPlayer("setMedia", { <?php 
+            $end = substr($audio, -4);
+            $audio_URI = prepare_textdata_js(encodeURI($audio));
+            if (strcasecmp($end, '.mp3') == 0) { 
+                echo 'mp3: ' . $audio_URI;
+            } elseif (strcasecmp($end, '.ogg') == 0) { 
+                echo 'oga: ' . $audio_URI  . ", " . 
+                'mp3: ' . $audio_URI; 
+            } elseif (strcasecmp($end, '.wav') == 0) {
+                echo 'wav: ' . $audio_URI  . ", " . 
+                'mp3: ' . $audio_URI; 
+            } else {
+                echo 'mp3: ' . $audio_URI; 
+            }
+            ?> })
+        .jPlayer("pause",<?php echo $offset; ?>);
+        if ($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled) {
+            $("#playbackrateContainer").css("margin-top",".2em")
+            .html(
+                `<span id="pbSlower" style="position:absolute;top: 0; left: 0; bottom: 0; right: 50%;" title="Slower" onclick="click_slower();">
+                    &nbsp;
+                </span>
+                <span id="pbFaster" style="position:absolute;top: 0; left: 50%; bottom: 0; right: 0;" title="Faster" onclick="click_faster();">
+                    &nbsp;
+                </span>
+                <span class="ui-widget ui-state-default ui-corner-all" style="padding-left: 0.2em;padding-right: 0.2em;color:grey">
+                    <span id="playbackSlower" style="padding-right: 0.15em;">≪</span>
+                    <span id="pbvalue">1.0</span>
+                    <span id="playbackFaster" style="padding-left: 0.15em;">≫</span>
+                </span>`
+            )
+            .css("cursor","pointer");
+        }
+    }
+
+    /**
+     * Prepare media interactions with jPlayer.
+     * 
+     * @returns void 
+     */
+    function prepareMediaInteractions() {
+
+        $("#jquery_jplayer_1").jPlayer({
+        ready: addjPlayerMedia,
+        swfPath: "js",
+        noVolume: {
+            ipad: /^no$/, iphone: /^no$/, ipod: /^no$/, 
+            android_pad: /^no$/, android_phone: /^no$/, 
+            blackberry: /^no$/, windows_ce: /^no$/, iemobile: /^no$/, webos: /^no$/, 
+            playbook: /^no$/
+        }
     });
-  
-  $("#jquery_jplayer_1").on('bind', $.jPlayer.event.play, function(event) { 
-      set_current_playbackrate();
-      // console.log("play");
+
+    $("#jquery_jplayer_1")
+    .on('bind', $.jPlayer.event.timeupdate, function(event) { 
+        $("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
     });
-  
-  $("#slower").on('click', click_slower);
-  $("#faster").on('click', click_faster);
-  $("#stdspeed").on('click', click_stdspeed);
-  $("#backbutt").on('click', click_back);
-  $("#forwbutt").on('click', click_forw);
-  $("#do-single").on('click', click_single);
-  $("#do-repeat").on('click', click_repeat);
-  $("#playbackrate").change(set_new_playbackrate);
-  $("#backtime").change(set_new_playerseconds);
-  
+    
+    $("#jquery_jplayer_1")
+    .on('bind', $.jPlayer.event.play, function(event) { 
+        set_current_playbackrate();
+        // console.log("play");
+    });
+    
+    $("#slower").on('click', click_slower);
+    $("#faster").on('click', click_faster);
+    $("#stdspeed").on('click', click_stdspeed);
+    $("#backbutt").on('click', click_back);
+    $("#forwbutt").on('click', click_forw);
+    $("#do-single").on('click', click_single);
+    $("#do-repeat").on('click', click_repeat);
+    $("#playbackrate").on('change', set_new_playbackrate);
+    $("#backtime").on('change', set_new_playerseconds);
+    
     <?php echo ($repeatMode ? "click_repeat();\n" : ''); ?>
-});
-//]]>
+    }
+
+    $(document).ready(prepareMediaInteractions);
+    //]]>
 </script>
     <?php
 }
