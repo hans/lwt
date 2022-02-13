@@ -26,6 +26,13 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * An explanation was also added on how to add custom images in your theme.
 * Very small errors corrected in some themes.
 
+### Deprecated
+* Deprecated a lot of camelCase functions in ``do_text_text.php`` to their snake_case counterpart. The behavior of the deprecated functions did not change.
+  * camelCase to snake_case: ``getTextData`` to ``get_text_data``, ``sentenceParser`` to ``sentence_parser``, ``wordParser`` to ``word_parser`` and ``mainWordLoop`` to ``main_word_loop`` 
+  * Typo fixing: ``getLanguagesSettings`` to ``get_language_settings`` (use singular)
+  * Signature changed: ``echoTerm`` to ``echo_term`` (no return value, no ``$hideuntil`` parameter)
+  * Name uniformisation: ``prepareStyle`` to ``do_text_text_style`` and  ``do_text_javascript`` to ``do_text_text_javascript``.
+
 ## 2.2.1-fork (February 07 2022)
 ### Changed
 * Composer in no longer *required* for standard users (but is still required for contributing).

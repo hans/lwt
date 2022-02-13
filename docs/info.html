@@ -1910,6 +1910,18 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 </li>
 <li>Very small errors corrected in some themes.</li>
 </ul>
+<h4>Deprecated</h4>
+<ul>
+<li>Deprecated a lot of camelCase functions in <code>do_text_text.php</code> to their snake_case counterpart. The behavior of the deprecated functions did not change.
+<ul>
+<li>camelCase to snake_case: <code>getTextData</code> to <code>get_text_data</code>, <code>sentenceParser</code> to <code>sentence_parser</code>, <code>wordParser</code> to <code>word_parser</code> and <code>mainWordLoop</code> to <code>main_word_loop</code>
+</li>
+<li>Typo fixing: <code>getLanguagesSettings</code> to <code>get_language_settings</code> (use singular)</li>
+<li>Signature changed: <code>echoTerm</code> to <code>echo_term</code> (no return value, no <code>$hideuntil</code> parameter)</li>
+<li>Name uniformisation: <code>prepareStyle</code> to <code>do_text_text_style</code> and  <code>do_text_javascript</code> to <code>do_text_text_javascript</code>.</li>
+</ul>
+</li>
+</ul>
 <h3>2.2.1-fork (February 07 2022)</h3>
 <h4>Changed</h4>
 <ul>
