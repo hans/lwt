@@ -36,7 +36,17 @@ You may not want to see your code minified, so you can use
 make no-minify
 ```
 
-It has the same effect as copying the folder ``scr/themes/`` to ``themes/``.
+It has the same effect as copying the folder ``scr/themes/`` to ``themes/``. WARNING: it can break your relative paths!
+
+### Add Images to your Themes
+We support a smart minifying system: relative path are automatically adapted to point to the previous location *while minifying only*. 
+As a consequence:
+* You can use images from ``css/images/`` in your theme.
+   * If your theme is under ``src/themes/mytheme/``, you should use the path ``../../../css/theimage``.
+* You can add your own files under your custom theme folder.
+   * Hence the path should look like ``./myimage``.
+
+When debugging your theme, files are simply copied to the ``themes/`` folder, which can break the path to files in ``css/``. 
 
 ### My theme does not contain all the Skinning Files!
 

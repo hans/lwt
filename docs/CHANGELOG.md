@@ -10,17 +10,21 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 
 ### Changed
 * Updated the jQuery deprecated events. It should have no consequence.
+* Slighlty changed the behavior of the CSS/JS minifiers. The relative paths in the return string were different from the ones in the saved file
 
 ### Fixed
 * Some AJAX files could not work properly since 2.0.3-fork.
-   * Refreshing the list of audio files in ``edit_texts.php`` works again.
-   * Theme in ``info.html`` works now.
-   * Some other problems may have been fixed.
+  * Refreshing the list of audio files in ``edit_texts.php`` works again.
+  * Theme in ``info.html`` works now.
+  * Some other problems may have been fixed.
 * With ``do_test?text=``, the language name displayed instead of "[L2]" was often wrong.
 * ``$fixed_tbpref`` was never declared at global scope.
 * Fixed an incompatibility in ``database_connect.php``, ``splitCheckText`` with PHP <7.4.
 * Impossible to start bulk_translate_new_words from ``do_text.php``.
 * The audio player does no longer show at the end of the page (DOM node was not closed).
+* Relative paths in themes were often broken. For instance: no images in audio player.
+  * An explanation was also added on how to add custom images in your theme.
+* Very small errors corrected in some themes.
 
 ## 2.2.1-fork (February 07 2022)
 ### Changed
@@ -38,8 +42,8 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ### Deprecated
 * The ``is_mobile`` function now always returns false.
 * The ``wordProcessor`` (``do_text_text.php``) function was incorrect. 
-   * It now always return 0.
-   * Please use ``wordParser``, ``sentenceParser`` and some more code instead.
+  * It now always return 0.
+  * Please use ``wordParser``, ``sentenceParser`` and some more code instead.
 
 ### Removed
 * Removed unnecessary dependencies:

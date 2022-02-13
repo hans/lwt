@@ -160,17 +160,17 @@ body .ui-tooltip{border-width:2px}
 .ui-widget input,.ui-widget select,.ui-widget textarea,.ui-widget button{font-family:Verdana,Arial,sans-serif;font-size:1em}
 .ui-widget-content{border:1px solid #404040;color: #EEE;background:#111111}
 .ui-widget-content a{color:#EEE}
-.ui-widget-header{border:1px solid #404040;background:#222 url("../../css/images/ui-bg_highlight-soft_75_222222_1x100.png") 50% 50% repeat-x;color:#EEE;font-weight:bold}
+.ui-widget-header{border:1px solid #404040;background:#222 url("../../../css/images/ui-bg_highlight-soft_75_222222_1x100.png") 50% 50% repeat-x;color:#EEE;font-weight:bold}
 .ui-widget-header a{color:#EEE}
-.ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default{border:1px solid #404040;background:#222 url("../../css/images/ui-bg_flat_75_222222_40x100.png") 50% 50% repeat-x;font-weight:normal;color:#EEE}
+.ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default{border:1px solid #404040;background:#222 url("../../../css/images/ui-bg_flat_75_222222_40x100.png") 50% 50% repeat-x;font-weight:normal;color:#EEE}
 .ui-state-default a,.ui-state-default a:link,.ui-state-default a:visited{color:#EEE;text-decoration:none}
-.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-widget-header .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus,.ui-widget-header .ui-state-focus{border:1px solid #222;background:#444 url("../../css/images/ui-bg_flat_75_444444_40x100.png") 50% 50% repeat-x;font-weight:normal;color:#EEE}
+.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-widget-header .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus,.ui-widget-header .ui-state-focus{border:1px solid #222;background:#444 url("../../../css/images/ui-bg_flat_75_444444_40x100.png") 50% 50% repeat-x;font-weight:normal;color:#EEE}
 .ui-state-hover a,.ui-state-hover a:hover,.ui-state-hover a:link,.ui-state-hover a:visited,.ui-state-focus a,.ui-state-focus a:hover,.ui-state-focus a:link,.ui-state-focus a:visited{color:#EEE;text-decoration:none}
-.ui-state-active,.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active{border:1px solid #222;background:#222 url("../../css/images/ui-bg_flat_75_222222_40x100.png") 50% 50% repeat-x;font-weight:normal;color:#EEE}
+.ui-state-active,.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active{border:1px solid #222;background:#222 url("../../../css/images/ui-bg_flat_75_222222_40x100.png") 50% 50% repeat-x;font-weight:normal;color:#EEE}
 .ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited{color:#EEE;text-decoration:none}
-.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight{border:1px solid #222;background:#333 url("../../css/images/ui-bg_inset-hard_55_333333_1x100.png") 50% bottom repeat-x;color:#EEE}
+.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight{border:1px solid #222;background:#333 url("../../../css/images/ui-bg_inset-hard_55_333333_1x100.png") 50% bottom repeat-x;color:#EEE}
 .ui-state-highlight a,.ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a{color:#EEE}
-.ui-state-error,.ui-widget-content .ui-state-error,.ui-widget-header .ui-state-error{border:1px solid #cd0a0a;background:#444 url("../../css/images/ui-bg_inset-hard_95_444444_1x100.png") 50% bottom repeat-x;color:#cd0a0a}
+.ui-state-error,.ui-widget-content .ui-state-error,.ui-widget-header .ui-state-error{border:1px solid #cd0a0a;background:#444 url("../../../css/images/ui-bg_inset-hard_95_444444_1x100.png") 50% bottom repeat-x;color:#cd0a0a}
 .ui-state-error a,.ui-widget-content .ui-state-error a,.ui-widget-header .ui-state-error a{color:#cd0a0a}
 .ui-state-error-text,.ui-widget-content .ui-state-error-text,.ui-widget-header .ui-state-error-text{color:#cd0a0a}
 .ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary{font-weight:bold}
@@ -178,13 +178,13 @@ body .ui-tooltip{border-width:2px}
 .ui-state-disabled,.ui-widget-content .ui-state-disabled,.ui-widget-header .ui-state-disabled{opacity:.35;filter:Alpha(Opacity=35);background-image:none}
 .ui-state-disabled .ui-icon{filter:Alpha(Opacity=35)}
 .ui-icon{width:16px;height:16px}
-.ui-icon,.ui-widget-content .ui-icon{background-image:url("../../css/images/ui-icons_BBBBBB_256x240.png")}
-.ui-widget-header .ui-icon{background-image:url("../../css/images/ui-icons_BBBBBB_256x240.png")}
-.ui-state-default .ui-icon{background-image:url("../../css/images/ui-icons_BBBBBB_256x240.png")}
-.ui-state-hover .ui-icon,.ui-state-focus .ui-icon{background-image:url("../../css/images/ui-icons_BBBBBB_256x240.png")}
-.ui-state-active .ui-icon{background-image:url("../../css/images/ui-icons_BBBBBB_256x240.png")}
-.ui-state-highlight .ui-icon{background-image:url("../../css/images/ui-icons_BBBBBB_256x240.png")}
-.ui-state-error .ui-icon,.ui-state-error-text .ui-icon{background-image:url("../../css/images/ui-icons_cd0a0a_256x240.png")}
+.ui-icon,.ui-widget-content .ui-icon{background-image:url("../../../css/images/ui-icons_BBBBBB_256x240.png")}
+.ui-widget-header .ui-icon{background-image:url("../../../css/images/ui-icons_BBBBBB_256x240.png")}
+.ui-state-default .ui-icon{background-image:url("../../../css/images/ui-icons_BBBBBB_256x240.png")}
+.ui-state-hover .ui-icon,.ui-state-focus .ui-icon{background-image:url("../../../css/images/ui-icons_BBBBBB_256x240.png")}
+.ui-state-active .ui-icon{background-image:url("../../../css/images/ui-icons_BBBBBB_256x240.png")}
+.ui-state-highlight .ui-icon{background-image:url("../../../css/images/ui-icons_BBBBBB_256x240.png")}
+.ui-state-error .ui-icon,.ui-state-error-text .ui-icon{background-image:url("../../../css/images/ui-icons_cd0a0a_256x240.png")}
 .ui-icon-blank{background-position:16px 16px}
 .ui-icon-carat-1-n{background-position:0 0}
 .ui-icon-carat-1-ne{background-position:-16px 0}
@@ -364,5 +364,5 @@ body .ui-tooltip{border-width:2px}
 .ui-corner-all,.ui-corner-top,.ui-corner-right,.ui-corner-tr{border-top-right-radius:4px}
 .ui-corner-all,.ui-corner-bottom,.ui-corner-left,.ui-corner-bl{border-bottom-left-radius:4px}
 .ui-corner-all,.ui-corner-bottom,.ui-corner-right,.ui-corner-br{border-bottom-right-radius:4px}
-.ui-widget-overlay{background:#555 url("../../css/images/ui-bg_flat_0_555555_40x100.png") 50% 50% repeat-x;opacity:.3;filter:Alpha(Opacity=30)}
-.ui-widget-shadow{margin:-8px 0 0 -8px;padding:8px;background:#555 url("../../css/images/ui-bg_flat_0_555555_40x100.png") 50% 50% repeat-x;opacity:.3;filter:Alpha(Opacity=30);border-radius:8px}
+.ui-widget-overlay{background:#555 url("../../../css/images/ui-bg_flat_0_555555_40x100.png") 50% 50% repeat-x;opacity:.3;filter:Alpha(Opacity=30)}
+.ui-widget-shadow{margin:-8px 0 0 -8px;padding:8px;background:#555 url("../../../css/images/ui-bg_flat_0_555555_40x100.png") 50% 50% repeat-x;opacity:.3;filter:Alpha(Opacity=30);border-radius:8px}

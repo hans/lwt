@@ -1588,7 +1588,23 @@ Now execute:<br>
 <p>You may not want to see your code minified, so you can use</p>
 <pre><code class="language-bash">make no-minify
 </code></pre>
-<p>It has the same effect as copying the folder <code>scr/themes/</code> to <code>themes/</code>.</p>
+<p>It has the same effect as copying the folder <code>scr/themes/</code> to <code>themes/</code>. WARNING: it can break your relative paths!</p>
+<h4>Add Images to your Themes</h4>
+<p>We support a smart minifying system: relative path are automatically adapted to point to the previous location <em>while minifying only</em>.
+As a consequence:</p>
+<ul>
+<li>You can use images from <code>css/images/</code> in your theme.
+<ul>
+<li>If your theme is under <code>src/themes/mytheme/</code>, you should use the path <code>../../../css/theimage</code>.</li>
+</ul>
+</li>
+<li>You can add your own files under your custom theme folder.
+<ul>
+<li>Hence the path should look like <code>./myimage</code>.</li>
+</ul>
+</li>
+</ul>
+<p>When debugging your theme, files are simply copied to the <code>themes/</code> folder, which can break the path to files in <code>css/</code>.</p>
 <h4>My theme does not contain all the Skinning Files!</h4>
 <p>That's not a problem at all. When LWT looks for a file that should be contained in <code>src/themes/{{The Theme}}/</code>, it checks if the file exists. If not, it goes to <code>css/</code> and tries to get the same file. With this system, your themes <strong>does not need to have the same files as <code>src/css/</code></strong>.</p>
 <h3>Change JS behaviour</h3>
@@ -1870,6 +1886,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <h4>Changed</h4>
 <ul>
 <li>Updated the jQuery deprecated events. It should have no consequence.</li>
+<li>Slighlty changed the behavior of the CSS/JS minifiers. The relative paths in the return string were different from the ones in the saved file</li>
 </ul>
 <h4>Fixed</h4>
 <ul>
@@ -1886,6 +1903,12 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <li>Fixed an incompatibility in <code>database_connect.php</code>, <code>splitCheckText</code> with PHP &lt;7.4.</li>
 <li>Impossible to start bulk_translate_new_words from <code>do_text.php</code>.</li>
 <li>The audio player does no longer show at the end of the page (DOM node was not closed).</li>
+<li>Relative paths in themes were often broken. For instance: no images in audio player.
+<ul>
+<li>An explanation was also added on how to add custom images in your theme.</li>
+</ul>
+</li>
+<li>Very small errors corrected in some themes.</li>
 </ul>
 <h3>2.2.1-fork (February 07 2022)</h3>
 <h4>Changed</h4>

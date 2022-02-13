@@ -109,7 +109,7 @@ max-height:150px;
 }
 
 #lwt_header :focus{
-	outline: none;0
+	outline: none;
 	box-shadow: 0 0 6px 1px rgba(127,127,127,.5) ! important;
 }
 button::-moz-focus-inner { border: 0; }
