@@ -4,13 +4,14 @@ Changelog
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
-## [Unreleased]
+## 2.2.2-fork (February 13 2022)
 ### Added
 * A contribution guide at ``docs/contribute.md``.
 
 ### Changed
 * Updated the jQuery deprecated events. It should have no consequence.
-* Slighlty changed the behavior of the CSS/JS minifiers. The relative paths in the return string were different from the ones in the saved file
+* Slightly changed the behavior of the CSS/JS minifiers. The relative paths in the return string were different from the ones in the saved file.
+* Regenerated documentation.
 
 ### Fixed
 * Some AJAX files could not work properly since 2.0.3-fork.
