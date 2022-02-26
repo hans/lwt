@@ -13,7 +13,9 @@
         "source": "https://github.com/HugoFara/lwt"
     },
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "ext-mbstring": "*",
+        "ext-mysqli": "*"
     },
     "require-dev": {
         "vimeo/psalm": "^4.12",
@@ -25,6 +27,11 @@
         "squizlabs/php_codesniffer": "Following code style standards is a good thing"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "info.html": "@php docs/info.php > docs/info.html"
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests!",
+        "info.html": "Regenerate one-file documentation"
     }
 }
