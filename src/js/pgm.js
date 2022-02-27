@@ -174,7 +174,6 @@ function run_overlib_status_unknown (wblink1, wblink2, wblink3, hints, txid, tor
 
 function run_overlib_multiword (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, wcnt, ann) {
   return overlib(
-  return overlib(
     '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid, torder, wid, stat) + ' <br /> ' +
 		make_overlib_link_edit_multiword(txid, torder, wid) + ' | ' +
