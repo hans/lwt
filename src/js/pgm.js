@@ -74,14 +74,15 @@ Helper functions for overlib
  * @param {*} ann 
  * @returns {boolean}
  */
-function run_overlib_status_98 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann) {
+function run_overlib_status_98(wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann) {
   return overlib(
-    '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
-		make_overlib_link_new_word(txid, torder, wid) + ' | ' +
-		make_overlib_link_delete_word(txid, wid) +
-		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
-		make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
-    CAPTION, 
+    '<img src="icn/speaker-volume.png" style="cursor:pointer" title="Click on expression for tts" onclick="readTextAloud(' + "'" + txt + "'" + ')"> <br/>' + 
+    '<b>' + escape_html_chars_2(hints, ann) + '</b><br/>' +
+    make_overlib_link_new_word(txid, torder, wid) + ' | ' +
+    make_overlib_link_delete_word(txid, wid) +
+    make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
+    make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
+    CAPTION,
     'Word'
   );
 }
@@ -104,7 +105,8 @@ function run_overlib_status_98 (wblink1, wblink2, wblink3, hints, txid, torder, 
  */
 function run_overlib_status_99 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann) {
   return overlib(
-    '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
+    '<img src="icn/speaker-volume.png" style="cursor:pointer" title="Click on expression for tts" onclick="readTextAloud(' + "'" + txt + "'" + ')"> <br/>' + 
+    '<b>' + escape_html_chars_2(hints, ann) + '</b><br/> ' +
 		make_overlib_link_new_word(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_word(txid, wid) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
@@ -131,7 +133,7 @@ function run_overlib_status_99 (wblink1, wblink2, wblink3, hints, txid, torder, 
  */
 function run_overlib_status_1_to_5 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, multi_words, rtl, ann) {
   return overlib(
-    '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
+    '<img src="icn/speaker-volume.png" style="cursor:pointer" title="Click on expression for tts" onclick="readTextAloud(' + "'" + txt + "'" + ')"> <br/>' + 
 		make_overlib_link_change_status_all(txid, torder, wid, stat) + ' <br /> ' +
 		make_overlib_link_edit_word(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_word(txid, wid) +
@@ -171,6 +173,7 @@ function run_overlib_status_unknown (wblink1, wblink2, wblink3, hints, txid, tor
 }
 
 function run_overlib_multiword (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, wcnt, ann) {
+  return overlib(
   return overlib(
     '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid, torder, wid, stat) + ' <br /> ' +
@@ -770,6 +773,8 @@ function createSentLookupLink (torder, txid, url, txt) {
 
 /**
  * 
+ * 
+ * Replace html characters with encodings
  * @param {string} s 
  * @returns {string}
  */

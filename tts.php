@@ -2,81 +2,55 @@
 
 /**
  * \file
- * \brief Utility for Google Translate Text-To-Speech API
+ * \Utility for calling system speech synthesizer
  * 
- * @author andreask7 <andreask7@users.noreply.gitub.com>
- * @since  1.6.0-fork
+ * @author chaosarium
+ * @since 2.2.2-fork (February 13 2022)
  */
-require_once 'inc/session_utility.php';
 
-$q = convert_string_to_sqlsyntax($_GET["q"]);
-$tl = convert_string_to_sqlsyntax($_GET["tl"]);
-$tts_save = getSettingWithDefault("set-tts");
-if ($tts_save==1) {
-    do_mysqli_query(
-        'INSERT IGNORE INTO tts (TtsTxt,TtsLc) VALUES ('.$q.','.$tl.')'
-    );
-}
-$ttsid = strval(
-    get_first_value(
-        "SELECT TtsID AS value FROM tts where TtsTxt=$q and TtsLc=$tl"
-    )
-);
-if (empty($ttsid)) {
-    $ttsid=$_GET["q"];
-}
-$path = './tts/'.$_GET["tl"];
-$filename = $path .'/'. $ttsid . '.mp3';
-if (!file_exists($filename)) {
-    if (is_callable('curl_init')) { //use curl if exists
-        $txt=htmlspecialchars($_GET['q']);
-        $txt=rawurlencode($txt);
-        $tl=$_GET["tl"];
-        header("Content-type: audio/mpeg");
-        $url = "http://translate.google.com/translate_tts";
-        $url .= "?ie=utf-8&q=$txt&tl=$tl&client=tw-ob";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        $soundfile = curl_exec($ch);
-    } else {
-        $qs = http_build_query(
-            array(
-                "ie" => "utf-8", 
-                "tl" => $_GET["tl"], 
-                "q" => $_GET["q"], 
-                "client" => "tw-ob"
-            )
-        );
-        $ctx = stream_context_create(
-            array("http"=>array("method"=>"GET","header"=>"Referer: \r\n"))
-        );
-        $soundfile = file_get_contents(
-            "http://translate.google.com/translate_tts?" . $qs, false, $ctx
-        );
-    }
-    if (!empty($soundfile) && is_string($soundfile) && $tts_save==1) {
-        if (!is_dir($path)) {
-            if (!is_dir('./tts')) {
-                mkdir('./tts', 0777);
-            }
-            mkdir($path, 0777);
-        }
-        $file = fopen($filename, "wb");
-        fwrite($file, $soundfile);
-        fclose($file);
-        chmod($filename, 0777);
-    }
-} else {
-    $soundfile = file_get_contents($filename); 
-}
-if (!empty($soundfile)) {
-    header("Content-type: audio/mpeg");
-    header("Content-Transfer-Encoding: binary");
-    header('Pragma: no-cache');
-    header('Expires: 0');
+$tts_lang = 'fr-CA';
+$tts_rate = 1.0;
 
-    echo $soundfile;
-}
 ?>
+
+<script>
+
+    console.log('tts_lang: ' + '<?php echo $tts_lang; ?>')
+    console.log('tts_rate: ' + '<?php echo $tts_rate; ?>')
+
+    function readTextAloud(text) {
+        console.log('trying to read: ' + text)
+        var msg = new SpeechSynthesisUtterance()
+        msg.text = text
+        msg.lang = "<?php echo $tts_lang;?>"
+        msg.rate = "<?php echo $tts_rate;?>"
+        window.speechSynthesis.speak(msg)
+    }
+
+    function applyTTS() {
+        document.querySelectorAll('.textToSpeak, #textToSpeak, span.click.word.wsty').forEach(item => {
+            console.log("added listener")
+            item.addEventListener('click', event => {
+                console.log("this is great")
+                readTextAloud(item.textContent)
+            })
+        })
+    }
+
+    // from the do_test_test.php implementation
+    function read_word() {
+        if (('speechSynthesis' in window) && 
+        document.getElementById('utterance-allowed').checked) {
+            const text = <?php echo json_encode($phoneticText); ?>;
+            let msg = new SpeechSynthesisUtterance(text);
+            msg.text = text;
+            msg.lang = <?php echo json_encode($abbr); ?>;
+            msg.rate = 0.8;
+            speechSynthesis.speak(msg);
+        }
+    }
+
+</script>
+
+
+
