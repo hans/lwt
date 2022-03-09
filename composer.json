@@ -28,10 +28,30 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "info.html": "@php docs/info.php > docs/info.html"
+        "info.html": "@php docs/info.php > docs/info.html",
+        "doc": [
+            "@info.html",
+            "doxygen Doxyfile"
+        ],
+        "minify": "php -r \"require 'src/php/minifier.php';minify_everything();\"",
+        "no-minify": [
+            "cp -r src/js/ .",
+            "cp src/js/third_party/* js/",
+            "rm -rf js/third_party",
+            "cp -r src/css .",
+            "cp -r src/themes/ ."
+        ],
+        "clean-doc": [
+            "rm docs/info.html",
+            "rm -rf docs/html"
+        ]
     },
     "scripts-descriptions": {
         "test": "Run all tests!",
-        "info.html": "Regenerate one-file documentation"
+        "info.html": "Regenerate one-file documentation",
+        "doc": "Regenerate all documentation",
+        "minify": "Regenerate minified JS, CSS and themes",
+        "no-minify": "Development versions do not need minification",
+        "clean-doc": "Clear documentation"
     }
 }

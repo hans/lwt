@@ -140,6 +140,21 @@ function regenerateThemes()
 }
 
 /**
+ * One-do-all command to minify all your JS, CSS, and regenerate themes.
+ * 
+ * @return void
+ */
+function minify_everything()
+{
+    echo "Minifying CSS...\n";
+    minifyAllCSS();
+    echo "Minifying JS...\n";
+    minifyAllJS();
+    echo "Regenerating themes...\n";
+    regenerateThemes();
+}
+
+/**
  * @var array<string> All the paths of JS files to be minified
  */
 $jsFiles = array(

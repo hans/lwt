@@ -100,7 +100,12 @@ The following instruction were tested on Raspbian Stretch.
       sudo apt-get install apache2 libapache2-mod-php php php-mbstring php-mysql mysql-server
       ```
 
-   2. Set MySQL root Password to "abcxyz" 
+   2. Enable the extensions
+      1. Go to your PHP folder (``/etc/php/{{desired PHP version}}/{{PHP type}}/``)
+      2. Run ``sudo nano php.ini``.
+      3. Delete the ";" symbols before ``extension=mbstring`` and ``extension=mysqli``.
+
+   3. Set MySQL root Password to "abcxyz" 
 
       ```bash 
       sudo mysql
@@ -109,7 +114,7 @@ The following instruction were tested on Raspbian Stretch.
       QUIT; 
       ```
 
-    3. Check MySQL access (if you see the MySQL prompt ``mysql>`` after the first command, everything is OK):
+    4. Check MySQL access (if you see the MySQL prompt ``mysql>`` after the first command, everything is OK):
 
        ```bash
        mysql -u root -p

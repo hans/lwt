@@ -4,6 +4,16 @@ Changelog
 This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
 
+## [Unreleased]
+### Added
+* Commands included in ``Makefile`` where transcripted in ``composer.json``.
+
+### Changed
+* Mb_string and mysqli extensions are now clearly asked for by composer.
+
+### Deprecated
+* Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.
+
 ## 2.2.2-fork (February 13 2022)
 ### Added
 * A contribution guide at ``docs/contribute.md``.
@@ -378,7 +388,7 @@ This version should be the stable merge between official v2.0.2 and community ma
 * New Feature: You can now add thumbnail images to your terms. If you click on the icon at the left of the translation field in the new\_term/edit\_term frame/window you can select an thumbnail from 'google image search'. In order to display the images in the Read Text Screen you must set 'Tooltips' to 'JQueryUI'. The thumbnail images are not included in the backup at the moment.  
 * New Feature: Key binding J for edit term with Google Image Search added  
 ### Fixed
-* Bugfix: 'error when making backup' fixed  
+* 'error when making backup' fixed  
       
     
 ## 1.6.12-fork (March 01 2015):  
@@ -704,7 +714,7 @@ Changes from official LWT version 1.5.20 imported:
       
     
 ## 1.5.0 (April 22 2013):
-### Addeed
+### Added
 * New Feature: Create and edit an improved annotated text version (as [interlinear text](http://en.wikipedia.org/wiki/Interlinear_gloss)) for online or offline learning. Read more [here](#il).  
 * In-Place-editing of translations and romanizations now possible within the terms table.
 * You may now empty (= delete the contents of) the LWT database in the "Backup/Restore/Empty Database" screen.

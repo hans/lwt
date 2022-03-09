@@ -675,6 +675,14 @@ sudo apt-get install apache2 libapache2-mod-php php php-mbstring php-mysql mysql
 </code></pre>
 </li>
 <li>
+<p>Enable the extensions</p>
+<ol>
+<li>Go to your PHP folder (<code>/etc/php/{{desired PHP version}}/{{PHP type}}/</code>)</li>
+<li>Run <code>sudo nano php.ini</code>.</li>
+<li>Delete the ";" symbols before <code>extension=mbstring</code> and <code>extension=mysqli</code>.</li>
+</ol>
+</li>
+<li>
 <p>Set MySQL root Password to "abcxyz"</p>
 <pre><code class="language-bash">sudo mysql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'abcxyz';
@@ -1878,6 +1886,19 @@ KEY NfUpdate (NfUpdate)</p>
 			<h2 id="CHANGELOG" name="CHANGELOG">▶ Changelog - <a href="#">[↑]</a></h2>
 <p>This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".</p>
+<h3>[Unreleased]</h3>
+<h4>Added</h4>
+<ul>
+<li>Commands included in <code>Makefile</code> where transcripted in <code>composer.json</code>.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>Mb_string and mysqli extensions are now clearly asked for by composer.</li>
+</ul>
+<h4>Deprecated</h4>
+<ul>
+<li>Use <code>clean-doc</code> install of <code>clean</code> in <code>Makefile</code> because it was ambiguous with composer commands.</li>
+</ul>
 <h3>2.2.2-fork (February 13 2022)</h3>
 <h4>Added</h4>
 <ul>
@@ -2345,7 +2366,7 @@ mobile compatibility.</p>
 </ul>
 <h4>Fixed</h4>
 <ul>
-<li>Bugfix: 'error when making backup' fixed</li>
+<li>'error when making backup' fixed</li>
 </ul>
 <h3>1.6.12-fork (March 01 2015):</h3>
 <h4>Changed</h4>
@@ -2725,7 +2746,7 @@ mobile compatibility.</p>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.5.0 (April 22 2013):</h3>
-<h4>Addeed</h4>
+<h4>Added</h4>
 <ul>
 <li>New Feature: Create and edit an improved annotated text version (as <a href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>.</li>
 <li>In-Place-editing of translations and romanizations now possible within the terms table.</li>
