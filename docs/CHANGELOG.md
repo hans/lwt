@@ -7,7 +7,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ## [Unreleased]
 ### Added
 * Commands included in ``Makefile`` where transcripted in ``composer.json``.
-* A ``docker/`` folder for the integration of Docker into LWT.
+* Docker integration! It is done through ``Dockerfile``, ``docker-compose.yml``, ``.dockerignore`` and ``.env`` files.
 
 ### Changed
 * mb_string and mysqli extensions are now clearly asked for by Composer.
