@@ -25,6 +25,8 @@ As it is self-hosted, you will need a server, which can be your computer.
 
 And you are ready to go!
 
+Please note that a composer repo is available, as well as an installation using Docker.
+
 ## Description
 LWT is a language learning web application. To learn a language, you 
 need to practice, and we guide you in reading exercices.

@@ -1,5 +1,5 @@
 # LWT Installation
-* *Last update*: February 07 2022
+* *Last update*: March 14 2022
 
 ## Windows 10
 ### Possibility (a): Installation EasyPHP / LWT on Win10
@@ -148,6 +148,19 @@ The following instruction were tested on Raspbian Stretch.
 8. You may install the LWT demo database, or define the first language you want to learn. 
 
 If you want to use LWT again, just do step 7. 
+
+## Run in [Docker](https://docs.docker.com/get-docker/)
+This repository contains docker-compose file to accomodate running LWT in a docker container.
+
+To use it, change into project root folder and run
+
+	docker-compose -f docker/docker-compose.yml up -d
+	
+By default the server can be accessed on port 8010 (http://localhost:8010).
+
+To remove the created containers run
+
+	docker-compose -f docker/docker-compose.yml down
 
 ## Upgrade LWT
 
