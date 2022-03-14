@@ -159,13 +159,17 @@ This repository contains docker-compose file to accomodate running LWT in a dock
 
 To use it, change into project root folder and run
 
-	docker-compose -f docker/docker-compose.yml up -d
-	
+```bash
+docker-compose -f docker-compose.yml up -d
+```
+
 By default the server can be accessed on port 8010 (http://localhost:8010).
 
 To remove the created containers run
 
-	docker-compose -f docker/docker-compose.yml down
+```bash
+docker-compose -f docker-compose.yml down
+```
 
 ## Upgrade LWT
 
