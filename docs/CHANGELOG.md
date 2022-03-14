@@ -7,9 +7,10 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ## [Unreleased]
 ### Added
 * Commands included in ``Makefile`` where transcripted in ``composer.json``.
+* Docker integration! It is done through ``Dockerfile``, ``docker-compose.yml``, ``.dockerignore`` and ``.env`` files.
 
 ### Changed
-* Mb_string and mysqli extensions are now clearly asked for by composer.
+* mb_string and mysqli extensions are now clearly asked for by Composer.
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.

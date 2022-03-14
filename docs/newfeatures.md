@@ -31,3 +31,4 @@
 ## Server load  
 * Database improvements: the database takes much less space on the server
 * Better caching due to an improved file management
+* Support for Docker
