@@ -2,8 +2,8 @@ version: "3.7"
 services:
   web:
     build:
-      context: ./..
-      dockerfile: docker/Dockerfile
+      context: .
+      dockerfile: Dockerfile
       args:
         - DB_HOSTNAME
         - DB_USER
