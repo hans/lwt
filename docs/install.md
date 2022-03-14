@@ -92,7 +92,7 @@ The local webserver (MAMP) will be automatically stopped by quitting the MAMP ap
 ## Linux
 The following instruction were tested on Raspbian Stretch.
 
-1. Open a Terminal, type and execute the following commands:
+1. Open a terminal, type and execute the following commands:
    1. Installation of LAMP:
 
       ```bash
@@ -147,7 +147,12 @@ The following instruction were tested on Raspbian Stretch.
 
 8. You may install the LWT demo database, or define the first language you want to learn. 
 
-If you want to use LWT again, just do step 7. 
+If you want to use LWT again, just do step 7.
+
+## Dependency management with Composer
+If you have a technical knowledge of how Composer works for dependency management, you may consider using
+Composer. It is *required for contributors only*, but advanced users may want to use it as well.
+The official repository is at https://packagist.org/packages/hugofara/lwt.
 
 ## Run in [Docker](https://docs.docker.com/get-docker/)
 This repository contains docker-compose file to accomodate running LWT in a docker container.
