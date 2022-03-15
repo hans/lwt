@@ -11,9 +11,14 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 
 ### Changed
 * mb_string and mysqli extensions are now clearly asked for by Composer.
+* The "database update" part of ``check_update_db`` in ``inc/database_connect.php`` was moved to ``update_database``. 
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.
+
+### Fixed
+* Creating the database was sometimes impossible.
+* Database names containing special characters (hyphens, carets, etc...) was not possible.
 
 ## 2.2.2-fork (February 13 2022)
 ### Added
