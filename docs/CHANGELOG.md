@@ -10,7 +10,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * Docker integration! It is done through ``Dockerfile``, ``docker-compose.yml``, ``.dockerignore`` and ``.env`` files.
 
 ### Changed
-* mb_string and mysqli extensions are now clearly asked for by Composer.
+* mbstring and mysqli extensions are now clearly asked for by Composer.
 * The "database update" part of ``check_update_db`` in ``inc/database_connect.php`` was moved to ``update_database``. 
 
 ### Deprecated
