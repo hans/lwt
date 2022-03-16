@@ -12,9 +12,10 @@ var searchData=
   ['makevideoplayer_9',['makeVideoPlayer',['../session__utility_8php.html#a1e6d9a38462e0c5b68705dde339a60e5',1,'session_utility.php']]],
   ['markdown_5fconverter_10',['markdown_converter',['../markdown__converter_8php.html#adcd6ced7d8a8277f17839ee403b4fe9f',1,'markdown_converter.php']]],
   ['markdown_5fintegration_11',['markdown_integration',['../markdown__converter_8php.html#a1b294d23f012009d78227880fa059d9f',1,'markdown_converter.php']]],
-  ['minifyallcss_12',['minifyAllCSS',['../minifier_8php.html#a0b4491a5794ce7f4853727736116e2dc',1,'minifier.php']]],
-  ['minifyalljs_13',['minifyAllJS',['../minifier_8php.html#a1f3f639fda5fba4d6f3dd22ba4dba582',1,'minifier.php']]],
-  ['minifycss_14',['minifyCSS',['../minifier_8php.html#a642f36bdb39201d18ebac2d4b4f08e26',1,'minifier.php']]],
-  ['minifyjs_15',['minifyJS',['../minifier_8php.html#abdc82ffc0d382f3b60097c3239833994',1,'minifier.php']]],
-  ['my_5fdie_16',['my_die',['../kernel__utility_8php.html#a66b15236d14629cb1bc2f6ed300bd38e',1,'kernel_utility.php']]]
+  ['minify_5feverything_12',['minify_everything',['../minifier_8php.html#abe1041f978619028b76827b49ba2dcbb',1,'minifier.php']]],
+  ['minifyallcss_13',['minifyAllCSS',['../minifier_8php.html#a0b4491a5794ce7f4853727736116e2dc',1,'minifier.php']]],
+  ['minifyalljs_14',['minifyAllJS',['../minifier_8php.html#a1f3f639fda5fba4d6f3dd22ba4dba582',1,'minifier.php']]],
+  ['minifycss_15',['minifyCSS',['../minifier_8php.html#a642f36bdb39201d18ebac2d4b4f08e26',1,'minifier.php']]],
+  ['minifyjs_16',['minifyJS',['../minifier_8php.html#abdc82ffc0d382f3b60097c3239833994',1,'minifier.php']]],
+  ['my_5fdie_17',['my_die',['../kernel__utility_8php.html#a66b15236d14629cb1bc2f6ed300bd38e',1,'kernel_utility.php']]]
 ];

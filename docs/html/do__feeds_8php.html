@@ -103,7 +103,7 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$currentfeed</b> = processSessParam(&quot;selected_feed&quot;, &quot;currentrssfeed&quot;, '', 0)</td></tr>
 <tr class="separator:a34aac2e40713ef51c74704bc2110e15b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfceb82dc7f82e957c5fae24b1dcb71c"><td class="memItemLeft" align="right" valign="top"><a id="adfceb82dc7f82e957c5fae24b1dcb71c" name="adfceb82dc7f82e957c5fae24b1dcb71c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_query</b> = $currentregexmode . 'like ' . convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace(&quot;*&quot;, &quot;%&quot;, mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery))</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_query</b> = $currentregexmode . 'like ' . <a class="el" href="database__connect_8php.html#a8644cebbae39e02a6dfed79816201271">convert_string_to_sqlsyntax</a>(($currentregexmode == '') ? (str_replace(&quot;*&quot;, &quot;%&quot;, mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery))</td></tr>
 <tr class="separator:adfceb82dc7f82e957c5fae24b1dcb71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29ef4bf392cb2a274790911936a59830"><td class="memItemLeft" align="right" valign="top"><a id="a29ef4bf392cb2a274790911936a59830" name="a29ef4bf392cb2a274790911936a59830"></a>
 if($currentquery!=='')&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { $wh_query = ''</td></tr>

@@ -9,11 +9,13 @@ var searchData=
   ['check_5ftext_5fvalid_6',['check_text_valid',['../database__connect_8php.html#ad99b49a4dbf10bb27e0009c10b033706',1,'database_connect.php']]],
   ['check_5ftext_5fwith_5fexpressions_7',['check_text_with_expressions',['../database__connect_8php.html#a46d04d108e75a5647dbaf056c3b70758',1,'database_connect.php']]],
   ['check_5fupdate_5fdb_8',['check_update_db',['../database__connect_8php.html#a960bf3f2e9821f403140330ac38c27de',1,'database_connect.php']]],
-  ['connect_2einc_2ephp_9',['connect.inc.php',['../connect_8inc_8php.html',1,'']]],
-  ['connect_5feasyphp_2einc_2ephp_10',['connect_easyphp.inc.php',['../connect__easyphp_8inc_8php.html',1,'']]],
-  ['connect_5fmamp_2ephp_11',['connect_mamp.php',['../connect__mamp_8php.html',1,'']]],
-  ['connect_5fto_5fdatabase_12',['connect_to_database',['../database__connect_8php.html#a6e362f15877268f0dcff6be0c499f493',1,'database_connect.php']]],
-  ['connect_5fwordpress_2einc_2ephp_13',['connect_wordpress.inc.php',['../connect__wordpress_8inc_8php.html',1,'']]],
-  ['contributing_20to_20lwt_14',['Contributing to LWT',['../md_docs_contribute.html',1,'']]],
-  ['createthedictlink_15',['createTheDictLink',['../session__utility_8php.html#adbd4355000bfd2a29b85befad555348a',1,'session_utility.php']]]
+  ['connect_5feasyphp_2einc_2ephp_9',['connect_easyphp.inc.php',['../connect__easyphp_8inc_8php.html',1,'']]],
+  ['connect_5fmamp_2ephp_10',['connect_mamp.php',['../connect__mamp_8php.html',1,'']]],
+  ['connect_5fto_5fdatabase_11',['connect_to_database',['../database__connect_8php.html#a6e362f15877268f0dcff6be0c499f493',1,'database_connect.php']]],
+  ['connect_5fwordpress_2einc_2ephp_12',['connect_wordpress.inc.php',['../connect__wordpress_8inc_8php.html',1,'']]],
+  ['contributing_20to_20lwt_13',['Contributing to LWT',['../md_docs_contribute.html',1,'']]],
+  ['convert_5fstring_5fto_5fsqlsyntax_14',['convert_string_to_sqlsyntax',['../database__connect_8php.html#a8644cebbae39e02a6dfed79816201271',1,'database_connect.php']]],
+  ['convert_5fstring_5fto_5fsqlsyntax_5fnonull_15',['convert_string_to_sqlsyntax_nonull',['../database__connect_8php.html#a5964c3b4acf8986010b4b45d63a3332d',1,'database_connect.php']]],
+  ['convert_5fstring_5fto_5fsqlsyntax_5fnotrim_5fnonull_16',['convert_string_to_sqlsyntax_notrim_nonull',['../database__connect_8php.html#ac54484db51d3b72c0fc8e44511ac7698',1,'database_connect.php']]],
+  ['createthedictlink_17',['createTheDictLink',['../session__utility_8php.html#adbd4355000bfd2a29b85befad555348a',1,'session_utility.php']]]
 ];
