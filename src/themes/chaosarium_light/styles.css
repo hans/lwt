@@ -468,9 +468,9 @@ dt {
 
 /* change overlay colour */
 /* the whole overlay */
-#overDiv {
-  /* border: solid black 1px; */
-}
+/*#overDiv {
+  border: solid black 1px;
+}*/
 
 /* the top ribbon */
 #overDiv table[bgcolor="#333399"] {
@@ -490,9 +490,11 @@ dt {
 }
 
 /* normal text */
+/*
 #overDiv td[valign="TOP"] font {
-  /* color: blue ! important; */
+  color: blue !important;
 }
+*/
 
 /* the word text */
 #overDiv b font[color="#FFFFFF"] a[style="color:yellow"] {
