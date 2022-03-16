@@ -464,6 +464,7 @@ The installation is explained <a href="#install">here</a>.</li>
 <ul>
 <li>Database improvements: the database takes much less space on the server</li>
 <li>Better caching due to an improved file management</li>
+<li>Support for Docker</li>
 </ul>
 			
 			<h2 name="screencasts" id="screencasts">
@@ -547,7 +548,7 @@ THE SOFTWARE.</p>
 			<h2 id="install" name="install">▶ LWT Installation - <a href="#">[↑]</a></h2>
 <ul>
 <li>
-<em>Last update</em>: February 07 2022</li>
+<em>Last update</em>: March 14 2022</li>
 </ul>
 <h3>Windows 10</h3>
 <h4>Possibility (a): Installation EasyPHP / LWT on Win10</h4>
@@ -666,13 +667,21 @@ The local webserver (MAMP) will be automatically stopped by quitting the MAMP ap
 <p>The following instruction were tested on Raspbian Stretch.</p>
 <ol>
 <li>
-<p>Open a Terminal, type and execute the following commands:</p>
+<p>Open a terminal, type and execute the following commands:</p>
 <ol>
 <li>
 <p>Installation of LAMP:</p>
 <pre><code class="language-bash">sudo apt-get update
 sudo apt-get install apache2 libapache2-mod-php php php-mbstring php-mysql mysql-server
 </code></pre>
+</li>
+<li>
+<p>Enable the extensions</p>
+<ol>
+<li>Go to your PHP folder (<code>/etc/php/{{desired PHP version}}/{{PHP type}}/</code>)</li>
+<li>Run <code>sudo nano php.ini</code>.</li>
+<li>Delete the ";" symbols before <code>extension=mbstring</code> and <code>extension=mysqli</code>.</li>
+</ol>
 </li>
 <li>
 <p>Set MySQL root Password to "abcxyz"</p>
@@ -722,6 +731,19 @@ sudo service mysql restart
 </li>
 </ol>
 <p>If you want to use LWT again, just do step 7.</p>
+<h3>Dependency management with Composer</h3>
+<p>If you have a technical knowledge of how Composer works for dependency management, you may consider using
+Composer. It is <em>required for contributors only</em>, but advanced users may want to use it as well.
+The official repository is at <a href="https://packagist.org/packages/hugofara/lwt">https://packagist.org/packages/hugofara/lwt</a>.</p>
+<h3>Run in Docker</h3>
+<p>This repository contains docker-compose file to accomodate running LWT in a docker container.</p>
+<p>To use it, change into project root folder and run</p>
+<pre><code class="language-bash">docker-compose -f docker-compose.yml up -d
+</code></pre>
+<p>By default the server can be accessed on port 8010 (<a href="http://localhost:8010">http://localhost:8010</a>).</p>
+<p>To remove the created containers run</p>
+<pre><code class="language-bash">docker-compose -f docker-compose.yml down
+</code></pre>
 <h3>Upgrade LWT</h3>
 <ol>
 <li>
@@ -1878,6 +1900,26 @@ KEY NfUpdate (NfUpdate)</p>
 			<h2 id="CHANGELOG" name="CHANGELOG">▶ Changelog - <a href="#">[↑]</a></h2>
 <p>This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
 For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".</p>
+<h3>[Unreleased]</h3>
+<h4>Added</h4>
+<ul>
+<li>Commands included in <code>Makefile</code> where transcripted in <code>composer.json</code>.</li>
+<li>Docker integration! It is done through <code>Dockerfile</code>, <code>docker-compose.yml</code>, <code>.dockerignore</code> and <code>.env</code> files.</li>
+</ul>
+<h4>Changed</h4>
+<ul>
+<li>mbstring and mysqli extensions are now clearly asked for by Composer.</li>
+<li>The "database update" part of <code>check_update_db</code> in <code>inc/database_connect.php</code> was moved to <code>update_database</code>.</li>
+</ul>
+<h4>Deprecated</h4>
+<ul>
+<li>Use <code>clean-doc</code> install of <code>clean</code> in <code>Makefile</code> because it was ambiguous with composer commands.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Creating the database was sometimes impossible.</li>
+<li>Database names containing special characters (hyphens, carets, etc...) was not possible.</li>
+</ul>
 <h3>2.2.2-fork (February 13 2022)</h3>
 <h4>Added</h4>
 <ul>
@@ -2345,7 +2387,7 @@ mobile compatibility.</p>
 </ul>
 <h4>Fixed</h4>
 <ul>
-<li>Bugfix: 'error when making backup' fixed</li>
+<li>'error when making backup' fixed</li>
 </ul>
 <h3>1.6.12-fork (March 01 2015):</h3>
 <h4>Changed</h4>
@@ -2725,7 +2767,7 @@ mobile compatibility.</p>
 <li>Documentation and screenshots updated.</li>
 </ul>
 <h3>1.5.0 (April 22 2013):</h3>
-<h4>Addeed</h4>
+<h4>Added</h4>
 <ul>
 <li>New Feature: Create and edit an improved annotated text version (as <a href="http://en.wikipedia.org/wiki/Interlinear_gloss">interlinear text</a>) for online or offline learning. Read more <a href="#il">here</a>.</li>
 <li>In-Place-editing of translations and romanizations now possible within the terms table.</li>
