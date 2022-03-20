@@ -4231,7 +4231,7 @@ function makeAudioPlayer($audio, $offset=0)
     </tr>
 </table>
 <!-- Audio controls before page loading -->
-<script type="text/javascript" src="js/audio_controller.js"></script>
+<!--<script type="text/javascript" src="js/audio_controller.js"></script>-->
 <!-- Audio controls once that page was loaded -->
 <script type="text/javascript">
     //<![CDATA[
@@ -4419,6 +4419,7 @@ function pagestart_nobody($title, $addcss=''): void
     <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery-ui.css');?>" />
     <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/jquery.tagit.css');?>" />
     <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/feed_wizard.css');?>" />
     <style type="text/css">
         <?php echo $addcss . "\n"; ?>
     </style>
@@ -4426,22 +4427,22 @@ function pagestart_nobody($title, $addcss=''): void
     <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jquery.scrollTo.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jquery-ui.min.js"  charset="utf-8"></script>
-    <script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jquery.jeditable.mini.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/sorttable.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/tag-it.js" charset="utf-8"></script>
+    <!--<script type="text/javascript" src="js/sorttable.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/countuptimer.js" charset="utf-8"></script>-->
     <script type="text/javascript" src="js/overlib/overlib_mini.js" charset="utf-8"></script>
     <!-- URLBASE : "<?php echo tohtml(url_base()); ?>" -->
     <!-- TBPREF  : "<?php echo tohtml($tbpref);  ?>" -->
     <script type="text/javascript">
         //<![CDATA[
-        <?php echo "var STATUSES = " . json_encode(get_statuses()) . ";\n"; ?>
-        <?php echo "var TAGS = " . json_encode(get_tags()) . ";\n"; ?>
-        <?php echo "var TEXTTAGS = " . json_encode(get_texttags()) . ";\n"; ?>
+        var STATUSES = <?php echo json_encode(get_statuses()); ?>;
+        var TAGS = <?php echo json_encode(get_tags()); ?>;
+        var TEXTTAGS = <?php echo json_encode(get_texttags()); ?>;
         //]]>
     </script>
     <script type="text/javascript" src="js/pgm.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>
+    <!--<script type="text/javascript" src="js/jq_pgm.js" charset="utf-8"></script>-->
     
     <title>LWT :: <?php echo tohtml($title); ?></title>
 </head>

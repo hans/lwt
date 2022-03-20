@@ -11,7 +11,12 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 
 ### Changed
 * mbstring and mysqli extensions are now clearly asked for by Composer.
-* The "database update" part of ``check_update_db`` in ``inc/database_connect.php`` was moved to ``update_database``. 
+* The "database update" part of ``check_update_db`` in ``inc/database_connect.php`` was moved to ``update_database``.
+* Almost all JS goes in one file when minified. This has several reasons:
+  * Better browser caching: JS code is downloaded once for all.
+  * Easier maintaining: it was difficult to manage which php file was needing which JS script.
+  * Consistency: scripts were calling functions that should be imported from other files, making the debugging difficult.
+* The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get". 
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.

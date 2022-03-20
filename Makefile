@@ -27,6 +27,9 @@ minify: src/js/ src/css/ src/themes/
 no-minify: src/js/ src/css/ src/themes/
 	cp -r src/js/ .
 	cp src/js/third_party/* js/
+	cp src/js/pgm.js js/
+	cat src/js/* >> pgm/js
+	cat src/js/third_party/* >> js/pgm.js
 	rm -rf js/third_party
 	cp -r src/css .
 	cp -r src/themes/ .

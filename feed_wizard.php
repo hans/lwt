@@ -244,17 +244,9 @@ elseif($_REQUEST['step']==3) {
         $host_name=$_REQUEST['host_name'];$_SESSION['wizard']['host2'][$host_name]=$_REQUEST['host_status2'];
     }
     $feed_len=count($_SESSION['wizard']['feed'])-2;
-    ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jq_feedwizard.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/feed_wizard.css');?>" />
-    <style>
+    pagestart_nobody(
+        "LWT :: Feed Wizard",
+        "
         .lwt_selected_text
         {
         background-color:#FFFFFF;
@@ -275,6 +267,7 @@ elseif($_REQUEST['step']==3) {
             color:#000000;
             position:static ! important;
             cursor: pointer;
+            background-color: grey;
         }
         #lwt_last ~ * *{
             color:#000000;
@@ -286,17 +279,48 @@ elseif($_REQUEST['step']==3) {
         background-color:#FFFFFF ! important;color:#DDDDDD ! important;
             cursor: default ! important;
         }
+        "
+    );
+    ?>
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jq_feedwizard.js" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        // Extend jQuery
+        (function($){
+            $.fn.get_adv_xpath = extend_adv_xpath
+        })(jQuery);
+        // Prepare the page
+        $(feedwizard_prepare_interaction);
+    </script>
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/feed_wizard.css');?>" />
+    <style>
 
     </style>
     <title>LWT :: Feed Wizard</title>
 </head>
-<body>
+<body>-->
+<script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
 <script type="text/javascript">
+    // Extend jQuery
+    (function($){
+        $.fn.get_adv_xpath = extend_adv_xpath
+    })(jQuery);
+
+    // Prepare the page
+    $(feedwizard_prepare_interaction);
+
     $(function() {
         <?php if($_SESSION['wizard']['hide_images']=='yes') {
         echo '$("img").not($("#lwt_header").find("*")).css("display","none");';
         }?>
     });
+
     filter_Array = [];
     $(function(){
         articleSection = '<?php echo str_replace("'", "\'", $_SESSION['wizard']['article_selector']); ?>';
@@ -551,16 +575,9 @@ elseif($_REQUEST['step']==2) {
         }
         $_SESSION['wizard']['host']='';
     }
-    ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jq_feedwizard.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/feed_wizard.css');?>" />
-    <style>
+    pagestart_nobody(
+        'LWT :: Feed Wizard',
+        "
         .lwt_selected_text
         {
             background-color:#00FF00;color:#FF0000;
@@ -579,16 +596,39 @@ elseif($_REQUEST['step']==2) {
         #lwt_last ~ *{
             position:static ! important;
             cursor: pointer;
+            background-color: grey;
         }
         #lwt_last ~ * *{
             position:static ! important;
             cursor: pointer;
         }
+        "
+    );
+    ?>
+    <!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jq_feedwizard.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/feed_wizard.css');?>" />
+    <style>
 
     </style>
     <title>LWT :: Feed Wizard</title>
 </head>
-<body>
+<body>-->
+<script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+    // Extend jQuery
+    (function($){
+        $.fn.get_adv_xpath = extend_adv_xpath
+    })(jQuery);
+    // Prepare the page
+    $(feedwizard_prepare_interaction);
+</script>
 <script type="text/javascript">
     $(function(){
         <?php if($_SESSION['wizard']['hide_images']=='yes') {

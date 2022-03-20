@@ -1910,6 +1910,14 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <ul>
 <li>mbstring and mysqli extensions are now clearly asked for by Composer.</li>
 <li>The "database update" part of <code>check_update_db</code> in <code>inc/database_connect.php</code> was moved to <code>update_database</code>.</li>
+<li>Almost all JS goes in one file when minified. This has several reasons:
+<ul>
+<li>Better browser caching: JS code is downloaded once for all.</li>
+<li>Easier maintaining: it was difficult to manage which php file was needing which JS script.</li>
+<li>Consistency: scripts were calling functions that should be imported from other files, making the debugging difficult.</li>
+</ul>
+</li>
+<li>The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get".</li>
 </ul>
 <h4>Deprecated</h4>
 <ul>
