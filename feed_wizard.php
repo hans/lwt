@@ -238,73 +238,16 @@ elseif($_REQUEST['step']==3) {
         $_SESSION['wizard']['host2']=''; 
     }
     if(isset($_REQUEST['host_status']) and isset($_REQUEST['host_name'])) {
-        $host_name=$_REQUEST['host_name'];$_SESSION['wizard']['host'][$host_name]=$_REQUEST['host_status'];
+        $host_name=$_REQUEST['host_name'];
+        $_SESSION['wizard']['host'][$host_name]=$_REQUEST['host_status'];
     }
     if(isset($_REQUEST['host_status2']) and isset($_REQUEST['host_name'])) {
-        $host_name=$_REQUEST['host_name'];$_SESSION['wizard']['host2'][$host_name]=$_REQUEST['host_status2'];
+        $host_name=$_REQUEST['host_name'];
+        $_SESSION['wizard']['host2'][$host_name]=$_REQUEST['host_status2'];
     }
     $feed_len=count($_SESSION['wizard']['feed'])-2;
-    pagestart_nobody(
-        "LWT :: Feed Wizard",
-        "
-        .lwt_selected_text
-        {
-        background-color:#FFFFFF;
-        color:#FFAAAA ! important;
-        }
-        .lwt_marked_text
-        {
-        background-color:rgb(111, 111, 111) ! important;color:rgb(170, 170, 170) ! important;
-        }
-        .lwt_highlighted_text
-        {
-        border-style:dashed ! important;
-        }
-        .delete_selection{
-        cursor:crosshair;
-        }
-        #lwt_last ~ *{
-            color:#000000;
-            position:static ! important;
-            cursor: pointer;
-            background-color: grey;
-        }
-        #lwt_last ~ * *{
-            color:#000000;
-            position:static ! important;
-            cursor: pointer;
-        }
-        .lwt_filtered_text
-        {
-        background-color:#FFFFFF ! important;color:#DDDDDD ! important;
-            cursor: default ! important;
-        }
-        "
-    );
-    ?>
-<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jq_feedwizard.js" charset="utf-8"></script>
-    <script type="text/javascript" charset="utf-8">
-        // Extend jQuery
-        (function($){
-            $.fn.get_adv_xpath = extend_adv_xpath
-        })(jQuery);
-        // Prepare the page
-        $(feedwizard_prepare_interaction);
-    </script>
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/feed_wizard.css');?>" />
-    <style>
-
-    </style>
-    <title>LWT :: Feed Wizard</title>
-</head>
-<body>-->
+    pagestart_nobody("Feed Wizard");
+?>
 <script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
 <script type="text/javascript">
     // Extend jQuery
@@ -333,7 +276,8 @@ elseif($_REQUEST['step']==3) {
         .not($(document).xpath(articleSection).find('*').addBack())
         .not($('#lwt_header').find('*').addBack())
         .each(function(){
-            $(this).addClass('lwt_filtered_text');filter_Array.push(this);
+            $(this).addClass('lwt_filtered_text');
+            filter_Array.push(this);
         });
     });
 </script>
@@ -560,7 +504,8 @@ elseif($_REQUEST['step']==2) {
         $_SESSION['wizard']['host'][$host_name]=$_REQUEST['host_status'];
     }
     $feed_len=count($_SESSION['wizard']['feed'])-2;
-    if(isset($_REQUEST['NfName'])) { $_SESSION['wizard']['feed']['feed_title']=$_REQUEST['NfName']; 
+    if(isset($_REQUEST['NfName'])) { 
+        $_SESSION['wizard']['feed']['feed_title']=$_REQUEST['NfName']; 
     }
     if(isset($_REQUEST['NfArticleSection']) && ($_REQUEST['NfArticleSection']!=$_SESSION['wizard']['feed']['feed_text'])) {
         $_SESSION['wizard']['feed']['feed_text']=$_REQUEST['NfArticleSection'];
@@ -575,51 +520,8 @@ elseif($_REQUEST['step']==2) {
         }
         $_SESSION['wizard']['host']='';
     }
-    pagestart_nobody(
-        'LWT :: Feed Wizard',
-        "
-        .lwt_selected_text
-        {
-            background-color:#00FF00;color:#FF0000;
-        }
-        .lwt_marked_text
-        {
-            background-color:#FFFF66;color:#003070;
-        }
-        .lwt_highlighted_text
-        {
-            border-style:dashed ! important;
-        }
-        .delete_selection{
-            cursor:crosshair;
-        }
-        #lwt_last ~ *{
-            position:static ! important;
-            cursor: pointer;
-            background-color: grey;
-        }
-        #lwt_last ~ * *{
-            position:static ! important;
-            cursor: pointer;
-        }
-        "
-    );
-    ?>
-    <!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/jq_feedwizard.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/feed_wizard.css');?>" />
-    <style>
-
-    </style>
-    <title>LWT :: Feed Wizard</title>
-</head>
-<body>-->
+    pagestart_nobody('Feed Wizard');
+?>
 <script type="text/javascript" src="js/jquery.xpath.min.js" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
     // Extend jQuery
@@ -637,12 +539,14 @@ elseif($_REQUEST['step']==2) {
     });
     filter_Array = [];
 </script>
-<div id="lwt_header"><form name="lwt_form1" class="validate" action="feed_wizard.php" method="post">
-<div id="adv" style="display: none;">
-<button onclick="$('#adv').hide();$('#lwt_last').css('margin-top',$('#lwt_header').height());return false;">Cancel</button>
-<button id="adv_get_button">Get</button>
-</div>
-<div id="settings" style="display: none;"><p><b>Feed Wizard | Settings</b></p><div style="margin-left:150px;text-align:left">
+<div id="lwt_header">
+    <form name="lwt_form1" class="validate" action="feed_wizard.php" method="post">
+        <div id="adv" style="display: none;">
+        <button onclick="$('#adv').hide();$('#lwt_last').css('margin-top',$('#lwt_header').height());return false;">Cancel</button>
+        <button id="adv_get_button">Get</button>
+    </div>
+    <div id="settings" style="display: none;"><p><b>Feed Wizard | Settings</b></p>
+    <div style="margin-left:150px;text-align:left">
 Selection Mode: <select name="select_mode" onchange="$('*').removeClass('lwt_marked_text');$('*[class=\'\']').removeAttr( 'class' );$('#get_button').prop('disabled', true);$('#mark_action').empty();$('<option/>').val('').text('[Click On Text]').appendTo('#mark_action');return false;">
 <option value="0"<?php if($_SESSION['wizard']['select_mode']=='0') { 
     echo ' selected'; 

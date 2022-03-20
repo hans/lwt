@@ -16,7 +16,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * Better browser caching: JS code is downloaded once for all.
   * Easier maintaining: it was difficult to manage which php file was needing which JS script.
   * Consistency: scripts were calling functions that should be imported from other files, making the debugging difficult.
-* The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get". 
+* Feed wizard changes
+  * The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get".
+  * It's style was uniformized with your current theme. 
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.
