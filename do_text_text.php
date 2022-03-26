@@ -14,8 +14,6 @@
  */
 
 require_once 'inc/session_utility.php';
-include 'tts.php';
-
 
 /**
  * Get the record for this text in the database.

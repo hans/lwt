@@ -162,3 +162,14 @@ function saveCurrentPosition() {
         }
     );
 }
+
+
+function readTextAloud(text, lang, rate) {
+    let msg = new SpeechSynthesisUtterance();
+    msg.text = text;
+    if (lang)
+        msg.lang = lang;
+    if (rate)
+        msg.rate = rate;
+    window.speechSynthesis.speak(msg);
+}

@@ -39,7 +39,7 @@ function make_overlib_link_delete_word(txid,wid){return' <a onclick="showRightFr
 function make_overlib_link_delete_multiword(txid,wid){return' <a onclick="showRightFrames(); return confirmDelete();" href="delete_mword.php?wid='+wid+'&amp;tid='+txid+'" target="ro">Delete term</a> '}
 function make_overlib_link_wellknown_word(txid,torder){return' <a href="insert_word_wellknown.php?tid='+txid+'&amp;ord='+torder+'" target="ro" onclick="showRightFrames();">I know this term well</a> '}
 function make_overlib_link_ignore_word(txid,torder){return' <a href="insert_word_ignore.php?tid='+txid+'&amp;ord='+torder+'" target="ro" onclick="showRightFrames();">Ignore this term</a> '}
-function make_overlib_audio(txt){var img=document.createElement("img");img.title="Click to read!";img.src="icn/speaker-volume.png";img.style.cursor="pointer";img.setAttribute("onclick","readTextAloud('"+escape_html_chars(txt)+"')");return img.outerHTML;return'<img src="" style="cursor:pointer" title="" onclick="readTextAloud('+"'"+txt+"'"+')" /> <br/>'}
+function make_overlib_audio(txt){var img=document.createElement("img");img.title="Click to read!";img.src="icn/speaker-volume.png";img.style.cursor="pointer";img.setAttribute("onclick","readTextAloud('"+escape_html_chars(txt)+"')");return img.outerHTML}
 function getStatusName(status){return(STATUSES[status]?STATUSES[status].name:'Unknown')}
 function getStatusAbbr(status){return(STATUSES[status]?STATUSES[status].abbr:'?')}
 function translateSentence(url,sentctl){if((typeof sentctl!=='undefined')&&(url!='')){text=sentctl.value;if(typeof text==='string'){showRightFrames(undefined,createTheDictUrl(url,text.replace(/[{}]/g,'')))}}}
