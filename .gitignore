@@ -19,3 +19,6 @@ plugins
 .phpunit.result.cache
 
 composer.phar
+
+# Editor
+.vscode
