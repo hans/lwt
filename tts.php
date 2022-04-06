@@ -14,41 +14,32 @@
 require_once 'inc/session_utility.php';
 require_once 'inc/langdefs.php';
 
-function tts_get_languages()
-{
-    global $tbpref;
-    $sql = 
-    'SELECT LgID, LgName 
-    FROM ' . $tbpref . 'languages 
-    WHERE LgName<>"" 
-    ORDER BY LgName';
-    $res = do_mysqli_query($sql);
-    return $res;
-    $languages = mysqli_fetch_assoc($res);
-    mysqli_free_result($res);
-    return $languages;
-}
-
+/**
+ * String to population a SELECT tag.
+ * 
+ * @return string HTML-formatted string
+ * 
+ * @global array $langDefs List of all languages.
+ */
 function tts_language_options()
 {
-    global $tbpref;
-    $sql = 
-    'SELECT LgID, LgName 
-    FROM ' . $tbpref . 'languages 
-    WHERE LgName<>""';
-    $res = do_mysqli_query($sql);
-    $i = 0;
-    while ($language = mysqli_fetch_assoc($res) && $i < 100) {
-        echo '<option value="' . $language['LgID'] . '">' . 
-        $language['LgName'] . 
+    global $langDefs;
+    $output = '';
+    foreach (get_languages() as $language => $language_id) {
+        /** Two-letter language code from from language name (e. g. : "English" = > "en" ) */
+        $languageCode = $langDefs[$language][1];
+        $output .= '<option value="' . $languageCode . '">' . 
+        $language . 
         '</option>';
-        $i++;
     }
-    //mysqli_free_result($languages;
-    echo '<div>' . $i . '</div>';
-    mysqli_free_result($res);
+    return $output;
 }
 
+/**
+ * Prepare a from for all the TTS settings.
+ * 
+ * @return void
+ */
 function tts_settings_form()
 {
 ?>    
@@ -63,8 +54,8 @@ function tts_settings_form()
             <th class="th1 center" rowspan="2">Language</th>
             <td class="td1 center">Language code</td>
             <td class="td1 center">
-            <select name="get-language" id="get-language" class="notempty">
-                <?php tts_language_options(); ?>
+            <select name="get-language" id="get-language" class="notempty" onchange="populateVoiceList();">
+                <?php echo tts_language_options(); ?>
             </select>
             </td>
             <td class="td1 center">
@@ -82,17 +73,7 @@ function tts_settings_form()
             </td>
         </tr>
         <tr>
-            <th class="th1 center" rowspan="3">Voice</th>
-            <td class="td1 center">Voice Selection</td>
-            <td class="td1 center">
-            <select name="set-voice" id="set-voice" class="notempty">
-            </select>
-            </td>
-            <td class="td1 center">
-                <img src="<?php print_file_path("icn/status-busy.png") ?>" title="Field must not be empty" alt="Field must not be empty" />
-            </td>
-        </tr>
-        <tr>
+            <th class="th1 center" rowspan="2">Voice</th>
             <td class="td1 center">Reading Rate</td>
             <td class="td1 center">
                 <input type="range" min="0.5" max="2" value="1" step="0.1" id="rate">
@@ -115,6 +96,11 @@ function tts_settings_form()
 <?php
 }
 
+/**
+ * Prepare a demo for TTS.
+ * 
+ * @return void
+ */
 function tts_demo()
 {
 ?>
@@ -125,79 +111,107 @@ function tts_demo()
 <?php
 }
 
+/**
+ * Prepare the JavaScript content for text-to-speech.
+ * 
+ * @return void
+ */
+function tts_js()
+{
+?>
+    <script type="text/javascript" charset="utf-8">
+        /**
+         * Get the language country code from the page. 
+         * 
+         * @returns {string} Language code (e. g. "en")
+         */
+        function getLanguageCode()
+        {
+            return $('#get-language')[0].value;
+        }
+
+        /**
+         * Get the language region code from the page.
+         * 
+         * @returns {string} Region code (e. g. "US")
+         */
+        function getRegionCode()
+        {
+            return $('#region-code')[0].value;
+        }
+
+        /** 
+         * Gather data in the page to read the demo.
+         * 
+         * @returns {undefined}
+         */
+        function readingDemo()
+        {
+            let lang = 
+            readTextAloud(
+                $('#tts-demo')[0].value,
+                getLanguageCode + (getRegionCode() ? '-' + getRegionCode() : ''),
+                $('#rate')[0].value,
+                $('#pitch')[0].value
+            );
+        }
+
+        /**
+         * Population the languages region list.
+         * 
+         * @returns {undefined}
+         */
+        function populateVoiceList() {
+            voices = window.speechSynthesis.getVoices();
+            $('#region-code')[0].innerHTML = '';
+            const languageCode = getLanguageCode();
+            for (i = 0; i < voices.length ; i++) {
+                if (voices[i].lang != languageCode && !voices[i].default)
+                    continue;
+                let option = document.createElement('option');
+                option.textContent = voices[i].name;
+
+                if (voices[i].default) {
+                    option.textContent += ' -- DEFAULT';
+                }
+
+                option.setAttribute('data-lang', voices[i].lang);
+                option.setAttribute('data-name', voices[i].name);
+                $('#region-code')[0].appendChild(option);
+            }
+        }
+
+        $(populateVoiceList);
+    </script>
+<?php
+}
+
+/**
+ * Make only a partial, embadable page for text-to-speech settings.
+ * 
+ * @return void
+ */
+function tts_settings_minimal_page()
+{
+    tts_settings_form();
+    tts_demo();
+    tts_js();
+}
+
+/**
+ * Make the complete HTML page for text-to-speech settings.
+ * 
+ * @return void
+ */
 function tts_settings_full_page()
 {
     pagestart('Text-to-Speech Settings', true);
-    ?>
-    <script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
-    <?php
-    tts_settings_form();
-    tts_demo();
+    tts_settings_minimal_page();
     pageend();
 }
 
 tts_settings_full_page();
 ?>
-
-
-<script type="text/javascript">
-
-    function readingDemo()
-    {
-        let lang = 
-        readTextAloud(
-            $('#tts-demo').text(),
-            'la',
-            0.8
-        );
-    }
-
-    function applyTTS() {
-        document
-        .querySelectorAll('.textToSpeak, #textToSpeak, span.click.word.wsty')
-        .forEach(item => {
-            console.log("added listener")
-            item.addEventListener('click', event => {
-                console.log("this is great")
-                readTextAloud(item.textContent)
-            })
-        })
-    }
-
-    // from the do_test_test.php implementation
-    function read_word() {
-        if (('speechSynthesis' in window) && 
-        document.getElementById('utterance-allowed').checked) {
-            const text = <?php echo json_encode($phoneticText); ?>;
-            let msg = new SpeechSynthesisUtterance(text);
-            msg.text = text;
-            msg.lang = <?php echo json_encode($abbr); ?>;
-            msg.rate = 0.8;
-            speechSynthesis.speak(msg);
-        }
-    }
-
-    function populateVoiceList() {
-        voices = window.speechSynthesis.getVoices();
-
-        for(i = 0; i < voices.length ; i++) {
-            if (voices[i].lang != $('#'))
-            let option = document.createElement('option');
-            option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-
-            if(voices[i].default) {
-                option.textContent += ' -- DEFAULT';
-            }
-
-            option.setAttribute('data-lang', voices[i].lang);
-            option.setAttribute('data-name', voices[i].name);
-            $('#set-voice')[0].appendChild(option);
-        }
-    }
-
-    $(populateVoiceList);
-
-</script>
 
 
 

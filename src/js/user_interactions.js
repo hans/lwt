@@ -2,7 +2,10 @@
  * \file
  * \brief General file to control dynamic interactions with the user.
  * 
- * @since 2.0.3-fork
+ * @package Lwt
+ * @author  HugoFara <Hugo.Farajallah@protonmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @since   2.0.3-fork
  */
 
 /**
@@ -163,13 +166,25 @@ function saveCurrentPosition() {
     );
 }
 
-
-function readTextAloud(text, lang, rate) {
+/**
+ * Read a text aloud.
+ * 
+ * @param {string} text  Text to read 
+ * @param {string} lang  Language code with BCP 47 convention  (e. g. "en-US" for English with an American accent) 
+ * @param {int}    rate  Reading rate 
+ * @param {int}    pitch Pitch value 
+ */
+function readTextAloud(text, lang, rate, pitch) {
     let msg = new SpeechSynthesisUtterance();
     msg.text = text;
-    if (lang)
+    if (lang) {
         msg.lang = lang;
-    if (rate)
+    }
+    if (rate) {
         msg.rate = rate;
+    }
+    if (pitch) {
+        msg.pitch = pitch;
+    }
     window.speechSynthesis.speak(msg);
 }
