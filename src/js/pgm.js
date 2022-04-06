@@ -6,42 +6,43 @@
  * @author  andreask7 <andreasks7@users.noreply.github.com>
  * @license Unlicense <http://unlicense.org/>
  * @since   1.6.16-fork
+ * 
+ * "Learning with Texts" (LWT) is free and unencumbered software
+ * released into the PUBLIC DOMAIN.
+ * 
+ * Anyone is free to copy, modify, publish, use, compile, sell, or
+ * distribute this software, either in source code form or as a
+ * compiled binary, for any purpose, commercial or non-commercial,
+ * and by any means.
+ * 
+ * In jurisdictions that recognize copyright laws, the author or
+ * authors of this software dedicate any and all copyright
+ * interest in the software to the public domain. We make this
+ * dedication for the benefit of the public at large and to the
+ * detriment of our heirs and successors. We intend this
+ * dedication to be an overt act of relinquishment in perpetuity
+ * of all present and future rights to this software under
+ * copyright law.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE
+ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ * 
+ * For more information, please refer to [http://unlicense.org/].
  */
-
-/**************************************************************
-"Learning with Texts" (LWT) is free and unencumbered software
-released into the PUBLIC DOMAIN.
-
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a
-compiled binary, for any purpose, commercial or non-commercial,
-and by any means.
-
-In jurisdictions that recognize copyright laws, the author or
-authors of this software dedicate any and all copyright
-interest in the software to the public domain. We make this
-dedication for the benefit of the public at large and to the
-detriment of our heirs and successors. We intend this
-dedication to be an overt act of relinquishment in perpetuity
-of all present and future rights to this software under
-copyright law.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
-AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-For more information, please refer to [http://unlicense.org/].
-***************************************************************/
 
 /**************************************************************
 Global variables for OVERLIB
 ***************************************************************/
 
+/**
+ * OVERLIB text font
+ */
 var ol_textfont = '"Lucida Grande",Arial,sans-serif,STHeiti,"Arial Unicode MS",MingLiu';
 var ol_textsize = 3;
 var ol_sticky = 1;
@@ -68,21 +69,23 @@ Helper functions for overlib
  * @param {int}       txid        Text ID
  * @param {*}         torder 
  * @param {string}    txt         Text
- * @param {int} wid Word ID 
- * @param {*} multi_words 
+ * @param {int}       wid         Word ID 
+ * @param {*}         multi_words 
  * @param {boolean}   rtl         Right-to-left text indicator
- * @param {*} ann 
+ * @param {*}         ann 
  * @returns {boolean}
  */
-function run_overlib_status_98(wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann) {
+function run_overlib_status_98(
+  wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann
+  ) {
   return overlib(
-    '<b>' + escape_html_chars_2(hints, ann) + '</b><br/>' +
+    make_overlib_audio(txt) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br/>' +
     make_overlib_link_new_word(txid, torder, wid) + ' | ' +
     make_overlib_link_delete_word(txid, wid) +
     make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
     make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
     CAPTION,
-    'Word' + make_overlib_audio(txt)
+    'Word'
   );
 }
 
@@ -96,7 +99,7 @@ function run_overlib_status_98(wblink1, wblink2, wblink3, hints, txid, torder, t
  * @param {int}       txid        Text ID
  * @param {*}         torder 
  * @param {string}    txt         Text
- * @param {int} wid Word ID 
+ * @param {int}       wid         Word ID 
  * @param {*} multi_words 
  * @param {boolean}   rtl         Right-to-left text indicator
  * @param {*} ann 
@@ -104,13 +107,13 @@ function run_overlib_status_98(wblink1, wblink2, wblink3, hints, txid, torder, t
  */
 function run_overlib_status_99 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann) {
   return overlib(
-    '<b>' + escape_html_chars_2(hints, ann) + '</b><br/> ' +
+    make_overlib_audio(txt) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br/> ' +
 		make_overlib_link_new_word(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_word(txid, wid) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
     CAPTION, 
-    'Word' + make_overlib_audio(txt)
+    'Word'
   );
 }
 
@@ -124,17 +127,17 @@ function run_overlib_status_99 (wblink1, wblink2, wblink3, hints, txid, torder, 
  * @param {int}       txid        Text ID
  * @param {*}         torder 
  * @param {string}    txt         Text
- * @param {int} wid Word ID 
- * @param {*} stat 
+ * @param {int}       wid         Word ID 
+ * @param {int}       stat 
  * @param {*} multi_words 
  * @param {boolean}   rtl         Right-to-left text indicator
- * @param {*} ann 
+ * @param {*}         ann         Unused
  * @returns {boolean}
  */
 function run_overlib_status_1_to_5 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, multi_words, rtl, ann) {
   return overlib(
-    '<img src="icn/speaker-volume.png" style="cursor:pointer" title="Click on expression for tts" onclick="readTextAloud(' + "'" + txt + "'" + ')"> <br/>' + 
-		make_overlib_link_change_status_all(txid, torder, wid, stat) + ' <br /> ' +
+    '<div>' + make_overlib_audio(txt) + '<span>(Read)</span></div>' +
+    make_overlib_link_change_status_all(txid, torder, wid, stat) + ' <br /> ' +
 		make_overlib_link_edit_word(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_word(txid, wid) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
@@ -142,7 +145,7 @@ function run_overlib_status_1_to_5 (wblink1, wblink2, wblink3, hints, txid, tord
     CAPTION, 
     make_overlib_link_edit_word_title(
       'Word &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;', txid, torder, wid
-    ) + make_overlib_audio(txt)
+    )
   );
 }
 
@@ -162,13 +165,13 @@ function run_overlib_status_1_to_5 (wblink1, wblink2, wblink3, hints, txid, tord
  */
 function run_overlib_status_unknown (wblink1, wblink2, wblink3, hints, txid, torder, txt, multi_words, rtl) {
   return overlib(
-    '<b>' + escape_html_chars(hints) + '</b><br /> ' +
+    make_overlib_audio(txt) + '<b>' + escape_html_chars(hints) + '</b><br /> ' +
 		make_overlib_link_wellknown_word(txid, torder) + ' <br /> ' +
 		make_overlib_link_ignore_word(txid, torder) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
 		make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
     CAPTION, 
-    'New Word' + make_overlib_audio(txt)
+    'New Word'
   );
 }
 
@@ -188,14 +191,13 @@ function run_overlib_status_unknown (wblink1, wblink2, wblink3, hints, txid, tor
  */
 function run_overlib_multiword (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, wcnt, ann) {
   return overlib(
-    '<img src="icn/speaker-volume.png" style="cursor:pointer" title="Click on expression for tts" onclick="readTextAloud(' + "'" + txt + "'" + ')"> <br/>' + 
-    '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
+    make_overlib_audio(txt) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid, torder, wid, stat) + ' <br /> ' +
 		make_overlib_link_edit_multiword(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_multiword(txid, wid) + ' <br /> ' +
 		make_overlib_link_wb(wblink1, wblink2, wblink3, txt, txid, torder),
     CAPTION, 
-    make_overlib_link_edit_multiword_title(wcnt.trim() + '-Word-Expression', txid, torder, wid) + make_overlib_audio(txt)
+    make_overlib_link_edit_multiword_title(wcnt.trim() + '-Word-Expression', txid, torder, wid)
   );
 }
 
@@ -277,11 +279,15 @@ function make_overlib_link_new_multiword (txid, torder, multi_words, rtl) {
   let output = ' <br />Expr: ';
   if (rtl) {
     for (var i = 7; i < 0; i--) { 
-      output += (multi_words[i] ? make_overlib_link_create_edit_multiword_rtl(i + 2, txid, torder, multi_words[i]) + ' ' : ''); 
+      if (multi_words[i]) {
+        output += make_overlib_link_create_edit_multiword_rtl(i + 2, txid, torder, multi_words[i]) + ' ';
+      } 
     }
   } else {
     for (var i = 0; i < 7; i++) { 
-      output += (multi_words[i] ? make_overlib_link_create_edit_multiword_rtl(i + 2, txid, torder, multi_words[i]) + ' ' : ''); 
+      if (multi_words[i]) {
+        output += make_overlib_link_create_edit_multiword_rtl(i + 2, txid, torder, multi_words[i]) + ' ';
+      } 
     }
   }
   output += ' ';
@@ -307,6 +313,7 @@ function make_overlib_link_new_multiword (txid, torder, multi_words, rtl) {
 }
 
 /**
+ * Make link to translations thourgh dictionaries or all sentence lookup.
  * 
  * @param {string} wblink1 Dictionary 1 URI
  * @param {string} wblink2 Dictionary 2 URI
@@ -317,15 +324,18 @@ function make_overlib_link_new_multiword (txid, torder, multi_words, rtl) {
  * @returns {string}
  */
 function make_overlib_link_wb (wblink1, wblink2, wblink3, txt, txid, torder) {
-  const s =
+  let s =
 	createTheDictLink(wblink1, txt, 'Dict1', 'Lookup Term: ') +
 	createTheDictLink(wblink2, txt, 'Dict2', '') +
-	createTheDictLink(wblink3, txt, 'GTr', '') +
-	((torder < 1 || txid < 1) ? '' : '<br />Lookup Sentence: ' + createSentLookupLink(torder, txid, wblink3, 'GTr'));
+	createTheDictLink(wblink3, txt, 'GTr', '');
+  if (torder > 0 && txid > 0) {
+    s += '<br />Lookup Sentence: ' + createSentLookupLink(torder, txid, wblink3, 'GTr');
+  }
   return s;
 }
 
 /**
+ * Create a list of links for dictionary translation.
  * 
  * @param {string} wblink1 Dictionary 1 URI
  * @param {string} wblink2 Dictionary 2 URI
@@ -333,31 +343,38 @@ function make_overlib_link_wb (wblink1, wblink2, wblink3, txt, txid, torder) {
  * @param {string} txt     Word string 
  * @param {int}    txid    Text ID 
  * @param {int}    torder  
- * @returns {string}
+ * @returns {string} HTML-formatted list of dictionaries link, and sentece link
  */
 function make_overlib_link_wbnl (wblink1, wblink2, wblink3, txt, txid, torder) {
-  const s =
+  let s =
 	createTheDictLink(wblink1, txt, 'Dict1', 'Term: ') +
 	createTheDictLink(wblink2, txt, 'Dict2', '') +
-	createTheDictLink(wblink3, txt, 'GTr', '') +
-	((torder < 1 || txid < 1) ? '' : ' | Sentence: ' + createSentLookupLink(torder, txid, wblink3, 'GTr'));
+	createTheDictLink(wblink3, txt, 'GTr', '');
+  if (torder > 0 && txid > 0) {
+    s += ' | Sentence: ' + createSentLookupLink(torder, txid, wblink3, 'GTr');
+  }
   return s;
 }
 
 /**
+ * Create link to dictionaries.
  * 
  * @param {string} wblink1 Dictionary 1 URI
  * @param {string} wblink2 Dictionary 2 URI
  * @param {string} wblink3 Google Translate URI
  * @param {string} txt     Word string 
- * @param {*} sent 
- * @returns {string}
+ * @param {string} sent    Complete sentence 
+ * @returns {string} HTML-formatted list of links
  */
 function make_overlib_link_wbnl2 (wblink1, wblink2, wblink3, txt, sent) {
-  return createTheDictLink(wblink1, txt, 'Dict1', 'Term: ') +
+  let s = 
+  createTheDictLink(wblink1, txt, 'Dict1', 'Term: ') +
 	createTheDictLink(wblink2, txt, 'Dict2', '') +
-	createTheDictLink(wblink3, txt, 'GTr', '') +
-	((sent == '') ? '' : createTheDictLink(wblink3, sent, 'GTr', ' | Sentence:'));
+	createTheDictLink(wblink3, txt, 'GTr', '');
+  if (sent != '') {
+    s += createTheDictLink(wblink3, sent, 'GTr', ' | Sentence:');
+  }
+  return s;
 }
 
 /**
@@ -380,10 +397,11 @@ function make_overlib_link_change_status_all (txid, torder, wid, oldstat) {
 }
 
 /**
+ * Return a list of links to change word status
  * 
- * @param {int} wid Word ID 
- * @param {*} oldstat 
- * @returns {string}
+ * @param {int} wid     Word ID 
+ * @param {int} oldstat Current status of the word
+ * @returns {string} An HTML-formatted list of links.
  */
 function make_overlib_link_change_status_alltest (wid, oldstat) {
   let result = '';
@@ -421,10 +439,10 @@ function make_overlib_link_change_status (txid, torder, wid, oldstat, newstat) {
 /**
  * Prepare an HTML-formated string containing the new status
  * 
- * @param {string} wid     ID of the word
+ * @param {int}    wid     ID of the word
  * @param {int}    oldstat Old status
  * @param {int}    newstat New status
- * @returns {string}
+ * @returns {string} HTML-formatted link
  */
 function make_overlib_link_change_status_test2 (wid, oldstat, newstat) {
   let output = ' <a href="set_test_status.php?wid=' + wid +
@@ -438,7 +456,7 @@ function make_overlib_link_change_status_test2 (wid, oldstat, newstat) {
 /**
  * Make a link for a word status change
  * 
- * @param {string} wid       ID of the word
+ * @param {int}    wid       ID of the word
  * @param {int}    plusminus Amplitude of the change (normally 1 or -1) 
  * @param {string} text      Text to be embed
  *  
@@ -469,6 +487,7 @@ function make_overlib_link_new_word (txid, torder, wid) {
 }
 
 /**
+ * Create a link to edit a multiword.
  * 
  * @param {int} txid Text ID 
  * @param {*} torder 
@@ -482,6 +501,7 @@ function make_overlib_link_edit_multiword (txid, torder, wid) {
 }
 
 /**
+ * Create an overlib title for a multiword edition.
  * 
  * @param {*} text 
  * @param {int} txid 
@@ -497,6 +517,7 @@ function make_overlib_link_edit_multiword_title (text, txid, torder, wid) {
 }
 
 /**
+ * Create or edit a multiword with overlib.
  * 
  * @param {*} len 
  * @param {int} txid 
@@ -513,6 +534,7 @@ function make_overlib_link_create_edit_multiword (len, txid, torder, txt) {
 }
 
 /**
+ * Create or edit a right-to-left multiword with overlib.
  * 
  * @param {*} len 
  * @param {int} txid Text ID 
@@ -529,8 +551,9 @@ function make_overlib_link_create_edit_multiword_rtl (len, txid, torder, txt) {
 }
 
 /**
+ * Make a link to edit a word, displaying "Edit term"
  * 
- * @param {int} txid 
+ * @param {int} txid
  * @param {*} torder 
  * @param {int} wid 
  * @returns {string}
@@ -543,12 +566,13 @@ function make_overlib_link_edit_word (txid, torder, wid) {
 }
 
 /**
+ * Make a link to edit a word for an overlib title, displaying the word's text.
  * 
- * @param {string} text 
- * @param {int} txid text ID 
+ * @param {string} text Word text
+ * @param {int}    txid Text ID 
  * @param {*} torder 
- * @param {int} wid Word ID
- * @returns {string}
+ * @param {int}    wid Word ID
+ * @returns {string} HTML-formatted link
  */
 function make_overlib_link_edit_word_title (text, txid, torder, wid) {
   return '<a style="color:yellow" href="edit_word.php?tid=' +
@@ -558,10 +582,11 @@ function make_overlib_link_edit_word_title (text, txid, torder, wid) {
 }
 
 /**
+ * Make a link to delete a word with overlib.
  * 
  * @param {int} txid Text ID
- * @param {int} wid Word ID
- * @returns {string}
+ * @param {int} wid  Word ID
+ * @returns {string} HTML-formatted link.
  */
 function make_overlib_link_delete_word (txid, wid) {
   return ' <a onclick="showRightFrames(); return confirmDelete();" href="delete_word.php?wid=' +
@@ -569,10 +594,11 @@ function make_overlib_link_delete_word (txid, wid) {
 }
 
 /**
+ * Make a link to delete a multiword.
  * 
  * @param {int} txid Text ID 
  * @param {int} wid  Word ID
- * @returns {string}
+ * @returns {string} HTML-formatted string
  */
 function make_overlib_link_delete_multiword (txid, wid) {
   return ' <a onclick="showRightFrames(); return confirmDelete();" href="delete_mword.php?wid=' +
@@ -623,7 +649,7 @@ function make_overlib_audio(txt) {
 /**************************************************************
 String extensions
 
-Still in use?
+Still in use? (commented on 2.2.2-fork)
 ***************************************************************
 
 String.prototype.rtrim = function () {
@@ -750,6 +776,11 @@ function escape_html_chars_2 (title, ann) {
   }
 }
 
+/**
+ * Open a window.
+ * 
+ * @param {string} url URL of the window 
+ */
 function owin (url) {
   window.open(
     url,
@@ -758,6 +789,11 @@ function owin (url) {
   );
 }
 
+/**
+ * Open a window in edit mode.
+ * 
+ * @param {string} url Window URL
+ */
 function oewin (url) {
   window.open(
     url,
@@ -766,6 +802,13 @@ function oewin (url) {
   );
 }
 
+/**
+ * Create a dictionary URL
+ * 
+ * @param {string} u Dictionary URL
+ * @param {string} w 
+ * @returns {string} A link to trans.php to get a translation of the word
+ */
 function createTheDictUrl (u, w) {
   const url = u.trim();
   const trm = w.trim();
@@ -773,6 +816,15 @@ function createTheDictUrl (u, w) {
   return r;
 }
 
+/**
+ * Create an HTML link for a dictionary.
+ * 
+ * @param {string} u Dictionary URL
+ * @param {string} w Word or sentence to be translated
+ * @param {string} t Text to display
+ * @param {string} b Some other text to display before the link
+ * @returns 
+ */
 function createTheDictLink (u, w, t, b) {
   const url = u.trim();
   const trm = w.trim();
@@ -780,9 +832,11 @@ function createTheDictLink (u, w, t, b) {
   const txtbefore = b.trim();
   let r = '';
   if (url != '' && txt != '') {
-    if (url.substr(0, 1) == '*') {
+    if (url.substring(0, 1) == '*') {
       r = ' ' + txtbefore +
-			' <span class="click" onclick="owin(\'' + createTheDictUrl(url.substring(1), escape_apostrophes(trm)) + '\');">' + txt + '</span> ';
+			' <span class="click" onclick="owin(\'' 
+      + createTheDictUrl(url.substring(1), escape_apostrophes(trm)) 
+      + '\');">' + txt + '</span> ';
     } else {
       r = ' ' + txtbefore +
 			' <a href="' + createTheDictUrl(url, trm) + 
@@ -792,17 +846,27 @@ function createTheDictLink (u, w, t, b) {
   return r;
 }
 
+/**
+ * Create a sentence lookup link.
+ * 
+ * @param {*} torder 
+ * @param {*} txid 
+ * @param {string} url Google translate URL 
+ * @param {string} txt Word text
+ * @returns {string} HTML-formatted link.
+ */
 function createSentLookupLink (torder, txid, url, txt) {
   var url = url.trim();
   var txt = txt.trim();
   let r = '';
-  if (url != '' && txt != '') {
-    if ((url.substr(0, 8) == '*http://') || (url.substr(0, 9) == '*https://')) {
-      r = ' <span class="click" onclick="owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');">' + txt + '</span> ';
-    } else if ((url.substr(0, 7) == 'http://') || (url.substr(0, 8) == 'https://')) {
-      r = ' <a href="trans.php?x=1&i=' + torder + '&t=' + txid + 
-      '" target="ru" onclick="showRightFrames();">' + txt + '</a> ';
-    }
+  if (url == '' || txt == '') {
+    return r;
+  }
+  if (url.substring(0, 8) == '*http://' || url.substring(0, 9) == '*https://') {
+    r = ' <span class="click" onclick="owin(\'trans.php?x=1&i=' + torder + '&t=' + txid + '\');">' + txt + '</span> ';
+  } else if (url.substring(0, 7) == 'http://' || url.substring(0, 8) == 'https://') {
+    r = ' <a href="trans.php?x=1&i=' + torder + '&t=' + txid + 
+    '" target="ru" onclick="showRightFrames();">' + txt + '</a> ';
   }
   return r;
 }
@@ -814,9 +878,12 @@ function createSentLookupLink (torder, txid, url, txt) {
  * @returns {string} Escaped string
  */
 function escape_html_chars (s) {
-  return s.replace(/&/g, '%AMP%').replace(/</g, '&#060;')
-  .replace(/>/g, '&#062;').replace(/"/g, '&#034;').replace(/'/g, '&#039;')
-  .replace(/%AMP%/g, '&#038;').replace(/\x0d/g, '<br />');
+  return s
+  .replace(/&/g, '%AMP%')
+  .replace(/</g, '&#060;').replace(/>/g, '&#062;')
+  .replace(/"/g, '&#034;').replace(/'/g, '&#039;')
+  .replace(/%AMP%/g, '&#038;')
+  .replace(/\x0d/g, '<br />');
 }
 
 /**
@@ -996,11 +1063,22 @@ function iknowall(t) {
   }
 }
 
+/**
+ * Check is the table prefix is a valid alphanumeric character.
+ * Create an alert if not.
+ * 
+ * @param {string} p Table prefix 
+ * @returns {boolean} true is the prefix is valid
+ */
 function check_table_prefix (p) {
   const re = /^[_a-zA-Z0-9]*$/;
   const r = p.length <= 20 && p.length > 0 && p.match(re);
   if (!r) { 
-    alert('Table Set Name (= Table Prefix) must\ncontain 1 to 20 characters (only 0-9, a-z, A-Z and _).\nPlease correct your input.'); 
+    alert(
+      'Table Set Name (= Table Prefix) must'
+      + '\ncontain 1 to 20 characters (only 0-9, a-z, A-Z and _).' 
+      + '\nPlease correct your input.'
+    ); 
   }
   return r;
 }
