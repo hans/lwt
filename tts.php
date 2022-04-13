@@ -54,7 +54,7 @@ function tts_settings_form()
             <th class="th1 center" rowspan="2">Language</th>
             <td class="td1 center">Language code</td>
             <td class="td1 center">
-            <select name="get-language" id="get-language" class="notempty" onchange="populateVoiceList();">
+            <select name="LgID" id="get-language" class="notempty" onchange="populateVoiceList();">
                 <?php echo tts_language_options(); ?>
             </select>
             </td>
@@ -65,7 +65,7 @@ function tts_settings_form()
         <tr>
             <td class="td1 center">Region (depending on your browser)</td>
             <td class="td1 center">
-                <select name="region-code" id="region-code" class="notempty">
+                <select name="LgRegName" id="region-code" class="notempty">
                 </select>
             </td>
             <td class="td1 center">
@@ -76,23 +76,32 @@ function tts_settings_form()
             <th class="th1 center" rowspan="2">Voice</th>
             <td class="td1 center">Reading Rate</td>
             <td class="td1 center">
-                <input type="range" min="0.5" max="2" value="1" step="0.1" id="rate">
+                <input type="range" name="LgTTSRate" min="0.5" max="2" value="1" step="0.1" id="rate">
             </td>
             <td class="td1 center">
-                <img src="<?php print_file_path("icn/status-busy.png") ?>" title="Field must not be empty" alt="Field must not be empty" />
+                <img src="<?php print_file_path("icn/status.png") ?>" />
             </td>
         </tr>
         <tr>
             <td class="td1 center">Pitch</td>
             <td class="td1 center">
-                <input type="range" min="0" max="2" value="1" step="0.1" id="pitch">
+                <input type="range" name="LgTTSPitch" min="0" max="2" value="1" step="0.1" id="pitch">
             </td>
             <td class="td1 center">
-                <img src="<?php print_file_path("icn/status-busy.png") ?>" title="Field must not be empty" alt="Field must not be empty" />
+                <img src="<?php print_file_path("icn/status.png") ?>" />
+            </td>
+        </tr>
+        <tr>
+            <?php tts_demo(); ?>
+        </tr>
+        <tr>
+            <td class="td1 right" colspan="4">
+                <input type="button" value="Cancel" onclick="{resetDirty(); location.href='tts.php';}" /> 
+                <input type="submit" name="op" value="Save" />
             </td>
         </tr>
     </table>
-</form>    
+</form>
 <?php
 }
 
@@ -104,10 +113,15 @@ function tts_settings_form()
 function tts_demo()
 {
 ?>
-<textarea id="tts-demo" title="Enter your text here">
+<th class="th1 center">Demo</th>
+<td class="td1 center" colspan="2">
+    <textarea id="tts-demo" title="Enter your text here" style="width: 95%;">
     Lorem ipsum dolor sit amet...
-</textarea>
-<button onclick="readingDemo();">Read</button>
+    </textarea>
+</td>
+<td class="td1 right">
+    <button onclick="readingDemo();">Read</button>
+</td>
 <?php
 }
 
@@ -157,7 +171,7 @@ function tts_js()
         }
 
         /**
-         * Population the languages region list.
+         * Populate the languages region list.
          * 
          * @returns {undefined}
          */
@@ -210,7 +224,38 @@ function tts_settings_full_page()
     pageend();
 }
 
-tts_settings_full_page();
+function tts_save_settings()
+{
+    global $tbpref;
+    // Get old values
+    $sql = 
+    "SELECT * 
+    FROM " . $tbpref . "languages 
+    WHERE LgID = " . $_REQUEST["LgID"];
+    $res = do_mysqli_query($sql);
+    $record = mysqli_fetch_assoc($res);
+    if ($record == false) {
+        my_die("Cannot access language data: $sql"); 
+    }
+    $oldLgRegID = $record['LgRegName'];
+    $oldLgTTSRate = $record['LgTTSRate'];
+    $oldLgTTSPitch = $record['LgTTSPitch'];
+    $message = runsql(
+        'UPDATE ' . $tbpref . 'languages SET ' . 
+        'LgRegName = ' . convert_string_to_sqlsyntax($_REQUEST["LgRegName"]) . ', ' . 
+        'LgTTSRate = ' . convert_string_to_sqlsyntax($_REQUEST["LgTTSRate"]) . ', ' .
+        'LgTTSPitch = ' . convert_string_to_sqlsyntax($_REQUEST["LgTTSPitch"]) . 
+        ' WHERE LgID = ' . $_REQUEST["LgID"], 
+        'Updated'
+    );
+    mysqli_free_result($res);
+}
+
+if ($_REQUEST['op'] == 'Change') {
+    tts_save_settings();
+} else {
+    tts_settings_full_page();
+}
 ?>
 
 
