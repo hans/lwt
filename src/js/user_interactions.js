@@ -177,14 +177,21 @@ function saveCurrentPosition() {
 function readTextAloud(text, lang, rate, pitch) {
     let msg = new SpeechSynthesisUtterance();
     msg.text = text;
+    const prefix = 'tts[' + lang.substring(0, 2);
     if (lang) {
         msg.lang = lang;
+    } else if (getCookie(prefix + 'RegName]')) {
+        msg.lang = lang.substring(0, 2) + '-' + getCookie(prefix + 'RegName]');
     }
     if (rate) {
         msg.rate = rate;
+    } else if (getCookie(prefix + 'Rate]')) {
+        msg.rate = parseInt(getCookie(prefix + 'Rate]'), 10);
     }
     if (pitch) {
         msg.pitch = pitch;
+    } else if (getCookie(prefix + 'Pitch]')) {
+        msg.pitch = parseInt(getCookie(prefix + 'Pitch]'), 10);
     }
     window.speechSynthesis.speak(msg);
 }

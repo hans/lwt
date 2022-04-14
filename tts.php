@@ -26,6 +26,28 @@ function get_language_code($language)
 }
 
 /**
+ * Return the language ID from a two-letter language code or a BCP 47 tag.
+ * 
+ * If two languages have the same country name, only thte first one will be returned.
+ * 
+ * @param string $code Two letters, or four letters separated with caret ("fr" or "en-US").
+ * 
+ * @return int Language ID if found, -1 otherwise.
+ */
+function language_id_from_code($code)
+{
+    global $langDefs;
+    $trimmed = substr($code, 0, 2);
+    foreach (get_languages() as $language => $language_id) {
+        $elem = $langDefs[$language];
+        if ($elem[0] == $trimmed) {
+            return $language_id;
+        }
+    }
+    return -1;
+}
+
+/**
  * String to population a SELECT tag.
  * 
  * @return string HTML-formatted string
@@ -63,7 +85,7 @@ function tts_settings_form()
             <th class="th1 center" rowspan="2">Language</th>
             <td class="td1 center">Language code</td>
             <td class="td1 center">
-            <select name="LgID" id="get-language" class="notempty" onchange="populateVoiceList();">
+            <select name="LgName" id="get-language" class="notempty" onchange="populateVoiceList();">
                 <?php echo tts_language_options(); ?>
             </select>
             </td>
@@ -94,7 +116,7 @@ function tts_settings_form()
         <tr>
             <td class="td1 center">Pitch</td>
             <td class="td1 center">
-                <input type="range" name="LgTTSPitch" min="0" max="2" value="1" step="0.1" id="pitch">
+                <input type="range" name="LgPitch" min="0" max="2" value="1" step="0.1" id="pitch">
             </td>
             <td class="td1 center">
                 <img src="<?php print_file_path("icn/status.png") ?>" />
@@ -145,8 +167,7 @@ function tts_js()
     $current_language = getLanguage((string) $lid);
 ?>
 <script type="text/javascript" charset="utf-8">
-    /** Current language being learnt. */
-    const LG_ID = <?php echo json_encode($lid); ?>;
+    /** @var Current language being learnt. */
     const CURRENT_LANGUAGE = <?php echo json_encode(get_language_code($current_language)); ?>;
 
     /**
@@ -190,11 +211,11 @@ function tts_js()
      */
     function presetTTSData()
     {
-        console.log();
+        //console.log();
         $('#get-language')[0].value = CURRENT_LANGUAGE;
-        $('#region-code')[0].value = getCookie('tts[' + LG_ID + 'RegName');
-        $('#rate')[0].value = getCookie('tts[' + LG_ID + 'Rate');
-        $('#pitch')[0].value = getCookie('tts[' + LG_ID + 'Pitch');
+        $('#region-code')[0].value = getCookie('tts[' + CURRENT_LANGUAGE + 'RegName]');
+        $('#rate')[0].value = getCookie('tts[' + CURRENT_LANGUAGE + 'Rate]');
+        $('#pitch')[0].value = getCookie('tts[' + CURRENT_LANGUAGE + 'Pitch]');
     }
 
     /**
@@ -244,30 +265,55 @@ function tts_settings_minimal_page()
  * 
  * @return void
  */
-function tts_settings_full_page()
+function tts_settings_full_page($message)
 {
     pagestart('Text-to-Speech Settings', true);
+    if ($message != '') {
+        error_message_with_hide($message, false);
+        if ($_COOKIE[$message]) {
+            error_message_with_hide('Text-to-Speech settings saved!', false);
+        } else {
+            error_message_with_hide('Error: Unable to set cookies', false);
+        }
+    }
     tts_settings_minimal_page();
     pageend();
 }
 
-function tts_save_settings($record)
+/**
+ * Save the text-to-speech settings as cookies.
+ * 
+ * @param array $form Inputs from the main form.
+ * 
+ * @return string A confirmation or an error message
+ */
+function tts_save_settings($form)
 {
-    $lgid = $record['LgID'];
-    $prefix = 'tts[' . $lgid;
-    //setcookie($prefix . ']', $record['LgID'], strtotime( '+10 years' ));
-    setcookie($prefix . 'RegName]', $record['LgRegName'], strtotime( '+10 years' ), '/');
-    setcookie($prefix . 'Rate]', $record['LgRate'], strtotime( '+10 years' ), '/');
-    setcookie($prefix . 'Pitch]', $record['LgPitch'], strtotime( '+10 years' ), '/');
-    error_message_with_hide('Text-to-Speech settings saved!', null);
+    $lgname = $form['LgName'];
+    $prefix = 'tts[' . $lgname;
+    /* Could be useful if problems with cookies
+    $params = session_get_cookie_params();
+    'domain' => isset($params['domain']),
+    'secure' => isset($params['secure']),
+    'httponly' => isset($params['httponly'])
+    */
+    $cookie_options = array (
+        'expires' => strtotime( '+5 years' ),
+        'domain' => ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false,
+        'path' => '/',
+        'samesite' => 'Strict' // None || Lax || Strict
+    );
+    //setcookie($prefix . ']', $record['LgID'], $cookie_options);
+    setcookie($prefix . 'RegName]', $form['LgRegName'], $cookie_options);
+    setcookie($prefix . 'Rate]', $form['LgTTSRate'], $cookie_options);
+    setcookie($prefix . 'Pitch]', $form['LgPitch'], $cookie_options);
+    return $prefix . 'RegName]';
 }
 
-if ($_REQUEST['op'] == 'Change') {
-    tts_save_settings($_REQUEST);
+$message = '';
+if ($_REQUEST['op'] == 'Save') {
+    $message = tts_save_settings($_REQUEST);
 }
-tts_settings_full_page();
+tts_settings_full_page($message);
 
 ?>
-
-
-
