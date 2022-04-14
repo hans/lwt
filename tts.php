@@ -15,6 +15,17 @@ require_once 'inc/session_utility.php';
 require_once 'inc/langdefs.php';
 
 /**
+ * Two-letter language code from from language name (e. g. : "English" = > "en" ).
+ * 
+ * @return string Two-letter language name
+ */
+function get_language_code($language)
+{
+    global $langDefs;
+    return $langDefs[$language][1];
+}
+
+/**
  * String to population a SELECT tag.
  * 
  * @return string HTML-formatted string
@@ -23,11 +34,9 @@ require_once 'inc/langdefs.php';
  */
 function tts_language_options()
 {
-    global $langDefs;
     $output = '';
     foreach (get_languages() as $language => $language_id) {
-        /** Two-letter language code from from language name (e. g. : "English" = > "en" ) */
-        $languageCode = $langDefs[$language][1];
+        $languageCode = get_language_code($language);
         $output .= '<option value="' . $languageCode . '">' . 
         $language . 
         '</option>';
@@ -132,71 +141,90 @@ function tts_demo()
  */
 function tts_js()
 {
+    $lid = (int) getSetting('currentlanguage');
+    $current_language = getLanguage((string) $lid);
 ?>
-    <script type="text/javascript" charset="utf-8">
-        /**
-         * Get the language country code from the page. 
-         * 
-         * @returns {string} Language code (e. g. "en")
-         */
-        function getLanguageCode()
-        {
-            return $('#get-language')[0].value;
-        }
+<script type="text/javascript" charset="utf-8">
+    /** Current language being learnt. */
+    const LG_ID = <?php echo json_encode($lid); ?>;
+    const CURRENT_LANGUAGE = <?php echo json_encode(get_language_code($current_language)); ?>;
 
-        /**
-         * Get the language region code from the page.
-         * 
-         * @returns {string} Region code (e. g. "US")
-         */
-        function getRegionCode()
-        {
-            return $('#region-code')[0].value;
-        }
+    /**
+     * Get the language country code from the page. 
+     * 
+     * @returns {string} Language code (e. g. "en")
+     */
+    function getLanguageCode()
+    {
+        return $('#get-language')[0].value;
+    }
 
-        /** 
-         * Gather data in the page to read the demo.
-         * 
-         * @returns {undefined}
-         */
-        function readingDemo()
-        {
-            let lang = 
-            readTextAloud(
-                $('#tts-demo')[0].value,
-                getLanguageCode + (getRegionCode() ? '-' + getRegionCode() : ''),
-                $('#rate')[0].value,
-                $('#pitch')[0].value
-            );
-        }
+    /**
+     * Get the language region code from the page.
+     * 
+     * @returns {string} Region code (e. g. "US")
+     */
+    function getRegionCode()
+    {
+        return $('#region-code')[0].value;
+    }
 
-        /**
-         * Populate the languages region list.
-         * 
-         * @returns {undefined}
-         */
-        function populateVoiceList() {
-            voices = window.speechSynthesis.getVoices();
-            $('#region-code')[0].innerHTML = '';
-            const languageCode = getLanguageCode();
-            for (i = 0; i < voices.length ; i++) {
-                if (voices[i].lang != languageCode && !voices[i].default)
-                    continue;
-                let option = document.createElement('option');
-                option.textContent = voices[i].name;
+    /** 
+     * Gather data in the page to read the demo.
+     * 
+     * @returns {undefined}
+     */
+    function readingDemo()
+    {
+        let lang = 
+        readTextAloud(
+            $('#tts-demo')[0].value,
+            getLanguageCode + (getRegionCode() ? '-' + getRegionCode() : ''),
+            $('#rate')[0].value,
+            $('#pitch')[0].value
+        );
+    }
 
-                if (voices[i].default) {
-                    option.textContent += ' -- DEFAULT';
-                }
+    /**
+     * Set the Text-to-Speech data using cookies
+     */
+    function presetTTSData()
+    {
+        console.log();
+        $('#get-language')[0].value = CURRENT_LANGUAGE;
+        $('#region-code')[0].value = getCookie('tts[' + LG_ID + 'RegName');
+        $('#rate')[0].value = getCookie('tts[' + LG_ID + 'Rate');
+        $('#pitch')[0].value = getCookie('tts[' + LG_ID + 'Pitch');
+    }
 
-                option.setAttribute('data-lang', voices[i].lang);
-                option.setAttribute('data-name', voices[i].name);
-                $('#region-code')[0].appendChild(option);
+    /**
+     * Populate the languages region list.
+     * 
+     * @returns {undefined}
+     */
+    function populateVoiceList() {
+        voices = window.speechSynthesis.getVoices();
+        $('#region-code')[0].innerHTML = '';
+        const languageCode = getLanguageCode();
+        for (i = 0; i < voices.length ; i++) {
+            if (voices[i].lang != languageCode && !voices[i].default)
+                continue;
+            let option = document.createElement('option');
+            option.textContent = voices[i].name;
+
+            if (voices[i].default) {
+                option.textContent += ' -- DEFAULT';
             }
-        }
 
-        $(populateVoiceList);
-    </script>
+            option.setAttribute('data-lang', voices[i].lang);
+            option.setAttribute('data-name', voices[i].name);
+            $('#region-code')[0].appendChild(option);
+        }
+    }
+
+    $(presetTTSData);
+    $(populateVoiceList);
+</script>
 <?php
 }
 
@@ -208,7 +236,6 @@ function tts_js()
 function tts_settings_minimal_page()
 {
     tts_settings_form();
-    tts_demo();
     tts_js();
 }
 
@@ -224,38 +251,22 @@ function tts_settings_full_page()
     pageend();
 }
 
-function tts_save_settings()
+function tts_save_settings($record)
 {
-    global $tbpref;
-    // Get old values
-    $sql = 
-    "SELECT * 
-    FROM " . $tbpref . "languages 
-    WHERE LgID = " . $_REQUEST["LgID"];
-    $res = do_mysqli_query($sql);
-    $record = mysqli_fetch_assoc($res);
-    if ($record == false) {
-        my_die("Cannot access language data: $sql"); 
-    }
-    $oldLgRegID = $record['LgRegName'];
-    $oldLgTTSRate = $record['LgTTSRate'];
-    $oldLgTTSPitch = $record['LgTTSPitch'];
-    $message = runsql(
-        'UPDATE ' . $tbpref . 'languages SET ' . 
-        'LgRegName = ' . convert_string_to_sqlsyntax($_REQUEST["LgRegName"]) . ', ' . 
-        'LgTTSRate = ' . convert_string_to_sqlsyntax($_REQUEST["LgTTSRate"]) . ', ' .
-        'LgTTSPitch = ' . convert_string_to_sqlsyntax($_REQUEST["LgTTSPitch"]) . 
-        ' WHERE LgID = ' . $_REQUEST["LgID"], 
-        'Updated'
-    );
-    mysqli_free_result($res);
+    $lgid = $record['LgID'];
+    $prefix = 'tts[' . $lgid;
+    //setcookie($prefix . ']', $record['LgID'], strtotime( '+10 years' ));
+    setcookie($prefix . 'RegName]', $record['LgRegName'], strtotime( '+10 years' ), '/');
+    setcookie($prefix . 'Rate]', $record['LgRate'], strtotime( '+10 years' ), '/');
+    setcookie($prefix . 'Pitch]', $record['LgPitch'], strtotime( '+10 years' ), '/');
+    error_message_with_hide('Text-to-Speech settings saved!', null);
 }
 
 if ($_REQUEST['op'] == 'Change') {
-    tts_save_settings();
-} else {
-    tts_settings_full_page();
+    tts_save_settings($_REQUEST);
 }
+tts_settings_full_page();
+
 ?>
 
 
