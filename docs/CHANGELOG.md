@@ -22,7 +22,8 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * Feed wizard changes
   * The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get".
   * It's style was uniformized with your current theme.
-* tts.php becomes text_to_speech_settings.php. As this file was unnused, it is not considered as a breaking change.
+* ``tts.php`` becomes ``text_to_speech_settings.php``. As this file was unnused, it is not considered as a breaking change.
+* Refactored ``all_words_wellknown.php``.
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.
@@ -30,6 +31,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ### Fixed
 * Creating the database was sometimes impossible.
 * Database names containing special characters (hyphens, carets, etc...) was not possible.
+* The "I KNOW ALL" button calling ``all_words_wellknown.php`` created errors. This file was fixed.
 
 ## 2.2.2-fork (February 13 2022)
 ### Added
@@ -61,6 +63,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * Signature changed: ``echoTerm`` to ``echo_term`` (no return value, no ``$hideuntil`` parameter)
   * Name uniformisation: ``prepareStyle`` to ``do_text_text_style`` and  ``do_text_javascript`` to ``do_text_text_javascript``.
 
+### Full Changelog
+* [v2.2.1...v2.2.2](https://github.com/HugoFara/lwt/compare/v2.2.1...v2.2.2)
+
 ## 2.2.1-fork (February 07 2022)
 ### Changed
 * Composer in no longer *required* for standard users (but is still required for contributing).
@@ -90,7 +95,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * It should have been git ignored at least.
   * Its content was unused. The files it was trying to use are duplicated.
 
-  ### Full Changelog
+### Full Changelog
 * [v2.2.0...v2.2.1](https://github.com/HugoFara/lwt/compare/v2.2.0...v2.2.1)
 
 ## 2.2.0-fork (February 04 2022)
