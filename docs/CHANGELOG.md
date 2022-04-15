@@ -21,7 +21,8 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * Consistency: scripts were calling functions that should be imported from other files, making the debugging difficult.
 * Feed wizard changes
   * The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get".
-  * It's style was uniformized with your current theme. 
+  * It's style was uniformized with your current theme.
+* tts.php becomes text_to_speech_settings.php. As this file was unnused, it is not considered as a breaking change.
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.

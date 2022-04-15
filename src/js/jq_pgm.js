@@ -859,10 +859,8 @@ function keydown_event_do_text_text (e) {
     return false;
   }
   if (e.which == 80) { // P : pronounce term
-    const lg = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, '$1');
-    const audio = new Audio();
-    audio.src = 'tts.php?tl=' + lg + '&q=' + txt;
-    audio.play();
+    const lg = getLangFromDict(WBLINK3);
+    readTextAloud(txt, lg);
     return false;
   }
   if (e.which == 84) { // T : translate sentence
@@ -1156,9 +1154,7 @@ function prepareMainAreas() {
   $('span[class*="tts_"]').on('click', function () {
     const lg = $(this).attr('class').replace(/.*tts_([a-zA-Z-]+).*/, '$1');
     const txt = $(this).text();
-    const audio = new Audio();
-    audio.src = 'tts.php?tl=' + lg + '&q=' + txt;
-    audio.play();
+    readRawTextAloud(txt, lg);
   });
   $(document).on('mouseup', function () {
     $('button,input[type=button],.wrap_radio span,.wrap_checkbox span')

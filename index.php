@@ -333,17 +333,17 @@ if ($langcnt == 0) {
     
     <div class="menu">
         <a href="do_feeds.php?check_autoupdate=1">Newsfeed Import</a>
-        <a href="backup_restore.php">Backup/Restore/Empty Database</a>
+        <a href="backup_restore.php">Backup / Restore / Empty Database</a>
     </div>
 
     <div class="menu">
         <a href="statistics.php">Statistics</a>
-        <a href="docs/info.php">Help/Information</a>
+        <a href="docs/info.php">Help / Information</a>
     </div>
 
     <div class="menu">
-        <a href="settings.php">Settings/Preferences</a>
-        <a href="tts.php">Text-to-Speech Settings</a>
+        <a href="settings.php">Settings / Preferences</a>
+        <a href="text_to_speech_settings.php">Text-to-Speech Settings</a>
         <a href="mobile.php">Mobile LWT (Deprecated)</a>
     </div>
         

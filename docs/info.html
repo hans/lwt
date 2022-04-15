@@ -1904,7 +1904,14 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <h4>Added</h4>
 <ul>
 <li>Commands included in <code>Makefile</code> where transcripted in <code>composer.json</code>.</li>
-<li>Docker integration! It is done through <code>Dockerfile</code>, <code>docker-compose.yml</code>, <code>.dockerignore</code> and <code>.env</code> files.</li>
+<li>
+<a href="https://www.docker.com/">Docker</a> integration! It is done through <code>Dockerfile</code>, <code>docker-compose.yml</code>, <code>.dockerignore</code> and <code>.env</code> files.</li>
+<li>You can click on a read icon in order to read a word.</li>
+<li>Text-To-Speech (TTS) Settings!
+<ul>
+<li>Change the language rate, pitch, or local region for text-to-speech.</li>
+</ul>
+</li>
 </ul>
 <h4>Changed</h4>
 <ul>
@@ -1917,7 +1924,13 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <li>Consistency: scripts were calling functions that should be imported from other files, making the debugging difficult.</li>
 </ul>
 </li>
+<li>Feed wizard changes
+<ul>
 <li>The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get".</li>
+<li>It's style was uniformized with your current theme.</li>
+</ul>
+</li>
+<li>tts.php becomes text_to_speech_settings.php. As this file was unnused, it is not considered as a breaking change.</li>
 </ul>
 <h4>Deprecated</h4>
 <ul>
