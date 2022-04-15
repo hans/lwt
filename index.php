@@ -338,11 +338,12 @@ if ($langcnt == 0) {
 
     <div class="menu">
         <a href="statistics.php">Statistics</a>
+        <a href="docs/info.php">Help/Information</a>
     </div>
 
     <div class="menu">
         <a href="settings.php">Settings/Preferences</a>
-        <a href="docs/info.php">Help/Information</a>
+        <a href="tts.php">Text-to-Speech Settings</a>
         <a href="mobile.php">Mobile LWT (Deprecated)</a>
     </div>
         
@@ -395,10 +396,9 @@ if ($langcnt == 0) {
             <td>
                 <p class="small">
                     <a href="https://sourceforge.net/projects/learning-with-texts/" target="_blank">"Learning with Texts" (LWT)</a> is free 
-                    and unencumbered software released<br />into the 
+                    and unencumbered software released into the 
                     <a href="https://en.wikipedia.org/wiki/Public_domain_software" target="_blank">PUBLIC DOMAIN</a>. 
                     <a href="http://unlicense.org/" target="_blank">More information and detailed Unlicense ...</a>
-                    <br />
                 </p>
             </td>
         </tr>

@@ -200,9 +200,12 @@ function browser_tts($text, $languageName): void
 
         /**
          * Reads a text using the browser text reader.
+         * 
+         * @deprecated Since 2.3.0-fork, use of window.readTextAloud is recommended instead. 
          */
         readTextAloud: function () {
             var msg = new SpeechSynthesisUtterance(this.text);
+            console.log('This function is deprecated, do not use it!')
             msg.text = this.text;
             msg.lang = this.lang;
             msg.rate = this.rate;
@@ -217,7 +220,7 @@ function browser_tts($text, $languageName): void
         if (!('speechSynthesis' in window)) {
             alert('Your browser does not support speechSynthesis!');
         } else {
-            text_reader.readTextAloud();
+            readRawTextAloud(text_reader.text, text_reader.lang);
         }
     }
 

@@ -77,9 +77,10 @@ Helper functions for overlib
  */
 function run_overlib_status_98(
   wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann
-  ) {
+) {
+  const lang = getLangFromDict(WBLINK3);
   return overlib(
-    make_overlib_audio(txt) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br/>' +
+    make_overlib_audio(txt, lang) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br/>' +
     make_overlib_link_new_word(txid, torder, wid) + ' | ' +
     make_overlib_link_delete_word(txid, wid) +
     make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
@@ -106,8 +107,9 @@ function run_overlib_status_98(
  * @returns {boolean}
  */
 function run_overlib_status_99 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, multi_words, rtl, ann) {
+  const lang = getLangFromDict(WBLINK3);
   return overlib(
-    make_overlib_audio(txt) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br/> ' +
+    make_overlib_audio(txt, lang) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br/> ' +
 		make_overlib_link_new_word(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_word(txid, wid) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
@@ -135,8 +137,9 @@ function run_overlib_status_99 (wblink1, wblink2, wblink3, hints, txid, torder, 
  * @returns {boolean}
  */
 function run_overlib_status_1_to_5 (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, multi_words, rtl, ann) {
+  const lang = getLangFromDict(WBLINK3);
   return overlib(
-    '<div>' + make_overlib_audio(txt) + '<span>(Read)</span></div>' +
+    '<div>' + make_overlib_audio(txt, lang) + '<span>(Read)</span></div>' +
     make_overlib_link_change_status_all(txid, torder, wid, stat) + ' <br /> ' +
 		make_overlib_link_edit_word(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_word(txid, wid) +
@@ -164,8 +167,9 @@ function run_overlib_status_1_to_5 (wblink1, wblink2, wblink3, hints, txid, tord
  * @returns {boolean}
  */
 function run_overlib_status_unknown (wblink1, wblink2, wblink3, hints, txid, torder, txt, multi_words, rtl) {
+  const lang = getLangFromDict(WBLINK3);
   return overlib(
-    make_overlib_audio(txt) + '<b>' + escape_html_chars(hints) + '</b><br /> ' +
+    make_overlib_audio(txt, lang) + '<b>' + escape_html_chars(hints) + '</b><br /> ' +
 		make_overlib_link_wellknown_word(txid, torder) + ' <br /> ' +
 		make_overlib_link_ignore_word(txid, torder) +
 		make_overlib_link_new_multiword(txid, torder, multi_words, rtl) + ' <br /> ' +
@@ -190,8 +194,9 @@ function run_overlib_status_unknown (wblink1, wblink2, wblink3, hints, txid, tor
  * @returns {boolean}
  */
 function run_overlib_multiword (wblink1, wblink2, wblink3, hints, txid, torder, txt, wid, stat, wcnt, ann) {
+  const lang = getLangFromDict(WBLINK3);
   return overlib(
-    make_overlib_audio(txt) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
+    make_overlib_audio(txt, lang) + '<b>' + escape_html_chars_2(hints, ann) + '</b><br /> ' +
 		make_overlib_link_change_status_all(txid, torder, wid, stat) + ' <br /> ' +
 		make_overlib_link_edit_multiword(txid, torder, wid) + ' | ' +
 		make_overlib_link_delete_multiword(txid, wid) + ' <br /> ' +
@@ -634,15 +639,19 @@ function make_overlib_link_ignore_word (txid, torder) {
 /**
  * Create a clickable button to read a word aloud.
  * 
- * @param {string} txt Word to play 
+ * @param {string} txt  Word to say
+ * @param {string} lang Language name (two letters or four letters separated with a caret)
  * @return {string} HTML-formatted clickable icon
  */
-function make_overlib_audio(txt) {
-  var img = document.createElement("img");
+function make_overlib_audio(txt, lang) {
+  let img = document.createElement("img");
   img.title = "Click to read!";
   img.src = "icn/speaker-volume.png";
   img.style.cursor = "pointer";
-  img.setAttribute("onclick", "readTextAloud('" + escape_html_chars(txt) + "')");
+  img.setAttribute(
+    "onclick", 
+    "readTextAloud('" + escape_html_chars(txt) + "', '" + (lang || "") + "')"
+  );
   return img.outerHTML;
 }
 
@@ -682,7 +691,7 @@ function getStatusName (status) {
  * Return the abbreviation of a status
  * 
  * @param {int} status Status number (int<1, 5>|98|99)
- * @returns {string}
+ * @returns {string} Abbreviation
  */
 function getStatusAbbr (status) {
   return (STATUSES[status] ? STATUSES[status].abbr : '?');
@@ -709,6 +718,13 @@ function translateSentence2 (url, sentctl) {
   }
 }
 
+/**
+ * Open a new window with the translation of the word.
+ * 
+ * @param {string} url     Dictionary URL
+ * @param {string} wordctl Word to translate.
+ * @returns {void}
+ */
 function translateWord (url, wordctl) {
   if ((typeof wordctl !== 'undefined') && (url != '')) {
     text = wordctl.value;
@@ -719,6 +735,13 @@ function translateWord (url, wordctl) {
   }
 }
 
+/**
+ * Open a new window with the translation of the word.
+ * 
+ * @param {string} url     Dictionary URL
+ * @param {string} wordctl Word to translate.
+ * @returns {void}
+ */
 function translateWord2 (url, wordctl) {
   if ((typeof wordctl !== 'undefined') && (url != '')) {
     text = wordctl.value;
@@ -728,8 +751,25 @@ function translateWord2 (url, wordctl) {
   }
 }
 
+/**
+ * Open a new window with the translation of the word.
+ * 
+ * @param {string} url Dictionary URL
+ * @param {string} word Word to translate.
+ * @returns {void}
+ */
 function translateWord3 (url, word) {
   owin(createTheDictUrl(url, word));
+}
+
+/**
+ * Get the language name from the Google Translate URL.
+ * 
+ * @param {string} wblink3 Google Translate Dictionary URL
+ * @returns {string} Language name
+ */
+function getLangFromDict(wblink3) {
+  return wblink3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
 }
 
 /**
@@ -806,7 +846,7 @@ function oewin (url) {
  * Create a dictionary URL
  * 
  * @param {string} u Dictionary URL
- * @param {string} w 
+ * @param {string} w Word
  * @returns {string} A link to trans.php to get a translation of the word
  */
 function createTheDictUrl (u, w) {
@@ -823,7 +863,7 @@ function createTheDictUrl (u, w) {
  * @param {string} w Word or sentence to be translated
  * @param {string} t Text to display
  * @param {string} b Some other text to display before the link
- * @returns 
+ * @returns {string} HTML-formatted link
  */
 function createTheDictLink (u, w, t, b) {
   const url = u.trim();
@@ -980,6 +1020,11 @@ function allActionGo (f, sel, n) {
   }
 }
 
+/**
+ * Check if cookies are enabled by setting a cookie.
+ * 
+ * @returns {boolean} true if cookies are enabled, false otherwise
+ */
 function areCookiesEnabled () {
   setCookie('test', 'none', '', '/', '', '');
   if (getCookie('test')) {
@@ -991,6 +1036,12 @@ function areCookiesEnabled () {
   return cookie_set;
 }
 
+/**
+ * Set the current language.
+ * 
+ * @param {string} ctl Current language name 
+ * @param {string} url 
+ */
 function setLang (ctl, url) {
   location.href = 'save_setting_redirect.php?k=currentlanguage&v=' +
 	ctl.options[ctl.selectedIndex].value +
@@ -1001,6 +1052,12 @@ function resetAll (url) {
   location.href = 'save_setting_redirect.php?k=currentlanguage&v=&u=' + url;
 }
 
+/**
+ * Get a specific cookie by its name.
+ * 
+ * @param {string} check_name Cookie name 
+ * @returns {string|null} Value of the cookie if found, null otherwise
+ */
 function getCookie (check_name) {
   const a_all_cookies = document.cookie.split(';');
   let a_temp_cookie = '';
@@ -1027,6 +1084,17 @@ function getCookie (check_name) {
   }
 }
 
+/**
+ * Set a new cookie.
+ * 
+ * @param {string} name    Name of the cookie 
+ * @param {string} value   Cookie value 
+ * @param {number} expires Number of DAYS before the cookie expires. 
+ * @param {string} path    Cookie path
+ * @param {string} domain  Cookie domain 
+ * @param {boolean} secure If it should only be sent through secure connection 
+ * @returns {void}
+ */
 function setCookie (name, value, expires, path, domain, secure) {
   const today = new Date();
   today.setTime(today.getTime());
@@ -1041,6 +1109,14 @@ function setCookie (name, value, expires, path, domain, secure) {
 		((secure) ? ';secure' : '');
 }
 
+/**
+ * Delete a cookie.
+ * 
+ * @param {string} name   Cookie name
+ * @param {string} path   Cookie path
+ * @param {string} domain Cookie domain
+ * @returns {void}
+ */
 function deleteCookie (name, path, domain) {
   if (getCookie(name)) {
     document.cookie = name + '=' +

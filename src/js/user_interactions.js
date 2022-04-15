@@ -167,21 +167,50 @@ function saveCurrentPosition() {
 }
 
 /**
- * Read a text aloud.
+ * Get the phonetic version of a text.
  * 
- * @param {string} text  Text to read 
- * @param {string} lang  Language code with BCP 47 convention  (e. g. "en-US" for English with an American accent) 
- * @param {int}    rate  Reading rate 
- * @param {int}    pitch Pitch value 
+ * @param {string} text Text to convert to phonetics.
+ * @param {string} lang Language, either two letters code or four letters (BCP 47)
  */
-function readTextAloud(text, lang, rate, pitch) {
+function getPhoneticText(text, lang) {
+    let phoneticText;
+    $.ajax(
+        {
+            async: false,
+            data: {
+                text: text, 
+                lang: lang 
+            }, 
+            type: "GET",
+            url:'inc/ajax_get_phonetic.php', 
+        }
+    )
+    .done(
+        function (data) {
+            phoneticText = data;
+        }
+    );
+    return phoneticText;
+}
+
+
+/**
+ * Read a text aloud, only work with a phonetic version.
+ * 
+ * @param {string} text  Text to read, won't be parsed further.
+ * @param {string} lang  Language code with BCP 47 convention  (e. g. "en-US" for English with an American accent) 
+ * @param {number} rate  Reading rate 
+ * @param {number} pitch Pitch value 
+ */
+ function readRawTextAloud(text, lang, rate, pitch) {
     let msg = new SpeechSynthesisUtterance();
+    const trimmed = lang.substring(0, 2);
+    const prefix = 'tts[' + trimmed;
     msg.text = text;
-    const prefix = 'tts[' + lang.substring(0, 2);
     if (lang) {
         msg.lang = lang;
     } else if (getCookie(prefix + 'RegName]')) {
-        msg.lang = lang.substring(0, 2) + '-' + getCookie(prefix + 'RegName]');
+        msg.lang = trimmed + '-' + getCookie(prefix + 'RegName]');
     }
     if (rate) {
         msg.rate = rate;
@@ -194,4 +223,24 @@ function readTextAloud(text, lang, rate, pitch) {
         msg.pitch = parseInt(getCookie(prefix + 'Pitch]'), 10);
     }
     window.speechSynthesis.speak(msg);
+}
+
+/**
+ * Read a text aloud, may parse the text to get a phonetic version.
+ * 
+ * @param {string} text  Text to read, do not need to be phonetic
+ * @param {string} lang  Language code with BCP 47 convention  (e. g. "en-US" for English with an American accent) 
+ * @param {number} rate  Reading rate 
+ * @param {number} pitch Pitch value 
+ */
+function readTextAloud(text, lang, rate, pitch) {
+    let msg = new SpeechSynthesisUtterance();
+    const trimmed = lang.substring(0, 2);
+    let parsed_text;
+    if (trimmed == 'ja') {
+        parsed_text = getPhoneticText(text, lang);
+    } else {
+        parsed_text = text;
+    }
+    readRawTextAloud(parsed_text, lang, rate, pitch);
 }

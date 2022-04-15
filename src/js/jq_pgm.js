@@ -823,9 +823,11 @@ function keydown_event_do_text_text (e) {
     if (e.which == (48 + i) || e.which == (96 + i)) { // 1,.. : status=i
       if (stat == '0') {
         if (i == 1) {
-          const sl = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, '$1');
+          /** @var {string} sl Source language */
+          const sl = getLangFromDict(WBLINK3);
           const tl = WBLINK3.replace(/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/, '$1');
-          if (sl != WBLINK3 && tl != WBLINK3)i = i + '&sl=' + sl + '&tl=' + tl;
+          if (sl != WBLINK3 && tl != WBLINK3)
+            i = i + '&sl=' + sl + '&tl=' + tl;
         }
         //window.parent.frames.ro.location.href =
         showRightFrames('set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=' + i);

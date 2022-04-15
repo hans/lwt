@@ -433,18 +433,20 @@ function do_test_test_javascript_interaction($wo_record, $wb1, $wb2, $wb3, $test
         if (('speechSynthesis' in window) && 
         document.getElementById('utterance-allowed').checked) {
             const text = <?php echo json_encode($phoneticText); ?>;
-            let msg = new SpeechSynthesisUtterance(text);
+            const lang = <?php echo json_encode($abbr); ?>;
+            readRawTextAloud(text, lang);
+            /*let msg = new SpeechSynthesisUtterance(text);
             msg.text = text;
-            msg.lang = <?php echo json_encode($abbr); ?>;
+            msg.lang = lang;
             msg.rate = 0.8;
-            speechSynthesis.speak(msg);
+            speechSynthesis.speak(msg);*/
         }
     }
 
     WBLINK1 = '<?php echo $wb1; ?>';
     WBLINK2 = '<?php echo $wb2; ?>';
     WBLINK3 = '<?php echo $wb3; ?>';
-    LANG = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
+    LANG = getLangFromDict(WBLINK3);
     if (LANG && LANG != WBLINK3) {
         $("html").attr('lang', LANG);
     }

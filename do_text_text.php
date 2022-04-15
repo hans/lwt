@@ -570,7 +570,7 @@ function do_text_text_javascript($var_array): void
     for (const key in vars) {
         window[key] = vars[key];
     }
-    LANG = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
+    LANG = getLangFromDict(WBLINK3);
     TEXTPOS = -1;
     OPENED = 0;
     // Change the language of the current frame
