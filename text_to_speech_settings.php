@@ -5,10 +5,11 @@
  * \brief Utility for calling system speech synthesizer
  * 
  * @package Lwt
- * @author chaosarium <leonluleonlu@gmail.com>
+ * @author  chaosarium <leonluleonlu@gmail.com>
  *          HugoFara <Hugo.Farajallah@protonmail.com>
  * @license Unlicense <http://unlicense.org/>
- * @since 2.2.2-fork
+ * @link    https://hugofara.github.io/lwt/docs/html/text__to__speech__settings_8php.html
+ * @since   2.2.2-fork
  */
 
 require_once 'inc/session_utility.php';
@@ -16,6 +17,8 @@ require_once 'inc/langdefs.php';
 
 /**
  * Two-letter language code from from language name (e. g. : "English" = > "en" ).
+ * 
+ * @param string $language Language name, for instance "English"
  * 
  * @return string Two-letter language name
  */
@@ -30,7 +33,8 @@ function get_language_code($language)
  * 
  * If two languages have the same country name, only thte first one will be returned.
  * 
- * @param string $code Two letters, or four letters separated with caret ("fr" or "en-US").
+ * @param string $code Two letters, or four letters separated with caret 
+ *                     ("fr" or "en-US").
  * 
  * @return int Language ID if found, -1 otherwise.
  */
@@ -73,7 +77,7 @@ function tts_language_options()
  */
 function tts_settings_form()
 {
-?>    
+    ?>    
 <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <table class="tab3" cellspacing="0" cellpadding="5">
         <tr>
@@ -127,13 +131,13 @@ function tts_settings_form()
         </tr>
         <tr>
             <td class="td1 right" colspan="4">
-                <input type="button" value="Cancel" onclick="{resetDirty(); location.href='tts.php';}" /> 
+                <input type="button" value="Cancel" onclick="{resetDirty(); location.href='text_to_speech_settings.php';}" /> 
                 <input type="submit" name="op" value="Save" />
             </td>
         </tr>
     </table>
 </form>
-<?php
+    <?php
 }
 
 /**
@@ -143,7 +147,7 @@ function tts_settings_form()
  */
 function tts_demo()
 {
-?>
+    ?>
 <th class="th1 center">Demo</th>
 <td class="td1 center" colspan="2">
     <textarea id="tts-demo" title="Enter your text here" style="width: 95%;">
@@ -153,7 +157,7 @@ function tts_demo()
 <td class="td1 right">
     <button onclick="readingDemo();">Read</button>
 </td>
-<?php
+    <?php
 }
 
 /**
@@ -165,10 +169,12 @@ function tts_js()
 {
     $lid = (int) getSetting('currentlanguage');
     $current_language = getLanguage((string) $lid);
-?>
+    ?>
 <script type="text/javascript" charset="utf-8">
     /** @var Current language being learnt. */
-    const CURRENT_LANGUAGE = <?php echo json_encode(get_language_code($current_language)); ?>;
+    const CURRENT_LANGUAGE = <?php 
+    echo json_encode(get_language_code($current_language)); 
+    ?>;
 
     /**
      * Get the language country code from the page. 
@@ -213,7 +219,9 @@ function tts_js()
     {
         //console.log();
         $('#get-language')[0].value = CURRENT_LANGUAGE;
-        $('#region-code')[0].value = getCookie('tts[' + CURRENT_LANGUAGE + 'RegName]');
+        $('#region-code')[0].value = getCookie(
+            'tts[' + CURRENT_LANGUAGE + 'RegName]'
+        );
         $('#rate')[0].value = getCookie('tts[' + CURRENT_LANGUAGE + 'Rate]');
         $('#pitch')[0].value = getCookie('tts[' + CURRENT_LANGUAGE + 'Pitch]');
     }
@@ -246,7 +254,7 @@ function tts_js()
     $(presetTTSData);
     $(populateVoiceList);
 </script>
-<?php
+    <?php
 }
 
 /**
@@ -262,6 +270,8 @@ function tts_settings_minimal_page()
 
 /**
  * Make the complete HTML page for text-to-speech settings.
+ * 
+ * @param string $message A message to display when page loads.
  * 
  * @return void
  */
@@ -298,8 +308,9 @@ function tts_save_settings($form)
     'httponly' => isset($params['httponly'])
     */
     $cookie_options = array (
-        'expires' => strtotime( '+5 years' ),
-        'domain' => ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false,
+        'expires' => strtotime('+5 years'),
+        'domain' => 
+        ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false,
         'path' => '/',
         'samesite' => 'Strict' // None || Lax || Strict
     );
