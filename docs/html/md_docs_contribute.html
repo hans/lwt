@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.2-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.3.0-fork-RC1</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -68,23 +68,23 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p >This guide is mainly aimed for developers, but it can give useful insights on how LWT is structured, which could help you for debugging. The first step you need to take is to clone LWT from the official GitHub repository (<a href="https://github.com/HugoFara/lwt">HugoFara/lwt</a>).</p>
-<h1><a class="anchor" id="autotoc_md325"></a>
+<h1><a class="anchor" id="autotoc_md326"></a>
 Get Composer</h1>
 <p >Getting <a href="https://getcomposer.org/download/">Composer</a> is required if you want to edit LWT on the server side, but it will also make be useful to edit JS and CSS code, so it is <em>highly recommended</em>. Composer is a light-weight dependency manager that <em>does not need</em> a server for running.</p>
 <p >Once Composer is ready, go the the lwt folder (most likely <code>lwt/</code>), and type </p><div class="fragment"><div class="line">composer install --dev</div>
 </div><!-- fragment --><p >This will automatically dowload all the required dependencies.</p>
-<h1><a class="anchor" id="autotoc_md326"></a>
+<h1><a class="anchor" id="autotoc_md327"></a>
 Create and Edit Themes</h1>
 <p >Themes are stored at <code>src/themes/</code>. If you want to create a new theme, simply add it in a subfolder. You can also edit existing themes.</p>
 <p >To apply the changes you made on a theme, run </p><div class="fragment"><div class="line">make minify</div>
 </div><!-- fragment --><p >This command will minify all CSS and JS.</p>
 <p >Alternatively, you can run </p><div class="fragment"><div class="line">php -r &quot;require &#39;src/php/minifier.php&#39;; minifyAllCSS();&quot;</div>
 </div><!-- fragment --><p> It minifies CSS only.</p>
-<h2><a class="anchor" id="autotoc_md327"></a>
+<h2><a class="anchor" id="autotoc_md328"></a>
 Debug your theme</h2>
 <p >You may not want to see your code minified, so you can use </p><div class="fragment"><div class="line">make no-minify</div>
 </div><!-- fragment --><p >It has the same effect as copying the folder <code>scr/themes/</code> to <code>themes/</code>. WARNING: it can break your relative paths!</p>
-<h2><a class="anchor" id="autotoc_md328"></a>
+<h2><a class="anchor" id="autotoc_md329"></a>
 Add Images to your Themes</h2>
 <p >We support a smart minifying system: relative path are automatically adapted to point to the previous location <em>while minifying only</em>. As a consequence:</p><ul>
 <li>You can use images from <code>css/images/</code> in your theme.<ul>
@@ -97,59 +97,59 @@ Add Images to your Themes</h2>
 </li>
 </ul>
 <p >When debugging your theme, files are simply copied to the <code>themes/</code> folder, which can break the path to files in <code>css/</code>.</p>
-<h2><a class="anchor" id="autotoc_md329"></a>
+<h2><a class="anchor" id="autotoc_md330"></a>
 My theme does not contain all the Skinning Files!</h2>
 <p >That's not a problem at all. When LWT looks for a file that should be contained in <code>src/themes/{{The Theme}}/</code>, it checks if the file exists. If not, it goes to <code>css/</code> and tries to get the same file. With this system, your themes <b>does not need to have the same files as <code>src/css/</code></b>.</p>
-<h1><a class="anchor" id="autotoc_md330"></a>
+<h1><a class="anchor" id="autotoc_md331"></a>
 Change JS behaviour</h1>
 <p >As with themes, LWT minifies JS code for a better user experience. Please refer to the previous section for detailed explanations, this section will only go through import points.</p>
-<h2><a class="anchor" id="autotoc_md331"></a>
+<h2><a class="anchor" id="autotoc_md332"></a>
 Edit JS code</h2>
 <p >Clear code is stored at <code>src/js/</code>. Once again, the <em>actual</em> code used by LWT should be at <code>js/</code>. After you have done any modification, either run <code>make minify</code> or <code>php -r "require 'src/php/minifier.php'; minifyAllJS();"</code>.</p>
-<h2><a class="anchor" id="autotoc_md332"></a>
+<h2><a class="anchor" id="autotoc_md333"></a>
 Debug JS code</h2>
 <p >To copy code in a non-obfuscated form, run <code>make no-minify</code>, or replace the content of <code>js/</code> by <code>src/js/</code>.</p>
-<h1><a class="anchor" id="autotoc_md333"></a>
+<h1><a class="anchor" id="autotoc_md334"></a>
 Edit PHP code</h1>
 <p >The PHP codebase is not yet well structured, but here is a general organisation:</p><ul>
 <li>The visible for the user is under the root folder (<code><a class="el" href="do__text_8php.html" title="Start Reading a text (frameset)">do_text.php</a></code>, <code><a class="el" href="do__test_8php.html" title="Start a test (frameset)">do_test.php</a></code>, etc...)</li>
 <li>Files that should not be rendered directly are under the <code>inc/</code> ("include") folder.</li>
 <li>Other files useful for <em>development only</em> are under <code>src/php/</code>.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md334"></a>
+<h2><a class="anchor" id="autotoc_md335"></a>
 Testing your Code</h2>
 <p >It is higly advised to test your code. Tests should be wrote under <code>tests/</code>. We use PHP Unit for testing.</p>
 <p >To run all tests:</p>
 <p ><code>composer test</code></p>
 <p >Alternatively:</p>
 <p ><code>./vendor/bin/phpunit</code></p>
-<h2><a class="anchor" id="autotoc_md335"></a>
+<h2><a class="anchor" id="autotoc_md336"></a>
 Security Check</h2>
 <p >We use Psalm to find code flaws and inconsistencies. Use <code>./vendor/bin/psalm</code>.</p>
 <p >Your can configure the reporting level in <code>psalm.xml</code>.</p>
-<h2><a class="anchor" id="autotoc_md336"></a>
+<h2><a class="anchor" id="autotoc_md337"></a>
 Advice: follow Code Style Standards</h2>
 <p >Nobody likes to debug unreadable code. A good way to avoid thinking about it is to include phpcs directly into your IDE. You can also download it and run it regularly on your code.</p>
-<h1><a class="anchor" id="autotoc_md337"></a>
+<h1><a class="anchor" id="autotoc_md338"></a>
 Improving Documentation</h1>
 <p >To regenerate all documentation, use <code>make doc</code>.</p>
-<h2><a class="anchor" id="autotoc_md338"></a>
+<h2><a class="anchor" id="autotoc_md339"></a>
 General Documentation</h2>
 <p >The documentation in split across Markdown (<code>.md</code>) files in <code>docs/</code>. Then, those files are requested by <code><a class="el" href="info_8php.html" title="LWT Information / Help.">info.php</a></code>. The final version is <code>info.html</code>, that contains all files.</p>
 <p >To regenerate <code>info.hml</code>, run <code>make info.html</code>.</p>
-<h2><a class="anchor" id="autotoc_md339"></a>
+<h2><a class="anchor" id="autotoc_md340"></a>
 Code Documentation</h2>
 <p >Code documentation (everything under <code>docs/html/</code>) is automatically generated. If you see an error, the PHP code is most likely at fault. However, don't hesitate to signal the issue.</p>
 <p >Currently, the documentation is generated through Doxygen (run <code>doxygen Doxyfile</code> to regenerate it), but this is likely to change.</p>
-<h1><a class="anchor" id="autotoc_md340"></a>
+<h1><a class="anchor" id="autotoc_md341"></a>
 Other ways of Contribution</h1>
-<h2><a class="anchor" id="autotoc_md341"></a>
+<h2><a class="anchor" id="autotoc_md342"></a>
 Drop a star on GitHub</h2>
 <p >This is an Open-Source project. It means that anyone can contribute, but nobody gets paid for improving it. Dropping a star, leaving a comment or posting an issue is <em>essential</em>, because the only retributions developers get from time spent on LWT is to discuss with users.</p>
-<h2><a class="anchor" id="autotoc_md342"></a>
+<h2><a class="anchor" id="autotoc_md343"></a>
 Share the Word</h2>
 <p >LWT is a non-profitable software, so we won't have much time, and no money, to advertise LWT. If you enjoy LWT and want to see it grow, share it!</p>
-<h2><a class="anchor" id="autotoc_md343"></a>
+<h2><a class="anchor" id="autotoc_md344"></a>
 Discuss</h2>
 <p >Either go to the forum of the <a href="https://sourceforge.net/p/learning-with-texts/discussion/">official LWT version</a>, or come and <a href="https://github.com/HugoFara/lwt/discussions">discuss on the community version</a>.</p>
 <p >Thanks for your interest in contributiong! </p>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.2-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.3.0-fork-RC1</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -67,79 +67,76 @@ $(function() {
   <div class="headertitle"><div class="title">About LWT Export Templates for "Flexible Exports" </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p >An export template consists of a string of characters. Some parts of this string are <b>placeholders</b> (beginning with **"%", "$" or "\\"**) that are &lt;strong&gt;replaced&lt;/strong&gt; by the actual term data, &lt;strong&gt;see the following table&lt;/strong&gt;. For each term (word or expression), that has been selected for export, the placeholders of the export template will be replaced by the term data and the string will be written to the export file.
-
-&lt;strong&gt;A template must end with&lt;/strong&gt; either **"\n"** (UNIX, Mac) or **"\r\n"** (Windows). &lt;strong&gt;If you omit this, the whole export will be one single line!&lt;/strong&gt;
-
-If the export template is &lt;strong&gt;empty, no terms of this language&lt;/strong&gt; will be exported.
-
-
-&lt;table class="markdownTable"&gt;
-  &lt;tr class="markdownTableHead"&gt;    &lt;th class="markdownTableHeadNone"&gt; Placeholders   </p>
-<p >Placeholders replaced by ...    </p>
-<p ><b>%...</b>   </p>
-<p ><b>Raw Text</b>    </p>
-<p >w   </p>
-<p >Term (Word/Expression) - as raw text.    </p>
-<p >t   </p>
-<p >Translation - as raw text.    </p>
-<p >s   </p>
-<p >Sentence, curly braces removed - as raw text.    </p>
-<p >c   </p>
-<p >The sentence, but the "{xxx}" parts are replaced by "[...]" (cloze test question) - as raw text.    </p>
-<p >d   </p>
-<p >The sentence, but the "{xxx}" parts are replaced by "[xxx]" (cloze test solution) - as raw text.    </p>
-<p >r   </p>
-<p >Romanization - as raw text.    </p>
-<p >a   </p>
-<p >Status (1..5, 98, 99) - as raw text.    </p>
-<p >k   </p>
-<p >Term in lowercase (key) - as raw text.    </p>
-<p >z   </p>
-<p >Tag List - as raw text.    </p>
-<p >l   </p>
-<p >Language - as raw text.    </p>
-<p >n   </p>
-<p >Word Number in LWT (key in table "words") - as raw text.    </p>
-<p >%%   </p>
-<p >Just one percent sign "%".    </p>
-<p ><b>$...</b>   </p>
-<p ><b>HTML Text.</b> HTML special characters are escaped:&lt; = &amp;lt; / &gt; = &amp;gt; / &amp; = &amp;amp; / &quot; = &amp;quot;    </p>
-<p >$w   </p>
-<p >Term (Word/Expression) - as HTML text.    </p>
-<p >$t   </p>
-<p >Translation - as HTML text.    </p>
-<p >$s   </p>
-<p >Sentence, curly braces removed - as HTML text.    </p>
-<p >$c   </p>
-<p >The sentence, but the "{xxx}" parts are replaced by "[...]" (cloze test question) - as HTML text.    </p>
-<p >$d   </p>
-<p >The sentence, but the "{xxx}" parts are replaced by "[xxx]" (cloze test solution) - as HTML text.    </p>
-<p >$x   </p>
-<p >The sentence in Anki2 cloze test notation: the "{xxx}" parts are replaced by "{{c1::xxx}}" - as HTML text.    </p>
-<p >$y   </p>
-<p >The sentence in Anki2 cloze test notation, with translation: the "{xxx}" parts are replaced by "{{c1::xxx::translation}}" - as HTML text.    </p>
-<p >$r   </p>
-<p >Romanization - as HTML text.    </p>
-<p >$k   </p>
-<p >Term in lowercase (key) - as HTML text.    </p>
-<p >$z   </p>
-<p >Tag List - as HTML text.    </p>
-<p >$l   </p>
-<p >Language - as HTML text.    </p>
-<p >$$   </p>
-<p >Just one dollar sign "$".    </p>
-<p >**\...**   </p>
-<p ><b>Special Characters</b>    </p>
-<p >\t   </p>
-<p >TAB character (HEX 9).    </p>
-<p ><br  />
-   </p>
-<p >NEWLINE character (HEX 10).    </p>
-<p >\r   </p>
-<p >CARRIAGE RETURN character (HEX 13).    </p>
-<p >\\   </p>
-<p >Just one backslash "\".   </p>
+<div class="textblock"><p >An export template consists of a string of characters. Some parts of this string are <b>placeholders</b> (beginning with **"%", "$" or "\\"**) that are <b>replaced</b> by the actual term data, <b>see the following table</b>. For each term (word or expression), that has been selected for export, the placeholders of the export template will be replaced by the term data and the string will be written to the export file.</p>
+<p ><b>A template must end with</b> either **"\\n"** (UNIX, Mac) or **"\\r\\n"** (Windows). <b>If you omit this, the whole export will be one single line!</b></p>
+<p >If the export template is <b>empty, no terms of this language</b> will be exported.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Placeholders   </th><th class="markdownTableHeadNone">Placeholders replaced by ...    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>%...</b>   </td><td class="markdownTableBodyNone"><b>Raw Text</b>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">w   </td><td class="markdownTableBodyNone">Term (Word/Expression) - as raw text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">t   </td><td class="markdownTableBodyNone">Translation - as raw text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">s   </td><td class="markdownTableBodyNone">Sentence, curly braces removed - as raw text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">c   </td><td class="markdownTableBodyNone">The sentence, but the "{xxx}" parts are replaced by "[...]" (cloze test question) - as raw text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">d   </td><td class="markdownTableBodyNone">The sentence, but the "{xxx}" parts are replaced by "[xxx]" (cloze test solution) - as raw text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">r   </td><td class="markdownTableBodyNone">Romanization - as raw text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">a   </td><td class="markdownTableBodyNone">Status (1..5, 98, 99) - as raw text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">k   </td><td class="markdownTableBodyNone">Term in lowercase (key) - as raw text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">z   </td><td class="markdownTableBodyNone">Tag List - as raw text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">l   </td><td class="markdownTableBodyNone">Language - as raw text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">n   </td><td class="markdownTableBodyNone">Word Number in LWT (key in table "words") - as raw text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">%%   </td><td class="markdownTableBodyNone">Just one percent sign "%".    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>$...</b>   </td><td class="markdownTableBodyNone"><b>HTML Text.</b> HTML special characters are escaped:&lt; = &amp;lt; / &gt; = &amp;gt; / &amp; = &amp;amp; / &quot; = &amp;quot;    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">$w   </td><td class="markdownTableBodyNone">Term (Word/Expression) - as HTML text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">$t   </td><td class="markdownTableBodyNone">Translation - as HTML text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">$s   </td><td class="markdownTableBodyNone">Sentence, curly braces removed - as HTML text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">$c   </td><td class="markdownTableBodyNone">The sentence, but the "{xxx}" parts are replaced by "[...]" (cloze test question) - as HTML text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">$d   </td><td class="markdownTableBodyNone">The sentence, but the "{xxx}" parts are replaced by "[xxx]" (cloze test solution) - as HTML text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">$x   </td><td class="markdownTableBodyNone">The sentence in Anki2 cloze test notation: the "{xxx}" parts are replaced by "{{c1::xxx}}" - as HTML text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">$y   </td><td class="markdownTableBodyNone">The sentence in Anki2 cloze test notation, with translation: the "{xxx}" parts are replaced by "{{c1::xxx::translation}}" - as HTML text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">$r   </td><td class="markdownTableBodyNone">Romanization - as HTML text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">$k   </td><td class="markdownTableBodyNone">Term in lowercase (key) - as HTML text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">$z   </td><td class="markdownTableBodyNone">Tag List - as HTML text.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">$l   </td><td class="markdownTableBodyNone">Language - as HTML text.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">$$   </td><td class="markdownTableBodyNone">Just one dollar sign "$".    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">**\...**   </td><td class="markdownTableBodyNone"><b>Special Characters</b>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">\t   </td><td class="markdownTableBodyNone">TAB character (HEX 9).    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><br  />
+   </td><td class="markdownTableBodyNone">NEWLINE character (HEX 10).    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">\r   </td><td class="markdownTableBodyNone">CARRIAGE RETURN character (HEX 13).    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">\\   </td><td class="markdownTableBodyNone">Just one backslash "\".   </td></tr>
+</table>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

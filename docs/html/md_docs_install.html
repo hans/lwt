@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.2.2-fork</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.3.0-fork-RC1</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -70,9 +70,9 @@ $(function() {
 <div class="textblock"><ul>
 <li><em>Last update</em>: March 14 2022</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md351"></a>
+<h1><a class="anchor" id="autotoc_md352"></a>
 Windows 10</h1>
-<h2><a class="anchor" id="autotoc_md352"></a>
+<h2><a class="anchor" id="autotoc_md353"></a>
 Possibility (a): Installation EasyPHP / LWT on Win10</h2>
 <ol type="1">
 <li>Get Visual C++<ol type="a">
@@ -106,7 +106,7 @@ Possibility (a): Installation EasyPHP / LWT on Win10</h2>
 <p >If you start up Windows, you must repeat Step 6a+b.</p>
 <p >If you want to start EasyPHP every time you start Windows and avoid Step 6a, put an EasyPHP link into "C:\Users\&zwj;(YourUID)\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup".</p>
 <p >Now you must only do step 6b to start LWT.</p>
-<h2><a class="anchor" id="autotoc_md353"></a>
+<h2><a class="anchor" id="autotoc_md354"></a>
 Possibility (b): Installation XAMPP / LWT on Win10</h2>
 <ol type="1">
 <li>Install XAMPP<ol type="a">
@@ -129,7 +129,7 @@ Possibility (b): Installation XAMPP / LWT on Win10</h2>
 <p >If you want to start "XAMPP Control Panel" every time you start Windows and to avoid Step 5a, put a "XAMPP Control Panel" link to "C:\xampp\xampp-control.exe" into "C:\Users\&zwj;(YourUID)\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup". To autostart also the Apache and MySQL modules, please open "Config" within the XAMPP Control Panel and check the two checkboxes.</p>
 <p >Hint: To fix a "XAMPP Control Panel" error "Xampp-control.ini Access is denied", please read and do the instructions in <a href="https://www.codermen.com/fix-xampp-server-error-xampp-control-ini-access-is-denied/">https://www.codermen.com/fix-xampp-server-error-xampp-control-ini-access-is-denied/</a></p>
 <p >Now you must only do step 5b to start LWT.</p>
-<h1><a class="anchor" id="autotoc_md354"></a>
+<h1><a class="anchor" id="autotoc_md355"></a>
 macOS 10.10+</h1>
 <p >I no longer use Apple hardware. Therefore, I cannot test LWT itself and the following installation instructions on a Mac. Your help is very much appreciated.</p>
 <ol type="1">
@@ -139,13 +139,13 @@ macOS 10.10+</h1>
 <li><p class="startli">Get the <a href="https://github.com/HugoFara/lwt/releases">latest GitHub release</a>, unzip it.</p>
 <p class="startli">You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
 </li>
-<li>Go to /Applications/MAMP/htdocs/lwt. Rename the file connect_mamp.inc.php to connect.inc.php.</li>
+<li>Go to /Applications/MAMP/htdocs/lwt. Rename the file connect_mamp.inc.php to <a class="el" href="connect_8inc_8php.html" title="Your own DB variables.">connect.inc.php</a>.</li>
 <li>Open MAMP.app in /Applications/MAMP. Accept the messages from the firewall. Apache and MySQL start automatically.</li>
 <li>LWT can now be started in your web browser, go to: <a href="http://localhost:8888/lwt">http://localhost:8888/lwt</a>.</li>
 <li>You may install the LWT demo database, or define the first language you want to learn.</li>
 </ol>
 <p >If you want to use LWT again, just do step 8 and 9. The local webserver (MAMP) will be automatically stopped by quitting the MAMP application.</p>
-<h1><a class="anchor" id="autotoc_md355"></a>
+<h1><a class="anchor" id="autotoc_md356"></a>
 Linux</h1>
 <p >The following instruction were tested on Raspbian Stretch.</p>
 <ol type="1">
@@ -173,8 +173,8 @@ Linux</h1>
 <p class="startli">You can also try to download the <a href="https://github.com/HugoFara/lwt/archive/refs/heads/master.zip">latest stable version</a> if you want the cutting-edge updates (that may include some bugs)</p>
 </li>
 <li>Unzip it.</li>
-<li>Rename the file connect_xampp.inc.php in /[... Path to downloaded LWT ...]/lwt to connect.inc.php.</li>
-<li>Edit this file connect.inc.php and set the MySQL password in line <code>$passwd = "";</code>. Change it to <code>$passwd = "abcxyz";</code>. Save the edited file connect.inc.php.</li>
+<li>Rename the file connect_xampp.inc.php in /[... Path to downloaded LWT ...]/lwt to <a class="el" href="connect_8inc_8php.html" title="Your own DB variables.">connect.inc.php</a>.</li>
+<li>Edit this file <a class="el" href="connect_8inc_8php.html" title="Your own DB variables.">connect.inc.php</a> and set the MySQL password in line <code>$passwd = "";</code>. Change it to <code>$passwd = "abcxyz";</code>. Save the edited file <a class="el" href="connect_8inc_8php.html" title="Your own DB variables.">connect.inc.php</a>.</li>
 <li><p class="startli">Open a Terminal window, type and execute the following commands:</p>
 <div class="fragment"><div class="line">sudo rm /var/www/html/index.html</div>
 <div class="line">sudo mv /[... Path to downloaded LWT ...]/lwt /var/www/html</div>
@@ -186,10 +186,10 @@ Linux</h1>
 <li>You may install the LWT demo database, or define the first language you want to learn.</li>
 </ol>
 <p >If you want to use LWT again, just do step 7.</p>
-<h1><a class="anchor" id="autotoc_md356"></a>
+<h1><a class="anchor" id="autotoc_md357"></a>
 Dependency management with Composer</h1>
 <p >If you have a technical knowledge of how Composer works for dependency management, you may consider using Composer. It is <em>required for contributors only</em>, but advanced users may want to use it as well. The official repository is at <a href="https://packagist.org/packages/hugofara/lwt">https://packagist.org/packages/hugofara/lwt</a>.</p>
-<h1><a class="anchor" id="autotoc_md357"></a>
+<h1><a class="anchor" id="autotoc_md358"></a>
 Run in &lt;a href="https://docs.docker.com/get-docker/" &gt;Docker&lt;/a&gt;</h1>
 <p >This repository contains docker-compose file to accomodate running LWT in a docker container.</p>
 <p >To use it, change into project root folder and run</p>
@@ -197,7 +197,7 @@ Run in &lt;a href="https://docs.docker.com/get-docker/" &gt;Docker&lt;/a&gt;</h1
 </div><!-- fragment --><p >By default the server can be accessed on port 8010 (<a href="http://localhost:8010">http://localhost:8010</a>).</p>
 <p >To remove the created containers run</p>
 <div class="fragment"><div class="line">docker-compose -f docker-compose.yml down</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md358"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md359"></a>
 Upgrade LWT</h1>
 <ol type="1">
 <li>Backup the LWT directory. Backup your database (within LWT).</li>
