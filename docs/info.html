@@ -1930,7 +1930,9 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <li>It's style was uniformized with your current theme.</li>
 </ul>
 </li>
-<li>tts.php becomes text_to_speech_settings.php. As this file was unnused, it is not considered as a breaking change.</li>
+<li>
+<code>tts.php</code> becomes <code>text_to_speech_settings.php</code>. As this file was unnused, it is not considered as a breaking change.</li>
+<li>Refactored <code>all_words_wellknown.php</code>.</li>
 </ul>
 <h4>Deprecated</h4>
 <ul>
@@ -1940,6 +1942,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <ul>
 <li>Creating the database was sometimes impossible.</li>
 <li>Database names containing special characters (hyphens, carets, etc...) was not possible.</li>
+<li>The "I KNOW ALL" button calling <code>all_words_wellknown.php</code> created errors. This file was fixed.</li>
 </ul>
 <h3>2.2.2-fork (February 13 2022)</h3>
 <h4>Added</h4>
@@ -1986,6 +1989,12 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 </ul>
 </li>
 </ul>
+<h4>Full Changelog</h4>
+<ul>
+<li>
+<a href="https://github.com/HugoFara/lwt/compare/v2.2.1...v2.2.2">v2.2.1...v2.2.2</a>
+</li>
+</ul>
 <h3>2.2.1-fork (February 07 2022)</h3>
 <h4>Changed</h4>
 <ul>
@@ -2014,8 +2023,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 </ul>
 <h4>Removed</h4>
 <ul>
-<li>
-<p>Removed unnecessary dependencies:</p>
+<li>Removed unnecessary dependencies:
 <ul>
 <li>
 <a href="https://packagist.org/packages/components/jquery">components/jquery</a> version ^3.6 was required, but only 1.12.4 was in use.</li>
@@ -2027,16 +2035,17 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <a href="https://packagist.org/packages/happyworm/jplayer">happyworm/jplayer</a> is no longer integrated by composer (no update since 2014), but it still in use.</li>
 </ul>
 </li>
-<li>
-<p>The <code>components/</code> folder was also deleted. It was bundling JS code from composer.</p>
+<li>The <code>components/</code> folder was also deleted. It was bundling JS code from composer.
 <ul>
 <li>It should have been git ignored at least.</li>
 <li>Its content was unused. The files it was trying to use are duplicated.</li>
 </ul>
-<h4>Full Changelog</h4>
 </li>
+</ul>
+<h4>Full Changelog</h4>
+<ul>
 <li>
-<p><a href="https://github.com/HugoFara/lwt/compare/v2.2.0...v2.2.1">v2.2.0...v2.2.1</a></p>
+<a href="https://github.com/HugoFara/lwt/compare/v2.2.0...v2.2.1">v2.2.0...v2.2.1</a>
 </li>
 </ul>
 <h3>2.2.0-fork (February 04 2022)</h3>
