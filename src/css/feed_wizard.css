@@ -61,3 +61,44 @@ input[type=text]
   border: 1px solid #C6C6C6;
   padding: 3px;
 }
+
+/* BEGIN: User Experience section */
+.lwt_selected_text
+{
+  background-color:#FFFFFF;
+  color:#FFAAAA ! important;
+}
+.lwt_marked_text
+{
+  background-color:rgb(111, 111, 111) ! important;
+  color:rgb(170, 170, 170) ! important;
+}
+
+.lwt_highlighted_text
+{
+  border-style:dashed ! important;
+}
+.delete_selection
+{
+  cursor:crosshair;
+}
+#lwt_last ~ *
+{
+  color:#000000;
+  position:static ! important;
+  cursor: pointer;
+  background-color: grey;
+}
+#lwt_last ~ * *
+{
+  color:#000000;
+  position:static ! important;
+  cursor: pointer;
+}
+.lwt_filtered_text
+{
+  background-color:#FFFFFF ! important;
+  color:#DDDDDD ! important;
+  cursor: default ! important;
+}
+/* END: User Experience section */

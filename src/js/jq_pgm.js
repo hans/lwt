@@ -823,9 +823,11 @@ function keydown_event_do_text_text (e) {
     if (e.which == (48 + i) || e.which == (96 + i)) { // 1,.. : status=i
       if (stat == '0') {
         if (i == 1) {
-          const sl = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, '$1');
+          /** @var {string} sl Source language */
+          const sl = getLangFromDict(WBLINK3);
           const tl = WBLINK3.replace(/.*[?&]tl=([a-zA-Z\-]*)(&.*)*$/, '$1');
-          if (sl != WBLINK3 && tl != WBLINK3)i = i + '&sl=' + sl + '&tl=' + tl;
+          if (sl != WBLINK3 && tl != WBLINK3)
+            i = i + '&sl=' + sl + '&tl=' + tl;
         }
         //window.parent.frames.ro.location.href =
         showRightFrames('set_word_on_hover.php?text=' + txt + '&tid=' + TID + '&status=' + i);
@@ -857,10 +859,8 @@ function keydown_event_do_text_text (e) {
     return false;
   }
   if (e.which == 80) { // P : pronounce term
-    const lg = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, '$1');
-    const audio = new Audio();
-    audio.src = 'tts.php?tl=' + lg + '&q=' + txt;
-    audio.play();
+    const lg = getLangFromDict(WBLINK3);
+    readTextAloud(txt, lg);
     return false;
   }
   if (e.which == 84) { // T : translate sentence
@@ -1154,9 +1154,7 @@ function prepareMainAreas() {
   $('span[class*="tts_"]').on('click', function () {
     const lg = $(this).attr('class').replace(/.*tts_([a-zA-Z-]+).*/, '$1');
     const txt = $(this).text();
-    const audio = new Audio();
-    audio.src = 'tts.php?tl=' + lg + '&q=' + txt;
-    audio.play();
+    readRawTextAloud(txt, lg);
   });
   $(document).on('mouseup', function () {
     $('button,input[type=button],.wrap_radio span,.wrap_checkbox span')

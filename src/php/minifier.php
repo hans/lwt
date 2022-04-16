@@ -59,16 +59,21 @@ function minifyCSS($path, $outputPath)
  * @return void
  * 
  * @since 2.0.3-fork
+ * @since 2.3.0-fork JS code is "combined" above being minified: only one file is outputted.
  */
 function minifyAllJS() 
 {
     global $jsFiles;
+    $minifier = new Minify\JS();
     foreach ($jsFiles as $path) {
         $name = basename($path);
         if (file_exists($path)) {
+            $minifier->add($path);
             minifyJS($path, 'js/' . $name);
         }
     }
+    // Save minified file to disk
+    return $minifier->minify("js/pgm.js");
 }
 
 /**

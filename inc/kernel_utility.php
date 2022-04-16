@@ -281,24 +281,31 @@ function quickMenu(): void
 {
     ?>
 
-<script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
+<!--<script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>-->
 <select id="quickmenu" onchange="quickMenuRedirection(value)">
     <option value="" selected="selected">[Menu]</option>
     <option value="index">Home</option>
-    <option value="edit_texts">Texts</option>
-    <option value="edit_archivedtexts">Text Archive</option>
-    <option value="edit_texttags">Text Tags</option>
+    <optgroup label="Texts">
+        <option value="edit_texts">Texts</option>
+        <option value="edit_archivedtexts">Text Archive</option>
+        <option value="edit_texttags">Text Tags</option>
+        <option value="check_text">Text Check</option>
+        <option value="long_text_import">Long Text Import</option>
+    </optgroup>
     <option value="edit_languages">Languages</option>
-    <option value="edit_words">Terms</option>
-    <option value="edit_tags">Term Tags</option>
+    <optgroup label="Terms">
+        <option value="edit_words">Terms</option>
+        <option value="edit_tags">Term Tags</option>
+        <option value="upload_words">Term Import</option>
+    </optgroup>
     <option value="statistics">Statistics</option>
-    <option value="check_text">Text Check</option>
-    <option value="long_text_import">Long Text Import</option>
     <option value="rss_import">Newsfeed Import</option>
-    <option value="upload_words">Term Import</option>
-    <option value="backup_restore">Backup/Restore</option>
-    <option value="settings">Settings</option>
-    <option value="INFO">Help</option>
+    <optgroup label="Other">
+        <option value="backup_restore">Backup/Restore</option>
+        <option value="settings">Settings</option>
+        <option value="tts">Text-to-Speech Settings</option>
+        <option value="INFO">Help</option>
+    </optgroup>
 </select>
     <?php
 }

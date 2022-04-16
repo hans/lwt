@@ -26,27 +26,25 @@ echo '<h3>' . $titletext . ' <img id="del_translation" src="icn/broom.png" title
 echo '<p>(Click on <img src="icn/tick-button.png" title="Choose" alt="Choose" /> to copy word(s) into above term)<br />&nbsp;</p>';
 
 ?>
-<script type="text/javascript" src="js/translation_api.js" charset="utf-8"></script>
+<!--<script type="text/javascript" src="js/translation_api.js" charset="utf-8"></script>-->
 <script type="text/javascript">
-//<![CDATA[
-$(document).ready( function() {
-<?php
-if($from=='' or $dest=='') {
-    echo '$("body").html("<p class=\"red\">There seems to be something wrong with the Glosbe API!</p><p class=\"red\">Please check the dictionaries in the Language Settings!</p>"); ';
-}
-else if($phrase=='') {
-    echo '$("body").html("<p class=\"msgblue\">Term is not set!</p>");';
-}
-else{
-    ?>
-    var w = window.parent.frames['ro'];
-    if (typeof w == 'undefined') w = window.opener;
-    if (typeof w == 'undefined')$('#del_translation').remove();
-    getGlosbeTranslation(<?php echo "'" ,urlencode($phrase) ,"','",$from,"','",$dest,"'"; ?>);
-    <?php 
-}     ?>
-});
-//]]>
+    //<![CDATA[
+    $(document).ready( function() {
+    <?php
+    if($from=='' or $dest=='') {
+        echo '$("body").html("<p class=\"red\">There seems to be something wrong with the Glosbe API!</p><p class=\"red\">Please check the dictionaries in the Language Settings!</p>"); ';
+    } else if($phrase=='') {
+        echo '$("body").html("<p class=\"msgblue\">Term is not set!</p>");';
+    } else {
+        ?>
+        var w = window.parent.frames['ro'];
+        if (typeof w == 'undefined') w = window.opener;
+        if (typeof w == 'undefined')$('#del_translation').remove();
+        getGlosbeTranslation(<?php echo "'" ,urlencode($phrase) ,"','",$from,"','",$dest,"'"; ?>);
+        <?php 
+    }     ?>
+    });
+    //]]>
 </script>
 <p id="translations"></p>
 <?php

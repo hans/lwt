@@ -1,81 +1,95 @@
-(function($){
-	$.fn.get_adv_xpath = function() {
-		$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\'\'>custom: <input type="text" id="custom_xpath" name="custom_xpath" style="width:70%" onkeyup="try{val=$(\'#custom_xpath\').val();valid=$(document).xpath(val);}catch(err){val=\'\';valid=0;}if(valid==0){$(this).parent().find(\'.xpath\').val(\'\');if($(this).parent().find(\':radio\').is(\':checked\'))$(\'#adv_get_button\').prop(\'disabled\', true);$(\'#custom_img\').attr(\'src\',\'icn/exclamation-red.png\');}else {$(this).parent().find(\'.xpath\').val(val);if($(this).parent().find(\':radio\').is(\':checked\'))$(\'#adv_get_button\').prop(\'disabled\', false);$(\'#custom_img\').attr(\'src\',\'icn/tick.png\');}return false;" onpaste="setTimeout(function() {try{val=$(\'#custom_xpath\').val();valid=$(document).xpath(val);}catch(err){val=\'\';valid=0;}if(valid==0){$(this).parent().find(\'.xpath\').val(\'\');if($(\'#custom_xpath\').parent().find(\':radio\').is(\':checked\'))$(\'#adv_get_button\').prop(\'disabled\', true);$(\'#custom_img\').attr(\'src\',\'icn/exclamation-red.png\');}else {$(\'#custom_xpath\').parent().find(\'.xpath\').val(val);if($(\'#custom_xpath\').parent().find(\':radio\').is(\':checked\'))$(\'#adv_get_button\').prop(\'disabled\', false);$(\'#custom_img\').attr(\'src\',\'icn/tick.png\');}}, 0);" value=\'\'></input><img id="custom_img" src="icn/exclamation-red.png" alt="-" /></input></p>');
-		$('#adv').show();
-		$('*').removeClass("lwt_marked_text");
-		$('*[class=\'\']').removeAttr( 'class' );
-		var val1=$($('#mark_action :selected').data()).get( 0 ).tagName.toLowerCase(),
-		 attr='',
-		 node_count=0,
-		attr_v='',
-		attr_p='',
-		val_p='';
-		for (var i=0, attrs=this[0].attributes, l=attrs.length; i<l; i++){
-			if(attrs.item(i).nodeName=='id'){
-				var id_cont=attrs.item(i).nodeValue.split(' ');
-				for (var z=0; z<id_cont.length; z++){
-					var val='//*[@id[contains(concat(" ",normalize-space(.)," ")," ' + id_cont[z] + ' ")]]';
-					$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\''+val+'\'>contains id: «'+ id_cont[z] +'»</input></p>');
-				}
-			}
-			if(attrs.item(i).nodeName=='class'){
-				var cl_cont=attrs.item(i).nodeValue.split(' ');
-				for (var z=0; z<cl_cont.length; z++){
-					val='//*[@class[contains(concat(" ",normalize-space(.)," ")," ' + cl_cont[z] + ' ")]]';
-					$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\''+val+'\'>contains class: «'+ cl_cont[z] +'»</input></p>');
-				}
-			}
-						if(i>0)attr_v += ' and ';
-						if(i==0)attr_v += '[';
-						attr_v +='@' + attrs.item(i).nodeName;
-						attr_v += '="' + attrs.item(i).nodeValue + '"';
-						if(i==(attrs.length-1))attr_v += ']';
-		}
-		this.parents().each(function(){
-			var pa=$(this).get(0);
-						for(var i=0, attrs=pa.attributes, l=attrs.length; i<l; i++){
-					if(node_count==0){
-			if(attrs.item(i).nodeName=='id'){
-				id_cont=attrs.item(i).nodeValue.split(' ');
-				for (var z=0; z<id_cont.length; z++){
-					val='//*[@id[contains(concat(" ",normalize-space(.)," ")," ' + id_cont[z] + ' ")]]';
-					$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\''+val+ '/'+ val1+'\'>parent contains id: «'+ id_cont[z] +'»</input></p>');
-				}
-			}
-			if(attrs.item(i).nodeName=='class'){
-				cl_cont=attrs.item(i).nodeValue.split(' ');
-				for (var z=0; z<cl_cont.length; z++){
-					if(cl_cont[z]!='lwt_filtered_text'){
-						val='//*[@class[contains(concat(" ",normalize-space(.)," ")," ' + cl_cont[z] + ' ")]]';
-						$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\''+val+ '/'+ val1+'\'>parent contains class: «'+ cl_cont[z] +'»</input></p>');
-					}
-				}
-			}
-			}
-							if(attrs.length > 1 || attrs.item(i).nodeValue!='lwt_filtered_text'){
-							if(i>0 && attrs.item(i).nodeValue!='lwt_filtered_text')attr_p += ' and ';
-							if(i==0)attr_p += '[';
-							if(attrs.item(i).nodeValue!='lwt_filtered_text')attr_p +='@' + attrs.item(i).nodeName;
-							if(attrs.item(i).nodeValue!='lwt_filtered_text')attr_p += '="' + attrs.item(i).nodeValue.replace('lwt_filtered_text','').trim() + '"';
-							if(i==(attrs.length-1))attr_p += ']';
-							}
-						}
-			val_p= pa.tagName.toLowerCase() + attr_p+ '/'+val_p ;attr_p='';
-			pa='';
-			node_count++;
-		});
-		$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\'/'+val_p+val1 + attr_v+'\'>all: « /'+ val_p.replace('=""','') +val1 + attr_v.replace('=""','') +' »</input></p>');
-		$( '#adv input[type="radio"]' ).each(function(z){
-			if(typeof z == 'undefined')z=1;
-			if(typeof $(this).attr('id') == 'undefined'){
-				$(this).attr('id','rb_'+z++);
-			}
-			$(this).after('<label class="wrap_radio" for="'+$(this).attr('id')+'"><span></span></label>');
-		});
-	}
-})(jQuery);
+/**
+ * \file
+ * \brief Control the interactions for making an automated feed wizard.
+ * 
+ * @package Lwt
+ * @author  andreask7 <andreasks7@users.noreply.github.com>
+ * @license Unlicense
+ * @since   1.6.16-fork
+ */
 
-$(function(){
+/**
+ * To be added to jQuery $.fn.get_adv_xpath, makes various unknown things.
+ */
+function extend_adv_xpath() {
+	$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\'\'>custom: <input type="text" id="custom_xpath" name="custom_xpath" style="width:70%" onkeyup="try{val=$(\'#custom_xpath\').val();valid=$(document).xpath(val);}catch(err){val=\'\';valid=0;}if(valid==0){$(this).parent().find(\'.xpath\').val(\'\');if($(this).parent().find(\':radio\').is(\':checked\'))$(\'#adv_get_button\').prop(\'disabled\', true);$(\'#custom_img\').attr(\'src\',\'icn/exclamation-red.png\');}else {$(this).parent().find(\'.xpath\').val(val);if($(this).parent().find(\':radio\').is(\':checked\'))$(\'#adv_get_button\').prop(\'disabled\', false);$(\'#custom_img\').attr(\'src\',\'icn/tick.png\');}return false;" onpaste="setTimeout(function() {try{val=$(\'#custom_xpath\').val();valid=$(document).xpath(val);}catch(err){val=\'\';valid=0;}if(valid==0){$(this).parent().find(\'.xpath\').val(\'\');if($(\'#custom_xpath\').parent().find(\':radio\').is(\':checked\'))$(\'#adv_get_button\').prop(\'disabled\', true);$(\'#custom_img\').attr(\'src\',\'icn/exclamation-red.png\');}else {$(\'#custom_xpath\').parent().find(\'.xpath\').val(val);if($(\'#custom_xpath\').parent().find(\':radio\').is(\':checked\'))$(\'#adv_get_button\').prop(\'disabled\', false);$(\'#custom_img\').attr(\'src\',\'icn/tick.png\');}}, 0);" value=\'\'></input><img id="custom_img" src="icn/exclamation-red.png" alt="-" /></input></p>');
+	$('#adv').show();
+	$('*').removeClass("lwt_marked_text");
+	$('*[class=\'\']').removeAttr( 'class' );
+	var val1=$($('#mark_action :selected').data()).get( 0 ).tagName.toLowerCase(),
+	 attr='',
+	 node_count=0,
+	attr_v='',
+	attr_p='',
+	val_p='';
+	for (var i=0, attrs=this[0].attributes, l=attrs.length; i<l; i++){
+		if(attrs.item(i).nodeName=='id'){
+			var id_cont=attrs.item(i).nodeValue.split(' ');
+			for (var z=0; z<id_cont.length; z++){
+				var val='//*[@id[contains(concat(" ",normalize-space(.)," ")," ' + id_cont[z] + ' ")]]';
+				$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\''+val+'\'>contains id: «'+ id_cont[z] +'»</input></p>');
+			}
+		}
+		if(attrs.item(i).nodeName=='class'){
+			var cl_cont=attrs.item(i).nodeValue.split(' ');
+			for (var z=0; z<cl_cont.length; z++){
+				val='//*[@class[contains(concat(" ",normalize-space(.)," ")," ' + cl_cont[z] + ' ")]]';
+				$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\''+val+'\'>contains class: «'+ cl_cont[z] +'»</input></p>');
+			}
+		}
+					if(i>0)attr_v += ' and ';
+					if(i==0)attr_v += '[';
+					attr_v +='@' + attrs.item(i).nodeName;
+					attr_v += '="' + attrs.item(i).nodeValue + '"';
+					if(i==(attrs.length-1))attr_v += ']';
+	}
+	this.parents().each(function(){
+		var pa=$(this).get(0);
+					for(var i=0, attrs=pa.attributes, l=attrs.length; i<l; i++){
+				if(node_count==0){
+		if(attrs.item(i).nodeName=='id'){
+			id_cont=attrs.item(i).nodeValue.split(' ');
+			for (var z=0; z<id_cont.length; z++){
+				val='//*[@id[contains(concat(" ",normalize-space(.)," ")," ' + id_cont[z] + ' ")]]';
+				$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\''+val+ '/'+ val1+'\'>parent contains id: «'+ id_cont[z] +'»</input></p>');
+			}
+		}
+		if(attrs.item(i).nodeName=='class'){
+			cl_cont=attrs.item(i).nodeValue.split(' ');
+			for (var z=0; z<cl_cont.length; z++){
+				if(cl_cont[z]!='lwt_filtered_text'){
+					val='//*[@class[contains(concat(" ",normalize-space(.)," ")," ' + cl_cont[z] + ' ")]]';
+					$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\''+val+ '/'+ val1+'\'>parent contains class: «'+ cl_cont[z] +'»</input></p>');
+				}
+			}
+		}
+		}
+						if(attrs.length > 1 || attrs.item(i).nodeValue!='lwt_filtered_text'){
+						if(i>0 && attrs.item(i).nodeValue!='lwt_filtered_text')attr_p += ' and ';
+						if(i==0)attr_p += '[';
+						if(attrs.item(i).nodeValue!='lwt_filtered_text')attr_p +='@' + attrs.item(i).nodeName;
+						if(attrs.item(i).nodeValue!='lwt_filtered_text')attr_p += '="' + attrs.item(i).nodeValue.replace('lwt_filtered_text','').trim() + '"';
+						if(i==(attrs.length-1))attr_p += ']';
+						}
+					}
+		val_p= pa.tagName.toLowerCase() + attr_p+ '/'+val_p ;attr_p='';
+		pa='';
+		node_count++;
+	});
+	$('#adv').prepend('<p style="text-align: left;"><input style="vertical-align: middle; margin: 2px;" class="xpath" type="radio" name="xpath" value=\'/'+val_p+val1 + attr_v+'\'>all: « /'+ val_p.replace('=""','') +val1 + attr_v.replace('=""','') +' »</input></p>');
+	$( '#adv input[type="radio"]' ).each(function(z){
+		if(typeof z == 'undefined')z=1;
+		if(typeof $(this).attr('id') == 'undefined'){
+			$(this).attr('id','rb_'+z++);
+		}
+		$(this).after('<label class="wrap_radio" for="'+$(this).attr('id')+'"><span></span></label>');
+	});
+}
+
+/**
+ * A mess of different things for preparing interactions with feed wizard
+ */
+function feedwizard_prepare_interaction() {
 	if($('#lwt_sel').html()=='' && $('input[name=\'step\']').val()==2)$('#next').prop('disabled', true);
 	else $('#next').prop('disabled', false);
 	$('#lwt_last').css('margin-top',$('#lwt_header').height());
@@ -146,7 +160,7 @@ $(function(){
 					if(event.target==this)$("<option/>").val('//'+ val_p.replace('=""','').replace('[ and @','[@') +val1 + attr_v.replace('=""','').replace('[ and @','[@')).text("<" + val1.replace('[ and @','[@') + attrsplit.replace('[ and @','[@') + ">").data(el).attr("selected", true).prependTo("#mark_action");
 					else $("<option/>").val('//'+ val_p.replace('=""','').replace('[ and @','[@') +val1 + attr_v.replace('=""','').replace('[ and @','[@')).text("<" + val1.replace('[ and @','[@') + attrsplit.replace('[ and @','[@') + ">").data(el).prependTo("#mark_action");
 					for (var i in filter_array) {
-					     $(filter_array[i]).addClass('lwt_filtered_text');
+						$(filter_array[i]).addClass('lwt_filtered_text');
 					}
 					}
 				});
@@ -160,7 +174,7 @@ $(function(){
 				});				
 				$(attr+':not(.lwt_selected_text)').find('*:not(.lwt_selected_text)').addBack().addClass("lwt_marked_text");
 				for (var i in filter_array) {
-				     $(filter_array[i]).addClass('lwt_filtered_text');
+					$(filter_array[i]).addClass('lwt_filtered_text');
 				}
 			return false;
 			}
@@ -220,7 +234,7 @@ $(function(){
 	});
 	if(sel_array!="")$(document).xpath(sel_array.replace(/ \| $/, '')).find('*').addBack().not($('#lwt_header').find('*').addBack()).addClass('lwt_selected_text');
 	for (var i in filter_Array) {
-	     $(filter_Array[i]).addClass('lwt_filtered_text');
+		$(filter_Array[i]).addClass('lwt_filtered_text');
 	}
 	$('*[style=\'\']').removeAttr( 'style' );
 	$( "#lwt_header select" ).wrap( "<label class='wrap_select'></label>" );
@@ -228,7 +242,8 @@ $(function(){
 		$("select:not(:active),button,input[type=button],.wrap_radio span,.wrap_checkbox span")
 		.trigger('blur');
 	});
-});
+}
+
 
 $(document).on('click','.delete_selection',function(){
 	$('*').removeClass('lwt_selected_text').removeClass('lwt_marked_text');

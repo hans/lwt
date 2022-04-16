@@ -15,8 +15,6 @@
 
 require_once 'inc/session_utility.php';
 
-
-
 /**
  * Get the record for this text in the database.
  * 
@@ -572,7 +570,7 @@ function do_text_text_javascript($var_array): void
     for (const key in vars) {
         window[key] = vars[key];
     }
-    LANG = WBLINK3.replace(/.*[?&]sl=([a-zA-Z\-]*)(&.*)*$/, "$1");
+    LANG = getLangFromDict(WBLINK3);
     TEXTPOS = -1;
     OPENED = 0;
     // Change the language of the current frame
@@ -652,7 +650,7 @@ function do_text_text_content($textid, $only_body=true): void
     }
     ?>
     <script type="text/javascript" src="js/jquery.hoverIntent.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>
+    <!--<script type="text/javascript" src="js/user_interactions.js" charset="utf-8"></script>-->
     <?php 
     $visit_status = getSettingWithDefault('set-text-visit-statuses-via-key');
     if ($visit_status == '') {
