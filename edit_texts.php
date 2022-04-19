@@ -41,19 +41,26 @@ $currenttag2 = validateTextTag(processSessParam("tag2", "currenttexttag2", '', 0
 $currenttag12 = processSessParam("tag12", "currenttexttag12", '', 0);
 
 $wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
-$wh_query = $currentregexmode . 'like ' .  convert_string_to_sqlsyntax(($currentregexmode == '') ? (str_replace("*", "%", mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery));
-switch($currentquerymode){
-case 'title,text':
-    $wh_query=' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query . ')';
-    break;
-case 'title':
-    $wh_query=' and (TxTitle ' . $wh_query . ')';
-    break;
-case 'text':
-    $wh_query=' and (TxText ' . $wh_query . ')';
-    break;
+
+$wh_query = $currentregexmode . 'LIKE ';
+if ($currentregexmode == '') {
+    $wh_query .= convert_string_to_sqlsyntax(str_replace("*", "%", mb_strtolower($currentquery, 'UTF-8')));
+} else {
+    $wh_query .= convert_string_to_sqlsyntax($currentquery);
 }
-if($currentquery!=='') {
+
+switch($currentquerymode){
+    case 'title,text':
+        $wh_query = ' and (TxTitle ' . $wh_query . ' or TxText ' . $wh_query . ')';
+        break;
+    case 'title':
+        $wh_query = ' and (TxTitle ' . $wh_query . ')';
+        break;
+    case 'text':
+        $wh_query = ' and (TxText ' . $wh_query . ')';
+        break;
+}
+if ($currentquery!=='') {
     if($currentregexmode!=='') {
         if(@mysqli_query($GLOBALS["DBCONNECTION"], 'select "test" rlike ' . convert_string_to_sqlsyntax($currentquery))===false) {
             $currentquery='';
@@ -63,8 +70,8 @@ if($currentquery!=='') {
             }
         }
     }
-}
-else { $wh_query = ''; 
+} else { 
+    $wh_query = ''; 
 }
 
 $wh_tag1 = null;
@@ -101,7 +108,7 @@ else {
 
 $no_pagestart = (getreq('markaction') == 'test' || getreq('markaction') == 'deltag' || substr(getreq('op'), -8) == 'and Open');
 
-if (! $no_pagestart) {
+if (!$no_pagestart) {
     pagestart('My ' . getLanguage($currentlang) . ' Texts', true);
 }
 
@@ -235,52 +242,90 @@ if (isset($_REQUEST['markaction'])) {
     }
 }
 
-// DEL
-
-if (isset($_REQUEST['del'])) {
+function edit_texts_delete($txid)
+{
+    global $tbpref;
     $message3 = runsql(
-        'delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['del'],
+        'DELETE FROM ' . $tbpref . 'textitems2 where Ti2TxID = ' . $txid,
         "Text items deleted"
     );
     $message2 = runsql(
-        'delete from ' . $tbpref . 'sentences where SeTxID = ' . $_REQUEST['del'],
+        'DELETE FROM ' . $tbpref . 'sentences where SeTxID = ' . $txid,
         "Sentences deleted"
     );
     $message1 = runsql(
-        'delete from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['del'],
+        'DELETE FROM ' . $tbpref . 'texts where TxID = ' . $txid,
         "Texts deleted"
     );
     $message = $message1 . " / " . $message2 . " / " . $message3;
     adjust_autoincr('texts', 'TxID');
     adjust_autoincr('sentences', 'SeID');
-    runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL", '');
+    runsql(
+        "DELETE {$tbpref}texttags 
+        FROM (
+            {$tbpref}texttags 
+            LEFT JOIN {$tbpref}texts 
+            ON TtTxID = TxID
+        ) 
+        WHERE TxID IS NULL", 
+        ''
+    );
+    return $message;
+
 }
 
-// ARCH
-
-elseif (isset($_REQUEST['arch'])) {
+function edit_texts_archive($txid)
+{
+    global $tbpref;
     $message3 = runsql(
-        'delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $_REQUEST['arch'],
+        'delete from ' . $tbpref . 'textitems2 where Ti2TxID = ' . $txid,
         "Text items deleted"
     );
     $message2 = runsql(
-        'delete from ' . $tbpref . 'sentences where SeTxID = ' . $_REQUEST['arch'],
+        'delete from ' . $tbpref . 'sentences where SeTxID = ' . $txid,
         "Sentences deleted"
     );
-    $message4 = runsql('insert into ' . $tbpref . 'archivedtexts (AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['arch'], "Archived Texts saved");
+    $message4 = runsql(
+        'insert into ' . $tbpref . 'archivedtexts (
+            AtLgID, AtTitle, AtText, AtAnnotatedText, AtAudioURI, AtSourceURI
+        ) select TxLgID, TxTitle, TxText, TxAnnotatedText, TxAudioURI, TxSourceURI 
+        FROM ' . $tbpref . 'texts 
+        WHERE TxID = ' . $txid, 
+        "Archived Texts saved"
+    );
     $id = get_last_key();
-    runsql('insert into ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) select ' . $id . ', TtT2ID from ' . $tbpref . 'texttags where TtTxID = ' . $_REQUEST['arch'], "");
-    $message1 = runsql('delete from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['arch'], "Texts deleted");
+    runsql(
+        'INSERT INTO ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) 
+        SELECT ' . $id . ', TtT2ID 
+        FROM ' . $tbpref . 'texttags 
+        WHERE TtTxID = ' . $txid, 
+        ""
+    );
+    $message1 = runsql('delete from ' . $tbpref . 'texts where TxID = ' . $txid, "Texts deleted");
     $message = $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
     adjust_autoincr('texts', 'TxID');
     adjust_autoincr('sentences', 'SeID');
-    runsql("DELETE " . $tbpref . "texttags FROM (" . $tbpref . "texttags LEFT JOIN " . $tbpref . "texts on TtTxID = TxID) WHERE TxID IS NULL", '');
+    runsql(
+        "DELETE " . $tbpref . "texttags 
+        FROM (
+            " . $tbpref . "texttags 
+            LEFT JOIN " . $tbpref . "texts 
+            ON TtTxID = TxID
+        ) 
+        WHERE TxID IS NULL", 
+        ''
+    );
+    return $message;
 }
 
-// INS/UPD
-
-elseif (isset($_REQUEST['op'])) {
-
+if (isset($_REQUEST['del'])) {
+    // DEL
+    $message = edit_texts_delete((int) getreq('del'));
+} elseif (isset($_REQUEST['arch'])) {
+    // ARCH
+    $message = edit_texts_archive((int) getreq('arch'));
+} elseif (isset($_REQUEST['op'])) {
+    // INS/UPD
     if (strlen(prepare_textdata($_REQUEST['TxText'])) > 65000) {
         $message = "Error: Text too long, must be below 65000 Bytes";
         if ($no_pagestart) { pagestart('My ' . getLanguage($currentlang) . ' Texts', true); 
@@ -360,155 +405,208 @@ elseif (isset($_REQUEST['op'])) {
 
 }
 
-if (isset($_REQUEST['new'])) {
-
-    // NEW
-
+function edit_texts_new($currentlang)
+{
     ?>
 
-    <h4>New Text <a target="_blank" href="docs/info.html#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a> </h4>
-    <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
-    <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<h4>
+    New Text <a target="_blank" href="docs/info.html#howtotext">
+    <img src="icn/question-frame.png" title="Help" alt="Help" /></a> 
+</h4>
+<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <table class="tab3" cellspacing="0" cellpadding="5">
-    <tr>
-    <td class="td1 right">Language:</td>
-    <td class="td1">
-    <select name="TxLgID" class="notempty setfocus">
-    <?php
+        <tr>
+            <td class="td1 right">Language:</td>
+            <td class="td1">
+                <select name="TxLgID" class="notempty setfocus">
+                    <?php
     echo get_languages_selectoptions($currentlang, '[Choose...]');
-    ?>
-    </select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-    </td>
-    </tr>
-    <tr>
-    <td class="td1 right">Title:</td>
-    <td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-    </tr>
-    <tr>
-    <td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
-    <td class="td1">
-    <textarea name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-    </td>
-    </tr>
-    <tr>
-    <td class="td1 right">Source URI:</td>
-    <td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" /></td>
-    </tr>
-    <tr>
-    <td class="td1 right">Tags:</td>
-    <td class="td1">
-    <?php echo getTextTags(0); ?>
-    </td>
-    </tr>
-    <tr>
-    <td class="td1 right">Audio/Video-URI:</td>
-    <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="" maxlength="200" size="60" />        
-    <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>        
-    </td>
-    </tr>
-    <?php if (isset($YT_API_KEY)) {
-        include_once 'text_from_yt.php';
-    } ?>
-    <tr>
-    <td class="td1 right" colspan="2">
-    <input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php';}" />
-    <input type="submit" name="op" value="Check" />
-    <input type="submit" name="op" value="Save" />
-    <input type="submit" name="op" value="Save and Open" />
-    </td>
-    </tr>
+                    ?>
+                </select>
+                <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right">Title:</td>
+            <td class="td1">
+                <input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="" maxlength="200" size="60" />
+                <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
+            <td class="td1">
+                <textarea name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"></textarea>
+                <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right">Source URI:</td>
+            <td class="td1">
+                <input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="" maxlength="1000" size="60" />
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right">Tags:</td>
+            <td class="td1">
+            <?php echo getTextTags(0); ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right" title="A soundtrack or a video to be display while reading">
+                Media URI:
+            </td>
+            <td class="td1">
+                <input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="" maxlength="200" size="60" />        
+                <span id="mediaselect">
+                    <?php echo selectmediapath('TxAudioURI'); ?>
+                </span>        
+            </td>
+        </tr>
+        <?php if (isset($YT_API_KEY)) {
+            include_once 'text_from_yt.php';
+        } ?>
+        <tr>
+            <td class="td1 right" colspan="2">
+                <input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php';}" />
+                <input type="submit" name="op" value="Check" />
+                <input type="submit" name="op" value="Save" />
+                <input type="submit" name="op" value="Save and Open" />
+            </td>
+        </tr>
     </table>
-    </form>
+</form>
 
-    <p class="smallgray">Import of a <b>long text</b>, without audio, with splitting it up into smaller texts:</p><p><input type="button" value="Long Text Import" onclick="location.href='long_text_import.php';" /> </p>
-
-
+<p class="smallgray">
+    Import of a <b>long text</b>, without audio, with splitting it up into smaller texts:
+</p>
+<p>
+    <input type="button" value="Long Text Import" onclick="location.href='long_text_import.php';" /> 
+</p>
     <?php
-
 }
 
-// CHG
-
-elseif (isset($_REQUEST['chg'])) {
-
-    $sql = 'select TxLgID, TxTitle, TxText, TxAudioURI, TxSourceURI, length(TxAnnotatedText) as annotlen from ' . $tbpref . 'texts where TxID = ' . $_REQUEST['chg'];
+function edit_texts_change($change)
+{
+    global $tbpref;
+    $sql = "SELECT TxLgID, TxTitle, TxText, TxAudioURI, TxSourceURI, LENGTH(TxAnnotatedText) AS annotlen 
+    FROM {$tbpref}texts 
+    WHERE TxID = {$change}";
     $res = do_mysqli_query($sql);
     if ($record = mysqli_fetch_assoc($res)) {
 
-        ?>
+    ?>
 
-     <h4>Edit Text <a target="_blank" href="docs/info.html#howtotext"><img src="icn/question-frame.png" title="Help" alt="Help" /></a></h4>
-     <script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
-     <form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $_REQUEST['chg']; ?>" method="post">
-     <input type="hidden" name="TxID" value="<?php echo $_REQUEST['chg']; ?>" />
-     <table class="tab3" cellspacing="0" cellpadding="5">
-     <tr>
-     <td class="td1 right">Language:</td>
-     <td class="td1">
-     <select name="TxLgID" class="notempty setfocus">
-        <?php
+<h4>
+    Edit Text <a target="_blank" href="docs/info.html#howtotext">
+    <img src="icn/question-frame.png" title="Help" alt="Help" />
+    </a>
+</h4>
+<script type="text/javascript" src="js/unloadformcheck.js" charset="utf-8"></script>
+<form class="validate" action="<?php echo $_SERVER['PHP_SELF']; ?>#rec<?php echo $change; ?>" method="post">
+    <input type="hidden" name="TxID" value="<?php echo $change; ?>" />
+    <table class="tab3" cellspacing="0" cellpadding="5">
+        <tr>
+            <td class="td1 right">Language:</td>
+            <td class="td1">
+                <select name="TxLgID" class="notempty setfocus">
+                <?php
         echo get_languages_selectoptions($record['TxLgID'], "[Choose...]");
-        ?>
-     </select> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-     </td>
-     </tr>
-     <tr>
-     <td class="td1 right">Title:</td>
-     <td class="td1"><input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="<?php echo tohtml($record['TxTitle']); ?>" maxlength="200" size="60" /> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
-     </tr>
-     <tr>
-     <td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
-     <td class="td1">
-     <textarea <?php echo getScriptDirectionTag($record['TxLgID']); ?> name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20"><?php echo tohtml($record['TxText']); ?></textarea> <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
-     </td>
-     </tr>
-     <tr>
-     <td class="td1 right">Ann.Text:</td>
-     <td class="td1">
-        <?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> Exists - May be partially or fully lost if you change the text!<br /><input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $_REQUEST['chg'] . '\';" />' : '<img src="icn/cross.png" title="No Improved Annotation" alt="No Improved Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $_REQUEST['chg'] . '\';" />'); ?>
-     </td>
-     </tr>
-     <tr>
-     <td class="td1 right">Source URI:</td>
-     <td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="<?php echo tohtml($record['TxSourceURI']); ?>" maxlength="1000" size="60" /></td>
-     </tr>
-     <tr>
-     <td class="td1 right">Tags:</td>
-     <td class="td1">
-        <?php echo getTextTags($_REQUEST['chg']); ?>
-     </td>
-     </tr>
-     <tr>
-     <td class="td1 right">Audio/Video-URI:</td>
-     <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
-     <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>        
-     </td>
-     </tr>
-     <tr>
-     <td class="td1 right" colspan="2">
-     <input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php#rec<?php echo $_REQUEST['chg']; ?>';}" />
-     <input type="submit" name="op" value="Check" />
-     <input type="submit" name="op" value="Change" />
-     <input type="submit" name="op" value="Change and Open" />
-     </td>
-     </tr>
-     </table>
-     </form>
+                ?>
+                </select> 
+                <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right">Title:</td>
+            <td class="td1">
+                <input type="text" class="notempty checkoutsidebmp" data_info="Title" name="TxTitle" value="<?php echo tohtml($record['TxTitle']); ?>" maxlength="200" size="60" />
+                <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" /></td>
+        </tr>
+        <tr>
+            <td class="td1 right">Text:<br /><br />(max.<br />65,000<br />bytes)</td>
+            <td class="td1">
+            <textarea <?php echo getScriptDirectionTag($record['TxLgID']); ?> name="TxText" class="notempty checkbytes checkoutsidebmp" data_maxlength="65000" data_info="Text" cols="60" rows="20">
+                <?php echo tohtml($record['TxText']); ?>
+            </textarea> 
+            <img src="icn/status-busy.png" title="Field must not be empty" alt="Field must not be empty" />
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right">Ann.Text:</td>
+            <td class="td1">
+                <?php echo ($record['annotlen'] ? '<img src="icn/tick.png" title="With Improved Annotation" alt="With Improved Annotation" /> Exists - May be partially or fully lost if you change the text!<br /><input type="button" value="Print/Edit..." onclick="location.href=\'print_impr_text.php?text=' . $change . '\';" />' : '<img src="icn/cross.png" title="No Improved Annotation" alt="No Improved Annotation" /> - None | <input type="button" value="Create/Print..." onclick="location.href=\'print_impr_text.php?edit=1&amp;text=' . $change . '\';" />'); ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right">Source URI:</td>
+            <td class="td1"><input type="text" class="checkurl checkoutsidebmp" data_info="Source URI" name="TxSourceURI" value="<?php echo tohtml($record['TxSourceURI']); ?>" maxlength="1000" size="60" /></td>
+        </tr>
+        <tr>
+            <td class="td1 right">Tags:</td>
+            <td class="td1">
+                <?php echo getTextTags($change); ?>
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right" title="A soundtrack or a video to be display while reading">
+                Media URI:
+            </td>
+            <td class="td1">
+                <input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
+                <span id="mediaselect">
+                    <?php echo selectmediapath('TxAudioURI'); ?>
+                </span>        
+            </td>
+        </tr>
+        <tr>
+            <td class="td1 right" colspan="2">
+                <input type="button" value="Cancel" onclick="{resetDirty(); location.href='edit_texts.php#rec<?php echo $change; ?>';}" />
+                <input type="submit" name="op" value="Check" />
+                <input type="submit" name="op" value="Change" />
+                <input type="submit" name="op" value="Change and Open" />
+            </td>
+        </tr>
+    </table>
+</form>
 
-        <?php
+    <?php
 
     }
     mysqli_free_result($res);
-
 }
 
-// DISPLAY
+function edit_texts_display($message, $wh_query, $wh_tag)
+{
+    global $tbpref, $debug;
 
-else {
+    $currentlang = validateLang(processDBParam("filterlang", 'currentlanguage', '', 0));
+    $currentsort = processDBParam("sort", 'currenttextsort', '1', 1);
+
+    $currentpage = processSessParam("page", "currenttextpage", '1', 1);
+    $currentquery = processSessParam("query", "currenttextquery", '', 0);
+    $currentquerymode = processSessParam("query_mode", "currenttextquerymode", 'title,text', 0);
+    $currentregexmode = getSettingWithDefault("set-regex-mode");
+    $currenttag1 = validateTextTag(processSessParam("tag1", "currenttexttag1", '', 0), $currentlang);
+    $currenttag2 = validateTextTag(processSessParam("tag2", "currenttexttag2", '', 0), $currentlang);
+    $currenttag12 = processSessParam("tag12", "currenttexttag12", '', 0);
+
+    $wh_lang = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : '';
+
 
     echo error_message_with_hide($message, 0);
 
-    $sql = 'select count(*) as value from (select TxID from (' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy';
+    $sql = "SELECT COUNT(*) AS value 
+    FROM (
+        SELECT TxID 
+        FROM (
+            {$tbpref}texts 
+            LEFT JOIN {$tbpref}texttags 
+            ON TxID = TtTxID
+        ) WHERE (1=1) {$wh_lang}{$wh_query}
+        GROUP BY TxID {$wh_tag}
+    ) AS dummy";
     $recno = (int) get_first_value($sql);
     if ($debug) { 
         echo $sql . ' ===&gt; ' . $recno; 
@@ -539,68 +637,74 @@ else {
 
 <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/css_charts.css');?>" />
 <p>
-<a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1"><img src="icn/plus-button.png" title="New" alt="New" /> New Text ...</a> &nbsp; | &nbsp;
-<a href="long_text_import.php"><img src="icn/plus-button.png" title="Long Text Import" alt="Long Text Import" /> Long Text Import ...</a> &nbsp; | &nbsp;
-<a href="do_feeds.php?page=1&amp;check_autoupdate=1"><img src="icn/plus-button.png" title="RSS Import" alt="RSS Import" /> Newsfeed Import ...</a>
+    <a href="<?php echo $_SERVER['PHP_SELF']; ?>?new=1">
+        <img src="icn/plus-button.png" title="New" alt="New" /> New Text ...
+    </a> &nbsp; | &nbsp;
+    <a href="long_text_import.php">
+        <img src="icn/plus-button.png" title="Long Text Import" alt="Long Text Import" /> Long Text Import ...
+    </a> &nbsp; | &nbsp;
+    <a href="do_feeds.php?page=1&amp;check_autoupdate=1">
+        <img src="icn/plus-button.png" title="RSS Import" alt="RSS Import" /> Newsfeed Import ...
+    </a>
 </p>
 
 <form name="form1" action="#" onsubmit="document.form1.querybutton.click(); return false;">
-<table class="tab1" cellspacing="0" cellpadding="5">
-<tr>
-<th class="th1" colspan="4">Filter <img src="icn/funnel.png" title="Filter" alt="Filter" />&nbsp;
-<input type="button" value="Reset All" onclick="resetAll('edit_texts.php');" /></th>
-</tr>
-<tr>
-<td class="td1 center" colspan="2">
-Language:
-<select name="filterlang" onchange="{setLang(document.form1.filterlang,'edit_texts.php');}"><?php	echo get_languages_selectoptions($currentlang, '[Filter off]'); ?></select>
-</td>
-<td class="td1 center" colspan="2">
-<select name="query_mode" onchange="{val=document.form1.query.value;mode=document.form1.query_mode.value; location.href='edit_texts.php?page=1&amp;query=' + val + '&amp;query_mode=' + mode;}">
-<option value="title,text"<?php if($currentquerymode=="title,text") { echo ' selected="selected"'; 
-} ?>>Title &amp; Text</option>
-<option disabled="disabled">------------</option>
-<option value="title"<?php if($currentquerymode=="title") { echo ' selected="selected"'; 
-} ?>>Title</option>
-<option value="text"<?php if($currentquerymode=="text") { echo ' selected="selected"'; 
-} ?>>Text</option>
-</select><?php
-if($currentregexmode=='') { echo '<span style="vertical-align: middle"> (Wildc.=*): </span>'; 
-}
-elseif($currentregexmode=='r') { echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
-} else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
-}?>
-<input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
-<input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value;val=encodeURIComponent(val); location.href='edit_texts.php?page=1&amp;query=' + val;}" />&nbsp;
-<input type="button" value="Clear" onclick="{location.href='edit_texts.php?page=1&amp;query=';}" />
-</td>
-</tr>
-<tr>
-<td class="td1 center" colspan="2" nowrap="nowrap">
-Tag #1:
-<select name="tag1" onchange="{val=document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag1=' + val;}"><?php echo get_texttag_selectoptions($currenttag1, $currentlang); ?></select>
-</td>
-<td class="td1 center" nowrap="nowrap">
-Tag #1 .. <select name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag12=' + val;}"><?php echo get_andor_selectoptions($currenttag12); ?></select> .. Tag #2
-</td>
-<td class="td1 center" nowrap="nowrap">
-Tag #2:
-<select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag2=' + val;}"><?php echo get_texttag_selectoptions($currenttag2, $currentlang); ?></select>
-</td>
-</tr>
-    <?php if($recno > 0) { ?>
-<tr>
-<th class="th1" colspan="2" nowrap="nowrap">
-        <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
-</th><th class="th1" colspan="1" nowrap="nowrap">
-        <?php makePager($currentpage, $pages, 'edit_texts.php', 'form1'); ?>
-</th><th class="th1" colspan="1" nowrap="nowrap">
-Sort Order:
-<select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='edit_texts.php?page=1&amp;sort=' + val;}"><?php echo get_textssort_selectoptions($currentsort); ?></select>
-</th></tr>
-        <?php 
-    } ?>
-</table>
+    <table class="tab1" cellspacing="0" cellpadding="5">
+    <tr>
+    <th class="th1" colspan="4">Filter <img src="icn/funnel.png" title="Filter" alt="Filter" />&nbsp;
+    <input type="button" value="Reset All" onclick="resetAll('edit_texts.php');" /></th>
+    </tr>
+    <tr>
+    <td class="td1 center" colspan="2">
+    Language:
+    <select name="filterlang" onchange="{setLang(document.form1.filterlang,'edit_texts.php');}"><?php	echo get_languages_selectoptions($currentlang, '[Filter off]'); ?></select>
+    </td>
+    <td class="td1 center" colspan="2">
+    <select name="query_mode" onchange="{val=document.form1.query.value;mode=document.form1.query_mode.value; location.href='edit_texts.php?page=1&amp;query=' + val + '&amp;query_mode=' + mode;}">
+    <option value="title,text"<?php if($currentquerymode=="title,text") { echo ' selected="selected"'; 
+    } ?>>Title &amp; Text</option>
+    <option disabled="disabled">------------</option>
+    <option value="title"<?php if($currentquerymode=="title") { echo ' selected="selected"'; 
+    } ?>>Title</option>
+    <option value="text"<?php if($currentquerymode=="text") { echo ' selected="selected"'; 
+    } ?>>Text</option>
+    </select><?php
+    if($currentregexmode=='') { echo '<span style="vertical-align: middle"> (Wildc.=*): </span>'; 
+    }
+    elseif($currentregexmode=='r') { echo '<span style="vertical-align: middle"> RegEx Mode: </span>';
+    } else { echo '<span style="vertical-align: middle"> RegEx(CS) Mode: </span>'; 
+    }?>
+    <input type="text" name="query" value="<?php echo tohtml($currentquery); ?>" maxlength="50" size="15" />&nbsp;
+    <input type="button" name="querybutton" value="Filter" onclick="{val=document.form1.query.value;val=encodeURIComponent(val); location.href='edit_texts.php?page=1&amp;query=' + val;}" />&nbsp;
+    <input type="button" value="Clear" onclick="{location.href='edit_texts.php?page=1&amp;query=';}" />
+    </td>
+    </tr>
+    <tr>
+    <td class="td1 center" colspan="2" nowrap="nowrap">
+    Tag #1:
+    <select name="tag1" onchange="{val=document.form1.tag1.options[document.form1.tag1.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag1=' + val;}"><?php echo get_texttag_selectoptions($currenttag1, $currentlang); ?></select>
+    </td>
+    <td class="td1 center" nowrap="nowrap">
+    Tag #1 .. <select name="tag12" onchange="{val=document.form1.tag12.options[document.form1.tag12.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag12=' + val;}"><?php echo get_andor_selectoptions($currenttag12); ?></select> .. Tag #2
+    </td>
+    <td class="td1 center" nowrap="nowrap">
+    Tag #2:
+    <select name="tag2" onchange="{val=document.form1.tag2.options[document.form1.tag2.selectedIndex].value; location.href='edit_texts.php?page=1&amp;tag2=' + val;}"><?php echo get_texttag_selectoptions($currenttag2, $currentlang); ?></select>
+    </td>
+    </tr>
+        <?php if($recno > 0) { ?>
+    <tr>
+    <th class="th1" colspan="2" nowrap="nowrap">
+            <?php echo $recno; ?> Text<?php echo ($recno==1?'':'s'); ?>
+    </th><th class="th1" colspan="1" nowrap="nowrap">
+            <?php makePager($currentpage, $pages, 'edit_texts.php', 'form1'); ?>
+    </th><th class="th1" colspan="1" nowrap="nowrap">
+    Sort Order:
+    <select name="sort" onchange="{val=document.form1.sort.options[document.form1.sort.selectedIndex].value; location.href='edit_texts.php?page=1&amp;sort=' + val;}"><?php echo get_textssort_selectoptions($currentsort); ?></select>
+    </th></tr>
+            <?php 
+        } ?>
+    </table>
 </form>
 
     <?php
@@ -698,7 +802,8 @@ select TxID, TxTitle, LgName, TxAudioURI, TxSourceURI, length(TxAnnotatedText) a
             echo '<td class="td1 center"><a name="rec' . $record['TxID'] . '"><input name="marked[]" class="markcheck" type="checkbox" value="' . $record['TxID'] . '" ' . checkTest($record['TxID'], 'marked') . ' /></a></td>';
             echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="do_text.php?start=' . $record['TxID'] . '"><img src="icn/book-open-bookmark.png" title="Read" alt="Read" /></a>&nbsp; <a href="do_test.php?text=' . $record['TxID'] . '"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a>&nbsp;</td>';
             echo '<td nowrap="nowrap" class="td1 center">&nbsp;<a href="print_text.php?text=' . $record['TxID'] . '"><img src="icn/printer.png" title="Print" alt="Print" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?arch=' . $record['TxID'] . '"><img src="icn/inbox-download.png" title="Archive" alt="Archive" /></a>&nbsp; <a href="' . $_SERVER['PHP_SELF'] . '?chg=' . $record['TxID'] . '"><img src="icn/document--pencil.png" title="Edit" alt="Edit" /></a>&nbsp; <span class="click" onclick="if (confirmDelete()) location.href=\'' . $_SERVER['PHP_SELF'] . '?del=' . $record['TxID'] . '\';"><img src="icn/minus-button.png" title="Delete" alt="Delete" /></span>&nbsp;</td>';
-            if ($currentlang == '') { echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>'; 
+            if ($currentlang == '') { 
+                echo '<td class="td1 center">' . tohtml($record['LgName']) . '</td>'; 
             }
 
             // title
@@ -771,6 +876,17 @@ $(window).on('beforeunload',function() {
 
     <?php
 
+}
+
+if (isset($_REQUEST['new'])) {
+    // NEW
+    edit_texts_new($currentlang);
+} elseif (isset($_REQUEST['chg'])) {
+    // CHG
+    edit_texts_change(getreq('chg'));
+} else {
+    // DISPLAY
+    edit_texts_display($message, $wh_query, $wh_lang);
 }
 
 pageend();

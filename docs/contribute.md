@@ -18,7 +18,7 @@ Themes are stored at ``src/themes/``. If you want to create a new theme, simply 
 
 To apply the changes you made on a theme, run
 ```bash
-make minify
+composer minify
 ```
 
 This command will minify all CSS and JS.
@@ -33,7 +33,7 @@ php -r "require 'src/php/minifier.php'; minifyAllCSS();"
 
 You may not want to see your code minified, so you can use 
 ```bash
-make no-minify
+composer no-minify
 ```
 
 It has the same effect as copying the folder ``scr/themes/`` to ``themes/``. WARNING: it can break your relative paths!
@@ -57,10 +57,10 @@ That's not a problem at all. When LWT looks for a file that should be contained 
 As with themes, LWT minifies JS code for a better user experience. Please refer to the previous section for detailed explanations, this section will only go through import points.
 
 ### Edit JS code
-Clear code is stored at ``src/js/``. Once again, the *actual* code used by LWT should be at ``js/``. After you have done any modification, either run ``make minify`` or ``php -r "require 'src/php/minifier.php'; minifyAllJS();"``. 
+Clear code is stored at ``src/js/``. Once again, the *actual* code used by LWT should be at ``js/``. After you have done any modification, either run ``composer minify`` or ``php -r "require 'src/php/minifier.php'; minifyAllJS();"``. 
 
 ### Debug JS code
-To copy code in a non-obfuscated form, run ``make no-minify``, or replace the content of ``js/`` by ``src/js/``.
+To copy code in a non-obfuscated form, run ``composer no-minify``, or replace the content of ``js/`` by ``src/js/``.
 
 ## Edit PHP code
 The PHP codebase is not yet well structured, but here is a general organisation:
@@ -89,12 +89,12 @@ Nobody likes to debug unreadable code. A good way to avoid thinking about it is 
 
 ## Improving Documentation
 
-To regenerate all documentation, use ``make doc``.
+To regenerate all documentation, use ``composer doc``.
 
 ### General Documentation
 The documentation in split across Markdown (``.md``) files in ``docs/``. Then, those files are requested by ``info.php``. The final version is ``info.html``, that contains all files. 
 
-To regenerate ``info.hml``, run ``make info.html``.
+To regenerate ``info.hml``, run ``composer info.html``.
 
 ### Code Documentation
 Code documentation (everything under ``docs/html/``) is automatically generated. If you see an error, the PHP code is most likely at fault. However, don't hesitate to signal the issue.
