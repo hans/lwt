@@ -1415,56 +1415,69 @@ function getprefixes(): array
     return $prefix;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Select the path for a media (audio or video).
+ * 
+ * @param string $f Previous media file URI
+ * 
+ * @return string HTML-formatted string for media selection
+ */
 function selectmediapath($f): string 
 {
     $exists = file_exists('media');
     if ($exists) {
-        if (is_dir('media')) { $msg = ''; 
-        }
-        else { $msg = '<br />[Error: ".../' . basename(getcwd()) . '/media" exists, but it is not a directory.]'; 
+        if (is_dir('media')) { 
+            $msg = ''; 
+        } else { 
+            $msg = '<br />[Error: ".../' . basename(getcwd()) . '/media" exists, but it is not a directory.]'; 
         }
     } else {
         $msg = '<br />[Directory ".../' . basename(getcwd()) . '/media" does not yet exist.]';
     }
-    $r = '<br /> or choose a file in ".../' . basename(getcwd()) . '/media" (only mp3, ogg, wav files shown): ' . $msg;
+    $r = '<p>
+    YouTube, Dailymotion, Vimeo or choose a file in ".../' . basename(getcwd()) . '/media"
+    <br />
+    (only mp3, mp4, ogg, wav, webm files shown):
+    </p> ' . $msg;
     if ($msg == '') {
-        $r .= '<br /><select name="Dir" onchange="{val=this.form.Dir.options[this.form.Dir.selectedIndex].value; if (val != \'\') this.form.' . $f . '.value = val; this.form.Dir.value=\'\';}">';
-        $r .= '<option value="">[Choose...]</option>';
-        $r .= selectmediapathoptions('media');
-        $r .= '</select> ';
+        $r .= '
+        <select name="Dir" onchange="{val=this.form.Dir.options[this.form.Dir.selectedIndex].value; if (val != \'\') this.form.' . $f . '.value = val; this.form.Dir.value=\'\';}">
+            <option value="">[Choose...]</option>' . 
+            selectmediapathoptions('media') . 
+        '</select> ';
     }
-    $r .= ' &nbsp; &nbsp; <span class="click" onclick="do_ajax_update_media_select();"><img src="icn/arrow-circle-135.png" title="Refresh Media Selection" alt="Refresh Media Selection" /> Refresh</span>';
+    $r .= '<span class="click" onclick="do_ajax_update_media_select();" style="margin-left: 16px;">
+        <img src="icn/arrow-circle-135.png" title="Refresh Media Selection" alt="Refresh Media Selection" /> Refresh</span>';
     return $r;
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Get the dirrent options to dsplay as acceptable media files.
+ * 
+ * @param string $dir Directory containing files
+ * 
+ * @return string HTML-formatted OPTION tags
+ */
 function selectmediapathoptions($dir): string 
 {
     $is_windows = ("WIN" == strtoupper(substr(PHP_OS, 0, 3)));
     $mediadir = scandir($dir);
+    $formats = array('mp3', 'mp4', 'ogg', 'wav', 'webm');
     $r = '<option disabled="disabled">-- Directory: ' . tohtml($dir) . ' --</option>';
     foreach ($mediadir as $entry) {
-        if ($is_windows) { $entry = mb_convert_encoding($entry, 'UTF-8', 'ISO-8859-1'); 
+        if ($is_windows) { 
+            $entry = mb_convert_encoding($entry, 'UTF-8', 'ISO-8859-1'); 
         }
-        if (substr($entry, 0, 1) != '.') {
-            if (! is_dir($dir . '/' . $entry)) {
-                $ex = substr($entry, -4);
-                if ((strcasecmp($ex, '.mp3') == 0) 
-                    || (strcasecmp($ex, '.ogg') == 0) 
-                    || (strcasecmp($ex, '.wav') == 0)
-                ) {
-                    $r .= '<option value="' . tohtml($dir . '/' . $entry) . '">' . tohtml($dir . '/' . $entry) . '</option>'; 
-                }
+        if (substr($entry, 0, 1) != '.' && !is_dir($dir . '/' . $entry)) {
+            $ex = strtolower(pathinfo($entry, PATHINFO_EXTENSION));
+            if (in_array($ex, $formats)) {
+                $r .= '<option value="' . tohtml($dir . '/' . $entry) . '">' . tohtml($dir . '/' . $entry) . '</option>'; 
             }
         }
     }
     foreach ($mediadir as $entry) {
-        if (substr($entry, 0, 1) != '.') {
-            if (is_dir($dir . '/' . $entry)) { $r .= selectmediapathoptions($dir . '/' . $entry); 
-            }
+        if (substr($entry, 0, 1) != '.' && is_dir($dir . '/' . $entry)) {
+            $r .= selectmediapathoptions($dir . '/' . $entry); 
         }
     }
     return $r;
@@ -1474,7 +1487,8 @@ function selectmediapathoptions($dir): string
 
 function get_seconds_selectoptions($v): string 
 {
-    if (! isset($v) ) { $v = 5; 
+    if (!isset($v) ) { 
+        $v = 5; 
     }
     $r = '';
     for ($i=1; $i <= 10; $i++) {
@@ -4060,24 +4074,27 @@ function makeMediaPlayer($path, $offset=0)
  */
 function makeVideoPlayer($path, $offset=0): void 
 {
+    $online = false;
     if (preg_match(
         "/(?:https:\/\/)?www\.youtube\.com\/watch\?v=([\d\w]+)/iu", 
         $path, $matches
     )
     ) {
-        // Youtbe video
+        // Youtube video
         $domain = "https://www.youtube.com/embed/";
         $id = $matches[1];
         $url = $domain . $id . "?t=" . $offset;
-    } if (preg_match(
+        $online = true;
+    } else if (preg_match(
         "/(?:https:\/\/)?youtu\.be\/([\d\w]+)/iu", 
         $path, $matches
     )
     ) {
-        // Youtbe video
+        // Youtube video
         $domain = "https://www.youtube.com/embed/";
         $id = $matches[1];
         $url = $domain . $id . "?t=" . $offset;
+        $online = true;
     } else if (preg_match(
         "/(?:https:\/\/)?dai\.ly\/([^\?]+)/iu", 
         $path, $matches
@@ -4087,6 +4104,7 @@ function makeVideoPlayer($path, $offset=0): void
         $domain = "https://www.dailymotion.com/embed/video/";
         $id = $matches[1];
         $url = $domain . $id;
+        $online = true;
     } else if (preg_match(
         "/(?:https:\/\/)?vimeo\.com\/(\d+)/iu",
         // Vimeo 
@@ -4096,9 +4114,11 @@ function makeVideoPlayer($path, $offset=0): void
         $domain = "https://player.vimeo.com/video/";
         $id = $matches[1];
         $url = $domain . $id . "#t=" . $offset . "s";
-    } else {
-        $url = $path;
-    }
+        $online = true;
+    } 
+
+    if ($online) {
+        // Online video player in iframe
     ?> 
 <iframe style="width: 100%; height: 30%;" 
 src="<?php echo $url ?>" 
@@ -4108,6 +4128,19 @@ allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; pic
 allowfullscreen type="text/html">
 </iframe>
     <?php
+    } else {
+        // Local video player
+        // makeAudioPlayer($path, $offset);
+        $type = "video/" . pathinfo($path, PATHINFO_EXTENSION);
+        $title = pathinfo($path, PATHINFO_FILENAME);
+    ?>
+<video preload="auto" controls title="<?php echo $title ?>" 
+style="width: 100%; height: 300px; display: block; margin-left: auto; margin-right: auto;">
+    <source src="<?php echo $path; ?>" type="<?php echo $type; ?>">
+    <p>Your browser does not support video tags.</p>
+</video>
+    <?php
+    }
 }
 
 
@@ -4126,10 +4159,18 @@ function makeAudioPlayer($audio, $offset=0)
     }
     $audio = trim($audio);
     $repeatMode = getSettingZeroOrOne('currentplayerrepeatmode', 0);
+    $currentplayerseconds = getSetting('currentplayerseconds');
+    if ($currentplayerseconds == '') { 
+        $currentplayerseconds = 5; 
+    }
+    $currentplaybackrate = getSetting('currentplaybackrate');
+    if ($currentplaybackrate == '') { 
+        $currentplaybackrate = 10; 
+    }
     ?>
 <link type="text/css" href="<?php print_file_path('css/jplayer.css');?>" rel="stylesheet" />
 <script type="text/javascript" src="js/jquery.jplayer.js"></script>
-<table align="center" style="margin-top:5px;" cellspacing="0" cellpadding="0">
+<table style="margin-top: 5px; margin-left: auto; margin-right: auto;" cellspacing="0" cellpadding="0">
     <tr>
         <td class="center borderleft" style="padding-left:10px;">
             <span id="do-single" class="click<?php echo ($repeatMode ? '' : ' hide'); ?>" 
@@ -4182,17 +4223,7 @@ function makeAudioPlayer($audio, $offset=0)
         </td>
         <td class="center bordermiddle">&nbsp;</td>
         <td class="center bordermiddle">
-            <?php
-    $currentplayerseconds = getSetting('currentplayerseconds');
-    if ($currentplayerseconds == '') { 
-        $currentplayerseconds = 5; 
-    }
-            ?>
-<!-- Not merge from master branch (with official)
-<select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
-<span id="backbutt" class="click" title="Rewind n seconds">⇤</span>&nbsp;&nbsp;<span id="forwbutt" class="click" title="Forward n seconds">⇥</span>
--->
-            <select id="backtime" name="backtime">
+            <select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}">
                 <?php echo get_seconds_selectoptions($currentplayerseconds); ?>
             </select>
             <br />
@@ -4206,12 +4237,6 @@ function makeAudioPlayer($audio, $offset=0)
         </td>
         <td class="center bordermiddle">&nbsp;</td>
         <td class="center borderright" style="padding-right:10px;">
-            <?php
-    $currentplaybackrate = getSetting('currentplaybackrate');
-    if ($currentplaybackrate == '') { 
-        $currentplaybackrate = 10; 
-    }
-            ?>
             <select id="playbackrate" name="playbackrate">
                 <?php echo get_playbackrate_selectoptions($currentplaybackrate); ?>
             </select>
@@ -4236,29 +4261,44 @@ function makeAudioPlayer($audio, $offset=0)
 <script type="text/javascript">
     //<![CDATA[
 
+    const MEDIA = <?php echo prepare_textdata_js(encodeURI($audio)); ?>;
+    const MEDIA_OFFSET = <?php echo $offset; ?>;
+
+    /**
+     * Get the extension of a file.
+     * 
+     * @param {string} file File path
+     * 
+     * @returns {string} File extension
+     */
+    function get_extension(file) {
+        return file.split('.').pop();
+    }
+
     /**
      * Import audio data when jPlayer is ready.
      * 
-     * @returns void
+     * @returns {undefined}
      */
     function addjPlayerMedia () {
+        const ext = get_extension(MEDIA);
+        let media_obj = {};
+        if (ext == 'mp3') {
+            media_obj['mp3'] = MEDIA;
+        } else if (ext == 'ogg') {
+            media_obj['oga'] = media_obj['ogv'] = media_obj['mp3'] = MEDIA;
+        } else if (ext == 'wav') {
+            media_obj['wav'] = media_obj['mp3'] = MEDIA;
+        } else if (ext == 'mp4') {
+            media_obj['mp4'] = MEDIA;
+        } else if (ext == 'webm') {
+            media_obj['webma'] = media_obj['webmv'] = MEDIA;
+        } else {
+            media_obj['mp3'] = MEDIA;
+        }
         $(this)
-        .jPlayer("setMedia", { <?php 
-            $end = substr($audio, -4);
-            $audio_URI = prepare_textdata_js(encodeURI($audio));
-            if (strcasecmp($end, '.mp3') == 0) { 
-                echo 'mp3: ' . $audio_URI;
-            } elseif (strcasecmp($end, '.ogg') == 0) { 
-                echo 'oga: ' . $audio_URI  . ", " . 
-                'mp3: ' . $audio_URI; 
-            } elseif (strcasecmp($end, '.wav') == 0) {
-                echo 'wav: ' . $audio_URI  . ", " . 
-                'mp3: ' . $audio_URI; 
-            } else {
-                echo 'mp3: ' . $audio_URI; 
-            }
-            ?> })
-        .jPlayer("pause",<?php echo $offset; ?>);
+        .jPlayer("setMedia", media_obj)
+        .jPlayer("pause", MEDIA_OFFSET);
         if ($('#jquery_jplayer_1').data().jPlayer.status.playbackRateEnabled) {
             $("#playbackrateContainer").css("margin-top",".2em")
             .html(
@@ -4274,7 +4314,7 @@ function makeAudioPlayer($audio, $offset=0)
                     <span id="playbackFaster" style="padding-left: 0.15em;">≫</span>
                 </span>`
             )
-            .css("cursor","pointer");
+            .css("cursor", "pointer");
         }
     }
 
@@ -4286,38 +4326,37 @@ function makeAudioPlayer($audio, $offset=0)
     function prepareMediaInteractions() {
 
         $("#jquery_jplayer_1").jPlayer({
-        ready: addjPlayerMedia,
-        swfPath: "js",
-        noVolume: {
-            ipad: /^no$/, iphone: /^no$/, ipod: /^no$/, 
-            android_pad: /^no$/, android_phone: /^no$/, 
-            blackberry: /^no$/, windows_ce: /^no$/, iemobile: /^no$/, webos: /^no$/, 
-            playbook: /^no$/
-        }
-    });
+            ready: addjPlayerMedia,
+            swfPath: "js",
+            noVolume: {
+                ipad: /^no$/, iphone: /^no$/, ipod: /^no$/,
+                android_pad: /^no$/, android_phone: /^no$/,
+                blackberry: /^no$/, windows_ce: /^no$/, iemobile: /^no$/, webos: /^no$/,
+                playbook: /^no$/
+            }
+        });
 
-    $("#jquery_jplayer_1")
-    .on('bind', $.jPlayer.event.timeupdate, function(event) { 
-        $("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
-    });
-    
-    $("#jquery_jplayer_1")
-    .on('bind', $.jPlayer.event.play, function(event) { 
-        set_current_playbackrate();
-        // console.log("play");
-    });
-    
-    $("#slower").on('click', click_slower);
-    $("#faster").on('click', click_faster);
-    $("#stdspeed").on('click', click_stdspeed);
-    $("#backbutt").on('click', click_back);
-    $("#forwbutt").on('click', click_forw);
-    $("#do-single").on('click', click_single);
-    $("#do-repeat").on('click', click_repeat);
-    $("#playbackrate").on('change', set_new_playbackrate);
-    $("#backtime").on('change', set_new_playerseconds);
-    
-    <?php echo ($repeatMode ? "click_repeat();\n" : ''); ?>
+        $("#jquery_jplayer_1")
+        .on('bind', $.jPlayer.event.timeupdate, function(event) { 
+            $("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
+        });
+        
+        $("#jquery_jplayer_1")
+        .on('bind', $.jPlayer.event.play, function(event) { 
+            set_current_playbackrate();
+        });
+        
+        $("#slower").on('click', click_slower);
+        $("#faster").on('click', click_faster);
+        $("#stdspeed").on('click', click_stdspeed);
+        $("#backbutt").on('click', click_back);
+        $("#forwbutt").on('click', click_forw);
+        $("#do-single").on('click', click_single);
+        $("#do-repeat").on('click', click_repeat);
+        $("#playbackrate").on('change', set_new_playbackrate);
+        $("#backtime").on('change', set_new_playerseconds);
+        
+        <?php echo ($repeatMode ? "click_repeat();\n" : ''); ?>
     }
 
     $(document).ready(prepareMediaInteractions);

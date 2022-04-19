@@ -11,6 +11,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * You can click on a read icon in order to read a word.
 * Text-To-Speech (TTS) Settings!
   * Change the language rate, pitch, or local region for text-to-speech.
+* Early support of local videos.
 
 ### Changed
 * mbstring and mysqli extensions are now clearly asked for by Composer.

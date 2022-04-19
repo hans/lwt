@@ -454,9 +454,14 @@ function edit_texts_new($currentlang)
             </td>
         </tr>
         <tr>
-            <td class="td1 right">Audio/Video-URI:</td>
-            <td class="td1"><input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="" maxlength="200" size="60" />        
-                <span id="mediaselect"><?php echo selectmediapath('TxAudioURI'); ?></span>        
+            <td class="td1 right" title="A soundtrack or a video to be display while reading">
+                Media URI:
+            </td>
+            <td class="td1">
+                <input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="" maxlength="200" size="60" />        
+                <span id="mediaselect">
+                    <?php echo selectmediapath('TxAudioURI'); ?>
+                </span>        
             </td>
         </tr>
         <?php if (isset($YT_API_KEY)) {
@@ -545,7 +550,9 @@ function edit_texts_change($change)
             </td>
         </tr>
         <tr>
-            <td class="td1 right">Audio/Video-URI:</td>
+            <td class="td1 right" title="A soundtrack or a video to be display while reading">
+                Media URI:
+            </td>
             <td class="td1">
                 <input type="text" class="checkoutsidebmp" data_info="Audio-URI" name="TxAudioURI" value="<?php echo tohtml($record['TxAudioURI']); ?>" maxlength="200" size="60" /> 
                 <span id="mediaselect">
