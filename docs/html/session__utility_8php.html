@@ -163,11 +163,9 @@ Functions</h2></td></tr>
 <tr class="separator:aa21275f64e89f8f4685536fe2111ac82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba9e22ad328ef099ee55bf9c5d6a1ac4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#aba9e22ad328ef099ee55bf9c5d6a1ac4">getprefixes</a> ()</td></tr>
 <tr class="separator:aba9e22ad328ef099ee55bf9c5d6a1ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4b5e12d2738fc89f2615180198d687b"><td class="memItemLeft" align="right" valign="top"><a id="ad4b5e12d2738fc89f2615180198d687b" name="ad4b5e12d2738fc89f2615180198d687b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>selectmediapath</b> ($f)</td></tr>
+<tr class="memitem:ad4b5e12d2738fc89f2615180198d687b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#ad4b5e12d2738fc89f2615180198d687b">selectmediapath</a> ($f)</td></tr>
 <tr class="separator:ad4b5e12d2738fc89f2615180198d687b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a531d44f73d7ddace1a52ffd9913f2fb4"><td class="memItemLeft" align="right" valign="top"><a id="a531d44f73d7ddace1a52ffd9913f2fb4" name="a531d44f73d7ddace1a52ffd9913f2fb4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>selectmediapathoptions</b> ($dir)</td></tr>
+<tr class="memitem:a531d44f73d7ddace1a52ffd9913f2fb4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#a531d44f73d7ddace1a52ffd9913f2fb4">selectmediapathoptions</a> ($dir)</td></tr>
 <tr class="separator:a531d44f73d7ddace1a52ffd9913f2fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48d378db062d5e8af5be3bdb1ba9c6d2"><td class="memItemLeft" align="right" valign="top"><a id="a48d378db062d5e8af5be3bdb1ba9c6d2" name="a48d378db062d5e8af5be3bdb1ba9c6d2"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>get_seconds_selectoptions</b> ($v)</td></tr>
@@ -1177,8 +1175,16 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-<p >Import audio data when jPlayer is ready.</p>
-<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p >Get the extension of a file.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">{string}</td><td>file File path</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>{string} File extension</dd></dl>
+<p>Import audio data when jPlayer is ready.</p>
+<dl class="section return"><dt>Returns</dt><dd>{undefined}</dd></dl>
 <p>Prepare media interactions with jPlayer.</p>
 <dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
 
@@ -1534,6 +1540,58 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="ad4b5e12d2738fc89f2615180198d687b" name="ad4b5e12d2738fc89f2615180198d687b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4b5e12d2738fc89f2615180198d687b">&#9670;&nbsp;</a></span>selectmediapath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">selectmediapath </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Select the path for a media (audio or video).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$f</td><td>Previous media file URI</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string HTML-formatted string for media selection </dd></dl>
+
+</div>
+</div>
+<a id="a531d44f73d7ddace1a52ffd9913f2fb4" name="a531d44f73d7ddace1a52ffd9913f2fb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a531d44f73d7ddace1a52ffd9913f2fb4">&#9670;&nbsp;</a></span>selectmediapathoptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">selectmediapathoptions </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$dir</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get the dirrent options to dsplay as acceptable media files.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$dir</td><td>Directory containing files</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string HTML-formatted OPTION tags </dd></dl>
 
 </div>
 </div>

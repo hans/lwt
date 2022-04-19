@@ -65,6 +65,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">edit_texts.php File Reference</div></div>
 </div><!--header-->
@@ -73,6 +74,24 @@ $(function() {
 <p>Manage active texts.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a671c036d96772b19dd9d3ec75aa159e9"><td class="memItemLeft" align="right" valign="top"><a id="a671c036d96772b19dd9d3ec75aa159e9" name="a671c036d96772b19dd9d3ec75aa159e9"></a>
+if(isset( $_REQUEST[ 'markaction']))&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_delete</b> ($txid)</td></tr>
+<tr class="separator:a671c036d96772b19dd9d3ec75aa159e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2509a19a23c08d39956a442674ee5248"><td class="memItemLeft" align="right" valign="top"><a id="a2509a19a23c08d39956a442674ee5248" name="a2509a19a23c08d39956a442674ee5248"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_archive</b> ($txid)</td></tr>
+<tr class="separator:a2509a19a23c08d39956a442674ee5248"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a75def056126448f852e343ad4fe75a"><td class="memItemLeft" align="right" valign="top"><a id="a5a75def056126448f852e343ad4fe75a" name="a5a75def056126448f852e343ad4fe75a"></a>
+if(isset( $_REQUEST[ 'del'])) elseif(isset($_REQUEST['arch'])) elseif(isset( $_REQUEST[ 'op']))&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_new</b> ($currentlang)</td></tr>
+<tr class="separator:a5a75def056126448f852e343ad4fe75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ede8082260d0ce390a7a5f021605119"><td class="memItemLeft" align="right" valign="top"><a id="a5ede8082260d0ce390a7a5f021605119" name="a5ede8082260d0ce390a7a5f021605119"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_change</b> ($change)</td></tr>
+<tr class="separator:a5ede8082260d0ce390a7a5f021605119"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfff8804ae6a47c7abf1bbc53458a2cb"><td class="memItemLeft" align="right" valign="top"><a id="abfff8804ae6a47c7abf1bbc53458a2cb" name="abfff8804ae6a47c7abf1bbc53458a2cb"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_display</b> ($message, $wh_query, $wh_tag)</td></tr>
+<tr class="separator:abfff8804ae6a47c7abf1bbc53458a2cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a5aa4fc1f2b62bde86af501cedb7707c8"><td class="memItemLeft" align="right" valign="top"><a id="a5aa4fc1f2b62bde86af501cedb7707c8" name="a5aa4fc1f2b62bde86af501cedb7707c8"></a>
@@ -106,11 +125,10 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$wh_lang</b> = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : ''</td></tr>
 <tr class="separator:a9bdf56b14b0e27e65ca948601be7035a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfceb82dc7f82e957c5fae24b1dcb71c"><td class="memItemLeft" align="right" valign="top"><a id="adfceb82dc7f82e957c5fae24b1dcb71c" name="adfceb82dc7f82e957c5fae24b1dcb71c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_query</b> = $currentregexmode . 'like ' . <a class="el" href="database__connect_8php.html#a8644cebbae39e02a6dfed79816201271">convert_string_to_sqlsyntax</a>(($currentregexmode == '') ? (str_replace(&quot;*&quot;, &quot;%&quot;, mb_strtolower($currentquery, 'UTF-8'))) : ($currentquery))</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_query</b> = $currentregexmode . 'LIKE '</td></tr>
 <tr class="separator:adfceb82dc7f82e957c5fae24b1dcb71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13246651649328ba9f054d5ef0ea8c59"><td class="memItemLeft" align="right" valign="top"><a id="a13246651649328ba9f054d5ef0ea8c59" name="a13246651649328ba9f054d5ef0ea8c59"></a>
-switch( $currentquerymode) if($currentquery!=='')&#160;</td><td class="memItemRight" valign="bottom"><b>else</b> { $wh_query = ''</td></tr>
-<tr class="separator:a13246651649328ba9f054d5ef0ea8c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53f3a572a36b1e503045e03a4e6c789e"><td class="memItemLeft" align="right" valign="top">if($currentregexmode=='')&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a53f3a572a36b1e503045e03a4e6c789e">else</a></td></tr>
+<tr class="separator:a53f3a572a36b1e503045e03a4e6c789e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e7137dbab868485578aa50196861722"><td class="memItemLeft" align="right" valign="top"><a id="a0e7137dbab868485578aa50196861722" name="a0e7137dbab868485578aa50196861722"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$wh_tag1</b> = null</td></tr>
 <tr class="separator:a0e7137dbab868485578aa50196861722"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,55 +144,31 @@ if(! $no_pagestart)&#160;</td><td class="memItemRight" valign="bottom"><b>$messa
 <tr class="memitem:ad9ce05ff907c900ab2b98cbbb13ff292"><td class="memItemLeft" align="right" valign="top"><a id="ad9ce05ff907c900ab2b98cbbb13ff292" name="ad9ce05ff907c900ab2b98cbbb13ff292"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$message1</b> = null</td></tr>
 <tr class="separator:ad9ce05ff907c900ab2b98cbbb13ff292"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a047170d6020a882807665812a27e2525"><td class="memItemLeft" align="right" valign="top"><a id="a047170d6020a882807665812a27e2525" name="a047170d6020a882807665812a27e2525"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$sql</b> = 'select count(*) as value from (select TxID from (' . $tbpref . 'texts left JOIN ' . $tbpref . 'texttags ON TxID = TtTxID) where (1=1) ' . $wh_lang . $wh_query . ' group by TxID ' . $wh_tag . ') as dummy'</td></tr>
-<tr class="separator:a047170d6020a882807665812a27e2525"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1b8d0109388103549a18088bccc9b82"><td class="memItemLeft" align="right" valign="top"><a id="aa1b8d0109388103549a18088bccc9b82" name="aa1b8d0109388103549a18088bccc9b82"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$recno</b> = (int) <a class="el" href="database__connect_8php.html#a9c4a52b3d9b10360dce64ad0464bfad5">get_first_value</a>($sql)</td></tr>
-<tr class="separator:aa1b8d0109388103549a18088bccc9b82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0683b9e8dafa5ab1c0f1d6fa4fa23ee"><td class="memItemLeft" align="right" valign="top"><a id="af0683b9e8dafa5ab1c0f1d6fa4fa23ee" name="af0683b9e8dafa5ab1c0f1d6fa4fa23ee"></a>
-if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$maxperpage</b> = (int) <a class="el" href="database__connect_8php.html#a272e6920bd0ac3690730a62edebae42d">getSettingWithDefault</a>('set-texts-per-page')</td></tr>
-<tr class="separator:af0683b9e8dafa5ab1c0f1d6fa4fa23ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a263621399c53f2952c2329ee13ad8e4e"><td class="memItemLeft" align="right" valign="top"><a id="a263621399c53f2952c2329ee13ad8e4e" name="a263621399c53f2952c2329ee13ad8e4e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$pages</b> = $recno == 0 ? 0 : (intval(($recno-1) / $maxperpage) + 1)</td></tr>
-<tr class="separator:a263621399c53f2952c2329ee13ad8e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad84bdbdacae6af920368246394625d59"><td class="memItemLeft" align="right" valign="top"><a id="ad84bdbdacae6af920368246394625d59" name="ad84bdbdacae6af920368246394625d59"></a>
-if( $currentpage&lt; 1) if($currentpage &gt; $pages)&#160;</td><td class="memItemRight" valign="bottom"><b>$limit</b> = 'LIMIT ' . (($currentpage-1) * $maxperpage) . ',' . $maxperpage</td></tr>
-<tr class="separator:ad84bdbdacae6af920368246394625d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3d6c93a0f1da5990c551be9a731780c"><td class="memItemLeft" align="right" valign="top"><a id="ab3d6c93a0f1da5990c551be9a731780c" name="ab3d6c93a0f1da5990c551be9a731780c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$sorts</b> = array('TxTitle','TxID desc','TxID asc')</td></tr>
-<tr class="separator:ab3d6c93a0f1da5990c551be9a731780c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa952fc9d6d65b76fa5995789746d7a4a"><td class="memItemLeft" align="right" valign="top"><a id="aa952fc9d6d65b76fa5995789746d7a4a" name="aa952fc9d6d65b76fa5995789746d7a4a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$lsorts</b> = count($sorts)</td></tr>
-<tr class="separator:aa952fc9d6d65b76fa5995789746d7a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f1854daee285243be950e38afb84663"><td class="memItemLeft" align="right" valign="top"><a id="a7f1854daee285243be950e38afb84663" name="a7f1854daee285243be950e38afb84663"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>if</b> (strlen( $showCounts)!=5)</td></tr>
-<tr class="separator:a7f1854daee285243be950e38afb84663"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7062a9a2af0e4e9764277bfdb31e823a"><td class="memItemLeft" align="right" valign="top"><a id="a7062a9a2af0e4e9764277bfdb31e823a" name="a7062a9a2af0e4e9764277bfdb31e823a"></a>
-if($debug)&#160;</td><td class="memItemRight" valign="bottom"><b>$i</b> = array(0,1,2,3,4,5,99,98)</td></tr>
-<tr class="separator:a7062a9a2af0e4e9764277bfdb31e823a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fad8a59e7089d17007bebad83a45394"><td class="memItemLeft" align="right" valign="top"><a id="a1fad8a59e7089d17007bebad83a45394" name="a1fad8a59e7089d17007bebad83a45394"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$statuses</b> = <a class="el" href="kernel__utility_8php.html#ae533c8340a3b6d706992106509262b7a">get_statuses</a>()</td></tr>
-<tr class="separator:a1fad8a59e7089d17007bebad83a45394"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14f7323783f5369b4acab50fde8a5b9f"><td class="memItemLeft" align="right" valign="top"><a id="a14f7323783f5369b4acab50fde8a5b9f" name="a14f7323783f5369b4acab50fde8a5b9f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$statuses</b> [0][&quot;name&quot;] ='Unknown'</td></tr>
-<tr class="separator:a14f7323783f5369b4acab50fde8a5b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b54ff9063b8140a652b0251d9aa47a5"><td class="memItemLeft" align="right" valign="top"><a id="a5b54ff9063b8140a652b0251d9aa47a5" name="a5b54ff9063b8140a652b0251d9aa47a5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$statuses</b> [0][&quot;$showCounts&quot;] ='Ukn'</td></tr>
-<tr class="separator:a5b54ff9063b8140a652b0251d9aa47a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a8a4009b02e49717caa88b128affc5"><td class="memItemLeft" align="right" valign="top"><a id="a49a8a4009b02e49717caa88b128affc5" name="a49a8a4009b02e49717caa88b128affc5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$res</b> = <a class="el" href="database__connect_8php.html#af092366f1596cc99b3552185b173a53d">do_mysqli_query</a>($sql)</td></tr>
-<tr class="separator:a49a8a4009b02e49717caa88b128affc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b01194ac840a65cf229cdd172f3d235"><td class="memItemLeft" align="right" valign="top"><a id="a2b01194ac840a65cf229cdd172f3d235" name="a2b01194ac840a65cf229cdd172f3d235"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$showCounts</b> = (int)<a class="el" href="database__connect_8php.html#a272e6920bd0ac3690730a62edebae42d">getSettingWithDefault</a>('set-show-text-word-counts')</td></tr>
-<tr class="separator:a2b01194ac840a65cf229cdd172f3d235"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Manage active texts. </p>
 <p >Call: <a class="el" href="edit__texts_8php.html" title="Manage active texts.">edit_texts.php</a>?.... ... markaction=[opcode] ... do actions on marked texts ... del=[textid] ... do delete ... arch=[textid] ... do archive ... op=Check ... do check ... op=Save ... do insert new ... op=Change ... do update ... op=Save+and+Open ... do insert new and open ... op=Change+and+Open ... do update and open ... new=1 ... display new text screen ... chg=[textid] ... display edit screen ... filterlang=[langid] ... language filter ... sort=[sortcode] ... sort ... page=[pageno] ... page ... query=[titlefilter] ... title filter</p>
 <dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@h'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@ho<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>1.0.3 </dd></dl>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Variable Documentation</h2>
+<a id="a53f3a572a36b1e503045e03a4e6c789e" name="a53f3a572a36b1e503045e03a4e6c789e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53f3a572a36b1e503045e03a4e6c789e">&#9670;&nbsp;</a></span>else</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">if(isset($_REQUEST['new'])) elseif (isset( $_REQUEST[ 'chg'])) else</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    $wh_query .= <a class="code hl_function" href="database__connect_8php.html#a8644cebbae39e02a6dfed79816201271">convert_string_to_sqlsyntax</a>($currentquery)</div>
+<div class="ttc" id="adatabase__connect_8php_html_a8644cebbae39e02a6dfed79816201271"><div class="ttname"><a href="database__connect_8php.html#a8644cebbae39e02a6dfed79816201271">convert_string_to_sqlsyntax</a></div><div class="ttdeci">convert_string_to_sqlsyntax($data)</div><div class="ttdef"><b>Definition:</b> database_connect.php:119</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3

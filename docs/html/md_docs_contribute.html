@@ -76,13 +76,13 @@ Get Composer</h1>
 <h1><a class="anchor" id="autotoc_md327"></a>
 Create and Edit Themes</h1>
 <p >Themes are stored at <code>src/themes/</code>. If you want to create a new theme, simply add it in a subfolder. You can also edit existing themes.</p>
-<p >To apply the changes you made on a theme, run </p><div class="fragment"><div class="line">make minify</div>
+<p >To apply the changes you made on a theme, run </p><div class="fragment"><div class="line">composer minify</div>
 </div><!-- fragment --><p >This command will minify all CSS and JS.</p>
 <p >Alternatively, you can run </p><div class="fragment"><div class="line">php -r &quot;require &#39;src/php/minifier.php&#39;; minifyAllCSS();&quot;</div>
 </div><!-- fragment --><p> It minifies CSS only.</p>
 <h2><a class="anchor" id="autotoc_md328"></a>
 Debug your theme</h2>
-<p >You may not want to see your code minified, so you can use </p><div class="fragment"><div class="line">make no-minify</div>
+<p >You may not want to see your code minified, so you can use </p><div class="fragment"><div class="line">composer no-minify</div>
 </div><!-- fragment --><p >It has the same effect as copying the folder <code>scr/themes/</code> to <code>themes/</code>. WARNING: it can break your relative paths!</p>
 <h2><a class="anchor" id="autotoc_md329"></a>
 Add Images to your Themes</h2>
@@ -105,10 +105,10 @@ Change JS behaviour</h1>
 <p >As with themes, LWT minifies JS code for a better user experience. Please refer to the previous section for detailed explanations, this section will only go through import points.</p>
 <h2><a class="anchor" id="autotoc_md332"></a>
 Edit JS code</h2>
-<p >Clear code is stored at <code>src/js/</code>. Once again, the <em>actual</em> code used by LWT should be at <code>js/</code>. After you have done any modification, either run <code>make minify</code> or <code>php -r "require 'src/php/minifier.php'; minifyAllJS();"</code>.</p>
+<p >Clear code is stored at <code>src/js/</code>. Once again, the <em>actual</em> code used by LWT should be at <code>js/</code>. After you have done any modification, either run <code>composer minify</code> or <code>php -r "require 'src/php/minifier.php'; minifyAllJS();"</code>.</p>
 <h2><a class="anchor" id="autotoc_md333"></a>
 Debug JS code</h2>
-<p >To copy code in a non-obfuscated form, run <code>make no-minify</code>, or replace the content of <code>js/</code> by <code>src/js/</code>.</p>
+<p >To copy code in a non-obfuscated form, run <code>composer no-minify</code>, or replace the content of <code>js/</code> by <code>src/js/</code>.</p>
 <h1><a class="anchor" id="autotoc_md334"></a>
 Edit PHP code</h1>
 <p >The PHP codebase is not yet well structured, but here is a general organisation:</p><ul>
@@ -132,11 +132,11 @@ Advice: follow Code Style Standards</h2>
 <p >Nobody likes to debug unreadable code. A good way to avoid thinking about it is to include phpcs directly into your IDE. You can also download it and run it regularly on your code.</p>
 <h1><a class="anchor" id="autotoc_md338"></a>
 Improving Documentation</h1>
-<p >To regenerate all documentation, use <code>make doc</code>.</p>
+<p >To regenerate all documentation, use <code>composer doc</code>.</p>
 <h2><a class="anchor" id="autotoc_md339"></a>
 General Documentation</h2>
 <p >The documentation in split across Markdown (<code>.md</code>) files in <code>docs/</code>. Then, those files are requested by <code><a class="el" href="info_8php.html" title="LWT Information / Help.">info.php</a></code>. The final version is <code>info.html</code>, that contains all files.</p>
-<p >To regenerate <code>info.hml</code>, run <code>make info.html</code>.</p>
+<p >To regenerate <code>info.hml</code>, run <code>composer info.html</code>.</p>
 <h2><a class="anchor" id="autotoc_md340"></a>
 Code Documentation</h2>
 <p >Code documentation (everything under <code>docs/html/</code>) is automatically generated. If you see an error, the PHP code is most likely at fault. However, don't hesitate to signal the issue.</p>
