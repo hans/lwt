@@ -1599,7 +1599,7 @@ Now execute:<br>
 <h3>Create and Edit Themes</h3>
 <p>Themes are stored at <code>src/themes/</code>. If you want to create a new theme, simply add it in a subfolder. You can also edit existing themes.</p>
 <p>To apply the changes you made on a theme, run</p>
-<pre><code class="language-bash">make minify
+<pre><code class="language-bash">composer minify
 </code></pre>
 <p>This command will minify all CSS and JS.</p>
 <p>Alternatively, you can run</p>
@@ -1608,7 +1608,7 @@ Now execute:<br>
 <p>It minifies CSS only.</p>
 <h4>Debug your theme</h4>
 <p>You may not want to see your code minified, so you can use</p>
-<pre><code class="language-bash">make no-minify
+<pre><code class="language-bash">composer no-minify
 </code></pre>
 <p>It has the same effect as copying the folder <code>scr/themes/</code> to <code>themes/</code>. WARNING: it can break your relative paths!</p>
 <h4>Add Images to your Themes</h4>
@@ -1632,9 +1632,9 @@ As a consequence:</p>
 <h3>Change JS behaviour</h3>
 <p>As with themes, LWT minifies JS code for a better user experience. Please refer to the previous section for detailed explanations, this section will only go through import points.</p>
 <h4>Edit JS code</h4>
-<p>Clear code is stored at <code>src/js/</code>. Once again, the <em>actual</em> code used by LWT should be at <code>js/</code>. After you have done any modification, either run <code>make minify</code> or <code>php -r "require 'src/php/minifier.php'; minifyAllJS();"</code>.</p>
+<p>Clear code is stored at <code>src/js/</code>. Once again, the <em>actual</em> code used by LWT should be at <code>js/</code>. After you have done any modification, either run <code>composer minify</code> or <code>php -r "require 'src/php/minifier.php'; minifyAllJS();"</code>.</p>
 <h4>Debug JS code</h4>
-<p>To copy code in a non-obfuscated form, run <code>make no-minify</code>, or replace the content of <code>js/</code> by <code>src/js/</code>.</p>
+<p>To copy code in a non-obfuscated form, run <code>composer no-minify</code>, or replace the content of <code>js/</code> by <code>src/js/</code>.</p>
 <h3>Edit PHP code</h3>
 <p>The PHP codebase is not yet well structured, but here is a general organisation:</p>
 <ul>
@@ -1654,10 +1654,10 @@ As a consequence:</p>
 <h4>Advice: follow Code Style Standards</h4>
 <p>Nobody likes to debug unreadable code. A good way to avoid thinking about it is to include phpcs directly into your IDE. You can also download it and run it regularly on your code.</p>
 <h3>Improving Documentation</h3>
-<p>To regenerate all documentation, use <code>make doc</code>.</p>
+<p>To regenerate all documentation, use <code>composer doc</code>.</p>
 <h4>General Documentation</h4>
 <p>The documentation in split across Markdown (<code>.md</code>) files in <code>docs/</code>. Then, those files are requested by <code>info.php</code>. The final version is <code>info.html</code>, that contains all files.</p>
-<p>To regenerate <code>info.hml</code>, run <code>make info.html</code>.</p>
+<p>To regenerate <code>info.hml</code>, run <code>composer info.html</code>.</p>
 <h4>Code Documentation</h4>
 <p>Code documentation (everything under <code>docs/html/</code>) is automatically generated. If you see an error, the PHP code is most likely at fault. However, don't hesitate to signal the issue.</p>
 <p>Currently, the documentation is generated through Doxygen (run <code>doxygen Doxyfile</code> to regenerate it), but this is likely to change.</p>
@@ -1912,6 +1912,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 <li>Change the language rate, pitch, or local region for text-to-speech.</li>
 </ul>
 </li>
+<li>Early support of local videos.</li>
 </ul>
 <h4>Changed</h4>
 <ul>
