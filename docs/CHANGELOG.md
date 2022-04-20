@@ -24,7 +24,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get".
   * It's style was uniformized with your current theme.
 * ``tts.php`` becomes ``text_to_speech_settings.php``. As this file was unnused, it is not considered as a breaking change.
-* Refactored ``all_words_wellknown.php``.
+* Refactored ``all_words_wellknown.php``, ``edit_texts.php``. Those pages should load a bit faster.
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.
