@@ -1,8 +1,8 @@
 Changelog
 =========
 
-This project's changelog. Version marked with "-fork" come from the community, other version come from the canonical LWT ("official" branch on Git).
-For git tags, official relases are marked as "v1.0.0", while unofficial ones a marked "v1.0.0-fork".
+This project's changelog. Versions marked with "-fork" come from the community, other versions come from the canonical LWT ("official" branch on Git).
+For git tags, official releases are marked like "v1.0.0", while unofficial ones are marked like "v1.0.0-fork".
 
 ## [Unreleased]
 ### Added
@@ -11,7 +11,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * You can click on a read icon in order to read a word.
 * Text-To-Speech (TTS) Settings!
   * Change the language rate, pitch, or local region for text-to-speech.
-* Early support of local videos.
+* Early support of local videos, discussed in [#9](https://github.com/HugoFara/lwt/issues/9) with [@charosarium](https://github.com/chaosarium).
 
 ### Changed
 * mbstring and mysqli extensions are now clearly asked for by Composer.
@@ -24,7 +24,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
   * The feed wizard got a little broken: the "next" button is always active, even if you did not select text and click "Get".
   * It's style was uniformized with your current theme.
 * ``tts.php`` becomes ``text_to_speech_settings.php``. As this file was unnused, it is not considered as a breaking change.
-* Refactored ``all_words_wellknown.php``.
+* Refactored ``all_words_wellknown.php``, ``edit_texts.php``. Those pages should load a bit faster.
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.
@@ -32,7 +32,8 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 ### Fixed
 * Creating the database was sometimes impossible.
 * Database names containing special characters (hyphens, carets, etc...) was not possible.
-* The "I KNOW ALL" button calling ``all_words_wellknown.php`` created errors. This file was fixed.
+* The "I KNOW ALL" button calling ``all_words_wellknown.php`` created errors. This file was fixed. Thanks [@nghiaphamtm](https://github.com/nghiaphamtm) (issue [#26](https://github.com/HugoFara/lwt/issues/26)).
+* In ``edit_texts.php``, it was not displayed in the barchart when knowing 1 word. Thanks [@chaosarium](https://github.com/chaosarium) for signaling it (issue [#11](https://github.com/HugoFara/lwt/issues/11)).
 
 ## 2.2.2-fork (February 13 2022)
 ### Added
