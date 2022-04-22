@@ -33,6 +33,7 @@ For git tags, official relases are marked as "v1.0.0", while unofficial ones a m
 * Creating the database was sometimes impossible.
 * Database names containing special characters (hyphens, carets, etc...) was not possible.
 * The "I KNOW ALL" button calling ``all_words_wellknown.php`` created errors. This file was fixed.
+* In ``edit_texts.php``, it was not displayed in the barchart when knowing 1 word.
 
 ## 2.2.2-fork (February 13 2022)
 ### Added

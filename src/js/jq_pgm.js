@@ -934,14 +934,20 @@ function do_ajax_show_sentences (lang, word, ctl, woid) {
 
 function do_ajax_show_similar_terms () {
   $('#simwords').html('<img src="icn/waiting2.gif" />');
-  $.post('inc/ajax_show_similar_terms.php', { lang: $('#langfield').val(), word: $('#wordfield').val() },
+  $.post(
+    'inc/ajax_show_similar_terms.php', 
+    { lang: $('#langfield').val(), word: $('#wordfield').val() },
     function (data) { $('#simwords').html(data); }
   );
 }
 
 function do_ajax_word_counts () {
-  const t = $('.markcheck').map(function () { return $(this).val(); }).get().join(',');
-  $.post('inc/ajax_word_counts.php', { id: t },
+  const t = $('.markcheck').map(function () { 
+    return $(this).val(); })
+    .get().join(',');
+  $.post(
+    'inc/ajax_word_counts.php', 
+    { id: t },
     function (data) {
       WORDCOUNTS = data;
       word_count_click();
@@ -949,6 +955,49 @@ function do_ajax_word_counts () {
     }, 'json');
 }
 
+/**
+ * Set a unique item in barchart to reflect how many words are known.
+ * 
+ * @returns {undefined}
+ */
+function set_barchart_item() {
+  const id = $(this).find('span').first().attr('id').split('_')[2];
+  /** @var {int} v Number of terms in the text */
+  let v;
+  if (SUW & 16) {
+    v = parseInt(WORDCOUNTS.expru[id] || 0, 10) + parseInt(WORDCOUNTS.totalu[id], 10);
+  } else {
+    v = parseInt(WORDCOUNTS.expr[id] || 0, 10) + parseInt(WORDCOUNTS.total[id], 10);
+  }
+  $(this).children('li').each(function () {
+    /** {number} Word count in the category */
+    let cat_word_count = parseInt($(this).children('span').text(), 10);
+    /*
+    Linear version
+		const h = (v - $(this).children('span').text()) * 25 / v;
+    */
+    /* 
+    Logarithmic version
+    (25 / v) is vocab per pixel
+    log scale so the size scaled becomes Math.log(($(this).children('span').text()))
+    so the total height corresponding to text vocab after scaling should be Math.log(v)
+    the proportion of column height to box height is thus (Math.log(($(this).children('span').text())) / Math.log(v))
+    putting this back in pixel, we get (Math.log(($(this).children('span').text())) / Math.log(v)) * 25 should be the column height
+    so (25 - (Math.log(($(this).children('span').text())) / Math.log(v)) * 25) is the intended border top size.
+    */
+    // Avoid to put 0 in logarithm
+    cat_word_count += 1;
+    v += 1;
+    const h = 25 - Math.log(cat_word_count) / Math.log(v) * 25;
+    $(this).css('border-top-width', h + 'px');
+  });
+}
+
+/**
+ * Set the number of words known in a text (in edit_texts.php main page).
+ * 
+ * @returns {undefined}
+ */
 function set_word_counts () {
   $.each(WORDCOUNTS.totalu, function (key, value) {
     let knownu = known = todo = stat0 = 0;
@@ -964,37 +1013,41 @@ function set_word_counts () {
       if (!(SUW & 8))$('#stat_' + k + '_' + key).html(v); known += parseInt(v);
     });
     $('#saved_' + key).html(known ? ((SUW & 2 ? knownu : known) - expr + '+' + expr) : 0);
-    todo = SUW & 4 ? (parseInt(value) + parseInt(WORDCOUNTS.expru[key] || 0) - parseInt(knownu)) : (parseInt(WORDCOUNTS.total[key]) + parseInt(WORDCOUNTS.expr[key] || 0) - parseInt(known));
+    if (SUW & 4) {
+      todo = parseInt(value) + parseInt(WORDCOUNTS.expru[key] || 0) - parseInt(knownu);
+    } else {
+      todo = parseInt(WORDCOUNTS.total[key]) + parseInt(WORDCOUNTS.expr[key] || 0) - parseInt(known);
+    }
     $('#todo_' + key).html(todo);
 
     // added unknown percent
-    console.log(SUW);
-    unknowncount = SUW & 8 ? (parseInt(value) + parseInt(WORDCOUNTS.expru[key] || 0) - parseInt(knownu)) : (parseInt(WORDCOUNTS.total[key]) + parseInt(WORDCOUNTS.expr[key] || 0) - parseInt(known));
-    unknownpercent = SUW & 8 ? Math.round(unknowncount * 10000 / (knownu + unknowncount)) / 100 : Math.round(unknowncount * 10000 / (known + unknowncount)) / 100;
+    // console.log(SUW);
+    if (SUW & 8) {
+      unknowncount = parseInt(value) + parseInt(WORDCOUNTS.expru[key] || 0) - parseInt(knownu);
+      unknownpercent = Math.round(unknowncount * 10000 / (knownu + unknowncount)) / 100;
+    } else {
+      unknowncount = parseInt(WORDCOUNTS.total[key]) + parseInt(WORDCOUNTS.expr[key] || 0) - parseInt(known);
+      unknownpercent = Math.round(unknowncount * 10000 / (known + unknowncount)) / 100;
+    }
     $('#unknownpercent_' + key).html(unknownpercent == 0 ? 0 : unknownpercent.toFixed(2));
     // end here
 
-    stat0 = SUW & 16 ? (parseInt(value) + parseInt(WORDCOUNTS.expru[key] || 0) - parseInt(knownu)) : (parseInt(WORDCOUNTS.total[key]) + parseInt(WORDCOUNTS.expr[key] || 0) - parseInt(known));
+    if (SUW & 16) {
+      stat0 = parseInt(value) + parseInt(WORDCOUNTS.expru[key] || 0) - parseInt(knownu);
+    } else {
+      stat0 = parseInt(WORDCOUNTS.total[key]) + parseInt(WORDCOUNTS.expr[key] || 0) - parseInt(known);
+    }
     $('#stat_0_' + key).html(stat0);
   });
-  $('.barchart').each(function () {
-    const id = $(this).find('span').first().attr('id').split('_')[2];
-    const v = SUW & 16 ? parseInt(WORDCOUNTS.expru[id] || 0) + parseInt(WORDCOUNTS.totalu[id]) : parseInt(WORDCOUNTS.expr[id] || 0) + parseInt(WORDCOUNTS.total[id]);
-    $(this).children('li').each(function () {
-      // v is the text vocab size
-      // ($(this).children('span').text()) gets the category word count
-      // (25 / v) is vocab per pixel
-      // log scale so the size scaled becomes Math.log(($(this).children('span').text()))
-      // so the total height corresponding to text vocab after scaling should be Math.log(v)
-      // the proportion of column height to box height is thus (Math.log(($(this).children('span').text())) / Math.log(v))
-      // putting this back in pixel, we get (Math.log(($(this).children('span').text())) / Math.log(v)) * 25 should be the column height
-      // so (25 - (Math.log(($(this).children('span').text())) / Math.log(v)) * 25) is the intended border top size
-      const h = (25 - (Math.log(($(this).children('span').text())) / Math.log(v)) * 25);
-      $(this).css('border-top-width', h + 'px');
-    });
-  });
+  $('.barchart').each(set_barchart_item);
 }
 
+/**
+ * Handle the click event to switch between total and 
+ * unique words count in edit_texts.php.
+ * 
+ * @returns {undefined}
+ */
 function word_count_click () {
   $('.wc_cont').children().each(function () {
     if (parseInt($(this).attr('data_wo_cnt')) == 1) {
