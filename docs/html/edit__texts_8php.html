@@ -65,8 +65,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">edit_texts.php File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -74,98 +74,488 @@ $(function() {
 <p>Manage active texts.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespace_lwt"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_lwt.html">Lwt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a671c036d96772b19dd9d3ec75aa159e9"><td class="memItemLeft" align="right" valign="top"><a id="a671c036d96772b19dd9d3ec75aa159e9" name="a671c036d96772b19dd9d3ec75aa159e9"></a>
-if(isset( $_REQUEST[ 'markaction']))&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_delete</b> ($txid)</td></tr>
-<tr class="separator:a671c036d96772b19dd9d3ec75aa159e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2509a19a23c08d39956a442674ee5248"><td class="memItemLeft" align="right" valign="top"><a id="a2509a19a23c08d39956a442674ee5248" name="a2509a19a23c08d39956a442674ee5248"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_archive</b> ($txid)</td></tr>
+<tr class="memitem:a0af8fc20f5fa9bc2df8828e9efb0ac66"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a0af8fc20f5fa9bc2df8828e9efb0ac66">edit_texts_get_wh_query</a> ($currentquery, $currentquerymode, $currentregexmode)</td></tr>
+<tr class="separator:a0af8fc20f5fa9bc2df8828e9efb0ac66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61a465302896e7249e873e86c6a6c04b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a61a465302896e7249e873e86c6a6c04b">edit_texts_get_wh_tag</a> ($currentlang)</td></tr>
+<tr class="separator:a61a465302896e7249e873e86c6a6c04b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab859d1e74d3f9800704a8fbc7949cce8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#ab859d1e74d3f9800704a8fbc7949cce8">edit_texts_mark_action</a> ($markaction, $marked, $actiondata)</td></tr>
+<tr class="separator:ab859d1e74d3f9800704a8fbc7949cce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7252108fe5a493788826c7de6ec02b91"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a7252108fe5a493788826c7de6ec02b91">edit_texts_delete</a> ($txid)</td></tr>
+<tr class="separator:a7252108fe5a493788826c7de6ec02b91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2509a19a23c08d39956a442674ee5248"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a2509a19a23c08d39956a442674ee5248">edit_texts_archive</a> ($txid)</td></tr>
 <tr class="separator:a2509a19a23c08d39956a442674ee5248"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a75def056126448f852e343ad4fe75a"><td class="memItemLeft" align="right" valign="top"><a id="a5a75def056126448f852e343ad4fe75a" name="a5a75def056126448f852e343ad4fe75a"></a>
-if(isset( $_REQUEST[ 'del'])) elseif(isset($_REQUEST['arch'])) elseif(isset( $_REQUEST[ 'op']))&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_new</b> ($currentlang)</td></tr>
-<tr class="separator:a5a75def056126448f852e343ad4fe75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ede8082260d0ce390a7a5f021605119"><td class="memItemLeft" align="right" valign="top"><a id="a5ede8082260d0ce390a7a5f021605119" name="a5ede8082260d0ce390a7a5f021605119"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_change</b> ($change)</td></tr>
-<tr class="separator:a5ede8082260d0ce390a7a5f021605119"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfff8804ae6a47c7abf1bbc53458a2cb"><td class="memItemLeft" align="right" valign="top"><a id="abfff8804ae6a47c7abf1bbc53458a2cb" name="abfff8804ae6a47c7abf1bbc53458a2cb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>edit_texts_display</b> ($message, $wh_query, $wh_tag)</td></tr>
-<tr class="separator:abfff8804ae6a47c7abf1bbc53458a2cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a5aa4fc1f2b62bde86af501cedb7707c8"><td class="memItemLeft" align="right" valign="top"><a id="a5aa4fc1f2b62bde86af501cedb7707c8" name="a5aa4fc1f2b62bde86af501cedb7707c8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentlang</b> = <a class="el" href="database__connect_8php.html#a02d40918dc384387272eb42f065925c6">validateLang</a>(processDBParam(&quot;filterlang&quot;, 'currentlanguage', '', 0))</td></tr>
-<tr class="separator:a5aa4fc1f2b62bde86af501cedb7707c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a592001c6b0a088ee3768be629bc3ae17"><td class="memItemLeft" align="right" valign="top"><a id="a592001c6b0a088ee3768be629bc3ae17" name="a592001c6b0a088ee3768be629bc3ae17"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentsort</b> = processDBParam(&quot;sort&quot;, 'currenttextsort', '1', 1)</td></tr>
-<tr class="separator:a592001c6b0a088ee3768be629bc3ae17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cf6eb6f2c4d1e6204209a5341ccb537"><td class="memItemLeft" align="right" valign="top"><a id="a2cf6eb6f2c4d1e6204209a5341ccb537" name="a2cf6eb6f2c4d1e6204209a5341ccb537"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentpage</b> = processSessParam(&quot;page&quot;, &quot;currenttextpage&quot;, '1', 1)</td></tr>
-<tr class="separator:a2cf6eb6f2c4d1e6204209a5341ccb537"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04318951a009e0355d0df46ad512fd75"><td class="memItemLeft" align="right" valign="top"><a id="a04318951a009e0355d0df46ad512fd75" name="a04318951a009e0355d0df46ad512fd75"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentquery</b> = processSessParam(&quot;query&quot;, &quot;currenttextquery&quot;, '', 0)</td></tr>
-<tr class="separator:a04318951a009e0355d0df46ad512fd75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c7c3b6ef879756cb217336efab71878"><td class="memItemLeft" align="right" valign="top"><a id="a0c7c3b6ef879756cb217336efab71878" name="a0c7c3b6ef879756cb217336efab71878"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentquerymode</b> = processSessParam(&quot;query_mode&quot;, &quot;currenttextquerymode&quot;, 'title,text', 0)</td></tr>
-<tr class="separator:a0c7c3b6ef879756cb217336efab71878"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54d99d8b400d86d0e61d2b9dbb6748f1"><td class="memItemLeft" align="right" valign="top"><a id="a54d99d8b400d86d0e61d2b9dbb6748f1" name="a54d99d8b400d86d0e61d2b9dbb6748f1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentregexmode</b> = <a class="el" href="database__connect_8php.html#a272e6920bd0ac3690730a62edebae42d">getSettingWithDefault</a>(&quot;set-regex-mode&quot;)</td></tr>
-<tr class="separator:a54d99d8b400d86d0e61d2b9dbb6748f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e6c5c0f7a6564b7fa71b6d445d7e093"><td class="memItemLeft" align="right" valign="top"><a id="a7e6c5c0f7a6564b7fa71b6d445d7e093" name="a7e6c5c0f7a6564b7fa71b6d445d7e093"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag1</b> = validateTextTag(processSessParam(&quot;tag1&quot;, &quot;currenttexttag1&quot;, '', 0), $currentlang)</td></tr>
-<tr class="separator:a7e6c5c0f7a6564b7fa71b6d445d7e093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6787987cbb1ee700d35dcbde1be98fb"><td class="memItemLeft" align="right" valign="top"><a id="ad6787987cbb1ee700d35dcbde1be98fb" name="ad6787987cbb1ee700d35dcbde1be98fb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag2</b> = validateTextTag(processSessParam(&quot;tag2&quot;, &quot;currenttexttag2&quot;, '', 0), $currentlang)</td></tr>
-<tr class="separator:ad6787987cbb1ee700d35dcbde1be98fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afce2133f4ef4cf3a0e54181809382128"><td class="memItemLeft" align="right" valign="top"><a id="afce2133f4ef4cf3a0e54181809382128" name="afce2133f4ef4cf3a0e54181809382128"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currenttag12</b> = processSessParam(&quot;tag12&quot;, &quot;currenttexttag12&quot;, '', 0)</td></tr>
-<tr class="separator:afce2133f4ef4cf3a0e54181809382128"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bdf56b14b0e27e65ca948601be7035a"><td class="memItemLeft" align="right" valign="top"><a id="a9bdf56b14b0e27e65ca948601be7035a" name="a9bdf56b14b0e27e65ca948601be7035a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_lang</b> = ($currentlang != '') ? (' and TxLgID=' . $currentlang) : ''</td></tr>
-<tr class="separator:a9bdf56b14b0e27e65ca948601be7035a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfceb82dc7f82e957c5fae24b1dcb71c"><td class="memItemLeft" align="right" valign="top"><a id="adfceb82dc7f82e957c5fae24b1dcb71c" name="adfceb82dc7f82e957c5fae24b1dcb71c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_query</b> = $currentregexmode . 'LIKE '</td></tr>
-<tr class="separator:adfceb82dc7f82e957c5fae24b1dcb71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53f3a572a36b1e503045e03a4e6c789e"><td class="memItemLeft" align="right" valign="top">if($currentregexmode=='')&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a53f3a572a36b1e503045e03a4e6c789e">else</a></td></tr>
-<tr class="separator:a53f3a572a36b1e503045e03a4e6c789e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e7137dbab868485578aa50196861722"><td class="memItemLeft" align="right" valign="top"><a id="a0e7137dbab868485578aa50196861722" name="a0e7137dbab868485578aa50196861722"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_tag1</b> = null</td></tr>
-<tr class="separator:a0e7137dbab868485578aa50196861722"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b4a841c6995646cd4eac462647ab673"><td class="memItemLeft" align="right" valign="top"><a id="a1b4a841c6995646cd4eac462647ab673" name="a1b4a841c6995646cd4eac462647ab673"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$wh_tag2</b> = null</td></tr>
-<tr class="separator:a1b4a841c6995646cd4eac462647ab673"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77a527ecfe2c7b7e721e11f61c82f100"><td class="memItemLeft" align="right" valign="top"><a id="a77a527ecfe2c7b7e721e11f61c82f100" name="a77a527ecfe2c7b7e721e11f61c82f100"></a>
-if(! $no_pagestart)&#160;</td><td class="memItemRight" valign="bottom"><b>$message</b> = ''</td></tr>
-<tr class="separator:a77a527ecfe2c7b7e721e11f61c82f100"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae97941710d863131c700f069b109991e"><td class="memItemLeft" align="right" valign="top"><a id="ae97941710d863131c700f069b109991e" name="ae97941710d863131c700f069b109991e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$id</b> = null</td></tr>
-<tr class="separator:ae97941710d863131c700f069b109991e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9ce05ff907c900ab2b98cbbb13ff292"><td class="memItemLeft" align="right" valign="top"><a id="ad9ce05ff907c900ab2b98cbbb13ff292" name="ad9ce05ff907c900ab2b98cbbb13ff292"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>$message1</b> = null</td></tr>
-<tr class="separator:ad9ce05ff907c900ab2b98cbbb13ff292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a91f2652a2a62229af02d57c3db9dc4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a4a91f2652a2a62229af02d57c3db9dc4">edit_texts_do_operation</a> ($op, $message1, $no_pagestart)</td></tr>
+<tr class="separator:a4a91f2652a2a62229af02d57c3db9dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a29bf862becb057f6abc687b8bfa668"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a5a29bf862becb057f6abc687b8bfa668">edit_texts_new</a> ($lid)</td></tr>
+<tr class="separator:a5a29bf862becb057f6abc687b8bfa668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed448096b71b876e396a550307553208"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#aed448096b71b876e396a550307553208">edit_texts_change</a> ($txid)</td></tr>
+<tr class="separator:aed448096b71b876e396a550307553208"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae58ba04da465d45cc670cfbe56429d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#aae58ba04da465d45cc670cfbe56429d9">edit_texts_filters_form</a> ($currentlang, $recno, $currentpage, $pages)</td></tr>
+<tr class="separator:aae58ba04da465d45cc670cfbe56429d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7600c0a4f13e5d17f78cee544abaeb7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#ad7600c0a4f13e5d17f78cee544abaeb7">edit_texts_other_pages</a> ($recno)</td></tr>
+<tr class="separator:ad7600c0a4f13e5d17f78cee544abaeb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5850389e2199335d4db3996486bad55"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#ac5850389e2199335d4db3996486bad55">edit_texts_texts_form</a> ($currentlang, $showCounts, $sql, $recno)</td></tr>
+<tr class="separator:ac5850389e2199335d4db3996486bad55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1023e766e7d1c3d7c1d1c9e9812e001d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a1023e766e7d1c3d7c1d1c9e9812e001d">edit_texts_display</a> ($message)</td></tr>
+<tr class="separator:a1023e766e7d1c3d7c1d1c9e9812e001d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af46f56feb952a57bee73c15af980e4f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#af46f56feb952a57bee73c15af980e4f4">edit_texts_do_page</a> ()</td></tr>
+<tr class="separator:af46f56feb952a57bee73c15af980e4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Manage active texts. </p>
-<p >Call: <a class="el" href="edit__texts_8php.html" title="Manage active texts.">edit_texts.php</a>?.... ... markaction=[opcode] ... do actions on marked texts ... del=[textid] ... do delete ... arch=[textid] ... do archive ... op=Check ... do check ... op=Save ... do insert new ... op=Change ... do update ... op=Save+and+Open ... do insert new and open ... op=Change+and+Open ... do update and open ... new=1 ... display new text screen ... chg=[textid] ... display edit screen ... filterlang=[langid] ... language filter ... sort=[sortcode] ... sort ... page=[pageno] ... page ... query=[titlefilter] ... title filter</p>
-<dl class="section author"><dt>Author</dt><dd>LWT Project <a href="#" onclick="location.href='mai'+'lto:'+'lwt'+'-p'+'roj'+'ec'+'t@h'+'ot'+'mai'+'l.'+'com'; return false;">lwt-p<span style="display: none;">.nosp@m.</span>roje<span style="display: none;">.nosp@m.</span>ct@ho<span style="display: none;">.nosp@m.</span>tmai<span style="display: none;">.nosp@m.</span>l.com</a> </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>1.0.3 </dd></dl>
-</div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a53f3a572a36b1e503045e03a4e6c789e" name="a53f3a572a36b1e503045e03a4e6c789e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53f3a572a36b1e503045e03a4e6c789e">&#9670;&nbsp;</a></span>else</h2>
+<p >Call: <a class="el" href="edit__texts_8php.html" title="Manage active texts.">edit_texts.php</a>?.... ... markaction=[opcode] ... do actions on marked texts ... del=[textid] ... do delete ... arch=[textid] ... do archive ... op=Check ... do check ... op=Save ... do insert new ... op=Change ... do update ... op=Save+and+Open ... do insert new and open ... op=Change+and+Open ... do update and open ... new=1 ... display new text screen ... chg=[textid] ... display edit screen ... filterlang=[langid] ... language filter ... sort=[sortcode] ... sort ... page=[pageno] ... page ... query=[titlefilter] ... title filter </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a2509a19a23c08d39956a442674ee5248" name="a2509a19a23c08d39956a442674ee5248"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2509a19a23c08d39956a442674ee5248">&#9670;&nbsp;</a></span>edit_texts_archive()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">if(isset($_REQUEST['new'])) elseif (isset( $_REQUEST[ 'chg'])) else</td>
+          <td class="memname">edit_texts_archive </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$txid</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{</div>
-<div class="line">    $wh_query .= <a class="code hl_function" href="database__connect_8php.html#a8644cebbae39e02a6dfed79816201271">convert_string_to_sqlsyntax</a>($currentquery)</div>
-<div class="ttc" id="adatabase__connect_8php_html_a8644cebbae39e02a6dfed79816201271"><div class="ttname"><a href="database__connect_8php.html#a8644cebbae39e02a6dfed79816201271">convert_string_to_sqlsyntax</a></div><div class="ttdeci">convert_string_to_sqlsyntax($data)</div><div class="ttdef"><b>Definition:</b> database_connect.php:119</div></div>
-</div><!-- fragment -->
+<p >Archive a text.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$txid</td><td>text ID</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Number of archives saved, texts deleted, sentences deleted, text items deleted.</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+<a id="aed448096b71b876e396a550307553208" name="aed448096b71b876e396a550307553208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed448096b71b876e396a550307553208">&#9670;&nbsp;</a></span>edit_texts_change()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_change </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$txid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Create the main window to edit an existing text.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$txid</td><td>Text ID</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+<a id="a7252108fe5a493788826c7de6ec02b91" name="a7252108fe5a493788826c7de6ec02b91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7252108fe5a493788826c7de6ec02b91">&#9670;&nbsp;</a></span>edit_texts_delete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_delete </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$txid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Delete an existing text.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$txid</td><td>Text ID</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Texts, sentences, and text items deleted.</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+<a id="a1023e766e7d1c3d7c1d1c9e9812e001d" name="a1023e766e7d1c3d7c1d1c9e9812e001d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1023e766e7d1c3d7c1d1c9e9812e001d">&#9670;&nbsp;</a></span>edit_texts_display()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_display </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Main display for the edit text functionality.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$message</td><td>Message to display.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p>@global string $tbpref Database table prefix @global int $debug Debug mode active or not </p>
+<p >Prepare the action so that a click switches between unique word count and total word count.</p>
+<dl class="section return"><dt>Returns</dt><dd>{undefined}</dd></dl>
+<p>Save the settings about unique/total words count.</p>
+<dl class="section return"><dt>Returns</dt><dd>{undefined}</dd></dl>
+
+</div>
+</div>
+<a id="a4a91f2652a2a62229af02d57c3db9dc4" name="a4a91f2652a2a62229af02d57c3db9dc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a91f2652a2a62229af02d57c3db9dc4">&#9670;&nbsp;</a></span>edit_texts_do_operation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_do_operation </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$op</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$message1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$no_pagestart</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Do an operation on texts.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$op</td><td>Operation name </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$message1</td><td>Number of texts edited </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$no_pagestart</td><td>If you don't want a page</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Edition message (number of rows edited)</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+<a id="af46f56feb952a57bee73c15af980e4f4" name="af46f56feb952a57bee73c15af980e4f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af46f56feb952a57bee73c15af980e4f4">&#9670;&nbsp;</a></span>edit_texts_do_page()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_do_page </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Main function for displaying the edit_texts page.</p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="aae58ba04da465d45cc670cfbe56429d9" name="aae58ba04da465d45cc670cfbe56429d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae58ba04da465d45cc670cfbe56429d9">&#9670;&nbsp;</a></span>edit_texts_filters_form()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_filters_form </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentlang</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$recno</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentpage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$pages</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Do the filters form for texts display.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$currentlang</td><td>Current language ID </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$recno</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$currentpage</td><td>Current page number </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$pages</td><td>Total number of pages</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a0af8fc20f5fa9bc2df8828e9efb0ac66" name="a0af8fc20f5fa9bc2df8828e9efb0ac66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0af8fc20f5fa9bc2df8828e9efb0ac66">&#9670;&nbsp;</a></span>edit_texts_get_wh_query()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_get_wh_query </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentquery</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentquerymode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentregexmode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Get the value of $wh_query.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$currentquery</td><td>Current database query </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$currentquerymode</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$currentregexmode</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Content for $wh_query. </dd></dl>
+
+</div>
+</div>
+<a id="a61a465302896e7249e873e86c6a6c04b" name="a61a465302896e7249e873e86c6a6c04b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61a465302896e7249e873e86c6a6c04b">&#9670;&nbsp;</a></span>edit_texts_get_wh_tag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_get_wh_tag </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentlang</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Return the value for $wh_tag.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string&#160;|&#160;int</td><td class="paramname">$currentlang</td><td>Current language ID</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string Content for $wh_tag. </dd></dl>
+
+</div>
+</div>
+<a id="ab859d1e74d3f9800704a8fbc7949cce8" name="ab859d1e74d3f9800704a8fbc7949cce8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab859d1e74d3f9800704a8fbc7949cce8">&#9670;&nbsp;</a></span>edit_texts_mark_action()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_mark_action </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$markaction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$marked</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$actiondata</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >When a mark action is in use, do the action.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$maraction</td><td>Type of action </td></tr>
+    <tr><td class="paramtype">array</td><td class="paramname">$marked</td><td>Texts marked. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$actiondata</td><td>Values to insert to the database</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string[2] Massage and number of rows edited.</dd></dl>
+<p>@global string $tbpref Database table prefix </p>
+
+</div>
+</div>
+<a id="a5a29bf862becb057f6abc687b8bfa668" name="a5a29bf862becb057f6abc687b8bfa668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a29bf862becb057f6abc687b8bfa668">&#9670;&nbsp;</a></span>edit_texts_new()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_new </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$lid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Create a window to make a new text in the target language.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$lid</td><td>Language ID</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="ad7600c0a4f13e5d17f78cee544abaeb7" name="ad7600c0a4f13e5d17f78cee544abaeb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7600c0a4f13e5d17f78cee544abaeb7">&#9670;&nbsp;</a></span>edit_texts_other_pages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_other_pages </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$recno</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Make links to navigate to other pages if necessary.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$recno</td><td>Record number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="ac5850389e2199335d4db3996486bad55" name="ac5850389e2199335d4db3996486bad55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5850389e2199335d4db3996486bad55">&#9670;&nbsp;</a></span>edit_texts_texts_form()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_texts_form </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentlang</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$showCounts</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$sql</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$recno</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Main form for displaying multiple texts.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$currentlang</td><td>Current language ID </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$showCounts</td><td>Number of items to show </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$sql</td><td>SQL string to execute </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$recno</td><td>Record number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p>@global int $debug Display debug information. </p>
+
 </div>
 </div>
 </div><!-- contents -->
