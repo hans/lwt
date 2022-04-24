@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.3.0-fork-RC1</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.3.0-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -106,11 +106,9 @@ Functions</h2></td></tr>
 <tr class="separator:a6f2f5cc81ccf171949bfd8352061ebc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad28c78a754350385e9864ccc5896a774"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#ad28c78a754350385e9864ccc5896a774">saveWordTags</a> ($wid)</td></tr>
 <tr class="separator:ad28c78a754350385e9864ccc5896a774"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71a70fad37026e4d46cf979e8f94c700"><td class="memItemLeft" align="right" valign="top"><a id="a71a70fad37026e4d46cf979e8f94c700" name="a71a70fad37026e4d46cf979e8f94c700"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>saveTextTags</b> ($tid)</td></tr>
+<tr class="memitem:a71a70fad37026e4d46cf979e8f94c700"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#a71a70fad37026e4d46cf979e8f94c700">saveTextTags</a> ($tid)</td></tr>
 <tr class="separator:a71a70fad37026e4d46cf979e8f94c700"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7361a130db8527ab97bfef9a2b1ef5f3"><td class="memItemLeft" align="right" valign="top"><a id="a7361a130db8527ab97bfef9a2b1ef5f3" name="a7361a130db8527ab97bfef9a2b1ef5f3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>saveArchivedTextTags</b> ($tid)</td></tr>
+<tr class="memitem:a7361a130db8527ab97bfef9a2b1ef5f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="session__utility_8php.html#a7361a130db8527ab97bfef9a2b1ef5f3">saveArchivedTextTags</a> ($tid)</td></tr>
 <tr class="separator:a7361a130db8527ab97bfef9a2b1ef5f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c0a009f162f65fbd403fb367695edc2"><td class="memItemLeft" align="right" valign="top"><a id="a7c0a009f162f65fbd403fb367695edc2" name="a7c0a009f162f65fbd403fb367695edc2"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getWordTags</b> ($wid)</td></tr>
@@ -1399,7 +1397,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>@global bool $debug Show the requests if true @global string $tbpref The database table prefix if true </p>
+<p>@global string $tbpref The database table prefix if true @global int $debug Show the requests if true </p>
 
 </div>
 </div>
@@ -1524,6 +1522,46 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a7361a130db8527ab97bfef9a2b1ef5f3" name="a7361a130db8527ab97bfef9a2b1ef5f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7361a130db8527ab97bfef9a2b1ef5f3">&#9670;&nbsp;</a></span>saveArchivedTextTags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">saveArchivedTextTags </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$tid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Save the tags for archived texts.</p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a71a70fad37026e4d46cf979e8f94c700" name="a71a70fad37026e4d46cf979e8f94c700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71a70fad37026e4d46cf979e8f94c700">&#9670;&nbsp;</a></span>saveTextTags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">saveTextTags </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$tid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Save the tags for texts.</p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
 <a id="ad28c78a754350385e9864ccc5896a774" name="ad28c78a754350385e9864ccc5896a774"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad28c78a754350385e9864ccc5896a774">&#9670;&nbsp;</a></span>saveWordTags()</h2>
 
@@ -1539,6 +1577,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p >Save the tags for words.</p>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="lwt_icon.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.3.0-fork-RC1</span>
+   <div id="projectname">Learning with Texts - Fork<span id="projectnumber">&#160;2.3.0-fork</span>
    </div>
    <div id="projectbrief">Learn foreign languages with texts</div>
   </td>
@@ -101,6 +101,8 @@ Functions</h2></td></tr>
 <tr class="separator:aae58ba04da465d45cc670cfbe56429d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7600c0a4f13e5d17f78cee544abaeb7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#ad7600c0a4f13e5d17f78cee544abaeb7">edit_texts_other_pages</a> ($recno)</td></tr>
 <tr class="separator:ad7600c0a4f13e5d17f78cee544abaeb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add338a36c530721a46ef5c020b1cc979"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#add338a36c530721a46ef5c020b1cc979">edit_texts_show_text_row</a> ($txrecord, $currentlang, $statuses)</td></tr>
+<tr class="separator:add338a36c530721a46ef5c020b1cc979"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5850389e2199335d4db3996486bad55"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#ac5850389e2199335d4db3996486bad55">edit_texts_texts_form</a> ($currentlang, $showCounts, $sql, $recno)</td></tr>
 <tr class="separator:ac5850389e2199335d4db3996486bad55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1023e766e7d1c3d7c1d1c9e9812e001d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="edit__texts_8php.html#a1023e766e7d1c3d7c1d1c9e9812e001d">edit_texts_display</a> ($message)</td></tr>
@@ -499,6 +501,51 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">int</td><td class="paramname">$recno</td><td>Record number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="add338a36c530721a46ef5c020b1cc979" name="add338a36c530721a46ef5c020b1cc979"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add338a36c530721a46ef5c020b1cc979">&#9670;&nbsp;</a></span>edit_texts_show_text_row()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">edit_texts_show_text_row </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$txrecord</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$currentlang</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$statuses</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Display the content of a table row for text edition.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype"></td><td class="paramname">array&lt;string,string&gt;</td><td>$txrecord <br  />
+ Various information about the text should contain 'TxID' at least. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$currentlang</td><td>Current language ID </td></tr>
+    <tr><td class="paramtype"></td><td class="paramname">array&lt;int&lt;0,5&gt;|98|99,array&lt;string,string&gt;&gt;</td><td>$statuses List of statuses WITH unknown words (status 0)</td></tr>
   </table>
   </dd>
 </dl>

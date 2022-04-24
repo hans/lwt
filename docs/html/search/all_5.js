@@ -20,7 +20,8 @@ var searchData=
   ['edit_5ftexts_5fmark_5faction_17',['edit_texts_mark_action',['../edit__texts_8php.html#ab859d1e74d3f9800704a8fbc7949cce8',1,'edit_texts.php']]],
   ['edit_5ftexts_5fnew_18',['edit_texts_new',['../edit__texts_8php.html#a5a29bf862becb057f6abc687b8bfa668',1,'edit_texts.php']]],
   ['edit_5ftexts_5fother_5fpages_19',['edit_texts_other_pages',['../edit__texts_8php.html#ad7600c0a4f13e5d17f78cee544abaeb7',1,'edit_texts.php']]],
-  ['edit_5ftexts_5ftexts_5fform_20',['edit_texts_texts_form',['../edit__texts_8php.html#ac5850389e2199335d4db3996486bad55',1,'edit_texts.php']]],
-  ['edit_5ftword_2ephp_21',['edit_tword.php',['../edit__tword_8php.html',1,'']]],
-  ['edit_5fword_2ephp_22',['edit_word.php',['../edit__word_8php.html',1,'']]]
+  ['edit_5ftexts_5fshow_5ftext_5frow_20',['edit_texts_show_text_row',['../edit__texts_8php.html#add338a36c530721a46ef5c020b1cc979',1,'edit_texts.php']]],
+  ['edit_5ftexts_5ftexts_5fform_21',['edit_texts_texts_form',['../edit__texts_8php.html#ac5850389e2199335d4db3996486bad55',1,'edit_texts.php']]],
+  ['edit_5ftword_2ephp_22',['edit_tword.php',['../edit__tword_8php.html',1,'']]],
+  ['edit_5fword_2ephp_23',['edit_word.php',['../edit__word_8php.html',1,'']]]
 ];
