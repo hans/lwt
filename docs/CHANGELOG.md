@@ -4,14 +4,14 @@ Changelog
 This project's changelog. Versions marked with "-fork" come from the community, other versions come from the canonical LWT ("official" branch on Git).
 For git tags, official releases are marked like "v1.0.0", while unofficial ones are marked like "v1.0.0-fork".
 
-## [Unreleased]
+## 2.3.0-fork (April 24 2022)
 ### Added
 * Commands included in ``Makefile`` where transcripted in ``composer.json``.
 * [Docker](https://www.docker.com/) integration! It is done through ``Dockerfile``, ``docker-compose.yml``, ``.dockerignore`` and ``.env`` files.
 * You can click on a read icon in order to read a word.
 * Text-To-Speech (TTS) Settings!
   * Change the language rate, pitch, or local region for text-to-speech.
-* Early support of local videos, discussed in [#9](https://github.com/HugoFara/lwt/issues/9) with [@charosarium](https://github.com/chaosarium).
+* Early support of local videos, discussed in [#9](https://github.com/HugoFara/lwt/issues/9) with [@chaosarium](https://github.com/chaosarium).
 
 ### Changed
 * mbstring and mysqli extensions are now clearly asked for by Composer.
@@ -25,6 +25,7 @@ For git tags, official releases are marked like "v1.0.0", while unofficial ones 
   * It's style was uniformized with your current theme.
 * ``tts.php`` becomes ``text_to_speech_settings.php``. As this file was unnused, it is not considered as a breaking change.
 * Refactored ``all_words_wellknown.php``, ``edit_texts.php``. Those pages should load a bit faster.
+* We do no longer load pages in [Almost Standards Mode](https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode). Unless you use some Netscape browser, it should not impact you.
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.
@@ -34,6 +35,8 @@ For git tags, official releases are marked like "v1.0.0", while unofficial ones 
 * Database names containing special characters (hyphens, carets, etc...) was not possible.
 * The "I KNOW ALL" button calling ``all_words_wellknown.php`` created errors. This file was fixed. Thanks [@nghiaphamtm](https://github.com/nghiaphamtm) (issue [#26](https://github.com/HugoFara/lwt/issues/26)).
 * In ``edit_texts.php``, it was not displayed in the barchart when knowing 1 word. Thanks [@chaosarium](https://github.com/chaosarium) for signaling it (issue [#11](https://github.com/HugoFara/lwt/issues/11)).
+* Tags were breaking text modification. Issue [#12](https://github.com/HugoFara/lwt/issues/12), thanks [@chaosarium](https://github.com/chaosarium).
+* In edit_texts.php, unknown words (with status 0), had no abbreviation display between parentheses. It was showing "Unknown ()".
 
 ## 2.2.2-fork (February 13 2022)
 ### Added

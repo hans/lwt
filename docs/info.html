@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -1900,7 +1899,7 @@ KEY NfUpdate (NfUpdate)</p>
 			<h2 id="CHANGELOG" name="CHANGELOG">▶ Changelog - <a href="#">[↑]</a></h2>
 <p>This project's changelog. Versions marked with "-fork" come from the community, other versions come from the canonical LWT ("official" branch on Git).
 For git tags, official releases are marked like "v1.0.0", while unofficial ones are marked like "v1.0.0-fork".</p>
-<h3>[Unreleased]</h3>
+<h3>2.3.0-fork (April 24 2022)</h3>
 <h4>Added</h4>
 <ul>
 <li>Commands included in <code>Makefile</code> where transcripted in <code>composer.json</code>.</li>
@@ -1912,7 +1911,7 @@ For git tags, official releases are marked like "v1.0.0", while unofficial ones 
 <li>Change the language rate, pitch, or local region for text-to-speech.</li>
 </ul>
 </li>
-<li>Early support of local videos, discussed in <a href="https://github.com/HugoFara/lwt/issues/9">#9</a> with <a href="https://github.com/chaosarium">@charosarium</a>.</li>
+<li>Early support of local videos, discussed in <a href="https://github.com/HugoFara/lwt/issues/9">#9</a> with <a href="https://github.com/chaosarium">@chaosarium</a>.</li>
 </ul>
 <h4>Changed</h4>
 <ul>
@@ -1934,6 +1933,7 @@ For git tags, official releases are marked like "v1.0.0", while unofficial ones 
 <li>
 <code>tts.php</code> becomes <code>text_to_speech_settings.php</code>. As this file was unnused, it is not considered as a breaking change.</li>
 <li>Refactored <code>all_words_wellknown.php</code>, <code>edit_texts.php</code>. Those pages should load a bit faster.</li>
+<li>We do no longer load pages in <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode">Almost Standards Mode</a>. Unless you use some Netscape browser, it should not impact you.</li>
 </ul>
 <h4>Deprecated</h4>
 <ul>
@@ -1945,6 +1945,8 @@ For git tags, official releases are marked like "v1.0.0", while unofficial ones 
 <li>Database names containing special characters (hyphens, carets, etc...) was not possible.</li>
 <li>The "I KNOW ALL" button calling <code>all_words_wellknown.php</code> created errors. This file was fixed. Thanks <a href="https://github.com/nghiaphamtm">@nghiaphamtm</a> (issue <a href="https://github.com/HugoFara/lwt/issues/26">#26</a>).</li>
 <li>In <code>edit_texts.php</code>, it was not displayed in the barchart when knowing 1 word. Thanks <a href="https://github.com/chaosarium">@chaosarium</a> for signaling it (issue <a href="https://github.com/HugoFara/lwt/issues/11">#11</a>).</li>
+<li>Tags were breaking text modification. Issue <a href="https://github.com/HugoFara/lwt/issues/12">#12</a>, thanks <a href="https://github.com/chaosarium">@chaosarium</a>.</li>
+<li>In edit_texts.php, unknown words (with status 0), had no abbreviation display between parentheses. It was showing "Unknown ()".</li>
 </ul>
 <h3>2.2.2-fork (February 13 2022)</h3>
 <h4>Added</h4>
