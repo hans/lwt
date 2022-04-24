@@ -14,8 +14,6 @@
  * @since   2.0.3-fork
  */
 
-use function PHPSTORM_META\type;
-
 require_once 'database_connect.php';
 
 
@@ -294,7 +292,10 @@ function saveWordTags($wid)
 function saveTextTags($tid): void 
 {
     global $tbpref;
-    runsql("DELETE FROM " . $tbpref . "texttags WHERE TtTxID =" . $tid, '');
+    runsql(
+        "DELETE FROM " . $tbpref . "texttags WHERE TtTxID =" . $tid, 
+        ''
+    );
     if (
         !isset($_REQUEST['TextTags']) ||
         !is_array($_REQUEST['TextTags']) ||
@@ -308,11 +309,10 @@ function saveTextTags($tid): void
 
     for ($i = 0; $i < $cnt; $i++) {
         $tag = $_REQUEST['TextTags']['TagList'][$i];
-        print_r("Session tags '" . $_SESSION['TEXTTAGS'] . "'");
         if (!in_array($tag, $_SESSION['TEXTTAGS'])) {
             runsql(
-                "INSERT INTO {$tbpref}tags2 (T2Text) VALUES(" . 
-                convert_string_to_sqlsyntax($tag) . ")", 
+                "INSERT INTO {$tbpref}tags2 (T2Text) 
+                VALUES(" . convert_string_to_sqlsyntax($tag) . ")", 
                 ""
             );
         }
@@ -376,7 +376,10 @@ function getWordTags($wid): string
     global $tbpref;
     $r = '<ul id="termtags">';
     if ($wid > 0) {
-        $sql = 'select TgText from ' . $tbpref . 'wordtags, ' . $tbpref . 'tags where TgID = WtTgID and WtWoID = ' . $wid . ' order by TgText';
+        $sql = 'select TgText 
+        from ' . $tbpref . 'wordtags, ' . $tbpref . 'tags 
+        where TgID = WtTgID and WtWoID = ' . $wid . ' 
+        order by TgText';
         $res = do_mysqli_query($sql);
         while ($record = mysqli_fetch_assoc($res)) {
             $r .= '<li>' . tohtml($record["TgText"]) . '</li>';
@@ -394,7 +397,10 @@ function getTextTags($tid): string
     global $tbpref;
     $r = '<ul id="texttags">';
     if ($tid > 0) {
-        $sql = 'select T2Text from ' . $tbpref . 'texttags, ' . $tbpref . 'tags2 where T2ID = TtT2ID and TtTxID = ' . $tid . ' order by T2Text';
+        $sql = 'select T2Text 
+        from ' . $tbpref . 'texttags, ' . $tbpref . 'tags2 
+        where T2ID = TtT2ID and TtTxID = ' . $tid . ' 
+        order by T2Text';
         $res = do_mysqli_query($sql);
         while ($record = mysqli_fetch_assoc($res)) {
             $r .= '<li>' . tohtml($record["T2Text"]) . '</li>';
@@ -412,7 +418,10 @@ function getArchivedTextTags($tid): string
     global $tbpref;
     $r = '<ul id="texttags">';
     if ($tid > 0) {
-        $sql = 'select T2Text from ' . $tbpref . 'archtexttags, ' . $tbpref . 'tags2 where T2ID = AgT2ID and AgAtID = ' . $tid . ' order by T2Text';
+        $sql = 'select T2Text 
+        from ' . $tbpref . 'archtexttags, ' . $tbpref . 'tags2 
+        where T2ID = AgT2ID and AgAtID = ' . $tid . ' 
+        order by T2Text';
         $res = do_mysqli_query($sql);
         while ($record = mysqli_fetch_assoc($res)) {
             $r .= '<li>' . tohtml($record["T2Text"]) . '</li>';
@@ -433,7 +442,11 @@ function addtaglist($item, $list): string
         runsql('insert into ' . $tbpref . 'tags (TgText) values(' . convert_string_to_sqlsyntax($item) . ')', "");
         $tagid = get_first_value('select TgID as value from ' . $tbpref . 'tags where TgText = ' . convert_string_to_sqlsyntax($item));
     }
-    $sql = 'select WoID from ' . $tbpref . 'words LEFT JOIN ' . $tbpref . 'wordtags ON WoID = WtWoID AND WtTgID = ' . $tagid . ' WHERE WtTgID IS NULL AND WoID in ' . $list;
+    $sql = 'select WoID 
+    from ' . $tbpref . 'words 
+    LEFT JOIN ' . $tbpref . 'wordtags 
+    ON WoID = WtWoID AND WtTgID = ' . $tagid . ' 
+    WHERE WtTgID IS NULL AND WoID in ' . $list;
     $res = do_mysqli_query($sql);
     $cnt = 0;
     while ($record = mysqli_fetch_assoc($res)) {
@@ -454,7 +467,7 @@ function addarchtexttaglist($item, $list): string
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
-    if (! isset($tagid)) {
+    if (!isset($tagid)) {
         runsql('insert into ' . $tbpref . 'tags2 (T2Text) values(' . convert_string_to_sqlsyntax($item) . ')', "");
         $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
     }
@@ -479,7 +492,7 @@ function addtexttaglist($item, $list): string
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
-    if (! isset($tagid)) {
+    if (!isset($tagid)) {
         runsql('insert into ' . $tbpref . 'tags2 (T2Text) values(' . convert_string_to_sqlsyntax($item) . ')', "");
         $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
     }
@@ -532,7 +545,8 @@ function removearchtexttaglist($item, $list): string
 {
     global $tbpref;
     $tagid = get_first_value('select T2ID as value from ' . $tbpref . 'tags2 where T2Text = ' . convert_string_to_sqlsyntax($item));
-    if (! isset($tagid)) { return "Tag " . $item . " not found"; 
+    if (!isset($tagid)) { 
+        return "Tag " . $item . " not found"; 
     }
     $sql = 'select AtID from ' . $tbpref . 'archivedtexts where AtID in ' . $list;
     $res = do_mysqli_query($sql);
@@ -583,16 +597,13 @@ function load_feeds($currentfeed): void
                 if(strpos($autoupdate, 'h')!==false) {
                     $autoupdate = str_replace('h', '', $autoupdate);
                     $autoupdate = 60 * 60 * (int)$autoupdate;
-                }
-                elseif(strpos($autoupdate, 'd')!==false) {
+                } elseif(strpos($autoupdate, 'd')!==false) {
                     $autoupdate=str_replace('d', '', $autoupdate);
                     $autoupdate=60 * 60 * 24 * (int)$autoupdate;
-                }
-                elseif(strpos($autoupdate, 'w')!==false) {
+                } elseif(strpos($autoupdate, 'w')!==false) {
                     $autoupdate=str_replace('w', '', $autoupdate);
                     $autoupdate=60 * 60 * 24 * 7 * (int)$autoupdate;
-                }
-                else { 
+                } else { 
                     continue; 
                 }
                 if(time()>($autoupdate + (int) $row['NfUpdate'])) {
@@ -603,8 +614,7 @@ function load_feeds($currentfeed): void
             }
         }
         mysqli_free_result($result);
-    }
-    else{
+    } else {
         $sql="SELECT * FROM " . $tbpref . "newsfeeds WHERE NfID in ($currentfeed)";
         $result = do_mysqli_query($sql);
         while($row = mysqli_fetch_assoc($result)){
@@ -621,8 +631,7 @@ function load_feeds($currentfeed): void
         }
         echo "feedcnt=0;\n";
         echo '$(document).ready(function(){ $.when(',implode(',', $ajax),").then(function(",implode(',', $z),"){window.location.replace(\"",$_SERVER['PHP_SELF'],"\");});});";
-    }
-    else { 
+    } else { 
         echo "window.location.replace(\"",$_SERVER['PHP_SELF'],"\");"; 
     }
     echo "\n</script>\n";
@@ -721,7 +730,7 @@ function write_rss_to_db($texts): string
                     where TxID = ' . $text_ID, 
                     ""
                 );
-                //                $message .= $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
+                // $message .= $message4 . " / " . $message1 . " / " . $message2 . " / " . $message3;
                 adjust_autoincr('texts', 'TxID');
                 adjust_autoincr('sentences', 'SeID');
                 runsql(
@@ -768,7 +777,8 @@ function print_last_feed_update($diff): void
             }
         }
     }
-    else { echo ' up to date'; 
+    else { 
+        echo ' up to date'; 
     }
 }
 
@@ -821,16 +831,14 @@ function get_links_from_new_feed($NfSourceURI)
             'description' => 'description',
             'link' => 'link'
         );
-    }
-    elseif ($rss->getElementsByTagName('feed')->length !== 0) {
+    } elseif ($rss->getElementsByTagName('feed')->length !== 0) {
         $feed_tags = array(
             'item' => 'entry',
             'title' => 'title',
             'description' => 'summary',
             'link' => 'link'
         );
-    }
-    else { 
+    } else { 
         return false; 
     }
     foreach ($rss->getElementsByTagName($feed_tags['item']) as $node) {
@@ -857,7 +865,8 @@ function get_links_from_new_feed($NfSourceURI)
                     $item['encoded'] = $txt_node->ownerDocument->saveHTML($txt_node);
                     $item['encoded'] = mb_convert_encoding(
                         html_entity_decode($item['encoded'], ENT_NOQUOTES, "UTF-8"), 
-                        "HTML-ENTITIES", "UTF-8"
+                        "HTML-ENTITIES", 
+                        "UTF-8"
                     );
                 }
             }
@@ -866,23 +875,22 @@ function get_links_from_new_feed($NfSourceURI)
                     $item['description'] = $txt_node->ownerDocument->saveHTML($txt_node);
                     $item['description'] = mb_convert_encoding(
                         html_entity_decode($item['description'], ENT_NOQUOTES, "UTF-8"), 
-                        "HTML-ENTITIES", "UTF-8"
+                        "HTML-ENTITIES", 
+                        "UTF-8"
                     );
                 }
             }
             if (isset($item['desc'])) {
                 if(mb_strlen($item['desc'], "UTF-8")>900) { 
                     $desc_count++; 
-                }
-                else { 
+                } else { 
                     $desc_nocount++; 
                 }
             }
             if (isset($item['encoded'])) {
                 if(mb_strlen($item['encoded'], "UTF-8")>900) { 
                     $enc_count++; 
-                }
-                else { 
+                } else { 
                     $enc_nocount++; 
                 }
             }
@@ -893,15 +901,15 @@ function get_links_from_new_feed($NfSourceURI)
                     $item['content'] = $txt_node->ownerDocument->saveHTML($txt_node);
                     $item['content'] = mb_convert_encoding(
                         html_entity_decode($item['content'], ENT_NOQUOTES, "UTF-8"),
-                        "HTML-ENTITIES", "UTF-8"
+                        "HTML-ENTITIES", 
+                        "UTF-8"
                     );
                 }
             }
             if (isset($item['content'])) {
                 if (mb_strlen($item['content'], "UTF-8")>900) { 
                     $desc_count++; 
-                }
-                else { 
+                } else { 
                     $desc_nocount++; 
                 }
             }
@@ -911,13 +919,12 @@ function get_links_from_new_feed($NfSourceURI)
         }
     }
     if ($desc_count > $desc_nocount) {
-        $source=($feed_tags['item']=='entry')?('content'):('description');
+        $source = ($feed_tags['item']=='entry') ?'content' : 'description';
         $rss_data['feed_text']=$source;
         foreach ($rss_data as $i=>$val){
             $rss_data[$i]['text']=$rss_data[$i][$source];
         }
-    }
-    else if ($enc_count > $enc_nocount) {
+    } else if ($enc_count > $enc_nocount) {
         $rss_data['feed_text']='encoded';
         foreach ($rss_data as $i=>$val){
             $rss_data[$i]['text']=$rss_data[$i]['encoded'];
@@ -929,13 +936,17 @@ function get_links_from_new_feed($NfSourceURI)
         unset($rss_data[$i]['description']);
         unset($rss_data[$i]['content']);
     }*/
-    $rss_data['feed_title']=$rss->getElementsByTagName('title')->item(0)->nodeValue;
+    $rss_data['feed_title'] = $rss->getElementsByTagName('title')->item(0)->nodeValue;
+    /*
+    Get the language, but never save
     if ($feed_tags['item']=='entry') {
+        print_r("Language from page entered!");
         $rss->getElementsByTagName('feed')->item(0)->getAttribute('lang');
         // $rss->getElementsByTagName('feed')->item(0)->attributes['lang']; is better?
     } else {
         $rss->getElementsByTagName('language')->item(0)->nodeValue; 
     }
+    */
     return $rss_data;
 }
 
@@ -4422,7 +4433,7 @@ function framesetheader($title): void
     @header('Pragma: no-cache');
     ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?php echo '<html xmlns="http://www.w3.org/1999/xhtml">'; ?>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="<?php print_file_path('css/styles.css');?>" />
@@ -4468,20 +4479,21 @@ function pagestart($title, $close): void
  * @param string $title     Title of the page
  * @param string $addcss    Some CSS to be embed in a style tag
  *
- * @global bool $debug Show the requests if true
  * @global string $tbpref The database table prefix if true
+ * @global int    $debug  Show the requests if true
  */
 function pagestart_nobody($title, $addcss=''): void 
 {
-    global $debug;
-    global $tbpref;
+    global $tbpref, $debug;
     @header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
     @header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
     @header('Cache-Control: no-cache, must-revalidate, max-age=0');
     @header('Pragma: no-cache');
     ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+    <?php 
+    echo '<html xmlns="http://www.w3.org/1999/xhtml">';
+    ?>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <!-- 
@@ -4525,7 +4537,9 @@ function pagestart_nobody($title, $addcss=''): void
     
     <title>LWT :: <?php echo tohtml($title); ?></title>
 </head>
-<body>
+    <?php
+    echo '<body>';
+    ?>
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
     <?php
     flush();
