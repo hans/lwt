@@ -25,6 +25,7 @@ For git tags, official releases are marked like "v1.0.0", while unofficial ones 
   * It's style was uniformized with your current theme.
 * ``tts.php`` becomes ``text_to_speech_settings.php``. As this file was unnused, it is not considered as a breaking change.
 * Refactored ``all_words_wellknown.php``, ``edit_texts.php``. Those pages should load a bit faster.
+* We do no longer load pages in [Almost Standards Mode](https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode). Unless you use some Netscape browser, it should not impact you.
 
 ### Deprecated
 * Use ``clean-doc`` install of ``clean`` in ``Makefile`` because it was ambiguous with composer commands.
