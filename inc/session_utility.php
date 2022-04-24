@@ -68,7 +68,8 @@ function get_texttags($refresh = 0)
         && is_array($_SESSION['TEXTTAGS']) 
         && isset($_SESSION['TBPREF_TEXTTAGS']) 
         && $refresh == 0
-        && $_SESSION['TBPREF_TEXTTAGS'] == $tbpref . url_base()) {
+        && $_SESSION['TBPREF_TEXTTAGS'] == $tbpref . url_base()
+    ) {
             return $_SESSION['TEXTTAGS']; 
     }
     $tags = array();
@@ -104,15 +105,23 @@ function getTextTitle($textid): string
 function get_tag_selectoptions($v,$l): string 
 {
     global $tbpref;
-    if (! isset($v) ) { $v = ''; 
+    if (!isset($v)) { 
+        $v = ''; 
     }
     $r = "<option value=\"\"" . get_selected($v, '');
     $r .= ">[Filter off]</option>";
     if ($l == '') {
-        $sql = "select TgID, TgText from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID group by TgID order by UPPER(TgText)"; 
-    }
-    else {
-        $sql = "select TgID, TgText from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $l . " group by TgID order by UPPER(TgText)"; 
+        $sql = "select TgID, TgText 
+        from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags 
+        where TgID = WtTgID and WtWoID = WoID 
+        group by TgID 
+        order by UPPER(TgText)"; 
+    } else {
+        $sql = "select TgID, TgText 
+        from " . $tbpref . "words, " . $tbpref . "tags, " . $tbpref . "wordtags 
+        where TgID = WtTgID and WtWoID = WoID and WoLgID = " . $l . " 
+        group by TgID 
+        order by UPPER(TgText)"; 
     }
     $res = do_mysqli_query($sql);
     $cnt = 0;
@@ -140,10 +149,17 @@ function get_texttag_selectoptions($v,$l): string
     $r = "<option value=\"\"" . get_selected($v, '');
     $r .= ">[Filter off]</option>";
     if ($l == '') {
-        $sql = "select T2ID, T2Text from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID group by T2ID order by UPPER(T2Text)"; 
-    }
-    else {
-        $sql = "select T2ID, T2Text from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $l . " group by T2ID order by UPPER(T2Text)"; 
+        $sql = "select T2ID, T2Text 
+        from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags 
+        where T2ID = TtT2ID and TtTxID = TxID 
+        group by T2ID 
+        order by UPPER(T2Text)"; 
+    } else {
+        $sql = "select T2ID, T2Text 
+        from " . $tbpref . "texts, " . $tbpref . "tags2, " . $tbpref . "texttags 
+        where T2ID = TtT2ID and TtTxID = TxID and TxLgID = " . $l . " 
+        group by T2ID 
+        order by UPPER(T2Text)"; 
     }
     $res = do_mysqli_query($sql);
     $cnt = 0;
@@ -165,24 +181,25 @@ function get_texttag_selectoptions($v,$l): string
 function get_txtag_selectoptions($l,$v): string
 {
     global $tbpref;
-    if (!isset($v) ) { 
+    if (!isset($v)) {
         $v = ''; 
     }
     $u ='';
     $r = "<option value=\"&amp;texttag\"" . get_selected($v, '');
     $r .= ">[Filter off]</option>";
-    $sql = 'SELECT IFNULL(T2Text, 1) AS TagName, TtT2ID AS TagID, GROUP_CONCAT(TxID ORDER BY TxID) AS TextID FROM ' . $tbpref . 'texts';
-    $sql .= ' LEFT JOIN ' . $tbpref . 'texttags ON TxID = TtTxID';
-    $sql .= ' LEFT JOIN ' . $tbpref . 'tags2 ON TtT2ID = T2ID';
-    if($l) { $sql .= ' WHERE TxLgID='.$l; 
+    $sql = 'SELECT IFNULL(T2Text, 1) AS TagName, TtT2ID AS TagID, GROUP_CONCAT(TxID ORDER BY TxID) AS TextID 
+    FROM ' . $tbpref . 'texts 
+    LEFT JOIN ' . $tbpref . 'texttags ON TxID = TtTxID
+    LEFT JOIN ' . $tbpref . 'tags2 ON TtT2ID = T2ID';
+    if ($l) {
+        $sql .= ' WHERE TxLgID=' . $l; 
     }
     $sql .= ' GROUP BY UPPER(TagName)';
     $res = do_mysqli_query($sql);
     while ($record = mysqli_fetch_assoc($res)) {
-        if($record['TagName']==1) {
+        if ($record['TagName']==1) {
             $u ="<option disabled=\"disabled\">--------</option><option value=\"" . $record['TextID'] . "&amp;texttag=-1\"" . get_selected($v, "-1") . ">UNTAGGED</option>";
-        }
-        else {
+        } else {
             $r .= "<option value=\"" .$record['TextID']."&amp;texttag=". $record['TagID'] . "\"" . get_selected($v, $record['TagID']) . ">" . $record['TagName'] . "</option>";
         }
     }
@@ -195,16 +212,23 @@ function get_txtag_selectoptions($l,$v): string
 function get_archivedtexttag_selectoptions($v,$l): string 
 {
     global $tbpref;
-    if (! isset($v) ) { 
+    if (!isset($v)) { 
         $v = ''; 
     }
     $r = "<option value=\"\"" . get_selected($v, '');
     $r .= ">[Filter off]</option>";
     if ($l == '') {
-        $sql = "select T2ID, T2Text from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID group by T2ID order by UPPER(T2Text)"; 
-    }
-    else {
-        $sql = "select T2ID, T2Text from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $l . " group by T2ID order by UPPER(T2Text)"; 
+        $sql = "select T2ID, T2Text 
+        from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags 
+        where T2ID = AgT2ID and AgAtID = AtID 
+        group by T2ID 
+        order by UPPER(T2Text)"; 
+    } else {
+        $sql = "select T2ID, T2Text 
+        from " . $tbpref . "archivedtexts, " . $tbpref . "tags2, " . $tbpref . "archtexttags 
+        where T2ID = AgT2ID and AgAtID = AtID and AtLgID = " . $l . " 
+        group by T2ID 
+        order by UPPER(T2Text)"; 
     }
     $res = do_mysqli_query($sql);
     $cnt = 0;
@@ -223,6 +247,8 @@ function get_archivedtexttag_selectoptions($v,$l): string
 
 
 /**
+ * Save the tags for words.
+ * 
  * @return void
  */
 function saveWordTags($wid) 
@@ -237,95 +263,109 @@ function saveWordTags($wid)
          return;
     }
     $cnt = count($_REQUEST['TermTags']['TagList']);
-    if ($cnt > 0 ) {
-        for ($i=0; $i<$cnt; $i++) {
-            $tag = $_REQUEST['TermTags']['TagList'][$i];
-            if(!in_array($tag, $_SESSION['TAGS'])) {
-                runsql(
-                    'insert into ' . $tbpref . 'tags (TgText) values(' . 
-                    convert_string_to_sqlsyntax($tag) . ')', ""
-                );
-            }
+    getWordTags(1);
+
+    for ($i = 0; $i < $cnt; $i++) {
+        $tag = $_REQUEST['TermTags']['TagList'][$i];
+        if(!in_array($tag, $_SESSION['TAGS'])) {
             runsql(
-                'INSERT INTO ' . $tbpref . 'wordtags (WtWoID, WtTgID) 
-                SELECT ' . $wid . ', TgID 
-                FROM ' . $tbpref . 'tags 
-                WHERE TgText = ' . convert_string_to_sqlsyntax($tag), ""
+                "INSERT INTO {$tbpref}tags (TgText) 
+                VALUES(" . convert_string_to_sqlsyntax($tag) . ")", 
+                ""
             );
         }
-        get_tags($refresh = 1);  // refresh tags cache
+        runsql(
+            "INSERT INTO {$tbpref}wordtags (WtWoID, WtTgID) 
+            SELECT $wid, TgID 
+            FROM {$tbpref}tags 
+            WHERE TgText = " . convert_string_to_sqlsyntax($tag), 
+            ""
+        );
     }
+    // refresh tags cache
+    get_tags(1);
 }
 
-// -------------------------------------------------------------
-
+/**
+ * Save the tags for texts.
+ * 
+ * @return void
+ */
 function saveTextTags($tid): void 
 {
     global $tbpref;
     runsql("DELETE FROM " . $tbpref . "texttags WHERE TtTxID =" . $tid, '');
-    if (isset($_REQUEST['TextTags'])) {
-        if (is_array($_REQUEST['TextTags'])) {
-            if (isset($_REQUEST['TextTags']['TagList'])) {
-                if (is_array($_REQUEST['TextTags']['TagList'])) {
-                    $cnt = count($_REQUEST['TextTags']['TagList']);
-                    if ($cnt > 0 ) {
-                        for ($i=0; $i<$cnt; $i++) {
-                            $tag = $_REQUEST['TextTags']['TagList'][$i];
-                            if(! in_array($tag, $_SESSION['TEXTTAGS'])) {
-                                runsql(
-                                    'insert into ' . $tbpref . 'tags2 (T2Text) values(' . 
-                                    convert_string_to_sqlsyntax($tag) . ')', ""
-                                );
-                            }
-                            runsql(
-                                'INSERT INTO ' . $tbpref . 'texttags (TtTxID, TtT2ID) 
-                                SELECT ' . $tid . ', T2ID 
-                                FROM ' . $tbpref . 'tags2 
-                                WHERE T2Text = ' . convert_string_to_sqlsyntax($tag), 
-                                ""
-                            );
-                        }
-                        get_texttags($refresh = 1);  // refresh tags cache
-                    }
-                }
-            }
-        }
+    if (
+        !isset($_REQUEST['TextTags']) ||
+        !is_array($_REQUEST['TextTags']) ||
+        !isset($_REQUEST['TextTags']['TagList']) ||
+        !is_array($_REQUEST['TextTags']['TagList'])
+    ) {
+        return;
     }
+    $cnt = count($_REQUEST['TextTags']['TagList']);
+    get_texttags(1);
+
+    for ($i = 0; $i < $cnt; $i++) {
+        $tag = $_REQUEST['TextTags']['TagList'][$i];
+        print_r("Session tags '" . $_SESSION['TEXTTAGS'] . "'");
+        if (!in_array($tag, $_SESSION['TEXTTAGS'])) {
+            runsql(
+                "INSERT INTO {$tbpref}tags2 (T2Text) VALUES(" . 
+                convert_string_to_sqlsyntax($tag) . ")", 
+                ""
+            );
+        }
+        runsql(
+            "INSERT INTO {$tbpref}texttags (TtTxID, TtT2ID) 
+            SELECT $tid, T2ID 
+            FROM {$tbpref}tags2 
+            WHERE T2Text = " . convert_string_to_sqlsyntax($tag), 
+            ""
+        );
+    }
+    // refresh tags cache
+    get_texttags(1);
 }
 
-// -------------------------------------------------------------
 
+/**
+ * Save the tags for archived texts.
+ * 
+ * @return void
+ */
 function saveArchivedTextTags($tid): void 
 {
     global $tbpref;
     runsql("DELETE from " . $tbpref . "archtexttags WHERE AgAtID =" . $tid, '');
-    if (isset($_REQUEST['TextTags'])) {
-        if (is_array($_REQUEST['TextTags'])) {
-            if (isset($_REQUEST['TextTags']['TagList'])) {
-                if (is_array($_REQUEST['TextTags']['TagList'])) {
-                    $cnt = count($_REQUEST['TextTags']['TagList']);
-                    if ($cnt > 0 ) {
-                        for ($i=0; $i<$cnt; $i++) {
-                            $tag = $_REQUEST['TextTags']['TagList'][$i];
-                            if(! in_array($tag, $_SESSION['TEXTTAGS'])) {
-                                runsql(
-                                    'insert into ' . $tbpref . 'tags2 (T2Text) values(' . 
-                                    convert_string_to_sqlsyntax($tag) . ')', ""
-                                );
-                            }
-                            runsql(
-                                'INSERT INTO ' . $tbpref . 'archtexttags (AgAtID, AgT2ID) 
-                                SELECT ' . $tid . ', T2ID 
-                                FROM ' . $tbpref . 'tags2 
-                                WHERE T2Text = ' . convert_string_to_sqlsyntax($tag), 
-                                ""
-                            );
-                        }
-                        get_texttags($refresh = 1);  // refresh tags cache
-                    }
-                }
-            }
+    if (
+        !isset($_REQUEST['TextTags']) ||
+        !is_array($_REQUEST['TextTags']) ||
+        !isset($_REQUEST['TextTags']['TagList']) ||
+        !is_array($_REQUEST['TextTags']['TagList'])
+    ) {
+        return;
+    }
+    $cnt = count($_REQUEST['TextTags']['TagList']);
+    getTextTags(1);
+    for ($i = 0; $i < $cnt; $i++) {
+        $tag = $_REQUEST['TextTags']['TagList'][$i];
+        if (!in_array($tag, $_SESSION['TEXTTAGS'])) {
+            runsql(
+                'INSERT INTO {$tbpref}tags2 (T2Text) 
+                VALUES(' . convert_string_to_sqlsyntax($tag) . ')', 
+                ""
+            );
         }
+        runsql(
+            "INSERT INTO {$tbpref}archtexttags (AgAtID, AgT2ID) 
+            SELECT $tid, T2ID 
+            FROM {$tbpref}tags2 
+            WHERE T2Text = " . convert_string_to_sqlsyntax($tag), 
+            ""
+        );
+        // refresh tags cache
+        get_texttags(1);
     }
 }
 

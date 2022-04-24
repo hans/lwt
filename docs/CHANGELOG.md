@@ -34,6 +34,7 @@ For git tags, official releases are marked like "v1.0.0", while unofficial ones 
 * Database names containing special characters (hyphens, carets, etc...) was not possible.
 * The "I KNOW ALL" button calling ``all_words_wellknown.php`` created errors. This file was fixed. Thanks [@nghiaphamtm](https://github.com/nghiaphamtm) (issue [#26](https://github.com/HugoFara/lwt/issues/26)).
 * In ``edit_texts.php``, it was not displayed in the barchart when knowing 1 word. Thanks [@chaosarium](https://github.com/chaosarium) for signaling it (issue [#11](https://github.com/HugoFara/lwt/issues/11)).
+* Tags were breaking text modification. Issue [#12](https://github.com/HugoFara/lwt/issues/12), thanks [@chaosarium](https://github.com/chaosarium).
 
 ## 2.2.2-fork (February 13 2022)
 ### Added
