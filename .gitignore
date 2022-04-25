@@ -22,3 +22,6 @@ composer.phar
 
 # Editor
 .vscode
+
+# No documentation (on dev branch only)
+docs/html/
