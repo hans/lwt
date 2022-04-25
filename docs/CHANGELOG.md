@@ -4,7 +4,7 @@ Changelog
 This project's changelog. Versions marked with "-fork" come from the community, other versions come from the canonical LWT ("official" branch on Git).
 For git tags, official releases are marked like "v1.0.0", while unofficial ones are marked like "v1.0.0-fork".
 
-## 2.3.0-fork (April 24 2022)
+## 2.3.0-fork (April 25 2022)
 ### Added
 * Commands included in ``Makefile`` where transcripted in ``composer.json``.
 * [Docker](https://www.docker.com/) integration! It is done through ``Dockerfile``, ``docker-compose.yml``, ``.dockerignore`` and ``.env`` files.
