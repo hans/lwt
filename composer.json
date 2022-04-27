@@ -1,0 +1,60 @@
+{
+    "name": "hugofara/lwt",
+    "description": "Learn languages by reading, this is a community maintained version.",
+    "type": "library",
+    "keywords": ["language-learning","reading","lwt","Learning-with-Texts"],
+    "homepage": "https://hugofara.github.io/lwt/docs/info.html",
+    "license": "UNLICENSE",
+    "minimum-stability": "stable",
+    "support": {
+        "docs": "https://hugofara.github.io/lwt",
+        "forum": "https://github.com/HugoFara/lwt/discussions",
+        "issues": "https://github.com/HugoFara/lwt/issues",
+        "source": "https://github.com/HugoFara/lwt"
+    },
+    "require": {
+        "php": "^7.4",
+        "ext-mbstring": "*",
+        "ext-mysqli": "*"
+    },
+    "require-dev": {
+        "vimeo/psalm": "^4.12",
+        "phpunit/phpunit": "^9.5",
+        "matthiasmullie/minify": "^1.3",
+        "league/commonmark": "^2.2"
+    },
+    "suggest": {
+        "squizlabs/php_codesniffer": "Following code style standards is a good thing"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "info.html": "@php docs/info.php > docs/info.html",
+        "doc": [
+            "@info.html",
+            "doxygen Doxyfile"
+        ],
+        "minify": "php -r \"require 'src/php/minifier.php';minify_everything();\"",
+        "no-minify": [
+            "cp -r src/js/ .",
+            "cp src/js/third_party/* js/",
+            "cp src/js/pgm.js js/",
+            "cat src/js/* >> pgm/js",
+            "cat src/js/third_party/* >> js/pgm.js",
+            "rm -rf js/third_party",
+            "cp -r src/css .",
+            "cp -r src/themes/ ."
+        ],
+        "clean-doc": [
+            "rm docs/info.html",
+            "rm -rf docs/html"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests!",
+        "info.html": "Regenerate one-file documentation",
+        "doc": "Regenerate all documentation",
+        "minify": "Regenerate minified JS, CSS and themes",
+        "no-minify": "Development versions do not need minification",
+        "clean-doc": "Clear documentation"
+    }
+}

@@ -1,0 +1,24 @@
+connect.inc.php
+# Local audio files
+media/
+# Text-to-Speech files
+tts/
+_*
+# For Mac Users
+.DS_Store
+
+# PHP debugging tools
+error.log
+access.log
+plugins
+
+# Backup files (Doxygen)
+*.bak
+
+/vendor/
+.phpunit.result.cache
+
+composer.phar
+
+# Editor
+.vscode

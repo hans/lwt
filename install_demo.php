@@ -1,111 +1,64 @@
 <?php
 
 /**************************************************************
-"Learning with Texts" (LWT) is released into the Public Domain.
-This applies worldwide.
-In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
-unless such conditions are required by law.
-
-Developed by J. Pierre in 2011.
-***************************************************************/
-
-/**************************************************************
 Call: install_demo.php
 Install LWT Demo Database
-***************************************************************/
+ ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require_once 'inc/session_utility.php';
 
 $message = '';
 
 // RESTORE DEMO
 
 if (isset($_REQUEST['install'])) {
-	$file = getcwd() . '/install_demo_db.sql.gz';
-	if ( file_exists($file) ) {
-		$handle = gzopen ($file, "r");
-		if ($handle === FALSE) {
-			$message = "Error: File ' . $file . ' could not be opened";
-		} // $handle not OK
-		else { // $handle OK
-			$lines = 0;
-			$ok = 0;
-			$errors = 0;
-			$drops = 0;
-			$inserts = 0;
-			$creates = 0;
-			$start = 1;
-			while (! gzeof($handle)) {
-				$sql_line = trim(
-					str_replace("\r","",
-					str_replace("\n","",
-					gzgets($handle, 99999))));
-				if ($sql_line != "") {
-					if($start) {
-						if (strpos($sql_line,"-- lwt-backup-") === false ) {
-							$message = "Error: Invalid file (possibly not created by LWT backup)";
-							break;
-						}
-						$start = 0;
-					}
-					if(strpos($sql_line, "--") === false) {
-						//echo tohtml($sql_line) . "<br />"; $res=TRUE;
-						$res = mysql_query($sql_line);
-						$lines++;
-						if ($res == FALSE) $errors++;
-						else {
-							$ok++;
-							if (substr($sql_line,0,11) == "INSERT INTO") $inserts++;
-							elseif (substr($sql_line,0,10) == "DROP TABLE") $drops++;
-							elseif (substr($sql_line,0,12) == "CREATE TABLE") $creates++;
-						}
-					}
-				}
-			} // while (! feof($handle))
-			gzclose ($handle);
-			if ($errors == 0) {
-				optimizedb();
-				$message = "Success: Demo Database restored - " .
-				$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
-			} else {
-				$message = "Error: Demo Database NOT restored - " .
-				$lines . " queries - " . $ok . " successful (" . $drops . "/" . $creates . " tables dropped/created, " . $inserts . " records added), " . $errors . " failed.";
-			}
-		} // $handle OK
-	} // restore file specified
-	else {
-		$message = "Error: File ' . $file . ' does not exist";
-	}
+    $file = getcwd() . '/install_demo_db.sql.gz';
+    if (file_exists($file) ) {
+        $handle = gzopen($file, "r");
+        if ($handle === false) {
+            $message = "Error: File ' . $file . ' could not be opened";
+        } // $handle not OK
+        else { // $handle OK
+            $message = restore_file($handle, "Demo Database");
+        } // $handle OK
+    } // restore file specified
+    else {
+        $message = "Error: File ' . $file . ' does not exist";
+    }
 } 
 
-pagestart('Install LWT Demo Database',true);
+pagestart('Install LWT Demo Database', true);
 
-echo error_message_with_hide($message,1);
+echo error_message_with_hide($message, 1);
 
-$langcnt = get_first_value('select count(*) as value from languages');
+$langcnt = get_first_value('select count(*) as value from ' . $tbpref . 'languages');
+
+if ($tbpref == '') { 
+    $prefinfo = "(Default Table Set)"; 
+}
+else {
+    $prefinfo = "(Table Set: <i>" . tohtml(substr($tbpref, 0, -1)) . "</i>)"; 
+}
 
 ?>
-<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<form enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onsubmit="return confirm('Are you sure?');">
 <table class="tab3" cellspacing="0" cellpadding="5">
 <tr>
 <th class="th1 center">Install Demo</th>
 <td class="td1">
 <p class="smallgray2">
-The database <i><?php echo tohtml($dbname); ?></i> will be replaced by the LWT demo database.
+The database <i><?php echo tohtml($dbname); ?></i> <?php echo $prefinfo; ?> will be <b>replaced</b> by the LWT demo database.
 
 <?php 
 if ($langcnt > 0 ) { 
-	?>
-	<br /><b>Please be careful - the existent database will be overwritten!</b>
-	<?php 
+    ?>
+    <br />The existent database will be <b>overwritten!</b>
+    <?php 
 } 
 ?>
 
 </p>
-<p class="right">&nbsp;<br />
+<p class="right">&nbsp;<br /><span class="red2">YOU MAY LOSE DATA - BE CAREFUL: &nbsp; &nbsp; &nbsp;</span> 
 <input type="submit" name="install" value="Install LWT demo database" /></p>
 </td>
 </tr>

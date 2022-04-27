@@ -1,48 +1,56 @@
 <?php
 
-/**************************************************************
-"Learning with Texts" (LWT) is released into the Public Domain.
-This applies worldwide.
-In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
-unless such conditions are required by law.
+ /**
+ * \file
+ * \brief Delete an expression
+ * 
+ * Call: delete_mword.php?wid=[wordid]&tid=[textid]
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/delete__mword_8php.html
+ * @since   1.0.3
+ */
 
-Developed by J. Pierre in 2011.
-***************************************************************/
+require_once 'inc/session_utility.php';
 
-/**************************************************************
-Call: delete_mword.php?wid=[wordid]&tid=[textid]
-Delete an expression 
-***************************************************************/
-
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
-
-$showAll = getSetting('showallwords');
-$showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
+$showAll = getSettingZeroOrOne('showallwords', 1);
 
 $tid = $_REQUEST['tid'];
 $wid = $_REQUEST['wid'];
-$word = get_first_value("select WoText as value from words where WoID = " . $wid);
+$word = get_first_value("select WoText as value from " . $tbpref . "words where WoID = " . $wid);
 pagestart("Term: " . $word, false);
-$m1 = runsql('delete from words where WoID = ' . $wid, '');
-adjust_autoincr('words','WoID');
+$m1 = runsql('delete from ' . $tbpref . 'words where WoID = ' . $wid, '');
+adjust_autoincr('words', 'WoID');
+runsql('delete from ' . $tbpref . 'textitems2 where Ti2WordCount>1 AND Ti2WoID = ' . $wid, '');
 
 echo "<p>OK, term deleted (" . $m1 . ").</p>";
 
 ?>
 <script type="text/javascript">
 //<![CDATA[
-var context = window.parent.frames['l'].document;
-var contexth = window.parent.frames['h'].document;
-$('.word<?php echo $wid; ?>', context).removeClass('status1 status2 status3 status4 status5 status98 status99 word<?php echo $wid; ?>').addClass('hide').attr('data_status','').attr('data_trans','').attr('data_rom','').attr('data_wid','').attr('title','');
-$('#learnstatus', contexth).html('<?php echo texttodocount2($tid); ?>');
+var context = window.parent.document;
+$('.word<?php echo $wid; ?>', context).each(function(){
+sid = $(this).parent();
+$(this).remove();
 <?php 
-if (! $showAll) echo refreshText($word,$tid);
+if (! $showAll) { ?>
+$('*',sid).removeClass('hide');
+$('.mword', sid).each(function(){
+    if($(this).not('.hide').length){
+        u= parseInt($(this).attr('data_code')) *2 + parseInt($(this).attr('data_order')) -1;
+        $(this).nextUntil('[id^="ID-' + u + '-"]',sid).addClass('hide');
+    }
+});
+    <?php
+}
 ?>
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
+
+});
+$('#learnstatus', context).html('<?php echo addslashes(texttodocount2($tid)); ?>');
+window.parent.focus();
+window.parent.setTimeout('cClick()', 100);
 //]]>
 </script>
 <?php

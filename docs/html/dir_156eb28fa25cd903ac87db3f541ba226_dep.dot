@@ -1,0 +1,11 @@
+digraph "themes/Night_Mode"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  compound=true
+  subgraph clusterdir_62adca9fbf9a8949ee1e01e61bf8f24e {
+    graph [ bgcolor="#f7eeee", pencolor="grey25", style="filled,dashed,", label="themes", fontname="Helvetica", fontsize="10", URL="dir_62adca9fbf9a8949ee1e01e61bf8f24e.html"]
+  dir_156eb28fa25cd903ac87db3f541ba226 [shape=box, label="Night_Mode", style="filled,bold,", fillcolor="#f7eeee", color="grey25", URL="dir_156eb28fa25cd903ac87db3f541ba226.html"];
+  }
+}

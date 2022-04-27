@@ -1,66 +1,72 @@
 <?php
 
 /**************************************************************
-"Learning with Texts" (LWT) is released into the Public Domain.
-This applies worldwide.
-In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
-unless such conditions are required by law.
-
-Developed by J. Pierre in 2011.
-***************************************************************/
-
-/**************************************************************
-Call: show_word.php?wid=...
+Call: show_word.php?wid=...&ann=...
 Show term
-***************************************************************/
+ ***************************************************************/
 
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
+require_once 'inc/session_utility.php';
 
 pagestart_nobody('Term');
 
 $wid = getreq('wid');
+$ann = $_REQUEST["ann"];
 
-if ($wid == '') die ('Word not found');
+if ($wid == '') { 
+    my_die('Word not found in show_word.php'); 
+}
 
-$sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from words where WoID = ' . $wid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
-if ($record = mysql_fetch_assoc($res)) {
+$sql = 'select WoLgID, WoText, WoTranslation, WoSentence, WoRomanization, WoStatus from ' . $tbpref . 'words where WoID = ' . $wid;
+$res = do_mysqli_query($sql);
+if ($record = mysqli_fetch_assoc($res)) {
 
-	$transl = repl_tab_nl($record['WoTranslation']);
-	if($transl == '*') $transl='';
-	
-	$tags = getWordTagList($wid, '', 0, 0);
-	$rom = $record['WoRomanization'];
-	$scrdir = getScriptDirectionTag($record['WoLgID']);
+    $transl = repl_tab_nl($record['WoTranslation']);
+    if($transl == '*') { 
+        $transl=''; 
+    }
+    
+    $tags = getWordTagList($wid, '', 0, 0);
+    $rom = $record['WoRomanization'];
+    $scrdir = getScriptDirectionTag($record['WoLgID']);
 
-?>
+    ?>
 
 
 <table class="tab2" cellspacing="0" cellpadding="5">
 <tr>
 <td class="td1 right" style="width:30px;">Term:</td>
-<td class="td1" style="font-size:120%;" <?php echo $scrdir; ?>><b><?php echo tohtml($record['WoText']); ?></b></td>
+<td class="td1" style="font-size:120%; border-top-right-radius:inherit;" <?php echo $scrdir; ?>><b><?php echo tohtml($record['WoText']); ?></b></td>
 </tr>
 <tr>
 <td class="td1 right">Translation:</td>
-<td class="td1" style="font-size:120%;"><b><?php echo tohtml($transl); ?></b></td>
+<td class="td1" style="font-size:120%;"><b><?php
+if(!empty($ann)) {
+    echo 
+    str_replace_first(
+        tohtml($ann), 
+        '<span style="color:red">' . tohtml($ann) . '</span>', 
+        tohtml($transl)
+    );
+}
+else { 
+    echo tohtml($transl); 
+}
+?></b></td>
 </tr>
-<?php if ($tags != '') { ?>
+    <?php if ($tags != '') { ?>
 <tr>
 <td class="td1 right">Tags:</td>
 <td class="td1" style="font-size:120%;"><b><?php echo tohtml($tags); ?></b></td>
 </tr>
-<?php } ?>
-<?php if ($rom != '') { ?>
+        <?php 
+    } ?>
+    <?php if ($rom != '') { ?>
 <tr>
 <td class="td1 right">Romaniz.:</td>
 <td class="td1" style="font-size:120%;"><b><?php echo tohtml($rom); ?></b></td>
 </tr>
-<?php } ?>
+        <?php 
+    } ?>
 <tr>
 <td class="td1 right">Sentence<br />Term in {...}:</td>
 <td class="td1" <?php echo $scrdir; ?>><?php echo tohtml($record['WoSentence']); ?></td>
@@ -74,15 +80,15 @@ if ($record = mysql_fetch_assoc($res)) {
 
 <script type="text/javascript">
 //<![CDATA[
-window.parent.frames['l'].focus();
-window.parent.frames['l'].setTimeout('cClick()', 100);
+window.parent.getElementById('frame-l').focus();
+window.parent.setTimeout('cClick()', 100);
 //]]>
 </script>
 
-<?php
+    <?php
 }
 
-mysql_free_result($res);
+mysqli_free_result($res);
 
 pageend();
 

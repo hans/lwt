@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="5"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="." />
+        <ignoreFiles>
+            <directory name="vendor" />
+            <!-- Ignore WordPress server configuration files-->
+            <file name="wp_lwt_st*.php" />
+            <!-- Should this file be deleted? -->
+            <file name="googleTranslateClass.php" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <globals>
+        <!-- Globals from connect.inc.php -->
+        <var name="$server" type="string" />
+        <var name="$userid" type="string" />
+        <var name="$passwd" type="string" />
+        <var name="$dbname" type="string" />
+    </globals>
+
+    <stubs>
+        <file name="connect_easyphp.inc.php" />
+    </stubs>
+</psalm>

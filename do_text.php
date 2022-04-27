@@ -1,52 +1,138 @@
 <?php
 
-/**************************************************************
-"Learning with Texts" (LWT) is released into the Public Domain.
-This applies worldwide.
-In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
-unless such conditions are required by law.
+/**
+ * \file
+ * \brief Start Reading a text (frameset)
+ * 
+ * Call: do_text.php?text=[textid]
+ *      Create the main window when reading texts.
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/do__text_8php.html
+ * @since   1.0.3
+ */
 
-Developed by J. Pierre in 2011.
-***************************************************************/
+require_once 'inc/session_utility.php'; 
+require_once 'inc/mobile_interactions.php';
+require_once 'do_text_header.php';
+require_once 'do_text_text.php';
 
-/**************************************************************
-Call: do_text.php?start=[textid]
-Start Reading a text (frameset)
-***************************************************************/
-
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php"; 
-
-if (isset($_REQUEST['start'])) {
-	
-	$audio = get_first_value('select TxAudioURI as value from texts where TxID = ' . $_REQUEST['start']);
-	
-	framesetheader('Read');
-
-?>
-<frameset cols="<?php echo tohtml(getSettingWithDefault('set-text-l-framewidth-percent')); ?>%,*">
-	<frameset rows="<?php echo (isset($audio) ? getSettingWithDefault('set-text-h-frameheight-with-audio') : getSettingWithDefault('set-text-h-frameheight-no-audio') ); ?>,*">
-		<frame src="do_text_header.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="no" name="h" />			
-		<frame src="do_text_text.php?text=<?php echo $_REQUEST['start']; ?>" scrolling="auto" name="l" />
-	</frameset>
-	<frameset rows="<?php echo tohtml(getSettingWithDefault('set-text-r-frameheight-percent')); ?>%,*">
-		<frame src="empty.htm" scrolling="auto" name="ro" />
-		<frame src="empty.htm" scrolling="auto" name="ru" />
-	</frameset>
-	<noframes><body><p>Sorry - your browser does not support frames.</p></body></noframes>
-</frameset>
-</html>
-<?php
-
+/**
+ * Get text ID (if possible).
+ * 
+ * Text ID if first looked at int the 'text' parameter. If not found, then look at 'start'.
+ * 
+ * @return int|null Text ID or null
+ */
+function get_text_id() {
+    if (isset($_REQUEST['text']) && is_numeric($_REQUEST['text'])) {
+        return (int)$_REQUEST['text'];
+    }
+    if (isset($_REQUEST['start']) && is_numeric($_REQUEST['start'])) {
+        return (int)$_REQUEST['start'];
+    }
+    return null;
 }
 
-else {
+/**
+ * Echo the page content for the mobile version of do_text.
+ * 
+ * @param int    $textid Text ID
+ * @param string $audio  Audio URI
+ * 
+ * @return void
+ * 
+ * @deprecated Use do_text_desktop_content instead.
+ * 
+ * @since 2.2.1 It also calls do_frameset_mobile_css and do_frameset_mobile_js
+ */
+function do_text_mobile_content($textid, $audio) {
+    do_frameset_mobile_css();
+    do_frameset_mobile_js($audio);
+    do_frameset_mobile_page_content(
+        "do_text_header.php?text=" . $textid, 
+        "do_text_text.php?text=" . $textid, 
+        true
+    );
+}
 
-	header("Location: edit_texts.php");
-	exit();
+/**
+ * Echo the page content for the desktop version of do_text.
+ * 
+ * @param int         $textid Text ID
+ * @param string|null $audio  Audio URI
+ * 
+ * @return void
+ */
+function do_text_desktop_content($textid, $audio) {
+?>
+<div style="width: 95%; height: 100%;">
+    <div id="frame-h">
+        <?php do_text_header_content($textid, true); ?>
+    </div>
+    <hr />
+    <div id="frame-l">
+        <?php do_text_text_content($textid, true); ?>
+    </div>
+</div>
+<div id="frames-r" style="position: fixed; top: 0; right: -100%; width: 100%; height: 100%;" 
+onclick="hideRightFrames();">
+    <!-- iFrames wrapper for events -->
+    <div style="margin-left: 50%; height: 99%;">
+        <iframe src="empty.html" scrolling="auto" name="ro" style="height: 50%; width: 100%;">
+            Your browser doesn't support iFrames, update it!
+        </iframe>
+        <iframe src="empty.html" scrolling="auto" name="ru" style="height: 50%; width: 100%;">
+            Your browser doesn't support iFrames, update it!
+        </iframe>
+    </div>
+</div>
 
+<?php
+}
+
+/**
+ * Echo the text page.
+ * 
+ * @param int  $textit Text ID
+ * @param bool $mobile Set to true if you want the mobile version of the page.
+ * 
+ * @since 2.2.1 The $mobile parameter is no longer required.
+ * 
+ * @return void
+ * 
+ * @global string $tbpref Database table prefix.
+ */
+function do_text_page($textid)
+{
+    global $tbpref;
+
+    //framesetheader('Read');
+    pagestart_nobody('Read');
+    
+    $audio = get_first_value(
+        'SELECT TxAudioURI AS value 
+        FROM ' . $tbpref . 'texts 
+        WHERE TxID = ' . $textid
+    );
+    
+    if (is_mobile()) {
+        do_text_mobile_content($textid, $audio);
+    } else {
+        // Not mobile
+        do_text_desktop_content($textid, $audio);
+    }
+    pageend();
+}
+
+if (get_text_id() !== null) {
+    do_text_page(get_text_id());
+} else {
+    // Document not ready
+    header("Location: edit_texts.php");
+    exit();
 }
 
 ?>

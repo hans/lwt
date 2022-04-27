@@ -1,0 +1,10 @@
+# Folder that shoud not be included in the image
+.github/*
+docker/*
+docs/*
+
+*.md
+.dockerignore
+.git
+.gitignore
+Doxyfile

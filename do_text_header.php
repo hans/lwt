@@ -1,208 +1,321 @@
 <?php
 
-/**************************************************************
-"Learning with Texts" (LWT) is released into the Public Domain.
-This applies worldwide.
-In case this is not legally possible, any entity is granted the
-right to use this work for any purpose, without any conditions, 
-unless such conditions are required by law.
+/**
+ * \file
+ * \brief Responsible for drawing the header when reading texts
+ * 
+ * Call: do_text_header.php?text=[textid]
+ * 
+ * @package Lwt
+ * @author  LWT Project <lwt-project@hotmail.com>
+ * @license Unlicense <http://unlicense.org/>
+ * @link    https://hugofara.github.io/lwt/docs/html/do__text__header_8php.html
+ * @since   1.0.3
+ */
 
-Developed by J. Pierre in 2011.
-***************************************************************/
+require_once 'inc/session_utility.php';
+// To get the BCP 47 language tag
+require_once 'inc/langdefs.php' ;
 
-/**************************************************************
-Call: do_text_header.php?text=[textid]
-Show text header frame
-***************************************************************/
-
-include "connect.inc.php";
-include "settings.inc.php";
-include "utilities.inc.php";
-
-$textid = getreq('text');
-$sql = 'select TxLgID, TxTitle, TxAudioURI from texts where TxID = ' . $textid;
-$res = mysql_query($sql);		
-if ($res == FALSE) die("Invalid Query: $sql");
-$record = mysql_fetch_assoc($res);
-
-$audio = $record['TxAudioURI'];
-if(!isset($audio)) $audio='';
-$audio=trim($audio);
-
-$title = $record['TxTitle'];
-$langid = $record['TxLgID'];
-mysql_free_result($res); 
-
-saveSetting('currenttext',$textid);
-
-pagestart_nobody(tohtml($title));
-echo '<h4>';
-echo '<a href="edit_texts.php" target="_top">';
-echo '<img src="img/lwt_icon.png" class="lwtlogo" alt="Logo" />Learning with Texts';
-echo '</a>&nbsp; | &nbsp;';
-quickMenu();
-echo '&nbsp; | &nbsp;<a href="do_test.php?text=' . $textid . '" target="_top"><img src="icn/question-balloon.png" title="Test" alt="Test" /></a> &nbsp;<a href="print_text.php?text=' . $textid . '" target="_top"><img src="icn/printer.png" title="Print" alt="Print" /> &nbsp;<a target="_top" href="edit_texts.php?chg=' . $textid . '"><img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" /></a> &nbsp;<a href="new_word.php?text=' . $textid . '&amp;lang=' . $langid . '" target="ro"><img src="icn/sticky-note--plus.png" title="New Term" alt="New Term" /></a>';
-echo '</h4><table><tr><td><h3>READ&nbsp;▶</h3></td><td class="width99pc"><h3>' . tohtml($title) . '</h3></td></tr></table>';
-
-$showAll = getSetting('showallwords');
-$showAll = ($showAll == '' ? 1 : (((int) $showAll != 0) ? 1 : 0));
-
-?>
-<table class="width99pc"><tr><td class="center" colspan="7" style="padding:10px;" nowrap="nowrap">TO DO: <span id="learnstatus"><?php echo texttodocount2($_REQUEST['text']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term. 
-[Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">Show All&nbsp;<input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> /></span><span id="thetextid" class="hide"><?php echo $textid; ?></span></td></tr>
-
-<?php
-
-// AUDIO PLAYER
-
-if ($audio != '') {
-	$playerskin = getSettingWithDefault('set-player-skin-name');
-?>
-<link type="text/css" href="css/jplayer_skin/<?php echo $playerskin; ?>.css" rel="stylesheet" />
-<script type="text/javascript" src="js/jquery.jplayer.min.js"><!-- jPlayer © Happyworm ** http://www.jplayer.org/about/ --></script>
-<tr>
-<td class="width45pc">&nbsp;</td>
-<td class="center">
-<span id="do-single" class="click hide"><img src="icn/arrow-stop.png" alt="Do not repeat" title="Do not repeat" style="width:24px;height:24px;" /></span><span id="do-repeat" class="click"><img src="icn/arrow-repeat.png" alt="Repeat audio" title="Repeat audio" style="width:24px;height:24px;" /></span>
-</td>
-<td class="center">&nbsp;</td>
-<td>
-<div id="jquery_jplayer_1" class="jp-jplayer">
-</div>
-<div class="jp-audio-container">
-	<div class="jp-audio">
-		<div class="jp-type-single">
-			<div id="jp_interface_1" class="jp-interface">
-				<ul class="jp-controls">
-					<li><a href="#" class="jp-play" tabindex="1">play</a></li>
-					<li><a href="#" class="jp-pause" tabindex="1">pause</a></li>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
-					<li><a href="#" class="jp-stop" tabindex="1">stop</a></li>
-<?php } ?>
-					<li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
-					<li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
-				</ul>
-				<div class="jp-progress-container">
-					<div class="jp-progress">
-						<div class="jp-seek-bar">
-							<div class="jp-play-bar">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="jp-volume-bar-container">
-					<div class="jp-volume-bar">
-						<div class="jp-volume-bar-value">
-						</div>
-					</div>
-				</div>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
-				<div class="jp-current-time">
-				</div>
-				<div class="jp-duration">
-				</div>
-<?php } ?>
-			</div>
-<?php if (substr($playerskin,0,13) != 'jplayer-black') { ?>
-			<div id="jp_playlist_1" class="jp-playlist">
-			</div>
-<?php } ?>
-		</div>
-	</div>
-</div>
-</td>
-<td class="center">&nbsp;</td>
-<td class="center">
-<?php
-$currentplayerseconds = getSetting('currentplayerseconds');
-if($currentplayerseconds == '') $currentplayerseconds = 5;
-?>
-<select id="backtime" name="backtime" onchange="{do_ajax_save_setting('currentplayerseconds',document.getElementById('backtime').options[document.getElementById('backtime').selectedIndex].value);}"><?php echo get_seconds_selectoptions($currentplayerseconds); ?></select><br />
-<span id="backbutt" class="click"><img src="icn/arrow-circle-225-left.png" alt="Rewind n seconds" title="Rewind n seconds" /></span>&nbsp;&nbsp;<span id="forwbutt" class="click"><img src="icn/arrow-circle-315.png" alt="Forward n seconds" title="Forward n seconds" /></span>
-<span id="playTime" class="hide"></span>
-</td>
-<td class="width45pc">&nbsp;</td>
-</tr>
-<script type="text/javascript">
-//<![CDATA[
-
-function new_pos(p) {
-	$("#jquery_jplayer_1").jPlayer("playHead", p);
+/**
+ * Get the text and language data associated with the text.
+ *
+ * @param string $textid ID of the text
+ *
+ * @global string $tbpref Table name prefix
+ *
+ * @since 2.0.3-fork
+ *
+ * @return null|string[]
+ *
+ * @psalm-return array<string, string>|null
+ */
+function getData($textid): ?array
+{
+    global $tbpref;
+    $sql = 
+    'SELECT LgName, TxLgID, TxText, TxTitle, TxAudioURI, TxSourceURI, TxAudioPosition 
+    FROM ' . $tbpref . 'texts 
+    JOIN ' . $tbpref . 'languages ON TxLgID = LgID 
+    WHERE TxID = ' . $textid;
+    $res = do_mysqli_query($sql);
+    $record = mysqli_fetch_assoc($res);
+    mysqli_free_result($res);
+    return $record;
 }
 
-function click_single() {
-	$("#jquery_jplayer_1").unbind($.jPlayer.event.ended + ".jp-repeat");
-	$("#do-single").addClass('hide');
-	$("#do-repeat").removeClass('hide');
-	return false;
+/**
+ * Print the main title row.
+ *
+ * @param int    $textid Text ID
+ * @param string $langid Language ID to navigate between 
+ *                       texts of same language
+ *
+ * @since 2.0.4-fork
+ */
+function do_header_row($textid, $langid): void
+{
+    ?>
+<h4>
+    <a href="edit_texts.php" target="_top">
+        <?php echo_lwt_logo(); ?> LWT
+    </a>
+    &nbsp; | &nbsp;
+    <?php 
+    quickMenu();
+    echo getPreviousAndNextTextLinks(
+        $textid, 'do_text.php?start=', false, '&nbsp; | &nbsp;'
+    );
+    ?>&nbsp; | &nbsp;
+    <a href="do_test.php?text=<?php echo $textid; ?>" target="_top">
+        <img src="icn/question-balloon.png" title="Test" alt="Test" />
+    </a>&nbsp;
+    <a href="print_text.php?text=<?php echo $textid; ?>" target="_top">
+        <img src="icn/printer.png" title="Print" alt="Print" />
+    </a>
+    <?php echo get_annotation_link($textid); ?>&nbsp;
+    <a target="_top" href="edit_texts.php?chg=<?php echo $textid; ?>">
+        <img src="icn/document--pencil.png" title="Edit Text" alt="Edit Text" />
+    </a>&nbsp; | &nbsp;
+    <a 
+        href="new_word.php?text=<?php echo $textid; ?>&amp;lang=<?php echo $langid; ?>" 
+        target="ro" onclick="showRightFrames();"
+    >
+        <img src="icn/sticky-note--plus.png" title="New Term" alt="New Term" />
+    </a>
+</h4>
+    <?php
 }
 
-function click_repeat() {
-	$("#jquery_jplayer_1").bind($.jPlayer.event.ended + ".jp-repeat", function(event) { 
-		$(this).jPlayer("play"); 
-	});
-	$("#do-repeat").addClass('hide');
-	$("#do-single").removeClass('hide');
-	return false;
-}
-
-function click_back() {
-	var t = parseInt($("#playTime").text(),10);
-	var b = parseInt($("#backtime").val(),10);
-	var nt = t - b;
-	$("#jquery_jplayer_1").jPlayer("play", nt);
-}
-
-function click_forw() {
-	var t = parseInt($("#playTime").text(),10);
-	var b = parseInt($("#backtime").val(),10);
-	var nt = t + b;
-	$("#jquery_jplayer_1").jPlayer("play", nt);
-}
-
-$(document).ready(function(){
-  $("#jquery_jplayer_1").jPlayer({
-    ready: function () {
-      $(this).jPlayer("setMedia", { 
-<?php 
-	$audio = trim($audio);
-	if (strcasecmp(substr($audio,-4), '.mp3') == 0) { 
-  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-  } elseif (strcasecmp(substr($audio,-4), '.ogg') == 0) { 
-  	echo 'oga: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" . 
-  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-  } elseif (strcasecmp(substr($audio,-4), '.wav') == 0) {
-  	echo 'wav: ' . prepare_textdata_js(encodeURI($audio))  . ",\n" . 
-  			 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-  } else {
-  	echo 'mp3: ' . prepare_textdata_js(encodeURI($audio)); 
-  }
-?>
-      });
-    },
-    swfPath: "js",
-  });
-  
-  $("#jquery_jplayer_1").bind($.jPlayer.event.timeupdate, function(event) { 
-  	$("#playTime").text(Math.floor(event.jPlayer.status.currentTime));
-	});
-  
-  $("#backbutt").click(click_back);
-  $("#forwbutt").click(click_forw);
-  $("#do-single").click(click_single);
-  $("#do-repeat").click(click_repeat);
-});
-//]]>
-</script>
-<?php
-} // if (isset($audio))
-
-// END AUDIO
-
-?>
+/**
+ * Print the title of the text.
+ *
+ * @param string $title     Title of the text
+ * @param string $sourceURI URL of the text (if any)
+ *
+ * @since 2.0.4-fork
+ */
+function do_title($title, $sourceURI): void
+{
+    ?>
+<table>
+    <tr>
+        <td>
+            <h3>READ&nbsp;▶</h3>
+        </td>
+        <td class="width99pc">
+            <h3>
+                <?php 
+                echo tohtml($title);
+                if (isset($sourceURI) && substr(trim($sourceURI), 0, 1) != '#') { 
+                    ?>
+                    <a href="<?php echo $sourceURI ?>" target="_blank">
+                        <img src="<?php echo get_file_path('icn/chain.png') ?>" title="Text Source" alt="Text Source" />
+                    </a>
+                    <?php 
+                } 
+                ?>
+            </h3>
+        </td>
+    </tr>
 </table>
-<?php
+    <?php
+}
 
-pageend();
+/**
+ * Prepare user settings for this text.
+ *
+ * @param string $textid Text ID
+ *
+ * @since 2.0.4-fork
+ */
+function do_settings($textid): void
+{
+    // User settings
+    $showAll = getSettingZeroOrOne('showallwords', 1);
+    $showLearning = getSettingZeroOrOne('showlearningtranslations', 1);
 
+    ?>
+<table class="width99pc">
+    <tr>
+        <td>TO DO:
+            <span id="learnstatus"><?php echo texttodocount2($textid); ?></span>
+        </td>
+        <td 
+        title="[Show All] = ON: ALL terms are shown, and all multi-word terms are shown as superscripts before the first word. The superscript indicates the number of words in the multi-word term.
+[Show All] = OFF: Multi-word terms now hide single words and shorter or overlapping multi-word terms.">
+            Show All&nbsp;
+            <input type="checkbox" id="showallwords" <?php echo get_checked($showAll); ?> onclick="showAllwordsClick();" />
+        </td>
+        <td 
+        title="[Learning Translations] = ON: Terms with Learning Level&nbsp;1 display their translations under the term.
+[Learning Translations] = OFF: No translations are shown in the reading mode.">
+            Learning Translations&nbsp;
+            <input type="checkbox" id="showlearningtranslations" <?php echo get_checked($showLearning); ?> onclick="showAllwordsClick();" />
+        </td>
+        <td id="thetextid" class="hide"><?php echo $textid; ?></td>
+        <td><button id="readTextButton">Read in browser</button></td>
+    </tr>
+</table>
+    <?php
+}
+
+/**
+ * Prints javascript data and function to read text
+ * in your browser.
+ *
+ * @param string $text         Text to read
+ * @param string $languageName Full name of the language (i. e.: "English")
+ *
+ * @global array $langDefs Definition of all languages. Normally $langDefs[$languageName][1] -> $languageCode
+ *
+ * @since 2.0.3-fork
+ */
+function browser_tts($text, $languageName): void
+{
+    global $langDefs;
+
+    /** 
+     * @var string $languageCode BCP 47 convention (i. e.: en-US) is suggested.
+     * Two-letter language code is enough (i. e. "en") 
+     */
+    $languageCode = $langDefs[$languageName][1];
+    /**
+    * @var string $phoneticText Phonetic reading for this text 
+    */
+    $phoneticText = phonetic_reading($text, $languageCode);
+    ?>
+<script type="text/javascript">
+
+    /// Main object for text-to-speech interaction with SpeechSynthesisUtterance
+    var text_reader = {
+        /// The text to read
+        text: <?php echo json_encode($phoneticText); ?>,
+
+        /// {string} ISO code for the language
+        lang: <?php echo json_encode($languageCode); ?>,
+
+        /// {string} Rate at wich the speech is done
+        rate: 0.8,
+
+        /**
+         * Reads a text using the browser text reader.
+         * 
+         * @deprecated Since 2.3.0-fork, use of window.readTextAloud is recommended instead. 
+         */
+        readTextAloud: function () {
+            var msg = new SpeechSynthesisUtterance(this.text);
+            console.log('This function is deprecated, do not use it!')
+            msg.text = this.text;
+            msg.lang = this.lang;
+            msg.rate = this.rate;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(msg);
+        },
+
+    };
+
+    /** Check browser compatibility before reading */
+    function init_reading() {
+        if (!('speechSynthesis' in window)) {
+            alert('Your browser does not support speechSynthesis!');
+        } else {
+            readRawTextAloud(text_reader.text, text_reader.lang);
+        }
+    }
+
+    /** 
+     * Change the annotations display mode 
+     * 
+     * @param {string} mode The new annotation mode
+     */
+    function annotationModeChanged(mode) {
+        console.log(mode);
+
+    }
+</script>
+    <?php
+}
+
+/**
+ * Save the position of the audio reading for a text.
+ *
+ * @param string $textid ID of the text
+ *
+ * @since 2.0.4-fork
+ */
+function save_audio_position($textid): void
+{
+    ?>
+
+<script type="text/javascript">
+    /**
+     * Save audio position
+     */
+    function saveAudioPosition() {
+        if ($("#jquery_jplayer_1") === null || $("#jquery_jplayer_1").length == 0) {
+            return;
+        }
+        var pos = $("#jquery_jplayer_1").data("jPlayer").status.currentTime;
+        $.ajax({
+            type: "POST",
+            url:'inc/ajax_save_text_position.php', 
+            data: { 
+                id: '<?php echo $textid; ?>', 
+                audioposition: pos
+            }, 
+            async: false
+        });
+    }
+
+    $(window).on('beforeunload', saveAudioPosition);
+
+    // We need to capture the text-to-speach event manually for Chrome
+    $(document).ready(function() {
+        $('#readTextButton').on('click', init_reading)
+    });
+</script>
+    <?php
+}
+
+/**
+ * Main function for displaying header. It will print HTML content.
+ *
+ * @param string $textid    ID of the requiered text
+ * @param bool   $only_body If true, only show the inner body. If false, create a 
+ *                          complete HTML document.
+ *
+ * @since 2.0.3-fork
+ */
+function do_text_header_content($textid, $only_body=true): void
+{
+    $record = getData($textid);
+    $title = $record['TxTitle'];
+    $media = $record['TxAudioURI'];
+    if (!isset($media)) { 
+        $media = '';
+    }
+    $media = trim($media);
+    
+    
+    saveSetting('currenttext', $textid);
+
+    if (!$only_body) {
+        pagestart_nobody($title, 'html, body {margin-bottom:0;}');
+    }
+    save_audio_position($textid);
+    do_header_row((int) $textid, $record['TxLgID']);
+    do_title($title, $record['TxSourceURI']);
+    do_settings($textid);
+    makeMediaPlayer($media, $record['TxAudioPosition']);
+    browser_tts($record["TxText"], $record["LgName"]);
+    if (!$only_body) {
+        pageend();
+    }
+}
+
+// Show the content automatically if text is in the request
+if (false && getreq('text')) {
+    do_text_header_content(getreq('text'), false);
+}
 ?>
