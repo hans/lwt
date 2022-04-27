@@ -468,11 +468,8 @@ function edit_texts_do_operation($op, $message1, $no_pagestart)
         );
         $id = get_last_key();
         saveTextTags($id);
-    }
-
-    // UPDATE
-
-    elseif (substr($op, 0, 6) == 'Change') {
+    } elseif (substr($op, 0, 6) == 'Change') {
+        // UPDATE
         /*
         $oldtext = get_first_value(
             'SELECT TxText AS value 
